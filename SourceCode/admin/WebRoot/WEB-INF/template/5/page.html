@@ -1,0 +1,18 @@
+{include=head}
+<style>
+img{
+	max-width: 100%;
+}
+</style>
+<body>
+{include=top}
+<div class="content">
+	<div class="title insidePagesTitle">
+		<h1 class="siteColumnName">{news.title}</h1><!--栏目名字，如：关于我们-->
+		<div><a href="index.html">{siteName}</a> &gt; <a href="{siteColumn.url}">{siteColumn.name}</a></div>
+	</div>
+	<div class="pageText">{text}</div>
+</div>
+{include=foot}
+</body>
+</html>

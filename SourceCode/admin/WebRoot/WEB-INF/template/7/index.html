@@ -1,0 +1,177 @@
+{include=head}
+
+<body id="body" class="indexBody">
+<style>
+/* 以下来自 jquery.fullPage.css */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+    /*Avoid flicker on slides transitions for mobile phones #336 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+/*以下来自模板中*/
+*{ padding:0px; margin:0}
+body{ font-family:"Microsoft Yahei"; text-align:center;}
+</style>
+
+<!-- 顶部的LOGO、菜单、Banner -->
+{include=top}
+
+<!-- 中间的内容主体 -->
+<div class="content" id="fullpage">
+	<div class="logo" id="logo" style="display:none;">logo</div>
+
+	<!--第一个页面-->
+	<div class="section">
+		<script type="text/javascript">
+			$('#banner').remove();
+		</script>
+		<div id="index_first_page">
+		</div>
+		<script type="text/javascript">
+			/*设置banner图的点击链接地址*/
+			var isUpdateBanner = false;	//修改了Banner
+			var carouselIndexBannerObj = new Object();	//首页Banner的 carousel对象
+			for(var c=0;c<carouselList.length;c++){
+				if(carouselList[c]['type'] == null){
+					//默认为1，兼容原本的
+					carouselList[c]['type'] == '1';
+				}
+				//2是首页的banner
+				if(carouselList[c]['type'] == '2'){
+					carouselIndexBannerObj['image'] = carouselList[c]['image'];
+					isUpdateBanner = true;
+				}
+			}
+			if(!isUpdateBanner){
+				//如果还没有首页banner，则默认一个图
+				carouselIndexBannerObj['image'] = resBasePath+'image/indexBannerDefaultImage.jpg';
+			}
+
+			document.getElementById("index_first_page").style.backgroundImage="url(\"{resUrl}image/loading.svg\")";
+			document.getElementById("index_first_page").style.backgroundImage="url(\""+carouselIndexBannerObj['image']+"\")";
+		</script>
+	</div>
+	<!--第二个页面-->
+	<div class="section">
+		<!-- 产品列表 -->
+		<!--Index_Content_NewsImageList_Start--><!--id=0--><!-- SiteColumn.id，实际调用信息所在栏目的id,默认都是0 -->
+		<!--number=4--><!-- 显示多少条记录 -->
+		<div class="imageList">
+			<script type="text/javascript">
+				var pageName_2 = '{siteColumn.name}'; 
+				var pageTag_imageList = '{siteColumn.id}';	//HTML描点,产品展示相关
+			</script>
+			<div class="siteColumnContent">
+				<!-- 最多显示10条图片信息 -->
+				<!--List_Start-->
+					<li>
+						<a href="{news.url}">
+							<img src="{news.titlepic}" alt="{news.title}" />
+							<div class="index_imageList_item_title">{news.title}</div>
+							<div class="index_imageList_item_intro">{news.intro}</div>
+						</a>
+					</li>
+				<!--List_End-->
+			</div>
+		</div>
+		<!--Index_Content_NewsImageList_End-->
+		<!-- <div class="slide">第三屏的第一屏</div>
+		<div class="slide">第三屏的第二屏</div>
+		<div class="slide">第三屏的第三屏</div>
+		<div class="slide">第三屏的第四屏</div> -->
+	</div>
+	<!--第三个页面-->
+	<div class="section">
+		<!-- 关于我们 -->
+		<!--Index_Content_AboutUs_Start--><!--id=0--><!-- SiteColumn.id，实际调用信息所在栏目的id,默认都是0 -->
+		<!--sizeNumber=300--><!-- 关于我们得内容简介截取前300个字符 -->
+		<div class="aboutUs">
+			<div class="title">
+				<script type="text/javascript">
+					var pageName_3 = '{siteColumn.name}';
+					var pageTag_aboutUs = '{siteColumn.id}';	//HTML描点,关于我们相关
+				</script>
+				<a href="c{siteColumn.id}.html" class="siteColumnName">{siteColumn.name}</a><!--栏目名字，如：关于我们-->
+			</div>
+			<!--Index_Content_AboutUs_TitlePic_Start-->
+			<span class="aboutUsImgSpan"><img class="aboutUsImg" src="{news.titlepic}" alt="LOGO" /></span>
+			<!--Index_Content_AboutUs_TitlePic_End-->
+			<div class="siteColumnContent">
+				<!--AboutUs_Text_Start-->这是关于我们的内容了是关于<!--AboutUs_Text_End-->
+				<a href="c{siteColumn.id}.html" class="more">更多>></a>
+			</div>
+		</div>
+		<!--Index_Content_AboutUs_End-->
+	</div>
+	<!--第四个页面-->
+	<div class="section">
+		<!-- 这是网站尾部,这里没有用通用的尾部，联系我们 -->
+		<div class="indexContactUs">
+			<div class="title">
+				<script type="text/javascript">
+					var pageTag_contactUs = '{siteColumn.id}';	//HTML描点,联系我们相关
+				</script>
+				<a href="#" class="siteColumnName">联系我们</a><!--栏目名字，如：关于我们-->
+			</div>
+			<div class="siteColumnContent">
+				<div class="qrImg" id="qrImg"><!-- 二维码或图片区域 --></div>
+				<div id="footerSiteInfo">
+					<h3 id="footerContactsCompanyName">{site.companyName}</h3>
+					<div>联系人：<span id="footerContactsUsername">{site.username}</span></div>
+					<div>电话：<span id="footerContactsPhone">{site.phone}</span></div>
+					<div>联系QQ：<span id="footerContactsQQ">{site.qq}</span></div>
+					<div class="footUrl">网址：<span id="footerDomainName">{site.domain}</span></div>
+					<div>地址：<span id="footerContactsAddress">{site.address}</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="{resUrl}js/jquery.fullPage.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#fullpage').fullpage({
+			sectionsColor:['#CDE7D5','#FF8932','#275D8B','#06C8D2'], //控制每个section的背景颜色
+			controlArrow:true,   //是否隐藏左右滑块的箭头(默认为true)
+			verticalCentered: true,  //内容是否垂直居中(默认为true)
+			css3: true, //是否使用 CSS3 transforms 滚动(默认为false)
+			resize:false, //字体是否随着窗口缩放而缩放(默认为false)
+			scrolllingSpeed:1000,  //滚动速度，单位为毫秒(默认为700)
+			anchors:['indexBigImage','imageList','aboutUs','contactUs'],  //定义锚链接(值不能和页面中任意的id或name相同，尤其是在ie下，定义时不需要加#)  
+			lockAnchors:false,  //是否锁定锚链接，默认为false。设置weitrue时，锚链接anchors属性也没有效果。
+			loopBottom:false,  //滚动到最底部后是否滚回顶部(默认为false)
+			loopTop:false, //滚动到最顶部后是否滚底部
+			loopHorizontal:false,//左右滑块是否循环滑动
+			autoScrolling:true, // 是否使用插件的滚动方式，如果选择 false，则会出现浏览器自带的滚动条
+			scrollBar:false,//是否显示滚动条，为true是一滚动就是一整屏
+			fixedElements:".logo", //固定元素
+			menu:"header",
+			keyboardScrolling:true, //是否使用键盘方向键导航(默认为true)
+			keyboardScrolling:true, //页面是否循环滚动（默认为false）
+			navigation:true, //是否显示项目导航（默认为false）
+			navigationTooltips:["首页",pageName_2,pageName_3,"联系我们"],//项目导航的 tip
+			navigationColor:'#fff', //项目导航的颜色
+			slidesNavigation:true,
+		});
+	});
+	</script>
+</div>
+
+<script type="text/javascript"> /*加载底部相应的js控制函数*/ 
+	if(edit){
+		dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/footeredit.js");
+	}else{
+		dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/footer.js");
+	}
+</script>
+
+<div id="editPanel"><!-- 尾部的修改面板 --></div>
+<script> 
+if(edit){
+	dynamicLoading.js("{resUrl}js/indexedit.js");
+}
+</script>
+</body>
+</html>

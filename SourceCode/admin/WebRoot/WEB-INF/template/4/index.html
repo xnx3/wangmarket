@@ -1,0 +1,157 @@
+{include=head}
+
+<!-- 站点首页的js缓存数据 -->
+<script src="{OSSUrl}site/{site.id}/data/siteColumnRank.js{editLinuxTime}"></script>
+<script src="{OSSUrl}site/{site.id}/data/carouselList.js{editLinuxTime}"></script>
+
+<body style="background:url('template/2/image/bg.jpg') no-repeat;background-size:100% 100%;">
+
+	<!-- 页面上所有标签都在这里，这里面的为手机页面显示 -->
+	<div id="xnx3_body">
+		
+		<!-- 网站顶部标题栏 -->
+		{include=top}
+		
+		<!-- 跟编号1、2模版不一样的是，这个id＝banner仅仅只是个修改按钮而已 -->
+		<div id="banner" style="display:none; background: rgba(249,249,249,.4);width: 16%;border-radius: 10px;text-align: center;margin-top: 25px; margin-left: 10px;padding: 10px;font-size: 20px; cursor: pointer;" >修<br>改<br>底<br>图</div>
+		
+		<!-- 网站中间主体，栏目导航，这里面的内容仅供参考。真实的数据用js动态填充 这个class不能变，这个仅作为编辑模式下的拖动排序使用 -->
+		<div class="tile__listedit" id="columnList">
+			<div id="addSiteColumn" onclick="updateColumn(0);">
+				<div style="width: 100%;height: 100%;float: left; margin-top: -19px; margin-left: -1px; cursor: pointer;">
+					<img src="{resUrl}template/{siteTemplateId}/image/add.png" />
+					<div class="column_name">添加栏目</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 网站尾部，尾部导航。尾部的数据也是用js动态填充的，宽度会自动计算填充数据，填充满整个宽度 -->
+		{include=foot}
+		
+	</div>
+	
+	<script>
+		//此模版首页不显示标题栏
+		document.getElementById('topBlock').style.display = 'none';
+		
+		//编辑模式下，显示头部右侧的站点信息按钮入口
+		if('{edit}' == 'edit'){
+			document.getElementById('topSiteInfo').style.display = 'inline';
+			document.getElementById('banner').style.display = 'block';
+		}
+		
+		/* 网站名字 */
+		document.getElementById('title').innerHTML = site['name'];
+		
+		/* 顶部Banner */
+		if(site['mShowBanner'] == '1'){
+			var carouselContent = '';
+			var carouselContentedit = '';
+			for(var c=0;c<carouselList.length;c++){
+				//正常的点击Banner带的链接地址
+				//carouselContent = carouselContent + '<li><a href="'+carouselList[c]['url']+'"><img src="'+carouselList[c]['image']+'"></a></li>';
+				
+				//点击修改
+				//carouselContentedit = carouselContentedit + '<li><a href="{basePath}carousel/updateBySiteId.do?siteid='+site['id']+'&client=wap"><img src="'+carouselList[c]['image']+'"></a></li>';
+				
+				//设置banner的图片（背景图）
+				document.body.style.backgroundImage="url("+carouselList[c]['image']+")";
+			}
+			//document.getElementById('banner').innerHTML = '<ul>'+carouselContent{edit}+"</ul>";
+		}else{
+			document.getElementById('banner').innerHTML = '';
+		}
+		
+		/* 查看站点信息 */		
+		function site_edit(){
+			window.location.href='{masterSiteUrl}site/info.do?siteid={siteId}&client=wap';
+		}
+		//普通预览模式下点击上方的标题栏
+		function site_(){
+		}
+		
+		//首页不显示顶左侧的后退按钮
+		document.getElementById('topBlock_back').innerHTML='';
+		
+		var addSiteColumnHTML = '';
+		var addSiteColumnHTMLedit = document.getElementById('columnList').innerHTML;
+		/* 刚打开初始化栏目、导航的缓存数据 */
+		function initSiteColumnData() {
+			/* 首先先判断排序跟栏目导航数据个数是否一样 */
+			if (siteColumnRank.langth != siteColumn.length) {
+				var content = '';
+				var contentedit = '';
+				var topNavContent = '';
+
+				/* 先遍历排序数据，根据排序拿到栏目导航数据 */
+				for (var i = 0; i < siteColumnRank.length; i++) {
+					var rank = siteColumnRank[i];
+					for (var j = 0; j < siteColumn.length; j++) {
+						if (siteColumn[j]['id'] == siteColumnRank[i]) {
+							var url = siteColumn[j]['url'];
+							var type = siteColumn[j]['type'];
+							switch (type) {
+							case '1':
+								/* 新闻 */
+								url = 'lc'+siteColumn[j]['id']+'_1.html';
+								break;
+							case '2':
+								/* 图文 */
+								url = 'lc'+siteColumn[j]['id']+'_1.html';
+								break;
+							case '3':
+								/* 独立页面 */
+								url = 'c'+siteColumn[j]['id']+'.html';
+								break;
+							case '4':
+								/* 留言板 */
+								break;
+							case '5':
+								/* 超链接 */
+								break;
+							}
+							contentedit = contentedit
+									+ '<div id="'+siteColumn[j]['id']+'"><img src="'+siteColumn[j]['icon']+'" /><br/><div class="column_name">'
+									+ siteColumn[j]['name'] + '</div>'+
+									'<div class="column_content_button" onclick="updateNewsContent('+type+', '+siteColumn[j]['id']+');">填充内容</div>'+
+									'<div class="column_update_button" onclick="updateColumn('+siteColumn[j]['id']+');">栏目属性</div>'+
+									'</div>';
+							content = content
+									+ '<div id="'+siteColumn[j]['id']+'" onclick="window.location.href=\''+url+'\'"><img src="'+siteColumn[j]['icon']+'" /><br/><div class="column_name">'
+									+ siteColumn[j]['name'] + '</div>'+
+									'</div>';
+							
+							break;
+						}
+					}
+				}
+
+				document.getElementById('columnList').innerHTML = content{edit}+addSiteColumnHTML{edit};
+			} else {
+				alert('栏目导航排序规则跟数据不一致！');
+			}
+		}
+		initSiteColumnData();
+
+</script>
+
+<script src="{resUrl}js/Sortable.js"></script>
+<script>
+(function() {
+	/* 拖动布局 */
+	[].forEach.call(xnx3_body.getElementsByClassName('tile__list{edit}'),
+		function(el) {
+			new Sortable(el, {
+				group : 'site_column',
+				onUpdate : function(evt) {
+					var d = HTML.query("#columnList").div[2];
+					saveRank();
+				}
+			});
+		});
+})();
+
+dynamicLoading.js("{resUrl}js/wap.js");
+</script>
+</body>
+</html>

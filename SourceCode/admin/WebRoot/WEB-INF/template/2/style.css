@@ -1,0 +1,292 @@
+::-webkit-scrollbar {
+	width: 1px;
+	display: none;
+}
+body{
+	margin: 0px;
+    padding: 0px;
+}
+/* 所有页面通用的头部，顶部title标题栏 */
+#topBlock{
+	height:50px; 
+	width:100%; 
+	font-size:20px; 
+	background: #45c0f8; 
+	color:#ffffff; 
+	line-height: 50px;
+	text-align:center;
+}
+/* 通用头部，左侧的返回按钮 */
+#topBlock_back{
+    margin: 10px;
+    margin:0 auto;
+    cursor: pointer;
+    position: absolute;
+    top:0;
+    left:5px;
+}
+#topBlock_back img{
+	width:25px;
+	padding-top:12px;
+}
+/* 顶部的站点信息按钮，点击后可查看站点属性，可用空间，当前用户的信息 */
+#topSiteInfo{
+	float: right;
+    padding-right: 5px;
+    padding-left: 5px;
+    display: none;
+    cursor: pointer;
+    position:absolute;
+    right:0;
+    top:-2px;
+}
+.weui_icon_download:before, .weui_icon_info_circle:before{
+	color:#ffffff;
+}
+/* 网站顶部通栏的标题栏 */
+#title{
+    width: 70%;
+    margin:0 auto;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    word-wrap: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/* 首页的Banner，轮播图 */
+#banner ul{
+	list-style:none;
+	margin:0; 
+	padding:0;
+}
+#banner ul li a img{
+	width:100%;
+}
+
+/* 首页中间主体区域的栏目 */
+#columnList{
+	position: absolute;
+	width:100%;
+	padding-bottom: 62px;
+}
+#columnList div{
+	float: left;
+	width: 46%;
+	height: 100px;
+	margin-left:2.5%;
+	margin-top:2%;
+	margin-bottom:2%;
+    background:#F9F9F9;
+    padding-top:10px;
+    border-radius:8px;
+	text-align: center;
+	color:#808080;
+}
+#columnList div:active{
+	background:#ffffff;
+}
+#columnList div img {
+	border-radius: 100%;
+	width: 60px;
+	height: 60px;
+}
+#columnList div .column_name {
+	height:auto;
+	width:100%;
+	margin:0;
+	padding:0;
+	background:transparent;
+	border-radius:0;
+}
+/* 首页，编辑模式下的添加栏目 */
+#addSiteColumn{
+	cursor: pointer;
+}
+
+/* 栏目右上方得按钮，点击可以修改栏目信息 */
+#columnList .column_update_button{
+	width:40px; 
+	height:75px; 
+	float:right; 
+	background-color:yellow; 
+	margin-top:-94px;
+	cursor: pointer;
+}
+/* 栏目左上方得按钮，点击可以修改栏目得内容或者列表信息 */
+#columnList .column_content_button{
+	width:40px; 
+	height:75px; 
+	float:left; 
+	background-color:yellow; 
+	margin-top:-94px;
+	cursor: pointer;
+}
+/* 编辑首页模式下，修改栏目属性按钮 */
+#columnList .column_update_button img{
+	width:38px; 
+	height:38px; 
+	margin-top:-19px;
+}
+/* 所有页面通用底部，固定底部导航栏 */
+#footer {
+	z-index: 10000; 
+	position: fixed;
+	width: 100%; 
+	bottom: 0px;
+    height: 50px;
+    background:#ffffff;
+    text-align: center;
+    border-top: 2px solid #00A7EE;
+}
+#footer a{
+	float:left;
+	height:100%;
+}
+#footer a img{
+	width:25px;
+	height:25px;
+	padding-top:4px;
+}
+#footer a div{
+	font-size:14px;
+	color:#808080;
+	font-weight:500;
+	margin-top:-8px;
+}
+#footer a.active div{
+	color:#45c0f8;
+}
+/* 首页，在编辑页面状态下，底部会有个修改按钮所在的大底部区块 */
+#footerButtonedit {
+	z-index: 10001; 
+	position: fixed;
+	width: 100%; 
+	bottom: 0px;
+}
+/* 首页，在编辑页面状态下，底部会有个修改按钮 */
+#footerButtonedit span{
+	float:right; 
+	background-color: yellow; 
+	border-radius:10px; 
+	font-size:18px;
+	margin: 3px;
+    cursor: pointer;
+    padding:7px;
+}
+/* 首页，在正常浏览网站的状态下，底部修改按钮隐藏 */
+#footerButton {
+	display:none;
+}
+
+/* 内容页面 */
+/* UEditor编辑器 */
+#ueditorText{
+	width:100%;
+	margin-top:10px;
+}
+#edui1_iframeholder{
+	height:200px;
+}
+
+/* 列表页面 */
+.list_item{
+	white-space: nowrap;
+}
+.list_item p{
+	width:90%;
+	display: block;
+    word-wrap: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.weui_cell:before{
+	left:0;
+}
+.weui_media_box:before{
+	left:0;
+}
+.weui_btn_primary{
+	background-color:#45c0f8;
+}
+/* 分页组件 */
+.page{
+	margin-top:5px;
+	position: absolute;
+    padding-bottom: 62px;
+}
+.page ul{
+	list-style: none;
+}
+/* 分页的li总体控制。设置的display都是隐藏，通过js来动态控制其是否显示 */
+.page ul li{
+	float:left;
+	border: 1px solid #e5e5e5;
+	margin:5px;
+	text-align:center;
+	font-size: 14px;
+	border-radius: 2px;
+	padding: 4px;
+}
+.page ul li a{
+	text-decoration: none;
+	color:#252525;
+}
+/* 共有多少页 */
+#page_allNum{
+	/*width:120px;*/
+	padding:4px 10px;
+	border:0;
+	color:#252525;
+}
+/* 首页，在列表页js控制，若没有上一页的内容，则首页根上一页都不显示。下一页、尾页也同理 */
+#page_first{
+	display:none;
+}
+/* 上一页 */
+#page_up{
+	display:none;
+}
+/* 比如当前在第5页，会有3、4、6、7页的链接，点击后到相应的页面 */
+.page .page_pageList{
+	display:none;
+}
+/* 当前第几页，数字 */
+.page .page_currentPageNum{
+	display:none;
+}
+/* 下一页 */
+#page_next{
+	display:none;
+}
+/* 尾页 */
+#page_last{
+	display:none;
+}
+
+/* 独立页面、新闻、图文的内容详情页面 */
+.news_text{
+	width: 96%;
+    margin: 2%;
+    height: auto;
+    margin-bottom: 60px;
+}
+
+/* 首页，在正常浏览网站的状态下，底部修改按钮隐藏，旧的，已过时，用editPanel取代 */
+#footerButton {
+	display:none;
+}
+/* 首页，在正常浏览网站的状态下，底部修改按钮隐藏，新的 */
+#editPanel{
+	display:none;
+}
+/*图片列表，隐藏删除按钮*/
+.deleteImages{
+	display:none;
+}
+/*新闻列表，隐藏删除按钮*/
+.deleteNews{
+	display:none;
+}

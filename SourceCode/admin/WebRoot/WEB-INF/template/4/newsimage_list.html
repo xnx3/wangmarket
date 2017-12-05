@@ -1,0 +1,35 @@
+{include=head}
+<script>
+	if(edit){
+		dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/newsedit.js");
+	}
+</script>
+
+<body>
+{include=top}
+<script type="text/javascript">
+	setTitle('{siteColumn.name}');
+</script>
+<!-- 编辑模式下的发布按钮 -->
+<div class="button_sp_area" id="publishButton" style="margin:2%; display:none;">
+	<a href="news.do?cid={siteColumn.id}" class="weui_btn weui_btn_primary">添加图文信息</a>
+</div>
+
+<div class="weui_panel_bd clear">
+	{listItem}
+</div>
+
+
+<!-- 通用分页跳转 -->
+{include=page}
+
+{include=foot}
+
+</body>
+<script type="text/javascript">
+	//如果是编辑模式下，显示发布按钮
+	if('{edit}' == 'edit'){
+		document.getElementById("publishButton").style.display = "";
+	}
+</script>
+</html>

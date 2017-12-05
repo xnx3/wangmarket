@@ -11,12 +11,35 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 *.zip
 *.tar.gz
 *.rar
+
+#eclipse相关
+*.classpath
+*.project
+*.jsdtscope
+*.prefs
+/SourceCode/admin/.settings/
+
+#超级管理后台的某些文件过滤
+/SourceCode/admin/src/com/xnx3/im/controller/
+/SourceCode/admin/src/com/xnx3/im/generateCache/
+/SourceCode/admin/src/com/xnx3/im/controller/
+
+/SourceCode/admin/src/com/xnx3/superadmin/controller/
+/SourceCode/admin/src/com/xnx3/superadmin/service/
+/SourceCode/admin/src/com/xnx3/superadmin/util/
+
+/SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
+/SourceCode/admin/src/com/xnx3/j2ee/controller/admin/
+
+#网站域名访问
+/SourceCode/domain/
+
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

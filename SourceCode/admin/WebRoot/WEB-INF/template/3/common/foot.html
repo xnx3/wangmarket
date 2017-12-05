@@ -1,0 +1,28 @@
+<!-- 通用尾部 -->
+<footer>
+	<div class="qrImg" id="qrImg"><!-- 二维码或图片区域 --></div>
+	<div id="footerColumnList"><!-- 这里是底部导航栏菜单，可以填充起底部，免得太空 --></div>
+	<div id="footerSiteInfo">
+		<h3 id="footerContactsCompanyName">{site.companyName}</h3>
+		<div>联系人：<span id="footerContactsUsername">{site.username}</span></div>
+		<div>电话：<span id="footerContactsPhone">{site.phone}</span></div>
+		<div>联系QQ：<span id="footerContactsQQ">{site.qq}</span></div>
+		<div class="footUrl">网址：<span id="footerDomainName">{site.domain}</span></div>
+		<div>地址：<span id="footerContactsAddress">{site.address}</span></div>
+	</div>
+	<div id="footerCopyRight"><!-- 版权 --></div>
+	<div class="footerPhoneAndShare">
+		<div class="footerPhone" id="footerPhone"><!-- 联系电话 --></div>
+		<div class="footerShare">
+			<div class="fenxiangdao" id="fenxiangdao"><!-- 分享的文字，如 分享到： --></div>
+			<div class="bdsharebuttonbox" id="bdsharebuttonbox"><!-- 分享的主体 --></div>
+		</div>
+	</div>
+	<script type="text/javascript"> /*加载底部相应的js控制函数*/ 
+		if(edit){
+			dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/footeredit.js");
+		}else{
+			dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/footer.js");
+		}
+	</script>
+</footer>

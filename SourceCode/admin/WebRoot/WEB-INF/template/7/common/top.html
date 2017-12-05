@@ -1,0 +1,24 @@
+<!-- 通用头图、导航 -->
+<header id="head">
+	<div id="logo">
+		<!-- 一个是LOGO，一个是网站名的简写，限制2～5个字符，如果用户懒，不自己做LOGO，就可以使用简写的名字。至于是显示哪一个，则有JS进行控制。另外，LOGO的比例要为121*75，有利于上百度首页后，显示到百度上，让其看起来更专业 -->
+		<img id="img_logo" src="{resUrl}image/loading.svg" alt="{site.name}" />
+		<div id="logogramName" onclick="siteNameClick();">{site.name}</div>
+	</div>
+	<nav id="columnList" class="columnList">{columnAList}<!-- 这里是导航栏菜单 --></nav>
+</header>
+<!-- 通用Banner头部图 -->
+<div id="banner">
+	<div class="banner_img" id="banner_img">
+		<img id="img_banner" src="{resUrl}image/banner_loading.svg" alt="{siteName}" />
+	</div>
+</div>
+<script>
+document.getElementById('columnList').innerHTML = '';/*清空不让有利于SEO的nav描述文字显示，免得网速慢时效果差*/
+document.getElementById("banner").style.display = site['mShowBanner'] == '1'? '':'none';/*如不显示，直接让其隐藏*/
+if(edit){
+	dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/headeredit.js");
+}else{
+	dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/header.js");
+}
+</script>

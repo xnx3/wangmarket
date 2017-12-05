@@ -1,0 +1,77 @@
+<div class="layui-form-item">
+	<label class="layui-form-label" id="label_columnName">文章标题</label>
+	<div class="layui-input-block">
+		<input type="text" name="title"  required lay-verify="required" autocomplete="off" placeholder="限制30字以内" class="layui-input" value="{news.title}">
+	</div>
+</div>
+
+<!-- 如果是图文列表页面，图片才会在列表显示 -->
+<div class="layui-form-item" id="titlepic" style="display:none;">
+	<label class="layui-form-label" id="label_columnName">标题图片</label>
+	<div class="layui-input-block" style="max-width:500px;">
+		<input type="file" class="layui-input" value="" id="titlePicFile" name="titlePicFile" style="padding-top: 6px; padding-right: 80px; "/>
+		<a href="{titlepicImage}" target="_black" style="float: right;margin-top: -38px;" title="当前图片。点击可看全图。若要修改，可点击左侧选择其他图片进行上传">
+			<img src="{titlepicImage}?x-oss-process=image/resize,h_38"/>
+		</a>
+	</div>
+</div>
+
+<!-- 
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="label_columnName">内容简介</label>
+		<div class="layui-input-block">
+			<textarea class="layui-input" name="intro" style="height:70px;">{news.intro}</textarea>
+		</div>
+	</div>
+ -->
+
+<div class="layui-form-item">
+	<label class="layui-form-label" id="sucai">
+		内容正文
+		<div style="padding-top:50px; cursor: pointer; text-align: center;" onclick="openSuCai();" id="useSuCai">
+			<span style="font-size:19px; cursor: pointer; opacity: 0.8;">
+				<span>加</span><br/>
+				<span>载</span><br/>
+				<span>模</span><br/>
+				<span>版</span><br/>
+				<span>库</span>
+			</span>
+		</div>
+	</label>
+	<div class="layui-input-block" id="ueditorUpperDiv" style="border: 0px;">
+		<textarea class="layui-input" id="myEditor" name="text" style="height: auto; padding-left: 0px; border: 0px;">{text}</textarea>
+	</div>
+</div>
+
+<script>
+	if({siteColumn.type} == 2){
+		//类型为2，是图文栏目时，才会显示标题图编辑功能
+		document.getElementById('titlepic').style.display='';
+	}
+</script>
+
+    
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+var ueditorText = document.getElementById('myEditor').innerHTML;
+var ue = UE.getEditor('myEditor',{
+	autoHeightEnabled: true,
+	autoFloatEnabled: true,
+	initialFrameHeight:460  
+});
+//对编辑器的操作最好在编辑器ready之后再做
+ue.ready(function() {
+	document.getElementById("myEditor").style.height='auto';
+});
+
+//打开素材区域
+function openSuCai(){
+	//加载素材库可能要等待个一两秒
+	document.getElementById('sucai').innerHTML='<span style="font-size:26px; padding-top:20px;">模版库素材库加载中...<span>';
+	//加载素材支持库
+	loadSuCai();
+	//调节素材库跟输入区域的样式
+	document.getElementById("ueditorUpperDiv").style.marginLeft='405px';
+	document.getElementById("sucai").style.width='370px';
+}
+</script>

@@ -1,0 +1,12 @@
+<!-- 网站顶部的标题栏 -->
+<div id="topBlock">
+	<div id="topBlock_back" onclick="history.go(-1);">
+		<img src="{resUrl}/image/loading.svg" id="img_back">
+	</div>
+	<div id="title" onclick="site_{edit}();">
+		{title}
+	</div>
+</div>
+<script type="text/javascript">
+	document.getElementById("img_back").src='{resUrl}template/'+getTemplateId()+'/image/back.png';
+</script>

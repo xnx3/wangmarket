@@ -1,0 +1,549 @@
+body{
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	overflow-x:hidden;
+	font-family:Microsoft Yahei;
+	line-height: 1.6;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration:none;
+}
+/* 通用头部，包含LOGO、菜单 */
+header{
+	border-top: solid 5px #1e8bc3;
+    border-radius: 0px;
+    min-height: 80px;
+    margin-bottom: 0px;
+    box-shadow: none;
+    background:#ffffff;
+}
+#logo{
+	float:left;
+	width: 290px;
+    text-align: left;
+    padding-left: 45px;
+    padding-top: 10px;
+    color:#1e8bc3;
+}
+#logo img{
+	max-height: 70px;
+    float: left;
+    padding-right: 20px;
+}
+#logogramName{
+	font-size: 36px;
+	white-space: nowrap;
+    width: 433px;
+    cursor:pointer;
+    font-family: serif;
+}
+nav{
+	float:right;
+	padding:0 12px;
+	margin-right: 25px;
+}
+nav a{
+	text-decoration:none;
+	float:left;
+	padding:27px 15px;
+	min-width:90px;
+	max-width:180px;
+	color:#1e8bc3;
+	margin:0 2px;
+	transition: color 0.5s;
+    -moz-transition: color 0.5s;
+    -webkit-transition: color 0.5s;
+    -o-transition: color 0.5s;
+    transition: background 0.5s;
+    -moz-transition: background 0.5s;
+    -webkit-transition: background 0.5s;
+    -o-transition: background 0.5s;
+}
+nav a:hover{
+	background-color: #1e8bc3;
+	color:#ffffff;
+}
+nav ul{
+	width:100px;
+	float:left;
+	margin-left: -100px;
+	margin-top: 5px;
+	list-style-type:none;
+}
+nav ul li a{
+	padding: 0px;
+	margin:0px;
+}
+
+/* 头部所有页面通用的Banner图 */
+#banner{
+	background-color: #E6E6E6;
+	width:100%;
+	position:relative;
+	overflow:hidden;
+	height:430px;
+}
+.banner_img{
+	position:absolute;
+	/*left:50%;*/
+	top:0;
+	/* margin-left:-950px; */
+	/* width:1900px; */
+	height: 100%;
+    width: 100%;
+}
+.banner_img #img_banner{
+	height:100%;
+	width:100%;
+}
+
+/* 中间主体内容，包含公司简介、新闻列表、图片列表等 */
+.content{
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    min-width: 960px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: left;
+}
+/* 关于我们 */
+.aboutUs{
+	width:58%;
+	padding-right:1%;
+	padding-left:1%;
+	float:left;
+	overflow:hidden;
+}
+.newsList{
+	width:38%;
+	float:left;
+	height:300px;
+	overflow:hidden;
+	padding-right:1%;
+	padding-left:1%;
+}
+.newsList .siteColumnContent{
+	line-height: 23px;
+}
+.newsList .siteColumnContent a{
+	text-decoration:none;
+	float:left;
+	padding:1%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width:98%;
+    color: rgb(102, 102, 102);
+}
+.imageList{
+	width:98%;
+	overflow:hidden;
+	padding-right:1%;
+	padding-left:1%;
+	padding-top: 5px;
+}
+.imageList .siteColumnContent a{
+    float: left;
+    width: 24%;
+    padding: 0.5%;
+    text-align: center;
+}
+.imageList .siteColumnContent a:hover{
+    color:#1e8bc3;
+}
+.imageList .siteColumnContent a img{
+	width: 224px;
+    height: 224px;
+}
+.imageList .siteColumnContent a div{
+	width: 224px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgb(170, 170, 170);
+    border-top: 2px solid #1e8bc3;
+    margin:-6px auto 0;
+    padding-top: 15px;
+}
+
+/*首页通用栏目显示模块*/
+.title{
+	height: 20px;
+	border-color: transparent transparent rgb(238, 238, 238);
+	border-width: 0px 0px 1px;
+	border-style: solid;
+	padding: 10px;
+}
+.title a:hover{
+	color:#1e8bc3;
+}
+/*栏目模块的标题区域*/
+.title .siteColumnName{
+	font-size: 20px;
+    color: rgb(51, 51, 51);
+}
+.title .more{
+	float:right;
+	padding-right: 5px;
+	font-family: Microsoft YaHei;
+	color: rgb(170, 170, 170);
+	margin-top: 3px;
+	font-size:14px;
+}
+/*栏目模块的内容区域*/
+.siteColumnContent{
+	padding-top:10px;
+	color: rgb(102, 102, 102);
+}
+
+/*首页，关于我们里面的图片*/
+.aboutUsImg{
+	width: 30%;
+    float: left;
+    padding: 9px;
+}
+
+/* 建站需求 */
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.met-index-contact {
+    background: #212832;
+    padding-top: 28px;
+    padding-bottom: 28px;
+}
+.container {
+    max-width: 100%;
+}
+.text-center {
+    text-align: center!important;
+}
+.met-index-contact p {
+    font-size: 1.75em;
+    color: #fff;
+    display: inline-block;
+    margin: 0;
+    line-height: 30px;
+    padding-right: 50px;
+    position: relative;
+    top: 5px;
+}
+.met-index-contact a {
+    font-family: 'Microsoft YaHei', Tahoma, Verdana, 'Simsun';
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #fff;
+    display: inline-block;
+    background: #044A67;
+    position: relative;
+    line-height: 40px;
+    padding-left: 27px;
+    border-radius: 3px;
+    padding-right: 9px;
+    font-size: 14px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.met-index-contact a:hover{
+	background:#1e8bc3;
+	color:#ffffff;
+}
+.met-index-contact a i {
+    padding-left: 15px;
+    font-size: 1.25em;
+    padding-right: 7px;
+    vertical-align: middle;
+    border-left: 1px solid #fff;
+    position: relative;
+    margin-left: 20px;
+    font-size: 14px;
+    line-height: 28px;
+}
+.met-index-contact a i img{
+	width:18px;
+	height:18px;
+	vertical-align: sub;
+}
+.met-index-contact a i:after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: #ddd;
+    position: absolute;
+    left: -2px;
+    top: 0;
+}
+
+/*首页的各个栏目页面的栏目名字*/
+.indexBody div .title .siteColumnName{
+	font-size:18px;
+}
+
+/* 通用底部 */
+footer{
+	background: #044A67;
+    height: 256px;
+    width: 100%;
+    color: white;
+}
+/*微信二维码*/
+footer .qrImg{
+	float: left;
+    height: 180px;
+    margin-left: 5%;
+    margin-top: 25px;
+}
+/*微信二维码的图*/
+#qrImage{
+    width: 150px;
+    height: 150px;
+}
+/*底部站点相关信息*/
+#footerSiteInfo{
+    float: left;
+    margin-left: 6%;
+    margin-top:23px;
+	line-height: 31px;
+}
+/*底部的栏目导航*/
+#footerColumnList{
+	display:none;
+}
+/*公司名或者个人的名字*/
+#footerSiteInfo h3{
+	text-align: left;
+	margin: 0px;
+}
+#footerSiteInfo div {
+	text-align:left;
+}
+#footerSiteInfo div span{
+	font-size: 16px;
+	color: #ffffff;
+}
+/*底部网址，避免因为网址太长导致换行*/
+#footerSiteInfo .footUrl {
+    white-space: nowrap;
+}
+/*版权区块*/
+#footerCopyRight{
+	float: left;
+	margin-top: 20px;
+	width: 100%;
+	background: #033f58;
+}
+/*联系方式跟分享的区块*/
+.footerPhoneAndShare{
+	padding-top: 50px;
+    padding-left: 100px;
+}
+.footerPhoneAndShare .footerPhone{
+	padding-right: 100px;
+    text-align: right;
+}
+.footerPhoneAndShare .footerPhone span{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 36px;
+	color: #ff0;
+	padding-top: 10px;
+}
+.footerPhoneAndShare .footerShare{
+	float: right;
+    margin-top: -136px;
+    text-align: right;
+    width: 380px;
+}
+.footerPhoneAndShare .footerShare .fenxiangdao{
+	float: left;
+	padding-top: 5px;
+}
+
+/*内页相关样式*/
+/*正文内容*/
+.pageText{
+	padding-top:20px;
+	line-height: 30px;
+	min-height: 330px;
+}
+.pageText p{
+	text-indent:2em;
+}
+/*内页的标题栏*/
+.insidePagesTitle{
+	border-style: ridge;
+	border-width: thick;
+	padding: 18px;
+}
+.insidePagesTitle div{
+	float: right;
+    font-family: Microsoft YaHei;
+    color: rgb(170, 170, 170);
+    margin-top: -25px;
+}
+.insidePagesTitle div a{
+	padding-left:5px;
+	padding-right:5px;
+	color: rgb(170, 170, 170);
+}
+
+/*列表页分页模块*/
+.page{
+	margin-top:5px;
+    padding-bottom: 62px;
+}
+.page ul{
+	list-style: none;
+}
+/* 分页的li总体控制。设置的display都是隐藏，通过js来动态控制其是否显示 */
+.page ul li{
+	float:left;
+	border: 1px solid #808080;
+	margin:5px;
+	text-align:center;
+	font-size: 16px;
+	border-radius: 2px;
+	padding: 4px;
+	padding-left: 10px;
+    padding-right: 10px;
+}
+.page ul li a{
+	text-decoration: none;
+	color:#808080;
+}
+/* 共有多少页 */
+#page_allNum{
+	/*width:120px;*/
+	padding:4px 10px;
+	border:0;
+	color:#808080;
+}
+/* 首页，在列表页js控制，若没有上一页的内容，则首页根上一页都不显示。下一页、尾页也同理 */
+#page_first{
+	display:none;
+}
+/* 上一页 */
+#page_up{
+	display:none;
+}
+/* 比如当前在第5页，会有3、4、6、7页的链接，点击后到相应的页面 */
+.page .page_pageList{
+}
+/* 当前第几页，数字 */
+.page .page_currentPageNum{
+	background-color: #2574a9;
+	border-color:#2574a9;
+}
+.page .page_currentPageNum a{
+	color: #ffffff;
+}
+/* 下一页 */
+#page_next{
+	display:none;
+}
+/* 尾页 */
+#page_last{
+	display:none;
+}
+
+/*新闻列表页面，新闻列表数据*/
+.newsListPage .newsItem{
+    border-color: transparent transparent rgb(238, 238, 238);
+    border-width: 0px 0px 1px;
+    border-style: dashed;
+    padding: 10px;
+}
+.newsListPage .newsItem .newsItemName{
+	width:75%;
+    font-weight: 700;
+    float:left;
+}
+.newsListPage .newsItem .newsItemName a{
+    color: black;
+    width:100%;
+    overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size:16px;
+}
+.newsListPage .newsItem .newsItemName a:hover{
+	color:#1e8bc3;
+}
+.newsListPage .newsItem .newsItemTime{
+	width:25%;
+	float:left;
+	text-align:right;
+}
+.newsListPage .newsItem .newsItemIntro a{
+	color: black;
+}
+/*.clear:before,
+.clear:after {
+  content: " ";
+  display: table;
+}
+.clear:after {
+  clear: both;
+}*/
+
+/*图片列表页面，图片列表数据*/
+.imageListPage{
+	padding-top:22px;
+}
+.imageListPage .imagesItem{
+	float:left;
+	padding:1%;
+	width:23%
+}
+.imageListPage .imagesItem .newsItemTitlePic{
+	text-align:center;
+}
+.imageListPage .imagesItem .newsItemTitlePic img{
+	width:220px;
+	height:220px;
+	border-radius:5px;
+}
+.imageListPage .imagesItem .newsItemName{
+	text-align:center;
+	width:220px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin:0 auto;
+	color:#808080;
+}
+.imageListPage .imagesItem .newsItemName a{
+	color:#808080;
+}
+.imageListPage .imagesItem .newsItemTime{
+	display:none;
+}
+.imageListPage .imagesItem .newsItemIntro{
+	display:none;
+}
+
+/***隐藏修改相关的信息***/
+
+/*新闻列表，删除新闻按钮*/
+.deleteNews{
+	display:none;
+}
+/*图片列表，删除图片按钮*/
+.deleteImages{
+	display:none;
+}
+
+/*编辑区，正常状态下是隐藏的*/
+#editPanel{
+	display:none;
+}

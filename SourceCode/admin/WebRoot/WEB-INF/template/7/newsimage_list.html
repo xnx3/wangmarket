@@ -1,0 +1,26 @@
+{include=head}
+<script>
+	if(edit){
+		dynamicLoading.js("{resUrl}template/"+getTemplateId()+"/js/newsedit.js");
+	}
+</script>
+
+<body>
+{include=top}
+
+<div class="content">
+	<div class="title insidePagesTitle">
+		<h1 class="siteColumnName">{siteColumn.name}</h1><!--栏目名字，如：关于我们-->
+		<div><a href="index.html">{siteName}</a> &gt; <a href="{siteColumn.url}">{siteColumn.name}</a></div>
+	</div>
+	<div class="imageList imageListPage">
+		{listItem}
+	</div>
+	<!-- 通用分页跳转 -->
+	{include=page}
+</div>
+
+{include=foot}
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+{include=head}
+
+<body id="body">
+
+<!-- 顶部的LOGO、菜单、Banner -->
+{include=top}
+
+<!-- 中间的内容主体 -->
+<div class="content indexBody">
+	<!-- 产品列表 -->
+	<!--Index_Content_NewsImageList_Start--><!--id=0--><!-- SiteColumn.id，实际调用信息所在栏目的id,默认都是0 -->
+	<!--number=4--><!-- 显示多少条记录 -->
+	<div class="imageList">
+		<div class="title">
+			<a href="lc{siteColumn.id}_1.html" class="siteColumnName">{siteColumn.name}</a><!--栏目名字，如：产品展示-->
+			<a href="lc{siteColumn.id}_1.html" class="more">更多>></a>
+		</div>
+		<div class="siteColumnContent">
+			<!-- 最多显示10条图片信息 -->
+			<!--List_Start--><a href="{news.url}"><img src="{news.titlepic}" alt="{news.title}" /><div>{news.title}</div></a><!--List_End-->
+		</div>
+	</div>
+	<!--Index_Content_NewsImageList_End-->
+
+	<!-- 关于我们 -->
+	<!--Index_Content_AboutUs_Start--><!--id=0--><!-- SiteColumn.id，实际调用信息所在栏目的id,默认都是0 -->
+	<!--sizeNumber=300--><!-- 关于我们得内容简介截取前300个字符 -->
+	<div class="aboutUs">
+		<div class="title">
+			<a href="c{siteColumn.id}.html" class="siteColumnName">{siteColumn.name}</a><!--栏目名字，如：关于我们-->
+			<a href="c{siteColumn.id}.html" class="more">更多>></a>
+		</div>
+		<div class="siteColumnContent">
+			<!--Index_Content_AboutUs_TitlePic_Start--><img class="aboutUsImg" src="{news.titlepic}" alt="LOGO" /><!--Index_Content_AboutUs_TitlePic_End-->
+			<!--AboutUs_Text_Start-->这是关于我们的内容了是关于<!--AboutUs_Text_End-->
+		</div>
+	</div>
+	<!--Index_Content_AboutUs_End-->
+
+</div>
+
+<!-- 网站尾部 -->
+{include=foot}
+		
+<script>
+if(edit){
+	dynamicLoading.js("{resUrl}js/indexedit.js");
+}
+</script>
+</body>
+</html>

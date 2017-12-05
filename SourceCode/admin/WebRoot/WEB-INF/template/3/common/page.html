@@ -1,0 +1,25 @@
+<div class="page">
+	<ul>
+		<li id="page_allNum">共{page.allRecordNumber}条，{page.currentPageNumber}/{page.lastPageNumber}页</li>
+		<li id="page_first"><a href="{page.firstPage}">首页</a></li>
+		<li id="page_up"><a href="{page.upPage}">上一页</a></li>
+		
+		<!-- 上几页的页码与下几页的页码，上下分别显示5个页码跳转 -->
+		{page.upList}
+		<li class="page_currentPageNum"><a href="#">{page.currentPageNumber}</a></li>
+		{page.nextList}
+		
+		<li id="page_next"><a href="{page.nextPage}">下一页</a></li>
+		<li id="page_last"><a href="{page.lastPage}">尾页</a></li>
+	</ul>
+</div>
+<script type="text/javascript">
+	if('{page.haveUpPage}' == 'true'){
+		document.getElementById('page_first').style.display = 'inline';
+		document.getElementById('page_up').style.display = 'inline';
+	}
+	if('{page.haveNextPage}' == 'true'){
+		document.getElementById('page_next').style.display = 'inline';
+		document.getElementById('page_last').style.display = 'inline';
+	}
+</script>

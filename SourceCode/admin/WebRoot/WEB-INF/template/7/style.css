@@ -1,0 +1,1237 @@
+body{
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	min-width:1100px;
+	overflow-x:hidden;
+	font-family:Microsoft Yahei;
+	line-height: 1.6;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration:none;
+}
+
+/* 通用头部，包含LOGO、菜单 */
+header{
+	background-color: #fff!important;
+	height:80px;
+	width:100%;
+	min-width:1100px;
+	color: rgb(42, 51, 60);
+}
+#logo{
+	float:left;
+	width: 290px;
+    text-align: left;
+    padding-left: 45px;
+    padding-top: 20px;
+}
+#logo img{
+	max-height: 70px;
+    float: left;
+    padding-right: 20px;
+}
+#logogramName{
+	font-size: 26px;
+	white-space: nowrap;
+	width: 433px;
+	cursor:pointer;
+	font-family: monospace;
+}
+nav{
+	float:right;
+	padding-bottom: 0px;
+	margin-right: 25px;
+	line-height: 46.5px;
+}
+nav a{
+	text-decoration:none;
+	float:left;
+	padding:15px;
+	min-width:90px;
+	max-width:180px;
+	color: rgb(42, 51, 60);
+	margin: 2px;
+	font-size: 16px;
+}
+nav a:hover{
+	border-top: 2px solid #7bc91e;
+	height:43.5px;
+}
+nav ul{
+	width:100px;
+	float:left;
+	margin-left: -100px;
+	margin-top: 5px;
+	list-style-type:none;
+}
+
+/* 头部所有页面通用的Banner图 */
+#banner{
+	background-color: #F6F6F6;
+	width:100%;
+	overflow:hidden;
+	height:500px;
+}
+.banner_img{
+	top:0;
+	width: 100%;
+}
+.banner_img #img_banner{
+	width:100%;
+	min-height: 500px;
+}
+/* 首页多屏，第一屏的整屏大图 */
+.index_first_page_aboutUsImg{
+	min-height: 100%;
+	min-width: 100%;
+}
+
+/* 中间主体内容，包含公司简介、新闻列表、图片列表等 */
+.content{
+    height: auto;
+    min-width: 960px;
+    margin: 0 auto;
+    text-align: left;
+}
+/* 关于我们 */
+.aboutUs{
+	width: 98%;
+	padding-right: 1%;
+	padding-left: 1%;
+	overflow: hidden;
+	padding-bottom: 40px;
+}
+.aboutUs .title{
+	padding: 50px;
+    padding-top: 70px;
+}
+.newsList{
+	width:38%;
+	float:left;
+	height:300px;
+	overflow:hidden;
+	padding-right:1%;
+	padding-left:1%;
+	display: none;
+}
+.newsList .siteColumnContent{
+	line-height: 23px;
+}
+.newsList .siteColumnContent a{
+	text-decoration:none;
+	float:left;
+	padding:1%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width:98%;
+    color: rgb(102, 102, 102);
+}
+.imageList{
+	width:100%;
+	overflow:hidden;
+	padding-top: 25px;
+	background-color: rgb(246, 246, 246);
+	padding-bottom: 65px;
+	min-width: 1100px;
+}
+.imageList .title{
+	border-style:hidden;
+	padding-top:40px;
+}
+.imageList .siteColumnContent a{
+    float: left;
+    width: 24%;
+    padding: 0.5%;
+    text-align: center;
+}
+.imageList .siteColumnContent a img{
+	width: 8em;
+	height: 8em;
+	border-radius: 50%;
+	overflow:hidden;
+	transition:All 0.4s ease-in-out;
+	-webkit-transition:All 0.4s ease-in-out;
+	-moz-transition:All 0.4s ease-in-out;
+	-o-transition:All 0.4s ease-in-out;
+}
+.imageList .siteColumnContent a img:hover{
+	margin-bottom:30px;
+	transform:rotate(360deg) scale(1.8);
+    -webkit-transform:rotate(360deg) scale(1.8);
+    -moz-transform:rotate(360deg) scale(1.8);
+    -o-transform:rotate(360deg) scale(1.8);
+    -ms-transform:rotate(360deg) scale(1.8);
+}
+
+.imageList .siteColumnContent a div{
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: rgb(170, 170, 170);
+	padding-top: 16px;
+}
+
+/*首页通用栏目显示模块*/
+.title{
+	height: 20px;
+	border-color: transparent transparent rgb(238, 238, 238);
+	border-width: 0px 0px 1px;
+	border-style: solid;
+	padding: 10px;
+	text-align: center;
+	padding-bottom: 35px;
+}
+/*栏目模块的标题区域*/
+.title .siteColumnName{
+	font-size: 26px;
+	color: rgb(51, 51, 51);
+}
+.title .more{
+	float:right;
+	padding-right: 5px;
+	font-family: Microsoft YaHei;
+	color: rgb(170, 170, 170);
+	margin-top: 3px;
+	display: none;
+}
+/*栏目模块的内容区域*/
+.siteColumnContent{
+	padding-top: 52px;
+	color: rgb(102, 102, 102);
+	line-height: 30px;
+	padding-right: 75px;
+}
+
+/*首页，关于我们里面的图片*/
+.aboutUsImg{
+	height: 200px;
+	padding-left: 100px;
+	padding-right: 70px;
+	padding-top: 5px;
+	padding-bottom: 90px;
+}
+
+/* 通用底部 */
+footer{
+	background-color: black;
+	height: 310px;
+	width: 100%;
+	color: white;
+	top: 1525px;
+	padding-top: 30px;
+	min-width: 1100px;
+}
+/*微信二维码*/
+footer .qrImg{
+	float: left;
+    height: 180px;
+    margin-left: 5%;
+    margin-top: 25px;
+}
+/*微信二维码的图*/
+#qrImage{
+    width: 160px;
+    height: 160px;
+}
+/*微信扫一扫的文字*/
+#footerQrImage{
+	font-size:17px;
+	padding-top:5px;
+}
+/*底部站点相关信息*/
+#footerSiteInfo{
+    float: left;
+    margin-left: 7%;
+    margin-top:23px;
+    line-height: 31px;
+}
+/*底部的栏目导航*/
+#footerColumnList{
+	display:none;
+}
+/*公司名或者个人的名字*/
+#footerSiteInfo h3{
+	text-align: left;
+	font-size: 20px;
+	margin: 0px;
+}
+#footerSiteInfo div {
+	text-align:left;
+	padding-top: 2px;
+}
+#footerSiteInfo div span{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #ff0;
+	font-style: oblique;
+}
+/*底部网址，避免因为网址太长导致换行*/
+#footerSiteInfo .footUrl {
+    white-space: nowrap;
+}
+/*版权区块*/
+#footerCopyRight{
+	float: left;
+	margin-left: 60px;
+	margin-top: 36px;
+	width: 92%;
+}
+/*联系方式跟分享的区块*/
+.footerPhoneAndShare{
+	padding-top: 50px;
+    padding-left: 100px;
+}
+.footerPhoneAndShare .footerPhone{
+	padding-right: 100px;
+    text-align: right;
+}
+.footerPhoneAndShare .footerPhone span{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 36px;
+	color: #ff0;
+	font-style: oblique;
+	padding-top: 10px;
+}
+.footerPhoneAndShare .footerShare{
+	float: right;
+	margin-top: -152px;
+	text-align: right;
+	width: 380px;
+}
+.footerPhoneAndShare .footerShare .fenxiangdao{
+	float: left;
+	padding-top: 5px;
+}
+
+/*内页相关样式*/
+/*列表页面的列表数据*/
+.newsListPage{
+	background: #fff;
+	padding: 30px;
+	max-width:1024px;
+	width: 970px;
+	margin:auto;
+	min-height: 300px;
+}
+.newsItemIntro{
+	margin-top: -11px;
+	line-height: 17px;
+}
+.newsItemTime{
+	position: relative;
+	top: 72px;
+	font-size: 13px;
+	color: #a3afb7;
+}
+/*正文内容*/
+.pageText{
+	padding-top:20px;
+	line-height: 30px;
+	min-height: 450px;
+	width: 1024px;
+	margin: auto;
+	padding-bottom: 80px;
+}
+/*内页的标题栏*/
+.insidePagesTitle{
+	border-style: double;
+	border-width: thin;
+	padding: 28px;
+	background-color: #fff;
+	width: 1024px;
+	margin: auto;
+	padding-bottom: 35px;
+}
+.insidePagesTitle div{
+	float: right;
+    font-family: Microsoft YaHei;
+    color: rgb(170, 170, 170);
+    margin-top: -25px;
+}
+.insidePagesTitle div a{
+	padding-left:15px;
+	padding-right:5px;
+	color: rgb(170, 170, 170);
+}
+
+/*列表页分页模块*/
+.page{
+	margin-top: 5px;
+	padding-bottom: 62px;
+	width: 960px;
+	margin: auto;
+}
+.page ul{
+	list-style: none;
+}
+/* 分页的li总体控制。设置的display都是隐藏，通过js来动态控制其是否显示 */
+.page ul li{
+	float:left;
+	border: 1px solid #999999;
+	margin:5px;
+	text-align:center;
+	font-size: 16px;
+	border-radius: 1005px;
+	padding: 6px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.page ul li a{
+	text-decoration: none;
+	color:#808080;
+}
+/* 共有多少页 */
+#page_allNum{
+	color:#808080;
+}
+/* 首页，在列表页js控制，若没有上一页的内容，则首页根上一页都不显示。下一页、尾页也同理 */
+#page_first{
+	display:none;
+}
+/* 上一页 */
+#page_up{
+	display:none;
+}
+/* 比如当前在第5页，会有3、4、6、7页的链接，点击后到相应的页面 */
+.page .page_pageList{
+}
+/* 当前第几页，数字 */
+.page .page_currentPageNum{
+	background-color: rgba(99, 86, 86, 0.13);;
+}
+/* 下一页 */
+#page_next{
+	display:none;
+}
+/* 尾页 */
+#page_last{
+	display:none;
+}
+
+/*列表页面，头部*/
+.insidePagesTitle .siteColumnName{
+	text-align:left;
+	width:1024px;
+	margin:auto;
+	font-weight: 300;
+}
+
+/*新闻列表页面，新闻列表数据*/
+.newsListPage .newsItem{
+    border-color: transparent transparent rgb(238, 238, 238);
+    border-width: 0px 0px 1px;
+    border-style: dashed;
+    padding: 10px;
+    height: 130px;
+}
+.newsListPage .newsItem .newsItemName{
+    /* font-weight: 700; */
+}
+.newsListPage .newsItem .newsItemName a{
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    color: #2a333c;
+    font-family: 'Microsoft JhengHei', 'Microsoft Yahei';
+}
+.newsListPage .newsItem .newsItemIntro a{
+	color: #76838f;
+	font-size: 14px;
+}
+/*新闻列表，删除新闻按钮*/
+.deleteNews{
+	display:none;
+}
+
+/*图片列表页面，图片列表数据*/
+.imageListPage{
+	padding-top:22px;
+	background-color:white;
+	width:970px;
+	margin:auto;
+	position: relative;
+}
+.imageListPage .imagesItem{
+	float:left;
+	padding: 2%;
+	width: 45%;
+	padding-top: 70px;
+	text-align: center;
+	padding-bottom: 20px;
+}
+.imageListPage .imagesItem .newsItemTitlePic{
+	/* float: left; */
+}
+.imageListPage .imagesItem .newsItemTitlePic img{
+	width: 200px;
+	height: 200px;
+	border-radius: 200px;
+}
+.imageListPage .imagesItem .newsItemName{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-left: 20px;
+	padding-top: 20px;
+}
+.imageListPage .imagesItem .newsItemName a{
+	font-size: 20px;
+	color: #2a333c;
+	font-family: 'Microsoft JhengHei', 'Microsoft Yahei';
+}
+.imageListPage .imagesItem .newsItemTime{
+	display:none;
+}
+.imageListPage .imagesItem .newsItemIntro{
+	padding-top: 30px;
+	text-align: left;
+	height: 68px;
+	overflow-y: hidden;
+}
+.imageListPage .imagesItem .newsItemIntro a{
+	color: #76838f;
+	font-size: 16px;
+	padding-left: 20px;
+}
+
+/*图片列表，删除图片按钮*/
+.deleteImages{
+	display:none;
+}
+
+/*编辑区，正常状态下是隐藏的*/
+#editPanel{
+	display:none;
+}
+
+/********* PC首页重写开始 *********/
+.indexBody header{
+	position: fixed;
+	z-index: 998;
+	filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+}
+/*顶部网站名字*/
+.indexBody header #logo #logogramName{
+	color: #F35238;
+    font-weight: bolder;
+    font-size: 2.2em;
+    font-family: fantasy;
+}
+
+/*首页的各个栏目页面的栏目名字*/
+.indexBody div .title .siteColumnName{
+	font-size:26px;
+	color: rgb(55, 71, 79);
+}
+/*第一页*/
+#index_first_page{
+	text-align:center;
+	height: 100%;
+    width: 100%;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-attachment: fixed;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+}
+/*第一页的图*/
+#index_first_page_img{
+	width: 40%;
+}
+
+/*第二页，产品*/
+.indexBody #fullpage .section .fp-tableCell .imageList{
+	height:100%;
+	padding-top: 80px;
+	padding-bottom: 0em;
+	background-color: #FF8932;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent{
+	padding-top: 0em;
+	padding-right: 0em;
+	height: 100%;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li{
+	padding: 0em;
+    height: 100%;
+    border-right: 1px solid #ffbf90;
+    width: 25%;
+    margin-right: -1px;
+	float: left;
+	list-style:none;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover{
+	background-color: #F6F6F6;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover a .index_imageList_item_title{
+	color: #FF8932;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover a img{
+	margin-bottom:30px;
+	transform:rotate(360deg) scale(1.8);
+    -webkit-transform:rotate(360deg) scale(1.8);
+    -moz-transform:rotate(360deg) scale(1.8);
+    -o-transform:rotate(360deg) scale(1.8);
+    -ms-transform:rotate(360deg) scale(1.8);
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover a .index_imageList_item_intro{
+	height:auto;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a{
+	width:100%;
+	top: 15%;
+    position: relative;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a .index_imageList_item_intro{
+	white-space: normal;
+	font-size: 1em;
+	padding-left: 5%;
+    width: 90%;
+    color: #444444;
+    height: 10.9em;
+}
+.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a .index_imageList_item_title{
+	font-family: "微软雅黑";
+    font-size: 2.2em;
+    line-height: 2.2em;
+    color:#FFFFFF;
+}
+
+/*第三页，关于我们*/
+.indexBody #fullpage .section .fp-tableCell .aboutUs{
+	width: 80%;
+    padding-right: 1%;
+    padding-left: 1%;
+    overflow: hidden;
+    padding-bottom: 6%;
+    margin: 0 auto;
+    padding-top: 80px;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .aboutUsImgSpan{
+	float: right;
+	margin-right: 10%;
+	margin-top: -6em;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .aboutUsImgSpan .aboutUsImg{
+	height: 100px;
+	padding: 0px;
+	border-radius: 200px;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .title{
+	padding: 0px;
+	border: 0px;
+	height: auto;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .siteColumnContent{
+	font-family: "微软雅黑";
+    color: #ccc;
+    font-size: 16px;
+    line-height: 25px;
+    text-indent: 2em;
+    padding-top: 8%;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .siteColumnContent .more{
+	color: #fcc;
+    font-weight: bold;
+    padding-left: 15px;
+}
+.indexBody #fullpage .section .fp-tableCell .aboutUs .title .siteColumnName{
+	font-family: "微软雅黑";
+    font-size: 60px;
+    color: #FFF;
+    padding-right: 10%;
+}
+/*首页联系我们相关*/
+.indexBody #fullpage .section .fp-tableCell .indexContactUs{
+	padding-right: 1%;
+	padding-left: 1%;
+	overflow: hidden;
+	padding-bottom: 6%;
+	margin: 0 auto;
+	padding-top: 80px;
+	width: 70em;
+	max-width: 100%;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .title{
+	display:none;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent{
+	margin: auto;margin-left: 10em;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg{
+	width: 25%;
+    min-width: 12em;
+    max-width: 18em;
+    padding: 0em;
+    float: left;
+    margin: 0em;
+    padding-top: 1%;
+    text-align: center;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg #qrImage{
+	width:70%;
+	height:100%;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg #footerQrImage{
+	color: #333333;
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+    padding: 0.3em 0em 0.3em 0em;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo{
+	font-size: 1.2em;
+    color: #FFFFFF;
+    line-height: 1.7em;
+    padding: 0em;
+    margin: 0em;
+    width: 60%;
+    float: right;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo #footerContactsCompanyName{
+	font-size:1.5em;
+	line-height:1.5em;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo .footUrl{
+	white-space: nowrap;
+}
+.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo div span{
+	font-size:1em;
+}
+/*以下是大屏轮播滚屏相关*/
+.fp-section {
+    position: relative;
+    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
+    -moz-box-sizing: border-box; /* <=28 */
+    box-sizing: border-box;
+}
+.fp-slide {
+    float: left;
+}
+.fp-slide, .fp-slidesContainer {
+    height: 100%;
+    display: block;
+}
+.fp-slides {
+    z-index:1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
+    transition: all 0.3s ease-out;
+}
+.fp-section.fp-table, .fp-slide.fp-table {
+    display: table;
+    width: 100%;
+}
+.fp-tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.fp-slidesContainer {
+    float: left;
+    position: relative;
+}
+.fp-controlArrow {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: -38px;
+}
+.fp-controlArrow.fp-prev {
+    left: 15px;
+    width: 0;
+    border-width: 38.5px 34px 38.5px 0;
+    border-color: transparent #fff transparent transparent;
+}
+.fp-controlArrow.fp-next {
+    right: 15px;
+    border-width: 38.5px 0 38.5px 34px;
+    border-color: transparent transparent transparent #fff;
+}
+.fp-scrollable {
+    overflow: scroll;
+}
+.fp-notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+#fp-nav {
+    position: fixed;
+    z-index: 100;
+    margin-top: -32px;
+    top: 50%;
+    opacity: 1;
+}
+#fp-nav.right {
+    right: 17px;
+}
+#fp-nav.left {
+    left: 17px;
+}
+.fp-slidesNav{
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    opacity: 1;
+}
+.fp-slidesNav.bottom {
+    bottom: 17px;
+}
+.fp-slidesNav.top {
+    top: 17px;
+}
+#fp-nav ul,
+.fp-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#fp-nav li,
+.fp-slidesNav li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position:relative;
+}
+.fp-slidesNav li {
+    display: inline-block;
+}
+#fp-nav li a,
+.fp-slidesNav li a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+#fp-nav li .active span,
+.fp-slidesNav .active span {
+    background: #333;
+}
+#fp-nav span,
+.fp-slidesNav span {
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #000;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+}
+.fp-tooltip {
+    position: absolute;
+    top: -2px;
+    font-size: 14px;
+    font-family: arial, helvetica, sans-serif;
+    white-space: nowrap;
+    max-width: 220px;
+}
+.fp-tooltip.right {
+    right: 20px;
+}
+.fp-tooltip.left {
+    left: 20px;
+}
+/*大屏轮播滚屏结束*/
+.indexBody #fullpage{
+	
+}
+
+@media screen and (max-width:600px){
+	body{
+		min-width: 300px;
+		max-width: 600px;
+		width: 100%;
+	    overflow-x: hidden;
+	}
+	header{
+		min-width:300px;
+	}
+	#logo{
+		padding-left: 0px;
+		width: 100%;
+	}
+	#logogramName{
+		width:75%;
+		padding-left: 5%;
+		font-size: 24px;
+	}
+	nav{
+		width: 24px;
+		padding-left:10px;
+		border: solid 1px #aaa;
+		background: #fff url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAMCAYAAAC5tzfZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjIyQkFFNjc1Q0Y3MTFFMkI1NEFBNkJFQ0MyNkQ2RkYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjIyQkFFNjg1Q0Y3MTFFMkI1NEFBNkJFQ0MyNkQ2RkYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGMjJCQUU2NTVDRjcxMUUyQjU0QUE2QkVDQzI2RDZGRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGMjJCQUU2NjVDRjcxMUUyQjU0QUE2QkVDQzI2RDZGRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pvb/uPAAAAAmSURBVHjaYmRgYPBlIBGwiIuLk6qHgfH///+DWdNoQNA7IAACDABm7hO6FUUnoQAAAABJRU5ErkJggg==") no-repeat 10px 11px;
+		border-radius: 5px;
+		margin-top: -35px;
+		margin-right: 18px;
+		cursor:pointer;
+		position: relative;
+		min-height: 34px;
+		z-index: 99;
+	}
+	nav:hover{
+		/*background-image: none;*/
+		padding-top: 52px;
+		padding-bottom: 0px;
+		margin-bottom:20px;
+		width:94%;
+		margin-right: 2%;
+		margin-left: 4%;
+	}
+	nav:hover a , nav a:hover{
+    	display:inline;
+		margin: 0px;
+		border-top: 0px solid #7bc91e;
+		height:20px;
+		padding-bottom:30px;
+		padding-top:0px;
+	}
+	nav a{
+		float:left;
+		width:90%;
+		min-width: 90%;
+	    max-width: 90%;
+		display:none;
+		height:20px;
+		padding: 0px;
+		margin: 0px;
+		font-size:18px;
+		padding:15px;
+		border-style: double;
+		border-width: thin;
+		border-color: transparent transparent rgb(238, 238, 238);
+	}
+	nav a:first-child{
+		
+	}
+	#banner{
+		min-width: 130px;
+		max-width: 600px;
+		height: 250px;
+	}
+
+	.banner_img #img_banner{
+		min-height: 250px;
+		max-height: 300px;
+		width:auto;
+		min-width:100%;
+	}
+
+	.content{
+		min-width: 300px;
+		max-width: 600px;
+	}
+	
+	.aboutUs{
+		height: 600px;
+		width: 100%;
+		padding: 0px;
+	}
+
+	.aboutUs .title{
+		padding: 25px;
+    	padding-top: 30px;
+	}
+
+	.imageList{
+		padding-top: 0px;
+		background-color: white;
+		padding-bottom: 0;
+		min-width: 300px;
+		max-width: 600px;
+		width: 100%;
+	}
+	.imageList .title{
+    	padding-top: 30px;
+    	padding:25px;
+	}
+	.imageList .siteColumnContent a{
+		width: 49.5%;
+		padding: 0px;
+	}
+
+	.imageList .siteColumnContent a img:hover{
+		margin-bottom:0px;
+		transform:rotate(360deg) scale(1.4);
+		-webkit-transform:rotate(360deg) scale(1.4);
+		-moz-transform:rotate(360deg) scale(1.4);
+		-o-transform:rotate(360deg) scale(1.4);
+		-ms-transform:rotate(360deg) scale(1.4);
+	}
+
+	.imageList .siteColumnContent a div{
+		padding-top: 5px;
+		padding-bottom: 28px;
+	}
+	.title{
+		height: 30px;
+		background-color: #F6F6F6;
+	}
+
+	.siteColumnContent{
+		padding-top: 0px;
+		padding-right: 0px;
+		padding: 28px;
+		overflow: hidden;
+	}
+	.aboutUsImg{
+		padding-left: 0px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding: 10px;
+		padding-right: 18px;
+		padding-bottom: 18px;
+	}
+	/*首页头部*/
+	.indexBody header{
+		background-color: transparent!important;
+	}
+	.indexBody header #logo{
+		display:none;
+	}
+	.indexBody header nav{
+		margin-top: 20px;
+	}
+	/*首页头部结束*/
+	/*首页第二屏，产品展示*/
+	.indexBody #fullpage .section .fp-tableCell .imageList{
+		padding-top:0em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li{
+		width:50%;
+		height:45%;
+		padding-top:4%;
+		padding-bottom:4.1%;
+		border-bottom: 1px solid #ffbf90;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent{
+		padding-left:0em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a{
+		top: 20%;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a .index_imageList_item_title{
+		font-size:1.4em;
+		line-height:2em;
+		padding-top: 1em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a img{
+		width:6em;
+		height:6em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li a .index_imageList_item_intro{
+		display:none;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover{
+		background-color: #F6F6F6;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover a .index_imageList_item_title{
+		color: #FF8932;
+	}
+	.indexBody #fullpage .section .fp-tableCell .imageList .siteColumnContent li:hover a img{
+		margin-bottom:0px;
+		transform:rotate(360deg) scale(1.1);
+	    -webkit-transform:rotate(360deg) scale(1.1);
+	    -moz-transform:rotate(360deg) scale(1.1);
+	    -o-transform:rotate(360deg) scale(1.1);
+	    -ms-transform:rotate(360deg) scale(1.1);
+	}
+	/*首页第二屏，产品展示结束*/
+	/*首页第三屏，关于我们*/
+	.indexBody #fullpage .section .fp-tableCell .aboutUs{
+		text-align:center;
+		height:auto;
+		max-height:95%;
+		width: 100%;
+		padding-top:0em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .aboutUs .title{
+		background-color:#275D8B;
+	}
+	.indexBody #fullpage .section .fp-tableCell .aboutUs .title .siteColumnName{
+		padding-right:0em;
+		font-size: 2.5em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .aboutUs .aboutUsImgSpan{
+		float:none;
+		width: 100%;
+		margin-right:0em;
+		display:none;
+	}
+	.indexBody #fullpage .section .fp-tableCell .aboutUs .aboutUsImgSpan .aboutUsImg{
+		width: 80%;
+		height: auto;
+		border-radius: 2em;
+		margin-top:2em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .aboutUs .siteColumnContent{
+		text-align:left;
+		padding: 1em;
+	}
+	/*首页第三屏，关于我们结束*/
+	/*首页的第四屏，联系我们*/
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs{
+		width:100%;
+		padding-top: 0em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent{
+		margin-left: 0em;
+		padding-left: 0em;
+		text-align: center;
+		padding-right: 0em;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg{
+		float:none;
+		width: 100%;
+	    max-width: 100%;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg #qrImage{
+		width: 40%;
+    	height: auto;
+    	padding-bottom:5%;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent .qrImg #footerQrImage{
+		display:none;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo{
+		float:none;
+		width:100%;
+		padding-left:2%;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo div{
+		width:100%;
+	}
+	.indexBody #fullpage .section .fp-tableCell .indexContactUs .siteColumnContent #footerSiteInfo #footerContactsCompanyName{
+		font-size:1.3em
+	}
+	/*首页的第四屏，联系我们结束*/
+	footer{
+		min-width: 300px;
+		max-width: 600px;
+		padding-bottom: 10px;
+	}
+	#footerSiteInfo{
+		width: 90%;
+		word-wrap: break-word;
+		word-break:normal;
+	}
+	footer .qrImg{
+		display: none;
+	}
+	/*联系方式跟分享的区块*/
+	.footerPhoneAndShare{
+		display: none;
+	}
+	#footerCopyRight{
+		width:94%;
+		padding-left:3%;
+		margin-left: 0px;
+		margin-top: 0px;
+		padding-top: 10px;
+	}
+
+
+	/*内容详情*/
+	.pageText{
+		min-width: 300px;
+		max-width: 600px;
+		width: 94%;
+		padding: 3%;
+	}
+	.insidePagesTitle{
+		background-color: #fff;
+		border-style: double;
+		border-width: thin;
+		border-color: transparent transparent rgb(238, 238, 238);
+		padding: 15px;
+		width: 95%;
+		height: auto;
+		padding-left: 2%;
+		padding-right: 3%;
+		padding-top: 15px;
+		padding-bottom: 10px;
+	}
+	.insidePagesTitle div{
+		display:none;
+	}
+	.insidePagesTitle .siteColumnName{
+		min-width: 300px;
+		max-width: 600px;
+		margin-left: 0px;
+		word-break: break-all;
+		width: 100%;
+		padding-top:10px;
+		font-size: 21px;
+	}
+
+	/*列表*/
+	.newsListPage{
+		padding: 2%;
+		min-width: 300px;
+		max-width: 600px;
+		width: 96%;
+		margin-right: 0px;
+	}
+	.newsListPage .newsItem .newsItemName{
+		width:94%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.newsItemTime{
+		text-align:right;
+		font-size: 14px;
+		padding-top: 9px;
+	}
+	.newsItemIntro{
+		margin-top:-21px;
+		max-height: 73px;
+		overflow: hidden;
+	}
+	.imageListPage .imagesItem .newsItemTitlePic img{
+		width:80%;
+		height:auto;
+	}
+	.imageListPage .imagesItem{
+		/* padding-top:45px; */
+	}
+
+	/*分页*/
+	.page{
+		min-width: 300px;
+		max-width: 600px;
+		width: 100%;
+	}
+
+}
