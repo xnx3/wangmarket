@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 
+		可以随意加语言，但是里面的内容项不能少。格式同中文
+	 -->
+	
+	<!-- 默认使用的语言包，这里的值便是下面配置的一级节点名 -->
+	<defaultLanguage>chinese</defaultLanguage>
+	
+	<!-- 中文 -->
+	<chinese>
+		<!-- 用户相关 -->
+		<user_loginSuccess>登陆成功</user_loginSuccess>
+		<user_regSuccess>注册成功</user_regSuccess>
+		<user_regFailure>注册失败</user_regFailure>
+		<user_regFailureForEmailAlreadyExist>邮箱已存在</user_regFailureForEmailAlreadyExist>
+		<user_regFailureForUsernameAlreadyExist>用户名已存在</user_regFailureForUsernameAlreadyExist>
+		<user_regFailureForPhoneAlreadyExist>手机号已存在</user_regFailureForPhoneAlreadyExist>
+		<user_userNameToLong>用户名请输入20个字符以内的英文或数字</user_userNameToLong>
+		<user_loginUserOrEmailNotNull>用户名/邮箱不能为空</user_loginUserOrEmailNotNull>
+		<user_loginPasswordNotNull>密码不能为空</user_loginPasswordNotNull>
+		<user_loginUserFreeze>您的账号已被冻结！无法登陆</user_loginUserFreeze>
+		<user_loginPasswordFailure>密码错误</user_loginPasswordFailure>
+		<user_loginUserNotFind>用户不存在</user_loginUserNotFind>
+		<user_regDataNotAll>信息不全！请重新输入</user_regDataNotAll>
+		<user_loginByPhoneAndCodePhoneFailure>请输入正确的手机号</user_loginByPhoneAndCodePhoneFailure>
+		<user_loginByPhoneAndCodeCodeFailure>请输入正确的验证码</user_loginByPhoneAndCodeCodeFailure>
+		<user_loginByPhoneAndCodeRegFailure>自动注册用户失败</user_loginByPhoneAndCodeRegFailure>
+		<user_loginUserFreeze>您的账号已被冻结！无法登陆</user_loginUserFreeze>
+		<user_loginByPhoneAndCodeCodeNotFind>验证码不存在</user_loginByPhoneAndCodeCodeNotFind>
+		<user_loginByPhonePhoneFailure>请输入正确的手机号</user_loginByPhonePhoneFailure>
+		<user_loginByPhoneUserNotFind>用户不存在</user_loginByPhoneUserNotFind>
+		<user_loginByPhoneIpFailure>上次登陆ip跟当前ip不一致，安全考虑不让其登陆</user_loginByPhoneIpFailure>
+		<user_updateNicknameNicknameIsNull>请输入要修改的昵称</user_updateNicknameNicknameIsNull>
+		<user_freezeUserIsNotFind>要冻结的用户不存在</user_freezeUserIsNotFind>
+		<user_freezeUserPleaseEntryId>请传入要冻结的用户id</user_freezeUserPleaseEntryId>
+		<user_unfreezeUserIsNotFind>要解除冻结的用户不存在</user_unfreezeUserIsNotFind>
+		<user_unfreezeUserPleaseEntryId>请传入要解除冻结的用户id</user_unfreezeUserPleaseEntryId>
+		<user_uploadHeadImageNotFind>未传入头像图片</user_uploadHeadImageNotFind>
+		<user_updateSexSexNotIsNull>性别不能为空</user_updateSexSexNotIsNull>
+		<user_updateSexEntryFailure>性别只允许传入“男”或“女”</user_updateSexEntryFailure>
+		<user_updateNicknameNotNull>昵称必须输入</user_updateNicknameNotNull>
+		<user_updateNicknameSizeFailure>请输入不超过15个英文或汉字的昵称</user_updateNicknameSizeFailure>
+		<user_updateSignSizeFailure>请输入不超过40个英文或汉字的签名</user_updateSignSizeFailure>
+		
+		<!-- 收藏 -->
+		<collect_notCollectOneself>您不能关注自己</collect_notCollectOneself>
+		<collect_null>要关注的用户不存在！</collect_null>
+		<collect_already>已经关注过了，无需再关注！</collect_already>
+		<collect_saveFailure>存入关注表失败！</collect_saveFailure>
+		<collect_notCollectSoNotCancel>您并未关注此人，不需要取消关注"</collect_notCollectSoNotCancel>
+		
+		<!-- 站内信 -->
+		<message_notFind>信息不存在</message_notFind>
+		<message_idFailure>信息编号传入错误</message_idFailure>
+		<message_unknowRecipient>信息发送给谁呢</message_unknowRecipient>
+		<message_notSendOneself>您不能给自己发送消息</message_notSendOneself>
+		<message_pleaseInputText>请输入要发送的信息内容</message_pleaseInputText>
+		<message_sendRecipientNotFind>发送的目标用户不存在</message_sendRecipientNotFind>
+		<message_sendRecipientUserFreeze>您发送信息的目标用户账号已被冻结，信息无法发送</message_sendRecipientUserFreeze>
+		<message_saveFailure>信息发送失败</message_saveFailure>
+		<!-- 内容限制字数， ${min}：最小字数；  ${max}：最大字数 -->
+		<message_sizeFailure>信息内容必须在${min}～${max}之间</message_sizeFailure>
+		<message_alreadyDelete>此信息已被删除</message_alreadyDelete>
+		<message_senderUserFreeze>发件人用户账号已被冻结，信息无法查看</message_senderUserFreeze>
+		<message_notRoleRead>您无权查看此信息</message_notRoleRead>
+		
+		<!-- OSS对象存储 -->
+		<oss_pleaseSelectUploadFile>请选择要上传的文件</oss_pleaseSelectUploadFile>
+		<oss_uploadFailure>上传失败</oss_uploadFailure>
+		<oss_uploadFileNotInSuffixList>此后缀名不在可上传文件列表中</oss_uploadFileNotInSuffixList>
+		
+		<!-- 论坛 -->
+		<bbs_savePostClassNameNotNull>板块的名字不能为空</bbs_savePostClassNameNotNull>
+		<bbs_updatePostClassNotFind>要修改的板块不存在</bbs_updatePostClassNotFind>
+		<bbs_savePostClassFailure>保存板块信息失败</bbs_savePostClassFailure>
+		<bbs_deletePostClassNotFind>要删除的板块不存在</bbs_deletePostClassNotFind>
+		<bbs_pleaseAddDeletePostClassID>请传入要删除的板块编号</bbs_pleaseAddDeletePostClassID>
+		<bbs_deleteCommentNotFind>要删除的评论不存在</bbs_deleteCommentNotFind>
+		<bbs_commentIdFailure>请传入正确的评论编号</bbs_commentIdFailure>
+		<bbs_unknowCommentPost>要回复哪篇帖子呢</bbs_unknowCommentPost>
+		<bbs_commentSizeFailure>回复内容长度必须在${min}到${max}个英文或汉字之间</bbs_commentSizeFailure>
+		<bbs_commentPostNotFind>要回复的帖子不存在</bbs_commentPostNotFind>
+		<bbs_commentPostIsNotNormal>要回复的帖子非正常状态，无法回复</bbs_commentPostIsNotNormal>
+		<bbs_commentPostIsDelete>要回复的帖子已删除，无法回复</bbs_commentPostIsDelete>
+		<bbs_addPostTitleSizeFailure>标题必须是${min}到${max}个字母或汉字</bbs_addPostTitleSizeFailure>
+		<bbs_addPostTextSizeFailure>内容不能少于${min}个字母或汉字</bbs_addPostTextSizeFailure>
+		<bbs_addPostPleaseSelectClass>请选择发布的板块</bbs_addPostPleaseSelectClass>
+		<bbs_updatePostNotFind>要修改的帖子不存在</bbs_updatePostNotFind>
+		<bbs_deletePostNotFind>要删除的帖子不存在</bbs_deletePostNotFind>
+		<bbs_deletePostIdFailure>请传入要删除的帖子编号</bbs_deletePostIdFailure>
+		<bbs_viewPostNotFind>您所查看的帖子不存在</bbs_viewPostNotFind>
+		<bbs_postCreateUserIsFreeze>发帖者账号已被冻结！无法查看帖子</bbs_postCreateUserIsFreeze>
+		<bbs_postViewPostClassIsNotFind>您所查看的帖子所属板块不存在或已被删除</bbs_postViewPostClassIsNotFind>
+		<bbs_postIdFailure>请传入帖子id</bbs_postIdFailure>
+		
+		<!-- 手机短信相关 -->
+		<sms_sendPhoneLoginCodeNumberFailure>请输入正确的手机号</sms_sendPhoneLoginCodeNumberFailure>
+		<sms_sendSmsPhoneNumberFailure>请输入正确的手机号</sms_sendSmsPhoneNumberFailure>
+		<sms_thisPhoneNumberDayUpperLimit>此手机当天验证码发送已达上限！请明日再进行尝试</sms_thisPhoneNumberDayUpperLimit>
+		<sms_thisIpDayUpperLimit>此IP当天验证码发送已达上限！请明日再进行尝试</sms_thisIpDayUpperLimit>
+		<!-- 手机登陆手机发送的短信验证码内容，其中${code}为动态验证码 -->
+		<sms_loginSendCodeText>您的登陆验证码为：${code}</sms_loginSendCodeText>
+		<sms_codeSendYourPhoneSuccess>验证码已发送至您手机</sms_codeSendYourPhoneSuccess>
+		<sms_saveFailure>验证码保存失败</sms_saveFailure>
+		
+	</chinese>
+	
+	<!-- 英文 -->
+	<english>
+		<!-- 用户相关 -->
+		<user_loginSuccess>登陆成功</user_loginSuccess>
+		<user_regSuccess>注册成功</user_regSuccess>
+		<user_regFailure>注册失败</user_regFailure>
+		<user_regFailureForEmailAlreadyExist>邮箱已存在</user_regFailureForEmailAlreadyExist>
+		<user_regFailureForUsernameAlreadyExist>用户名已存在</user_regFailureForUsernameAlreadyExist>
+		<user_regFailureForPhoneAlreadyExist>手机号已存在</user_regFailureForPhoneAlreadyExist>
+		<user_userNameToLong>用户名请输入20个字符以内的英文或数字</user_userNameToLong>
+		<user_loginUserOrEmailNotNull>用户名/邮箱不能为空</user_loginUserOrEmailNotNull>
+		<user_loginPasswordNotNull>密码不能为空</user_loginPasswordNotNull>
+		<user_loginUserFreeze>您的账号已被冻结！无法登陆</user_loginUserFreeze>
+		<user_loginPasswordFailure>密码错误</user_loginPasswordFailure>
+		<user_loginUserNotFind>用户不存在</user_loginUserNotFind>
+		<user_regDataNotAll>信息不全！请重新输入</user_regDataNotAll>
+		<user_loginByPhoneAndCodePhoneFailure>请输入正确的手机号</user_loginByPhoneAndCodePhoneFailure>
+		<user_loginByPhoneAndCodeCodeFailure>请输入正确的验证码</user_loginByPhoneAndCodeCodeFailure>
+		<user_loginByPhoneAndCodeRegFailure>自动注册用户失败</user_loginByPhoneAndCodeRegFailure>
+		<user_loginUserFreeze>您的账号已被冻结！无法登陆</user_loginUserFreeze>
+		<user_loginByPhoneAndCodeCodeNotFind>验证码不存在</user_loginByPhoneAndCodeCodeNotFind>
+		<user_loginByPhonePhoneFailure>请输入正确的手机号</user_loginByPhonePhoneFailure>
+		<user_loginByPhoneUserNotFind>用户不存在</user_loginByPhoneUserNotFind>
+		<user_loginByPhoneIpFailure>上次登陆ip跟当前ip不一致，安全考虑不让其登陆</user_loginByPhoneIpFailure>
+		<user_updateNicknameNicknameIsNull>请输入要修改的昵称</user_updateNicknameNicknameIsNull>
+		<user_freezeUserIsNotFind>要冻结的用户不存在</user_freezeUserIsNotFind>
+		<user_freezeUserPleaseEntryId>请传入要冻结的用户id</user_freezeUserPleaseEntryId>
+		<user_unfreezeUserIsNotFind>要解除冻结的用户不存在</user_unfreezeUserIsNotFind>
+		<user_unfreezeUserPleaseEntryId>请传入要解除冻结的用户id</user_unfreezeUserPleaseEntryId>
+		<user_uploadHeadImageNotFind>未传入头像图片</user_uploadHeadImageNotFind>
+		<user_updateSexSexNotIsNull>性别不能为空</user_updateSexSexNotIsNull>
+		<user_updateSexEntryFailure>性别只允许传入“男”或“女”</user_updateSexEntryFailure>
+		<user_updateNicknameNotNull>昵称必须输入</user_updateNicknameNotNull>
+		<user_updateNicknameSizeFailure>请输入不超过15个英文或汉字的昵称</user_updateNicknameSizeFailure>
+		<user_updateSignSizeFailure>请输入不超过40个英文或汉字的签名</user_updateSignSizeFailure>
+		
+		<!-- 收藏 -->
+		<collect_notCollectOneself>您不能关注自己</collect_notCollectOneself>
+		<collect_null>要关注的用户不存在！</collect_null>
+		<collect_already>已经关注过了，无需再关注！</collect_already>
+		<collect_saveFailure>存入关注表失败！</collect_saveFailure>
+		<collect_notCollectSoNotCancel>您并未关注此人，不需要取消关注"</collect_notCollectSoNotCancel>
+		
+		<!-- 站内信 -->
+		<message_notFind>信息不存在</message_notFind>
+		<message_idFailure>信息编号传入错误</message_idFailure>
+		<message_unknowRecipient>信息发送给谁呢</message_unknowRecipient>
+		<message_notSendOneself>您不能给自己发送消息</message_notSendOneself>
+		<message_pleaseInputText>请输入要发送的信息内容</message_pleaseInputText>
+		<message_sendRecipientNotFind>发送的目标用户不存在</message_sendRecipientNotFind>
+		<message_sendRecipientUserFreeze>您发送信息的目标用户账号已被冻结，信息无法发送</message_sendRecipientUserFreeze>
+		<message_saveFailure>信息发送失败</message_saveFailure>
+		<!-- 内容限制字数， ${min}：最小字数；  ${max}：最大字数 -->
+		<message_sizeFailure>信息内容必须在${min}～${max}之间</message_sizeFailure>
+		<message_alreadyDelete>此信息已被删除</message_alreadyDelete>
+		<message_senderUserFreeze>发件人用户账号已被冻结，信息无法查看</message_senderUserFreeze>
+		<message_notRoleRead>您无权查看此信息</message_notRoleRead>
+		
+		<!-- OSS对象存储 -->
+		<oss_pleaseSelectUploadFile>请选择要上传的文件</oss_pleaseSelectUploadFile>
+		<oss_uploadFailure>上传失败</oss_uploadFailure>
+		<oss_uploadFileNotInSuffixList>此后缀名不在可上传文件列表中</oss_uploadFileNotInSuffixList>
+		
+		<!-- 论坛 -->
+		<bbs_savePostClassNameNotNull>板块的名字不能为空</bbs_savePostClassNameNotNull>
+		<bbs_updatePostClassNotFind>要修改的板块不存在</bbs_updatePostClassNotFind>
+		<bbs_savePostClassFailure>保存板块信息失败</bbs_savePostClassFailure>
+		<bbs_deletePostClassNotFind>要删除的板块不存在</bbs_deletePostClassNotFind>
+		<bbs_pleaseAddDeletePostClassID>请传入要删除的板块编号</bbs_pleaseAddDeletePostClassID>
+		<bbs_deleteCommentNotFind>要删除的评论不存在</bbs_deleteCommentNotFind>
+		<bbs_commentIdFailure>请传入正确的评论编号</bbs_commentIdFailure>
+		<bbs_unknowCommentPost>要回复哪篇帖子呢</bbs_unknowCommentPost>
+		<bbs_commentSizeFailure>回复内容长度必须在${min}到${max}个英文或汉字之间</bbs_commentSizeFailure>
+		<bbs_commentPostNotFind>要回复的帖子不存在</bbs_commentPostNotFind>
+		<bbs_commentPostIsNotNormal>要回复的帖子非正常状态，无法回复</bbs_commentPostIsNotNormal>
+		<bbs_commentPostIsDelete>要回复的帖子已删除，无法回复</bbs_commentPostIsDelete>
+		<bbs_addPostTitleSizeFailure>标题必须是${min}到${max}个字母或汉字</bbs_addPostTitleSizeFailure>
+		<bbs_addPostTextSizeFailure>内容不能少于${min}个字母或汉字</bbs_addPostTextSizeFailure>
+		<bbs_addPostPleaseSelectClass>请选择发布的板块</bbs_addPostPleaseSelectClass>
+		<bbs_updatePostNotFind>要修改的帖子不存在</bbs_updatePostNotFind>
+		<bbs_deletePostNotFind>要删除的帖子不存在</bbs_deletePostNotFind>
+		<bbs_deletePostIdFailure>请传入要删除的帖子编号</bbs_deletePostIdFailure>
+		<bbs_viewPostNotFind>您所查看的帖子不存在</bbs_viewPostNotFind>
+		<bbs_postCreateUserIsFreeze>发帖者账号已被冻结！无法查看帖子</bbs_postCreateUserIsFreeze>
+		<bbs_postViewPostClassIsNotFind>您所查看的帖子所属板块不存在或已被删除</bbs_postViewPostClassIsNotFind>
+		<bbs_postIdFailure>请传入帖子id</bbs_postIdFailure>
+		
+		<!-- 手机短信相关 -->
+		<sms_sendPhoneLoginCodeNumberFailure>请输入正确的手机号</sms_sendPhoneLoginCodeNumberFailure>
+		<sms_sendSmsPhoneNumberFailure>请输入正确的手机号</sms_sendSmsPhoneNumberFailure>
+		<sms_thisPhoneNumberDayUpperLimit>此手机当天验证码发送已达上限！请明日再进行尝试</sms_thisPhoneNumberDayUpperLimit>
+		<sms_thisIpDayUpperLimit>此IP当天验证码发送已达上限！请明日再进行尝试</sms_thisIpDayUpperLimit>
+		<!-- 手机登陆手机发送的短信验证码内容，其中${code}为动态验证码 -->
+		<sms_loginSendCodeText>您的登陆验证码为：${code}</sms_loginSendCodeText>
+		<sms_codeSendYourPhoneSuccess>验证码已发送至您手机</sms_codeSendYourPhoneSuccess>
+		<sms_saveFailure>验证码保存失败</sms_saveFailure>
+	</english>
+</configuration>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- 模版列表 -->
+	<list>
+		<!-- 列表中的某个模版 -->
+		<template>
+			<!-- 模版的名字，如 qiye1 -->
+			<name>qiye1</name>
+			<!-- 模版的简单说明 -->
+			<intro>标准企业网站。响应式，手机电脑通用。比较适合生产、制造类企业。</intro>
+		</template>
+		<template>
+			<name>qiye2</name>
+			<intro>标准企业网站。手机电脑通用，也可用于贷款、财富等相关行业。</intro>
+		</template>
+		<template>
+			<name>ertong1</name>
+			<intro>儿童乐园、幼儿园模版，手机电脑通用，可用于儿童相关网站</intro>
+		</template>
+		<template>
+			<name>qiye3</name>
+			<intro>标准企业网站。手机电脑通用。可用于IT、互联网、广告设计等相关行业</intro>
+		</template>
+		<template>
+			<name>boke1</name>
+			<intro>个人简历、个人博客。手机电脑通用。</intro>
+		</template>
+		<template>
+			<name>lvyou1</name>
+			<intro>标准企业网站。手机电脑通用。可用于风景区、旅游、广告设计等相关行业</intro>
+		</template>
+		<template>
+			<name>qiye4</name>
+			<intro>标准企业站，可用于生产、化工等相关行业，手机电脑通用</intro>
+		</template>
+		<template>
+			<name>xuexiao1</name>
+			<intro>标准网站，可用于学校、文章站等，手机电脑通用</intro>
+		</template>
+		<template>
+			<name>qiye5</name>
+			<intro>标准企业站，可用于加盟、联盟、代理等相关行业。电脑站</intro>
+		</template>
+		<template>
+			<name>boke2</name>
+			<intro>个人博客、个人空间，需要使用者可以简单进行处理图片。电脑站</intro>
+		</template>
+		<template>
+			<name>qiye6</name>
+			<intro>标准企业站，行业通用类型，手机电脑通用</intro>
+		</template>
+	</list>
+	
+</configuration>

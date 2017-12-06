@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 当前网市场的版本，不加前面的v，单纯只是版本号 -->
+	<version>3.4</version>
+	
+	<!-- 主站url，本站的URL -->
+	<!-- <masterSiteUrl>http://wang.market/</masterSiteUrl> -->
+	<masterSiteUrl>http://localhost:8082/GitHubWangMarket_admin/</masterSiteUrl>
+	
+	<!-- websocket im 的socket url访问地址 -->
+	<websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl>
+	<!-- <websocketUrl>ws://localhost:8081/wangMarketIM/websocket</websocketUrl> -->
+
+	<!-- 客服、管理员的email地址，如果出现什么事情时，发送邮件通知 -->
+	<!-- 要废弃 -->
+	<serviceMail>123456@qq.com</serviceMail>
+
+	<!-- 阿里云短信发送 -->
+	<AliyunSMSUtil>
+		<regionId>cn-hongkong</regionId>
+		<accessKeyId></accessKeyId>
+		<accessKeySecret></accessKeySecret>
+		
+		<!-- 短信签名 -->
+		<signName>网市场</signName>
+		<!-- 登陆的短信模版 -->
+		<login_templateCode></login_templateCode>
+		<!-- 向代理商帐户转移站币，通知接收站币的乙方 -->
+		<agency_siteSizeRecharge_templateCode></agency_siteSizeRecharge_templateCode>
+		<!-- 网站使用期限延期(续费)后提醒对方 
+			<siteYanQi_templateCode>SMS_71035143</siteYanQi_templateCode>
+		-->
+	</AliyunSMSUtil>
+	
+	<!-- 域名服务器列表 -->
+	<domainServer>
+		<!-- 香港 -->
+		<domain>http://domain2.wang.market/</domain>
+		<!-- 华北3 -->
+		<domain>http://domainhuabei3.wang.market/</domain>
+	</domainServer>
+	
+</configuration>
