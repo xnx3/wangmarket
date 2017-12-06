@@ -1,0 +1,95 @@
+手机模式、电脑模式的模版页动态标签
+
+通用标签：
+{site.name} {sitenName} 网站名称
+{site.id} {siteId} 网站id编号
+{site.domain} {siteDomain} 网站的二级域名前缀，拼接起来如 {siteDomain}.wang.market
+{site.templateId} {siteTemplateId} 当前网站所用模版编号
+{site.username} 网站的联系人姓名
+{site.phone} 网站的联系人手机
+{site.qq} 网站的联系人QQ
+{site.keywords} 当前网站的关键词
+{site.address} 当前网站的联系人办公地址
+{site.companyName} 当前网站的所属公司名
+{columnAList} 获取当前网站的列表栏目的<a href的超链接替换，主要是搜索引擎优化用到
+{ossEditUrl} 站点的URL地址，编辑模式下，为网站本身的URL，如 http://wang.market/site/14/  若是正常访问下，会变为""空字符串。如用在调用数据缓存 {ossEditUrl}data/js/....js
+{OSSUrl} OSS Url访问域名，如 http://xxx.xnx3.com/
+{resUrl}	CDN缓存的资源文件，包括框架的js、css文件、模版style.css文件等。此会调出 http://res.weiunity.com/
+{linuxTime} 当前时间戳，10位
+{basePath} 网站当前的访问URL，如 http://wap.xnx3.com/  若在编辑模式下，会自动变为编辑模式的url
+{masterSiteUrl} 主站url，网站的主体，主站，后台编辑的URL地址
+{editLinuxTime} 若是编辑模式，会自动生成 ?v=1400099882   ；若是正常浏览模式，则会自动变为""空字符串。主要用作js、css的清缓存
+//{siteResUrl} 站点当前的cdn资源路径 http://cdn.weiunity.com/site/123/
+
+模版不可用，后台可用的标签，主要用途为，编辑模式下，引入编辑模式所使用的js、css等文件 （styleedit.css、commonedit.js）
+<!--EditModeHeadImportTag-->
+
+以下会根据页面的不同自动改变
+{title} 网站页面的title
+{keywords} 页面的关键词
+{description} 描述
+
+{topTitle} 如果有顶部标题栏（网页上的固定头部），这里为顶部标题栏的标题内容
+
+
+模版可引用的通用模块组建
+{include=head} 引用head 旧版本，已废弃
+{include=top} 头部 旧版本，已废弃
+{include=foot} 尾部 旧版本，已废弃
+{includeid=2}	模版变量的id
+这三个是固定的，另外，可以自由添加其他模块，如 wapCommon/menu.html，可这样引用：{include=menu}
+
+仅首页可用标签
+<!--templateStyleCss--> 输出当前的css样式调用，仅首页会有效，其他页面无效
+
+
+内容详情页面
+{title} 标题
+{text} 内容
+
+列表页面(新闻列表/图文列表)
+{page.allRecordNumber} 列表共有多少条信息
+{page.currentPageNumber} 当前第几页，当前的页数
+{page.lastPageNumber} 最后一页的页码是多少，共有多少页
+{page.firstPage} 首页,第一页的链接地址
+{page.upPage} 上一页的链接地址
+{page.nextPage} 下一页的链接地址
+{page.lastPage} 尾页，最后一页的链接地址
+{page.haveUpPage}	是否有上一页 会替换为 'true' 或者 'false'
+{page.haveNextPage} 是否有下一页 会替换为 'true' 或者 'false'
+{page.upList} 上几页的页码点击跳转
+{page.nextList} 下几页的页码点击跳转
+
+{siteColumn.id} 当前列表栏目属性－栏目的id
+{siteColumn.name} 当前列表栏目属性－栏目的名字
+{siteColumn.url} 当前栏目的链接地址，真实状态下的查看的链接地址。若是新闻列表会自动转化为新闻的链接地址如 "lc123_1.html" ，若是独立页面，会自动转换为独立页面的url，若是超链接，则会转换为自定义的超链接URL
+{siteColumn.type} 当前列表栏目属性－栏目的类型，1新闻信息；2图文信息；3独立页面；5超链接；
+{siteColumn.used} 当前列表栏目属性－栏目是否启用/显示，1启用，0不启用
+{listItem} 调用model/news_list_item.html或者model/newsimage_list_item.html，会自动根据当前栏目的属性是新闻还是图文来自动匹配上相应的项
+
+model/*_list.item.html
+{news.id} 信息编号
+{news.addtime} 信息的发布时间
+{news.title} 信息的标题
+{news.titlepic} 信息的列表图
+{news.intro} 信息的简介
+{news.url} 信息详情页面的链接地址
+//{opposenum} 信息的支持数量
+//{readnum} 信息的阅读数量
+//{commentnum} 信息的评论数量
+
+
+管理－编辑模式
+{edit} 若是处于编辑模式，此会替换为"edit"   ，若是处于正常浏览模式，此为空字符串""
+
+
+
+图片：
+会员上传图片时，会对图片进行等比例自动压缩处理
+首页添加栏目时，icon图标上传后缩放的最大宽度 ：100
+轮播图的最大宽度 ：600
+图文列表，列表图片的titlepic的最大宽度 ：400
+
+
+编辑模式下，会自动将HTML源代码替换的参数
+{_masterSiteUrl} 
