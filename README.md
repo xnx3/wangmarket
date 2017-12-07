@@ -11,13 +11,13 @@
 登录帐号：tiyan<br/>
 登录密码：tiyan<br/>
 <br/>
-## 运行环境
+## 运行环境<br/>
 语言：Java 1.8<br/>
 数据库：Mysql 5.5<br/>
 运行容器：Tomcat8<br/>
 运行环境：Linux (Mac开发，未再Windows下实验)<br/>
 <br/>
-## 项目简介
+## 项目简介<br/>
 网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>
 于15年重新启动，<br/>
 16年开始试运行<br/>
@@ -27,7 +27,7 @@
 svn版本更新迭代837次！<br/>
 版本功能性升级57次！[升级日志](http://www.wang.market/log.html)<br/>
 <br/>
-## 云端模版库
+## 云端模版库<br/>
 你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
 我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)<br/>
 虽然模版不多只有不到20套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。<br/>
@@ -60,7 +60,7 @@ svn版本更新迭代837次！<br/>
 ![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
 <br/>
 
-## 交流、反馈
+## 交流、反馈<br/>
 开发者姓名：管雷鸣<br/>
 开发者QQ：921153866<br/>
 开发者微信：xnx3com<br/>
@@ -71,7 +71,7 @@ GitHub：https://github.com/xnx3/wangmarket<br/>
 开源中国：http://git.oschina.net/xnx3/wangmarket<br/>
 
 <br/>
-## 作者简介
+## 作者简介<br/>
 对网站这种普惠全民的事，有极大的热爱。又或者说，对于能改变什么，有强烈的兴致。<br/>
 高一接触网吧认识电脑，高二接触到网站(UBB标签排版那种)，高三辍学自学HTML、PHP，然后进入四大名校之新华电脑。<br/>
 入校期间开始用新学的Java自写建站系统，1年毕业，毕业半年后，于2011年2月，将自己写的最初版本的WAP手机建站系统发布到了 [中国站长站](http://down.chinaz.com/soft/29191.htm) [功能说明](http://www.xnx3.com/software/xxJspMql/20121102/8.html)<br/>
@@ -81,7 +81,7 @@ GitHub：https://github.com/xnx3/wangmarket<br/>
 而网市场云建站系统，便是在以上产品的基础上而来。<br/>
 
 <br/>
-## 版权声明
+## 版权声明<br/>
 著作权登记号：2017SR608214<br/>
 本软件使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需保留我们“网市场”版权标示及链接！<br/>
 另外可以与我们有更多合作可以查看： [http://www.wang.market/index.html#join](http://www.wang.market/index.html#join) 我们希望得到你的捐助，以帮助我更好的将此不断研发升级，惠及更多的人！<br/>
