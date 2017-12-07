@@ -22,6 +22,7 @@
 				/cache/** = anon
 				/*.jsp = anon
 				/*.do = anon
+				/install/*.do = anon
 				/*.html = anon
 				/*.xml = anon
 				/style/** = anon

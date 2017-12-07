@@ -17,7 +17,7 @@ public class SessionListener implements HttpSessionListener {
 		RequestLog requestLog = (RequestLog) session.getAttribute("requestLog");
 
 		try {
-			//如果为空，应该是没走dns.do，那么为空的不予理会
+			//如果为空，应该是没走domain应用的dns.do，那么为空的不予理会
 			if(requestLog != null && G.aliyunLogUtil != null){
 				G.aliyunLogUtil.saveByGroup(requestLog.getServerName(), requestLog.getIp(), requestLog.getLogGroup());
 			}

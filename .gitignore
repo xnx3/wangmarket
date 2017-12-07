@@ -23,6 +23,7 @@
 *.project
 *.jsdtscope
 *.prefs
+/SourceCode/admin/.tern-project
 /SourceCode/admin/.settings/
 /SourceCode/admin/WebRoot/WEB-INF/template/2/property.properties
 /SourceCode/admin/WebRoot/WEB-INF/template/3/property.properties
@@ -33,6 +34,9 @@
 
 /SourceCode/domain/.settings/
 /SourceCode/domain/.tern-project
+
+/SourceCode/im/.settings/
+/SourceCode/im/.tern-project
 
 
 

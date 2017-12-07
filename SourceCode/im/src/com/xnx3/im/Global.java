@@ -1,14 +1,11 @@
 package com.xnx3.im;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.im.bean.CacheUserAuth;
 import com.xnx3.im.bean.Im;
-import com.xnx3.im.bean.Message;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MNSUtil;
 
@@ -74,11 +71,51 @@ public class Global {
 	public static String previewByTokenUrl;
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("imConfig.xml");
+		
 		//消息服务
-		kefuMNSUtil = new MNSUtil(c.getValue("aliyunMNS_kefu.accessKeyId"), c.getValue("aliyunMNS_kefu.accessKeySecret"), c.getValue("aliyunMNS_kefu.endpoint"));
+		String mns_accessKeyId = c.getValue("aliyunMNS_kefu.accessKeyId");
+		String mns_accessKeySecret = c.getValue("aliyunMNS_kefu.accessKeySecret");
+		String mns_endpoint = c.getValue("aliyunMNS_kefu.endpoint");
+		if(mns_accessKeyId == null || mns_accessKeyId.length() == 0){
+			//取数据库的
+			mns_accessKeyId = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYID");
+		}
+		if(mns_accessKeySecret == null || mns_accessKeySecret.length() == 0){
+			//取数据库的
+			mns_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
+		}
+		if(mns_accessKeyId.length() < 10){
+			System.out.println("未开启MNS！若im采用分布式部署，此服务是必须要开启的！");
+		}
+		
+		kefuMNSUtil = new MNSUtil(mns_accessKeyId, mns_accessKeySecret, mns_endpoint);
 		kefuMNSUtil_queueName = c.getValue("aliyunMNS_kefu.queueName");
+		
+		
 		//日志服务
-		aliyunLogUtil = new AliyunLogUtil(c.getValue("aliyunLogKefu.endpoint"), c.getValue("aliyunLogKefu.accessKeyId"), c.getValue("aliyunLogKefu.accessKeySecret"), c.getValue("aliyunLogKefu.project"), c.getValue("aliyunLogKefu.logstore"));
+		//加载日志服务
+		String useLog = c.getValue("aliyunLogKefu.use");
+		if(useLog != null && useLog.equals("true")){
+			String log_accessKeyId = c.getValue("aliyunLogKefu.accessKeyId");
+			String log_accessKeySecret = c.getValue("aliyunLogKefu.accessKeySecret");
+			if(log_accessKeyId == null || log_accessKeyId.length() == 0){
+				//取数据库的
+				log_accessKeyId = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYID");
+			}
+			if(log_accessKeySecret == null || log_accessKeySecret.length() == 0){
+				//取数据库的
+				log_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
+			}
+			if(log_accessKeyId.length() < 10){
+				System.out.println("未开启im对话日志记录");
+			}
+			
+			aliyunLogUtil = new AliyunLogUtil(c.getValue("aliyunLogKefu.endpoint"), log_accessKeyId, log_accessKeySecret, c.getValue("aliyunLogKefu.project"), c.getValue("aliyunLogKefu.logstore"));
+		}else{
+			System.out.println("未开启im对话日志记录");
+		}
+
+		
 		previewByTokenUrl = c.getValue("previewByTokenUrl");
 	}
 	

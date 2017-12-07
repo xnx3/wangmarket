@@ -1,42 +1,27 @@
-package com.xnx3.im;
+package com.xnx3.domain;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-
 import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.aliyun.mns.model.Message;
 import com.xnx3.IntegerUtil;
-import com.xnx3.Lang;
-import com.xnx3.im.bean.CacheUserAuth;
-import com.xnx3.im.bean.Im;
-import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.domain.bean.SimpleSite;
 
 /**
- * 初始化项目，将使用到的一些东东加入Global以方便后续使用
+ * 域名更新线程。使用MNS轮训。网站没有上万之前，此方式比较省钱
  * @author 管雷鸣
  */
-public class InitServlet extends HttpServlet {
-	@Override
-	public void init(ServletConfig servletContext) throws ServletException {
-		kefuMNSUpdate();
-	}
-	
+public class DomainUpdateThread {
 	//主要用户消息服务取到消息后，将消息内容更新过来。但是一个消息可能会取多次，如果连续改动几次，那此处接收到消息后可能会频繁改来改去。所以用此map，来判断是否此消息已经取过了，若取过了，则忽略，若没有取过，才能拿来使用。同时缓存到此map中进行记录
 	public static Map<String,String> messageUpdateMap = new HashMap<String, String>();
+	
 	/**
 	 * 消息服务，获取域名的变动，1分钟更新一次
 	 */
-	public void kefuMNSUpdate() {
+	public DomainUpdateThread() {
 		//MNS每次轮训最新域名列表时，中间延迟时间使用随机数，以绕过MNS的消费后1秒的隐藏间隔
 		final int intervalTime = IntegerUtil.random(25, 50)*1000;
 		
@@ -49,11 +34,11 @@ public class InitServlet extends HttpServlet {
 					e1.printStackTrace();
 				}
 				
-				if(Global.kefuMNSUtil == null){
-					System.out.println("DomainMNSUpdate , G.domainMNSUtil is null ");
+				if(G.domainMNSUtil == null){
 					return;
 				}
 				
+				System.out.println("监控域名更新线程－启动");
 				while(true){
 					try {
 						//延迟，。。。使用此应用独有的延迟时间＋随机增加时间，进行轮训拉取
@@ -63,23 +48,31 @@ public class InitServlet extends HttpServlet {
 						e1.printStackTrace();
 					}
 					try {
-						List<Message> ml = Global.kefuMNSUtil.listMessage(Global.kefuMNSUtil_queueName);
+						List<Message> ml = G.domainMNSUtil.listMessage(G.mnsDomain_queueName);
 						for (int i = 0; i < ml.size(); i++) {
 							Message message = ml.get(i);
 							//判断此是否已经更新过了
 							if(messageUpdateMap.get(message.getMessageId()) == null){
 								//若没有更新过，才会进行更新信息的操作
 								JSONObject json = JSONObject.fromObject(message.getMessageBody());
+								SimpleSite ss = new SimpleSite();
+								ss.setId(json.getInt("id"));
+								ss.setDomain(json.getString("domain"));
+								ss.setBindDomain(json.getString("bindDomain"));
+								ss.setClient(json.getInt("client"));
+								ss.setState((short) json.getInt("state"));
+								if(json.get("templateId") != null){
+									ss.setTemplateId(json.getInt("templateId"));
+								}
 								
-								Im im = new Im();
-								im.setAutoReply(json.getString("autoReply"));
-								im.setEmail(json.getString("email"));
-								im.setHaveImSet(json.getBoolean("haveImSet"));
-								im.setUseOffLineEmail(json.getString("useOffLineEmail").equals("1"));
-								im.setUserid(json.getLong("userid"));
-								//将IM存入内存
-								Global.imMap.put(im.getUserid(), im);
-								System.out.println("更新值－－－－>"+im.toString());
+								//更新域名缓存
+								//更新自动分配的二级域名
+								G.putDomain(ss.getDomain(), ss);
+								
+								//更新用户自己绑定的顶级域名
+								if(ss.getBindDomain() != null && ss.getBindDomain().length() > 0 && !ss.getBindDomain().equals("null")){
+									G.putBindDomain(ss.getBindDomain(), ss);
+								}
 								
 								//将此计入messageUpdateMap，此消息已经更新过了
 								messageUpdateMap.put(message.getMessageId(), "1");
@@ -96,4 +89,5 @@ public class InitServlet extends HttpServlet {
 			}
 		}).start();
 	}
+	
 }
