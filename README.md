@@ -32,19 +32,22 @@ svn版本更新迭代837次！<br/>
 我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)<br/>
 虽然模版不多只有不到20套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。
 
-## 项目搭建步骤
-##### 1.配置数据库连接
+## 项目极速搭建体验步骤
+##### 1.下载应用程序
+运行程序在 [/application/wangmarket.zip](https://github.com/xnx3/wangmarket/application/wangmarket.zip) 下载后解压缩，解压后的文件可直接丢到tomcat8中<br/>
+##### 2.配置数据库连接
 数据库SQL文件： [wangmarket.sql](https://github.com/xnx3/wangmarket/blob/master/wangmarket.sql)<br/>
 数据库修改的配置文件： /WEB-INF/classes/db.properties<br/>
-##### 2.执行安装
+##### 3.执行安装
 数据库配置好后，将项目运行起来，访问项目 /install/index.do 进行下一步下一步安装
-##### 3.登陆体验
+##### 4.登陆体验
 登陆地址为 /login.do<br/>
 登陆账号密码都是 ceshicms<br/>
 另，附带10分钟视频说明，让你10分钟就会基本使用。[视频点此查看](http://www.wscso.com/site_basicUse.html)
 <br/>
-更多资料正在努力更新中～～～计划于周六周末(2017.12.9～10)整理好大部分，开源发布！
-
+<br/>
+本项目的初衷是每个应用功能进行单独部署，完全独立，进行分部式部署。更多资料正在努力更新中～～～计划于周六周末(2017.12.9～10)整理好大部分，开源发布！
+<br/>
 
 ## 使用的成本投入
 #### 2.五元成本<br/>
