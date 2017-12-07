@@ -76,7 +76,6 @@ public class InitServlet extends HttpServlet {
 				}
 				
 				if(G.domainMNSUtil == null){
-					System.out.println("DomainMNSUpdate , G.domainMNSUtil is null ");
 					return;
 				}
 				

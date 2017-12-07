@@ -72,7 +72,12 @@ public class PublicController_ extends BaseController {
 			
 			com.aliyun.oss.model.OSSObject ossObj = null;
 			try{
-				ossObj = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+simpleSite.getId()+"/"+htmlFile);
+				if(OSSUtil.getOSSClient() != null){
+					ossObj = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+simpleSite.getId()+"/"+htmlFile);
+				}else{
+					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
+					return "domain/404";
+				}
 			}  catch (OSSException e) {
 				return "domain/404";
 			}

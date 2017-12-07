@@ -77,7 +77,7 @@
 		<!-- AccessKeySecret -->
 		<accessKeySecret></accessKeySecret>
 		<!-- Bucket名称 -->
-		<bucketName>wangmarket</bucketName>
+		<bucketName></bucketName>
 		<!-- OSS外网域名，文件上传成功时会加上此域名拼接出文件的访问完整URL。位于Bucket概览－OSS域名 ，若为空则会根据以上配置自动拼接生成url -->
 		<url></url>
 		<roleArn></roleArn>
