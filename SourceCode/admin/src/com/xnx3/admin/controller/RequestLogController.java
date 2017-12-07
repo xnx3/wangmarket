@@ -49,6 +49,9 @@ public class RequestLogController extends BaseController {
 	 */
 	@RequestMapping("fangwentongji")
 	public String fangwentongji(HttpServletRequest request, Model model){
+		if(G.aliyunLogUtil == null){
+			return error(model, "未开启网站访问日志统计");
+		}
 		AliyunLog.addActionLog(getSiteId(), "进入日志访问-访问统计页面");
 		return "requestLog/fangwentongji";
 	}
@@ -59,6 +62,9 @@ public class RequestLogController extends BaseController {
 	 */
 	@RequestMapping("pachongtongji")
 	public String pachongtongji(HttpServletRequest request, Model model){
+		if(G.aliyunLogUtil == null){
+			return error(model, "未开启网站访问日志统计");
+		}
 		AliyunLog.addActionLog(getSiteId(), "进入日志访问-爬虫统计页面");
 		return "requestLog/pachongtongji";
 	}
@@ -249,6 +255,9 @@ public class RequestLogController extends BaseController {
 	 */
 	@RequestMapping("actionLogList")
 	public String actionLogList(HttpServletRequest request, Model model) throws LogException{
+		if(AliyunLog.aliyunLogUtil == null){
+			return error(model, "未开启日志服务");
+		}
 		AliyunLogPageUtil log = new AliyunLogPageUtil(AliyunLog.aliyunLogUtil);
 		JSONArray jsonArray = log.list("userid="+getUserId(), "", false, 15, request);
 		Page page = log.getPage();

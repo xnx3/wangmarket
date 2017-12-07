@@ -1,5 +1,7 @@
 package com.xnx3.admin.util;
 
+import java.util.Date;
+
 import com.aliyun.openservices.log.common.LogItem;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.admin.Func;
@@ -18,6 +20,10 @@ public class AliyunLog extends ActionLogCache {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(int goalid, String action, String remark){
+		if(aliyunLogUtil == null){
+			//不使用日志服务，终止即可
+			return;
+		}
 		Site site = Func.getCurrentSite();
 		
 		String siteName = "";
@@ -27,7 +33,7 @@ public class AliyunLog extends ActionLogCache {
 			siteDomain = Func.getDomain(site);
 		}
 		
-		LogItem logItem = aliyunLogUtil.newLogItem();
+		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
 		insert(logItem, null, goalid, action, remark);
@@ -41,6 +47,10 @@ public class AliyunLog extends ActionLogCache {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(int goalid, String action){
+		if(aliyunLogUtil == null){
+			//不使用日志服务，终止即可
+			return;
+		}
 		Site site = Func.getCurrentSite();
 		
 		String siteName = "";
@@ -50,7 +60,7 @@ public class AliyunLog extends ActionLogCache {
 			siteDomain = Func.getDomain(site);
 		}
 		
-		LogItem logItem = aliyunLogUtil.newLogItem();
+		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
 		insert(logItem, null, goalid, action, "");
@@ -62,6 +72,10 @@ public class AliyunLog extends ActionLogCache {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(String action, String remark){
+		if(aliyunLogUtil == null){
+			//不使用日志服务，终止即可
+			return;
+		}
 		Site site = Func.getCurrentSite();
 		
 		String siteName = "";
@@ -71,7 +85,7 @@ public class AliyunLog extends ActionLogCache {
 			siteDomain = Func.getDomain(site);
 		}
 		
-		LogItem logItem = aliyunLogUtil.newLogItem();
+		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
 		insert(logItem, null, 0, action, remark);

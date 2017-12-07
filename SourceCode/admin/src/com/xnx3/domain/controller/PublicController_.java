@@ -72,7 +72,12 @@ public class PublicController_ extends BaseController {
 			
 			com.aliyun.oss.model.OSSObject ossObj = null;
 			try{
-				ossObj = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+simpleSite.getId()+"/"+htmlFile);
+				if(OSSUtil.getOSSClient() != null){
+					ossObj = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+simpleSite.getId()+"/"+htmlFile);
+				}else{
+					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
+					return "domain/404";
+				}
 			}  catch (OSSException e) {
 				return "domain/404";
 			}
@@ -121,7 +126,7 @@ public class PublicController_ extends BaseController {
 				//如果是手机访问的，也是使用二级域名进行访问
 				boolean isMobile = TerminalDetection.checkMobileOrPc(request);
 				if(!isMobile){
-					model.addAttribute("url", simpleSiteVO.getOssUrl()+htmlFile);
+					model.addAttribute("url", OSSUtil.url+"site/"+simpleSite.getId()+"/"+htmlFile);
 					return "domain/pcPreview";
 				}
 			}
@@ -177,7 +182,7 @@ public class PublicController_ extends BaseController {
 			//访问日志记录
 			requestLog(request, "sitemap.xml");
 			
-			HttpResponse hr = http.get(simpleSiteVO.getOssUrl()+"sitemap.xml");
+			HttpResponse hr = http.get(OSSUtil.url+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
 			if(hr.getCode() - 404 == 0){
 				return error404();
 			}else{
@@ -230,7 +235,7 @@ public class PublicController_ extends BaseController {
 			
 			vo.setSimpleSite(simpleSite);
 			//计算获取OSS的路径域名(外网下的)
-			vo.setOssUrl(G.ossUrl+"site/"+simpleSite.getId()+"/");
+//			vo.setOssUrl(G.ossUrl+"site/"+simpleSite.getId()+"/");
 			//将获取到的加入Session
 			request.getSession().setAttribute("SImpleSiteVO", vo);
 		}

@@ -3,17 +3,12 @@ package com.xnx3.domain;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-
 import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.aliyun.mns.model.Message;
 import com.xnx3.IntegerUtil;
 import com.xnx3.j2ee.service.SqlService;
@@ -25,7 +20,6 @@ import com.xnx3.domain.bean.SimpleSite;
  * @author 管雷鸣
  */
 public class InitServlet extends HttpServlet {
-	private static Logger logger = Logger.getLogger(InitServlet.class);  
 	private SqlService sqlService;
 	
 	@Override
@@ -55,12 +49,10 @@ public class InitServlet extends HttpServlet {
 					}
 					if(site.getBindDomain() != null && site.getBindDomain().length() > 2){
 						G.putBindDomain(site.getBindDomain(), ss);
-						System.out.println(site.getBindDomain()+"  --->"+ ss);
 					}
 				}
 				
-				logger.info("共缓存二级域名："+G.getDomainSize()+"个");
-				logger.info("共缓存绑定域名："+G.getBindDomainSize()+"个");
+				System.out.println("共缓存二级域名："+G.getDomainSize()+"个， 绑定域名："+G.getBindDomainSize()+"个");
 			}
 		}).start();
 	}
@@ -84,7 +76,6 @@ public class InitServlet extends HttpServlet {
 				}
 				
 				if(G.domainMNSUtil == null){
-					System.out.println("DomainMNSUpdate , G.domainMNSUtil is null ");
 					return;
 				}
 				

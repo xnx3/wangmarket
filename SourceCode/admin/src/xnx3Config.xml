@@ -83,7 +83,7 @@
 		<!-- AccessKeySecret 可从这里获取 https://ak-console.aliyun.com  -->
 		<accessKeySecret></accessKeySecret>
 		<!-- Bucket名称，请修改此项为 “iw+一串小写英文字母” 作为它的值， 如 “iwwangmarketdomain” 程序系统在开启后，初始化时若此bucket不存在，会自动创建此bucket -->
-		<bucketName>wangmarket</bucketName>
+		<bucketName></bucketName>
 		<!-- OSS外网域名，文件上传成功时会加上此域名拼接出文件的访问完整URL。位于Bucket概览－OSS域名 ，若为空则会根据以上配置自动拼接生成url；若填写，格式严格按照此格式写，如 http://res.weiunity.com   -->
 		<url></url>
 		<roleArn></roleArn>

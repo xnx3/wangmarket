@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xnx3.ConfigManagerUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MNSUtil;
 import com.xnx3.domain.bean.SimpleSite;
@@ -17,18 +18,12 @@ public class G {
 	//二级域名数组，中间存放着用于使用的二级域名的主域名。其中，第一个(twoDomainArray[0])会在程序中显示出来
 	public static String[] twoDomainArray;
 	
-	//OSS外网访问域名，可以直接放上OSS自动分配的访问域名、或者自己绑定的域名，又或者是使用了CDN加速后的域名。比如OSS根目录有个test.txt文件，可以使用这里配置的ossUrl加上test.txt就能访问到
-	public static String ossUrl = "http://cdn.weiunity.com/";
-	
 	//日志服务，用于统计访问日志。 topic:访问域名
-	public static AliyunLogUtil aliyunLogUtil;
+	public static AliyunLogUtil aliyunLogUtil = null;
 	
 	//由domainConfig.xml 的 aliyunMNS_Domain节点加载数据
-	public static String mnsDomain_accessKeyId = "";
-	public static String mnsDomain_accessKeySecret = "";
-	public static String mnsDomain_endpoint = "";
 	public static String mnsDomain_queueName = "";
-	public static MNSUtil domainMNSUtil;
+	public static MNSUtil domainMNSUtil = null;
 	
 	static{
 		ConfigManagerUtil wangMarketConfig = ConfigManagerUtil.getSingleton("domainConfig.xml");
@@ -40,17 +35,53 @@ public class G {
 			twoDomainArray[i] = list.get(i);
 		}
 		
-		//加载入ossUrl 外网访问的域名
-		ossUrl = wangMarketConfig.getValue("ossUrl");
+			
+		//加载日志服务
+		String useLog = wangMarketConfig.getValue("aliyunLog.use");
+		if(useLog != null && useLog.equals("true")){
+			String log_accessKeyId = wangMarketConfig.getValue("aliyunLog.accessKeyId");
+			String log_accessKeySecret = wangMarketConfig.getValue("aliyunLog.accessKeySecret");
+			if(log_accessKeyId == null || log_accessKeyId.length() == 0){
+				//取数据库的
+				log_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+			}
+			if(log_accessKeySecret == null || log_accessKeySecret.length() == 0){
+				//取数据库的
+				log_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+			}
+			if(log_accessKeyId.length() < 10){
+				System.out.println("未开启网站访问日志记录");
+			}
+			
+			aliyunLogUtil = new AliyunLogUtil(wangMarketConfig.getValue("aliyunLog.endpoint"), log_accessKeyId, log_accessKeySecret, wangMarketConfig.getValue("aliyunLog.project"), wangMarketConfig.getValue("aliyunLog.logstore"));
+		}else{
+			System.out.println("未开启网站访问日志记录");
+		}
 		
-		aliyunLogUtil = new AliyunLogUtil(wangMarketConfig.getValue("aliyunLog.endpoint"), wangMarketConfig.getValue("aliyunLog.accessKeyId"), wangMarketConfig.getValue("aliyunLog.accessKeySecret"), wangMarketConfig.getValue("aliyunLog.project"), wangMarketConfig.getValue("aliyunLog.logstore"));	
 		
 		//加载domain 的 MNS 数据
-		mnsDomain_accessKeyId = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeyId");
-		mnsDomain_accessKeySecret = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeySecret");
-		mnsDomain_endpoint = wangMarketConfig.getValue("aliyunMNS_Domain.endpoint");
-		mnsDomain_queueName = wangMarketConfig.getValue("aliyunMNS_Domain.queueName");
-		domainMNSUtil = new MNSUtil(G.mnsDomain_accessKeyId, G.mnsDomain_accessKeySecret, G.mnsDomain_endpoint);
+		String useMNS = wangMarketConfig.getValue("aliyunMNS_Domain.use");
+		if(useMNS != null && useMNS.equals("true")){
+			String mnsDomain_accessKeyId = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeyId");
+			String mnsDomain_accessKeySecret = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeySecret");
+			if(mnsDomain_accessKeyId == null || mnsDomain_accessKeyId.length() == 0){
+				//取数据库的
+				mnsDomain_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+			}
+			if(mnsDomain_accessKeySecret == null || mnsDomain_accessKeySecret.length() == 0){
+				//取数据库的
+				mnsDomain_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+			}
+			if(mnsDomain_accessKeyId.length() < 10){
+				System.out.println("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+			}
+			String mnsDomain_endpoint = wangMarketConfig.getValue("aliyunMNS_Domain.endpoint");
+			mnsDomain_queueName = wangMarketConfig.getValue("aliyunMNS_Domain.queueName");
+			
+			domainMNSUtil = new MNSUtil(mnsDomain_accessKeyId, mnsDomain_accessKeySecret, mnsDomain_endpoint);
+		}else{
+			System.out.println("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+		}
 	}
 	
 	//CDN缓存的资源文件，包括框架的js、css文件、模版style.css文件等。

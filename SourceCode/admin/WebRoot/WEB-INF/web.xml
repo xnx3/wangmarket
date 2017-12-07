@@ -87,13 +87,15 @@
   <listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
   </listener>
+  <!-- iw启动初始化数据 -->
   <servlet>
     <servlet-name>init</servlet-name>
     <servlet-class>com.xnx3.j2ee.init.InitServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
+  <!-- 域名服务启动初始化 -->
   <servlet>
-    <servlet-name>initWangMarket</servlet-name>
+    <servlet-name>initDomain</servlet-name>
     <servlet-class>com.xnx3.domain.InitServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
