@@ -72,9 +72,9 @@ svn版本更新迭代837次！<br/>
 开发者微信：xnx3com<br/>
 开发者微信公众号：wangmarket<br/>
 交流QQ群：472328584<br/>
-官方网站：http://www.wang.market<br/>
-GitHub：https://github.com/xnx3/wangmarket<br/>
-开源中国：http://git.oschina.net/xnx3/wangmarket<br/>
+官方网站：[www.wang.market](http://www.wang.market)<br/>
+GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
+开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
 <br/>
 
 ## 作者简介<br/>
