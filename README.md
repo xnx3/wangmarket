@@ -44,7 +44,8 @@ svn版本更新迭代837次！<br/>
 数据库SQL文件： [wangmarket.sql](https://github.com/xnx3/wangmarket/blob/master/wangmarket.sql)<br/>
 数据库修改的配置文件： /WEB-INF/classes/db.properties<br/>
 ##### 3.执行安装
-数据库配置好后，将项目运行起来，访问项目 /install/index.do 进行下一步下一步安装
+数据库配置好后，将项目运行起来，访问项目 /install/index.do 进行下一步下一步安装<br/>
+若只是体验一下本项目，此项可以跳过。不过跳过此项后，使用时有些地方会报错。<br/>
 ##### 4.登陆体验
 登陆地址为 /login.do<br/>
 登陆账号密码都是 ceshicms<br/>
