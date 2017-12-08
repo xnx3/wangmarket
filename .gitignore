@@ -43,7 +43,8 @@
 /SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
 /SourceCode/admin/src/com/xnx3/admin/controller/client/
 
-#网站域名访问
+
+/SourceCode/admin/bin/
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml

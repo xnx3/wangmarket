@@ -18,6 +18,13 @@
     </rule>
     <rule>
         <note>
+            访问跟目录，也就是域名直接访问
+        </note>
+        <from>^/</from>
+        <to type="forward">/dns.do?htmlFile=index.html</to>
+    </rule>
+    <rule>
+        <note>
             sitemap.xml
         </note>
         <from>sitemap.xml</from>

@@ -2,12 +2,10 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>WangMarket</display-name>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.html</welcome-file>
-    <!-- 若是此又是管理后台，又是域名绑定服务，那么dns.do放在前面 -->
-    <welcome-file>dns.do</welcome-file>
+  	<!-- 若是此又是管理后台，又是域名绑定服务，那么要index.html在前面，这样才能作为域名服务器。如果只是作为管理后台使用，index.html此项可删除 -->
+  	<welcome-file>index.html</welcome-file>
     <!-- 若是此应用只是作为网站管理后台，则将login.do放在前面 -->
-    <!-- <welcome-file>login.do</welcome-file> -->
+    <welcome-file>login.do</welcome-file>
   </welcome-file-list>
   
   <filter>
@@ -24,7 +22,7 @@
   </filter>
   <filter-mapping>
     <filter-name>shiroFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
