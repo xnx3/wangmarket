@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 <script src="http://res.weiunity.com/js/fun.js"></script>
 <script>
-var masterSiteUrl = '<%=G.masterSiteUrl %>'; 
+var masterSiteUrl = '<%=basePath %>';
 </script>
 <style>
 #editPanel{

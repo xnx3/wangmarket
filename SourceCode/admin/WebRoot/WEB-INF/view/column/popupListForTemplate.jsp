@@ -16,15 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
 <table class="layui-table" style="margin:0px;">
-  <colgroup>
-    <col>
-    <col width="140">
-    <col width="70">
-    <col width="58">
-    <col width="90">
-    <col width="80">
-    <col width="90">
-  </colgroup>
   <thead>
     <tr>
       <th>栏目名称</th>

@@ -36,6 +36,7 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
+import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.bean.UserBean;
@@ -693,6 +694,9 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public BaseVO refreshForTemplate(Model model,HttpServletRequest request){
 		AliyunLog.addActionLog(getSiteId(), "CMS模式下，刷新生成整站");
+		if(OSSUtil.getOSSClient() == null){
+			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
+		}
 		
 		return siteService.refreshForTemplate(request);
 	}

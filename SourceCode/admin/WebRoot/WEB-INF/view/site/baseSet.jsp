@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.domain.G"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@page import="com.xnx3.admin.entity.Site"%><%@page import="com.xnx3.j2ee.Global"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,12 +18,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</a>
 	<a class="weui_cell" href="javascript:updateDomain_info();">
 		<div class="weui_cell_bd weui_cell_primary">
-			<p>访问域名</p>
+			<p>分配域名</p>
 		</div>
 		<div class="weui_cell_ft" id="domainInput">
 			<span style="float: left;">
-				<div id="domainInput_weiunity" style="display:none;">http://${site.domain }.weiunity.com</div>
-				<div id="domainInput_wangmarket">http://${site.domain }.wang.market</div>
+				<div id="domainInput_wangmarket">http://${site.domain }.<%=G.getAutoAssignMainDomain() %></div>
 			</span>
 		</div>
 	</a>

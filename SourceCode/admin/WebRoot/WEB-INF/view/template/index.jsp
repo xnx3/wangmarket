@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script src="http://res.weiunity.com/js/iw.js"></script>	
 <script>
-var masterSiteUrl = '<%=G.masterSiteUrl %>'; 
+var masterSiteUrl = '<%=basePath %>';
 </script>
 <style>
 #editPanel{

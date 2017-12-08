@@ -85,7 +85,7 @@ public class LoginController_ extends com.xnx3.admin.controller.BaseController {
 		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
 			ActionLogCache.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
-			return error("验证码出错");
+			return capVO;
 		}else{
 			//验证码校验通过
 			

@@ -333,6 +333,9 @@ public class SiteController extends BaseController {
 	@RequestMapping("getOSSSize")
 	@ResponseBody
 	public BaseVO getOSSSize(){
+		if(OSSUtil.getOSSClient() == null){
+			return error("未开通");
+		}
 		BaseVO vo = new BaseVO();
 		//获取其下有多少网站
 		List<Site> list = sqlService.findBySqlQuery("SELECT * FROM site WHERE userid = "+getUserId(), Site.class);
