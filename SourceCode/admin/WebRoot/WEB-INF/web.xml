@@ -3,6 +3,7 @@
   <display-name>WangMarket</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
     <!-- 若是此又是管理后台，又是域名绑定服务，那么dns.do放在前面 -->
     <welcome-file>dns.do</welcome-file>
     <!-- 若是此应用只是作为网站管理后台，则将login.do放在前面 -->

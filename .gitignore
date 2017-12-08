@@ -18,15 +18,12 @@
 *.rar
 
 #eclipse相关
-*.classpath
-*.project
 *.jsdtscope
 *.prefs
 
 /SourceCode/admin/src/com/xnx3/weixin/
 
 /SourceCode/admin/.tern-project
-/SourceCode/admin/.settings/
 /SourceCode/admin/WebRoot/WEB-INF/template/2/property.properties
 /SourceCode/admin/WebRoot/WEB-INF/template/3/property.properties
 /SourceCode/admin/WebRoot/WEB-INF/template/4/property.properties
@@ -34,13 +31,13 @@
 /SourceCode/admin/WebRoot/WEB-INF/template/6/property.properties
 /SourceCode/admin/WebRoot/WEB-INF/template/7/property.properties
 
-/SourceCode/domain/.settings/
 /SourceCode/domain/.tern-project
 
-/SourceCode/im/.settings/
 /SourceCode/im/.tern-project
 
-
+/SourceCode/admin/.settings/
+/SourceCode/domain/.settings/
+/SourceCode/im/.settings/
 
 #超级管理后台的某些文件过滤
 /SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
