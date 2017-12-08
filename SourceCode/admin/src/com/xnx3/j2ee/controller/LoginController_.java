@@ -187,8 +187,13 @@ public class LoginController_ extends com.xnx3.admin.controller.BaseController {
 					
 					//属于该用户的这些网站共占用了多少存储空间去
 					long sizeB = 0;
-					for (int i = 0; i < list.size(); i++) {
-						sizeB += OSSUtil.getFolderSize("site/"+list.get(i).getId()+"/");
+					try {
+						for (int i = 0; i < list.size(); i++) {
+							sizeB += OSSUtil.getFolderSize("site/"+list.get(i).getId()+"/");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println("你应该是还没配置开通OSS吧~~要想上传图片上传附件，还是老老实实，访问 /instal/index.do 进行安装吧");
 					}
 					int kb = Math.round(sizeB/1024);
 					sqlService.executeSql("UPDATE user SET oss_update_date = '"+currentDate+"' , oss_size = "+kb+" WHERE id = "+getUserId());
