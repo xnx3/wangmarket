@@ -66,30 +66,35 @@ public class Global {
 	/**
 	 * 日志服务，记录客服对话
 	 */
-	public static AliyunLogUtil aliyunLogUtil;
+	public static AliyunLogUtil aliyunLogUtil = null;
 	//根据socketUuid进行查看会话内容的网址
 	public static String previewByTokenUrl;
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("imConfig.xml");
 		
 		//消息服务
-		String mns_accessKeyId = c.getValue("aliyunMNS_kefu.accessKeyId");
-		String mns_accessKeySecret = c.getValue("aliyunMNS_kefu.accessKeySecret");
-		String mns_endpoint = c.getValue("aliyunMNS_kefu.endpoint");
-		if(mns_accessKeyId == null || mns_accessKeyId.length() == 0){
-			//取数据库的
-			mns_accessKeyId = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYID");
-		}
-		if(mns_accessKeySecret == null || mns_accessKeySecret.length() == 0){
-			//取数据库的
-			mns_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
-		}
-		if(mns_accessKeyId.length() < 10){
+		String useMNS = c.getValue("aliyunMNS_kefu.use");
+		if(useMNS != null && useMNS.equals("true")){
+			String mns_accessKeyId = c.getValue("aliyunMNS_kefu.accessKeyId");
+			String mns_accessKeySecret = c.getValue("aliyunMNS_kefu.accessKeySecret");
+			String mns_endpoint = c.getValue("aliyunMNS_kefu.endpoint");
+			if(mns_accessKeyId == null || mns_accessKeyId.length() == 0){
+				//取数据库的
+				mns_accessKeyId = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYID");
+			}
+			if(mns_accessKeySecret == null || mns_accessKeySecret.length() == 0){
+				//取数据库的
+				mns_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
+			}
+			if(mns_accessKeyId.length() < 10){
+				System.out.println("未开启MNS！若im采用分布式部署，此服务是必须要开启的！");
+			}else{
+				kefuMNSUtil = new MNSUtil(mns_accessKeyId, mns_accessKeySecret, mns_endpoint);
+				kefuMNSUtil_queueName = c.getValue("aliyunMNS_kefu.queueName");
+			}
+		}else{
 			System.out.println("未开启MNS！若im采用分布式部署，此服务是必须要开启的！");
 		}
-		
-		kefuMNSUtil = new MNSUtil(mns_accessKeyId, mns_accessKeySecret, mns_endpoint);
-		kefuMNSUtil_queueName = c.getValue("aliyunMNS_kefu.queueName");
 		
 		
 		//日志服务
@@ -108,9 +113,9 @@ public class Global {
 			}
 			if(log_accessKeyId.length() < 10){
 				System.out.println("未开启im对话日志记录");
+			}else{
+				aliyunLogUtil = new AliyunLogUtil(c.getValue("aliyunLogKefu.endpoint"), log_accessKeyId, log_accessKeySecret, c.getValue("aliyunLogKefu.project"), c.getValue("aliyunLogKefu.logstore"));
 			}
-			
-			aliyunLogUtil = new AliyunLogUtil(c.getValue("aliyunLogKefu.endpoint"), log_accessKeyId, log_accessKeySecret, c.getValue("aliyunLogKefu.project"), c.getValue("aliyunLogKefu.logstore"));
 		}else{
 			System.out.println("未开启im对话日志记录");
 		}

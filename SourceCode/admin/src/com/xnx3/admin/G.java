@@ -45,7 +45,7 @@ public class G {
 	public static final String DEFAULT_PC_ABOUT_US_TITLEPIC = RES_CDN_DOMAIN+"default_image/aboutUs.jpg";	//默认的关于我们的图
 	
 	public static String forbidDomain = ",www,wap,m,3g,4g,5g,mail,domain,idc,service,server,";		//保留域名，不给会员申请的
-	public static final String AUTO_ASSIGN_DOMAIN = "wang.market";	//网站生成后，自动分配的二级域名，用二级域名访问网站。这里是主域名
+//	public static final String AUTO_ASSIGN_DOMAIN = "wang.market";	//网站生成后，自动分配的二级域名，用二级域名访问网站。这里是主域名
 	
 	public static Map<String, Map<String, String>> templateVarMap = new HashMap<String, Map<String,String>>(); 	//模版变量缓存，模版变量都会缓存在这里面，使用时，get("模版名字").get("模版下的模版变量名字") = 模版变量内容
 	
@@ -83,7 +83,7 @@ public class G {
 		AliyunSMS_siteYanQi_templateCode = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.siteYanQi_templateCode");
 		
 		//域名服务器，解析域名
-		wangMarketDomainServerList = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getList("domainServer.domain");
+//		wangMarketDomainServerList = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getList("domainServer.domain");
 		
 		//从配置文件中加载云端模板信息
 		cloudTemplateListVO = new CloudTemplateListVO();

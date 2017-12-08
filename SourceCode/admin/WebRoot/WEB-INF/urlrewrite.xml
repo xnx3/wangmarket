@@ -24,4 +24,3 @@
         <to type="forward">/sitemap.do</to>
     </rule>
 </urlrewrite>
-

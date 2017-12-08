@@ -22,6 +22,9 @@
 *.project
 *.jsdtscope
 *.prefs
+
+/SourceCode/admin/src/com/xnx3/weixin/
+
 /SourceCode/admin/.tern-project
 /SourceCode/admin/.settings/
 /SourceCode/admin/WebRoot/WEB-INF/template/2/property.properties
@@ -40,16 +43,8 @@
 
 
 #超级管理后台的某些文件过滤
-/SourceCode/admin/src/com/xnx3/im/controller/
-/SourceCode/admin/src/com/xnx3/im/generateCache/
-/SourceCode/admin/src/com/xnx3/im/controller/
-
-/SourceCode/admin/src/com/xnx3/superadmin/controller/
-/SourceCode/admin/src/com/xnx3/superadmin/service/
-/SourceCode/admin/src/com/xnx3/superadmin/util/
-
 /SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
-/SourceCode/admin/src/com/xnx3/j2ee/controller/admin/
+/SourceCode/admin/src/com/xnx3/admin/controller/client/
 
 #网站域名访问
 

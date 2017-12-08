@@ -207,15 +207,15 @@ public class PublicController_ extends BaseController {
 			String serverName = request.getServerName();	//访问域名，如 pc.wang.market
 			//内部调试使用
 			if(serverName.equals("localhost")){
-				serverName = "cs."+G.twoDomainArray[0];
+				serverName = "cs."+G.getAutoAssignMainDomain();
 			}
 			vo.setServerName(serverName);
 			
 			//判断当前访问域名是否是使用的二级域名
-			String twoDomain = null;		
-			for (int i = 0; i < G.twoDomainArray.length; i++) {
-				if(serverName.indexOf("."+G.twoDomainArray[i]) > -1){
-					twoDomain = serverName.replace("."+G.twoDomainArray[i], "");
+			String twoDomain = null;	
+			for (int i = 0; i < G.getAutoAssignDomain().length; i++) {
+				if(serverName.indexOf("."+G.getAutoAssignDomain()[i]) > -1){
+					twoDomain = serverName.replace("."+G.getAutoAssignDomain()[i], "");
 				}
 			}
 			

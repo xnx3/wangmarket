@@ -16,7 +16,7 @@ import com.xnx3.domain.bean.SimpleSite;
  */
 public class G {
 	//二级域名数组，中间存放着用于使用的二级域名的主域名。其中，第一个(twoDomainArray[0])会在程序中显示出来
-	public static String[] twoDomainArray;
+	private static String[] twoDomainArray = null;
 	
 	//日志服务，用于统计访问日志。 topic:访问域名
 	public static AliyunLogUtil aliyunLogUtil = null;
@@ -29,13 +29,12 @@ public class G {
 		ConfigManagerUtil wangMarketConfig = ConfigManagerUtil.getSingleton("domainConfig.xml");
 		
 		//将domainConfig.xml中的二级域名配置的主域名，加载入
-		List<String> list = wangMarketConfig.getList("twoDomain.domain");
-		twoDomainArray = new String[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			twoDomainArray[i] = list.get(i);
-		}
+//		List<String> list = wangMarketConfig.getList("twoDomain.domain");
+//		twoDomainArray = new String[list.size()];
+//		for (int i = 0; i < list.size(); i++) {
+//			twoDomainArray[i] = list.get(i);
+//		}
 		
-			
 		//加载日志服务
 		String useLog = wangMarketConfig.getValue("aliyunLog.use");
 		if(useLog != null && useLog.equals("true")){
@@ -143,5 +142,30 @@ public class G {
 	 */
 	public static int getBindDomainSize(){
 		return bindDomainSiteMap.size();
+	}
+	
+	/**
+	 * 获取泛解析的主域名列表，获取到的域名列表便是分配给用户的二级域名。
+	 * 注意的是，第一个域名会作为网站的官分配的二级域名，在程序里会体现第一个域名。其他的都是备用的，在程序中不会体现，只有用户使用二级域名访问时才会有效
+	 */
+	public static String[] getAutoAssignDomain(){
+		if(twoDomainArray == null){
+			//system表中AUTO_ASSIGN_DOMAIN载入
+			String d = Global.get("AUTO_ASSIGN_DOMAIN");
+			twoDomainArray = d.split(",");
+		}
+		
+		return twoDomainArray;
+	}
+	
+	/**
+	 * 返回当前系统中，网站创建成功后自动分配的二级域名，AUTO_ASSIGN_DOMAIN的第一个，会显示给用户的那个域名
+	 */
+	public static String getAutoAssignMainDomain(){
+		if(getAutoAssignDomain().length > 0){
+			return getAutoAssignDomain()[0];
+		}else{
+			return "未设置自动分配的二级(主)域名！";
+		}
 	}
 }

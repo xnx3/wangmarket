@@ -115,7 +115,7 @@
 		<!-- 若accessKeySecret不填写，则默认自动从数据库中取system表，name=ALIYUN_ACCESSKEYSECRET的值 -->
 		<accessKeySecret></accessKeySecret>
 		<!-- 若是发现违规，同一Session下出现第一次违规跟第五次违规时，会发送一条邮件提醒，这里是提醒者的邮箱 -->
-		<receiveEmail></receiveEmail>
+		<receiveEmail>123456@qq.com</receiveEmail>
 	</aliyunTextFilter>
 	
 	<!-- 项目开启运行后的自动检测，若开启，会在 com.xnx3.j2ee.init.InitServlet 中自动进行检测。 取值范围为true、false

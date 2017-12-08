@@ -29,6 +29,7 @@
 				/upload/** = anon
 				/ueditor/** = anon
 				/reg*.do = anon
+				/websocket = anon
 				/bbs/list.do = anon
 				/bbs/view.do = anon
 				/news/list.do = anon
