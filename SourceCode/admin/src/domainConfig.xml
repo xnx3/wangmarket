@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<!-- 这个用于域名转发，绑定域名使用 -->
 
-	<!-- 二级域名自动分配，配置使用什么域名作为二级域名 -->
-	<twoDomain>
-		<!-- 如果有多个，填写多个即可，填写主域名，不加www等前缀 -->
-		<!-- 注意的是，第一个域名会作为网站的官分配的二级域名，在程序里会体现第一个域名。其他的都是备用的，在程序中不会体现，只有用户使用二级域名访问时才会有效 -->
-		<domain>wang.market</domain>
-		<domain>wscso.com</domain>
-	</twoDomain>
-	
 	<!-- 阿里云日志服务，提供访问统计 -->
 	<!-- 此处admin、domain通用 -->
 	<aliyunLog>
