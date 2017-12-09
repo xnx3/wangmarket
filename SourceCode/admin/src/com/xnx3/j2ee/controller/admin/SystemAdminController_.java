@@ -21,6 +21,7 @@ import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.generateCache.Bbs;
 import com.xnx3.j2ee.generateCache.Message;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -35,6 +36,8 @@ import com.xnx3.j2ee.controller.BaseController;
 public class SystemAdminController_ extends BaseController {
 	@Resource
 	private SqlService sqlService;
+	@Resource
+	private SystemService systemService;
 	
 	/**
 	 * 生成所有缓存
@@ -129,13 +132,7 @@ public class SystemAdminController_ extends BaseController {
 		sqlService.save(system);
 		
 		/***更新内存数据****/
-		Global.system.clear();
-		Global.systemForInteger.clear();
-		List<com.xnx3.j2ee.entity.System> list = sqlService.findAll(System.class);
-		for (int i = 0; i < list.size(); i++) {
-			com.xnx3.j2ee.entity.System s = list.get(i);
-			Global.system.put(s.getName(), s.getValue());
-		}
+		systemService.refreshSystemCache();
 		
 		ActionLogCache.insert(request, system.getId(), "保存系统变量", system.getName()+"="+system.getValue());
 		return success();
@@ -153,6 +150,9 @@ public class SystemAdminController_ extends BaseController {
 			return error("要删除的变量不存在");
 		}
 		sqlService.delete(system);
+		
+		/***更新内存数据****/
+		systemService.refreshSystemCache();
 		
 		ActionLogCache.insert(request, system.getId(), "删除系统变量", system.getName()+"="+system.getValue());
 		return success();

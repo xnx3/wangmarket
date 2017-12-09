@@ -1,5 +1,7 @@
 package com.xnx3.j2ee.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.configuration.ConfigurationException;
@@ -15,6 +17,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.OSSUtil;
 
@@ -39,6 +42,8 @@ public class InstallController_ extends BaseController {
 
 	@Resource
 	private SqlService sqlService;
+	@Resource
+	private SystemService systemService;
 	
 	/**
 	 * 安装首页
@@ -48,7 +53,7 @@ public class InstallController_ extends BaseController {
 //		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
 //			return error(model, "系统已禁止使用此！");
 //		}
-		return "iw/install/index";
+		return "iw_update/install/index";
 	}
 	
 	/**
@@ -60,12 +65,12 @@ public class InstallController_ extends BaseController {
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, "系统已禁止使用此！");
 		}
-		return "iw/install/accessKey";
+		return "iw_update/install/accessKey";
 	}
 	
 
 	/**
-	 * 第二步，验证AccessKey的id、screct的有效性，并初始化创建OSS
+	 * 第一步，验证AccessKey的id、screct的有效性，并初始化创建OSS
 	 */
 	@RequestMapping("/accessKeySave")
 	@ResponseBody
@@ -122,17 +127,60 @@ public class InstallController_ extends BaseController {
 		sqlService.executeSql("update system set value = '"+id+"' WHERE name = 'ALIYUN_ACCESSKEYID'");
 		sqlService.executeSql("update system set value = '"+secret+"' WHERE name = 'ALIYUN_ACCESSKEYSECRET'");
 		sqlService.executeSql("update system set value = '"+bucketName+"' WHERE name = 'ALIYUN_OSS_BUCKETNAME'");
-		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		
+		//更新缓存
+		systemService.refreshSystemCache();
 		
 		return success();
 	}
+	
+
+	/**
+	 * 第二步，设置项目的系统参数，system中的系统参数，比如网站泛解析的域名，自己的邮箱
+	 */
+	@RequestMapping("/systemSet")
+	public String systemSet(HttpServletRequest request, Model model){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, "系统已禁止使用此！");
+		}
+		
+		return "iw_update/install/systemSet";
+	}
+	
+
+	/**
+	 * 第二步，提交，验证AccessKey的id、screct的有效性，并初始化创建OSS
+	 */
+	@RequestMapping("/systemSetSave")
+	@ResponseBody
+	public BaseVO systemSetSave(
+			@RequestParam(value = "AUTO_ASSIGN_DOMAIN", required = false, defaultValue="") String AUTO_ASSIGN_DOMAIN,
+			@RequestParam(value = "SERVICE_MAIL", required = false, defaultValue="") String SERVICE_MAIL
+			){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error("系统已禁止使用此！");
+		}
+		
+		//将其存入system数据表
+		sqlService.executeSql("update system set value = '"+AUTO_ASSIGN_DOMAIN+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		sqlService.executeSql("update system set value = '"+SERVICE_MAIL+"' WHERE name = 'SERVICE_MAIL'");
+		//禁用install安装
+		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		
+		//更新缓存
+		systemService.refreshSystemCache();
+		
+		return success();
+	}
+	
+	
 	
 	/**
 	 * 安装成功页面
 	 */
 	@RequestMapping("/installSuccess")
 	public String installSuccess(HttpServletRequest request, Model model){
-		return "iw/install/installSuccess";
+		return "iw_update/install/installSuccess";
 	}
 	
 	/**

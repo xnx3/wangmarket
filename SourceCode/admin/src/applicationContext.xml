@@ -137,4 +137,8 @@
 	<bean id="collectService" class="com.xnx3.j2ee.service.impl.CollectServiceImpl">
 		<property name="sqlDAO"><ref bean="SqlDAO" /></property>
 	</bean>
+	<bean id="systemService" class="com.xnx3.j2ee.service.impl.SystemServiceImpl">
+		<property name="sqlDAO"><ref bean="SqlDAO" /></property>
+	</bean>
+	
 </beans>
