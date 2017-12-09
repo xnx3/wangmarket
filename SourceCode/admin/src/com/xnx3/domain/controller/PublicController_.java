@@ -43,7 +43,7 @@ public class PublicController_ extends BaseController {
 	 * 域名捕获转发
 	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html
 	 */
-	@RequestMapping("dns.do")
+	@RequestMapping("dns")
 	public String dns(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);

@@ -1,6 +1,5 @@
 package com.xnx3.j2ee.controller;
 
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -191,7 +190,7 @@ public class InstallController_ extends BaseController {
 		String thisClassPath = this.getClass().getResource("/com/xnx3/j2ee/controller/InstallController_.class").getPath();
 		boolean d = FileUtil.deleteFile(thisClassPath);
 		if(d){
-			return success(model, "安装文件已删除！", "/");
+			return success(model, "安装文件已删除！登录后台 /login.do 使用吧", "/login.do");
 		}else{
 			return error(model, "删除失败，可能文件已删除了");
 		}

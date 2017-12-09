@@ -18,7 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 </style>
 
-
+<div style="padding:30px; padding-bottom:10px; text-align:center; font-size:20px;">
+	第二步：设置系统相关参数
+</div>
 <form class="layui-form" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
 	<div class="layui-form-item">
 		<label class="layui-form-label">泛解析域名</label>
@@ -49,11 +51,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 </form>
 
-<style>
-.two{background-color: #5FB878;}
-</style>
-<jsp:include page="common.jsp"></jsp:include>
-
 <script>
 layui.use(['form', 'layedit', 'laydate'], function(){
   var form = layui.form;
@@ -79,6 +76,12 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   });
   
 });  
+
 </script>
+
+<style>
+.two{background-color: #5FB878;}
+</style>
+<jsp:include page="common.jsp"></jsp:include>
 
 <jsp:include page="../../iw/common/foot.jsp"></jsp:include> 
