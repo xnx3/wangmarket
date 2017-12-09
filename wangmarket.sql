@@ -40,6 +40,15 @@ CREATE TABLE `agency` (
   KEY `userid` (`userid`,`parent_id`,`expiretime`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
+
+-- ----------------------------
+--  Records of `agency`
+-- ----------------------------
+BEGIN;
+INSERT INTO `agency` VALUES ('51', '管雷鸣', '17000000001', '392', '1024', '120', '山东潍坊', '921153866', '0', '0', '51', '1512818402', '1544440802', '1');
+COMMIT;
+
+
 -- ----------------------------
 --  Table structure for `area`
 -- ----------------------------
@@ -672,7 +681,7 @@ CREATE TABLE `user` (
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('243', 'ceshicms', '', '79215458e973d2f8f39998838d148df9', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1512653871', '218.56.88.231', '7466', '', '0', '50', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, '20171207', '3239', '1000', '253');
+INSERT INTO `user` VALUES ('243', 'ceshicms', '', '79215458e973d2f8f39998838d148df9', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1512653871', '218.56.88.231', '7466', '', '0', '50', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, '20171207', '3239', '1000', '253'), ('392', 'ceshidaili', '', '6ba60ca24c2eb2f9766053afd2384eca', 'default.png', 'ceshidaili', '10', '1512818402', '1512818402', '127.0.0.1', '9940', '17000000001', '0', '326', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '0');
 COMMIT;
 
 -- ----------------------------
@@ -691,7 +700,7 @@ CREATE TABLE `user_role` (
 --  Records of `user_role`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_role` VALUES ('257', '243', '1');
+INSERT INTO `user_role` VALUES ('257', '243', '1'), ('412', '392', '10');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

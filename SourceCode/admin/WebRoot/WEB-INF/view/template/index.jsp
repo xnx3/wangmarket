@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 String path = request.getContextPath();
@@ -24,6 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="http://res.weiunity.com/js/iw.js"></script>	
 <script>
 var masterSiteUrl = '<%=basePath %>';
+var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 </script>
 <style>
 #editPanel{
@@ -696,7 +698,7 @@ var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的
 var sign = '${siteUrl},${site.name}';	//当前用户签名
 var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 </script>
-<script src="<%=basePath %>js/im/site.js"></script>
+<script src="http://res.weiunity.com/js/im/site.js"></script>
 <!-- IM end -->
 
 

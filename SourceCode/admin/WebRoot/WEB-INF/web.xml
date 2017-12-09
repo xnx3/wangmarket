@@ -24,6 +24,11 @@
     <filter-name>shiroFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>

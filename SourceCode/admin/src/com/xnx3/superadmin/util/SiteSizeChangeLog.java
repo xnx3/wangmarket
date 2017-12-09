@@ -60,6 +60,9 @@ public class SiteSizeChangeLog {
 	 * @param topic 主题，分类。减去站币，消费，传入"xiaofei"， 增加站币，充值，传入"chongzhi"
 	 */
 	private static void addChangeLog(int userid, String username, String agencyName, String remark, int agencySiteSizeChange, int changeBefore, int changeAfter, int goalid, String ip, String topic){
+		if(aliyunLogUtil == null){
+			return;
+		}
 		StackTraceElement st = Thread.currentThread().getStackTrace()[3];
 		
 		LogItem logItem = aliyunLogUtil.newLogItem();
@@ -91,6 +94,9 @@ public class SiteSizeChangeLog {
 	 * @see #addChangeLog(int, String, String, String, int, int, int, int, String, String)
 	 */
 	public static void xiaofei(String agencyName, String remark, int agencySiteSizeChange, int changeBefore, int changeAfter, int goalid, String ip){
+		if(aliyunLogUtil == null){
+			return;
+		}
 		//当前登录用户信息
 		User user = ShiroFunc.getUser();
 		int userid = 0;
@@ -114,6 +120,9 @@ public class SiteSizeChangeLog {
 	 * @param ip
 	 */
 	public static void chongzhi(int userid, String username, String agencyName, String remark, int agencySiteSizeChange, int changeBefore, int changeAgter, int goalid, String ip){
+		if(aliyunLogUtil == null){
+			return;
+		}
 		addChangeLog(userid, username, agencyName, remark, agencySiteSizeChange, changeBefore, changeAgter, goalid, ip, "chongzhi");
 	}
 }

@@ -16,14 +16,14 @@
 <br/>
 
 ## 在线快速体验
-##### CMS模式网站管理后台（另外还有[手机模式、电脑模式](http://www.wang.market/index.html#about)）
+##### CMS模式网站管理后台（另外还有[傻瓜化手机模式、电脑模式](http://www.wang.market/index.html#about)）
 登录网址：[wang.market](http://wang.market)<br/>
 登录帐号：ceshicms<br/>
 登录密码：ceshicms<br/>
 ##### 代理后台，可自由开通、管理网站
 登录网址：[wang.market](http://wang.market)<br/>
-登录帐号：tiyan<br/>
-登录密码：tiyan<br/>
+登录帐号：ceshidaili<br/>
+登录密码：ceshidaili<br/>
 <br/>
 
 ## 运行环境<br/>

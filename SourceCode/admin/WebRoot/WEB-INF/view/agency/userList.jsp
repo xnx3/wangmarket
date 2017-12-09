@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<c:forEach items="${list}" var="obj">
 			<tr>
 				<td style="width:55px;"><a href="">${obj['id'] }</a></td>
-				<td onclick="window.open('http://${obj['domain']}.wang.market');" style="cursor: pointer; width:55px;">
+				<td onclick="window.open('http://${obj['domain']}.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>');" style="cursor: pointer; width:55px;">
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
 				<td style="width:100px;">${obj['userusername'] }</td>
@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <td onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
 				    </c:when>
 				    <c:otherwise>
-				        <td onclick="window.open('http://${obj['domain'] }.<%=G.AUTO_ASSIGN_DOMAIN %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=G.AUTO_ASSIGN_DOMAIN %></td>
+				        <td onclick="window.open('http://${obj['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %></td>
 				    </c:otherwise>
 				</c:choose>
 				<td style="width:100px;"><x:time linuxTime="${obj['lasttime'] }" format="yy-MM-dd hh:mm"></x:time></td>

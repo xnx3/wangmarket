@@ -69,7 +69,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		<shiro:hasPermission name="adminSite">
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('<%=basePath %>admin/site/list.do');">
-					<i class="layui-icon firstMenuIcon">&#xe632;</i>
+					<i class="layui-icon firstMenuIcon">&#xe857;</i>
 					<span class="firstMenuFont">网站管理</span>
 				</a>
 			</li>
@@ -178,7 +178,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		<shiro:hasPermission name="agencyIndex">
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('<%=basePath %>agency/userList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe64c;</i>
+					<i class="layui-icon firstMenuIcon">&#xe857;</i>
 					<span class="firstMenuFont">网站管理</span>
 				</a>
 			</li>
@@ -220,6 +220,12 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</dl>
 		</li>
 		
+		<li class="layui-nav-item">
+			<a href="javascript:updatePassword();" id="xiugaimima">
+				<i class="layui-icon firstMenuIcon">&#xe642;</i>
+				<span class="firstMenuFont">更改密码</span>
+			</a>
+		</li>
 		<li class="layui-nav-item">
 			<a href="<%=basePath %>user/logout.do">
 				<i class="layui-icon firstMenuIcon">&#xe633;</i>
@@ -266,7 +272,7 @@ var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的
 var sign = '';	//当前用户签名
 var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 </script>
-<script src="<%=basePath %>js/im/admin.js"></script>
+<script src="http://res.weiunity.com/js/im/admin.js"></script>
 <!-- IM end -->
 
 </body>
