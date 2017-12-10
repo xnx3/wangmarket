@@ -78,9 +78,14 @@
         <!-- 删除失效的session -->
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionDAO" ref="sessionDAO" />
+        <property name="sessionIdCookie" ref="sessionIdCookie" />
     </bean>
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO" >
 	</bean>
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
+        <property name="name" value="iwSID" />  
+        <property name="path" value="/" />  
+	</bean>  
 
 	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
