@@ -495,7 +495,7 @@ public class AgencyUserController extends BaseController {
 	public String userList(HttpServletRequest request, Model model){
 		Sql sql = new Sql(request);
 		sql.setSearchTable("user");
-		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+Global.getInt("AGENCY_ROLE"));
+		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+Global.getInt("ALLOW_USER_REG"));
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
@@ -504,7 +504,6 @@ public class AgencyUserController extends BaseController {
 		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		sql.setDefaultOrderBy("site.expiretime ASC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
-		
 		AliyunLog.addActionLog(0, "代理商后台，查看属于我的站点列表");
 		
 		model.addAttribute("list", list);

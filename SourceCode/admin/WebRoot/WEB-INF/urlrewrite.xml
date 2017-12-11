@@ -20,7 +20,7 @@
         <note>
             访问跟目录，也就是域名直接访问
         </note>
-        <from>^/</from>
+        <from>^/$</from>
         <to type="forward">/dns.do?htmlFile=index.html</to>
     </rule>
     <rule>
@@ -29,5 +29,15 @@
         </note>
         <from>sitemap.xml</from>
         <to type="forward">/sitemap.do</to>
+    </rule>
+    
+    <rule>
+        <from>^/sitePc/(\w+).html$</from>  
+        <to>/site/html.do?htmlFile=$1</to> 
+    </rule>
+    
+    <rule>
+        <from>^/news/(\w+).html$</from>  
+        <to>/site/html.do?htmlFile=$1</to> 
     </rule>
 </urlrewrite>

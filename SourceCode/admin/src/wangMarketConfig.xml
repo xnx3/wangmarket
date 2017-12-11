@@ -24,9 +24,9 @@
 		<!-- 短信签名 -->
 		<signName>网市场</signName>
 		<!-- 登陆的短信模版 -->
-		<login_templateCode></login_templateCode>
+		<login_templateCode>SMS_44315702</login_templateCode>
 		<!-- 向代理商帐户转移站币，通知接收站币的乙方 -->
-		<agency_siteSizeRecharge_templateCode></agency_siteSizeRecharge_templateCode>
+		<agency_siteSizeRecharge_templateCode>SMS_70095340</agency_siteSizeRecharge_templateCode>
 		<!-- 网站使用期限延期(续费)后提醒对方 
 			<siteYanQi_templateCode>SMS_71035143</siteYanQi_templateCode>
 		-->

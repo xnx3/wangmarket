@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <td onclick="window.open('http://${site['bindDomain'] }'); " style="cursor: pointer; width: 180px;">${site['bindDomain'] }</td>
 				    </c:when>
 				    <c:otherwise>
-				        <td onclick="window.open('http://${site['domain'] }.<%=G.AUTO_ASSIGN_DOMAIN %>'); " style="cursor: pointer; width: 180px;">${site['domain'] }.<%=G.AUTO_ASSIGN_DOMAIN %></td>
+				        <td onclick="window.open('http://${site['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>'); " style="cursor: pointer; width: 180px;">${site['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %></td>
 				    </c:otherwise>
 				</c:choose>
 				
