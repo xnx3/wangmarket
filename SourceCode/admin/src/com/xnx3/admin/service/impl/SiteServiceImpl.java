@@ -1156,7 +1156,16 @@ public class SiteServiceImpl implements SiteService {
 		SimpleSite ss = new SimpleSite(site);
 		JSONObject json = JSONObject.fromObject(ss);
 		
-		com.xnx3.domain.G.domainMNSUtil.putMessage(com.xnx3.domain.G.mnsDomain_queueName, json.toString());
+		//先更新当前应用内存中的
+		com.xnx3.domain.G.putDomain(ss.getDomain(), ss);
+		if(ss.getBindDomain() != null && ss.getBindDomain().length() > 1){
+			com.xnx3.domain.G.putBindDomain(ss.getBindDomain(), ss);
+		}
+		
+		//若用户使用了分布式，那么就要用MNS同步域名改动
+		if(com.xnx3.domain.G.domainMNSUtil != null){
+			com.xnx3.domain.G.domainMNSUtil.putMessage(com.xnx3.domain.G.mnsDomain_queueName, json.toString());
+		}
 	}
 	
 }

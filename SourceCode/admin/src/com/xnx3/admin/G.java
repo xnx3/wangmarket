@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
+
 import com.xnx3.ConfigManagerUtil;
+import com.xnx3.j2ee.Global;
+import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.admin.entity.Site;
 import com.xnx3.admin.vo.CloudTemplateListVO;
@@ -71,16 +75,40 @@ public class G {
 	public static String websocketUrl = "";
 	
 	static{
-		VERSION = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("version");
+		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("wangMarketConfig.xml");
+		
+		VERSION = c.getValue("version");
 		logger.info("version:"+VERSION);
-		masterSiteUrl = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("masterSiteUrl");
+		masterSiteUrl = c.getValue("masterSiteUrl");
 		logger.info("masterSiteUrl:"+masterSiteUrl);
 		
-		aliyunSMSUtil = new AliyunSMSUtil(ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.regionId"), ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.accessKeyId"), ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.accessKeySecret"));
-		AliyunSMS_SignName = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.signName");
-		AliyunSMS_Login_TemplateCode = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.login_templateCode");
-		AliyunSMS_agencySiteSizeRecharge_TemplateCode = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
-		AliyunSMS_siteYanQi_templateCode = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("AliyunSMSUtil.siteYanQi_templateCode");
+		
+		//加载日志服务
+		String smsLog = c.getValue("AliyunSMSUtil.use");
+		if(smsLog != null && smsLog.equals("true")){
+			String sms_accessKeyId = c.getValue("AliyunSMSUtil.accessKeyId");
+			String sms_accessKeySecret = c.getValue("AliyunSMSUtil.accessKeySecret");
+			if(sms_accessKeyId == null || sms_accessKeyId.length() == 0){
+				//取数据库的
+				sms_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+			}
+			if(sms_accessKeySecret == null || sms_accessKeySecret.length() == 0){
+				//取数据库的
+				sms_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+			}
+			if(sms_accessKeyId.length() < 10){
+				System.out.println("未开启Aliyun短信发送服务");
+			}
+			
+			aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
+			AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
+			AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
+			AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
+			AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
+		}else{
+			System.out.println("未开启Aliyun短信发送服务");
+		}
+		
 		
 		//域名服务器，解析域名
 //		wangMarketDomainServerList = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getList("domainServer.domain");
@@ -101,7 +129,7 @@ public class G {
 		cloudTemplateListVO.setList(list);
 		cloudTemplateListVO.setMapNameInfo(mapNameInfo);
 		
-		websocketUrl = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getValue("websocketUrl");
+		websocketUrl = c.getValue("websocketUrl");
 	}
 	
 	/**

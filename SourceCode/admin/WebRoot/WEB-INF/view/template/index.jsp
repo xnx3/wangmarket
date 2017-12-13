@@ -689,6 +689,31 @@ versionUpdateRemind('<%=G.VERSION %>');
 
 ${siteRemainHintJavaScript }
 
+
+<script type="text/javascript">
+//网站开通24小时内，登录会弹出网站快速开通的视频说明
+function shipinjiaocheng(){
+	try {
+		var currentTime = Date.parse( new Date() ).toString();
+		currentTime = currentTime.substr(0,10);
+		if(currentTime - ${user.regtime } < 86400){
+			var shipinjiaocheng_tip = layer.open({
+			  title: '10分钟快速入门使用视频教程',offset: 'b'
+			  ,content: '检测到您刚开通网站第一天，特送上教程一份！<br>您以后可在左侧菜单中，找到“帮助说明”下的"基本使用"，可以随时查看',
+			btn: ['观看视频教程'],
+			yes: function(index, layero){
+				window.open('http://www.wscso.com/site_basicUse.html');
+			    layer.close(shipinjiaocheng_tip); //如果设定了yes回调，需进行手工关闭
+			  }
+			});    
+			
+		}
+	} catch(error) {}
+}
+setTimeout("shipinjiaocheng()",2000);
+</script>
+
+
 <!-- IM start -->
 <script src="http://res.weiunity.com/layui217/layui.js"></script>
 <script>

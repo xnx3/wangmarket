@@ -2,8 +2,10 @@ package com.xnx3.j2ee.controller.admin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -139,6 +141,8 @@ public class UserAdminController_ extends BaseController {
 	public String onlineUserlist(HttpServletRequest request,Model model){
 		Collection<Session> sessions = sessionDAO.getActiveSessions();
 		List<User> userList = new ArrayList<User>();
+		//key:user.id，  value:lasttime，即用户最后上线的时间。
+		Map<Integer, Integer> userMap = new HashMap<Integer, Integer>();
 		Iterator<Session> it = sessions.iterator();
 		while(it.hasNext()){
 			Session session = (Session) it.next();
@@ -146,7 +150,11 @@ public class UserAdminController_ extends BaseController {
 			if(s != null){
 				ActiveUser activityUser = (ActiveUser) s.getPrimaryPrincipal();
 				if(activityUser != null){
-					userList.add(activityUser.getUser());
+					User user = activityUser.getUser();
+					if(userMap.get(user.getId()) == null || user.getLasttime() - userMap.get(user.getId()) > 0){
+						userList.add(user);
+						userMap.put(user.getId(), user.getLasttime());
+					}
 				}
 			}
 		}

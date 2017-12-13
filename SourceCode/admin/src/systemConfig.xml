@@ -31,10 +31,10 @@
 		<!-- 短信同一手机号，某个功能每天发送的条数限制，超过这个条数，这个功能便无法再次发送短信了。 -->
 		<!-- 如登录功能，这个功能今天18453663367这个手机号发送了5次短信，再次发送时，便会失败，今天不能再发送了 -->
 		<!-- 0为不限制 -->
-		<everyDayPhoneNum>10</everyDayPhoneNum>
+		<everyDayPhoneNum>5</everyDayPhoneNum>
 		<!-- 同上，只不过这个是针对ip。介于一个wifi有很多终端，都是同一个ip，这个数值可能比较大 -->
 		<!-- 0为不限制 -->
-		<everyDayIpNum>11</everyDayIpNum>
+		<everyDayIpNum>20</everyDayIpNum>
 		<!-- 验证码发出去后，使用的有效期，多长时间之内使用有效。单位：秒，0为不限制时间，只要验证码未用过就可以使用 -->
 		<codeValidity>600</codeValidity>
 	</sms>
