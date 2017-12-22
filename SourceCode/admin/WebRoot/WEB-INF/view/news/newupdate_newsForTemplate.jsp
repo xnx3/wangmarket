@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	
-	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;border-right-style: dotted;box-sizing: border-box; padding-right: 10px;">
+	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px;">
 		<form action="saveNews.do" enctype="multipart/form-data" class="weui_cells weui_cells_form" method="post" onsubmit="return validate();">
 		<input type="hidden" name="id" value="${news.id }" />
 		<input type="hidden" name="cid" value="${news.cid }" />

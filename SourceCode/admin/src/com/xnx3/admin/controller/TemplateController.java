@@ -992,11 +992,11 @@ public class TemplateController extends BaseController {
 					scCompare.getUpdateListInfo().add("editMode");
 				}
 				
-				if(sc.getType() - scOld.getType() != 0){
+				if(scOld.getType() == null || sc.getType() - scOld.getType() != 0){
 					scCompare.setResult(1);
 					scCompare.getUpdateListInfo().add("type");
 				}
-				if(sc.getUsed() - scOld.getUsed() != 0){
+				if(scOld.getUsed() == null || sc.getUsed() - scOld.getUsed() != 0){
 					scCompare.setResult(1);
 					scCompare.getUpdateListInfo().add("used");
 				}

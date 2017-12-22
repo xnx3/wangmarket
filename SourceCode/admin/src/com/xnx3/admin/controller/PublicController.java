@@ -22,10 +22,6 @@ public class PublicController extends BaseController{
 	private NewsService newsService;
 	@Resource
 	private SiteService siteService;
-	@Resource
-	private SiteColumnService siteColumnService;
-	@Resource
-	private TemplateService templateService;
 	
 	/**
 	 * 云端模版，模版列表，返回JSON，将现有的云端模版返回

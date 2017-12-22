@@ -184,7 +184,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 		</ul>
 	</div>
 	
-	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;border-right-style: dotted;box-sizing: border-box; text-align:center;">
+	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; text-align:center; border-right-style: dotted;">
 		
 		<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;box-sizing: border-box;"></iframe>
 		<div style="float:right;">提示：按住栏目拖动可调整其排序</div>

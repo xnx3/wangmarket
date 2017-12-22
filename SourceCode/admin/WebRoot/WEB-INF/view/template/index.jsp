@@ -196,7 +196,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 		</ul>
 	</div>
 	
-	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;border-right-style: dotted;box-sizing: border-box;">
+	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
 		<div id="topNav" style="background-color: #2b2e37; color:#009688; height: 38px;line-height: 38px;padding-left: 12px; margin-left:-1px;">
 			<div style="padding-left: 50px;">
@@ -711,6 +711,29 @@ function shipinjiaocheng(){
 	} catch(error) {}
 }
 setTimeout("shipinjiaocheng()",2000);
+
+//右侧弹出提示
+function rightTip(){
+	layer.open({
+	  title: '演示站点提示文字',offset: 'rb', shadeClose:true, shade:0
+	  ,area: ['500px', 'auto']
+	  ,btn: ['我知道了'] //可以无限个按钮
+	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
+	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
+	   			'<div style="text-align:center;"><img src="http://res.weiunity.com/image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
+	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
+	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
+	   			'我的微信：xnx3com &nbsp;&nbsp;&nbsp;QQ：921153866 <br/>'+
+	   			'本程序已在GitHub开源：<a href="https://github.com/xnx3/wangmarket" target="_black" style="text-decoration: underline;color: blue;">github.com/xnx3/wangmarket</a><br/>'+
+	   			'<div style="padding-top:35px;color: lightcoral; padding-left: 35px;">以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。<br/>网·市场，让每个人都有自己的网站，让价格不再是阻碍的门槛！</div>'
+	  
+	});
+}
+//只有用户名带有ceshi的才会弹出合作联系的提示
+if('${user.username}'.indexOf('ceshi') > -1){
+	setTimeout("rightTip()",2000);
+}
 </script>
 
 

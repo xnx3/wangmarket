@@ -234,15 +234,15 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</li>
 		
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px; text-align:center;">
-			<a href="http://github.com/xnx3/iw" target="_black">
-				<span class="firstMenuFont">power by iw</span>
+			<a href="http://github.com/xnx3/wangmarket" target="_black">
+				<span class="firstMenuFont">power by wangmarket</span>
 			</a>
 		</li>
 	</ul>
 </div>
 
 
-<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;border-right-style: dotted;box-sizing: border-box;">
+<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 	<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;box-sizing: border-box;"></iframe>
 </div>
 
@@ -261,6 +261,30 @@ function loadUrl(url){
 
 //加载登录后的默认页面
 loadUrl('<%=basePath %>${indexUrl}');
+
+
+//右侧弹出提示
+function rightTip(){
+	layer.open({
+	  title: '演示站点提示文字',offset: 'rb', shadeClose:true, shade:0
+	  ,area: ['500px', 'auto']
+	  ,btn: ['我知道了'] //可以无限个按钮
+	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
+	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
+	   			'<div style="text-align:center;"><img src="http://res.weiunity.com/image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
+	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
+	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
+	   			'我的微信：xnx3com &nbsp;&nbsp;&nbsp;QQ：921153866 <br/>'+
+	   			'本程序已在GitHub开源：<a href="https://github.com/xnx3/wangmarket" target="_black" style="text-decoration: underline;color: blue;">github.com/xnx3/wangmarket</a><br/>'+
+	   			'<div style="padding-top:35px;color: lightcoral; padding-left: 35px;">以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。<br/>网·市场，让每个人都有自己的网站，让价格不再是阻碍的门槛！</div>'
+	  
+	});
+}
+//只有用户名带有ceshi的才会弹出合作联系的提示
+if('${user.username}'.indexOf('ceshi') > -1){
+	setTimeout("rightTip()",2000);
+}
 </script>
 
 <!-- IM start -->

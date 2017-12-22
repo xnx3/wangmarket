@@ -17,6 +17,8 @@
 
 	<!-- 阿里云短信发送 -->
 	<AliyunSMSUtil>
+		<!-- 是否使用此功能。若使用则此为true，若不使用，则下面参数不用管，use为false即可 -->
+		<use>true</use>
 		<regionId>cn-hongkong</regionId>
 		<accessKeyId></accessKeyId>
 		<accessKeySecret></accessKeySecret>

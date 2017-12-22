@@ -4,22 +4,29 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.im.service.ImService;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.OSS;
+import com.xnx3.j2ee.service.SmsLogService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -66,28 +73,29 @@ public class SiteController extends BaseController {
 	@Resource
 	private ImService imService;
 	
-
-	/**
-	 * 用户自助创建网站，免费创建网站页面，可以选择创建手机的，还是电脑的网站
-	 */
-	@RequestMapping("createSite")
-	public String createSite(Model model,HttpServletRequest request){
-		//判断一下当前用户是否已经有了站点了
-		Site site = getSite();
-		if(site != null && site.getId() > 0){
-			return error(model, "您已经创建过网站了，无法再创建！");
-		}
-		
-		site = new Site();
-		site.setId(0);
-		site.setTemplateId(1);
-		site.setmShowBanner(Site.MSHOWBANNER_SHOW);
-		
-		AliyunLog.addActionLog(0, "进入自助创建网站页面");
-		
-		return "site/createSite";
-	}
 	
+//
+//	/**
+//	 * 用户自助创建网站，免费创建网站页面，可以选择创建手机的，还是电脑的网站
+//	 */
+//	@RequestMapping("createSite")
+//	public String createSite(Model model,HttpServletRequest request){
+//		//判断一下当前用户是否已经有了站点了
+//		Site site = getSite();
+//		if(site != null && site.getId() > 0){
+//			return error(model, "您已经创建过网站了，无法再创建！");
+//		}
+//		
+//		site = new Site();
+//		site.setId(0);
+//		site.setTemplateId(1);
+//		site.setmShowBanner(Site.MSHOWBANNER_SHOW);
+//		
+//		AliyunLog.addActionLog(0, "进入自助创建网站页面");
+//		
+//		return "site/createSite";
+//	}
+//	
 	/**
 	 * 网站修改设置信息后保存，修改的信息如联系人、手机号、QQ、办公地址、公司名
 	 * 废弃，应该没有用到了。下个版本考虑删除
@@ -122,20 +130,6 @@ public class SiteController extends BaseController {
 		}
 	}
 	
-	
-	/**
-	 * 用户创建网站进行保存
-	 * @param s {@link Site}用户创建网站填写的信息
-	 * @param request
-	 * @return {@link SiteVO}
-	 */
-	@RequestMapping("userCreateSite")
-	@ResponseBody
-	public SiteVO userCreateSite(Site s, HttpServletRequest request){
-		AliyunLog.addActionLog(getSiteId(), "自助创建网站提交");
-		s.setExpiretime(DateUtil.timeForUnix10() + 31622400);	//到期，一年后，366天后
-		return siteService.saveSite(s, getUserId(), request);
-	}
 	
 	/**
 	 * 修改首页顶图的Banner图片是否显示
@@ -810,5 +804,6 @@ public class SiteController extends BaseController {
 		}
 		return userService.updatePassword(getUserId(), newPassword);
 	}
+	
 	
 }

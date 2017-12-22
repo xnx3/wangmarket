@@ -206,5 +206,7 @@ public class LoginController_ extends com.xnx3.admin.controller.BaseController {
 			ShiroFunc.setUEditorAllowUpload(getUser().getOssSize()<ShiroFunc.getUser().getOssSizeHave()*1000);
 		}
 	}
-
+	
+	
+	
 }
