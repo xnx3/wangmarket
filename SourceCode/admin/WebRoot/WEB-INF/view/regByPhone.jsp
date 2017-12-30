@@ -1,3 +1,5 @@
+<%@page import="com.xnx3.admin.G"%>
+<%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
@@ -6,14 +8,15 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="iw/common/head.jsp">
-	<jsp:param name="title" value="领取微网站"/>
+	<jsp:param name="title" value="免费开通网站"/>
 </jsp:include>
-
+<script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
+<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
 <style>
 .myForm{
 	margin: 0 auto;
     width: 495px;
-    height: 460px;
+    height: auto;
     border-width: 1px 1px 1px 1px;
     padding: 0px;
     border-radius: 20px;
@@ -23,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     box-shadow: 0 0 10px #e2e2e2;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 45%;
     margin-left: -248px;
     margin-top: -230px;
 }
@@ -59,20 +62,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     text-align: center;
     font-size: 25px;
     color: #3F4056;
+    white-space:nowrap;
     ">
-    网·市场 自助建站平台免费注册
+    网·市场 云建站平台 免费开通网站
   </div>
   <div style="padding: 30px 50px 40px 0px;">
   	<div class="layui-form-item">
+		<label class="layui-form-label">网站类型</label>
+		<div class="layui-input-block">
+			<script type="text/javascript">writeSelectAllOptionForclient_('','请选择', true);</script>
+		</div>
+		<div id="help_client" class="layui-form-mid layui-word-aux" style="cursor: pointer;float: right;margin-top: -38px;margin-right: -28px;"><i class="layui-icon" style="font-size:18px;">&#xe607;</i></div>
+	</div>
+  
+  	<div class="layui-form-item">
 	    <label class="layui-form-label">用户名</label>
 	    <div class="layui-input-block">
-	      <input type="text" name="username" required  lay-verify="required" placeholder="请输入要注册的用户名" autocomplete="off" class="layui-input">
+	      <input type="text" name="username" required  lay-verify="required" placeholder="登录使用。只限英文或数字" autocomplete="off" class="layui-input">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label"> 邮  箱&nbsp;&nbsp; </label>
 	    <div class="layui-input-block">
-	      <input type="text" name="email" required  lay-verify="required" placeholder="请输入邮箱，可用于登陆" autocomplete="off" class="layui-input">
+	      <input type="text" name="email" placeholder="可用于接收提醒" autocomplete="off" class="layui-input">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
@@ -104,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
 	  <div class="layui-form-item">
 	    <div class="layui-input-block">
-	      <button class="layui-btn" lay-submit lay-filter="formDemo">免费注册</button>
+	      <button class="layui-btn" lay-submit lay-filter="formDemo">免费开通</button>
 	      <a href="login.do" class="layui-btn layui-btn-primary">去登陆</a>
 	    </div>
 	  </div>
@@ -131,15 +143,15 @@ layui.use('form', function(){
   
   //监听提交
   form.on('submit(formDemo)', function(data){
-	$.showLoading('注册中...');
+	$.showLoading('开通中...');
     var d=$("form").serialize();
-	$.post("<%=basePath %>regSubmit.do", d, function (result) { 
+	$.post("<%=basePath %>userCreateSite.do", d, function (result) { 
 		$.hideLoading();
        	var obj = JSON.parse(result);
        	if(obj.result == '1'){
-       		$.alert("立即去免费创建一个网站吧", "注册会员成功！", function(){
-       			window.location.href='site/createSite.do';
-       		});  
+       		layer.alert('创建成功！', function(index){
+				window.location.href='login.do';
+			});
        	}else if(obj.result == '0'){
        		layer.msg(obj.info, {shade: 0.3})
        	}else{
@@ -168,6 +180,21 @@ function getPhoneCode(){
 		return;
 	}
 
+	iw.loading('发送中...');
+	$.getJSON("sendPhoneRegCodeByAliyun.do?&phone="+document.getElementById('phone').value,function(result){
+	   	iw.loadClose();
+	    if(result.result){
+	    	layer.closeAll();
+	    	iw.msgSuccess("验证码已发送至您的手机");
+	    }else{
+	    	iw.msgFailure(result.info+'');
+	    }
+	});
+	
+	if(true){
+		return;
+	}
+
 	var divCode=document.getElementById('divCode').innerHTML;
 	divCode = divCode.replace(/thisIdIsimgCode/, "imgCode");
 	divCode = divCode.replace(/thisIdIsimgCode/, "imgCode");
@@ -188,17 +215,50 @@ function getPhoneCode(){
         	$.getJSON("sendPhoneRegCodeByAliyun.do?code="+document.getElementById('imgCode').value+"&phone="+document.getElementById('phone').value,function(result){
 			    if(result.result){
 			    	layer.closeAll();
-			    	layer.msg("验证码已发送至您的手机<br/>预计1分钟内就可收到，请将收到的验证码填入");
+			    	layer.msg("验证码已发送至您的手机");
 			    }else{
-			    	layer.msg(result.info);
+			    	layer.alert(result.info, {icon: 2});
 			    	reloadCode();
 			    }
 			});
         }
       });
 }
+
+//鼠标跟随提示
+$(function(){
+	//网站类型
+	var help_client_text = '若看不懂，选择“CMS”即可'+
+					'<br/><b>1.&nbsp;电脑端</b>&nbsp;最适合做SEO优化，但网站模版稍显单一。不过此种类型的网站有几套模版可以在手机或电脑中都可使用，且支持随意切换模版。推荐做SEO的网站首选。'+
+					'<br/><b>2.&nbsp;手机端</b>&nbsp;专为手机设计的网站，仅有手机页面，但手机体验也是最好的。支持随意切换的手机模版。'+
+					'<br/><b>3.&nbsp;CMS</b>&nbsp;全能模式！且百分百可自定义！类似于现有的织梦CMS、帝国CMS，懂HTML可以进行定制开发自己的网站，也可以根据导入模版一键创建出成品网站，只需要修改一下栏目名字、文字及图片就可达到使用级别！但是一旦导入模版使用后，就不可以再导入其他模版。此种类型因自由度极高，被广大建站爱好者青睐，其可以根据自己的意愿作出任意形式的网站。建议稍微懂点建站的，都可以试试这种模式！';
+	var help_client_index = 0;
+	$("#help_client").hover(function(){
+		help_client_index = layer.tips(help_client_text, '#help_client', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(help_client_index);
+	})
+	
+});
+
+//右侧弹出提示
+function rightTip(){
+	layer.open({
+	  title: '临时弹窗之问题反馈',offset: 'rb', shadeClose:true, shade:0,
+	  btn: ['反馈问题'] //可以无限个按钮
+	  ,content: '您有什么不懂的，或者自助开通时，遇到什么问题导致您无法操作、不知如何进行，或者无法开通，任何问题都可反馈给我们。也或者直接关注我们微信公众号"wangmarket"进行在线沟通咨询。'
+	  ,yes: function(index, layero){
+		openWenTiFanKui();
+	  }
+	});
+}
+setTimeout("rightTip()",1000);
 </script>
 
 
-</body>
-</html>
+<jsp:include page="iw/common/foot.jsp"></jsp:include>

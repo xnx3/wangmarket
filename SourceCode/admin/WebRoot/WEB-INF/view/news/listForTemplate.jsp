@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 </style>
 
-<div style="width:100%;height:100%; background-color: #fff;">
+<div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
 	
 		
 	<div class="layui-nav layui-nav-tree layui-nav-side menu">
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	
-	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden;">
+	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
 		
 		<jsp:include page="../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 			<jsp:include page="../iw/common/list/formSearch_input.jsp">
