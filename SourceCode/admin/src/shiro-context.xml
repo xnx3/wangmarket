@@ -27,6 +27,7 @@
 				/*.xml = anon
 				/style/** = anon
 				/site/wenTiFanKui.do = anon
+				/template/templateExternalList.do = anon
 				/upload/** = anon
 				/ueditor/** = anon
 				/reg*.do = anon

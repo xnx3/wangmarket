@@ -39,6 +39,8 @@ public class TemplateVO extends BaseVO {
 	private String templateName;	//当前模版的名字
 	private String sourceUrl;	//模版来源的网站，从那个网站导出来的，可以作为预览网站
 	
+	//v3.6增加，根据模版中的useUtf8Encode=true来识别。3.6之后的全部采用编码机制
+	private boolean isUtf8Encode;	//当前是否使用utf8编码，将汉字转化为utf8字符，避免乱码
 	
 	public Site getCurrentSite() {
 		return currentSite;
@@ -116,25 +118,33 @@ public class TemplateVO extends BaseVO {
 		//将导入的模版转化为JSON对象
 		JSONObject jo = JSONObject.fromObject(text);
 		
+		//首先判断是否是使用UTF8将字符串进行编码了，一定在最前面，不然后面的提取字符串是要判断是否使用编码，要解码的
+		if(jo.get("useUtf8Encode") != null){
+			String utf8Encode = jo.getString("useUtf8Encode");
+			if(utf8Encode.equals("true")){
+				this.isUtf8Encode = true;
+			}
+		}
+		
 		//TemplatePage模版页
 		JSONArray templatePageArray = jo.getJSONArray("templatePageList");
 		templatePageList = new ArrayList<TemplatePage>();
 		for (int i = 0; i < templatePageArray.size(); i++) {
 			JSONObject j = templatePageArray.getJSONObject(i);
 			com.xnx3.admin.entity.TemplatePage ntp = new com.xnx3.admin.entity.TemplatePage();
-			ntp.setName(Safety.filter(j.getString("name")));
+			ntp.setName(getJsonStringAndSafetyFilter(j.getString("name")));
 			ntp.setSiteid(currentSite.getId());
-			ntp.setTemplateName(Safety.filter(jo.getString("templateName")));
+			ntp.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
 			ntp.setType((short) j.getInt("type"));
 			ntp.setUserid(currentSite.getUserid());
 			if(j.get("remark") != null){
 				//兼容之前没有remark导出的json数据
-				ntp.setRemark(Safety.filter(j.getString("remark")));
+				ntp.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
 			}
 			
 			TemplatePage tp = new TemplatePage();
 			tp.setTemplatePage(ntp);
-			tp.setText(j.getString("text"));
+			tp.setText(getJsonString(j.getString("text")));
 			
 			templatePageList.add(tp);
 		}
@@ -147,16 +157,16 @@ public class TemplateVO extends BaseVO {
 			JSONObject j = templateVarArray.getJSONObject(i);
 			com.xnx3.admin.entity.TemplateVar tv = new com.xnx3.admin.entity.TemplateVar();
 			tv.setAddtime(DateUtil.timeForUnix10());
-			tv.setRemark(Safety.filter(j.getString("remark")));
-			tv.setTemplateName(Safety.filter(jo.getString("templateName")));
+			tv.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
+			tv.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
 			tv.setUpdatetime(tv.getAddtime());
 			tv.setUserid(currentSite.getUserid());
-			tv.setVarName(Safety.filter(j.getString("var_name")));
+			tv.setVarName(getJsonStringAndSafetyFilter(j.getString("var_name")));
 			tv.setSiteid(currentSite.getId());
 			
 			TemplateVar t = new TemplateVar();
 			t.setTemplateVar(tv);
-			t.setText(j.getString("text"));
+			t.setText(getJsonString(j.getString("text")));
 			
 			templateVarList.add(t);
 		}
@@ -172,48 +182,52 @@ public class TemplateVO extends BaseVO {
 			for (int i = 0; i < inputModelArray.size(); i++) {
 				JSONObject j = inputModelArray.getJSONObject(i);
 				InputModel im = new InputModel();
-				im.setCodeName(Safety.filter(j.getString("codeName")));
-				im.setRemark(Safety.filter(j.getString("remark")));
+				im.setCodeName(getJsonStringAndSafetyFilter(j.getString("codeName")));
+				im.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
 				im.setSiteid(currentSite.getId());
-				im.setText(j.getString("text"));
+				im.setText(getJsonString(j.getString("text")));
 				inputModelList.add(im);
 			}
 		}
 		
 		//拿到模版网站下所有可用的栏目
-		JSONArray siteColumnArray = jo.getJSONArray("siteColumnList");
 		siteColumnList = new ArrayList<SiteColumn>();
-		for (int i = 0; i < siteColumnArray.size(); i++) {
-			JSONObject j = siteColumnArray.getJSONObject(i);	//要复制的目标栏目
-			Short type = (short) j.getInt("type");
-			
-			//创建栏目，将栏目复制一份，再当前网站创建栏目
-			SiteColumn nsc = new SiteColumn();
-			nsc.setName(Safety.filter(j.getString("name")));
-			nsc.setRank(j.getInt("rank"));
-			nsc.setUsed((short) j.getInt("used"));
-			nsc.setSiteid(currentSite.getId());
-			nsc.setUserid(currentSite.getUserid());
-			nsc.setType(type);
-			nsc.setTemplatePageListName(Safety.filter(j.getString("templatePageListName")));
-			nsc.setTemplatePageViewName(Safety.filter(j.getString("templatePageViewName")));
-			nsc.setCodeName(Safety.filter(j.getString("codeName")));
-			nsc.setParentCodeName(Safety.filter(j.getString("parentCodeName")));
-			nsc.setListNum(j.getInt("listNum"));
-			nsc.setEditMode((short) (j.get("editMode") == null ? 0:j.getInt("editMode")));
-			if(j.get("inputModelCodeName") != null){
-				//兼容之前没有输入模型导出的模板
-				nsc.setInputModelCodeName(Safety.filter(j.getString("inputModelCodeName")));
+		if(jo.get("siteColumnList") == null){
+			System.out.println("模版下没有可创建栏目，忽略");
+		}else{
+			JSONArray siteColumnArray = jo.getJSONArray("siteColumnList");
+			for (int i = 0; i < siteColumnArray.size(); i++) {
+				JSONObject j = siteColumnArray.getJSONObject(i);	//要复制的目标栏目
+				Short type = (short) j.getInt("type");
+				
+				//创建栏目，将栏目复制一份，再当前网站创建栏目
+				SiteColumn nsc = new SiteColumn();
+				nsc.setName(getJsonStringAndSafetyFilter(j.getString("name")));
+				nsc.setRank(j.getInt("rank"));
+				nsc.setUsed((short) j.getInt("used"));
+				nsc.setSiteid(currentSite.getId());
+				nsc.setUserid(currentSite.getUserid());
+				nsc.setType(type);
+				nsc.setTemplatePageListName(getJsonStringAndSafetyFilter(j.getString("templatePageListName")));
+				nsc.setTemplatePageViewName(getJsonStringAndSafetyFilter(j.getString("templatePageViewName")));
+				nsc.setCodeName(getJsonStringAndSafetyFilter(j.getString("codeName")));
+				nsc.setParentCodeName(getJsonStringAndSafetyFilter(j.getString("parentCodeName")));
+				nsc.setListNum(j.getInt("listNum"));
+				nsc.setEditMode((short) (j.get("editMode") == null ? 0:j.getInt("editMode")));
+				if(j.get("inputModelCodeName") != null){
+					//兼容之前没有输入模型导出的模板
+					nsc.setInputModelCodeName(getJsonStringAndSafetyFilter(j.getString("inputModelCodeName")));
+				}
+				
+				siteColumnList.add(nsc);
 			}
-			
-			siteColumnList.add(nsc);
 		}
 		
 		try {
-			templateName = Safety.filter(jo.getString("templateName"));
-			systemVersion = Safety.filter(jo.getString("systemVersion"));
+			templateName = getJsonStringAndSafetyFilter(jo.getString("templateName"));
+			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
 			time = jo.getInt("time");
-			sourceUrl = Safety.filter(jo.getString("sourceUrl"));
+			sourceUrl = getJsonStringAndSafetyFilter(jo.getString("sourceUrl"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(templateName == null){
@@ -228,5 +242,35 @@ public class TemplateVO extends BaseVO {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * 将json获取的字符串进行UTF8编码判断，拿到原始字符串。
+	 * @param text json中拿到的字符串
+	 * @return 将字符串判断是否编码，若编码了，将其解码后输出
+	 */
+	public String getJsonString(String text){
+		if(text == null){
+			return "";
+		}
+		if(this.isUtf8Encode){
+			//使用了UTF8编码，那么进行解码
+			text = StringUtil.utf8ToString(text);
+		}
+		
+		return text;
+	}
+	
+	/**
+	 * 将json取得的字符串进行UTF8编码的判断及解码、并进行安全校验
+	 * @param text json取得的字符串
+	 * @return
+	 */
+	public String getJsonStringAndSafetyFilter(String text){
+		if(text == null){
+			return "";
+		}
+		
+		return Safety.filter(getJsonString(text));
 	}
 }

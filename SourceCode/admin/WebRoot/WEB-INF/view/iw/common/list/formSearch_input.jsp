@@ -28,13 +28,18 @@ if(typeObj != null){
 String iw_name_value = request.getParameter(iw_name);
 //对其进行防XSS过滤
 iw_name_value = StringUtil.filterXss(iw_name_value);
+
+String iw_input_width = request.getParameter("iw_input_width");
+if(iw_input_width == null || iw_input_width.length() == 0){
+	iw_input_width = "100px";
+}
 %>
 <label class="layui-form-label"><%=iw_label %></label>
 <div class="layui-input-inline" style="width: 100px; float:left;">
 <%
 if(iw_type.equals("text")){
 %>
-	<input style="width:100px;" type="text" name="<%=iw_name %>" placeholder="" value='<%=iw_name_value==null? "":iw_name_value  %>' autocomplete="off" class="layui-input">
+	<input style="<%=iw_input_width %>" type="text" name="<%=iw_name %>" placeholder="" value='<%=iw_name_value==null? "":iw_name_value  %>' autocomplete="off" class="layui-input">
 <%
 }else if(iw_type.equals("select")){
 %>

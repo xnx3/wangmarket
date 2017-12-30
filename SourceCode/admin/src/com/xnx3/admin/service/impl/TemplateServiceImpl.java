@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
+
 import com.xnx3.DateUtil;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.util.Sql;
@@ -600,10 +605,10 @@ public class TemplateServiceImpl implements TemplateService {
 			TemplatePage tp = tpv.getTemplatePage();
 			
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("name", tp.getName());
-			map.put("remark", tp.getRemark());
+			map.put("name", StringUtil.StringToUtf8(tp.getName()));
+			map.put("remark", StringUtil.StringToUtf8(tp.getRemark()));
 			map.put("type", tp.getType());
-			map.put("text", tpv.getTemplatePageData().getText());
+			map.put("text", StringUtil.StringToUtf8(tpv.getTemplatePageData().getText()));
 			templatePageList.add(map);
 		}
 		
@@ -616,24 +621,46 @@ public class TemplateServiceImpl implements TemplateService {
 			com.xnx3.admin.entity.TemplateVar tv = tvv.getTemplateVar();
 			
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("remark", tv.getRemark());
-			map.put("var_name", tv.getVarName());
-			map.put("text", tvv.getTemplateVarData().getText());
+			map.put("remark", StringUtil.StringToUtf8(tv.getRemark()));
+			map.put("var_name", StringUtil.StringToUtf8(tv.getVarName()));
+			map.put("text", StringUtil.StringToUtf8(tvv.getTemplateVarData().getText()));
 			templateVarList.add(map);
 		}
 		
 		
-		//获得栏目
-		List<SiteColumn> siteColumnList = siteColumnService.getSiteColumnListByCache();
+		//获得栏目，原始的
+		List<SiteColumn> siteColumnList_Original = siteColumnService.getSiteColumnListByCache();
+		//经过编码、无用字段过滤的
+		List<SiteColumn> siteColumnList = new ArrayList<SiteColumn>();
+		//将栏目进行UTF8编码操作
+		for (int i = 0; i < siteColumnList_Original.size(); i++) {
+			SiteColumn sc = siteColumnList_Original.get(i);
+			sc.setName(StringUtil.StringToUtf8(sc.getName()));
+			sc.setTemplatePageListName(StringUtil.StringToUtf8(sc.getTemplatePageListName()));
+			sc.setTemplatePageViewName(StringUtil.StringToUtf8(sc.getTemplatePageViewName()));
+			sc.setCodeName(StringUtil.StringToUtf8(sc.getCodeName()));
+			sc.setParentCodeName(StringUtil.StringToUtf8(sc.getParentCodeName()));
+			sc.setInputModelCodeName(StringUtil.StringToUtf8(sc.getInputModelCodeName()));
+			siteColumnList.add(sc);
+		}
 		
-		//获得自定义输入模型
-		List<InputModel> inputModelList = inputModelService.getInputModelListForSession();
+		//获得自定义输入模型，原始的，网站中使用的
+		List<InputModel> inputModelList_Original = inputModelService.getInputModelListForSession();
+		//自定义输入模型，经过UTF8编码替换过的，保存到模版的
+		List<InputModel> inputModelList = new ArrayList<InputModel>();
+		for (int i = 0; i < inputModelList_Original.size(); i++) {
+			InputModel im = inputModelList_Original.get(i);
+			im.setCodeName(im.getCodeName());
+			im.setRemark(im.getRemark());
+			im.setText(im.getText());
+			inputModelList.add(im);
+		}
 		
 		JSONObject jo = new JSONObject();
 		jo.put("systemVersion", G.VERSION);	// 当前系统版本号
 		jo.put("time", DateUtil.timeForUnix10());	//导出的时间，10为时间戳
-		jo.put("templateName", site.getTemplateName());	//当前模版的名字
-		jo.put("sourceUrl", Func.getDomain(site)); 	//模版来源的网站，从那个网站导出来的，可以作为预览网站
+		jo.put("templateName", StringUtil.StringToUtf8(site.getTemplateName()));	//当前模版的名字
+		jo.put("sourceUrl", StringUtil.StringToUtf8(Func.getDomain(site))); 	//模版来源的网站，从那个网站导出来的，可以作为预览网站
 		
 		jo.put("templatePageList", templatePageList);
 		jo.put("templateVarList", templateVarList);
