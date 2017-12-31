@@ -110,7 +110,6 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 		Func.getUserBeanForShiroSession().setSiteColumnMap(siteColumnMap);
 	}
 
-	@Override
 	public List<SiteColumn> getSiteColumnListByCache() {
 		Map<Integer, SiteColumn> map = getSiteColumnMapByCache();
 		List<SiteColumn> list = new ArrayList<SiteColumn>();

@@ -25,7 +25,6 @@ public class TransactionalServiceImpl implements TransactionalService {
 	@Resource
 	private SqlDAO sqlDAO;
 
-	@Override
 	public BaseVO transferSiteSizeToSubAgency(HttpServletRequest request, int targetAgencyId, int transferSiteSize) {
 		BaseVO vo = new BaseVO();
 		if(transferSiteSize < 1){
@@ -103,7 +102,6 @@ public class TransactionalServiceImpl implements TransactionalService {
 		return vo;
 	}
 
-	@Override
 	public BaseVO siteXuFei(HttpServletRequest request, int siteid, int year) {
 		BaseVO vo = new BaseVO();
 		

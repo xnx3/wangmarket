@@ -20,7 +20,6 @@ public class InitLoadDomainByDB {
 	public InitLoadDomainByDB() {
 		new Thread(new Runnable() {
 			
-			@Override
 			public void run() {
 				boolean b = true;
 				while(b){

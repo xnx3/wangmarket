@@ -121,7 +121,6 @@ public class InputModelServiceImpl implements InputModelService {
 		return vo;
 	}
 
-	@Override
 	public String getInputModelTextByIdForNews(NewsInit newsInit) {
 		SiteColumn siteColumn = newsInit.getSiteColumn();
 		
@@ -159,7 +158,6 @@ public class InputModelServiceImpl implements InputModelService {
 		return text;
 	}
 
-	@Override
 	public InputModel getInputModelByCodeName(String codeName) {
 		Map<Integer, InputModel> map = getInputModelBySession();
 		for (Integer key : map.keySet()) {
@@ -171,7 +169,6 @@ public class InputModelServiceImpl implements InputModelService {
 		return null;
 	}
 
-	@Override
 	public String getDefaultInputModelText() {
 		if(defaultInputModelText == null){	
 			defaultInputModelText = FileUtil.read(Global.getProjectPath()+"WEB-INF/inputModel/default.html");

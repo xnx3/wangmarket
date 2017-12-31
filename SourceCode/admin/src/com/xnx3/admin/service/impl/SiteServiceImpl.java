@@ -81,7 +81,6 @@ public class SiteServiceImpl implements SiteService {
 	}
 	
 
-	@Override
 	public BaseVO refreshSiteGenerateHtml(HttpServletRequest request) {
 		Site site = Func.getCurrentSite();
 		
@@ -1100,7 +1099,6 @@ public class SiteServiceImpl implements SiteService {
 		return vo;
 	}
 
-	@Override
 	public SiteRemainHintVO getSiteRemainHint(Site site, Agency agency) {
 		SiteRemainHintVO vo = new SiteRemainHintVO();
 		
@@ -1136,7 +1134,6 @@ public class SiteServiceImpl implements SiteService {
 		return vo;
 	}
 
-	@Override
 	public String getSiteRemainHintForJavaScript(Site site, Agency agency) {
 		SiteRemainHintVO vo = getSiteRemainHint(site, agency);
 		if(vo.getResult() - SiteRemainHintVO.FAILURE == 0){

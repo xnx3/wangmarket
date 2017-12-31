@@ -18,7 +18,6 @@ public class ImServiceImpl implements ImService {
 	@Resource
 	private SqlDAO sqlDAO;
 
-	@Override
 	public Im getImByCache() {
 		Im im = Func.getUserBeanForShiroSession().getSiteIm();
 		if(im == null){
@@ -40,12 +39,10 @@ public class ImServiceImpl implements ImService {
 		return im;
 	}
 
-	@Override
 	public void updateImForCache(Im im) {
 		Func.getUserBeanForShiroSession().setSiteIm(im);
 	}
 
-	@Override
 	public void updateIMServer(boolean haveImSet, Im im) {
 		if(im == null){
 			im = new Im();

@@ -821,7 +821,6 @@ public class TemplateServiceImpl implements TemplateService {
 		return vo;
 	}
 
-	@Override
 	public TemplateVarListVO getTemplateVarListByCache() {
 		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
 			loadDatabaseTemplateVarToCache();
@@ -837,7 +836,6 @@ public class TemplateServiceImpl implements TemplateService {
 		return listVO;
 	}
 
-	@Override
 	public TemplatePageListVO getTemplatePageAndDateListByCache(
 			HttpServletRequest request) {
 		//获取到templatePageList的列表
@@ -883,7 +881,6 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 	
 
-	@Override
 	public TemplateVarListVO getTemplateVarAndDateListByCache() {
 		//获取到templateVarList的列表
 		TemplateVarListVO vo = getTemplateVarListByCache();
@@ -927,7 +924,6 @@ public class TemplateServiceImpl implements TemplateService {
 		return vo;
 	}
 
-	@Override
 	public BaseVO deleteTemplateVarForCache(int templateVarId) {
 		String deleteVarName = null;	//要删除的模版变量
 		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {
