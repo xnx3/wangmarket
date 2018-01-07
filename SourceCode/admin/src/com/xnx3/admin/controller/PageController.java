@@ -8,10 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.aliyun.oss.model.OSSObjectSummary;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.entity.SiteColumn;
 import com.xnx3.admin.service.NewsService;
 import com.xnx3.admin.service.SiteService;
@@ -44,28 +42,28 @@ public class PageController extends BaseController {
 	}
 
 	
-	/**
-	 * 自定义页面列表，可以获取当前网站所有的以html为后缀的页面
-	 * 临时用不到了，预留。没准什么时候用到
-	 */
-	@RequestMapping("customPageList.do")
-	public String customPageList(Model model){
-		List<OSSObjectSummary> allList = OSSUtil.getFolderObjectList("site/"+getSiteId()+"/");
-		List<OSSObjectSummary> htmlList = new ArrayList<OSSObjectSummary>();
-		for (int i = 0; i < allList.size(); i++) {
-			OSSObjectSummary obj = allList.get(i);
-			String suffix = Lang.findFileSuffix(obj.getKey());
-			if(suffix == null || !suffix.equals("html")){
-				continue;
-			}
-			obj.setKey(obj.getKey().replace("site/"+getSiteId()+"/", "").replace(".html", ""));
-			htmlList.add(obj);
-		}
-		
-		AliyunLog.addActionLog(getSiteId(), "打开当前网站所有以html为后缀的页面列表");
-		
-		siteService.getTemplateCommonHtml(getSite(), "自定义页面列表", model);
-		model.addAttribute("htmlList", htmlList);
-		return "page/customPageList";
-	}
+//	/**
+//	 * 自定义页面列表，可以获取当前网站所有的以html为后缀的页面
+//	 * 临时用不到了，预留。没准什么时候用到
+//	 */
+//	@RequestMapping("customPageList.do")
+//	public String customPageList(Model model){
+//		List<OSSObjectSummary> allList = OSSUtil.getFolderObjectList("site/"+getSiteId()+"/");
+//		List<OSSObjectSummary> htmlList = new ArrayList<OSSObjectSummary>();
+//		for (int i = 0; i < allList.size(); i++) {
+//			OSSObjectSummary obj = allList.get(i);
+//			String suffix = Lang.findFileSuffix(obj.getKey());
+//			if(suffix == null || !suffix.equals("html")){
+//				continue;
+//			}
+//			obj.setKey(obj.getKey().replace("site/"+getSiteId()+"/", "").replace(".html", ""));
+//			htmlList.add(obj);
+//		}
+//		
+//		AliyunLog.addActionLog(getSiteId(), "打开当前网站所有以html为后缀的页面列表");
+//		
+//		siteService.getTemplateCommonHtml(getSite(), "自定义页面列表", model);
+//		model.addAttribute("htmlList", htmlList);
+//		return "page/customPageList";
+//	}
 }

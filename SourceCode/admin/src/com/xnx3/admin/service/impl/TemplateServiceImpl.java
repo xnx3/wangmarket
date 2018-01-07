@@ -17,11 +17,10 @@ import org.springframework.stereotype.Service;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.cache.Template;
@@ -344,7 +343,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}else{
 			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
 		}
-		PutResult pr =OSSUtil.putStringFile(generateUrl, pageHtml);
+		AttachmentFile.putStringFile(generateUrl, pageHtml);
 	}
 
 	public void updateTemplateVarForCache(com.xnx3.admin.entity.TemplateVar templateVar,TemplateVarData templateVarData) {
@@ -761,6 +760,8 @@ public class TemplateServiceImpl implements TemplateService {
 		sqlDAO.save(s);
 		//更新站点的Session缓存
 		Func.getUserBeanForShiroSession().setSite(s);
+		//更新模版变量缓存
+		getTemplateVarAndDateListByCache();
 		
 		return vo;
 	}

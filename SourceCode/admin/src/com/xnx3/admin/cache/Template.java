@@ -3,8 +3,8 @@ package com.xnx3.admin.cache;
 import com.xnx3.Lang;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.G;
+import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 模版总控制
@@ -175,9 +175,9 @@ public class Template {
 	 * @param text
 	 */
 	public String replaceForEditModeTag(String text){
-		text = text.replaceAll("src=\"data", "src=\""+OSSUtil.url+"site/"+site.getId()+"/data");
-		text = text.replaceAll("\"news/", "\""+OSSUtil.url+"site/"+site.getId()+"/news/");
-		text = text.replaceAll("\"images/", "\""+OSSUtil.url+"site/"+site.getId()+"/images/");
+		text = text.replaceAll("src=\"data", "src=\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/data");
+		text = text.replaceAll("\"news/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/news/");
+		text = text.replaceAll("\"images/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/images/");
 		text = text.replaceAll("controllerRegEditMode", "edit");	//替换header中的js edit变量，设置其为编辑模式
 		text = text.replaceAll(regex("_masterSiteUrl"), G.masterSiteUrl);
 		

@@ -1,5 +1,5 @@
+<%@page import="com.xnx3.j2ee.func.AttachmentFile"%>
 <%@page import="com.xnx3.admin.entity.Site"%>
-<%@page import="com.xnx3.net.OSSUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
@@ -10,7 +10,7 @@
 
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String imagePrefixUrl = OSSUtil.url+"site/"+request.getAttribute("siteid")+"/column_icon/";
+String imagePrefixUrl = AttachmentFile.netUrl()+"site/"+request.getAttribute("siteid")+"/column_icon/";
 %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="栏目导航"/>
@@ -26,8 +26,8 @@ String imagePrefixUrl = OSSUtil.url+"site/"+request.getAttribute("siteid")+"/col
 <script src="http://res.weiunity.com/js/Sortable.js"></script>
 
 <!-- Data -->
-<script src="<%=OSSUtil.url %>site/${site.id }/data/siteColumn.js"></script>
-<script src="<%=OSSUtil.url %>site/${site.id }/data/siteColumnRank.js"></script>
+<script src="<%=AttachmentFile.netUrl() %>site/${site.id }/data/siteColumn.js"></script>
+<script src="<%=AttachmentFile.netUrl() %>site/${site.id }/data/siteColumnRank.js"></script>
 
 <body>
 <table class="layui-table" id="xnx3_body" style="margin:0px;">

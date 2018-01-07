@@ -1,9 +1,7 @@
 package com.xnx3.admin.cache;
 
 import java.io.File;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.admin.G;

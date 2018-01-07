@@ -28,7 +28,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.OSS;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -429,8 +429,12 @@ public class TemplateController extends BaseController {
 			vo.setTemplatePageData(new TemplatePageData());
 			vo.getTemplatePageData().setText(Template.newHtml);
 		}
-		
+
 		//装载模版变量
+		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+			//判断一下，缓存中是否有模版变量，若所没有，那么要缓存
+			templateService.getTemplateVarAndDateListByCache();
+		}
 		com.xnx3.admin.cache.TemplateCMS temp = new com.xnx3.admin.cache.TemplateCMS(getSite(), true);
 		html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 		
@@ -677,7 +681,7 @@ public class TemplateController extends BaseController {
 			return uploadFileVO;
 		}
 		
-		uploadFileVO = OSS.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image");
+		uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image", 0);
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
 			AliyunLog.addActionLog(getSiteId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
@@ -694,7 +698,9 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public BaseVO refreshForTemplate(Model model,HttpServletRequest request){
 		AliyunLog.addActionLog(getSiteId(), "CMS模式下，刷新生成整站");
-		if(OSSUtil.getOSSClient() == null){
+		
+		//提前判断一下，是否使用的是阿里云OSS存储，并且没有配置OSS
+		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
 		}
 		

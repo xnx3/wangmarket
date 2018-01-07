@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.func.OSS;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.cache.GenerateHTML;
@@ -35,6 +33,7 @@ import com.xnx3.admin.service.SiteColumnService;
 import com.xnx3.admin.service.SiteService;
 import com.xnx3.admin.service.TemplateService;
 import com.xnx3.admin.util.AliyunLog;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.admin.vo.SiteColumnTreeVO;
 import com.xnx3.admin.vo.TemplatePageListVO;
 
@@ -173,7 +172,7 @@ public class ColumnController extends BaseController {
 		model.addAttribute("site", site);
 		
 		if(id > 0){
-			String icon = siteColumn.getIcon().indexOf("://")==-1? OSSUtil.url+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+			String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 			iconImage = "<img src=\""+icon+"\" height=\"30\" onclick=\"window.open('"+icon+"');\" alt=\"当前的图标\" style=\"cursor:pointer;\">";
 		}
 		model.addAttribute("iconImage", iconImage);
@@ -202,7 +201,7 @@ public class ColumnController extends BaseController {
 			return error(model, "栏目不属于你，无法修改");
 		}
 		
-		String icon = siteColumn.getIcon().indexOf("://")==-1? OSSUtil.url+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
 		AliyunLog.addActionLog(getSiteId(), "通用电脑网站模式下，弹出更该栏目名字的弹出框");
 		
@@ -238,7 +237,7 @@ public class ColumnController extends BaseController {
 		}
 		
 		
-		String icon = siteColumn.getIcon().indexOf("://")==-1? OSSUtil.url+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
 		AliyunLog.addActionLog(getSiteId(), "通用电脑网站模式下，打开更该栏目属性的页面");
 		
@@ -602,7 +601,7 @@ public class ColumnController extends BaseController {
 		String oldIconName = sc.getIcon();	//旧的栏目导航图名字
 		
 		//上传图标，并进行压缩处理
-		UploadFileVO upload= OSS.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
+		UploadFileVO upload= AttachmentFile.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
 		if(upload.getResult() == BaseVO.SUCCESS){
 			sc.setIcon(upload.getFileName());
 		}
@@ -675,7 +674,7 @@ public class ColumnController extends BaseController {
 			//删除之前传的那个icon文件
 			if(!(oldIconName == null || oldIconName.length() == 0)){
 				if(oldIconName.indexOf("/") == -1){
-					OSSUtil.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
+					AttachmentFile.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
 				}
 			}
 			
@@ -742,7 +741,7 @@ public class ColumnController extends BaseController {
 		String oldIconName = null;
 		
 		//上传图标，并进行压缩处理
-		UploadFileVO upload= OSS.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
+		UploadFileVO upload= AttachmentFile.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
 		if(upload.getResult() == BaseVO.SUCCESS){
 			oldIconName = sc.getIcon();
 			sc.setIcon(upload.getFileName());
@@ -751,7 +750,7 @@ public class ColumnController extends BaseController {
 		if(sc.getId() > 0){
 			//删除之前传的那个icon文件
 			if(oldIconName != null && oldIconName.indexOf("/") == -1){
-				OSSUtil.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
+				AttachmentFile.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
 			}
 			
 			//保存日志

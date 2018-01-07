@@ -1,17 +1,20 @@
 package com.xnx3.admin.service.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
 import com.xnx3.BaseVO;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.cache.GenerateHTML;
@@ -56,7 +59,6 @@ public class NewsServiceImpl implements NewsService {
 			
 			String currentListHtml = generateListHtml(listHtml, listItem, page, siteColumn, count, newsList, site, false);
 			gh.generateListHtml(currentListHtml, siteColumn, i);
-//			OSSUtil.putStringFile("site/"+site.getId()+"/lc"+siteColumn.getId()+"_"+i+".html", currentListHtml);
 		}
 	}
 	
@@ -219,7 +221,7 @@ public class NewsServiceImpl implements NewsService {
 			if(news.getType() == News.TYPE_IMAGENEWS){
 				String titlepicImage = "";
 				if(news.getTitlepic() != null && news.getTitlepic().length() > 0){
-					titlepicImage = OSSUtil.url+"site/"+site.getId()+"/news/"+news.getTitlepic();
+					titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
 				}
 				n.setTitlepicImage(titlepicImage);
 				model.addAttribute("titlepicImage", "<img src=\""+titlepicImage+"\" height=\"30\" />");
@@ -269,7 +271,7 @@ public class NewsServiceImpl implements NewsService {
 		
 		//删除titlepic文件
 		if(news.getTitlepic() != null && news.getTitlepic().indexOf("http://") == -1){
-			OSSUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 		}
 		
 		baseVO.setNews(news);

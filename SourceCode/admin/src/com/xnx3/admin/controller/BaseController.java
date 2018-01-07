@@ -1,7 +1,6 @@
 package com.xnx3.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.bean.UserBean;

@@ -16,6 +16,7 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.service.SmsLogService;
 import com.xnx3.j2ee.service.SqlService;
@@ -23,7 +24,6 @@ import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.media.CaptchaUtil;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.bean.UserBean;
 import com.xnx3.admin.entity.Site;
 import com.xnx3.superadmin.entity.Agency;
@@ -189,7 +189,7 @@ public class LoginController_ extends com.xnx3.admin.controller.BaseController {
 					long sizeB = 0;
 					try {
 						for (int i = 0; i < list.size(); i++) {
-							sizeB += OSSUtil.getFolderSize("site/"+list.get(i).getId()+"/");
+							sizeB += AttachmentFile.getDirectorySize("site/"+list.get(i).getId()+"/");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

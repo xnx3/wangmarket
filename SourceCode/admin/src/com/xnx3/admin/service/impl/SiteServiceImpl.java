@@ -5,21 +5,24 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
 import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.im.service.ImService;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.cache.GenerateHTML;
@@ -76,7 +79,7 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		if(html != null){
-			OSSUtil.putStringFile("site/"+site.getId()+"/index.html", html);
+			AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", html);
 		}
 	}
 	
@@ -531,8 +534,7 @@ public class SiteServiceImpl implements SiteService {
 		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap);
 		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		//生成首页保存到OSS
-		OSSUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
-		
+		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
 		/*
 		 * 生成栏目、内容页面
@@ -604,7 +606,7 @@ public class SiteServiceImpl implements SiteService {
 		
 		//生成 sitemap.xml
 		xml = xml + "</urlset>";
-		OSSUtil.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
+		AttachmentFile.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
 		
 		return new BaseVO();
 	}
@@ -800,7 +802,7 @@ public class SiteServiceImpl implements SiteService {
 					List<Carousel> carouselList = new ArrayList<Carousel>();
 					Carousel carousel = new Carousel();
 					carousel.setAddtime(DateUtil.timeForUnix10());
-					carousel.setImage(OSSUtil.url+"res/default_carousel/car_1.jpg");
+					carousel.setImage(AttachmentFile.netUrl()+"res/default_carousel/car_1.jpg");
 					carousel.setIsshow(Carousel.ISSHOW_SHOW);
 					carousel.setSiteid(site.getId());
 					carousel.setUserid(siteUserId);
@@ -1059,7 +1061,7 @@ public class SiteServiceImpl implements SiteService {
 		xml = xml + "</urlset>";
 		
 		//生成 sitemap.xml
-		PutResult pr = OSSUtil.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
+		AttachmentFile.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
 	}
 	
 	/**

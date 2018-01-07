@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+	
+	<!-- 文件、附件系统。图片上传等都通过此处 -->
+	<attachmentFile>
+		<!-- 附件文件使用模式，目前有两种：  
+			aliyunOSS : 使用阿里云OSS进行文件、附件上传 
+			localFile : 使用运行的服务器本身进行文件存储，比较传统的存储方式，配置最简单，若第一次用，懂得不多，可使用此种方式 -->
+		<mode>localFile</mode>
+		<!-- 允许上传的文件后缀列表，每个后缀用suffix包含。如下所示 -->
+		<allowUploadSuffix>
+			<suffix>jpg</suffix>
+			<suffix>png</suffix>
+			<suffix>gif</suffix>
+			<suffix>jpeg</suffix>
+			<suffix>bmp</suffix>
+			<suffix>svg</suffix>
+			<suffix>zip</suffix>
+			<suffix>rar</suffix>
+		</allowUploadSuffix>
+	</attachmentFile>
+	
+	
 	<log>
 		<!-- logService 动作日志记录的相关参数配置,记录所有用户的动作信息
 			若不使用，不开启，use为false即可

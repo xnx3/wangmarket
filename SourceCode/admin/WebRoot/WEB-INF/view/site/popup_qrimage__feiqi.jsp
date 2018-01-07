@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.DateUtil"%>
-<%@page import="com.xnx3.net.OSSUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@page import="com.xnx3.selfSite.G"%>
 <%

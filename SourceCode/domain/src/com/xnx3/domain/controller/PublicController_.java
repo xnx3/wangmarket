@@ -1,7 +1,5 @@
 package com.xnx3.domain.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Vector;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.aliyun.common.utils.IOUtils;
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
-import com.aliyun.oss.OSSException;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
@@ -43,7 +40,7 @@ public class PublicController_ extends BaseController {
 	 * 域名捕获转发
 	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html
 	 */
-	@RequestMapping("dns.do")
+	@RequestMapping("dns")
 	public String dns(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
@@ -70,26 +67,22 @@ public class PublicController_ extends BaseController {
 				}
 			}
 			
-			com.aliyun.oss.model.OSSObject ossObj = null;
-			try{
-				if(OSSUtil.getOSSClient() != null){
-					ossObj = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+simpleSite.getId()+"/"+htmlFile);
-				}else{
+			String html = AttachmentFile.getTextByPath("site/"+simpleSite.getId()+"/"+htmlFile);
+			if(html == null){
+				//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
+				if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
-					return "domain/404";
 				}
-			}  catch (OSSException e) {
 				return "domain/404";
 			}
 			
-			InputStream in = ossObj.getObjectContent();
-			String html = null;
-			try {
-				html = IOUtils.readStreamAsString(in, "UTF-8");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+//			InputStream in = ossObj.getObjectContent();
+//			String html = null;
+//			try {
+//				html = IOUtils.readStreamAsString(in, "UTF-8");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			
 			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
 			
@@ -114,7 +107,7 @@ public class PublicController_ extends BaseController {
 			int time = DateUtil.timeForUnix10();
 			html = html + ""
 					+ "<script src=\"http://res.weiunity.com/js/fun.js\"></script>"
-					+ "<script src=\""+OSSUtil.url+"/site/"+simpleSite.getId()+"/data/site.js?v="+time+"\"></script>"
+					+ "<script src=\""+AttachmentFile.netUrl()+"/site/"+simpleSite.getId()+"/data/site.js?v="+time+"\"></script>"
 					+ "<script src=\"http://res.weiunity.com/js/im/site_kefu.js\"></script>"
 					+ "";
 			model.addAttribute("html", html);
@@ -126,7 +119,7 @@ public class PublicController_ extends BaseController {
 				//如果是手机访问的，也是使用二级域名进行访问
 				boolean isMobile = TerminalDetection.checkMobileOrPc(request);
 				if(!isMobile){
-					model.addAttribute("url", OSSUtil.url+"site/"+simpleSite.getId()+"/"+htmlFile);
+					model.addAttribute("url", AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/"+htmlFile);
 					return "domain/pcPreview";
 				}
 			}
@@ -182,7 +175,7 @@ public class PublicController_ extends BaseController {
 			//访问日志记录
 			requestLog(request, "sitemap.xml");
 			
-			HttpResponse hr = http.get(OSSUtil.url+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
+			HttpResponse hr = http.get(AttachmentFile.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
 			if(hr.getCode() - 404 == 0){
 				return error404();
 			}else{
@@ -250,9 +243,9 @@ public class PublicController_ extends BaseController {
 	 */
 	public String replaceHtmlTag(SimpleSite simpleSite, String html){
 		//替换掉 data目录下的缓存js文件
-		html = html.replaceAll("src=\"data/", "src=\""+OSSUtil.url+"site/"+simpleSite.getId()+"/data/");	
+		html = html.replaceAll("src=\"data/", "src=\""+AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/data/");	
 		//替换图片文件
-		html = html.replaceAll("src=\"news/", "src=\""+OSSUtil.url+"site/"+simpleSite.getId()+"/news/");
+		html = html.replaceAll("src=\"news/", "src=\""+AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/news/");
 		//替换掉HTML的注释 <!-- -->
 		html = html.replaceAll("<!--(.*?)-->", "");
 		//替换掉JS的注释 /**/

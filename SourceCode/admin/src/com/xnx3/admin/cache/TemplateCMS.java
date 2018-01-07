@@ -9,13 +9,12 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.util.Page;
-import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.entity.News;
 import com.xnx3.admin.entity.Site;
 import com.xnx3.admin.entity.SiteColumn;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.admin.vo.SiteColumnTreeVO;
 
 /**
@@ -83,7 +82,8 @@ public class TemplateCMS {
 	 * @return 替换好的内容
 	 */
 	public String replacePublicTag(String text){
-		text = text.replaceAll(regex("OSSUrl"), OSSUtil.url);
+		text = text.replaceAll(regex("OSSUrl"), AttachmentFile.netUrl());	//以废弃，保留，适应以前版本
+		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
 		text = text.replaceAll(regex("resUrl"), G.RES_CDN_DOMAIN);
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
 		text = text.replaceAll(regex("masterSiteUrl"), G.masterSiteUrl);
@@ -162,7 +162,7 @@ public class TemplateCMS {
 		if(text == null){
 			return null;
 		}
-		text = text.replaceAll(regex("prefixUrl"), OSSUtil.url+"site/"+site.getId()+"/");
+		text = text.replaceAll(regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -295,7 +295,7 @@ public class TemplateCMS {
 	}
 	
 	/**
-	 * 生成当前List页面的HTML代码，更新于OSS上，可供客户直接访问
+	 * 生成当前List页面的HTML代码，更新于附件存储上，可供客户直接访问
 	 * <b>前提是传入的 listTemplateHtml 内容页模版已经替换过通用标签、动态栏目调用标签、装载完模版变量了，这里直接进行替换栏目以及文章标签相关</b>
 	 * @param listTemplateHtml 当前栏目所使用的列表模版页的模版内容
 	 * @param siteColumn {@link SiteColumn} 当前栏目的信息
@@ -350,7 +350,7 @@ public class TemplateCMS {
 			listTemplateHtml = replaceSiteColumnTag(listTemplateHtml, siteColumn);	//替换栏目相关标签
 			
 			//写出列表页面的HTML文件
-			OSSUtil.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
+			AttachmentFile.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
 		}
 	}
 	
@@ -407,9 +407,9 @@ public class TemplateCMS {
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
-		PutResult pr =OSSUtil.putStringFile(generateUrl, pageHtml);
+		
+		AttachmentFile.putStringFile(generateUrl, pageHtml);
 	}
-	
 
 	/**
 	 * 生成的siteColumn栏目列表页面的html页面名字。仅仅是名字，不包含.html，不包含其所属的路径
@@ -528,9 +528,8 @@ public class TemplateCMS {
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
-		PutResult pr =OSSUtil.putStringFile(generateUrl, pageHtml);
+		AttachmentFile.putStringFile(generateUrl, pageHtml);
 	}
-	
 	
 	/**
 	 * 替换 列表模版页面 的分页标签

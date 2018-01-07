@@ -1,25 +1,21 @@
 package com.xnx3.admin.cache;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import com.aliyun.oss.model.OSSObject;
 import com.xnx3.DateUtil;
 import com.xnx3.bean.TagA;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.Page;
-import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 import com.xnx3.admin.G;
 import com.xnx3.admin.entity.News;
 import com.xnx3.admin.entity.Site;
 import com.xnx3.admin.entity.SiteColumn;
 import com.xnx3.admin.entity.SiteData;
+import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 生成 HTML 缓存页面
@@ -89,7 +85,9 @@ public class GenerateHTML {
 	 * @return 替换好的内容
 	 */
 	public String replacePublicTag(String text){
-		text = text.replaceAll(regex("OSSUrl"), OSSUtil.url);
+		//OSSUrl以废弃，使用AttachmentFileUrl，表示附件等文件所在的资源访问url
+		text = text.replaceAll(regex("OSSUrl"), AttachmentFile.netUrl());	//已废弃
+		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
 		text = text.replaceAll(regex("resUrl"), G.RES_CDN_DOMAIN);
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
 		text = text.replaceAll(regex("masterSiteUrl"), G.masterSiteUrl);
@@ -117,10 +115,10 @@ public class GenerateHTML {
 			//编辑模式
 			text = text.replaceAll(regex("basePath"), G.masterSiteUrl);
 			text = text.replaceAll(regex("edit"), "edit");
-			text = text.replaceAll(regex("ossEditUrl"), OSSUtil.url+"site/"+site.getId()+"/");
+			text = text.replaceAll(regex("ossEditUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("editLinuxTime"), "?v="+DateUtil.timeForUnix10());
 		}else{
-			text = text.replaceAll(regex("basePath"), OSSUtil.url+"site/"+site.getId()+"/");
+			text = text.replaceAll(regex("basePath"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("edit"), "");
 			text = text.replaceAll(regex("ossEditUrl"), "");
 			text = text.replaceAll(regex("editLinuxTime"), "");
@@ -296,7 +294,7 @@ public class GenerateHTML {
 		if(editMode){
 			//编辑模式
 			if(titlePic.indexOf("http://") == -1){
-				titlePic = OSSUtil.url+"site/"+news.getSiteid()+"/news/"+titlePic;
+				titlePic = AttachmentFile.netUrl()+"site/"+news.getSiteid()+"/news/"+titlePic;
 			}
 			text = text.replaceAll(GenerateHTML.regex("news.titlepic"), titlePic);
 			text = text.replaceAll(GenerateHTML.regex("news.url"), "news.do?id="+news.getId()+"&editMode=edit");	//client=wap& 去掉，自动根据浏览器识别
@@ -324,17 +322,8 @@ public class GenerateHTML {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		OSSObject ossObject = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, "site/"+site.getId()+"/index.html");
-		if(ossObject == null){
-			return "";
-		}else{
-			try {
-				return IOUtils.toString(ossObject.getObjectContent(), "UTF-8");
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
+		
+		return AttachmentFile.getTextByPath("site/"+site.getId()+"/index.html");
 	}
 	
 	/**
@@ -382,7 +371,7 @@ public class GenerateHTML {
 		htmlText = htmlText.replaceAll(regex("keywords"), siteColumn.getName()+","+site.getKeywords());
 		htmlText = htmlText.replaceAll(regex("description"), siteColumn.getName());	//临时暂时这么放吧
 		
-		OSSUtil.putStringFile("site/"+site.getId()+"/lc"+siteColumn.getId()+"_"+pageNumber+".html", htmlText);
+		AttachmentFile.putStringFile("site/"+site.getId()+"/lc"+siteColumn.getId()+"_"+pageNumber+".html", htmlText);
 	}
 	
 	/**
@@ -413,7 +402,7 @@ public class GenerateHTML {
 		}else{
 			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
 		}
-		PutResult pr =OSSUtil.putStringFile(generateUrl, pageHtml);
+		AttachmentFile.putStringFile(generateUrl, pageHtml);
 	}
 	
 	/**
@@ -425,7 +414,7 @@ public class GenerateHTML {
 		if(text == null){
 			return "";
 		}
-		text = Template.replaceAll(text, regex("prefixUrl"), OSSUtil.url+"site/"+site.getId()+"/");
+		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -438,7 +427,7 @@ public class GenerateHTML {
 		if(text == null){
 			return "";
 		}
-		text = text.replaceAll("\\{prefixUrl\\}", OSSUtil.url+"site/"+site.getId()+"/");
+		text = text.replaceAll("\\{prefixUrl\\}", AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -448,6 +437,6 @@ public class GenerateHTML {
 	 * @param htmlText
 	 */
 	public void generateIndexHtml(String htmlText){
-		OSSUtil.putStringFile("site/"+site.getId()+"/index.html", htmlText);
+		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", htmlText);
 	}
 }

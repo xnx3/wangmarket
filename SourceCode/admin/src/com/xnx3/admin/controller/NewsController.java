@@ -2,25 +2,26 @@ package com.xnx3.admin.controller;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.OSS;
 import com.xnx3.j2ee.func.TextFilter;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
 import com.xnx3.admin.cache.pc.IndexNews;
@@ -34,6 +35,7 @@ import com.xnx3.admin.service.SiteColumnService;
 import com.xnx3.admin.service.SiteService;
 import com.xnx3.admin.service.TemplateService;
 import com.xnx3.admin.util.AliyunLog;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.admin.vo.NewsVO;
 import com.xnx3.admin.vo.SiteColumnTreeVO;
 import com.xnx3.admin.vo.bean.NewsInit;
@@ -150,7 +152,7 @@ public class NewsController extends BaseController {
 		
 		//上传标题图片,只有是图文模式的时候才会有标题图片的上传
 		String oldTitlePic = "";	//旧的栏目导航图名字
-		UploadFileVO uploadFileVO = OSS.uploadImage("site/"+site.getId()+"/news/", request, "titlePicFile", G.NEWS_TITLEPIC_MAXWIDTH);
+		UploadFileVO uploadFileVO = AttachmentFile.uploadImage("site/"+site.getId()+"/news/", request, "titlePicFile", G.NEWS_TITLEPIC_MAXWIDTH);
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			oldTitlePic = (news.getTitlepic()==null||news.getTitlepic().length()==0)? "":news.getTitlepic();
 			news.setTitlepic(uploadFileVO.getFileName());
@@ -171,7 +173,7 @@ public class NewsController extends BaseController {
 			
 			//如果有旧图，删除掉旧的图片
 			if(news.getType() == News.TYPE_IMAGENEWS && oldTitlePic.length() > 0){
-				OSSUtil.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
+				AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
 			}
 			
 			if(s.getId() == null || s.getId() == 0){
@@ -238,9 +240,9 @@ public class NewsController extends BaseController {
 			AliyunLog.addActionLog(news.getId(), "删除文章成功，文章："+news.getTitle());
 			
 			//删除OSS的html、头图文件
-			OSSUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				OSSUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+				AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			}
 			
 			//刷新sitemap
@@ -405,9 +407,9 @@ public class NewsController extends BaseController {
 			AliyunLog.addActionLog(getSiteId(), "删除文章："+news.getTitle());
 			
 			//删除OSS的html、头图文件
-			OSSUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				OSSUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+				AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			}
 			
 			if(!Func.isCMS(getSite())){

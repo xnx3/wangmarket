@@ -7,11 +7,11 @@ import com.xnx3.StringUtil;
 import com.xnx3.im.entity.Im;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.admin.G;
 import com.xnx3.admin.entity.Carousel;
 import com.xnx3.admin.entity.Site;
 import com.xnx3.admin.entity.SiteColumn;
+import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 网站在线客服
@@ -57,7 +57,7 @@ public class KeFu extends BaseCache{
 			}else if (column.getType() == SiteColumn.TYPE_IMAGENEWS) {
 				column.setUrl("/imageNewsList.do?cid="+column.getId());
 			}else if (column.getType() == SiteColumn.TYPE_PAGE) {
-				column.setUrl(OSSUtil.url+"site/"+site.getId()+"/html/"+column.getId()+".html");
+				column.setUrl(AttachmentFile.netUrl()+"site/"+site.getId()+"/html/"+column.getId()+".html");
 			}else if (column.getType() == SiteColumn.TYPE_LEAVEWORD) {
 				column.setUrl("/leaveword.do?siteid="+siteid);
 			}else if (column.getType() == SiteColumn.TYPE_HREF) {
@@ -67,9 +67,9 @@ public class KeFu extends BaseCache{
 			}
 			
 			if(column.getIcon() == null || column.getIcon().length() == 0){
-				column.setIcon(OSSUtil.url+G.DEFAULT_SITE_COLUMN_ICON_URL);
+				column.setIcon(AttachmentFile.netUrl()+G.DEFAULT_SITE_COLUMN_ICON_URL);
 			}
-			String icon = column.getIcon().indexOf("://")==-1? OSSUtil.url+"site/"+site.getId()+"/column_icon/"+column.getIcon():column.getIcon();
+			String icon = column.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+column.getIcon():column.getIcon();
 			content = content+" siteColumn["+i+"] = new Array();"
 							+ " siteColumn["+i+"]['id'] = '"+column.getId()+"'; "
 							+ " siteColumn["+i+"]['name'] = '"+StringUtil.Utf8ToString(column.getName())+"'; "
@@ -117,7 +117,7 @@ public class KeFu extends BaseCache{
 	 * @param rank
 	 */
 	public void siteColumnRankAppend(com.xnx3.admin.entity.Site site,int siteColumnId){
-		String rankUrl = OSSUtil.url+"site/"+site.getId()+"/data/siteColumnRank.js";
+		String rankUrl = AttachmentFile.netUrl()+"site/"+site.getId()+"/data/siteColumnRank.js";
 		HttpResponse res = new HttpUtil().get(rankUrl);
 		if(res.getCode() == 404){	//若没有，创建一个新的
 			siteColumnRank(site, siteColumnId+"");
@@ -125,7 +125,7 @@ public class KeFu extends BaseCache{
 			String rankSource = new HttpUtil().get(rankUrl).getContent();
 			rankSource = rankSource.replace("];", ","+siteColumnId+"];");
 			try {
-				OSSUtil.put("site/"+site.getId()+"/data/siteColumnRank.js", new ByteArrayInputStream(rankSource.getBytes("UTF-8")));
+				AttachmentFile.put("site/"+site.getId()+"/data/siteColumnRank.js", new ByteArrayInputStream(rankSource.getBytes("UTF-8")));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -148,7 +148,7 @@ public class KeFu extends BaseCache{
 				siteid = carousel.getSiteid();
 			}
 			if(carousel.getIsshow() == Carousel.ISSHOW_SHOW){
-				String image = carousel.getImage().indexOf("://")==-1? OSSUtil.url+"site/"+site.getId()+"/carousel/"+carousel.getImage():carousel.getImage();
+				String image = carousel.getImage().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/carousel/"+carousel.getImage():carousel.getImage();
 				content = content+" carouselList["+i+"] = new Array();"
 						+ " carouselList["+i+"]['id'] = '"+carousel.getId()+"'; "
 						+ " carouselList["+i+"]['type'] = '"+carousel.getType()+"'; "

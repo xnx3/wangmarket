@@ -1,4 +1,4 @@
-<%@page import="com.xnx3.net.OSSUtil"%>
+<%@page import="com.xnx3.j2ee.func.AttachmentFile"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
@@ -120,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<img src="${news.titlepic }?x-oss-process=image/resize,h_25" height="25" />
 								    </c:when>
 								    <c:otherwise>
-										<a href="<%=OSSUtil.url %>site/${news.siteid }/news/${news.titlepic }" target="_black"><img src="<%=OSSUtil.url %>site/${news.siteid }/news/${news.titlepic }?x-oss-process=image/resize,h_25" height="25" /></a>
+										<a href="<%=AttachmentFile.netUrl() %>site/${news.siteid }/news/${news.titlepic }" target="_black"><img src="<%=AttachmentFile.netUrl() %>site/${news.siteid }/news/${news.titlepic }?x-oss-process=image/resize,h_25" height="25" /></a>
 								    </c:otherwise>
 								</c:choose>
 							</c:if>

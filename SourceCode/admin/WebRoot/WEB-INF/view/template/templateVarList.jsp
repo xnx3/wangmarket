@@ -1,5 +1,5 @@
+<%@page import="com.xnx3.j2ee.func.AttachmentFile"%>
 <%@page import="com.xnx3.admin.entity.Site"%>
-<%@page import="com.xnx3.net.OSSUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
@@ -7,7 +7,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String imagePrefixUrl = OSSUtil.url+"site/"+request.getAttribute("siteid")+"/column_icon/";
+String imagePrefixUrl = AttachmentFile.netUrl()+"site/"+request.getAttribute("siteid")+"/column_icon/";
 %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版变量列表"/>

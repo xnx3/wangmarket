@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import com.xnx3.DateUtil;
-import com.xnx3.net.OSSUtil;
+import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 所有js缓存生成的父类
@@ -50,10 +50,9 @@ public class BaseCache {
 	 * @param fileName 生成的js文件名字，只写文件名，不传入".js"后缀
 	 */
 	public void generateCacheFile(com.xnx3.admin.entity.Site site){
-		//OSS
 		try {
 			content = content + " var xnx3_r"+DateUtil.timeForUnix10()+" = '"+getRandomValue()+"';";
-			OSSUtil.put("site/"+site.getId()+"/data/"+objName+".js", new ByteArrayInputStream(content.getBytes("UTF-8")));
+			AttachmentFile.put("site/"+site.getId()+"/data/"+objName+".js", new ByteArrayInputStream(content.getBytes("UTF-8")));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
