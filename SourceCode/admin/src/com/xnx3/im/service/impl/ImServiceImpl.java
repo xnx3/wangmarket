@@ -55,7 +55,9 @@ public class ImServiceImpl implements ImService {
 		json.put("useOffLineEmail", im.getUseOffLineEmail() == null ? Im.USE_FALSE : im.getUseOffLineEmail()-Im.USE_TRUE==0);
 		json.put("userid", im.getUserid());
 		
-		Global.kefuMNSUtil.putMessage(Global.kefuMNSUtil_queueName, json.toString());
+		if(Global.kefuMNSUtil != null){
+			Global.kefuMNSUtil.putMessage(Global.kefuMNSUtil_queueName, json.toString());
+		}
 	}
 
 	
