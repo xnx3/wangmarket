@@ -90,7 +90,7 @@ public class GenerateHTML {
 		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
 		text = text.replaceAll(regex("resUrl"), G.RES_CDN_DOMAIN);
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
-		text = text.replaceAll(regex("masterSiteUrl"), G.masterSiteUrl);
+		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
 		text = text.replaceAll(regex("siteId"), site.getId()+"");
 		text = text.replaceAll(regex("siteDomain"), site.getDomain());
@@ -113,7 +113,7 @@ public class GenerateHTML {
 		
 		if(editMode){
 			//编辑模式
-			text = text.replaceAll(regex("basePath"), G.masterSiteUrl);
+			text = text.replaceAll(regex("basePath"), Global.get("MASTER_SITE_URL"));
 			text = text.replaceAll(regex("edit"), "edit");
 			text = text.replaceAll(regex("ossEditUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("editLinuxTime"), "?v="+DateUtil.timeForUnix10());

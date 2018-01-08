@@ -179,7 +179,7 @@ public class Template {
 		text = text.replaceAll("\"news/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/news/");
 		text = text.replaceAll("\"images/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/images/");
 		text = text.replaceAll("controllerRegEditMode", "edit");	//替换header中的js edit变量，设置其为编辑模式
-		text = text.replaceAll(regex("_masterSiteUrl"), G.masterSiteUrl);
+		text = text.replaceAll(regex("_masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
 		return text;
 	}

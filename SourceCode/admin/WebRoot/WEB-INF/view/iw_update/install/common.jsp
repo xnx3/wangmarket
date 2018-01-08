@@ -1,3 +1,5 @@
+<%@page import="com.xnx3.j2ee.func.AttachmentFile"%>
+<%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <style>
@@ -15,16 +17,33 @@
 </style>
 <ul class="foot">
 	<li class="first">
-		<a href="accessKey.do">
-			第一步.设置阿里云 AccessKey
+		<a href="selectAttachment.do">
+			第一步.选择存储方式
 		</a>
 	</li>
 	<li>
 		>
 	</li>
+	
 	<li class="two">
 		<a href="systemSet.do">
 			第二步.设置系统参数
 		</a>
 	</li>
+	<li class="three">
+		>
+	</li>
+	
+	<li class="three">
+		<a href="accessKey.do">
+			第三步.设置阿里云 AccessKey
+		</a>
+	</li>
+	
 </ul>
+<script>
+	if('<%=Global.get("ATTACHMENT_FILE_MODE") %>' != '<%=AttachmentFile.MODE_ALIYUN_OSS %>'){
+		//不是阿里云OSS， 那么需要将第三部设置阿里云参数去掉
+		$('.three').css("display","none");
+	}
+</script>

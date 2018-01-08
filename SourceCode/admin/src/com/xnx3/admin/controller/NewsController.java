@@ -160,7 +160,7 @@ public class NewsController extends BaseController {
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
-			boolean have = TextFilter.filter(request, "网市场文章信息发现涉嫌违规："+news.getTitle(), G.masterSiteUrl+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml);
+			boolean have = TextFilter.filter(request, "网市场文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml);
 			if(have){
 				//写入news的合法性字段
 				news.setLegitimate(News.LEGITIMATE_NO);
@@ -444,7 +444,7 @@ public class NewsController extends BaseController {
 		Site site = getSite();
 		String url = "http://"+Func.getDomain(site)+"/";
 		
-		if(G.masterSiteUrl != null && G.masterSiteUrl.equals("http://wang.market/")){
+		if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
 			if(site.getId() - 255 > 0){
 				//site.id < 255 的站点，是code模式
 				generateUrlRule = "code";

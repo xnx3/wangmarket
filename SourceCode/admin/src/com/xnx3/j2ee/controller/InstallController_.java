@@ -3,18 +3,21 @@ package com.xnx3.j2ee.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -55,8 +58,109 @@ public class InstallController_ extends BaseController {
 		return "iw_update/install/index";
 	}
 	
+
+	
 	/**
-	 * 第一步，设置AccessKey的id、screct的页面
+	 * 第一步，选择存储方式，使用阿里云OSS，还是服务器磁盘存储
+	 * @throws ConfigurationException 
+	 */
+	@RequestMapping("/selectAttachment")
+	public String selectAttachment(HttpServletRequest request, Model model){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, "系统已禁止使用此！");
+		}
+		
+		return "iw_update/install/selectAttachment";
+	}
+	
+	/**
+	 * 服务于第一步，设置当前存储方式（保存）
+	 * @throws ConfigurationException 
+	 */
+	@RequestMapping("/setAttachmentMode")
+	public String setLocalAttachmentFile(HttpServletRequest request, Model model,
+			@RequestParam(value = "mode", required = false, defaultValue="") String mode){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, "系统已禁止使用此！");
+		}
+		
+		String m = AttachmentFile.MODE_LOCAL_FILE;	//默认使用服务器进行存储
+		if(mode.equals(AttachmentFile.MODE_ALIYUN_OSS)){
+			//使用阿里云OSS
+			m = AttachmentFile.MODE_ALIYUN_OSS;
+		}
+		sqlService.executeSql("update system set value = '"+m+"' WHERE name = 'ATTACHMENT_FILE_MODE'");
+		
+		//更新缓存
+		systemService.refreshSystemCache();
+		
+		return redirect("install/systemSet.do");
+	}
+	
+
+	/**
+	 * 第二步，设置项目的系统参数，system中的系统参数，比如网站泛解析的域名，自己的邮箱、访问域名
+	 */
+	@RequestMapping("/systemSet")
+	public String systemSet(HttpServletRequest request, Model model){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, "系统已禁止使用此！");
+		}
+		
+		//系统访问域名
+		String fangwenyuming = Global.get("MASTER_SITE_URL");
+		if(fangwenyuming == null || fangwenyuming.length() < 6){
+			fangwenyuming = request.getRequestURL().toString().replace("install/systemSet.do", "");
+		}
+		
+		//附件访问域名
+		String fujianyuming = Global.get("ATTACHMENT_FILE_URL");
+		if(fujianyuming == null || fujianyuming.length() < 6){
+			fujianyuming = fangwenyuming;
+		}
+		
+		model.addAttribute("fangwenyuming", fangwenyuming);
+		model.addAttribute("fujianyuming", fujianyuming);
+		return "iw_update/install/systemSet";
+	}
+	
+
+	/**
+	 * 第二步，提交，验证AccessKey的id、screct的有效性，并初始化创建OSS
+	 */
+	@RequestMapping("/systemSetSave")
+	@ResponseBody
+	public BaseVO systemSetSave(
+			@RequestParam(value = "MASTER_SITE_URL", required = false, defaultValue="") String MASTER_SITE_URL,
+			@RequestParam(value = "ATTACHMENT_FILE_URL", required = false, defaultValue="") String ATTACHMENT_FILE_URL,
+			@RequestParam(value = "AUTO_ASSIGN_DOMAIN", required = false, defaultValue="") String AUTO_ASSIGN_DOMAIN,
+			@RequestParam(value = "SERVICE_MAIL", required = false, defaultValue="") String SERVICE_MAIL
+			){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error("系统已禁止使用此！");
+		}
+		
+		//将其存入system数据表
+		sqlService.executeSql("update system set value = '"+MASTER_SITE_URL+"' WHERE name = 'MASTER_SITE_URL'");
+		sqlService.executeSql("update system set value = '"+ATTACHMENT_FILE_URL+"' WHERE name = 'ATTACHMENT_FILE_URL'");
+		sqlService.executeSql("update system set value = '"+AUTO_ASSIGN_DOMAIN+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		sqlService.executeSql("update system set value = '"+SERVICE_MAIL+"' WHERE name = 'SERVICE_MAIL'");
+		
+		if(Global.get("IW_AUTO_INSTALL_USE").equals(AttachmentFile.MODE_ALIYUN_OSS)){
+			//阿里云oss，还要继续配置阿里云参数
+		}else{
+			//如果是服务器存储，那到这一步就结束了，在此禁用install安装
+			sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		}
+		
+		//更新缓存
+		systemService.refreshSystemCache();
+		
+		return success();
+	}
+	
+	/**
+	 * 第三步，设置AccessKey的id、screct的页面
 	 * @throws ConfigurationException 
 	 */
 	@RequestMapping("/accessKey")
@@ -67,9 +171,8 @@ public class InstallController_ extends BaseController {
 		return "iw_update/install/accessKey";
 	}
 	
-
 	/**
-	 * 第一步，验证AccessKey的id、screct的有效性，并初始化创建OSS
+	 * 第三步，验证AccessKey的id、screct的有效性，并初始化创建OSS
 	 */
 	@RequestMapping("/accessKeySave")
 	@ResponseBody
@@ -117,6 +220,7 @@ public class InstallController_ extends BaseController {
 				System.out.println("OSS未自动创建！因为检测到BucketName已存在！若不是您手动创建的，则建议您按照以下两点进行操作，然后再来创建。");
 				System.out.println("1.将/src/xnx3Config.xml文件中，aliyunOSS节点下的bucketName设置为空，即将其中配置的数据删除掉");
 				System.out.println("2.将数据表system中，name为ALIYUN_OSS_BUCKETNAME的这一列，将其值改为auto");
+				return error("OSS未自动创建！因为检测到BucketName已存在！若不是您手动创建的，则建议您按照以下两点进行操作，然后再来创建。");
 			}
 		} catch (Exception e) {
 			return error("操作失败！错误代码:"+e.getMessage().toString());
@@ -127,43 +231,7 @@ public class InstallController_ extends BaseController {
 		sqlService.executeSql("update system set value = '"+secret+"' WHERE name = 'ALIYUN_ACCESSKEYSECRET'");
 		sqlService.executeSql("update system set value = '"+bucketName+"' WHERE name = 'ALIYUN_OSS_BUCKETNAME'");
 		
-		//更新缓存
-		systemService.refreshSystemCache();
-		
-		return success();
-	}
-	
-
-	/**
-	 * 第二步，设置项目的系统参数，system中的系统参数，比如网站泛解析的域名，自己的邮箱
-	 */
-	@RequestMapping("/systemSet")
-	public String systemSet(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, "系统已禁止使用此！");
-		}
-		
-		return "iw_update/install/systemSet";
-	}
-	
-
-	/**
-	 * 第二步，提交，验证AccessKey的id、screct的有效性，并初始化创建OSS
-	 */
-	@RequestMapping("/systemSetSave")
-	@ResponseBody
-	public BaseVO systemSetSave(
-			@RequestParam(value = "AUTO_ASSIGN_DOMAIN", required = false, defaultValue="") String AUTO_ASSIGN_DOMAIN,
-			@RequestParam(value = "SERVICE_MAIL", required = false, defaultValue="") String SERVICE_MAIL
-			){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error("系统已禁止使用此！");
-		}
-		
-		//将其存入system数据表
-		sqlService.executeSql("update system set value = '"+AUTO_ASSIGN_DOMAIN+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
-		sqlService.executeSql("update system set value = '"+SERVICE_MAIL+"' WHERE name = 'SERVICE_MAIL'");
-		//禁用install安装
+		//设置为禁止安装
 		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
 		
 		//更新缓存
@@ -171,7 +239,6 @@ public class InstallController_ extends BaseController {
 		
 		return success();
 	}
-	
 	
 	
 	/**

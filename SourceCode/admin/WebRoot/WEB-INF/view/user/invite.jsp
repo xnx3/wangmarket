@@ -18,7 +18,7 @@ ${topHtml}
 <div class="weui_cells weui_cells_form">
   <div class="weui_cell">
     <div class="weui_cell_bd weui_cell_primary">
-      <textarea class="weui_textarea"rows="2"><%=G.masterSiteUrl %>regByPhone.do?id=<%=ShiroFunc.getUser().getId() %></textarea>
+      <textarea class="weui_textarea"rows="2"><%=Global.get("MASTER_SITE_URL") %>regByPhone.do?id=<%=ShiroFunc.getUser().getId() %></textarea>
     </div>
   </div>
 </div>

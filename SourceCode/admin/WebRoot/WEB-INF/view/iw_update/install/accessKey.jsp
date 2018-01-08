@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 
 <div style="padding:30px; padding-bottom:10px; text-align:center; font-size:20px;">
-	第一步：设置阿里云的Access Key参数，以使用云功能模块
+	第三步：设置阿里云的Access Key参数，以使用云功能模块
 	<br/>
 	Access Key ID、Secret，可从此网址获取 <a href="https://ak-console.aliyun.com" target="_black">https://ak-console.aliyun.com</a> 
 	| <a href="https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=hlr7sxuh&utm_source=hlr7sxuh" target="_black">领优惠卷</a>
@@ -74,7 +74,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 </script>
 
 <style>
-.first{background-color: #5FB878;}
+.three{background-color: #5FB878;}
 </style>
 <jsp:include page="common.jsp"></jsp:include>
 

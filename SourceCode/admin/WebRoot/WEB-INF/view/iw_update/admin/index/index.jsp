@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 <script src="http://res.weiunity.com/js/fun.js"></script>
 <script>
-var masterSiteUrl = '<%=G.masterSiteUrl %>'; 
+var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
 <script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
 

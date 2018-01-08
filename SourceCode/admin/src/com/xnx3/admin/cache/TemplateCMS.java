@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.bean.TagA;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.admin.Func;
 import com.xnx3.admin.G;
@@ -44,7 +47,7 @@ public class TemplateCMS {
 		linuxTime = DateUtil.timeForUnix10();
 		this.site = site;
 		
-		if(G.masterSiteUrl != null && G.masterSiteUrl.equals("http://wang.market/")){
+		if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
 			if(site.getId() - 255 > 0){
 				//site.id < 255 的站点，是code模式
 				generateUrlRule = "code";
@@ -86,7 +89,7 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
 		text = text.replaceAll(regex("resUrl"), G.RES_CDN_DOMAIN);
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
-		text = text.replaceAll(regex("masterSiteUrl"), G.masterSiteUrl);
+		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
 		text = text.replaceAll(regex("siteId"), site.getId()+"");
 		text = text.replaceAll(regex("siteDomain"), site.getDomain());

@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.DateUtil;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
@@ -439,7 +440,7 @@ public class TemplateController extends BaseController {
 		html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 		
 		//自动在</head>之前，加入htmledit.js
-		html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+G.masterSiteUrl+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
+		html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
 		AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "获取指定模版页内容，模版页："+StringUtil.filterXss(pageName));
 		
 		model.addAttribute("pageName", pageName);

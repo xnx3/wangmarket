@@ -21,8 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <div class="weui_cell">
 			    <div class="weui_cell_bd weui_cell_primary">
 			      <textarea class="weui_textarea"rows="2">
-			      		<%=G.masterSiteUrl %>regByPhone.do?inviteid=${user.id }
-			      		<%=G.masterSiteUrl %>currency/index.do?inviteid=${user.id }
+			      		<%=Global.get("MASTER_SITE_URL") %>regByPhone.do?inviteid=${user.id }
+			      		<%=Global.get("MASTER_SITE_URL") %>currency/index.do?inviteid=${user.id }
 			      </textarea>
 			    </div>
 			  </div>

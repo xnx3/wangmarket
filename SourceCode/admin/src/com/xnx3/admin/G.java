@@ -57,7 +57,7 @@ public class G {
 	public static final int AGENCY_SILVER_REG_OSSHAVE = 1024;		//银牌代理
 	
 	//站点网址，如 http://wang.market/
-	public static String masterSiteUrl = "";
+//	public static String masterSiteUrl = "";
 	
 	//阿里云短信发送
 	public static AliyunSMSUtil aliyunSMSUtil;
@@ -79,8 +79,8 @@ public class G {
 		
 		VERSION = c.getValue("version");
 		logger.info("version:"+VERSION);
-		masterSiteUrl = c.getValue("masterSiteUrl");
-		logger.info("masterSiteUrl:"+masterSiteUrl);
+//		masterSiteUrl = c.getValue("masterSiteUrl");
+//		logger.info("masterSiteUrl:"+masterSiteUrl);
 		
 		
 		//加载日志服务
