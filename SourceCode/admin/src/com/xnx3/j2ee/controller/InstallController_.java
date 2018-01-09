@@ -153,6 +153,11 @@ public class InstallController_ extends BaseController {
 			sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
 		}
 		
+		//如果 附件url域名设置了，那么更新内存缓存
+		if(ATTACHMENT_FILE_URL.length() > 5){
+			AttachmentFile.netUrl = ATTACHMENT_FILE_URL;
+		}
+		
 		//更新缓存
 		systemService.refreshSystemCache();
 		

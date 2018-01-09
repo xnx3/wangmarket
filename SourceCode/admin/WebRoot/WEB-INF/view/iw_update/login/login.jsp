@@ -179,7 +179,7 @@ layui.use(['jquery'],function(){
 $(function(){
 	$(".layui-canvs").jParticle({
 		background: "#FFFFFF",
-		color: "#FDEDED"
+		color: "#FDFDFD"
 	});
 });
 </script>

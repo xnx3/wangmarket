@@ -57,6 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="layui-input-block">
 			<input type="text" name="AUTO_ASSIGN_DOMAIN" autocomplete="off"  class="layui-input" value="<%=Global.get("AUTO_ASSIGN_DOMAIN") %>" placeholder="格式如 wscso.com">
 			<div style="color:#d2d2d2; padding-top:5px;">
+				如果您只是想快速体验本程序，此项可忽略
+			</div>
+			<div style="color:#d2d2d2; padding-top:5px;">
 				每当创建网站，会自动分配给网站一个二级域名。这里便是自动分配出二级域名的，要泛解析的主域名。同时，您需要将此域名进行泛解析到此IP（如果您只是再本地进行体验，可以将要泛解析的主域名解析到127.0.0.1）
 				<br/>
 				如，您想创建网站后，自动分配一个二级域名如 1234.wang.market &nbsp; ，那么你需要将 wang.market 进行泛解析，指向当前服务器的ip

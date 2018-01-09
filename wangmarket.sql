@@ -259,12 +259,6 @@ CREATE TABLE `news` (
   KEY `userid` (`userid`,`type`,`supportnum`,`readnum`,`commentnum`,`cid`,`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2341 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='新闻、产品、独立页面';
 
--- ----------------------------
---  Records of `news`
--- ----------------------------
-BEGIN;
-INSERT INTO `news` VALUES ('2337', '243', '1512653883', '公司介绍', null, '公司介绍', '0', '0', null, null, '3', '1', null, '1377', '219', '1'), ('2338', '243', '1512653883', '联系我们', null, '联系我们', '0', '0', null, null, '3', '1', null, '1380', '219', '1'), ('2339', '243', '1512653883', '人才招聘', null, '人才招聘', '0', '0', null, null, '3', '1', null, '1385', '219', '1'), ('2340', '243', '1512653883', '招商加盟', null, '招商加盟', '0', '0', null, null, '3', '1', null, '1386', '219', '1');
-COMMIT;
 
 -- ----------------------------
 --  Table structure for `news_comment`

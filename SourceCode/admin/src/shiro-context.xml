@@ -30,6 +30,8 @@
 				/template/templateExternalList.do = anon
 				/upload/** = anon
 				/ueditor/** = anon
+				<!-- 若使用服务器本身作为存储对象，则会存储到site/目录下 -->
+				<!-- /site/** = anon -->
 				/reg*.do = anon
 				/websocket = anon
 				/bbs/list.do = anon
@@ -39,6 +41,7 @@
 				/currency/index.do = anon
 				/module/ueditor/dialogs/** = anon
 				/im/previewByToken.do = anon
+				/site/*.do = authc
 				/** = authc 
 			</value>
 		</property>

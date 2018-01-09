@@ -39,6 +39,7 @@ public class PublicController_ extends BaseController {
 	/**
 	 * 域名捕获转发
 	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html
+	 * @param request 可get传入 domain 模拟访问的域名。可传入自己绑定的域名，也可传入二级域名。如domain=leiwen.wang.market
 	 */
 	@RequestMapping("dns")
 	public String dns(HttpServletRequest request, HttpServletResponse response, Model model,
@@ -187,48 +188,65 @@ public class PublicController_ extends BaseController {
 	
 	/**
 	 * 获取当前用户访问的域名对应的站点
+	 * @param request 可get传入 domain 模拟访问的域名。可传入自己绑定的域名，也可传入二级域名。如传入leiwen.wang.market
 	 * @return
 	 */
 	private SImpleSiteVO getCurrentSimpleSite(HttpServletRequest request){
 		//当前访问域名的对应站点，先从Session中拿
 		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
 		
+		String serverName = request.getParameter("domain");	//get传入的域名，如 pc.wang.market
+		if(serverName != null && vo != null && !vo.getServerName().equalsIgnoreCase(serverName)){
+			//当get传入的domain有值，且值跟之前缓存的simpleSiteVO的值不对应，那么应该是代理商在用，在编辑多个网站。之前的网站退出了，又上了一个网站，正在预览当前的网站。那么清空之前的网站再session的缓存，重新进行缓存
+			vo = null;
+		}
+		
 		if(vo == null){
 			//Session中没有SImpleSiteVO ，第一次用，那就找内存中的吧
 			vo = new SImpleSiteVO();
 			
-			String serverName = request.getServerName();	//访问域名，如 pc.wang.market
-			//内部调试使用
-			if(serverName.equals("localhost")){
-				serverName = "cs."+G.getAutoAssignMainDomain();
+			if(serverName == null || serverName.length() == 0){
+				serverName = request.getServerName();	//访问域名，如 pc.wang.market
 			}
 			vo.setServerName(serverName);
-			
-			//判断当前访问域名是否是使用的二级域名
-			String twoDomain = null;	
-			for (int i = 0; i < G.getAutoAssignDomain().length; i++) {
-				if(serverName.indexOf("."+G.getAutoAssignDomain()[i]) > -1){
-					twoDomain = serverName.replace("."+G.getAutoAssignDomain()[i], "");
-				}
-			}
-			
 			SimpleSite simpleSite = null;
-			if(twoDomain != null){
-				//用的二级域名
-				simpleSite = G.getDomain(twoDomain);
+			
+			//内部调试使用，本地
+			if(serverName.equals("localhost") || serverName.equals("127.0.0.1")){
+				//模拟一个站点提供访问
+				simpleSite = new SimpleSite();
+				simpleSite.setBindDomain("localhost");
+				simpleSite.setClient(Site.CLIENT_CMS);
+				simpleSite.setDomain(serverName);
+				simpleSite.setId(219);
+				simpleSite.setState(Site.STATE_NORMAL);
+				simpleSite.setTemplateId(1);
 			}else{
-				//自己绑定的域名
-				simpleSite = G.getBindDomain(serverName);
+				//正常使用，从域名缓存中找到对应的网站
+				
+				//判断当前访问域名是否是使用的二级域名
+				String twoDomain = null;	
+				for (int i = 0; i < G.getAutoAssignDomain().length; i++) {
+					if(serverName.indexOf("."+G.getAutoAssignDomain()[i]) > -1){
+						twoDomain = serverName.replace("."+G.getAutoAssignDomain()[i], "");
+					}
+				}
+				
+				if(twoDomain != null){
+					//用的二级域名
+					simpleSite = G.getDomain(twoDomain);
+				}else{
+					//自己绑定的域名
+					simpleSite = G.getBindDomain(serverName);
+				}
 			}
 			
 			if(simpleSite == null){
 				vo.setBaseVO(SImpleSiteVO.FAILURE, "网站没发现，过会在来看看吧");
 				return vo;
 			}
-			
 			vo.setSimpleSite(simpleSite);
-			//计算获取OSS的路径域名(外网下的)
-//			vo.setOssUrl(G.ossUrl+"site/"+simpleSite.getId()+"/");
+			
 			//将获取到的加入Session
 			request.getSession().setAttribute("SImpleSiteVO", vo);
 		}

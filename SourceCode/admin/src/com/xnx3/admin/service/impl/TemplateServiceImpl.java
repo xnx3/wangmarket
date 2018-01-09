@@ -633,13 +633,22 @@ public class TemplateServiceImpl implements TemplateService {
 		List<SiteColumn> siteColumnList = new ArrayList<SiteColumn>();
 		//将栏目进行UTF8编码操作
 		for (int i = 0; i < siteColumnList_Original.size(); i++) {
-			SiteColumn sc = siteColumnList_Original.get(i);
-			sc.setName(StringUtil.StringToUtf8(sc.getName()));
-			sc.setTemplatePageListName(StringUtil.StringToUtf8(sc.getTemplatePageListName()));
-			sc.setTemplatePageViewName(StringUtil.StringToUtf8(sc.getTemplatePageViewName()));
-			sc.setCodeName(StringUtil.StringToUtf8(sc.getCodeName()));
-			sc.setParentCodeName(StringUtil.StringToUtf8(sc.getParentCodeName()));
-			sc.setInputModelCodeName(StringUtil.StringToUtf8(sc.getInputModelCodeName()));
+			SiteColumn sc_ori = siteColumnList_Original.get(i);
+			
+			SiteColumn sc = new SiteColumn();
+			sc.setName(StringUtil.StringToUtf8(sc_ori.getName()));
+			sc.setTemplatePageListName(StringUtil.StringToUtf8(sc_ori.getTemplatePageListName()));
+			sc.setTemplatePageViewName(StringUtil.StringToUtf8(sc_ori.getTemplatePageViewName()));
+			sc.setCodeName(StringUtil.StringToUtf8(sc_ori.getCodeName()));
+			sc.setParentCodeName(StringUtil.StringToUtf8(sc_ori.getParentCodeName()));
+			sc.setInputModelCodeName(StringUtil.StringToUtf8(sc_ori.getInputModelCodeName()));
+			sc.setRank(sc_ori.getRank());
+			sc.setUsed(sc_ori.getUsed());
+			sc.setType(sc_ori.getType());
+			sc.setListNum(sc_ori.getListNum());
+			sc.setEditMode(sc_ori.getEditMode());
+			sc.setInputModelCodeName(sc_ori.getInputModelCodeName());
+			
 			siteColumnList.add(sc);
 		}
 		
@@ -648,10 +657,12 @@ public class TemplateServiceImpl implements TemplateService {
 		//自定义输入模型，经过UTF8编码替换过的，保存到模版的
 		List<InputModel> inputModelList = new ArrayList<InputModel>();
 		for (int i = 0; i < inputModelList_Original.size(); i++) {
-			InputModel im = inputModelList_Original.get(i);
-			im.setCodeName(im.getCodeName());
-			im.setRemark(im.getRemark());
-			im.setText(im.getText());
+			InputModel im_ori = inputModelList_Original.get(i);
+
+			InputModel im = new InputModel();
+			im.setCodeName(StringUtil.StringToUtf8(im_ori.getCodeName()));
+			im.setRemark(StringUtil.StringToUtf8(im_ori.getRemark()));
+			im.setText(StringUtil.StringToUtf8(im_ori.getText()));
 			inputModelList.add(im);
 		}
 		
@@ -660,6 +671,7 @@ public class TemplateServiceImpl implements TemplateService {
 		jo.put("time", DateUtil.timeForUnix10());	//导出的时间，10为时间戳
 		jo.put("templateName", StringUtil.StringToUtf8(site.getTemplateName()));	//当前模版的名字
 		jo.put("sourceUrl", StringUtil.StringToUtf8(Func.getDomain(site))); 	//模版来源的网站，从那个网站导出来的，可以作为预览网站
+		jo.put("useUtf8Encode", "true");	//设置使用UTF8编码将内容进行转码
 		
 		jo.put("templatePageList", templatePageList);
 		jo.put("templateVarList", templateVarList);

@@ -111,7 +111,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
 				<dd><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
 				<dd><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('http://${siteUrl}/index.html');">预览网站</a></dd>
+				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>dns.do?domain=${site.domain }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>');">预览网站</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">

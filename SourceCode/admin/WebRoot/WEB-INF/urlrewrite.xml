@@ -21,7 +21,7 @@
             访问跟目录，也就是域名直接访问
         </note>
         <from>^/$</from>
-        <to type="forward">/dns.do?htmlFile=index.html</to>
+        <to type="forward">/dns.do?htmlFile=index</to>
     </rule>
     <rule>
         <note>
