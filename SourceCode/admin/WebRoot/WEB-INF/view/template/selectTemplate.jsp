@@ -59,8 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 <body>
 <div style="padding: 12px;font-weight: 700;padding-left: 32px;color: red; font-size: 20px;">
-	注意，方案二、三，当您选择了一个模版后，将无法再使用其他模版！请谨慎选择。
-	<br/>更多功能正在开发中...后期将可以对模版进行备份、还原、一个网站随意变换多个模版等
+	注意，方案二、三，当您使用了一个模版后，将无法再使用其他模版。
 </div>
 
 <div class="site-title">

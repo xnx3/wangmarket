@@ -16,6 +16,7 @@
         <from>^/(\w+).html$</from>
         <to type="forward">/dns.do?htmlFile=$1</to>
     </rule>
+
     <rule>
         <note>
             访问跟目录，也就是域名直接访问
@@ -35,7 +36,6 @@
         <from>^/sitePc/(\w+).html$</from>  
         <to>/site/html.do?htmlFile=$1</to> 
     </rule>
-    
     <rule>
         <from>^/news/(\w+).html$</from>  
         <to>/site/html.do?htmlFile=$1</to> 

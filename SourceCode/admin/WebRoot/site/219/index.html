@@ -3,19 +3,30 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta http-equiv="Content-Language" content="zh-CN">
-<title>提示</title>
+<title>网市场</title>
+<!-- layer 、 layui -->
+<link rel="stylesheet" href="http://res.weiunity.com/layui2/css/layui.css">
+<script src="http://res.weiunity.com/layui2/layui.js"></script>
+<script>
+//加载 layer 模块
+layui.use('layer', function(){
+  layer = layui.layer;
+});
+</script>
 </head>
 <body style="">
 
-<h2>当您在本地调试，使用localhost或者127.0.0.1访问项目时，才会看到此页面。放到服务器正式使用过程中，不会看到此页面</h2>
-<hr/>
-<br/>
-<div>如果您第一次用此软件，可以通过安装网址 &nbsp; <a href="install/index.do">/install/index.do</a> &nbsp;进行安装</div>
-<br/>
-<div>或者查看简单易懂的安装步骤进行安装&nbsp; <a href="https://github.com/xnx3/wangmarket/blob/master/else/quickConfig.md">点此查看</a> &nbsp;</div>
+<div style="padding: 15px;">
+	<div style="font-size: 16px;">当您在本地调试，使用localhost或者127.0.0.1访问项目时，才会看到此页面。放到服务器正式使用过程中，不会看到此页面</div>
+	<hr class="layui-bg-gray">
+	<br/>
+	<div>如果您第一次用此软件，可以通过安装网址 &nbsp; <a href="install/index.do">/install/index.do</a> &nbsp;进行安装</div>
+	<br/>
+	<div>或者查看简单易懂的安装步骤进行安装&nbsp; <a href="https://github.com/xnx3/wangmarket/blob/master/else/quickConfig.md">点此查看</a> &nbsp;</div>
+</div>
 
-<div style="text-align:center; position: absolute; bottom: 80px; width: 100%;">
-	<a href="login.do">登录后台</a>
+<div style="text-align:center; position: absolute; bottom: 150px; width: 100%;">
+	<a href="login.do" style="border: 1px solid #C9C9C9;background-color: #fff;color: #555; padding: 10px;font-size: 20px;padding-left: 20px;padding-right: 20px;">登录后台</a>
 </div>
 
 <div style="text-align:center; position: absolute; bottom: 20px; width: 100%;">

@@ -161,7 +161,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 		</li>
 		
 		<li class="layui-nav-item">
-			<a id="chakanwangzhan" href="${siteUrl }" target="_black">
+			<a id="chakanwangzhan" href="<%=basePath %>dns.cgi?domain=${site.domain }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>" target="_black">
 				<i class="layui-icon firstMenuIcon">&#xe615;</i>
 				<span class="firstMenuFont">预览网站</span>
 			</a>

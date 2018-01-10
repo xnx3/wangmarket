@@ -1,19 +1,25 @@
 package com.xnx3.domain.controller;
 
 import java.util.Vector;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.net.HttpResponse;
@@ -215,7 +221,7 @@ public class PublicController_ extends BaseController {
 			if(serverName.equals("localhost") || serverName.equals("127.0.0.1")){
 				//模拟一个站点提供访问
 				simpleSite = new SimpleSite();
-				simpleSite.setBindDomain("localhost");
+				simpleSite.setBindDomain(serverName);
 				simpleSite.setClient(Site.CLIENT_CMS);
 				simpleSite.setDomain(serverName);
 				simpleSite.setId(219);

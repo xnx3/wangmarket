@@ -36,13 +36,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<br/>
 		<div>
-			提供快速体验的账号密码都是 ceshicms
+			提供快速体验的账号密码都是 wangzhan
 			<div style="font-size:14px; color:gray;">
 				体验一下网站管理后台。开通网站后，将网站的账号密码给客户，客户可以自己上传新闻、产品，自行维护
 			</div>
 		</div>		
 	</div>
-	
 </div>
 
 <jsp:include page="../../iw/common/foot.jsp"></jsp:include> 
