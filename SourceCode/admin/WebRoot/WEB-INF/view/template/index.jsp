@@ -250,7 +250,16 @@ function htmledit_mode(){
 	if(currentMode == 1){
 		document.getElementById("iframe").style.display='none';
 		document.getElementById("html_textarea").style.display='';
-		document.getElementById("html_textarea").value=getHtmlSource();
+		
+		//判断一下，如果模版页面不是正常的HTML模版，那么在切换到代码模式时，不进行赋值textarea的操作
+		var html = '';
+		try {
+			html = getHtmlSource();
+		} catch(error) {}
+		if(html != ''){
+			document.getElementById("html_textarea").value=getHtmlSource();
+		}
+		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
 		currentMode = 2;
 	}else{

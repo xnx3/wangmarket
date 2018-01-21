@@ -299,5 +299,27 @@ var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 <script src="http://res.weiunity.com/js/im/admin.js"></script>
 <!-- IM end -->
 
+
+<script>
+//当前系统版本检测，可做成自己系统的
+function systemVersionCheck(){
+	$.getJSON("../../getNewVersion.do",function(result){
+		if(result.findNewVersion){
+			layer.open({
+				  title: '版本提示'
+				  ,offset: 'rb'
+				  ,time: 3000
+				  ,content: '发现新版本&nbsp;v'+result.newVersion
+				  ,btn: ['查看']
+				  ,shadeClose: true
+				  ,yes: function(index, layero){
+					window.open(result.previewUrl);
+				  }
+			});
+		}
+	});
+}
+window.setTimeout(systemVersionCheck,3000); 
+</script>
 </body>
 </html>

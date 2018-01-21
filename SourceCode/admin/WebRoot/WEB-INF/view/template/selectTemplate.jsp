@@ -145,6 +145,7 @@ function useCloudTemplate(templateName){
 
 //加载云端的模版列表
 function loadCloudTemplateList(){
+	//若使用云端模版库，则可以将下面请求地址换为 http://wang.market/cloudTemplateList.do
 	$.getJSON('<%=basePath %>cloudTemplateList.do',function(obj){
 		var html = '';	//云端模版的列表
 			if(obj.result == '1'){
