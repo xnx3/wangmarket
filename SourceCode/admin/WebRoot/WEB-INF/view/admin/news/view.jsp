@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						    	<img src="${news.titlepic }?x-oss-process=image/resize,h_100" height="50" />
 						    </c:when>
 						    <c:otherwise>
-								<a href="<%=AttachmentFile.netUrl() %>site/${news.siteid }/news/${news.titlepic }" target="_black"><img src="<%=OSSUtil.url %>site/${news.siteid }/news/${news.titlepic }?x-oss-process=image/resize,h_100" height="50" /></a>
+								<a href="<%=AttachmentFile.netUrl() %>site/${news.siteid }/news/${news.titlepic }" target="_black"><img src="<%=AttachmentFile.netUrl() %>site/${news.siteid }/news/${news.titlepic }?x-oss-process=image/resize,h_100" height="50" /></a>
 						    </c:otherwise>
 						</c:choose>
 					</c:when>

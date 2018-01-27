@@ -458,6 +458,8 @@ public class NewsController extends BaseController {
 			generateUrlRule = "code";
 		}
 		
+		//访问的html文件名，不含后缀
+		String fileName = "";
 		//判断是否是独立页面，若是独立页面，需要用 c +cid .html， 或者使用code.html
 		if(type - SiteColumn.TYPE_PAGE == 0){
 			if(generateUrlRule.equals("code")){
@@ -468,16 +470,20 @@ public class NewsController extends BaseController {
 					return error(model, "文章所属栏目未发现");
 				}
 				
+				fileName = sc.getCodeName();
 				url = url + sc.getCodeName() + ".html"; 
 			}else{
+				fileName = "c" + cid;
 				url = url + "c" + cid + ".html";
 			}
 		}else{
+			fileName = newsId+"";
 			url = url + newsId + ".html";
 		}
 		
 		AliyunLog.addActionLog(newsId, "网站管理后台查看文章页面", url);
-		return redirect(url);
+//		return redirect(url);
+		return redirect("../dns.cgi?domain="+site.getDomain()+"."+Global.get("AUTO_ASSIGN_DOMAIN")+"&htmlFile="+fileName);
 	}
 	
 
