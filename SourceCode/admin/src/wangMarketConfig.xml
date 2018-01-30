@@ -4,8 +4,8 @@
 	<version>3.8</version>
 	
 	<!-- websocket im 的socket url访问地址 -->
-	<websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl>
-	<!-- <websocketUrl>ws://localhost:8081/wangMarketIM/websocket</websocketUrl> -->
+	<!-- <websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl> -->
+	<websocketUrl>http://localhost:8081/GitHubWangMarket_im/websocket</websocketUrl>
 
 	<!-- 阿里云短信发送 -->
 	<AliyunSMSUtil>
