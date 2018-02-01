@@ -146,7 +146,7 @@ public class InstallController_ extends BaseController {
 		sqlService.executeSql("update system set value = '"+AUTO_ASSIGN_DOMAIN+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
 		sqlService.executeSql("update system set value = '"+SERVICE_MAIL+"' WHERE name = 'SERVICE_MAIL'");
 		
-		if(Global.get("IW_AUTO_INSTALL_USE").equals(AttachmentFile.MODE_ALIYUN_OSS)){
+		if(Global.get("ATTACHMENT_FILE_MODE").equals(AttachmentFile.MODE_ALIYUN_OSS)){
 			//阿里云oss，还要继续配置阿里云参数
 		}else{
 			//如果是服务器存储，那到这一步就结束了，在此禁用install安装

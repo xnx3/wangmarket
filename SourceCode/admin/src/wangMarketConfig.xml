@@ -26,12 +26,4 @@
 		-->
 	</AliyunSMSUtil>
 	
-	<!-- 域名服务器列表 -->
-	<domainServer>
-		<!-- 香港 -->
-		<domain>http://domain2.wang.market/</domain>
-		<!-- 华北3 -->
-		<domain>http://domainhuabei3.wang.market/</domain>
-	</domainServer>
-	
 </configuration>
