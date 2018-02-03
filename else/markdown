@@ -1,0 +1,79 @@
+<div class="layui-form-item">
+	<label class="layui-form-label" id="label_columnName">文章标题</label>
+	<div class="layui-input-block">
+		<input type="text" name="title"  required lay-verify="required" autocomplete="off" placeholder="限制30字以内" class="layui-input" value="{news.title}">
+	</div>
+</div>
+
+<!-- 如果是图文列表页面，图片才会在列表显示 -->
+<div class="layui-form-item" id="titlepic" style="display:none;">
+	<label class="layui-form-label" id="label_columnName">标题图片</label>
+	<div class="layui-input-block" style="max-width:500px;">
+		<input type="file" class="layui-input" value="" id="titlePicFile" name="titlePicFile" style="padding-top: 6px; padding-right: 80px; "/>
+		<a href="{titlepicImage}" target="_black" style="float: right;margin-top: -38px;" title="当前图片。点击可看全图。若要修改，可点击左侧选择其他图片进行上传">
+			<img src="{titlepicImage}?x-oss-process=image/resize,h_38"/>
+		</a>
+	</div>
+</div>
+
+<!-- 
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="label_columnName">内容简介</label>
+		<div class="layui-input-block">
+			<textarea class="layui-input" name="intro" style="height:70px;">{news.intro}</textarea>
+		</div>
+	</div>
+ -->
+
+<div class="layui-form-item">
+	<div class="layui-input-block" id="ueditorUpperDiv" style="border: 0px; margin-left:30px;">
+
+
+
+<link rel="stylesheet" href="http://res.weiunity.com/editor/css/style.css" />
+        <link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
+        <div id="layout">
+            <div id="test-editormd">
+                <textarea style="display:none;" name="text">{text}</textarea>
+            </div>
+        </div>        
+        <script src="http://res.weiunity.com/editor/editormd.js"></script>
+        <script type="text/javascript">
+            $(function() {                
+                var testEditor = editormd("test-editormd", {
+                    width: "100%",
+                    height: 640,
+                    markdown : "",
+                    path : 'http://res.weiunity.com/editor/lib/',
+                    //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为 true
+                    //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为 true
+                    //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为 true
+                    //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为 0.1
+                    //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为 #fff
+                    imageUpload : true,
+                    imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL : "../template/uploadImage.do",
+                    
+                    /*
+                     上传的后台只需要返回一个 JSON 数据，结构如下：
+                     {
+                        success : 0 | 1,           // 0 表示上传失败，1 表示上传成功
+                        message : "提示的信息，上传成功或上传失败及错误信息等。",
+                        url     : "图片地址"        // 上传成功时才返回
+                     }
+                     */
+                });
+            });
+        </script>
+
+
+
+	</div>
+</div>
+
+<script>
+	if({siteColumn.type} == 2){
+		//类型为2，是图文栏目时，才会显示标题图编辑功能
+		document.getElementById('titlepic').style.display='';
+	}
+</script>
