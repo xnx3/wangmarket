@@ -40,6 +40,9 @@ public class MNSUpdateThread {
 				}
 				
 				while(true){
+					System.out.println("kefuMNSUtil:"+Global.kefuMNSUtil);
+					System.out.println(Global.kefuMNSUtil_queueName);
+					System.out.println(Global.kefuMNSUtil.toString());
 					try {
 						//延迟，。。。使用此应用独有的延迟时间＋随机增加时间，进行轮训拉取
 						int s = intervalTime+(IntegerUtil.random(1, 35)*1000);

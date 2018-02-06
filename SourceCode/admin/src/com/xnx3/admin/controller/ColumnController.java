@@ -28,7 +28,6 @@ import com.xnx3.admin.entity.SiteColumn;
 import com.xnx3.admin.entity.TemplatePage;
 import com.xnx3.admin.service.InputModelService;
 import com.xnx3.admin.service.NewsService;
-import com.xnx3.admin.service.PageService;
 import com.xnx3.admin.service.SiteColumnService;
 import com.xnx3.admin.service.SiteService;
 import com.xnx3.admin.service.TemplateService;
@@ -46,8 +45,6 @@ import com.xnx3.admin.vo.TemplatePageListVO;
 public class ColumnController extends BaseController {
 	@Resource
 	private SqlService sqlService;
-	@Resource
-	private PageService pageService;
 	@Resource
 	private SiteService siteService;
 	@Resource
@@ -425,7 +422,7 @@ public class ColumnController extends BaseController {
 		
 		//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 		if(siteColumn.getType() == SiteColumn.TYPE_PAGE){
-			pageService.createNonePage(siteColumn,site,updateName);
+			siteColumnService.createNonePage(siteColumn,site,updateName);
 		}
 		//生成栏目页面
 		if(siteColumn.getType() == SiteColumn.TYPE_NEWS || siteColumn.getType() == SiteColumn.TYPE_IMAGENEWS){
@@ -610,7 +607,7 @@ public class ColumnController extends BaseController {
 		if(sc.getId() > 0){
 			//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 			if(sc.getType() == SiteColumn.TYPE_PAGE){
-				pageService.createNonePage(sc,site,updateName);
+				siteColumnService.createNonePage(sc,site,updateName);
 			}
 			
 			if(Func.isCMS(site)){
@@ -762,7 +759,7 @@ public class ColumnController extends BaseController {
 			
 			//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 			if(sc.getType() - SiteColumn.TYPE_PAGE == 0){
-				pageService.createNonePage(sc,site,updateName);
+				siteColumnService.createNonePage(sc,site,updateName);
 			}
 			
 			//判断当前网站的属性，是wap、pc、cms

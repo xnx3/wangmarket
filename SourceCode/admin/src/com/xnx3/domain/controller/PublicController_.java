@@ -109,7 +109,7 @@ public class PublicController_ extends BaseController {
 			
 			html = replaceHtmlTag(simpleSite, html);
 			//过滤掉空行
-			html = html.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", ""); 
+//			html = html.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", ""); 
 			//加载在线客服
 			int time = DateUtil.timeForUnix10();
 			html = html + ""

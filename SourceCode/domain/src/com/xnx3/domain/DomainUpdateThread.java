@@ -4,16 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import net.sf.json.JSONObject;
 
 import com.aliyun.mns.model.Message;
 import com.xnx3.IntegerUtil;
 import com.xnx3.domain.bean.SimpleSite;
+import com.xnx3.j2ee.func.Log;
 
 /**
  * 域名更新线程。使用MNS轮训。网站没有上万之前，此方式比较省钱
  * @author 管雷鸣
  */
+@Component
 public class DomainUpdateThread {
 	//主要用户消息服务取到消息后，将消息内容更新过来。但是一个消息可能会取多次，如果连续改动几次，那此处接收到消息后可能会频繁改来改去。所以用此map，来判断是否此消息已经取过了，若取过了，则忽略，若没有取过，才能拿来使用。同时缓存到此map中进行记录
 	public static Map<String,String> messageUpdateMap = new HashMap<String, String>();
@@ -53,6 +57,7 @@ public class DomainUpdateThread {
 							Message message = ml.get(i);
 							//判断此是否已经更新过了
 							if(messageUpdateMap.get(message.getMessageId()) == null){
+								
 								//若没有更新过，才会进行更新信息的操作
 								JSONObject json = JSONObject.fromObject(message.getMessageBody());
 								SimpleSite ss = new SimpleSite();
@@ -64,6 +69,8 @@ public class DomainUpdateThread {
 								if(json.get("templateId") != null){
 									ss.setTemplateId(json.getInt("templateId"));
 								}
+								
+								System.out.println("MNS DomainUpdateThread : "+ss.toString());
 								
 								//更新域名缓存
 								//更新自动分配的二级域名

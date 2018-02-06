@@ -38,6 +38,7 @@ public class TemplateVO extends BaseVO {
 	private int time;	//导出的时间，10为时间戳
 	private String templateName;	//当前模版的名字
 	private String sourceUrl;	//模版来源的网站，从那个网站导出来的，可以作为预览网站
+	private String plugin;		//插件模式。如果此不为null，且长度大于1，则视为插件模式，无视templateName，可在已经有模版的CMS模式网站直接导入
 	
 	//v3.6增加，根据模版中的useUtf8Encode=true来识别。3.6之后的全部采用编码机制
 	private boolean isUtf8Encode;	//当前是否使用utf8编码，将汉字转化为utf8字符，避免乱码
@@ -127,56 +128,60 @@ public class TemplateVO extends BaseVO {
 		}
 		
 		//TemplatePage模版页
-		JSONArray templatePageArray = jo.getJSONArray("templatePageList");
 		templatePageList = new ArrayList<TemplatePage>();
-		for (int i = 0; i < templatePageArray.size(); i++) {
-			JSONObject j = templatePageArray.getJSONObject(i);
-			com.xnx3.admin.entity.TemplatePage ntp = new com.xnx3.admin.entity.TemplatePage();
-			ntp.setName(getJsonStringAndSafetyFilter(j.getString("name")));
-			ntp.setSiteid(currentSite.getId());
-			ntp.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
-			ntp.setType((short) j.getInt("type"));
-			ntp.setUserid(currentSite.getUserid());
-			if(j.get("remark") != null){
-				//兼容之前没有remark导出的json数据
-				ntp.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
+		if(jo.get("templatePageList") != null){
+			JSONArray templatePageArray = jo.getJSONArray("templatePageList");
+			for (int i = 0; i < templatePageArray.size(); i++) {
+				JSONObject j = templatePageArray.getJSONObject(i);
+				com.xnx3.admin.entity.TemplatePage ntp = new com.xnx3.admin.entity.TemplatePage();
+				ntp.setName(getJsonStringAndSafetyFilter(j.getString("name")));
+				ntp.setSiteid(currentSite.getId());
+				ntp.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
+				ntp.setType((short) j.getInt("type"));
+				ntp.setUserid(currentSite.getUserid());
+				if(j.get("remark") != null){
+					//兼容之前没有remark导出的json数据
+					ntp.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
+				}
+				
+				TemplatePage tp = new TemplatePage();
+				tp.setTemplatePage(ntp);
+				tp.setText(getJsonString(j.getString("text")));
+				
+				templatePageList.add(tp);
 			}
-			
-			TemplatePage tp = new TemplatePage();
-			tp.setTemplatePage(ntp);
-			tp.setText(getJsonString(j.getString("text")));
-			
-			templatePageList.add(tp);
 		}
+		
 		
 
 		//创建TemplateVar模版变量
-		JSONArray templateVarArray = jo.getJSONArray("templateVarList");
 		templateVarList = new ArrayList<TemplateVar>();
-		for (int i = 0; i < templateVarArray.size(); i++) {
-			JSONObject j = templateVarArray.getJSONObject(i);
-			com.xnx3.admin.entity.TemplateVar tv = new com.xnx3.admin.entity.TemplateVar();
-			tv.setAddtime(DateUtil.timeForUnix10());
-			tv.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
-			tv.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
-			tv.setUpdatetime(tv.getAddtime());
-			tv.setUserid(currentSite.getUserid());
-			tv.setVarName(getJsonStringAndSafetyFilter(j.getString("var_name")));
-			tv.setSiteid(currentSite.getId());
-			
-			TemplateVar t = new TemplateVar();
-			t.setTemplateVar(tv);
-			t.setText(getJsonString(j.getString("text")));
-			
-			templateVarList.add(t);
+		if(jo.get("templateVarList") != null){
+			JSONArray templateVarArray = jo.getJSONArray("templateVarList");
+			for (int i = 0; i < templateVarArray.size(); i++) {
+				JSONObject j = templateVarArray.getJSONObject(i);
+				com.xnx3.admin.entity.TemplateVar tv = new com.xnx3.admin.entity.TemplateVar();
+				tv.setAddtime(DateUtil.timeForUnix10());
+				tv.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
+				tv.setTemplateName(getJsonStringAndSafetyFilter(jo.getString("templateName")));
+				tv.setUpdatetime(tv.getAddtime());
+				tv.setUserid(currentSite.getUserid());
+				tv.setVarName(getJsonStringAndSafetyFilter(j.getString("var_name")));
+				tv.setSiteid(currentSite.getId());
+				
+				TemplateVar t = new TemplateVar();
+				t.setTemplateVar(tv);
+				t.setText(getJsonString(j.getString("text")));
+				
+				templateVarList.add(t);
+			}
 		}
+		
 		
 
 		//导入自定义输入模型
 		inputModelList = new ArrayList<InputModel>();
-		if(jo.get("inputModelList") == null){
-//			System.out.println("没有输入模型，忽略");
-		}else{
+		if(jo.get("inputModelList") != null){
 			//有输入模型，那么要导入进去
 			JSONArray inputModelArray = jo.getJSONArray("inputModelList");
 			for (int i = 0; i < inputModelArray.size(); i++) {
@@ -192,9 +197,7 @@ public class TemplateVO extends BaseVO {
 		
 		//拿到模版网站下所有可用的栏目
 		siteColumnList = new ArrayList<SiteColumn>();
-		if(jo.get("siteColumnList") == null){
-			System.out.println("模版下没有可创建栏目，忽略");
-		}else{
+		if(jo.get("siteColumnList") != null){
 			JSONArray siteColumnArray = jo.getJSONArray("siteColumnList");
 			for (int i = 0; i < siteColumnArray.size(); i++) {
 				JSONObject j = siteColumnArray.getJSONObject(i);	//要复制的目标栏目
@@ -223,23 +226,51 @@ public class TemplateVO extends BaseVO {
 			}
 		}
 		
-		try {
-			templateName = getJsonStringAndSafetyFilter(jo.getString("templateName"));
-			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
-			time = jo.getInt("time");
-			sourceUrl = getJsonStringAndSafetyFilter(jo.getString("sourceUrl"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			if(templateName == null){
-				templateName = "";
-			}
-			if(systemVersion == null){
-				systemVersion = "";
-			}
-			if(sourceUrl == null){
-				sourceUrl = "";
-			}
+		//是否是插件模式
+		if(jo.get("plugin") != null){
+			plugin = getJsonStringAndSafetyFilter(jo.getString("plugin"));
 		}
+		
+		if(jo.get("templateName") != null){
+			templateName = getJsonStringAndSafetyFilter(jo.getString("templateName"));
+		}else{
+			templateName = "";
+		}
+		
+		if(jo.get("systemVersion") != null){
+			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
+		}else{
+			systemVersion = "";
+		}
+		
+		if(jo.get("time") != null){
+			time = jo.getInt("time");
+		}
+		
+		if(jo.get("sourceUrl") != null){
+			sourceUrl = getJsonStringAndSafetyFilter(jo.getString("sourceUrl"));
+		}else{
+			sourceUrl = "";
+		}
+		
+//		
+//		try {
+////			templateName = getJsonStringAndSafetyFilter(jo.getString("templateName"));
+//			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
+//			time = jo.getInt("time");
+//			sourceUrl = getJsonStringAndSafetyFilter(jo.getString("sourceUrl"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			if(templateName == null){
+//				templateName = "";
+//			}
+//			if(systemVersion == null){
+//				systemVersion = "";
+//			}
+//			if(sourceUrl == null){
+//				sourceUrl = "";
+//			}
+//		}
 		
 		return true;
 	}
@@ -273,4 +304,11 @@ public class TemplateVO extends BaseVO {
 		
 		return Safety.filter(getJsonString(text));
 	}
+	public String getPlugin() {
+		return plugin;
+	}
+	public void setPlugin(String plugin) {
+		this.plugin = plugin;
+	}
+	
 }

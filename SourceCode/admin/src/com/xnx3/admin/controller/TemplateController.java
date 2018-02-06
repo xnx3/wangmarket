@@ -842,11 +842,17 @@ public class TemplateController extends BaseController {
 		//将用户导入的模板存入Session，以便用户选中要还原的内容后，准备还原时直接取
 		request.getSession().setAttribute("tvo", tvo);
 		
-		//首先，判断当前模板是否可以还原到当前网站中
 		Site site = Func.getCurrentSite();
-		if(!StringUtil.StringEqual(site.getTemplateName(), tvo.getTemplateName())){
-			templateCompareVO.setBaseVO(TemplateCompareVO.FAILURE, "当前网站使用的模板与导入的模板不属于同一个模板，无法还原！");
-			return templateCompareVO;
+		
+		//首先，判断当前模板是否可以还原到当前网站中
+		if(tvo.getPlugin() != null && tvo.getPlugin().length() > 1){
+			//插件模式，不用比对是否模版一致
+		}else{
+			//模版模式，要比对模版，必须模版一致才可以
+			if(!StringUtil.StringEqual(site.getTemplateName(), tvo.getTemplateName())){
+				templateCompareVO.setBaseVO(TemplateCompareVO.FAILURE, "当前网站使用的模板与导入的模板不属于同一个模板，无法还原！");
+				return templateCompareVO;
+			}
 		}
 		
 		/*
@@ -1283,6 +1289,7 @@ public class TemplateController extends BaseController {
 				
 				SiteColumn backupsSc = backupsSiteColumnMap.get(siteColmnCodeName);	//导入的备份模板的
 				SiteColumn sc = siteColumnMap.get(siteColmnCodeName);	//网站本身的
+				boolean isCreate = false;	//当前栏目是否是从新创建，如果之前不存在，需要重新创建，此为true
 				if(sc == null){
 					//如果是现在网站中删除了，那么在创建一个
 					sc = new SiteColumn();
@@ -1290,6 +1297,7 @@ public class TemplateController extends BaseController {
 					sc.setRank(0);
 					sc.setSiteid(site.getId());
 					sc.setUserid(site.getUserid());
+					isCreate = true;
 				}
 				sc.setIcon(filter(backupsSc.getIcon()));
 				sc.setInputModelCodeName(filter(backupsSc.getInputModelCodeName()));
@@ -1309,6 +1317,10 @@ public class TemplateController extends BaseController {
 					sc.setEditMode(backupsSc.getEditMode());
 				}
 				sqlService.save(sc);
+				if(isCreate){
+					//如果创建新的栏目，那么判断一下，如果是独立页面类型的栏目，还要创建内容页面
+					siteColumnService.createNonePage(sc, site, false);
+				}
 				
 				//刷新当前Session缓存数据
 				siteColumnService.updateSiteColumnByCache(sc);
@@ -1370,5 +1382,55 @@ public class TemplateController extends BaseController {
 		}
 	}
 	
+	/**
+	 * 模版插件，浏览云端可用的模版插件列表，选择插件安装
+	 */
+	@RequestMapping("/templatePlugin")
+	public String templatePlugin(HttpServletRequest request,Model model){
+		AliyunLog.addActionLog(getSiteId(), "打开CMS模式下的模版插件选择界面");
+		return "template/templatePlugin";
+	}
+	
+
+	/**
+	 * 导入模版插件，弹出对比窗口
+	 * <br/>模版文件包含模版页面，模版变量、栏目、输入模型
+	 */
+	@RequestMapping("restoreTemplatePluginByRemote")
+	@ResponseBody
+	public BaseVO restoreTemplatePluginByRemote(HttpServletRequest request, Model model, 
+			@RequestParam(value = "pluginName", required = false, defaultValue="") String pluginName){
+		TemplateCompareVO tcv = new TemplateCompareVO();
+		Site site = getSite();
+		
+		if(!Func.isCMS(site)){
+			return error("当前网站非CMS模式，无法使用模版插件");
+		}
+		
+		if(pluginName.length() == 0){
+			return error("请选择使用那个模版插件");
+		}
+		
+		HttpUtil http = new HttpUtil(HttpUtil.UTF8);
+		HttpResponse hr = http.get(G.RES_CDN_DOMAIN+"template_plugin/"+pluginName+"/template.wscso");
+		if(hr.getCode() - 404 == 0){
+			return error("云端模版插件不存在");
+		}
+		
+		TemplateVO templateVO = new TemplateVO();
+		templateVO.importText(hr.getContent());
+		tcv = restoreTemplateCompare(request, templateVO);
+		if(tcv.getResult() - TemplateCompareVO.FAILURE == 0){
+			return error(tcv.getInfo());
+		}
+		
+		AliyunLog.addActionLog(getSiteId(), "云端模版插件进行比对预览");
+		
+		//将比对好的存入Session，方便在其他页面直接显示
+		request.getSession().setAttribute("comparePreviewTCV", tcv);
+		request.getSession().setAttribute("comparePreviewTemplateVO", templateVO);
+		
+		return success();
+	}
 	
 }

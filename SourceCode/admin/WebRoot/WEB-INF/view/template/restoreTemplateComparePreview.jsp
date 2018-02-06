@@ -46,11 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <div class="layui-form-item">
-	<label class="layui-form-label">备份时间</label>
+	<label class="layui-form-label">生成时间</label>
 	<div class="layui-input-block">
 		<div style="padding-top: 7px;">
 			<x:time linuxTime="${tcv.buckupsTemplateVO.time }"></x:time>
-			<i class="layui-icon" style="font-size: 14px;color: #777777;border: 1px solid #5FB878;border-radius: 10px;padding: 1px;cursor: pointer;" onclick="layer.msg('要还原的模板的备份时间，指定还原的模板数据是什么时间备份的，什么时间导出的。', {shade: 2});">&#xe607;</i>  
+			<i class="layui-icon" style="font-size: 14px;color: #777777;border: 1px solid #5FB878;border-radius: 10px;padding: 1px;cursor: pointer;" onclick="layer.msg('生成的时间，此是什么时间生成的，什么时间导出的。', {shade: 2});">&#xe607;</i>  
 		</div>
 		
 	</div>
@@ -94,7 +94,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				$(function(){
 					<c:choose>
 					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需还原</b>';
+					        var text = '当前网站内未有改动，<b>无需导入</b>';
 					    </c:when>
 					    <c:when test="${v.result == 1}">
 					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
@@ -112,7 +112,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 					        }
 					    </c:when>
 					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内已删除，<b>可还原</b>';
+					        var text = '当前网站内未发现其存在，<b>可导入</b>';
 					    </c:when>
 					</c:choose>
 					
@@ -147,7 +147,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				$(function(){
 					<c:choose>
 					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需还原</b>';
+					        var text = '当前网站内未有改动，<b>无需导入</b>';
 					    </c:when>
 					    <c:when test="${v.result == 1}">
 					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
@@ -162,7 +162,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 					        }
 					    </c:when>
 					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内已删除，<b>可还原</b>';
+					        var text = '当前网站内未发现其存在，<b>可导入</b>';
 					    </c:when>
 					</c:choose>
 					
@@ -198,7 +198,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				$(function(){
 					<c:choose>
 					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需还原</b>';
+					        var text = '当前网站内未有改动，<b>无需导入</b>';
 					    </c:when>
 					    <c:when test="${v.result == 1}">
 					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
@@ -242,7 +242,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 					        }
 					    </c:when>
 					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内已删除，<b>可还原</b>';
+					        var text = '当前网站内未发现其存在，<b>可导入</b>';
 					    </c:when>
 					</c:choose>
 					
@@ -278,7 +278,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				$(function(){
 					<c:choose>
 					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需还原</b>';
+					        var text = '当前网站内未有改动，<b>无需导入</b>';
 					    </c:when>
 					    <c:when test="${v.result == 1}">
 					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
@@ -293,7 +293,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 					        }
 					    </c:when>
 					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内已删除，<b>可还原</b>';
+					        var text = '当前网站内未发现其存在，<b>可导入</b>';
 					    </c:when>
 					</c:choose>
 					
@@ -316,7 +316,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 	
 	<div class="layui-form-item" style="padding-bottom: 20px;">
 		<div class="layui-input-block">
-			<button class="layui-btn" lay-submit lay-filter="formSubmit">进行还原</button>
+			<button class="layui-btn" lay-submit lay-filter="formSubmit">立即导入</button>
 			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 		</div>
 	</div>
@@ -349,13 +349,17 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(formSubmit)', function(data){
-  	  $.showLoading('还原中');
 		var d=$("form").serialize();
+		if(d.length == 0){
+			iw.msgFailure('请选择导入对象');
+			return false;
+		}
+		$.showLoading('还原中');
         $.post("<%=basePath %>template/restoreTemplateSubmit.do", d, function (result) { 
         	$.hideLoading();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('还原成功', {shade: 0.3});
+        		parent.layer.msg('操作成功', {shade: 0.3});
         		parent.layer.close(index);
         	}else if(obj.result == '0'){
         		parent.layer.msg(obj.info, {shade: 0.3})

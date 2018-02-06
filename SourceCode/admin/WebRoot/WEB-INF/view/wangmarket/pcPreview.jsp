@@ -46,11 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        qrcode.makeCode('http://<%=request.getServerName() %>');
             </script>	
             <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"我今天开通了我的移动微站，高大上有木有！进入[网·市场]，用手机即可搭建移动微官网！","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-        	<div class="weizhan_link">本站点由 网·市场 提供技术支持</div>
+        	<div class="weizhan_link">本站点由 <%=Global.get("SITE_NAME") %> 提供</div>
         </div>
     </section>
     <footer>
-        <div class="footer">网·市场&nbsp;wang.market</div>
+        <div class="footer"><%=Global.get("SITE_NAME") %></div>
     </footer>
 </div>
 

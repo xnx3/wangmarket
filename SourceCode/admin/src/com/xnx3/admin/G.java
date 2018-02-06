@@ -19,7 +19,10 @@ import com.xnx3.admin.vo.CloudTemplateListVO;
  * @author 管雷鸣
  */
 public class G {
-	private static Logger logger = Logger.getLogger(G.class);  
+	private static Logger logger = Logger.getLogger(G.class); 
+	
+	//云端域名。如，云端模版列表，则为 cloudDomain+"cloudTemplateList.do"
+	public static String cloudDomain = "http://wang.market/";
 	
 	public static int agencyAddSubAgency_siteSize = 20;	//代理开通下级代理，消耗20站币
 	
@@ -49,7 +52,6 @@ public class G {
 	public static final String DEFAULT_PC_ABOUT_US_TITLEPIC = RES_CDN_DOMAIN+"default_image/aboutUs.jpg";	//默认的关于我们的图
 	
 	public static String forbidDomain = ",www,wap,m,3g,4g,5g,mail,domain,idc,service,server,";		//保留域名，不给会员申请的
-//	public static final String AUTO_ASSIGN_DOMAIN = "wang.market";	//网站生成后，自动分配的二级域名，用二级域名访问网站。这里是主域名
 	
 	public static Map<String, Map<String, String>> templateVarMap = new HashMap<String, Map<String,String>>(); 	//模版变量缓存，模版变量都会缓存在这里面，使用时，get("模版名字").get("模版下的模版变量名字") = 模版变量内容
 	
@@ -138,5 +140,27 @@ public class G {
 	 */
 	public static String getCarouselPath(Site site){
 		return "site/"+site.getId()+"/carousel/";
+	}
+	
+	
+	private static String  firstAutoAssignDomain;	//下面方法的持久化缓存
+	/**
+	 * 获取主域名，即 AUTO_ASSIGN_DOMAIN 配置的第一个域名
+	 * 例如，Global.get("AUTO_ASSIGN_DOMAIN") 为 ： wang.market,wscso.com
+	 * @return 返回如 wang.market
+	 */
+	public static String getFirstAutoAssignDomain(){
+		if(firstAutoAssignDomain == null){
+			if(Global.get("AUTO_ASSIGN_DOMAIN") != null){
+				if(Global.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
+					//如果有多个，那么只取第一个
+					String[] s = Global.get("AUTO_ASSIGN_DOMAIN").split(",");
+					firstAutoAssignDomain = s[0];
+				}else{
+					firstAutoAssignDomain = Global.get("AUTO_ASSIGN_DOMAIN");
+				}
+			}
+		}
+		return firstAutoAssignDomain;
 	}
 }

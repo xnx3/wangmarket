@@ -160,7 +160,7 @@ public class NewsController extends BaseController {
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
-			boolean have = TextFilter.filter(request, "网市场文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml);
+			boolean have = TextFilter.filter(request, "文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml);
 			if(have){
 				//写入news的合法性字段
 				news.setLegitimate(News.LEGITIMATE_NO);
@@ -483,7 +483,7 @@ public class NewsController extends BaseController {
 		
 		AliyunLog.addActionLog(newsId, "网站管理后台查看文章页面", url);
 //		return redirect(url);
-		return redirect("../dns.cgi?domain="+site.getDomain()+"."+Global.get("AUTO_ASSIGN_DOMAIN")+"&htmlFile="+fileName);
+		return redirect("../dns.cgi?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain()+"&htmlFile="+fileName);
 	}
 	
 

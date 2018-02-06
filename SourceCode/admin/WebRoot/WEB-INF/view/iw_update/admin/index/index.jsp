@@ -209,6 +209,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</shiro:hasPermission>
 		<!-- agency end -->
 		
+		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
@@ -219,6 +220,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadUrl('<%=basePath %>im/hostoryChatList.do');">历史咨询</a></dd>
 			</dl>
 		</li>
+		<% } %>
 		
 		<li class="layui-nav-item">
 			<a href="javascript:updatePassword();" id="xiugaimima">
@@ -234,8 +236,8 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</li>
 		
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px; text-align:center;">
-			<a href="http://github.com/xnx3/wangmarket" target="_black">
-				<span class="firstMenuFont">power by wangmarket</span>
+			<a href="http://www.wang.market" target="_black">
+				<span class="firstMenuFont">power by 网市场</span>
 			</a>
 		</li>
 	</ul>
@@ -287,6 +289,7 @@ if('${user.username}'.indexOf('ceshi') > -1){
 }
 </script>
 
+<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 <!-- IM start -->
 <script src="http://res.weiunity.com/layui217/layui.js"></script>
 <script>
@@ -298,7 +301,7 @@ var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 </script>
 <script src="http://res.weiunity.com/js/im/admin.js"></script>
 <!-- IM end -->
-
+<% } %>
 
 <script>
 //当前系统版本检测，可做成自己系统的

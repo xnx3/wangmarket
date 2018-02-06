@@ -2,7 +2,7 @@
 <html>
 <head>
   	<meta charset="utf-8">
-    <title>网·市场 模版列表</title>
+    <title>CMS模版列表</title>
     <meta name="keywords" content="网·市场,网市场" />
 	<meta name="description" content="网·市场建站平台可用模版列表" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">

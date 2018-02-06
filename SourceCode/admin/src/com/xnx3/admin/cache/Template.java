@@ -19,7 +19,7 @@ public class Template {
 			+ "<html>\n"
 			+ "<head>\n"
 			+ "<meta charset=\"utf-8\">\n"
-			+ "<title>网市场新建页面</title>\n"
+			+ "<title>新建页面</title>\n"
 			+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n"
 			+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n"
 			+ "<!--XNX3HTMLEDIT--></head>\n"

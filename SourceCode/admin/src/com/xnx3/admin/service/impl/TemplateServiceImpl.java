@@ -765,13 +765,21 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		}
 		
+		//判断一下是否是导入模版，如果是导入模版，则要更新站点信息。如果只是导入模版插件，则不需要
+		if(tvo.getPlugin() == null || tvo.getPlugin().length() < 2){
+			//导入的是网站模版
+			
+			//最后，将当前网站得使用模版site.templateName变为当前模版得名字
+			Site s = sqlDAO.findById(Site.class, tvo.getCurrentSite().getId());
+			s.setTemplateName(tvo.getTemplateName());
+			sqlDAO.save(s);
+			//更新站点的Session缓存
+			Func.getUserBeanForShiroSession().setSite(s);
+		}else{
+			//导入的是模版插件
+			
+		}
 		
-		//最后，将当前网站得使用模版site.templateName变为当前模版得名字
-		Site s = sqlDAO.findById(Site.class, tvo.getCurrentSite().getId());
-		s.setTemplateName(tvo.getTemplateName());
-		sqlDAO.save(s);
-		//更新站点的Session缓存
-		Func.getUserBeanForShiroSession().setSite(s);
 		//更新模版变量缓存
 		getTemplateVarAndDateListByCache();
 		

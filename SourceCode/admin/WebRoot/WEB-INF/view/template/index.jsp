@@ -6,7 +6,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %><%@page import="com.xnx3.admin.G"%><!DOCTYPE html>
 <html style="margin: 0;padding: 0px;height: 100%;overflow: hidden;"><head>
 <meta charset="utf-8">
-<title>网市场</title>
+<title><%=Global.get("SITE_NAME") %></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
@@ -25,7 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="http://res.weiunity.com/js/iw.js"></script>	
 <script>
 var masterSiteUrl = '<%=basePath %>';
-var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 </script>
 <style>
 #editPanel{
@@ -111,7 +110,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
 				<dd><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
 				<dd><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>dns.cgi?domain=${site.domain }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>');">预览网站</a></dd>
+				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>dns.cgi?domain=${site.domain }.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
@@ -125,7 +124,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
 				<dd><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
 				<dd><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
-				
+				<dd><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
@@ -151,6 +150,8 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
+		
+		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
@@ -161,6 +162,8 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
 			</dl>
 		</li>
+		<% } %>
+		
 		<li class="layui-nav-item">
 		  	<a id="lanmuguanli" href="javascript:loadIframeByUrl('<%=basePath %>column/popupListForTemplate.do'), notUseTopTools();">
 		  		<i class="layui-icon firstMenuIcon">&#xe638;</i>
@@ -188,7 +191,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 			</a>
 		</li>
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px;">
-			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
+			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();" title="power by 网市场">
 				<i class="layui-icon firstMenuIcon" id="showHiddenLeftMenu_icon">&#xe603;</i>
 				<span class="firstMenuFont">缩小侧边栏</span>
 			</a>
@@ -615,8 +618,13 @@ function zoomLeftMenu(){
 		document.getElementById("rzfw_caozuorizhi").innerHTML = '操作日志';
 		document.getElementById("help_basicUse").innerHTML = '基本使用';
 		document.getElementById("shurumoxing").innerHTML = '输入模型';
-		document.getElementById("im_menu").innerHTML = '基本设置';
-		document.getElementById("im_hostory").innerHTML = '历史咨询';
+		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
+			document.getElementById("im_menu").innerHTML = '基本设置';
+			document.getElementById("im_hostory").innerHTML = '历史咨询';
+		<% } %>
+		document.getElementById("xiugaimima").innerHTML = '修改密码';
+		document.getElementById("templateplugin").innerHTML = '模版插件';
+		
 		
 		//左下角的缩放按钮
 		document.getElementById("showHiddenLeftMenu_icon").innerHTML = '&#xe603;';
@@ -652,8 +660,12 @@ function zoomLeftMenu(){
 		document.getElementById("rzfw_caozuorizhi").innerHTML = '日志';
 		document.getElementById("help_basicUse").innerHTML = '基本';
 		document.getElementById("shurumoxing").innerHTML = '输入';
-		document.getElementById("im_menu").innerHTML = '设置';
-		document.getElementById("im_hostory").innerHTML = '历史';
+		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
+			document.getElementById("im_menu").innerHTML = '设置';
+			document.getElementById("im_hostory").innerHTML = '历史';
+		<% } %>
+		document.getElementById("xiugaimima").innerHTML = '改密';
+		document.getElementById("templateplugin").innerHTML = '插件';
 		
 		
 		//左下角的缩放按钮
@@ -745,7 +757,7 @@ if('${user.username}'.indexOf('ceshi') > -1){
 }
 </script>
 
-
+<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 <!-- IM start -->
 <script src="http://res.weiunity.com/layui217/layui.js"></script>
 <script>
@@ -757,6 +769,6 @@ var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 </script>
 <script src="http://res.weiunity.com/js/im/site.js"></script>
 <!-- IM end -->
-
+<% } %>
 
 </body></html>

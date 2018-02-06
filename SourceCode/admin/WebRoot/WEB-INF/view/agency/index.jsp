@@ -29,7 +29,7 @@ versionUpdateRemind('<%=G.VERSION %>');
 </style>
 
 <div style="text-align:center; font-size:29px; padding-top:35px; padding-bottom: 10px;">
-	欢迎登录 网市场云建站系统
+	欢迎登录 <%=Global.get("SITE_NAME") %>云建站系统
 </div>
 <table class="layui-table iw_table" lay-even lay-skin="nob" style="margin:3%; width:94%;">
 	<tbody>

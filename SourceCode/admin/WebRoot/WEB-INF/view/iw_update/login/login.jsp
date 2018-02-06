@@ -1,11 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
+<%@page import="com.xnx3.j2ee.Global"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="登录"/>
-	<jsp:param name="keywords" value="网市场,免费建站"/>
-	<jsp:param name="description" value="以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验，网·市场！让每个企业、个体户、个人拥有自己的网络名片，网上门头！"/>
 </jsp:include>
 
 <style>
@@ -60,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <form class="layui-form layui-elem-quote layui-quote-nm myForm">
   <div class="layui-form-item touming" style="height: 70px;background-color: #eeeeee;line-height: 70px;text-align: center;font-size: 25px;color: #3F4056;">
-    网·市场 云建站平台登陆
+    <%=Global.get("SITE_NAME") %> 云建站平台登陆
   </div>
   <div style="padding: 30px 50px 40px 0px;">
   	<div class="layui-form-item">

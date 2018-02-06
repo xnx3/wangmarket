@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <td onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
 				    </c:when>
 				    <c:otherwise>
-				        <td onclick="window.open('http://${obj['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %></td>
+				        <td onclick="window.open('http://${obj['domain'] }.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %></td>
 				    </c:otherwise>
 				</c:choose>
 				<td style="width:100px;"><x:time linuxTime="${obj['lasttime'] }" format="yy-MM-dd hh:mm"></x:time></td>

@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     color: #3F4056;
     white-space:nowrap;
     ">
-    网·市场 云建站平台 免费开通网站
+    <%=Global.get("SITE_NAME") %> 云建站平台 免费开通网站
   </div>
   <div style="padding: 30px 50px 40px 0px;">
   	<div class="layui-form-item">

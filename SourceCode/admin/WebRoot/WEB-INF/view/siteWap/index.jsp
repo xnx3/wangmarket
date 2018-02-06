@@ -14,7 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script>
 var masterSiteUrl = '<%=basePath %>';
-var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 </script>
 <style>
 #editPanel{
@@ -143,6 +142,8 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do');">操作日志</a></dd>
 			</dl>
 		</li>
+		
+		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 		<li class="layui-nav-item" style="display:none;">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
@@ -153,6 +154,8 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
 			</dl>
 		</li>
+		<% } %>
+		
 		<li class="layui-nav-item">
 			<a id="neirongguanli" href="javascript:loadIframeByUrl('<%=basePath %>news/listForTemplate.do');">
 				<i class="layui-icon firstMenuIcon">&#xe60a;</i>
@@ -161,7 +164,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 		</li>
 		
 		<li class="layui-nav-item">
-			<a id="chakanwangzhan" href="<%=basePath %>dns.cgi?domain=${site.domain }.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>" target="_black">
+			<a id="chakanwangzhan" href="<%=basePath %>dns.cgi?domain=${site.domain }.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %>" target="_black">
 				<i class="layui-icon firstMenuIcon">&#xe615;</i>
 				<span class="firstMenuFont">预览网站</span>
 			</a>
@@ -321,6 +324,7 @@ versionUpdateRemind('<%=G.VERSION %>');
 
 ${siteRemainHintJavaScript }
 
+<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 <!-- IM start -->
 <script src="http://res.weiunity.com/layui217/layui.js"></script>
 <script>
@@ -332,5 +336,6 @@ var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
 </script>
 <script src="http://res.weiunity.com/js/im/site.js"></script>
 <!-- IM end -->
+<% } %>
 
 </body></html>
