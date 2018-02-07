@@ -719,7 +719,8 @@ function shipinjiaocheng(){
 		currentTime = currentTime.substr(0,10);
 		if(currentTime - ${user.regtime } < 86400){
 			var shipinjiaocheng_tip = layer.open({
-			  title: '10分钟快速入门使用视频教程',offset: 'b'
+			  title: '10分钟快速入门使用视频教程',offset: 'b',
+			  shadeClose : true
 			  ,content: '检测到您刚开通网站第一天，特送上教程一份！<br>您以后可在左侧菜单中，找到“帮助说明”下的"基本使用"，可以随时查看',
 			btn: ['观看视频教程'],
 			yes: function(index, layero){

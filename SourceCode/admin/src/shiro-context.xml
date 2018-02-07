@@ -41,6 +41,7 @@
 				/currency/index.do = anon
 				/module/ueditor/dialogs/** = anon
 				/im/previewByToken.do = anon
+				/agency/createSiteApi.do = anon
 				/site/*.do = authc
 				/** = authc 
 			</value>

@@ -11,7 +11,7 @@
 	<div class="layui-input-block" style="max-width:500px;">
 		<input type="file" class="layui-input" value="" id="titlePicFile" name="titlePicFile" style="padding-top: 6px; padding-right: 80px; "/>
 		<a href="{titlepicImage}" target="_black" style="float: right;margin-top: -38px;" title="当前图片。点击可看全图。若要修改，可点击左侧选择其他图片进行上传">
-			<img src="{titlepicImage}?x-oss-process=image/resize,h_38"/>
+			<img src="{titlepicImage}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';"/>
 		</a>
 	</div>
 </div>
@@ -25,6 +25,10 @@
 	</div>
  -->
 
+<!-- 配置文件 -->
+<script type="text/javascript" src="../module/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="../module/ueditor/ueditor.all.js"></script>
 <div class="layui-form-item">
 	<label class="layui-form-label" id="sucai">
 		内容正文

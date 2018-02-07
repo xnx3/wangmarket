@@ -938,8 +938,10 @@ public class SiteServiceImpl implements SiteService {
 				updateDomainServers(site);
 			}
 			
-			//更新当前Session缓存
-			Func.getUserBeanForShiroSession().setSite(site);
+			//更新当前Session缓存。如果是api接口开通网站，session是空的。所以要加null判断
+			if(Func.getUserBeanForShiroSession() != null){
+				Func.getUserBeanForShiroSession().setSite(site);
+			}
 			
 			//创建数据js缓存
 			new com.xnx3.admin.cache.Site().site(site, imService.getImByCache());				//site.js

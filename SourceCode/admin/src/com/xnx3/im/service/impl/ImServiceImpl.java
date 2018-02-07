@@ -19,6 +19,12 @@ public class ImServiceImpl implements ImService {
 	private SqlDAO sqlDAO;
 
 	public Im getImByCache() {
+		if(Func.getUserBeanForShiroSession() == null){
+			//用户未登录，所以无session
+			Im im = new Im();
+			im.setUseKefu(Im.USE_FALSE);
+			return im;
+		}
 		Im im = Func.getUserBeanForShiroSession().getSiteIm();
 		if(im == null){
 			//如果im为空，则从数据库找找

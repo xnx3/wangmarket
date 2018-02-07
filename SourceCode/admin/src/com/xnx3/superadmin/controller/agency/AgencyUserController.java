@@ -3,9 +3,13 @@ package com.xnx3.superadmin.controller.agency;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONArray;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
+import com.xnx3.Lang;
+import com.xnx3.MD5Util;
+import com.xnx3.StringUtil;
 import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
@@ -22,6 +30,7 @@ import com.xnx3.j2ee.entity.UserRole;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
+import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -180,34 +189,166 @@ public class AgencyUserController extends BaseController {
 			return error("请输入1～30个字符的要建立的站点名字");
 		}
 		
+//		//创建用户
+//		
+//		user.setPhone(filter(sitePhone));
+//		user.setEmail(filter(email));
+//		UserVO vo = regUser(user, request, false);
+//		if(vo.getResult() == BaseVO.SUCCESS){
+//			
+//			//创建站点
+//			Site site = new Site();
+//			site.setName(filter(siteName));
+//			site.setPhone(filter(sitePhone));
+//			site.setQq(filter(siteQQ));
+//			site.setAddress(filter(address));
+//			site.setClient(client);
+//			site.setUsername(filter(contactUsername));
+//			site.setCompanyName(filter(companyName));
+//			site.setExpiretime(DateUtil.timeForUnix10() + 31622400);	//到期，一年后，366天后
+//			
+//			if(site.getClient() - Site.CLIENT_PC == 0){
+//				//通用模版，电脑站
+//				site.setTemplateId(G.TEMPLATE_PC_DEFAULT);
+//			}else if(site.getClient() - Site.CLIENT_WAP == 0){
+//				//通用模版，手机站
+//				site.setTemplateId(G.TEMPLATE_WAP_DEFAULT);
+//			}else if(site.getClient() - Site.CLIENT_CMS == 0){
+//				//高级自定义模版CMS
+//				site.setTemplateName(filter(templateName));
+//			}
+//			site.setmShowBanner(Site.MSHOWBANNER_SHOW);
+//			SiteVO siteVO = siteService.saveSite(site, vo.getUser().getId(), request);
+//			if(siteVO.getResult() == SiteVO.SUCCESS){
+//				
+//				//减去当前代理的账户余额的站币
+//				agency.setSiteSize(agency.getSiteSize() - 1);
+//				sqlService.save(agency);
+//				Func.getUserBeanForShiroSession().setMyAgency(agency); 	//刷新缓存
+//				
+//				//将变动记录入数据库
+//				SiteSizeChange ssc = new SiteSizeChange();
+//				ssc.setAddtime(DateUtil.timeForUnix10());
+//				ssc.setAgencyId(agency.getId());
+//				ssc.setChangeAfter(agency.getSiteSize());
+//				ssc.setChangeBefore(agency.getSiteSize()+1);
+//				ssc.setGoalid(siteVO.getSite().getId());
+//				ssc.setSiteSizeChange(-1);
+//				ssc.setUserid(agency.getUserid());
+//				sqlService.save(ssc);
+//				
+//				//将变动记录入日志服务的站币变动中
+//				SiteSizeChangeLog.xiaofei(agency.getName(), "代理开通网站："+site.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
+//				
+//				//记录动作日志
+//				AliyunLog.addActionLog(site.getId(), "开通网站："+site.getName());
+//				
+//				return success();
+//			}else{
+//				return error("添加用户成功，但添加站点失败！");
+//			}
+//			
+//		}else{
+//			return error(vo.getInfo());
+//		}
+		
+
+		//要创建得网站得user
+		user.setReferrerid(agency.getId());
+		
+		Site site = new Site();
+		site.setName(filter(siteName));
+		site.setPhone(filter(sitePhone));
+		site.setQq(filter(siteQQ));
+		site.setAddress(filter(address));
+		site.setClient(client);
+		site.setUsername(filter(contactUsername));
+		site.setCompanyName(filter(companyName));
+		site.setTemplateName(filter(templateName));
+		
+		return createSite(request, agency, user, site, email);
+	}
+	
+	@RequestMapping("createSiteApi")
+	@ResponseBody
+	public BaseVO createSiteApi(HttpServletRequest request, Model model,
+			@RequestParam(value = "key", required = false , defaultValue="") String key,
+			@RequestParam(value = "username", required = false , defaultValue="") String username,
+			@RequestParam(value = "password", required = false , defaultValue="") String password){
+		
+		//身份校验
+		UserVO userVO = apiIdentityVerify(key);
+		if(userVO.getResult() - UserVO.FAILURE == 0){
+			return error(userVO.getInfo());
+		}
+		
+		Agency agency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = "+userVO.getUser().getId(), Agency.class);
+		if(agency == null){
+			return error("账户不存在");
+		}
+		
+		//要创建得网站得user
+		User user = new User();
+		user.setReferrerid(userVO.getUser().getId());
+		user.setUsername(username);
+		user.setPassword(password);
+		
+		Site site = new Site();
+		site.setName("站点名字");
+		site.setClient(Site.CLIENT_CMS);
+		
+		return createSite(request, agency, user, site, "");
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param agency 当前登录用户的agency对象。需要从数据库中新查询的，保存会直接保存此对象 sql.save(agency)
+	 * @param user		要创建得用户信息
+	 * @param site 要创建得网站
+	 * @param email	邮箱，存入用户表，user.email
+	 * @return
+	 */
+	private BaseVO createSite(HttpServletRequest request,
+			Agency agency,
+			User user,
+			Site site,
+			String email
+		){
+		
+//		Agency agency = sqlService.findById(Agency.class, getMyAgency().getId());
+		if(agency.getSiteSize() == 0){
+			return error("您的账户余额还剩 "+agency.getSiteSize()+" 站，不足以再开通网站！请联系相关人员充值");
+		}
+		
+		if(site.getClient() == 0){
+			return error("请选择站点类型，是电脑网站呢，还是手机网站呢？");
+		}
+		if(site.getName().length() == 0 || site.getName().length() > 30){
+			return error("请输入1～30个字符的要建立的站点名字");
+		}
+		
 		//创建用户
-		user.setOssSizeHave(getMyAgency().getRegOssHave());
-		user.setPhone(filter(sitePhone));
+		user.setPhone(filter(site.getPhone()));
 		user.setEmail(filter(email));
+		user.setOssSizeHave(agency.getRegOssHave());
 		UserVO vo = regUser(user, request, false);
 		if(vo.getResult() == BaseVO.SUCCESS){
 			
 			//创建站点
-			Site site = new Site();
-			site.setName(filter(siteName));
-			site.setPhone(filter(sitePhone));
-			site.setQq(filter(siteQQ));
-			site.setAddress(filter(address));
-			site.setClient(client);
-			site.setUsername(filter(contactUsername));
-			site.setCompanyName(filter(companyName));
 			site.setExpiretime(DateUtil.timeForUnix10() + 31622400);	//到期，一年后，366天后
 			
-			if(site.getClient() - Site.CLIENT_PC == 0){
-				//通用模版，电脑站
-				site.setTemplateId(G.TEMPLATE_PC_DEFAULT);
-			}else if(site.getClient() - Site.CLIENT_WAP == 0){
-				//通用模版，手机站
-				site.setTemplateId(G.TEMPLATE_WAP_DEFAULT);
-			}else if(site.getClient() - Site.CLIENT_CMS == 0){
-				//高级自定义模版CMS
-				site.setTemplateName(filter(templateName));
-			}
+//			if(site.getClient() - Site.CLIENT_PC == 0){
+//				//通用模版，电脑站
+//				site.setTemplateId(G.TEMPLATE_PC_DEFAULT);
+//			}else if(site.getClient() - Site.CLIENT_WAP == 0){
+//				//通用模版，手机站
+//				site.setTemplateId(G.TEMPLATE_WAP_DEFAULT);
+//			}else if(site.getClient() - Site.CLIENT_CMS == 0){
+//				//高级自定义模版CMS
+//				
+//			}
+			
 			site.setmShowBanner(Site.MSHOWBANNER_SHOW);
 			SiteVO siteVO = siteService.saveSite(site, vo.getUser().getId(), request);
 			if(siteVO.getResult() == SiteVO.SUCCESS){
@@ -215,7 +356,10 @@ public class AgencyUserController extends BaseController {
 				//减去当前代理的账户余额的站币
 				agency.setSiteSize(agency.getSiteSize() - 1);
 				sqlService.save(agency);
-				Func.getUserBeanForShiroSession().setMyAgency(agency); 	//刷新缓存
+				if(getUserId() > 0){
+					//如果是登录用户，那么要刷新用户的缓存
+					Func.getUserBeanForShiroSession().setMyAgency(agency); 	//刷新缓存
+				}
 				
 				//将变动记录入数据库
 				SiteSizeChange ssc = new SiteSizeChange();
@@ -234,7 +378,7 @@ public class AgencyUserController extends BaseController {
 				//记录动作日志
 				AliyunLog.addActionLog(site.getId(), "开通网站："+site.getName());
 				
-				return success();
+				return success(vo.getUser().getId()+"_"+passwordMD5(vo.getUser().getPassword()));
 			}else{
 				return error("添加用户成功，但添加站点失败！");
 			}
@@ -242,6 +386,71 @@ public class AgencyUserController extends BaseController {
 		}else{
 			return error(vo.getInfo());
 		}
+	}
+	
+	/**
+	 * api接口身份校验
+	 * @param key 要校验的key， id_password的4次加密，128长度的字符
+	 * @return {@link UserVO} 成功：vo.getResult = success
+	 */
+	private UserVO apiIdentityVerify(String key){
+		UserVO vo = new UserVO();
+		/*
+		 * 验证Key的格式
+		 */
+		if(key.length() < 128 || key.indexOf("_") == -1){
+			vo.setBaseVO(UserVO.FAILURE, "key错误1");
+			return vo;
+		}
+		
+		String[] ks = key.split("_");
+		if(ks[0].length() == 0 || ks[1].length() == 0){
+			vo.setBaseVO(UserVO.FAILURE, "key错误2");
+			return vo;
+		}
+		
+		int userid = Lang.stringToInt(ks[0], 0);
+		if(userid == 0){
+			vo.setBaseVO(UserVO.FAILURE, "key错误3");
+			return vo;
+		}
+		String pwd = StringUtil.removeBlank(ks[1]);
+		if(pwd.length() != 128){
+			vo.setBaseVO(UserVO.FAILURE, "key错误4");
+			return vo;
+		}
+		
+		/*
+		 * 验证Key是否存在
+		 * 获取代理商的user信息
+		 */
+		User user = sqlService.findById(User.class, userid);
+		if(user == null){
+			//统一提示，避免被利用
+			vo.setBaseVO(UserVO.FAILURE, "key错误5");
+			return vo;	
+		}
+		if(!passwordMD5(user.getPassword()).equals(pwd)){
+			vo.setBaseVO(UserVO.FAILURE, "key错误6");
+			return vo;
+		}
+			
+		vo.setUser(user);
+		return vo;
+	}
+	
+	/**
+	 * 将32位的 user.password 密码进行再加密，生成128位加密字符串
+	 * @param password user.password 密码
+	 * @return 新生成的128位加密字符串
+	 */
+	private static String passwordMD5(String password){
+		String p1 = password.substring(0, 8);
+		String p2 = password.substring(8, 16);
+		String p3 = password.substring(16, 24);
+		String p4 = password.substring(24, 32);
+		
+		return MD5Util.MD5(p1)+MD5Util.MD5(p2)+MD5Util.MD5(p3)+MD5Util.MD5(p4);
 	}
 	
 	/**
@@ -387,7 +596,9 @@ public class AgencyUserController extends BaseController {
 		user.setHead("default.png");
 		user.setIdcardauth(User.IDCARDAUTH_NO);
 		
-		user.setReferrerid(getUserId());		//设定用户的上级是当前代理商本人
+		if(getUserId() > 0){
+			user.setReferrerid(getUserId());		//设定用户的上级是当前代理商本人
+		}
 		
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");

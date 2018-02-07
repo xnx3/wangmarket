@@ -59,12 +59,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .info{
 	color:#c2c2c2;
 	padding: 10px;
+	padding-bottom: 0px;
 }
 
 .leftImage{
 	float:left;
 	width: 50%;
 }
+
+/* 使用说明 */
+.usedoc{
+	padding-left: 10px;
+    text-align: right;
+    padding-right: 10px;
+}
+.usedoc a{
+	color: blue;
+}
+
 </style>
 <body>
 
@@ -85,8 +97,8 @@ layui.use('element', function(){
 
 //使用某个云端模版，传入其模版名、编号 templateName
 function useTemplatePlugin(pluginName){
-	var dtp_confirm = layer.confirm('确定要使用模版插件：'+pluginName+'?', {
-	  btn: ['立即使用','取消'] //按钮
+	var dtp_confirm = layer.confirm('确定要导入模版插件：'+pluginName+'?', {
+	  btn: ['立即导入','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
 		$.showLoading('获取中');
@@ -127,7 +139,7 @@ function loadCloudTemplateList(){
 				for(var i=0; i<obj.list.length; i++){
 					var xiabiao = i%2;	//取余，得数组下表
 					var to = obj.list[i];
-					var temp = '<div><div class="leftImage"><img src="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" class="previewImg" onclick="useTemplatePlugin(\''+to.name+'\');"><div class="previewButton"><a href="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" target="_black">点此预览</a></div></div><div class="leftImage"><div class="templateName" onclick="useTemplatePlugin(\''+to.name+'\');">'+to.title+'</div><div class="info">'+to.info+'</div></div></div>';
+					var temp = '<div><div class="leftImage"><img src="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" class="previewImg" onclick="useTemplatePlugin(\''+to.name+'\');"><div class="previewButton"><a href="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" target="_black">点此预览</a></div></div><div class="leftImage"><div class="templateName" onclick="useTemplatePlugin(\''+to.name+'\');">'+to.title+'</div><div class="info">'+to.info+'</div><div class="usedoc"><a href="'+to.docUrl+'" target="_black">使用说明</a></div></div></div>';
 					/* var temp = '<div>'+
 								'<img src="http://res.weiunity.com/template/'+to.name+'/preview.jpg" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 								'<div class="previewButton"><a href="http://'+to.name+'.wscso.com" target="_black">点此预览</a></div>'+

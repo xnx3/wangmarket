@@ -74,7 +74,6 @@ public class AdminRequestLogController extends BaseController {
 		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayFangWen = new JSONArray();	//今日访问量，pv
-		String countString = null;
 		for (int i = 0; i < jinriQlList.size(); i++) {
 			LogItem li = jinriQlList.get(i).GetLogItem();
 			JSONObject json = JSONObject.fromObject(li.ToJsonString());

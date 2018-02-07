@@ -44,7 +44,11 @@ public class Site extends BaseCache{
 		cacheAdd("templateName", StringUtil.StringToUtf8(site.getTemplateName()));
 		cacheAdd("client", site.getClient());
 		cacheAdd("userid",site.getUserid());
-		cacheAdd("useKefu",im.getUseKefu());
+		if(im == null){
+			cacheAdd("useKefu",Im.USE_FALSE);
+		}else{
+			cacheAdd("useKefu",im.getUseKefu());
+		}
 		generateCacheFile(site);
 	}
 	

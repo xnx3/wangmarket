@@ -140,5 +140,8 @@
 	<bean id="systemService" class="com.xnx3.j2ee.service.impl.SystemServiceImpl">
 		<property name="sqlDAO"><ref bean="SqlDAO" /></property>
 	</bean>
+	<bean id="apiService" class="com.xnx3.j2ee.service.impl.ApiServiceImpl">
+		<property name="sqlDAO"><ref bean="SqlDAO" /></property>
+	</bean>
 	
 </beans>

@@ -11,6 +11,7 @@ public interface ImService {
 	
 	/**
 	 * 取得当前网站的 Im 对象。从缓存中取。若缓存中没有，则从数据库取，若数据库中也没有，则自动创建一个默认不使用客服的im，取出后进行缓存。
+	 * <br/>若用户未登录，则不会缓存，只是取出一个new Im()
 	 */
 	public Im getImByCache();
 	

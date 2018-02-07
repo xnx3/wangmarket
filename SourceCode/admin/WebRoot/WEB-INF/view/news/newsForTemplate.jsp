@@ -46,11 +46,6 @@ if('${siteColumn.type}' == 3 && '${siteColumn.editMode}' == 1){
 }
 </script>
 
-<!-- 配置文件 -->
-<script type="text/javascript" src="<%=basePath %>/module/ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="<%=basePath %>/module/ueditor/ueditor.all.js"></script>
-
 <form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
 	<input type="hidden" name="id" value="${news.id }" />
 	<input type="hidden" name="cid" value="${news.cid }" />
