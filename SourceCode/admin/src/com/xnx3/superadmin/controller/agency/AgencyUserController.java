@@ -28,6 +28,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
 import com.xnx3.j2ee.func.Language;
+import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -63,6 +64,9 @@ public class AgencyUserController extends BaseController {
 	private SiteService siteService;
 	@Resource
 	private TransactionalService transactionalService;
+	@Resource
+	private ApiService apiService;
+	
 	
 	
 	/**
@@ -79,10 +83,10 @@ public class AgencyUserController extends BaseController {
 		
 		AliyunLog.addActionLog(agency.getId(), "进入代理商后台首页");
 		
-//		User user = userService.findById(getUserId());
 		User user = sqlService.findById(User.class, getUserId());
 		model.addAttribute("user", user);
 		model.addAttribute("agency", agency);
+		model.addAttribute("apiKey", apiService.getKey());
 		return "agency/index";
 	}
 	

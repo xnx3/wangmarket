@@ -222,6 +222,17 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</li>
 		<% } %>
 		
+		
+		<li class="layui-nav-item">
+			<a href="javascript:;">
+				<i class="layui-icon firstMenuIcon">&#xe705;</i>
+				<span class="firstMenuFont">Api 接口</span>
+			</a>
+			<dl class="layui-nav-child">
+				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadUrl('<%=basePath %>api/index.do');">获取 key</a></dd>
+				<dd><a id="im_menu" class="subMenuItem" href="javascript:loadUrl('http://www.wang.market/wangmarket_api.html?MASTER_SITE_URL=<%=Global.get("MASTER_SITE_URL") %>');">接口文档</a></dd>
+			</dl>
+		</li>
 		<li class="layui-nav-item">
 			<a href="javascript:updatePassword();" id="xiugaimima">
 				<i class="layui-icon firstMenuIcon">&#xe642;</i>

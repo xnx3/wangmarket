@@ -13,7 +13,7 @@
         <note>
             dns域名重写
         </note>
-        <from>^/(\w+).html$</from>
+        <from>^/(\w+).html$\??.*$</from>
         <to type="forward">/dns.do?htmlFile=$1</to>
     </rule>
 
@@ -33,7 +33,7 @@
     </rule>
     
     <rule>
-        <from>^/sitePc/(\w+).html$</from>  
+        <from>^/sitePc/(\w+).html</from>  
         <to>/site/html.do?htmlFile=$1</to> 
     </rule>
     <rule>

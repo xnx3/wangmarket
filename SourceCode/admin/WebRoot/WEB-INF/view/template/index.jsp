@@ -488,6 +488,18 @@ $(function(){
 		layer.close(help_basicUse_tipindex);
 	})
 	
+	//模版管理－模版插件
+	var template_templateplugin_tipindex = 0;
+	$("#templateplugin").hover(function(){
+		template_templateplugin_tipindex = layer.tips('在您现有的模版基础上，扩展更多功能！让您的网站，拥有无限可能！<br/>更多插件持续增加中，敬请期待', '#templateplugin', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(template_templateplugin_tipindex);
+	})
+	
 })
 
 
