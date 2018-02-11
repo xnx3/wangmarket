@@ -146,7 +146,8 @@ function useCloudTemplate(templateName){
 //加载云端的模版列表
 function loadCloudTemplateList(){
 	//若使用云端模版库，则可以将下面请求地址换为 http://wang.market/cloudTemplateList.do
-	$.getJSON('<%=basePath %>cloudTemplateList.do',function(obj){
+	//使用当前配置文件的模版，则为：<%=basePath %>cloudTemplateList.do
+	$.getJSON('http://res.weiunity.com/cloudControl/cmsTemplate.json',function(obj){
 		var html = '';	//云端模版的列表
 			if(obj.result == '1'){
 				var divArray = new Array();	//共分四列，也就是下标为0～3

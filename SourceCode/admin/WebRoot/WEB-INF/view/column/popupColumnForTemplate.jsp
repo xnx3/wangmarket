@@ -127,8 +127,8 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   //自定义验证规则
   form.verify({
     name: function(value){
-      if(value.length == 0 || value.length > 10){
-        return '请输入10个字以内的栏目名称';
+      if(value.length == 0 || value.length > 20){
+        return '请输入20个字以内的栏目名称';
       }
     }
   });

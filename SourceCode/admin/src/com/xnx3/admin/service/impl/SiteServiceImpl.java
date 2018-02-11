@@ -316,7 +316,7 @@ public class SiteServiceImpl implements SiteService {
 		
 		TemplateCMS template = new TemplateCMS(site);
 		//取得当前网站所有模版页面
-		TemplatePageListVO templatePageListVO = templateService.getTemplatePageListByCache(request);
+//		TemplatePageListVO templatePageListVO = templateService.getTemplatePageListByCache(request);
 		//取得当前网站首页模版页面
 		TemplatePageVO templatePageIndexVO = templateService.getTemplatePageIndexByCache(request);
 		//取得网站所有栏目信息
@@ -533,7 +533,7 @@ public class SiteServiceImpl implements SiteService {
 		//替换首页中存在的栏目的动态调用标签
 		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap);
 		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
-		//生成首页保存到OSS
+		//生成首页保存到OSS或本地盘
 		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
 		/*

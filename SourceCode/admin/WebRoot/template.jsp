@@ -85,7 +85,7 @@
 
 //加载云端的模版列表
 function loadCloudTemplateList(){
-	$.getJSON('cloudTemplateList.do',function(obj){
+	$.getJSON('http://res.weiunity.com/cloudControl/cmsTemplate.json',function(obj){
 		var html = '';	//云端模版的列表
 			if(obj.result == '1'){
 				var elseList = [

@@ -1,5 +1,9 @@
+<%@page import="com.xnx3.j2ee.Global"%>
 <%@page import="com.xnx3.admin.G"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -139,7 +143,7 @@ function loadCloudTemplateList(){
 				for(var i=0; i<obj.list.length; i++){
 					var xiabiao = i%2;	//取余，得数组下表
 					var to = obj.list[i];
-					var temp = '<div><div class="leftImage"><img src="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" class="previewImg" onclick="useTemplatePlugin(\''+to.name+'\');"><div class="previewButton"><a href="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" target="_black">点此预览</a></div></div><div class="leftImage"><div class="templateName" onclick="useTemplatePlugin(\''+to.name+'\');">'+to.title+'</div><div class="info">'+to.info+'</div><div class="usedoc"><a href="'+to.docUrl+'" target="_black">使用说明</a></div></div></div>';
+					var temp = '<div><div class="leftImage"><img src="http://res.weiunity.com/template_plugin/'+to.name+'/preview.jpg" class="previewImg" onclick="useTemplatePlugin(\''+to.name+'\');"><div class="previewButton"><a href="'+to.demoUrl+'" target="_black">点此预览</a></div></div><div class="leftImage"><div class="templateName" onclick="useTemplatePlugin(\''+to.name+'\');">'+to.title+'</div><div class="info">'+to.info+'</div><div class="usedoc"><a href="'+to.docUrl+'?MASTER_SITE_URL=<%=Global.get("MASTER_SITE_URL") %>" target="_black">使用说明</a></div></div></div>';
 					/* var temp = '<div>'+
 								'<img src="http://res.weiunity.com/template/'+to.name+'/preview.jpg" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 								'<div class="previewButton"><a href="http://'+to.name+'.wscso.com" target="_black">点此预览</a></div>'+

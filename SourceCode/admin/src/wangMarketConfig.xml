@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<!-- 当前网市场的版本，不加前面的v，单纯只是版本号 -->
-	<version>3.8</version>
+	<version>3.9</version>
 	
 	<!-- websocket im 的socket url访问地址 -->
 	<!-- <websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl> -->

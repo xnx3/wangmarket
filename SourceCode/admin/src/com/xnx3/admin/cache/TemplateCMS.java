@@ -640,15 +640,34 @@ public class TemplateCMS {
         	if(siteColumn == null){
         		siteColumnTemplate = "栏目代码"+codeName+"不存在";
         	}else{
+        		
+        		//如果<!--List_Start-->存在，将其内的模版提取出来
+//        		String itemTemp = null;
+//        		int number = 6;	//默认最大显示的列表条数
+//            	if(siteColumnTemplate.indexOf("<!--List_Start-->") > -1){
+//            		number = Template.getConfigValue(siteColumnTemplate, "number", 6);		//当前显示多少条记录，最多显示10条
+//            		itemTemp = Template.getAnnoCenterString(siteColumnTemplate, "List");		//取得list的列表项内容
+//            	}
+        		
             	//如果<!--subColumnList_Start-->存在，需要调出其子栏目列表
             	if(siteColumnTemplate.indexOf("<!--SubColumnList_Start-->") > -1){
             		String subColumnListTemp = Template.getAnnoCenterString(siteColumnTemplate, "SubColumnList");		//取得SubColumnList的子栏目，的每项展示的模版内容
             		
+            		int number = Template.getConfigValue(subColumnListTemp, "number", 6);		//当前显示多少条记录
+                	String itemTemp = Template.getAnnoCenterString(subColumnListTemp, "List");		//取得list的列表项内容
+            		
             		StringBuffer itemBuffer = new StringBuffer();	//显示的栏目
             		List<SiteColumnTreeVO> scList = columnTreeMap.get(codeName).getList();	//取得子栏目的数据源
             		for (int i = 0; i < scList.size(); i++) {
+            			//获取子栏目信息
+            			SiteColumn subColumn = scList.get(i).getSiteColumn();
+            			//取到子栏目中，某个栏目的，替换掉栏目信息后的内容(如果其中有信息列表标签，还要替换)
+            			String subColumnNewsTemp = replaceSiteColumnTag(subColumnListTemp, subColumn);
+            			
+            			//替换其中引用的子栏目文章
+            			String str = replaceSiteColumnBlock_replaceNews(subColumnNewsTemp, number, itemTemp, columnNewsMap, subColumn);
             			//将子栏目替换栏目标签后，加入 itemBuffer
-            			itemBuffer.append(replaceSiteColumnTag(subColumnListTemp, scList.get(i).getSiteColumn()));
+            			itemBuffer.append(str);
             		}
             		siteColumnTemplate = StringUtil.subStringReplace(siteColumnTemplate, "<!--SubColumnList_Start-->", "<!--SubColumnList_End-->", itemBuffer.toString());
             	}
@@ -658,12 +677,14 @@ public class TemplateCMS {
             		int number = Template.getConfigValue(siteColumnTemplate, "number", 6);		//当前显示多少条记录，最多显示10条
                 	String itemTemp = Template.getAnnoCenterString(siteColumnTemplate, "List");		//取得list的列表项内容
                 	
-                	StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
-                	List<News> list = columnNewsMap.get(codeName);	//获取要显示的列表的数据源
-            		for (int i = 0; i < list.size() && i < number; i++) {
-            			itemBuffer.append(replaceNewsTag(itemTemp, list.get(i), siteColumn));
-            		}
-            		siteColumnTemplate = StringUtil.subStringReplace(siteColumnTemplate, "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
+                	siteColumnTemplate = replaceSiteColumnBlock_replaceNews(siteColumnTemplate, number, itemTemp, columnNewsMap, siteColumn);
+                	
+//                	StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
+//                	List<News> list = columnNewsMap.get(codeName);	//获取要显示的列表的数据源
+//            		for (int i = 0; i < list.size() && i < number; i++) {
+//            			itemBuffer.append(replaceNewsTag(itemTemp, list.get(i), siteColumn));
+//            		}
+//            		siteColumnTemplate = StringUtil.subStringReplace(siteColumnTemplate, "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
             	}
             	
             	//替换栏目标签
@@ -675,6 +696,28 @@ public class TemplateCMS {
         }
 		
         return templateHTML;
+	}
+	
+	/**
+	 * 服务于 {@link #replaceSiteColumnBlock(String, Map, Map, Map)}
+	 * @param newsListTemplate 栏目中调取出文章列表的模版
+	 * @param number 当前文章列表显示多少条记录
+	 * @param itemTemp 取得list的列表项内容，包含动态标签的列表的模板
+	 * @param columnNewsMap key:栏目代码， value：文章列表
+	 * @param siteColumn 当前栏目
+	 * @return 替换好的html
+	 */
+	private String replaceSiteColumnBlock_replaceNews(String newsListTemplate, int number, String itemTemp, Map<String, List<News>> columnNewsMap, SiteColumn siteColumn){
+		//如果<!--List_Start-->存在，则需要News信息列表
+    	if(newsListTemplate.indexOf("<!--List_Start-->") > -1){
+        	StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
+        	List<News> list = columnNewsMap.get(siteColumn.getCodeName());	//获取要显示的列表的数据源
+    		for (int i = 0; i < list.size() && i < number; i++) {
+    			itemBuffer.append(replaceNewsTag(itemTemp, list.get(i), siteColumn));
+    		}
+    		newsListTemplate = StringUtil.subStringReplace(newsListTemplate+" ", "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
+    	}
+    	return newsListTemplate;
 	}
 	
 }

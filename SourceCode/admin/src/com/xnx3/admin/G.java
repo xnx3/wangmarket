@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.admin.entity.Site;
-import com.xnx3.admin.vo.CloudTemplateListVO;
 
 /**
  * 全局
@@ -70,8 +67,12 @@ public class G {
 	
 	public static List<String> wangMarketDomainServerList = new ArrayList<String>();
 	
-	//持久化云端模版列表，数据来源于templateConfig.xml
-	public static CloudTemplateListVO cloudTemplateListVO;
+	/**
+	 * 持久化云端模版列表，数据来源于 http://res.weiunity.com/cloudControl/cmsTemplate.json
+	 * <br/>key：list.name
+	 * <br/>value：list.intro
+	 */
+	public static Map<String, String> cloudTemplateMap;
 	
 	//webSocket IM的对接url
 	public static String websocketUrl = "";
@@ -110,26 +111,6 @@ public class G {
 		}else{
 			System.out.println("未开启Aliyun短信发送服务");
 		}
-		
-		
-		//域名服务器，解析域名
-//		wangMarketDomainServerList = ConfigManagerUtil.getSingleton("wangMarketConfig.xml").getList("domainServer.domain");
-		
-		//从配置文件中加载云端模板信息
-		cloudTemplateListVO = new CloudTemplateListVO();
-		List<String> nameList = com.xnx3.ConfigManagerUtil.getSingleton("templateConfig.xml").getList("list.template.name");
-		List<String> introList = com.xnx3.ConfigManagerUtil.getSingleton("templateConfig.xml").getList("list.template.intro");
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-		Map<String, String> mapNameInfo = new HashMap<String, String>();
-		for (int i = 0; i < nameList.size(); i++) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("name", nameList.get(i));
-			map.put("intro", introList.get(i));
-			list.add(map);
-			mapNameInfo.put(nameList.get(i), introList.get(i));
-		}
-		cloudTemplateListVO.setList(list);
-		cloudTemplateListVO.setMapNameInfo(mapNameInfo);
 		
 		websocketUrl = c.getValue("websocketUrl");
 	}

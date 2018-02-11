@@ -51,7 +51,6 @@ public class PublicController_ extends BaseController {
 	public String dns(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
-		
 		//判断访问的站点的哪个文件
 		if(htmlFile.length() == 0){
 			htmlFile = "index";
@@ -91,7 +90,7 @@ public class PublicController_ extends BaseController {
 //				e.printStackTrace();
 //			}
 			
-			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
+//			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
 			
 			//如果用的第六套模版，需要进行手机电脑自适应
 			if(simpleSite.getTemplateId() - 6 == 0){

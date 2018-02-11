@@ -721,7 +721,7 @@ public class TemplateController extends BaseController {
 		Site site = getSite();
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
 			//判断当前网站使用的模板是否在云端模板库中（是否是云端模板）
-			if(G.cloudTemplateListVO.getMapNameInfo().get(site.getTemplateName()) != null){
+			if(G.cloudTemplateMap.get(site.getTemplateName()) != null){
 				usedYunTemplate = true;
 			}
 		}

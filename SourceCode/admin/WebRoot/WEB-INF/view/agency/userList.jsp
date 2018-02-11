@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<c:forEach items="${list}" var="obj">
 			<tr>
 				<td style="width:55px;"><a href="">${obj['id'] }</a></td>
-				<td onclick="window.open('http://${obj['domain']}.<%=Global.get("AUTO_ASSIGN_DOMAIN") %>');" style="cursor: pointer; width:55px;">
+				<td onclick="window.open('http://${obj['domain']}.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %>');" style="cursor: pointer; width:55px;">
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
 				<td style="width:100px;">${obj['userusername'] }</td>

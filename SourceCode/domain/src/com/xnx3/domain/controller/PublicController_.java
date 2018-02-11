@@ -91,7 +91,7 @@ public class PublicController_ extends BaseController {
 //				e.printStackTrace();
 //			}
 			
-			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
+//			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
 			
 			//如果用的第六套模版，需要进行手机电脑自适应
 			if(simpleSite.getTemplateId() - 6 == 0){
