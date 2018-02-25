@@ -487,7 +487,7 @@ public class SiteServiceImpl implements SiteService {
 			//替换公共标签
 			String v = template.replacePublicTag(entry.getValue().getTemplateVarData().getText());
 			//替换栏目的动态调用标签
-			v = template.replaceSiteColumnBlock(v, columnNewsMap, columnMap, columnTreeMap);	
+			v = template.replaceSiteColumnBlock(v, columnNewsMap, columnMap, columnTreeMap, true, null);	
 			Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().put(entry.getKey(), v);
 		}
 		
@@ -518,7 +518,7 @@ public class SiteServiceImpl implements SiteService {
 			//替换公共标签
 			text = template.replacePublicTag(text);
 			//替换栏目的动态调用标签
-			text = template.replaceSiteColumnBlock(text, columnNewsMap, columnMap, columnTreeMap);	
+			text = template.replaceSiteColumnBlock(text, columnNewsMap, columnMap, columnTreeMap, true, null);	
 			//装载模版变量
 			text = template.assemblyTemplateVar(text);
 			
@@ -531,7 +531,7 @@ public class SiteServiceImpl implements SiteService {
 		//生成首页
 		String indexHtml = templateCacheMap.get(templatePageIndexVO.getTemplatePage().getName());
 		//替换首页中存在的栏目的动态调用标签
-		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap);
+		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null);
 		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		//生成首页保存到OSS或本地盘
 		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
@@ -554,6 +554,8 @@ public class SiteServiceImpl implements SiteService {
 				vo.setBaseVO(BaseVO.FAILURE, "栏目["+siteColumn.getName()+"]未绑定页面内容模版，请去绑定");
 				return vo;
 			}
+			//替换内容模版中的动态栏目调用(动态标签引用)
+			viewTemplateHtml = template.replaceSiteColumnBlock(viewTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn);	
 			
 			//如果是新闻或者图文列表，那么才会生成栏目列表页面
 			if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
@@ -563,6 +565,9 @@ public class SiteServiceImpl implements SiteService {
 					vo.setBaseVO(BaseVO.FAILURE, "栏目["+siteColumn.getName()+"]未绑定模版列表页面，请去绑定");
 					return vo;
 				}
+				//替换列表模版中的动态栏目调用(动态标签引用)
+				listTemplateHtml = template.replaceSiteColumnBlock(listTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn);	
+				
 				
 				//生成其列表页面
 				template.generateListHtmlForWholeSite(listTemplateHtml, siteColumn, columnNewsList);
@@ -576,28 +581,43 @@ public class SiteServiceImpl implements SiteService {
 				for (int i = 0; i < columnNewsList.size(); i++) {
 					News news = columnNewsList.get(i);
 					
-					//列表页的内容详情页面，还会有上一篇、下一篇的功能
-					News upNews = null;
-					News nextNews = null;
-					if(i > 0){
-						upNews = columnNewsList.get(i-1);
+					if(siteColumn.getId() - news.getCid() == 0){
+						//当前文章是此栏目的，那么生成文章详情。不然是不生成的，免得在父栏目中生成子栏目的页面，导致siteColumn调用出现错误
+						//列表页的内容详情页面，还会有上一篇、下一篇的功能
+						News upNews = null;
+						News nextNews = null;
+						if(i > 0){
+							upNews = columnNewsList.get(i-1);
+						}
+						if((i+1) < columnNewsList.size()){
+							nextNews = columnNewsList.get(i+1);
+						}
+						//生成内容页面
+						template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, upNews, nextNews);
+						//XML加入内容页面
+						xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.5");
 					}
-					if((i+1) < columnNewsList.size()){
-						nextNews = columnNewsList.get(i+1);
-					}
-					
-					template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, upNews, nextNews);
-					//XML加入内容页面
-					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.5");
 				}
 				
 			}else if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，只生成内容模版
-				for (int i = 0; i < columnNewsList.size(); i++) {
-					News news = columnNewsList.get(i);
-					template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, null, null);
+				if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
+					//模版式编辑，则直接生成
+					News news = new News();
+					news.setId(0);
+					news.setCid(0);
+					news.setAddtime(DateUtil.timeForUnix10());
+					template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, "", viewTemplateHtml, null, null);
 					//独立页面享有更大的权重，赋予其 0.8
 					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.8");
+				}else{
+					//UEditor、输入模型编辑方式
+					for (int i = 0; i < columnNewsList.size(); i++) {
+						News news = columnNewsList.get(i);
+						template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, null, null);
+						//独立页面享有更大的权重，赋予其 0.8
+						xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.8");
+					}
 				}
 			}else{
 				//其他栏目不管，比如超链接的栏目

@@ -263,4 +263,18 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "SiteColumn [id=" + id + ", name=" + name + ", url=" + url
+				+ ", icon=" + icon + ", rank=" + rank + ", used=" + used
+				+ ", siteid=" + siteid + ", userid=" + userid + ", parentid="
+				+ parentid + ", type=" + type + ", templatePageListName="
+				+ templatePageListName + ", templatePageViewName="
+				+ templatePageViewName + ", codeName=" + codeName
+				+ ", parentCodeName=" + parentCodeName + ", listNum=" + listNum
+				+ ", inputModelCodeName=" + inputModelCodeName + ", editMode="
+				+ editMode + "]";
+	}
+	
+	
 }

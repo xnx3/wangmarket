@@ -264,10 +264,11 @@ public class NewsController extends BaseController {
 		//如果传入了cid，获取到当前的siteColumn信息
 	    String cidPar = request.getParameter("cid");
 	    int cid = 0;
+	    SiteColumn siteColumn = null;
 	    if(cidPar != null){
 	    	cid = Lang.stringToInt(cidPar, 0);
 	    	if(cid > 0){
-	    		SiteColumn siteColumn = sqlService.findById(SiteColumn.class, cid);
+	    		siteColumn = sqlService.findById(SiteColumn.class, cid);
 	    		if(siteColumn == null){
 	    			return error(model, "要查看的栏目不存在");
 	    		}
@@ -277,7 +278,13 @@ public class NewsController extends BaseController {
 	    		model.addAttribute("siteColumn", siteColumn);
 	    		AliyunLog.addActionLog(siteColumn.getId(), "查看指定栏目下的文章列表，所属栏目："+siteColumn.getName());
 	    	}
-	    	
+	    }
+	    if(siteColumn != null){
+	    	//如果是模版式编辑，那么没有列表页面，直接到模版页面的编辑中
+	    	if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
+	    		model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
+	    		return "news/listForTemplate";
+	    	}
 	    }
 	    
 	    if(cid == 0){
@@ -305,6 +312,9 @@ public class NewsController extends BaseController {
 	    	StringBuffer columnTreeSB = new StringBuffer();
 		    for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
 		    	SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
+		    	if(sct.getSiteColumn().getUsed() - SiteColumn.USED_UNABLE == 0){
+		    		continue;
+		    	}
 		    	
 		    	//如果有下级栏目，也将下级栏目列出来
 		    	if(sct.getList().size() > 0){

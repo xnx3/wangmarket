@@ -239,5 +239,7 @@ function changeColumn(newsid, columnid){
 }
 </script>
 
+${autoJumpTemplateEdit}
+
 </body>
 </html>

@@ -607,7 +607,13 @@ public class ColumnController extends BaseController {
 		if(sc.getId() > 0){
 			//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 			if(sc.getType() == SiteColumn.TYPE_PAGE){
-				siteColumnService.createNonePage(sc,site,updateName);
+				//判断一下，这个独立页面的内容编辑方式，如果是模版编辑方式，那么是不用创建news的
+				if(sc.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
+					//模版编辑方式，忽略
+				}else{
+					//富文本编辑框或者输入模型编辑方式，则要创建独立页面
+					siteColumnService.createNonePage(sc,site,updateName);
+				}
 			}
 			
 			if(Func.isCMS(site)){
