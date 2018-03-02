@@ -3,7 +3,7 @@
 <br/>
 网市场云建站系统，打破传统建站的高成本，让价格不再是阻碍的门槛，让每个人都能有自己的网站！ [www.wang.market](http://www.wang.market)<br/>## 导航|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/2725.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
 | ------------- |:-------------:| -----:|-----:|-----:|
-| | || |  |## 功能简介1. 在线开通网站2. 自动分配二级域名3. 在线绑定域名4. (半)可视化界面编辑5. 成熟的云端模版库一键导入创建网站6. 网站页面100%全部自定义的模版体系7. 承载几百到几十万的网站个数8. 极速做网站的效率(导入模版－改图改字－上线)
+|||||||||## 功能简介1. 在线开通网站2. 自动分配二级域名3. 在线绑定域名4. (半)可视化界面编辑5. 成熟的云端模版库一键导入创建网站6. 网站页面100%全部自定义的模版体系7. 承载几百到几十万的网站个数8. 极速做网站的效率(导入模版－改图改字－上线)
 1. 自动识别图片是否涉黄、涉政、是否有违规嫌疑
 1. 自动判断网站内的文章是否有违法嫌疑
 2. 配套 [扒网站工具](https://gitee.com/mail_osc/templatespider) 。看到哪个网站好，拿过来变成自己的！9. 价格真的可以达到1个网站几块钱！10. ………………[更多可查看](http://www.wang.market/index.html#services)<br/>## 在线快速体验##### CMS模式网站管理后台（另外还有[纯傻瓜化操作后台的手机模式、电脑模式](http://www.wang.market/index.html#about)）登录网址：[wang.market](http://wang.market)<br/>登录帐号：ceshicms<br/>登录密码：ceshicms<br/>##### 代理后台，可自由开通、管理网站登录网址：[wang.market](http://wang.market)<br/>登录帐号：ceshidaili<br/>登录密码：ceshidaili<br/><br/>## 项目简介<br/>网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>于15年重新启动，<br/>16年开始试运行<br/>17年底正式开源发布！<br/>截止17年底：<br/>共建立网站服务客户一千余个，经过市场及客户验证。而非一时兴起作出来扔网上开源后就不管的<br/>svn版本更新迭代837次！<br/>版本功能性升级57次！[升级日志](http://www.wang.market/log.html)<br/><br/>## 运行环境<br/>语言：Java 1.8<br/>数据库：Mysql 5.5<br/>运行容器：Tomcat8<br/>
