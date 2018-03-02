@@ -82,10 +82,10 @@ public class AgencyUserController extends BaseController {
 		}
 		
 		AliyunLog.addActionLog(agency.getId(), "进入代理商后台首页");
-		
 		User user = sqlService.findById(User.class, getUserId());
 		model.addAttribute("user", user);
 		model.addAttribute("agency", agency);
+		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("apiKey", apiService.getKey());
 		return "agency/index";
 	}

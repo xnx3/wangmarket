@@ -1,6 +1,8 @@
 package com.xnx3.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,6 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	private SqlDAO sqlDAO;
 
 	public List<SiteColumn> findBySiteid(int siteid) {
-		// TODO Auto-generated method stub
 		return sqlDAO.findBySqlQuery("SELECT * FROM site_column WHRER siteid = "+siteid +" ORDER BY rank ASC", SiteColumn.class);
 	}
 
@@ -65,6 +66,18 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 				siteColumnTreeVOList.add(vo);
 			}
 		}
+		//根据rank排序
+		Collections.sort(siteColumnTreeVOList,new Comparator<SiteColumnTreeVO>(){
+            public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
+//            	if(arg0.getSiteColumn().getRank() == null){
+//            		arg0.getSiteColumn().setRank(0);
+//            	}
+//            	if(arg1.getSiteColumn().getRank() == null){
+//            		arg1.getSiteColumn().setRank(0);
+//            	}
+                return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
+            }
+        });
 		
 		//然后，列出二级栏目
 		for (Map.Entry<Integer, SiteColumn> entry : siteColumnMap.entrySet()) {
@@ -85,6 +98,20 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 				}
 			}
 		}
+		//将所有二级栏目，根据rank排序
+		for (int j = 0; j < siteColumnTreeVOList.size(); j++) {
+			SiteColumnTreeVO vo = siteColumnTreeVOList.get(j);
+			if(vo.getList() != null && vo.getList().size() > 0){
+				List<SiteColumnTreeVO> list = vo.getList();
+				//将某个父栏目内的子栏目进行排序
+				Collections.sort(list,new Comparator<SiteColumnTreeVO>(){
+		            public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
+		                return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
+		            }
+		        });
+			}
+		}
+		
 		
 		return siteColumnTreeVOList;
 	}

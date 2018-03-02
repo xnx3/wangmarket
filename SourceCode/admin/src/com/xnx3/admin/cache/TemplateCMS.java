@@ -448,6 +448,13 @@ public class TemplateCMS {
 	 * @return 生成的news文章的详情页的html页面名字。仅仅是名字，不包含.html
 	 */
 	public String generateNewsPageHtmlName(SiteColumn siteColumn, News news){
+		if(news == null){
+			news = new News();
+		}
+		if(news.getId() == null){
+			news.setId(0);
+		}
+		
 		if(this.generateUrlRule.equals("code")){
 			//使用栏目代码作为页面名字
 			
@@ -460,7 +467,6 @@ public class TemplateCMS {
 			}
 		}else{
 			//使用栏目id编号作为栏目名字(CMS模式要废弃,兼容原本的)
-			
 			if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，直接使用栏目代码 code.html
 				return "c"+news.getCid();

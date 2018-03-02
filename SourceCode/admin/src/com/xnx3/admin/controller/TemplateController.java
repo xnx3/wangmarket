@@ -108,6 +108,7 @@ public class TemplateController extends BaseController {
 		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(userBean.getSite(), userBean.getParentAgency()));
 		model.addAttribute("siteUrl", Func.getDomain(getSite()));
 		model.addAttribute("site", getSite());
+		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("user", user);
 		return "template/index";
 	}

@@ -38,7 +38,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="weui_cell_bd weui_cell_primary">
       <p>到期时间</p>
     </div>
-    <div class="weui_cell_ft"><x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time></div>
+    <a href="javascript:parent.jumpParentAgency();;" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
+    <div class="weui_cell_ft">
+    	<x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time>
+    </div>
   </div>
   <div class="weui_cell">
     <div class="weui_cell_bd weui_cell_primary">
@@ -79,6 +82,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //自适应弹出层大小
 var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
+
+
+$(function(){
+	//延长期限按钮
+	var yanchangriqi_tipindex = 0;
+	$("#yanchangriqi").hover(function(){
+		yanchangriqi_tipindex = layer.tips('点击按钮联系我们，为您延长使用期限', '#yanchangriqi', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['200px' , 'auto']
+		});
+	},function(){
+		layer.close(yanchangriqi_tipindex);
+	})
+});	
 
 $.getJSON("<%=basePath %>site/getOSSSize.do",function(result){
 	if(result.result == '1'){

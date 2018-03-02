@@ -175,7 +175,12 @@ var masterSiteUrl = '<%=basePath %>';
 				<span class="firstMenuFont">问题反馈</span>
 			</a>
 		</li>
-		
+		<li class="layui-nav-item">
+			<a id="parentagency" href="javascript:jumpParentAgency();">
+				<i class="layui-icon firstMenuIcon">&#xe612;</i>
+				<span class="firstMenuFont">技术支持</span>
+			</a>
+		</li>
 		
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px;">
 			<a id="tuichudenglu" href="<%=basePath %>user/logout.do">
@@ -278,6 +283,17 @@ $(function(){
 		layer.close(shengchengzhengzhan_tipindex);
 	})
 	
+	//技术支持，显示自己的上级代理商
+	var parentagency_tipindex = 0;
+	$("#parentagency").hover(function(){
+		parentagency_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#parentagency', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(parentagency_tipindex);
+	})
 })
 
 //在主题内容区域iframe中加载制定的页面
@@ -286,6 +302,33 @@ function loadIframeByUrl(url){
 	document.getElementById("iframe").src=url;
 }
 
+
+//服务于上级代理显示的窗口
+function getTr(name, value){
+	if(typeof(value) == 'undefined' || value == null || value.length == 0){
+		//忽略
+		return "";
+	}else{
+		return '<tr><td>'+name+'</td><td>'+value+'</td></tr>';
+	}
+}
+//弹出其上级代理的信息
+function jumpParentAgency(){
+	content = '<table class="layui-table" style="margin:0px;"><tbody>'
+			+getTr('名称', '${parentAgency.name}')
+			+getTr('QQ', '${parentAgency.qq}')
+			+getTr('手机', '${parentAgency.phone}')
+			+getTr('地址', '${parentAgency.address}')
+			+'</tbody></table>';
+	
+	layer.open({
+      type: 1
+      ,title: '技术支持'
+      ,content: content
+      ,shadeClose:true
+      ,resize: false
+    });
+}
 
 //模版使用说明
 function mobanshiyongshuoming(){

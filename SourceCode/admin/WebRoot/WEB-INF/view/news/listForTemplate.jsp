@@ -125,7 +125,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</c:choose>
 							</c:if>
 		                </td>
-		                <td style="width:100px;"><x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+		                <td style="width:140px; cursor: pointer;" id="addtime_${news['id'] }" onclick="updateAddtime('${news['id'] }', '<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>');">
+		                	<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time>
+		                	<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
+		                </td>
 		                <td style="text-align: center; width:140px;">
 		                	<c:choose>
 							    <c:when test="${siteColumn.type == 3 && siteColumn.editMode == 1}">
@@ -160,7 +163,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div><i class="layui-icon">&#xe640;</i> &nbsp;：删除某篇文章，栏目类型为新闻信息、图文信息的栏目才会有此按钮</div>
 			<div>添加信息 &nbsp;：顶部的“添加信息”按钮，可以添加多条文章信息，栏目类型为新闻信息、图文信息的栏目才会有此按钮</div>
 		</div>
-		
 	</div>
 </div>
 
@@ -168,6 +170,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 layui.use('element', function(){
   var element = layui.element;
 });
+var laydate;
+layui.use('laydate', function(){
+  laydate = layui.laydate;
+});
+
+/**
+ *	更改 addtime 发布时间
+ *	id 绑定元素的id，在哪个元素上显示
+ */
+function updateAddtime(id, value){
+	laydate.render({
+		elem: '#addtime_'+id+'_input' //指定元素
+		,type: 'datetime'
+		,format: 'yyyy-MM-dd HH:mm:ss' //可任意组合
+		,value: value //必须遵循format参数设定的格式
+		,show: true //直接显示
+		,closeStop: '#addtime_'+id //这里代表的意思是：点击 test1 所在元素阻止关闭事件冒泡。如果不设定，则无法弹出控件
+		,done: function(value, date, endDate){
+			//判断是否有过修改
+			
+			if(typeof(value) == 'undefined' || value == null){
+				return;
+			}
+			
+			//旧的，原始值
+			var oldValue = document.getElementById('addtime_'+id+'_input').value;
+			if(typeof(oldValue) == 'undefined' || oldValue == null){
+				oldValue = '';
+			}
+			
+			if(oldValue != value){
+				//确实修改了，那么保存
+				$.getJSON("updateAddtime.do?id="+id+"&addtime="+value,function(obj){
+					$.hideLoading();
+					if(obj.result == '1'){
+						parent.layer.msg('修改成功');	//由最外层发起提示框
+						location.reload();
+			     	}else if(obj.result == '0'){
+			     		 $.toast(obj.info, "cancel", function(toast) {});
+			     	}else{
+			     		alert(obj.result);
+			     	}
+				});
+			}
+		}
+	});
+}
 
 /**
  * 删除新闻，传入要删除的新闻id

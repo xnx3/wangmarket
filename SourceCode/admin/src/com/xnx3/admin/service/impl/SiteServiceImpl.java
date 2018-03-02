@@ -320,9 +320,9 @@ public class SiteServiceImpl implements SiteService {
 		//取得当前网站首页模版页面
 		TemplatePageVO templatePageIndexVO = templateService.getTemplatePageIndexByCache(request);
 		//取得网站所有栏目信息
-		List<SiteColumn> siteColumnList = sqlDAO.findBySqlQuery("SELECT * FROM site_column WHERE siteid = "+site.getId(), SiteColumn.class);
+		List<SiteColumn> siteColumnList = sqlDAO.findBySqlQuery("SELECT * FROM site_column WHERE siteid = "+site.getId()+" ORDER BY rank ASC", SiteColumn.class);
 		//取得网站所有文章News信息
-		List<News> newsList = sqlDAO.findBySqlQuery("SELECT * FROM news WHERE siteid = "+site.getId() + " AND status = "+News.STATUS_NORMAL+" ORDER BY id DESC", News.class);
+		List<News> newsList = sqlDAO.findBySqlQuery("SELECT * FROM news WHERE siteid = "+site.getId() + " AND status = "+News.STATUS_NORMAL+" ORDER BY addtime DESC", News.class);
 		List<NewsData> newsDataList = sqlDAO.findBySqlQuery("SELECT news_data.* FROM news,news_data WHERE news.siteid = "+site.getId() + " AND news.status = "+News.STATUS_NORMAL+" AND news.id = news_data.id ORDER BY news.id DESC", NewsData.class);
 		
 		//对栏目进行重新调整，以栏目codeName为key，将栏目加入进Map中。用codeName来取栏目
@@ -602,14 +602,10 @@ public class SiteServiceImpl implements SiteService {
 			}else if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，只生成内容模版
 				if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
-					//模版式编辑，则直接生成
-					News news = new News();
-					news.setId(0);
-					news.setCid(0);
-					news.setAddtime(DateUtil.timeForUnix10());
-					template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, "", viewTemplateHtml, null, null);
+					//模版式编辑，无 news ， 则直接生成
+					template.generateViewHtmlForTemplateForWholeSite(null, siteColumn, "", viewTemplateHtml, null, null);
 					//独立页面享有更大的权重，赋予其 0.8
-					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.8");
+					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, null)+".html", "0.8");
 				}else{
 					//UEditor、输入模型编辑方式
 					for (int i = 0; i < columnNewsList.size(); i++) {

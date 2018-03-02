@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.admin.entity.Site;
 

@@ -146,7 +146,7 @@ var masterSiteUrl = '<%=basePath %>';
 			<dl class="layui-nav-child">
 				<dd><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
 				<dd><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
-				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://res.weiunity.com/html/templateTag/index.html'), notUseTopTools();">模版开发</a></dd>
+				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com'), notUseTopTools();">模版开发</a></dd>
 				<dd><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
@@ -177,12 +177,17 @@ var masterSiteUrl = '<%=basePath %>';
 			</a>
 		</li>
 		<li class="layui-nav-item">
+			<a id="parentagency" href="javascript:jumpParentAgency();">
+				<i class="layui-icon firstMenuIcon">&#xe612;</i>
+				<span class="firstMenuFont">技术支持</span>
+			</a>
+		</li>
+		<li class="layui-nav-item">
 			<a id="shengchengzhengzhan" href="javascript:shengchengzhengzhan();">
 				<i class="layui-icon firstMenuIcon">&#xe609;</i>
 				<span class="firstMenuFont">生成整站</span>
 			</a>
 		</li>
-		
 		
 		<li class="layui-nav-item" style="position: absolute;bottom: 46px;">
 			<a id="tuichudenglu" href="../user/logout.do">
@@ -199,6 +204,11 @@ var masterSiteUrl = '<%=basePath %>';
 		</ul>
 	</div>
 	
+	
+	<!-- 代码编辑模式所需资源 -->
+	<link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
+	<script src="http://res.weiunity.com/editor/editormd.js"></script>
+
 	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
 		<div id="topNav" style="background-color: #2b2e37; color:#009688; height: 38px;line-height: 38px;padding-left: 12px; margin-left:-1px;">
@@ -209,17 +219,26 @@ var masterSiteUrl = '<%=basePath %>';
 				<span>&nbsp;&nbsp;&nbsp;</span>
 				可用：
 					<button onclick="popupTemplateTagHelp('模版变量-简化模式','<%=basePath %>template/templateVarListForUsed.do', '520', '260');">模版变量</button>
-					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','tongyongTable', '380', '560');">通用标签</button>
-					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','lanmuTable','380', '393');">栏目标签</button>
-					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','fenyeTable', '500','525');">分页标签</button>
-					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','wenzhangTable','370', '335');">文章信息标签</button>
-					<button id="dongtailanmu" onclick="popupTemplateTagHelp('动态栏目调用','dongtailanmuTable','770', '565');">动态栏目调用</button>
-					<button id="xiangqingduyou" onclick="popupTemplateTagHelp('详情页独有','xiangqingduyouTable','500', '300');">详情页独有</button>
-					<button id="liebiaoduyou" onclick="popupTemplateTagHelp('列表页独有','liebiaoduyouTable','470', '510');">列表页独有</button>
+					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '415', '590');">通用标签</button>
+					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','http://tag.wscso.com/2937.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','415', '430');">栏目标签</button>
+					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','http://tag.wscso.com/2938.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '540','525');">分页标签</button>
+					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','http://tag.wscso.com/2939.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','340', '398');">文章信息标签</button>
+					<button id="dongtailanmu" onclick="popupTemplateTagHelp('动态栏目调用','http://tag.wscso.com/2940.html#http://tag.wscso.com/2940.html','770', '560');">动态栏目调用</button>
+					<button id="xiangqingduyou" onclick="popupTemplateTagHelp('详情页独有','http://tag.wscso.com/2971.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','500', '300');">详情页独有</button>
+					<button id="liebiaoduyou" onclick="popupTemplateTagHelp('列表页独有','http://tag.wscso.com/2970.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','470', '457');">列表页独有</button>
 			</div>
 		</div>
 		<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 38px;box-sizing: border-box;"></iframe>
-		<textarea id="html_textarea" style="width:100%;height:100%; display:none; padding-bottom: 38px;box-sizing: border-box;"></textarea>
+		<div id="htmlMode" style="width:100%;height:100%; display:none; padding-bottom: 38px;box-sizing: border-box;">
+			<style>
+				.CodeMirror-linenumber{
+					padding:0px;
+					padding-left:1px;
+				}
+			</style>
+			<div id="editormd" style="width:100%; height:100%;"></div>
+			<textarea id="html_textarea"></textarea>
+        </div>
 	</div>
 </div>
 
@@ -249,39 +268,58 @@ if('${needSelectTemplate}' == 1){
 
 var currentMode = 1;	//默认为智能模式，1智能模式、2代码模式
 //模式切换
+var testEditor;
 function htmledit_mode(){
+	$.showLoading('切换中...');
 	if(currentMode == 1){
 		document.getElementById("iframe").style.display='none';
-		document.getElementById("html_textarea").style.display='';
+		document.getElementById("htmlMode").style.display='';
 		
 		//判断一下，如果模版页面不是正常的HTML模版，那么在切换到代码模式时，不进行赋值textarea的操作
 		var html = '';
 		try {
 			html = getHtmlSource();
 		} catch(error) {}
+		
 		if(html != ''){
+			//由智能模式切换代码模式
 			document.getElementById("html_textarea").value=getHtmlSource();
+			testEditor = editormd("editormd", {
+	            width            : "100%",
+	            height           : "100%",
+	            watch            : false,
+	            toolbar          : false,
+	            codeFold         : true,
+	            searchReplace    : true,
+	            placeholder      : "请输入html代码",
+	            value            : document.getElementById("html_textarea").value,
+	            theme            : "default",
+	            mode             : "text/html",
+	            path             : 'http://res.weiunity.com/editor/lib/'
+	        });
 		}
 		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
 		currentMode = 2;
 	}else{
+		//由代码模式切换智能模式
+		
 		document.getElementById("iframe").style.display='';
-		document.getElementById("html_textarea").style.display='none';
+		document.getElementById("htmlMode").style.display='none';
+		
+		//将editormd的值转到textarea中
+		document.getElementById("html_textarea").value = testEditor.getValue();
 		
 		var o = document.getElementById("iframe");
         ed = document.all ? o.contentWindow.document : o.contentDocument;
         ed.open();
-        ed.write(document.getElementById("html_textarea").value);
+        ed.write(testEditor.getValue());
         ed.close();
         
-		//var iframe = $(window.parent.document).contents().find("#iframe")[0].contentWindow;
-		//iframe.contentWindow.document.open();
-    //iframe.contentWindow.document.write(document.getElementById("html_textarea").value);
-    //iframe.contentWindow.document.close();
     	document.getElementById("htmledit_mode").innerHTML = '代码模式';
 		currentMode = 1;
 	}
+	$.hideLoading();
 }
 
 function getHtmlSource(){
@@ -296,17 +334,20 @@ function saveHtmlSource(){
 		//傻瓜模式，再iframe中
 		html = getHtmlSource();
 	}else{
-		//开发者模式，再textarea中
+		//开发者模式，在 editormd 中获取，（已不在textarea中，textarea只是切换智能模式与代码模式的中转站）
+		
+		//将editormd的值转到textarea中
+		document.getElementById("html_textarea").value = testEditor.getValue();
 		html = document.getElementById("html_textarea").value
 	}
 	
-	$.showLoading('正在保存中');
+	iw.loading('保存中');
 	var pageName = document.getElementById("currentTemplatePageName").value;
-	console.log(pageName);
 	$.post("<%=basePath %>template/saveTemplatePageText.do", {pageName: pageName, html: html}, function(data){
-		$.hideLoading();
+		iw.loadClose();
 		if(data.result == 1){
-	     	layer.msg('保存成功', {shade: 0.2});
+			iw.msgSuccess("保存成功");
+	     	//layer.msg('保存成功', {shade: 0.2});
 		}else{
 			layer.msg(data.info, {shade: 0.2});
 		}
@@ -500,6 +541,18 @@ $(function(){
 		layer.close(template_templateplugin_tipindex);
 	})
 	
+	
+	//技术支持，显示自己的上级代理商
+	var parentagency_tipindex = 0;
+	$("#parentagency").hover(function(){
+		parentagency_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#parentagency', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(parentagency_tipindex);
+	})
 })
 
 
@@ -513,7 +566,7 @@ function showHiddenTopNav(){
 		
 		//主体区域的iframe跟textarea的高度变为100%
 		document.getElementById("iframe").style.paddingBottom='0px';
-		document.getElementById("html_textarea").style.paddingBottom='0px';
+		document.getElementById("htmlMode").style.paddingBottom='0px';
 	}else{
 		currentTopNavShow = true;
 		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
@@ -521,7 +574,7 @@ function showHiddenTopNav(){
 		
 		//主体区域的iframe跟textarea的高度变为底部缩紧38px
 		document.getElementById("iframe").style.paddingBottom='38px';
-		document.getElementById("html_textarea").style.paddingBottom='38px';
+		document.getElementById("htmlMode").style.paddingBottom='38px';
 	}
 }
 
@@ -575,14 +628,14 @@ function useTopTools(){
 		
 		//主体区域的iframe跟textarea的高度变为100%
 		document.getElementById("iframe").style.paddingBottom='0px';
-		document.getElementById("html_textarea").style.paddingBottom='0px';
+		document.getElementById("htmlMode").style.paddingBottom='0px';
 	}else{
 		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
 		document.getElementById("topNav").style.display='';
 		
 		//主体区域的iframe跟textarea的高度变为底部缩紧38px
 		document.getElementById("iframe").style.paddingBottom='38px';
-		document.getElementById("html_textarea").style.paddingBottom='38px';
+		document.getElementById("htmlMode").style.paddingBottom='38px';
 	}
 }
 //不使用头部工具栏，不使用时，头部什么也没有
@@ -593,7 +646,7 @@ function notUseTopTools(){
 	
 	//主体区域的iframe跟textarea的高度变为100%
 	document.getElementById("iframe").style.paddingBottom='0px';
-	document.getElementById("html_textarea").style.paddingBottom='0px';
+	document.getElementById("htmlMode").style.paddingBottom='0px';
 }
 
 //缩小左侧菜单
@@ -680,6 +733,7 @@ function zoomLeftMenu(){
 		document.getElementById("templateplugin").innerHTML = '插件';
 		
 		
+		
 		//左下角的缩放按钮
 		document.getElementById("showHiddenLeftMenu_icon").innerHTML = '&#xe602;';
 		
@@ -745,6 +799,35 @@ function shipinjiaocheng(){
 	} catch(error) {}
 }
 setTimeout("shipinjiaocheng()",2000);
+
+
+
+//服务于上级代理显示的窗口
+function getTr(name, value){
+	if(typeof(value) == 'undefined' || value == null || value.length == 0){
+		//忽略
+		return "";
+	}else{
+		return '<tr><td>'+name+'</td><td>'+value+'</td></tr>';
+	}
+}
+//弹出其上级代理的信息
+function jumpParentAgency(){
+	content = '<table class="layui-table" style="margin:0px;"><tbody>'
+			+getTr('名称', '${parentAgency.name}')
+			+getTr('QQ', '${parentAgency.qq}')
+			+getTr('手机', '${parentAgency.phone}')
+			+getTr('地址', '${parentAgency.address}')
+			+'</tbody></table>';
+	
+	layer.open({
+      type: 1
+      ,title: '技术支持'
+      ,shadeClose:true
+      ,content: content
+      ,resize: false
+    });
+}
 
 //右侧弹出提示
 function rightTip(){

@@ -1,13 +1,16 @@
 package com.xnx3.admin.controller;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
@@ -463,6 +466,7 @@ public class ColumnController extends BaseController {
 
 	/**
 	 * 创建/修改栏目导航保存，用于 popupColumnGaoJiUpdate、CMS模式编辑栏目的保存
+	 * @throws CloneNotSupportedException 
 	 */
 	@RequestMapping("savePopupColumnGaoJiUpdate")
 	@ResponseBody
@@ -505,6 +509,7 @@ public class ColumnController extends BaseController {
 			sc.setUserid(getUserId());
 			sc.setSiteid(site.getId());
 		}
+		
 		sc.setName(name);
 		sc.setRank(siteColumn.getRank());
 		sc.setUrl(filter(siteColumn.getUrl()));
@@ -584,8 +589,13 @@ public class ColumnController extends BaseController {
 					for (int i = 0; i < sclistCache.size(); i++) {
 						SiteColumn s = sclistCache.get(i);
 						if(s.getCodeName().equals(sc.getCodeName())){
-							vo.setBaseVO(BaseVO.FAILURE, "您当前的栏目代码已经有栏目使用了，请换一个吧，网站内栏目代码是唯一的");
-							return vo;
+							if(sc.getId() != null && sc.getId() - s.getId() == 0){
+								//是当前栏目，略过
+							}else{
+								//不是当前栏目，那么就是有重复了
+								vo.setBaseVO(BaseVO.FAILURE, "您当前的栏目代码已经有栏目使用了，请换一个吧，网站内栏目代码是唯一的");
+								return vo;
+							}
 						}
 					}
 					
@@ -693,6 +703,39 @@ public class ColumnController extends BaseController {
 			vo.setBaseVO(BaseVO.FAILURE, "保存失败");
 			return vo;
 		}
+	}
+	
+	/**
+	 * 更改栏目排序。CMS模式使用。（PC、手机模式使用js排序）
+	 * @param id 栏目id
+	 * @param rank 排序编号。数字越小越靠前
+	 * @return
+	 */
+	@RequestMapping("updateRank")
+	@ResponseBody
+	public BaseVO updateRank(HttpServletRequest request,
+			@RequestParam(value = "id", required = false , defaultValue="0") int id,
+			@RequestParam(value = "rank", required = false , defaultValue="0") int rank){
+		if(id < 1){
+			return error("请传入要操作的栏目编号");
+		}
+		SiteColumn siteColumn = sqlService.findById(SiteColumn.class, id);
+		if(siteColumn == null){
+			return error("要操作的栏目不存在");
+		}
+		if(siteColumn.getSiteid() - getSiteId() != 0){
+			return error("栏目不属于您，无法操作");
+		}
+		
+		siteColumn.setRank(rank);
+		sqlService.save(siteColumn);
+		
+		//这个栏目改动完毕后，要重新将此栏目加入Session缓存中去
+		siteColumnService.updateSiteColumnByCache(siteColumn);
+		//记录日志
+		AliyunLog.insert(request, siteColumn.getId(), "更改栏目排序");
+		
+		return success();
 	}
 	
 	/**

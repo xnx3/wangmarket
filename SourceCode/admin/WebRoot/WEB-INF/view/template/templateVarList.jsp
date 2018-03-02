@@ -74,13 +74,12 @@ function deleteTemplateVar(id, name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		$.showLoading('正在删除');
+		parent.iw.loading('删除中');
 		$.getJSON('<%=basePath %>template/deleteTemplateVar.do?id='+id,function(obj){
-			$.hideLoading();
+			parent.iw.loadClose();
 			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					window.location.reload();	//刷新当前页
-				});
+				parent.iw.msgSuccess("删除成功");
+				window.location.reload();	//刷新当前页
 	     	}else if(obj.result == '0'){
 	     		 $.toast(obj.info, "cancel", function(toast) {});
 	     	}else{

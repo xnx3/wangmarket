@@ -301,7 +301,7 @@ public class NewsController extends BaseController {
 	    sql.setSelectFromAndPage("SELECT * FROM news", page);
 	    
 	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("id DESC");
+	    sql.setDefaultOrderBy("addtime DESC");
 	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
 	    List<News> list = sqlService.findBySql(sql, News.class);
 	     
@@ -321,6 +321,9 @@ public class NewsController extends BaseController {
 		    		columnTreeSB.append("<li class=\"layui-nav-item\" id=\"super"+sct.getSiteColumn().getId()+"\"><a href=\"javascript:;\" class=\"dltitle\">"+sct.getSiteColumn().getName()+"</a><dl class=\"layui-nav-child\" style=\"background-color: #EAEDF1;\">");
 		    		for (int j = 0; j < sct.getList().size(); j++) {
 		    			SiteColumn s = sct.getList().get(j).getSiteColumn();
+		    			if(s.getUsed() - SiteColumn.USED_UNABLE == 0){
+				    		continue;
+				    	}
 		    			columnTreeSB.append("<dd>"+getLeftNavColumnA(cid, s, sct.getSiteColumn().getId())+"</dd>");
 					}
 		    		columnTreeSB.append("</dl></li>");
@@ -638,4 +641,44 @@ public class NewsController extends BaseController {
 		AliyunLog.addActionLog(news.getId(), "将文章转移栏目", "将文章"+news.getTitle()+"转移到栏目["+column.getName()+"]中");
 		return success();
 	}
+	
+	
+	/**
+	 * 更改文章发布的时间
+	 * @param id news.id
+	 * @param addtime 修改后的时间，格式如 2018-12-12 22:22:22
+	 * @return
+	 */
+	@RequestMapping("updateAddtime")
+	@ResponseBody
+	public BaseVO updateAddtime(HttpServletRequest request,
+			@RequestParam(value = "id", required = false , defaultValue="0") int id,
+			@RequestParam(value = "addtime", required = false , defaultValue="") String addtime){
+		if(id < 1){
+			return error("请传入要操作的文章编号");
+		}
+		if(addtime.length() == 0){
+			return error("请传入修改后的时间");
+		}
+		
+		News news = sqlService.findById(News.class, id);
+		if(news == null){
+			return error("要操作的文章不存在");
+		}
+		if(news.getSiteid() - getSiteId() != 0){
+			return error("文章不属于您，无法操作");
+		}
+		
+		//将2018-12-12 22:22:22 转化为10位时间戳
+		int time = DateUtil.StringToInt(addtime, "yyyy-MM-dd HH:mm:ss");
+		news.setAddtime(time);
+		sqlService.save(news);
+		
+		//记录日志
+		AliyunLog.insert(request, news.getId(), "更改文章发布时间", time+"");
+		
+		return success();
+	}
+	
+	
 }

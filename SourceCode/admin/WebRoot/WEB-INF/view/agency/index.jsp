@@ -39,7 +39,10 @@ versionUpdateRemind('<%=G.VERSION %>');
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">到期时间</td>
-			<td><x:time linuxTime="${agency.expiretime }"></x:time></td>
+			<td>
+				<x:time linuxTime="${agency.expiretime }"></x:time>
+				<a href="javascript:jumpParentAgency();" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
+			</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">权限</td>
@@ -54,9 +57,14 @@ versionUpdateRemind('<%=G.VERSION %>');
 			<td>${user.lastip }</td>
 		</tr>
 		<tr>
+			<td class="iw_table_td_view_name">我的上级</td>
+			<td onclick="jumpParentAgency();" style="cursor:pointer;">${parentAgency.name }</td>
+		</tr>
+		<tr>
 			<td class="iw_table_td_view_name">账户余额</td>
 			<td>${agency.siteSize }站币
-            	<div style="margin-top: -23px;margin-left: 80px;">
+				<a href="javascript:jumpParentAgency();" id="chongzhianniu" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">充值</a>
+            	<div style="margin-top: -23px;margin-left: 120px;">
             		1站币 = 开通一个网站/年<br/>
             		1站币 = 续费一个网站/年<br/>
             		<%=G.agencyAddSubAgency_siteSize %>站币 = 开通一个下级代理/年<br/>
@@ -81,6 +89,67 @@ versionUpdateRemind('<%=G.VERSION %>');
 
 
 <script type="text/javascript">
+
+
+//Jquery layer 提示
+$(function(){
+	//延长期限按钮
+	//延长期限按钮
+	var yanchangriqi_tipindex = 0;
+	$("#yanchangriqi").hover(function(){
+		yanchangriqi_tipindex = layer.tips('点击按钮联系我们，为您延长使用期限', '#yanchangriqi', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['200px' , 'auto']
+		});
+	},function(){
+		layer.close(yanchangriqi_tipindex);
+	})
+	
+	//站币的充值按钮
+	var chongzhianniu_tipindex = 0;
+	$("#chongzhianniu").hover(function(){
+		chongzhianniu_tipindex = layer.tips('联系您的上级，向其购买站币', '#chongzhianniu', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(chongzhianniu_tipindex);
+	})
+})
+
+
+//服务于上级代理显示的窗口
+function getTr(name, value){
+	if(typeof(value) == 'undefined' || value == null || value.length == 0){
+		//忽略
+		return "";
+	}else{
+		return '<tr><td>'+name+'</td><td>'+value+'</td></tr>';
+	}
+}
+//弹出其上级代理的信息
+function jumpParentAgency(){
+	content = '<table class="layui-table" style="margin:0px;"><tbody>'
+			+getTr('名称', '${parentAgency.name}')
+			+getTr('QQ', '${parentAgency.qq}')
+			+getTr('手机', '${parentAgency.phone}')
+			+getTr('地址', '${parentAgency.address}')
+			+'</tbody></table>';
+	
+	layer.open({
+    type: 1
+    ,title: '我的上级信息'
+    ,content: content
+    ,shade: false
+    ,resize: false
+  });
+}
+
+
+
 //代理开通15日内，登录会弹出网站快速开通的视频说明
 try {
 	var currentTime = Date.parse( new Date() ).toString();

@@ -21,6 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <th>栏目代码</th>
       <th>类型</th>
       <th>是否显示</th>
+		<th>排序</th>
       <th>操作</th>
     </tr> 
   </thead>
@@ -29,10 +30,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<c:forEach items="${list}" var="siteColumnTreeVO">
         <tr id="${siteColumnTreeVO.siteColumn.id }">
         	<td width="140">${siteColumnTreeVO.siteColumn.name }</td>
-        	<td width="150">${siteColumnTreeVO.siteColumn.codeName }</td>
+        	<td>${siteColumnTreeVO.siteColumn.codeName }</td>
             <td width="100"><script type="text/javascript">document.write(type['${siteColumnTreeVO.siteColumn.type}']);</script></td>
             <td width="60"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.used}']);</script></td>
-            <td width="80">
+            <td width="50" onclick="updateRank('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.rank }', '${siteColumnTreeVO.siteColumn.name }');" style="cursor:pointer;">${siteColumnTreeVO.siteColumn.rank }</td>
+            <td width="160">
             	<botton class="layui-btn layui-btn-small" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
             	<botton class="layui-btn layui-btn-small" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
             	<botton class="layui-btn layui-btn-small" onclick="deleteColumn('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
@@ -44,10 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:forEach items="${siteColumnTreeVO.list}" var="subSCT">
 		        <tr id="${subSCT.siteColumn.id }">
 		        	<td width="140"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
-		        	<td width="150"><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
+		        	<td><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
 		            <td width="100"><script type="text/javascript">document.write(type['${subSCT.siteColumn.type}']);</script></td>
 		            <td width="60"><script type="text/javascript">document.write(used['${subSCT.siteColumn.used}']);</script></td>
-		            <td width="80">
+		            <td width="50" onclick="updateRank('${subSCT.siteColumn.id }', '${subSCT.siteColumn.rank }', '${subSCT.siteColumn.name }');" style="cursor:pointer;">&nbsp;&nbsp;&nbsp;&nbsp;${subSCT.siteColumn.rank }</td>
+		            <td width="160">
 		            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${subSCT.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
 		            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${subSCT.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 		            	<botton class="layui-btn layui-btn-small" onclick="deleteColumn('${subSCT.siteColumn.id }', '${subSCT.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
@@ -97,13 +100,12 @@ function deleteColumn(siteColumnId, name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		$.showLoading('删除中...');
+		parent.iw.loading('删除中');
 		$.getJSON('<%=basePath %>column/delete.do?id='+siteColumnId,function(obj){
-			$.hideLoading();
+			parent.iw.loadClose();
 			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					window.location.reload();	//刷新当前页
-				});
+				parent.iw.msgSuccess("删除成功");
+				window.location.reload();	//刷新当前页
 	     	}else if(obj.result == '0'){
 	     		 $.toast(obj.info, "cancel", function(toast) {});
 	     	}else{
@@ -129,6 +131,30 @@ function addColumn(siteColumnId){
 	});
 }
 
+/**
+ * 更改某项的排序
+ * @param id 要修改的 某项的id编号，要改那一项
+ * @param rank 当前的排序序号，默认值
+ * @param name 栏目名字，仅仅只是提示作用
+ */
+function updateRank(id,rank,name){
+	layer.prompt({title: '请输入排序数字，数字越小越靠前', formType: 3, value: ''+rank}, function(text, index){
+		$.showLoading('保存中...');
+		$.getJSON('updateRank.do?id='+id+'&rank='+text,function(obj){
+			$.hideLoading();
+			if(obj.result == '1'){
+				//由最外层发起提示框
+				parent.layer.msg('修改成功');
+				//刷新当前页
+				window.location.reload();	
+	     	}else if(obj.result == '0'){
+	     		 $.toast(obj.info, "cancel", function(toast) {});
+	     	}else{
+	     		alert(obj.result);
+	     	}
+		});
+	});
+}
 </script>
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>

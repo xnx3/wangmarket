@@ -144,7 +144,11 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 
 	@Column(name = "rank")
 	public Integer getRank() {
-		return this.rank;
+		if(this.rank == null){
+			return 0;
+		}else{
+			return this.rank;
+		}
 	}
 
 	public void setRank(Integer rank) {

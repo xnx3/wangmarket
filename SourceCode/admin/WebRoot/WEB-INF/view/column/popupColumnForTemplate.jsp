@@ -145,13 +145,13 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('栏目保存中');
+  		parent.iw.loading('保存中');
 		var d=$("form").serialize();
         $.post("<%=basePath %>column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
+        		parent.parent.iw.msgSuccess("操作成功");
         		parent.location.reload();	//刷新父窗口
         		parent.layer.close(index);
         	}else if(obj.result == '0'){

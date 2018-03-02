@@ -239,6 +239,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				<span class="firstMenuFont">更改密码</span>
 			</a>
 		</li>
+
 		<li class="layui-nav-item">
 			<a href="<%=basePath %>user/logout.do">
 				<i class="layui-icon firstMenuIcon">&#xe633;</i>

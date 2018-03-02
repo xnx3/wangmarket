@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="layui-form-item">
 		<label class="layui-form-label">联系人姓名</label>
 		<div class="layui-input-block xnx3_input">
-			<input type="text" name="contactUsername" placeholder="请输入网站名" autocomplete="off" class="layui-input">
+			<input type="text" name="contactUsername" placeholder="请输入联系人的姓名" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">

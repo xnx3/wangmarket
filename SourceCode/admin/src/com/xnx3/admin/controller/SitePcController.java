@@ -44,6 +44,7 @@ public class SitePcController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));		//跟im应用交互验证
 		model.addAttribute("site", getSite());
+		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		return "sitePc/index";
 	}
 	

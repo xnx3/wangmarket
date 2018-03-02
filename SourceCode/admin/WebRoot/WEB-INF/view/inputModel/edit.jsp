@@ -102,15 +102,14 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('保存中');
+		parent.iw.loading('保存中');
 		var d=$("form").serialize();
         $.post("<%=basePath %>inputModel/save.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		$.toast("保存成功", function() {
-        			window.location.href="list.do";
-		        });
+        		parent.iw.msgSuccess("保存成功");
+        		window.location.href="list.do";
         	}else if(obj.result == '0'){
         		layer.msg(obj.info, {shade: 0.3})
         	}else{
