@@ -202,17 +202,20 @@ function updateAddtime(id, value){
 			
 			if(oldValue != value){
 				//确实修改了，那么保存
-				$.getJSON("updateAddtime.do?id="+id+"&addtime="+value,function(obj){
-					$.hideLoading();
-					if(obj.result == '1'){
-						parent.layer.msg('修改成功');	//由最外层发起提示框
+				
+				iw.loading("修改中");
+				$.post("updateAddtime.do?id="+id+"&addtime="+value, function(data){
+					iw.loadClose();
+					if(data.result == '1'){
+						parent.iw.msgSuccess("修改成功");
 						location.reload();
-			     	}else if(obj.result == '0'){
-			     		 $.toast(obj.info, "cancel", function(toast) {});
-			     	}else{
-			     		alert(obj.result);
-			     	}
+				 	}else if(data.result == '0'){
+				 		parent.iw.msgFailure(data.info);
+				 	}else{
+				 		parent.iw.msgFailure();
+				 	}
 				});
+				
 			}
 		}
 	});
@@ -226,17 +229,16 @@ function deleteNews(newsid){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		$.showLoading('删除中');
-		$.getJSON("<%=basePath %>news/deleteNewsForAjax.do?id="+newsid,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					location.reload();
-				});
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
+		iw.loading("删除中");
+		$.post("<%=basePath %>news/deleteNewsForAjax.do?id="+newsid, function(data){
+			iw.loadClose();
+			if(data.result == '1'){
+				parent.iw.msgSuccess("删除成功");
+				location.reload();
+	     	}else if(data.result == '0'){
+	     		parent.iw.msgFailure(data.info);
 	     	}else{
-	     		alert(obj.result);
+	     		parent.iw.msgFailure();
 	     	}
 		});
     }, function(){

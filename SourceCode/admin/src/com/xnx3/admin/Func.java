@@ -1,7 +1,9 @@
 package com.xnx3.admin;
 
 import javax.servlet.http.HttpServletRequest;
+
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.admin.bean.UserBean;
@@ -105,7 +107,6 @@ public class Func {
 	 * 重定向跳转至当前登录用户的网站所属类型(wap\pc\cms)的控制台，或者代理后台、超级管理员后台，又或创建网站的页面
 	 * @return 重定向跳转网址。返回包含：
 	 * 		<ul>
-	 * 			<li>site/createSite.do</li>
 	 * 			<li>template/index.do</li>
 	 * 			<li>site/editPcIndex.do</li>
 	 * 			<li>site/editWapIndex.do</li>
@@ -132,6 +133,7 @@ public class Func {
 		Site site = userBean.getSite();
 		if(site == null){
 			//既不是代理，也不是超级管理员，那肯定就是用户权限了。用户权限没有网站，那就跳转到网站创建页面
+			//v3.9以后，这种情况是不存在的。账号跟网站是一块创建的
 			return "site/createSite.do";
 		}
 		

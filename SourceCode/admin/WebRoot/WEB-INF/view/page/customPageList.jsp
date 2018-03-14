@@ -71,14 +71,19 @@ function deleteHtml(fileName){
 	layer.confirm('确定要删除 '+fileName+'.html ？', {
 		btn: ['删除','取消'] //按钮
 	}, function(){
-		$.getJSON("<%=basePath %>site/deleteOssData.do?fileName="+fileName+".html",function(result){
-			if(result.result == '1'){
-				layer.msg('操作成功');
+		iw.loading("删除中");
+		$.post("<%=basePath %>site/deleteOssData.do?fileName="+fileName+".html", function(data){
+			iw.loadClose();
+			if(data.result == '1'){
+				iw.msgSuccess("删除成功");
 				$("#"+fileName+"html").remove();
-			}else{
-				alert(result.info);
-			}
+		 	}else if(data.result == '0'){
+		 		iw.msgFailure(data.info);
+		 	}else{
+		 		iw.msgFailure();
+		 	}
 		});
+		
 	}, function(){
 		
 	});

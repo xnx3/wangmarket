@@ -20,6 +20,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -194,7 +195,7 @@ public class TemplateController extends BaseController {
 	/**
 	 * 保存模版变量
 	 */
-	@RequestMapping("saveTemplateVar")
+	@RequestMapping(value="saveTemplateVar", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveTemplateVar(TemplateVar templateVarInput, 
 			@RequestParam(value = "text", required = false , defaultValue="") String text,
@@ -274,57 +275,57 @@ public class TemplateController extends BaseController {
 	/**
 	 * 保存模版页面
 	 */
-	@Deprecated
-	@RequestMapping("saveTemplatePageOld")
-	@ResponseBody
-	public BaseVO saveTemplatePageOld(TemplatePage templatePageInput, 
-			@RequestParam(value = "text", required = false , defaultValue="") String text,
-			HttpServletRequest request,Model model){
-		
-		TemplatePage templatePage;
-		TemplatePageData templatePageData = null;
-		if(templatePageInput.getId() == null || templatePageInput.getId() == 0){
-			//添加
-			templatePage = new TemplatePage();
-			templatePage.setUserid(getUserId());
-			templatePage.setSiteid(getSiteId());
-			
-			templatePageData = new TemplatePageData();
-		}else{
-			//修改
-			templatePage = sqlService.findById(TemplatePage.class, templatePageInput.getId());
-			if(templatePage.getUserid() - getUserId() != 0){
-				return error("不属于您，无法修改");
-			}
-			
-			templatePageData = sqlService.findById(TemplatePageData.class, templatePage.getId());
-		}
-		
-		templatePage.setName(filter(templatePageInput.getName()));
-		sqlService.save(templatePage);
-		if(templatePage.getId() != null && templatePage.getId() > 0){
-			//保存成功，再判断templateVarData是否是添加，若是添加的话，得赋予其id
-			if(templatePageData.getId() == null || templatePageData.getId() == 0){
-				templatePageData.setId(templatePage.getId());
-			}
-			templatePageData.setText(text);
-			sqlService.save(templatePageData);
-			
-			//刷新当前用户的模版页面缓存
-			templateService.updateTemplatePageForCache(templatePage, templatePageData, request);
-			
-			AliyunLog.addActionLog(getSiteId(), "保存模版页成功（已废弃接口）");
-		}
-		
-		return success(templatePage.getId()+"");
-	}
+//	@Deprecated
+//	@RequestMapping(value="saveTemplatePageOld", method = RequestMethod.POST)
+//	@ResponseBody
+//	public BaseVO saveTemplatePageOld(TemplatePage templatePageInput, 
+//			@RequestParam(value = "text", required = false , defaultValue="") String text,
+//			HttpServletRequest request,Model model){
+//		
+//		TemplatePage templatePage;
+//		TemplatePageData templatePageData = null;
+//		if(templatePageInput.getId() == null || templatePageInput.getId() == 0){
+//			//添加
+//			templatePage = new TemplatePage();
+//			templatePage.setUserid(getUserId());
+//			templatePage.setSiteid(getSiteId());
+//			
+//			templatePageData = new TemplatePageData();
+//		}else{
+//			//修改
+//			templatePage = sqlService.findById(TemplatePage.class, templatePageInput.getId());
+//			if(templatePage.getUserid() - getUserId() != 0){
+//				return error("不属于您，无法修改");
+//			}
+//			
+//			templatePageData = sqlService.findById(TemplatePageData.class, templatePage.getId());
+//		}
+//		
+//		templatePage.setName(filter(templatePageInput.getName()));
+//		sqlService.save(templatePage);
+//		if(templatePage.getId() != null && templatePage.getId() > 0){
+//			//保存成功，再判断templateVarData是否是添加，若是添加的话，得赋予其id
+//			if(templatePageData.getId() == null || templatePageData.getId() == 0){
+//				templatePageData.setId(templatePage.getId());
+//			}
+//			templatePageData.setText(text);
+//			sqlService.save(templatePageData);
+//			
+//			//刷新当前用户的模版页面缓存
+//			templateService.updateTemplatePageForCache(templatePage, templatePageData, request);
+//			
+//			AliyunLog.addActionLog(getSiteId(), "保存模版页成功（已废弃接口）");
+//		}
+//		
+//		return success(templatePage.getId()+"");
+//	}
 	
 
 	/**
 	 * 保存模版页面，只保存{@link TemplatePage}，不保存模版页面的内容，内容单独保存
 	 * @param templatePageInput 要保存的{@link TemplatePage}信息
 	 */
-	@RequestMapping("saveTemplatePage")
+	@RequestMapping(value="saveTemplatePage", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveTemplatePage(TemplatePage templatePageInput,
 			HttpServletRequest request,Model model){
@@ -454,7 +455,7 @@ public class TemplateController extends BaseController {
 	 * @param pageName 要获取的源代码的页面名字，如传入index，则会自动获取index.html的源代码返回
 	 * @param html 修改后的网站首页的html源代码 
 	 */
-	@RequestMapping("saveTemplatePageText")
+	@RequestMapping(value="saveTemplatePageText", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveTemplatePageText(HttpServletRequest request,
 			@RequestParam(value = "pageName", required = false, defaultValue="") String pageName,
@@ -499,7 +500,7 @@ public class TemplateController extends BaseController {
 	 * 删除模版变量
 	 * @param id 要删除的模版变量的id
 	 */
-	@RequestMapping("deleteTemplateVar")
+	@RequestMapping(value="deleteTemplateVar", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deleteTemplateVar(@RequestParam(value = "id", required = true) int id){
 		TemplateVar templateVar = (TemplateVar) sqlService.findById(TemplateVar.class , id);
@@ -523,7 +524,7 @@ public class TemplateController extends BaseController {
 	 * 删除模版页
 	 * @param id 要删除的模版页的id
 	 */
-	@RequestMapping("deleteTemplatePage")
+	@RequestMapping(value="deleteTemplatePage", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deleteTemplatePage(HttpServletRequest request,
 			@RequestParam(value = "id", required = true) int id){
@@ -582,7 +583,7 @@ public class TemplateController extends BaseController {
 	 * <br/>模版文件包含模版页面，模版变量、栏目
 	 * @param templateFile input上传的模版文件的name
 	 */
-	@RequestMapping("uploadImportTemplate")
+	@RequestMapping(value="uploadImportTemplate", method = RequestMethod.POST)
 	@ResponseBody
 	public void uploadImportTemplate(HttpServletResponse response, HttpServletRequest request, 
 			@RequestParam("templateFile") MultipartFile multipartFile) throws IOException{
@@ -627,7 +628,7 @@ public class TemplateController extends BaseController {
 	 * 通过res.weiunity.com的CDN获取制定的模版，远程获取模版文件，将当前网站应用此模版。
 	 * <br/>模版文件包含模版页面，模版变量、栏目
 	 */
-	@RequestMapping("remoteImportTemplate")
+	@RequestMapping(value="remoteImportTemplate", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO remoteImportTemplate(HttpServletRequest request, Model model,
 			@RequestParam(value = "templateName", required = false , defaultValue="") String templateName){
@@ -674,7 +675,7 @@ public class TemplateController extends BaseController {
 	/**
 	 * 上传图片接口
 	 */
-	@RequestMapping("uploadImage")
+	@RequestMapping(value="uploadImage", method = RequestMethod.POST)
 	@ResponseBody
 	public UploadFileVO uploadImage(Model model,HttpServletRequest request){
 		UploadFileVO uploadFileVO = new UploadFileVO();
@@ -696,7 +697,7 @@ public class TemplateController extends BaseController {
 	/**
 	 * 自定义模版的整站刷新
 	 */
-	@RequestMapping("refreshForTemplate")
+	@RequestMapping(value="refreshForTemplate", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO refreshForTemplate(Model model,HttpServletRequest request){
 		AliyunLog.addActionLog(getSiteId(), "CMS模式下，刷新生成整站");
@@ -738,7 +739,7 @@ public class TemplateController extends BaseController {
 	 * 此主要起展示作用，并没有实际功能
 	 * @throws IOException 
 	 */
-	@RequestMapping("restoreTemplateByLocalhostFile")
+	@RequestMapping(value="restoreTemplateByLocalhostFile", method = RequestMethod.POST)
 	@ResponseBody
 	public void restoreTemplateByLocalhostFile(Model model,HttpServletRequest request,HttpServletResponse response,
 			@RequestParam("templateFile") MultipartFile multipartFile) throws IOException{
@@ -790,7 +791,7 @@ public class TemplateController extends BaseController {
 	 * 已经有过模板了，还原模板。这里通过远程，云端进行还原模板
 	 * <br/>模版文件包含模版页面，模版变量、栏目、输入模型
 	 */
-	@RequestMapping("restoreTemplateByRemote")
+	@RequestMapping(value="restoreTemplateByRemote", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO restoreTemplateByRemote(HttpServletRequest request, Model model){
 		TemplateCompareVO tcv = new TemplateCompareVO();
@@ -1063,7 +1064,7 @@ public class TemplateController extends BaseController {
 	/**
 	 * 还原模板，表单提交，执行还原操作
 	 */
-	@RequestMapping("restoreTemplateSubmit")
+	@RequestMapping(value="restoreTemplateSubmit", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO restoreTemplateSubmit(Model model,HttpServletRequest request){
 		AliyunLog.addActionLog(getSiteId(), "还原模板，执行还原操作");
@@ -1397,7 +1398,7 @@ public class TemplateController extends BaseController {
 	 * 导入模版插件，弹出对比窗口
 	 * <br/>模版文件包含模版页面，模版变量、栏目、输入模型
 	 */
-	@RequestMapping("restoreTemplatePluginByRemote")
+	@RequestMapping(value="restoreTemplatePluginByRemote", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO restoreTemplatePluginByRemote(HttpServletRequest request, Model model, 
 			@RequestParam(value = "pluginName", required = false, defaultValue="") String pluginName){

@@ -63,18 +63,20 @@ function deleteInputModel(id, remark){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
+		
 		parent.iw.loading('删除中');
-		$.getJSON('<%=basePath %>inputModel/delete.do?id='+id,function(obj){
-			parent.iw.loadClose();
-			if(obj.result == '1'){
-				parent.iw.msgSuccess("删除成功");
+		$.post('<%=basePath %>inputModel/delete.do?id='+id, function(data){
+		    parent.iw.loadClose();
+		    if(data.result == '1'){
+		        parent.iw.msgSuccess("删除成功");
 				window.location.reload();	//刷新当前页
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+		     }else if(data.result == '0'){
+		         iw.msgFailure(data.info);
+		     }else{
+		         iw.msgFailure();
+		     }
 		});
+		
 	}, function(){
 	});
 }

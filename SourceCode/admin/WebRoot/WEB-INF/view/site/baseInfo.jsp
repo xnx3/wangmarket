@@ -97,14 +97,14 @@ $(function(){
 	},function(){
 		layer.close(yanchangriqi_tipindex);
 	})
-});	
+});
 
-$.getJSON("<%=basePath %>site/getOSSSize.do",function(result){
-	if(result.result == '1'){
-		document.getElementById('ossSize').innerHTML = (result.info/1000)+'&nbsp;MB';
-		document.getElementById('residueSize').innerHTML = (${user.ossSizeHave}-(result.info/1000))+'&nbsp;MB';
+$.post("<%=basePath %>site/getOSSSize.do", function(data){
+	if(data.result == '1'){
+		document.getElementById('ossSize').innerHTML = (data.info/1000)+'&nbsp;MB';
+		document.getElementById('residueSize').innerHTML = (${user.ossSizeHave}-(data.info/1000))+'&nbsp;MB';
 	}else{
-		alert(result.info);
+		parent.iw.msgFailure(data.info);
 	}
 });
 

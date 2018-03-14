@@ -1,13 +1,17 @@
 package com.xnx3.admin.controller;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.admin.entity.InputModel;
@@ -56,7 +60,7 @@ public class InputModelController extends BaseController {
 	/**
 	 * edit 中，获取的原本的输入模型的内容
 	 */
-	@RequestMapping("getInputModelTextById")
+	@RequestMapping(value="getInputModelTextById", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO getInputModelTextById(HttpServletRequest request, Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
@@ -75,7 +79,7 @@ public class InputModelController extends BaseController {
 	/**
 	 * 保存输入模型
 	 */
-	@RequestMapping("save")
+	@RequestMapping(value="save", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO save(HttpServletRequest request, Model model,
 			InputModel im){
@@ -122,7 +126,7 @@ public class InputModelController extends BaseController {
 	 * 删除某个输入模型
 	 * @param id 要删除的输入模型的id，对应 {@link InputModel}.id
 	 */
-	@RequestMapping("delete")
+	@RequestMapping(value="delete", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO delete(HttpServletRequest request, Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){

@@ -126,19 +126,20 @@ function useCloudTemplate(templateName){
 	  btn: ['立即使用','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		$.showLoading('正在加载中');
-		$.getJSON('<%=basePath %>template/remoteImportTemplate.do?templateName='+templateName,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				$.toast("模版加载成功", function() {
-					parent.window.location.reload();	//刷新当前页
-				});
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+		
+		iw.loading("加载中");
+		$.post('<%=basePath %>template/remoteImportTemplate.do?templateName='+templateName, function(data){
+			iw.loadClose();
+			if(data.result == '1'){
+				parent.iw.msgSuccess("加载成功");
+				parent.window.location.reload();	//刷新当前页
+		 	}else if(data.result == '0'){
+		 		parent.iw.msgFailure(data.info);
+		 	}else{
+		 		parent.iw.msgFailure();
+		 	}
 		});
+		
 	}, function(){
 	});
 }

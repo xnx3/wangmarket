@@ -148,15 +148,21 @@ function updatePassword(userid, name){
 		title: '给'+name+'改密码，请输入新密码',
 	}, function(value, index, elem){
 		iw.loading('更改中...');
-		$.getJSON("<%=basePath %>agency/siteUpdatePassword.do?userid="+userid+"&newPassword="+value,function(result){
-			iw.loadClose();
-			if(result.result != '1'){
-				alert(result.info);
-			}else{
-				parent.iw.msgSuccess();
-				location.reload();
-			}
-		});
+		parent.iw.loading("更改中");    //显示“更改中”的等待提示
+		$.post(
+		    "<%=basePath %>agency/siteUpdatePassword.do", 
+		    { "newPassword": value, userid:userid }, 
+		    function(data){
+		        parent.iw.loadClose();    //关闭“更改中”的等待提示
+		        if(result.result != '1'){
+		            parent.iw.msgFailure(result.info);
+		        }else{
+		            parent.iw.msgSuccess();
+					location.reload();
+		        }
+		    }, 
+		"json");
+		
 	});
 }
 </script>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -65,7 +66,7 @@ public class NewsController extends BaseController {
 	 * 创建、修改页面提交保存
 	 * @return
 	 */
-	@RequestMapping("saveNews")
+	@RequestMapping(value="saveNews", method = RequestMethod.POST)
 	public String saveNews(News s,
 			@RequestParam(value = "text", required = false , defaultValue="") String text,
 			HttpServletRequest request,Model model){
@@ -125,6 +126,7 @@ public class NewsController extends BaseController {
 		
 		//内容过滤HTML标签
 		String textFilterHtml = StringUtil.filterHtmlTag(text);
+		textFilterHtml = StringUtil.filterEnglishSpecialSymbol(textFilterHtml);	//过滤英文状态下得特殊符号
 		
 		/*
 		 * 简介
@@ -219,7 +221,7 @@ public class NewsController extends BaseController {
 	/**
 	 * 根据news.id删除信息
 	 */
-	@RequestMapping("deleteNews")
+	@RequestMapping(value="deleteNews", method = RequestMethod.POST)
 	public String deleteNews(HttpServletRequest request,Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
 		NewsVO vo = newsService.deleteNews(id, true);
@@ -386,7 +388,7 @@ public class NewsController extends BaseController {
 	 * @param id {@link News}.id 若id为空或者0，那么便是新增栏目，那么下面的cid便不能为空
 	 * @param cid {@link SiteColumn}.id 若id传入了值，此处可忽略
 	 */
-	@RequestMapping("news")
+	@RequestMapping(value="news")
 	public String news(HttpServletRequest request,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id,
 			@RequestParam(value = "cid", required = false , defaultValue="0") int cid,
@@ -408,7 +410,7 @@ public class NewsController extends BaseController {
 	 * 根据news.id删除信息,Ajax方式，返回json
 	 * @param id 要删除的news.id
 	 */
-	@RequestMapping("deleteNewsForAjax")
+	@RequestMapping(value="deleteNewsForAjax", method = RequestMethod.POST)
 	@ResponseBody
 	public NewsVO deleteNewsForAjax(HttpServletRequest request,Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
@@ -448,7 +450,7 @@ public class NewsController extends BaseController {
 	 * @param cid news.cid
 	 * @param type news.type
 	 */
-	@RequestMapping("redirectByNews")
+	@RequestMapping(value="redirectByNews")
 	public String redirectByNews(Model model,
 			@RequestParam(value = "newsId", required = false , defaultValue="0") int newsId,
 			@RequestParam(value = "cid", required = false , defaultValue="0") int cid,
@@ -538,7 +540,7 @@ public class NewsController extends BaseController {
 	 * @param newsid 要转移的文章的id， {@link News}.id
 	 * @param columnid 当前要转移的文章所在的栏目id，文章没转移前在哪个栏目
 	 */
-	@RequestMapping("/newsChangeColumnForSelectColumn")
+	@RequestMapping(value="newsChangeColumnForSelectColumn")
 	public String newsChangeColumnForSelectColumn(HttpServletRequest request,Model model,
 			@RequestParam(value = "newsid", required = true) int newsid,
 			@RequestParam(value = "columnid", required = true) int columnid){
@@ -593,7 +595,7 @@ public class NewsController extends BaseController {
 			}
 		}
 		
-		String columnName = column.getName();
+		String columnName = filter(column.getName());
 		if(grade == 2){
 			columnName = "<span style=\"padding-left:15px;\">"+columnName+"</span>";
 		}
@@ -611,7 +613,7 @@ public class NewsController extends BaseController {
 	 * @param newsid 要转移的文章id，news.id
 	 * @param targetColumnId 要转移到的目标栏目id
 	 */
-	@RequestMapping("newsChangeColumnForSelectColumnSubmit")
+	@RequestMapping(value="newsChangeColumnForSelectColumnSubmit", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO newsChangeColumnForSelectColumnSubmit(HttpServletRequest request,Model model,
 			@RequestParam(value = "newsid", required = true) int newsid,
@@ -649,7 +651,7 @@ public class NewsController extends BaseController {
 	 * @param addtime 修改后的时间，格式如 2018-12-12 22:22:22
 	 * @return
 	 */
-	@RequestMapping("updateAddtime")
+	@RequestMapping(value="updateAddtime", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateAddtime(HttpServletRequest request,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id,

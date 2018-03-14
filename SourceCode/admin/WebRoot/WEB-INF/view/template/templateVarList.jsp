@@ -74,18 +74,20 @@ function deleteTemplateVar(id, name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
+		
 		parent.iw.loading('删除中');
-		$.getJSON('<%=basePath %>template/deleteTemplateVar.do?id='+id,function(obj){
+		$.post('<%=basePath %>template/deleteTemplateVar.do?id='+id, function(data){
 			parent.iw.loadClose();
-			if(obj.result == '1'){
+			if(data.result == '1'){
 				parent.iw.msgSuccess("删除成功");
-				window.location.reload();	//刷新当前页
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+				location.reload();
+		 	}else if(data.result == '0'){
+		 		parent.iw.msgFailure(data.info);
+		 	}else{
+		 		parent.iw.msgFailure();
+		 	}
 		});
+		
 	}, function(){
 	});
 	

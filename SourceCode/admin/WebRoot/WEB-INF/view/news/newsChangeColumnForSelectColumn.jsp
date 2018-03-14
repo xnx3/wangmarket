@@ -98,17 +98,20 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 
 //选择指定的栏目进行移动文章 targetColumnId 要移动到哪个栏目的id
 function selectColumn(targetColumnId){
-	$.showLoading('转移中...');
-	$.getJSON("<%=basePath %>news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId,function(result){
-		$.hideLoading();
-		if(result.result != '1'){
-			alert(result.info);
-		}else{
-			parent.parent.layer.msg('操作成功', {shade: 0.3});
+	iw.loading("转移中");
+	$.post("<%=basePath %>news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId, function(data){
+		iw.loadClose();
+		if(data.result == '1'){
+			parent.iw.msgSuccess("操作成功");
        		parent.location.reload();	//刷新父窗口
        		parent.layer.close(index);
-		}
+	 	}else if(data.result == '0'){
+	 		parent.iw.msgFailure(data.info);
+	 	}else{
+	 		parent.iw.msgFailure();
+	 	}
 	});
+	
 }
 </script>
 </body>

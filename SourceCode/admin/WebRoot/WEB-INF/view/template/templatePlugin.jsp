@@ -105,16 +105,16 @@ function useTemplatePlugin(pluginName){
 	  btn: ['立即导入','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		$.showLoading('获取中');
-		$.getJSON('<%=basePath %>template/restoreTemplatePluginByRemote.do?pluginName='+pluginName,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
+		iw.loading("获取中");
+		$.post('<%=basePath %>template/restoreTemplatePluginByRemote.do?pluginName='+pluginName, function(data){
+			iw.loadClose();
+			if(data.result == '1'){
 				templateComparePreview();
-	    	}else if(obj.result == '0'){
-	    		 $.toast(obj.info, "cancel", function(toast) {});
-	    	}else{
-	    		alert(obj.result);
-	    	}
+		 	}else if(data.result == '0'){
+		 		parent.iw.msgFailure(data.info);
+		 	}else{
+		 		parent.iw.msgFailure();
+		 	}
 		});
 		
 	}, function(){

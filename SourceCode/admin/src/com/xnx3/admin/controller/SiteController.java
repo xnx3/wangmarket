@@ -16,9 +16,11 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.im.service.ImService;
@@ -116,7 +118,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 站点信息提交保存
 	 */
-	@RequestMapping("saveSite")
+	@RequestMapping(value="saveSite", method = RequestMethod.POST)
 	public String saveSite(Site s,Model model,HttpServletRequest request){
 		SiteVO siteVO = siteService.saveSite(s, getUserId(), request);
 		if(siteVO.getResult() == SiteVO.SUCCESS){
@@ -128,33 +130,33 @@ public class SiteController extends BaseController {
 	}
 	
 	
-	/**
-	 * 修改首页顶图的Banner图片是否显示
-	 * 此目前没有用到。在网站设置页面中会有这个是否显示或者隐藏banner得设置，只不过隐藏了。
-	 * 预留。没准以后可能会用到
-	 * @deprecated
-	 */
-	@RequestMapping("updateBanner")
-	@ResponseBody
-	public BaseVO updateBanner(@RequestParam(value = "mShowBanner", required = false , defaultValue="0") Short mShowBanner,
-			Model model,HttpServletRequest request){
-		BaseVO vo = new BaseVO();
-		Site site = sqlService.findById(Site.class, getSiteId());
-		
-		site.setmShowBanner(mShowBanner);
-		sqlService.save(site);
-		//创建数据js缓存 site.js
-		new com.xnx3.admin.cache.Site().site(site, imService.getImByCache());
-		
-		AliyunLog.addActionLog(getSiteId(), "修改Banner图为"+(mShowBanner==Site.MSHOWBANNER_SHOW?"显示":"隐藏"));
-		
-		return vo;
-	}
+//	/**
+//	 * 修改首页顶图的Banner图片是否显示
+//	 * 此目前没有用到。在网站设置页面中会有这个是否显示或者隐藏banner得设置，只不过隐藏了。
+//	 * 预留。没准以后可能会用到
+//	 * @deprecated
+//	 */
+//	@RequestMapping("updateBanner")
+//	@ResponseBody
+//	public BaseVO updateBanner(@RequestParam(value = "mShowBanner", required = false , defaultValue="0") Short mShowBanner,
+//			Model model,HttpServletRequest request){
+//		BaseVO vo = new BaseVO();
+//		Site site = sqlService.findById(Site.class, getSiteId());
+//		
+//		site.setmShowBanner(mShowBanner);
+//		sqlService.save(site);
+//		//创建数据js缓存 site.js
+//		new com.xnx3.admin.cache.Site().site(site, imService.getImByCache());
+//		
+//		AliyunLog.addActionLog(getSiteId(), "修改Banner图为"+(mShowBanner==Site.MSHOWBANNER_SHOW?"显示":"隐藏"));
+//		
+//		return vo;
+//	}
 	
 	/**
 	 * 修改站点名称
 	 */
-	@RequestMapping("updateName")
+	@RequestMapping(value="updateName", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateName(Model model,HttpServletRequest request,
 			@RequestParam(value = "name", required = false , defaultValue="") String name){
@@ -184,7 +186,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 修改站点 Keywords
 	 */
-	@RequestMapping("updateKeywords")
+	@RequestMapping(value="updateKeywords", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateKeywords(Model model,HttpServletRequest request,
 			@RequestParam(value = "keywords", required = false , defaultValue="") String keywords){
@@ -208,7 +210,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 修改站点的SEO描述
 	 */
-	@RequestMapping("updateDescription")
+	@RequestMapping(value="updateDescription", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateDescription(@RequestParam(value = "description", required = false , defaultValue="") String description,
 			Model model,HttpServletRequest request){
@@ -237,7 +239,7 @@ public class SiteController extends BaseController {
 	 * 修改站点绑定的域名
 	 * @param siteid v2.1版本中以废弃，从Session中拿Site
 	 */
-	@RequestMapping("updateBindDomain")
+	@RequestMapping(value="updateBindDomain", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateBindDomain(Model model,HttpServletRequest request,
 			@RequestParam(value = "bindDomain", required = false , defaultValue="") String bindDomain){
@@ -277,17 +279,18 @@ public class SiteController extends BaseController {
 	
 	/**
 	 * 刷新站点，重新创建HTML文件
+	 * 高级功能中使用。已去掉高级功能，注释。以备后续使用
 	 */
-	@RequestMapping("refreshSiteGenerateHtml")
-	public String refreshSiteGenerateHtml(Model model,HttpServletRequest request){
-		BaseVO baseVO = siteService.refreshSiteGenerateHtml(request);
-		if(baseVO.getResult() == BaseVO.SUCCESS){
-			AliyunLog.addActionLog(getSiteId(), "刷新站点，重新创建HTML文件");
-			return success(model, "刷新成功！");
-		}else{
-			return error(model, baseVO.getInfo());
-		}
-	}
+//	@RequestMapping(value="refreshSiteGenerateHtml", method = RequestMethod.POST)
+//	public String refreshSiteGenerateHtml(Model model,HttpServletRequest request){
+//		BaseVO baseVO = siteService.refreshSiteGenerateHtml(request);
+//		if(baseVO.getResult() == BaseVO.SUCCESS){
+//			AliyunLog.addActionLog(getSiteId(), "刷新站点，重新创建HTML文件");
+//			return success(model, "刷新成功！");
+//		}else{
+//			return error(model, baseVO.getInfo());
+//		}
+//	}
 	
 	/**
 	 * 站点属性，我的属性，我的信息
@@ -321,7 +324,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 获取用户的OSS已用空间
 	 */
-	@RequestMapping("getOSSSize")
+	@RequestMapping(value="getOSSSize", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO getOSSSize(){
 		//判断一下，如果是使用的阿里云OSS存储，但是没有配置，会拦截提示
@@ -353,24 +356,24 @@ public class SiteController extends BaseController {
 	 * 获取当前站点信息 Site 信息
 	 * @param siteid 以废弃，不需要
 	 */
-	@RequestMapping("getSite")
-	@ResponseBody
-	public SiteVO getSitess(){
-		SiteVO vo = new SiteVO();
-		
-		//从数据库获取，拿到最新的站点信息
-		Site site = (Site) sqlService.findById(Site.class, getSiteId());
-		
-		AliyunLog.addActionLog(getSiteId(), "获取当前站点信息，已废弃接口");
-		
-		vo.setSite(site);
-		return vo;
-	}
+//	@RequestMapping("getSite")
+//	@ResponseBody
+//	public SiteVO getSitess(){
+//		SiteVO vo = new SiteVO();
+//		
+//		//从数据库获取，拿到最新的站点信息
+//		Site site = (Site) sqlService.findById(Site.class, getSiteId());
+//		
+//		AliyunLog.addActionLog(getSiteId(), "获取当前站点信息，已废弃接口");
+//		
+//		vo.setSite(site);
+//		return vo;
+//	}
 	
 	/**
 	 * 获取当前站点信息 Site 信息
 	 */
-	@RequestMapping("getSiteData")
+	@RequestMapping(value="getSiteData", method = RequestMethod.POST)
 	@ResponseBody
 	public SiteDataVO getSiteData(){
 		SiteDataVO vo = new SiteDataVO();
@@ -387,7 +390,7 @@ public class SiteController extends BaseController {
 	 * 更改网站的Domain二级域名
 	 * @param siteid v2.1版本中以废弃，从Session中拿Site
 	 */
-	@RequestMapping("updateDomain")
+	@RequestMapping(value="updateDomain", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateDomain(@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
 			@RequestParam(value = "domain", required = false , defaultValue="") String domain,
@@ -451,7 +454,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 保存手机模版，同时刷新首页，重新生成首页的html
 	 */
-	@RequestMapping("templateSave")
+	@RequestMapping(value="templateSave", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO templateSave(Model model,HttpServletRequest request,
 			@RequestParam(value = "templateId", required = false , defaultValue="0") int templateId){
@@ -587,7 +590,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 保存弹出框修改的站点信息
 	 */
-	@RequestMapping("savePopupSiteUpdate")
+	@RequestMapping(value="savePopupSiteUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO savePopupSiteUpdate(Site s,Model model,HttpServletRequest request){
 		Site site = sqlService.findById(Site.class, getSite().getId());
@@ -608,7 +611,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 通用电脑模式，更改底部的二维码，提交保存
 	 */
-	@RequestMapping(value = "popupQrImageUpdateSubmit")
+	@RequestMapping(value = "popupQrImageUpdateSubmit", method = RequestMethod.POST)
 	public void popupQrImageUpdateSubmit(Model model,HttpServletRequest request,HttpServletResponse response,
 			@RequestParam("qrImageFile") MultipartFile multipartFile) throws IOException{
 		JSONObject json = new JSONObject();
@@ -649,7 +652,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 电脑模式，更改关于我们的图片　，提交
 	 */
-	@RequestMapping("popupAboutUsImageUpdateSubmit")
+	@RequestMapping(value="popupAboutUsImageUpdateSubmit", method = RequestMethod.POST)
 	public void popupAboutUsImageUpdateSubmit(HttpServletRequest request,Model model,HttpServletResponse response,
 			@RequestParam("titlePicFile") MultipartFile multipartFile){
 		JSONObject json = new JSONObject();
@@ -707,7 +710,7 @@ public class SiteController extends BaseController {
 	 * 删除当前网站内的文件，删除OSS存储的数据
 	 * @param fileName 传入oss的key，如345.html、news/asd.jpg
 	 */
-	@RequestMapping("deleteOssData")
+	@RequestMapping(value="deleteOssData", method = RequestMethod.POST)
 	public void deleteOssData(Model model,HttpServletResponse response,
 			@RequestParam(value = "fileName", required = true) String fileName){
 		fileName = filter(fileName);
@@ -736,7 +739,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 问题反馈
 	 */
-	@RequestMapping("wenTiFanKui")
+	@RequestMapping(value="wenTiFanKui", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO wenTiFanKui(@RequestParam(value = "text", required = false , defaultValue="") String text){
 		if(text.length() == 0){
@@ -794,7 +797,7 @@ public class SiteController extends BaseController {
 	 * 注意，username中带有ceshi这个字符的，并且是以其为开头的，是不能更改密码的
 	 * @param newPassword 要更改上的新密码
 	 */
-	@RequestMapping("updatePassword")
+	@RequestMapping(value="updatePassword", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updatePassword(HttpServletRequest request,
 			@RequestParam(value = "newPassword", required = false, defaultValue="") String newPassword){

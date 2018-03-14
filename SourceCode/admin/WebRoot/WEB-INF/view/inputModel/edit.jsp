@@ -8,6 +8,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="编辑输入模型"/>
 </jsp:include>
+<!-- 代码编辑模式所需资源 -->
+<link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
+<script src="http://res.weiunity.com/editor/editormd.js"></script>
 
 <form id="form" class="layui-form layui-form-pane" action="save.do" method="post" style="padding:5px;">
   <input type="hidden" name="id" value="${inputModel.id }" />
@@ -33,7 +36,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="layui-form-item layui-form-text" style="height: 80%;">
     <label class="layui-form-label">模型内容(2万字以内)</label>
     <div class="layui-input-block">
-      <textarea name="text" id="text" style="height:600px;" lay-verify="text" placeholder="请输入输入模型的提交表单的html代码" class="layui-textarea" style="height: 95%;"></textarea>
+    	<div id="htmlMode" style="width:100%;height:auto; ">
+
+			<div id="editormd" style="width:100%; height:auto; min-height:400px;">
+				<textarea name="text" id="html_textarea" style="height:600px;" lay-verify="text" placeholder="请输入输入模型的提交表单的html代码" class="layui-textarea" style="height: 95%;"></textarea>
+			</div>
+			
+        </div>
     </div>
   </div>
   
@@ -124,21 +133,38 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
 
 //加载输入模型的主要数据
 function load(){
-	$.showLoading();
-	$.getJSON("<%=basePath %>inputModel/getInputModelTextById.do?id=${inputModel.id }",function(result){
-		 $.hideLoading();
-		if(result.result == '1'){
+	parent.iw.loading("加载中");
+	$.post("<%=basePath %>inputModel/getInputModelTextById.do?id=${inputModel.id }", function(data){
+		parent.iw.loadClose();
+		if(data.result == '1'){
 			//编辑模式，获取模型主要内容成功，加载到textarea
-			document.getElementById("text").innerHTML = result.info;
-			//alert(result.info);  //这里应该是添加，添加时输入模型数据是不存在的，会返回错误提示
-		}else if (result.result == '3') {
-			//新增模式，获取默认的输入模型内容，赋予textarea
-			document.getElementById("text").innerHTML = result.info;
+			document.getElementById("html_textarea").innerHTML = data.info;
+	 	}else if(data.result == '3'){
+	 		//新增模式，获取默认的输入模型内容，赋予textarea
+			document.getElementById("html_textarea").innerHTML = data.info;
 			layer.msg("自动赋予系统默认输入模型，可以在此基础上进行修改，以创建自己的输入模型！", {shade: 0.3})
-		}
+	 	}else{
+	 		parent.iw.msgFailure(data.info);
+	 	}
 	});
+
 }
 load();
+
+//代码编辑器
+testEditor = editormd("editormd", {
+    width            : "100%",
+    height            : "650px",
+    watch            : false,
+    toolbar          : false,
+    codeFold         : true,
+    searchReplace    : true,
+    placeholder      : "请输入模版变量的代码",
+    value            : document.getElementById("html_textarea").value,
+    theme            : "default",
+    mode             : "text/html",
+    path             : 'http://res.weiunity.com/editor/lib/'
+});
 </script>
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>

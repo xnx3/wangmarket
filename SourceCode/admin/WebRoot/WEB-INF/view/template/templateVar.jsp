@@ -9,6 +9,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="编辑模版变量"/>
 </jsp:include>
 
+<!-- 代码编辑模式所需资源 -->
+<link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
+<script src="http://res.weiunity.com/editor/editormd.js"></script>
+
 <form id="form" class="layui-form layui-form-pane" action="saveTemplateVar.do" method="post" style="padding:5px;">
   <input type="hidden" name="id" value="${templateVar.id }" />
   <div class="layui-form-item" style="">
@@ -31,13 +35,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="layui-form-item layui-form-text" style="height: 80%;">
     <label class="layui-form-label">模版变量代码</label>
     <div class="layui-input-block">
-      <textarea name="text" style="height:400px;" lay-verify="text" placeholder="请输入模版变量代码，注意，请不要将head、body标签放到模版变量里面！" class="layui-textarea" style="height: 95%;">${text }</textarea>
+    	<div id="htmlMode" style="width:100%;height:auto; ">
+
+			<div id="editormd" style="width:100%; height:auto; min-height:400px;">
+				<textarea id="html_textarea" name="text" lay-verify="text" placeholder="请输入模版变量代码，注意，请不要将head、body标签放到模版变量里面！" class="layui-textarea" style="height: 95%;">${text }</textarea>
+			</div>
+			
+        </div>
+      
     </div>
   </div>
   <div style="font-size:14px; margin-top:-5px;">
   		可用标签：
-    	<a href="javascript:popupTemplateTagHelp('通用标签','tongyongTable', '380', '560');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">通用标签</a>
-    	<a href="javascript:popupTemplateTagHelp('动态栏目调用','dongtailanmuTable','770', '565');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">动态栏目调用标签</a>
+    	<a href="javascript:popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '415', '590');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">通用标签</a>
+    	<a href="javascript:popupTemplateTagHelp('动态栏目调用','http://tag.wscso.com/2940.html#http://tag.wscso.com/2940.html','770', '560');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">动态栏目调用标签</a>
   </div>
   <div class="layui-form-item" style="text-align:center;">
   	<button class="layui-btn" lay-submit="" lay-filter="demo1">保存</button>
@@ -113,6 +124,21 @@ function popupTemplateTagHelp(title,htmlNameTag, width, height){
   		}
 	});
 }
+
+//代码编辑器
+testEditor = editormd("editormd", {
+          width            : "100%",
+          height            : "650px",
+          watch            : false,
+          toolbar          : false,
+          codeFold         : true,
+          searchReplace    : true,
+          placeholder      : "请输入模版变量的代码",
+          value            : document.getElementById("html_textarea").value,
+          theme            : "default",
+          mode             : "text/html",
+          path             : 'http://res.weiunity.com/editor/lib/'
+      });
 </script>
 
 </body>

@@ -149,16 +149,16 @@ layui.upload.render({
 
 //加载云端模版，触发选中云端模版还原
 function getCloudTemplate(){
-	$.showLoading('获取中');
-	$.getJSON('<%=basePath %>template/restoreTemplateByRemote.do',function(obj){
-		$.hideLoading();
-		if(obj.result == '1'){
+	iw.loading("获取中");
+	$.post('<%=basePath %>template/restoreTemplateByRemote.do', function(data){
+		iw.loadClose();
+		if(data.result == '1'){
 			templateComparePreview();
-     	}else if(obj.result == '0'){
-     		 $.toast(obj.info, "cancel", function(toast) {});
-     	}else{
-     		alert(obj.result);
-     	}
+	 	}else if(data.result == '0'){
+	 		parent.iw.msgFailure(data.info);
+	 	}else{
+	 		parent.iw.msgFailure();
+	 	}
 	});
 }
 

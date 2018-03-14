@@ -180,49 +180,23 @@ function getPhoneCode(){
 		return;
 	}
 
-	iw.loading('发送中...');
-	$.getJSON("sendPhoneRegCodeByAliyun.do?&phone="+document.getElementById('phone').value,function(result){
-	   	iw.loadClose();
-	    if(result.result){
-	    	layer.closeAll();
+	iw.loading("发送中");
+	$.post("sendPhoneRegCodeByAliyun.do?&phone="+document.getElementById('phone').value, function(data){
+		iw.loadClose();
+		if(data.result == '1'){
+			layer.closeAll();
 	    	iw.msgSuccess("验证码已发送至您的手机");
-	    }else{
-	    	iw.msgFailure(result.info+'');
-	    }
+	 	}else if(data.result == '0'){
+	 		iw.msgFailure(data.info);
+	 	}else{
+	 		iw.msgFailure();
+	 	}
 	});
 	
 	if(true){
 		return;
 	}
-
-	var divCode=document.getElementById('divCode').innerHTML;
-	divCode = divCode.replace(/thisIdIsimgCode/, "imgCode");
-	divCode = divCode.replace(/thisIdIsimgCode/, "imgCode");
-	layer.open({
-        type: 1
-        ,title: false //不显示标题栏
-        ,closeBtn: false
-        ,area: '340px;'
-        ,shade: 0.8
-        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-        ,btn: ['验证并发送短信', '取消']
-        ,moveType: 1 //拖拽模式，0或者1
-        ,content: divCode
-        ,success: function(layero){
-        	reloadCode();	//刷新验证码
-        }
-        ,yes: function(){
-        	$.getJSON("sendPhoneRegCodeByAliyun.do?code="+document.getElementById('imgCode').value+"&phone="+document.getElementById('phone').value,function(result){
-			    if(result.result){
-			    	layer.closeAll();
-			    	layer.msg("验证码已发送至您的手机");
-			    }else{
-			    	layer.alert(result.info, {icon: 2});
-			    	reloadCode();
-			    }
-			});
-        }
-      });
+	
 }
 
 //鼠标跟随提示
