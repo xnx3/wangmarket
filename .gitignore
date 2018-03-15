@@ -18,34 +18,34 @@
 *.rar
 
 #eclipse相关
-*.jsdtscope
-*.prefs
+#.jsdtscope
+#.prefs
 
-/SourceCode/admin/src/com/xnx3/weixin/
-/SourceCode/admin/src/com/xnx3/admin/controller/TemplateFileController.java
-/SourceCode/admin/WebRoot/WEB-INF/view/templateExternal/
+#/SourceCode/admin/src/com/xnx3/weixin/
+#/SourceCode/admin/src/com/xnx3/admin/controller/TemplateFileController.java
+#/SourceCode/admin/WebRoot/WEB-INF/view/templateExternal/
 
-/SourceCode/admin/.tern-project
-/SourceCode/admin/WebRoot/WEB-INF/template/2/property.properties
-/SourceCode/admin/WebRoot/WEB-INF/template/3/property.properties
-/SourceCode/admin/WebRoot/WEB-INF/template/4/property.properties
-/SourceCode/admin/WebRoot/WEB-INF/template/5/property.properties
-/SourceCode/admin/WebRoot/WEB-INF/template/6/property.properties
-/SourceCode/admin/WebRoot/WEB-INF/template/7/property.properties
-/SourceCode/admin/src/com/xnx3/admin/controller/LoginController.java
-/SourceCode/admin/WebRoot/WEB-INF/view/regByPhone.jsp
+#/SourceCode/admin/.tern-project
+#/SourceCode/admin/WebRoot/WEB-INF/template/2/property.properties
+#/SourceCode/admin/WebRoot/WEB-INF/template/3/property.properties
+#/SourceCode/admin/WebRoot/WEB-INF/template/4/property.properties
+#/SourceCode/admin/WebRoot/WEB-INF/template/5/property.properties
+#/SourceCode/admin/WebRoot/WEB-INF/template/6/property.properties
+#/SourceCode/admin/WebRoot/WEB-INF/template/7/property.properties
+#/SourceCode/admin/src/com/xnx3/admin/controller/LoginController.java
+#/SourceCode/admin/WebRoot/WEB-INF/view/regByPhone.jsp
 
-/SourceCode/domain/.tern-project
+#/SourceCode/domain/.tern-project
 
-/SourceCode/im/.tern-project
+/#SourceCode/im/.tern-project
 
-/SourceCode/admin/.settings/
-/SourceCode/domain/.settings/
-/SourceCode/im/.settings/
+#/SourceCode/admin/.settings/
+#/SourceCode/domain/.settings/
+#/SourceCode/im/.settings/
 
 #超级管理后台的某些文件过滤
-/SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
-/SourceCode/admin/src/com/xnx3/admin/controller/client/
+#/SourceCode/admin/src/com/xnx3/j2ee/controller/notOpen/
+#/SourceCode/admin/src/com/xnx3/admin/controller/client/
 
 
 /SourceCode/admin/bin/
