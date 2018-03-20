@@ -38,7 +38,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	
 	//监听提交
   	form.on('submit(demo1)', function(data){
-		$.showLoading('保存中');
+		parent.iw.loading("保存中");    //显示“操作中”的等待提示
 		var userid = document.getElementById("userid").value;
 		
 		var roleObj;
@@ -57,19 +57,20 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        }
 	    }
     
-		$.getJSON('saveUserRole.do?userid='+userid+'&role='+roleValue,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				parent.location.reload();	//刷新父窗口
-				parent.layer.msg('操作成功', {time:1000});
-				parent.layer.close(index);
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+    	
+		$.post('saveUserRole.do?userid='+userid+'&role='+roleValue, function(data){
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    if(data.result == '1'){
+		    	parent.location.reload();	//刷新父窗口
+		        parent.iw.msgSuccess('操作成功');
+		        parent.layer.close(index);
+		     }else if(data.result == '0'){
+		         parent.iw.msgFailure(data.info);
+		     }else{
+		         parent.iw.msgFailure();
+		     }
 		});
-		
+
 		return false;
 	});	
 });

@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="编辑分类板块"/>
 </jsp:include>
 
-<form class="layui-form" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
+<form class="layui-form" method="post" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
 	<input type="hidden" value="${postClass.id }" name="id" />
 	
 	<div class="layui-form-item">

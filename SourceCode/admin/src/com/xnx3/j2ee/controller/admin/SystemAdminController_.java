@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -109,7 +110,7 @@ public class SystemAdminController_ extends BaseController {
 	 * 新增、修改全局变量后的保存
 	 */
 	@RequiresPermissions("adminSystemVariable")
-	@RequestMapping("variableSave")
+	@RequestMapping(value="variableSave", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO variableSave(System sys, Model model, HttpServletRequest request){
 		System system;
@@ -142,7 +143,7 @@ public class SystemAdminController_ extends BaseController {
 	 * 删除系统变量
 	 */
 	@RequiresPermissions("adminSystemDeleteVariable")
-	@RequestMapping("deleteVariable")
+	@RequestMapping(value="deleteVariable", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deleteVariable(@RequestParam(value = "id", required = false, defaultValue="0") int id, HttpServletRequest request){
 		System system = sqlService.findById(System.class, id);

@@ -139,20 +139,21 @@ function addColumn(siteColumnId){
  */
 function updateRank(id,rank,name){
 	layer.prompt({title: '请输入排序数字，数字越小越靠前', formType: 3, value: ''+rank}, function(text, index){
-		$.showLoading('保存中...');
-		$.getJSON('updateRank.do?id='+id+'&rank='+text,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				//由最外层发起提示框
-				parent.layer.msg('修改成功');
+		parent.iw.loading("保存中");    //显示“操作中”的等待提示
+		$.post('updateRank.do?id='+id+'&rank='+text, function(data){
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    if(data.result == '1'){
+		        //由最外层发起提示框
+				parent.iw.msgSuccess('操作成功');
 				//刷新当前页
 				window.location.reload();	
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+		     }else if(data.result == '0'){
+		         parent.iw.msgFailure(data.info);
+		     }else{
+		         parent.iw.msgFailure();
+		     }
 		});
+		
 	});
 }
 </script>

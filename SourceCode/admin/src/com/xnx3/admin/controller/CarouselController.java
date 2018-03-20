@@ -4,16 +4,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
@@ -279,7 +284,7 @@ public class CarouselController extends BaseController {
 	 * 修改轮播图，一个网站一个图,PC
 	 * @return
 	 */
-	@RequestMapping("popupCarouselUpdateSubmit")
+	@RequestMapping(value="popupCarouselUpdateSubmit", method = RequestMethod.POST)
 	public void popupCarouselUpdateSubmit(HttpServletRequest request,Model model,HttpServletResponse response,
 			@RequestParam("imageFile") MultipartFile imageFile,
 			@RequestParam(value = "id", required = true) int id){
@@ -350,7 +355,7 @@ public class CarouselController extends BaseController {
 	/**
 	 * 修改轮播图，一个网站一个图的情况，修改banner时，直接点击选择图片进行上传。适用于 wap模式网站
 	 */
-	@RequestMapping("updateSubmitForAloneCarousel")
+	@RequestMapping(value="updateSubmitForAloneCarousel", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateSubmitForAloneCarousel(HttpServletRequest request,Model model,HttpServletResponse response,
 			@RequestParam("imageFile") MultipartFile imageFile){

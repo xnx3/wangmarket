@@ -67,25 +67,26 @@ public class NewsController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="saveNews", method = RequestMethod.POST)
-	public String saveNews(News s,
+	@ResponseBody
+	public BaseVO saveNews(News s,
 			@RequestParam(value = "text", required = false , defaultValue="") String text,
 			HttpServletRequest request,Model model){
 		String title = "";
 		if(s.getTitle() != null && s.getTitle().length()>0){
 			title = filter(s.getTitle());
 		}else{
-			return error(model, "请输入您页面的名字");
+			return error("请输入您页面的名字");
 		}
 		if(title.length() == 0){
-			return error(model, "请输入您页面的名字");
+			return error("请输入您页面的名字");
 		}
 		
 		SiteColumn siteColumn = sqlService.findById(SiteColumn.class, s.getCid());
 		if(siteColumn == null){
-			return error(model, "信息所属栏目不存在");
+			return error("信息所属栏目不存在");
 		}
 		if(siteColumn.getUserid() - getUserId() != 0){
-			return error(model, "信息所属栏目不属于您，无法操作");
+			return error("信息所属栏目不属于您，无法操作");
 		}
 		Site site = getSite();
 		
@@ -95,10 +96,10 @@ public class NewsController extends BaseController {
 			//编辑修改
 			news = sqlService.findById(News.class, s.getId());
 			if(news == null){
-				return error(model, "要操作的页面不存在");
+				return error("要操作的页面不存在");
 			}
 			if(news.getUserid() != getUserId()){
-				return error(model, "页面不属于您，无法操作！");
+				return error("页面不属于您，无法操作！");
 			}
 			newsData = sqlService.findById(NewsData.class, s.getId());
 		}else{
@@ -196,24 +197,27 @@ public class NewsController extends BaseController {
 				List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid = "+siteColumn.getId() + " AND status = "+News.STATUS_NORMAL+" ORDER BY id DESC", News.class);
 				//如果是通用模版，全自动式模版
 				newsService.generateListHtml(site, siteColumn,newsList, request);		//栏目页面
-				
-				IndexNews.refreshIndexData(site, siteColumn, newsList);			//PC首页局部刷新
-				
-				String pw = siteService.isPcClient(site)? "pc":"wap";
-				if(site.getClient() - Site.CLIENT_WAP == 0){
-					//手机页面，那么修改成功后，将直接跳转到内容管理列表中
-					return success(model, "保存成功", "news/listForTemplate.do?cid="+news.getCid());
-				}else{
-					//pc
-					return success(model, "保存成功！","news/list.do?cid="+news.getCid()+"&client="+pw+"&editMode=edit");
+				if(site.getClient() - Site.CLIENT_PC == 0){
+					//是pc模式，还要刷新首页的数据
+					IndexNews.refreshIndexData(site, siteColumn, newsList);			//PC首页局部刷新
 				}
 				
+				
+//				String pw = siteService.isPcClient(site)? "pc":"wap";
+//				if(site.getClient() - Site.CLIENT_WAP == 0){
+//					//手机页面，那么修改成功后，将直接跳转到内容管理列表中
+//					return success(model, "保存成功", "news/listForTemplate.do?cid="+news.getCid());
+//				}else{
+//					//pc
+//					return success(model, "保存成功！","news/list.do?cid="+news.getCid()+"&client="+pw+"&editMode=edit");
+//				}
+				
 			}else{
-				return success(model, "保存成功！","news/listForTemplate.do?cid="+news.getCid());
+//				return success(model, "保存成功！","news/listForTemplate.do?cid="+news.getCid());
 			}
-			
+			return success();
 		}else{
-			return error(model, "保存失败！");
+			return error("保存失败！");
 		}
 		
 	}
@@ -283,7 +287,7 @@ public class NewsController extends BaseController {
 	    }
 	    if(siteColumn != null){
 	    	//如果是模版式编辑，那么没有列表页面，直接到模版页面的编辑中
-	    	if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
+	    	if(siteColumn.getEditMode() == null || siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
 	    		model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
 	    		return "news/listForTemplate";
 	    	}
@@ -497,7 +501,6 @@ public class NewsController extends BaseController {
 		}
 		
 		AliyunLog.addActionLog(newsId, "网站管理后台查看文章页面", url);
-//		return redirect(url);
 		return redirect("../dns.cgi?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain()+"&htmlFile="+fileName);
 	}
 	

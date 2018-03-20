@@ -2,14 +2,18 @@ package com.xnx3.j2ee.controller.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.j2ee.entity.Permission;
 import com.xnx3.j2ee.entity.Role;
 import com.xnx3.j2ee.entity.User;
@@ -64,7 +68,7 @@ public class RoleAdminController_ extends BaseController {
 	 * 添加／修改角色提交页
 	 * @param role {@link Role}
 	 */
-	@RequestMapping("saveRole")
+	@RequestMapping(value="saveRole", method = RequestMethod.POST)
 	@RequiresPermissions("adminRoleRole")
 	@ResponseBody
 	public BaseVO saveRole(Role role,Model model, HttpServletRequest request){
@@ -78,7 +82,7 @@ public class RoleAdminController_ extends BaseController {
 	 * 删除角色
 	 * @param id 要删除的角色id，Role.id
 	 */
-	@RequestMapping("deleteRole")
+	@RequestMapping(value="deleteRole", method = RequestMethod.POST)
 	@RequiresPermissions("adminRoleDeleteRole")
 	@ResponseBody
 	public BaseVO deleteRole(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
@@ -161,7 +165,7 @@ public class RoleAdminController_ extends BaseController {
 	 * @param permission 要保存的{@link Permission}
 	 */
 	@RequiresPermissions("adminRolePermission")
-	@RequestMapping("savePermission")
+	@RequestMapping(value="savePermission", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO savePermission(Permission permission,Model model, HttpServletRequest request){
 		sqlService.save(permission);
@@ -174,7 +178,7 @@ public class RoleAdminController_ extends BaseController {
 	 * @param id 要删除的资源的id，Permission.id ，根据此来删除
 	 */
 	@RequiresPermissions("adminRoleDeletePermission")
-	@RequestMapping("deletePermission")
+	@RequestMapping(value="deletePermission", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deletePermission(@RequestParam(value = "id", required = true) int id, HttpServletRequest request){
 		if(id>0){
@@ -278,7 +282,7 @@ public class RoleAdminController_ extends BaseController {
 	 * @param role 权限多选框提交列表，如 1,2,3,4,5
 	 */
 	@RequiresPermissions("adminRoleEditUserRole")
-	@RequestMapping("saveUserRole")
+	@RequestMapping(value="saveUserRole", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveUserRole(
 			@RequestParam(value = "userid", required = true) int userid,

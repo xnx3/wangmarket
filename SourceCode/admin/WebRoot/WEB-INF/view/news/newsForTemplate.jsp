@@ -67,7 +67,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   var form = layui.form;
   //监听提交
 	form.on('submit(demo1)', function(data){
-		$.showLoading('保存中...');
+		parent.iw.loading("保存中");    //显示“操作中”的等待提示
 		//创建FormData对象，获取到form表单的相关数据
 		var formobj =  document.getElementById("form");
 		var data = new FormData(formobj);
@@ -84,17 +84,20 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        contentType: false,    //不可缺
 	        processData: false,    //不可缺
 	        success:function(data){
-	        	$.hideLoading();
-	            if(data.result=='0'){
-	            	alert(data.info);
-	            }else{
-	            	//上传成功
-	            	parent.layer.msg('保存成功');
+	        	parent.iw.loadClose();    //关闭“操作中”的等待提示
+	        	if(data.result == '1'){
+			        //上传成功
+	            	parent.iw.msgSuccess('保存成功');
 	            	window.location.href='listForTemplate.do?cid=${news.cid }';
-	            }
+			    }else if(data.result == '0'){
+			        parent.iw.msgFailure(data.info);
+			    }else{
+			        parent.iw.msgFailure();
+			    }
 	        },
 	        error:function(){
-	        	alert('上传出错！');
+	        	parent.iw.loadClose();    //关闭“操作中”的等待提示
+	        	parent.iw.msgFailure('出错');
 	        }
 		});
     return false;

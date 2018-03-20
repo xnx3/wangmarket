@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -95,7 +96,7 @@ public class BbsAdminController_ extends BaseController {
 	 * @param text 帖子内容
 	 */
 	@RequiresPermissions("adminBbsPost")
-	@RequestMapping("savePost")
+	@RequestMapping(value="savePost", method = RequestMethod.POST)
 	public String savePost(HttpServletRequest request,Model model){
 		BaseVO baseVO = postService.savePost(request);
 		if(baseVO.getResult() == BaseVO.SUCCESS){
@@ -135,7 +136,7 @@ public class BbsAdminController_ extends BaseController {
 	 * @param id 帖子id，Post.id
 	 */
 	@RequiresPermissions("adminBbsDeletePost")
-	@RequestMapping("deletePost")
+	@RequestMapping(value="deletePost", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deletePost(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = postService.deletePost(id);
@@ -152,7 +153,7 @@ public class BbsAdminController_ extends BaseController {
 	 * @param postClass {@link PostClass}
 	 */
 	@RequiresPermissions("adminBbsClass")
-	@RequestMapping("saveClass")
+	@RequestMapping(value="saveClass", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveClass(HttpServletRequest request, Model model){
 		BaseVO baseVO = postService.savePostClass(request);
@@ -196,7 +197,7 @@ public class BbsAdminController_ extends BaseController {
 	 * @param id 板块id，PostClass.id
 	 */
 	@RequiresPermissions("adminBbsDeleteClass")
-	@RequestMapping("deleteClass")
+	@RequestMapping(value="deleteClass", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deleteClass(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = postService.deletePostClass(id);
@@ -239,7 +240,7 @@ public class BbsAdminController_ extends BaseController {
 	 * @param id 帖子评论的id，PostComment.id
 	 */
 	@RequiresPermissions("adminBbsDeletePostComment")
-	@RequestMapping("deleteComment")
+	@RequestMapping(value="deleteComment", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO deleteComment(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = postService.deleteComment(id);

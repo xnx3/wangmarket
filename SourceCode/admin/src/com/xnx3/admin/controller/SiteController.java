@@ -171,15 +171,18 @@ public class SiteController extends BaseController {
 		
 		AliyunLog.addActionLog(getSiteId(), "修改站点名字为："+site.getName());
 		
-		//刷新首页
-		Index.updateSiteName(site, site.getName());
-		
 		//更新当前Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
 		
 		//刷新site.js
 		new com.xnx3.admin.cache.Site().site(site,imService.getImByCache());
 		
+		//如果是PC端网站，需要刷新一些东西
+		if(site.getClient() - Site.CLIENT_PC == 0){
+			//刷新首页
+			Index.updateSiteName(site, site.getName());
+			
+		}
 		return vo;
 	}
 

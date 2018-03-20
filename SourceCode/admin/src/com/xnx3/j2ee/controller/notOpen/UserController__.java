@@ -3,14 +3,18 @@ package com.xnx3.j2ee.controller.notOpen;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
@@ -41,7 +45,7 @@ public class UserController__ extends BaseController {
 	 * @param newPassword 新密码
 	 */
 	@RequiresPermissions("userUpdatePassword")
-	@RequestMapping("updatePassword")
+	@RequestMapping(value="updatePassword", method = RequestMethod.POST)
 	public String updatePassword(HttpServletRequest request, String oldPassword,String newPassword,Model model){
 		if(oldPassword==null){
 			ActionLogCache.insert(request, "修改密码", "失败：未输入密码");

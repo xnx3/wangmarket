@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -405,7 +406,7 @@ public class ColumnController extends BaseController {
 	 * 更改栏目，提交
 	 * 
 	 */
-	@RequestMapping("/popupColumnUpdateSubmit")
+	@RequestMapping(value="/popupColumnUpdateSubmit", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO popupColumnUpdateSubmit(HttpServletRequest request, SiteColumn sc){
 		SiteColumn siteColumn = sqlService.findById(SiteColumn.class , sc.getId());
@@ -468,7 +469,7 @@ public class ColumnController extends BaseController {
 	 * 创建/修改栏目导航保存，用于 popupColumnGaoJiUpdate、CMS模式编辑栏目的保存
 	 * @throws CloneNotSupportedException 
 	 */
-	@RequestMapping("savePopupColumnGaoJiUpdate")
+	@RequestMapping(value="savePopupColumnGaoJiUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO savePopupColumnGaoJiUpdate(SiteColumn siteColumn,HttpServletRequest request,Model model){
 		BaseVO vo = new BaseVO();
@@ -711,7 +712,7 @@ public class ColumnController extends BaseController {
 	 * @param rank 排序编号。数字越小越靠前
 	 * @return
 	 */
-	@RequestMapping("updateRank")
+	@RequestMapping(value="updateRank", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO updateRank(HttpServletRequest request,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id,
@@ -741,7 +742,7 @@ public class ColumnController extends BaseController {
 	/**
 	 * 创建/修改栏目保存(wap/pc)
 	 */
-	@RequestMapping("saveColumn")
+	@RequestMapping(value="saveColumn", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveColumn(SiteColumn siteColumn,HttpServletRequest request,Model model){
 		Site site = getSite();
@@ -846,28 +847,33 @@ public class ColumnController extends BaseController {
 					new com.xnx3.admin.cache.Site().siteColumnRankAppend(site, sc.getId());
 				}
 				
-				//判断是否更改了栏目名字，若是更改了，还要看看首页是否调用了该栏目，还要修改首页的数据
-				if(sc.getName().equals(siteColumn.getName())){
-					//判断该栏目是否在首页出现，若出现过了，还要相应的修改首页的，该栏目的信息
-					GenerateHTML gh = new GenerateHTML(site);
-					String indexHtml = gh.getGeneratePcIndexHtml();
-					if(Template.isAnnoConfigById_Have(indexHtml, sc.getId())){
-						//判断是独立页面，还是列表页面
-						if(sc.getType() - SiteColumn.TYPE_PAGE == 0){
-							//独立页面
-							//判断，只有当是关于我们时，才会刷新首页
-							if(site.getAboutUsCid() - sc.getId() == 0){
-								News news = (News) sqlService.findAloneBySqlQuery("SELECT * FROM news WHERE cid = "+sc.getId(), News.class);
-								NewsData newsData = (NewsData) sqlService.findById(NewsData.class, news.getId());
-								IndexAboutUs.refreshIndexData(site, sc, news, newsData.getText());
+				if(site.getClient() - Site.CLIENT_PC == 0){
+					//如果是pc模式，才会刷新首页
+					
+					//判断是否更改了栏目名字，若是更改了，还要看看首页是否调用了该栏目，还要修改首页的数据
+					if(sc.getName().equals(siteColumn.getName())){
+						//判断该栏目是否在首页出现，若出现过了，还要相应的修改首页的，该栏目的信息
+						GenerateHTML gh = new GenerateHTML(site);
+						String indexHtml = gh.getGeneratePcIndexHtml();
+						if(Template.isAnnoConfigById_Have(indexHtml, sc.getId())){
+							//判断是独立页面，还是列表页面
+							if(sc.getType() - SiteColumn.TYPE_PAGE == 0){
+								//独立页面
+								//判断，只有当是关于我们时，才会刷新首页
+								if(site.getAboutUsCid() - sc.getId() == 0){
+									News news = (News) sqlService.findAloneBySqlQuery("SELECT * FROM news WHERE cid = "+sc.getId(), News.class);
+									NewsData newsData = (NewsData) sqlService.findById(NewsData.class, news.getId());
+									IndexAboutUs.refreshIndexData(site, sc, news, newsData.getText());
+								}
+							}else if (sc.getType() - SiteColumn.TYPE_IMAGENEWS == 0 || sc.getType() - SiteColumn.TYPE_NEWS == 0) {
+								//若存在了，需要修改，重新刷新此栏目再首页的列表模块信息
+								List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid = "+sc.getId() + " AND status = "+News.STATUS_NORMAL+" ORDER BY id DESC LIMIT 0,10", News.class);
+								IndexNews.refreshIndexData(site, sc, newsList);
 							}
-						}else if (sc.getType() - SiteColumn.TYPE_IMAGENEWS == 0 || sc.getType() - SiteColumn.TYPE_NEWS == 0) {
-							//若存在了，需要修改，重新刷新此栏目再首页的列表模块信息
-							List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid = "+sc.getId() + " AND status = "+News.STATUS_NORMAL+" ORDER BY id DESC LIMIT 0,10", News.class);
-							IndexNews.refreshIndexData(site, sc, newsList);
 						}
 					}
 				}
+				
 			}
 			
 			return success();
@@ -880,7 +886,7 @@ public class ColumnController extends BaseController {
 	 * 栏目导航排序，js缓存(主要WAP使用，pc高级模式更改栏目也可以用)
 	 * @param rankString
 	 */
-	@RequestMapping("/saveRank")
+	@RequestMapping(value="/saveRank", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO saveRank(HttpServletRequest request,
 			@RequestParam(value = "rankString", required = false , defaultValue="") String rankString){
@@ -904,7 +910,7 @@ public class ColumnController extends BaseController {
 	/**
 	 * 重置排序
 	 */
-	@RequestMapping("/resetRank")
+	@RequestMapping(value="/resetRank")
 	public String resetRank(HttpServletRequest request,
 			@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
 			Model model){
@@ -932,7 +938,7 @@ public class ColumnController extends BaseController {
 	 * @param id 要删除的栏目的id
 	 * @return
 	 */
-	@RequestMapping("delete")
+	@RequestMapping(value="delete")
 	@ResponseBody
 	public BaseVO delete(@RequestParam(value = "id", required = false , defaultValue="0") int id){
 		SiteColumn siteColumn =sqlService.findById(SiteColumn.class , id);

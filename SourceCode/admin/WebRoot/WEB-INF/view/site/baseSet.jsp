@@ -77,27 +77,27 @@ parent.layer.iframeAuto(index);
 function updateTitle(){
 	parent.layer.close(index);
 	//window.parent.siteNameClick();
-	window.parent.updateSiteName();
+	parent.updateSiteName();
 }
 
 //更改网站二级域名
 function updateDomain_info(){
 	parent.layer.close(index);
 	parent.$('#subWindowsParam').text('${site.domain }');
-	window.parent.updateDomain();
+	parent.updateDomain();
 }
 
 //更改网站自己绑定的域名
 function updateBindDomain_info(){
 	parent.layer.close(index);
 	parent.$('#subWindowsParam').text('${site.bindDomain }');
-	window.parent.updateBindDomain();
+	parent.updateBindDomain();
 }
 
 //更改网站的相关联系信息
 function updateDiBuLianXi(){
 	parent.layer.close(index);
-	window.parent.updateFooterSiteInfo();
+	parent.updateFooterSiteInfo();
 }
 </script>
 

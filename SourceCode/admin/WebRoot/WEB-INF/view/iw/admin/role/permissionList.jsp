@@ -103,19 +103,20 @@ $(function(){
 function deletePermission(name, permissionId){
 	//要用ajax
 	$.confirm("您确定要删除\""+name+"\"吗?", "确认删除?", function() {
-		$.showLoading('正在删除');
-		$.getJSON('deletePermission.do?id='+permissionId,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					window.location.reload();	//刷新当前页
-				});
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+	
+		parent.iw.loading("删除中");    //显示“操作中”的等待提示
+		$.post('deletePermission.do?id='+permissionId, function(data){
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    if(data.result == '1'){
+		        parent.iw.msgSuccess('删除成功');
+		        window.location.reload();	//刷新当前页
+		     }else if(data.result == '0'){
+		         parent.iw.msgFailure(data.info);
+		     }else{
+		         parent.iw.msgFailure();
+		     }
 		});
+	
 	}, function() {
 		//取消操作
 	});

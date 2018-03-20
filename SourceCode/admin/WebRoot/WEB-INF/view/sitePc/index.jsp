@@ -130,7 +130,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<span class="firstMenuFont">更换模版</span>
 			</a>
 		</li>
-
+		<% if(com.xnx3.domain.G.aliyunLogUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;" id="fangwentongji">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
@@ -142,6 +142,7 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 				<dd><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do');">操作日志</a></dd>
 			</dl>
 		</li>
+		<% } %>
 		
 		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 		<li class="layui-nav-item">

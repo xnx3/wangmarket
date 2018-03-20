@@ -65,7 +65,7 @@ public class SitePcController extends BaseController {
 		
 		//预览，生成好的URL
 		String previewHtml = gh.getGeneratePcIndexHtml();
-		if(previewHtml.equals("")){
+		if(previewHtml == null || previewHtml.equals("")){
 			previewHtml = templateHtml;
 		}else{
 			/*将一些相对路径的变为绝对路径*/

@@ -3,14 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%
+//iw/admin/system/variableList.jsp
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="系统参数"/>
 </jsp:include>
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
-
 
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
@@ -89,19 +88,21 @@ function deleteVariable(id,name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		$.showLoading('正在删除');
-		$.getJSON('<%=basePath %>admin/system/deleteVariable.do?id='+id,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					window.location.reload();	//刷新当前页
-				});
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+		
+		
+		parent.iw.loading("删除中");    //显示“操作中”的等待提示
+		$.post('<%=basePath %>admin/system/deleteVariable.do?id='+id, function(data){
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    if(data.result == '1'){
+		        parent.iw.msgSuccess('删除成功');
+		        window.location.reload();	//刷新当前页
+		     }else if(data.result == '0'){
+		         parent.iw.msgFailure(data.info);
+		     }else{
+		         parent.iw.msgFailure();
+		     }
 		});
+		
 	}, function(){
 	});
 }

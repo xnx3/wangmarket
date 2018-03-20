@@ -110,7 +110,7 @@ var masterSiteUrl = '<%=basePath %>';
 				<dd><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
 				<dd><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
 				<dd><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>dns.cgi?domain=${site.domain }.<%=com.xnx3.admin.G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
+				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>dns.cgi?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
@@ -127,6 +127,8 @@ var masterSiteUrl = '<%=basePath %>';
 				<dd><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
 			</dl>
 		</li>
+		
+		<% if(com.xnx3.domain.G.aliyunLogUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
@@ -138,6 +140,8 @@ var masterSiteUrl = '<%=basePath %>';
 				<dd><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
 			</dl>
 		</li>
+		<% } %>
+		
 		<li class="layui-nav-item">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe60b;</i>

@@ -9,12 +9,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 
 <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
-
 <script src="http://res.weiunity.com/js/fun.js"></script>
 
 <script>
 var masterSiteUrl = '<%=basePath %>';
 </script>
+<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="http://res.weiunity.com/js/indexedit.js"></script>
 <style>
 #editPanel{
 	position: absolute;
@@ -131,6 +132,7 @@ var masterSiteUrl = '<%=basePath %>';
 			</a>
 		</li>
 		
+		<% if(com.xnx3.domain.G.aliyunLogUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;" id="fangwentongji">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
@@ -142,7 +144,7 @@ var masterSiteUrl = '<%=basePath %>';
 				<dd><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do');">操作日志</a></dd>
 			</dl>
 		</li>
-		
+		<% } %>
 		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>
 		<li class="layui-nav-item" style="display:none;">
 			<a href="javascript:;">
@@ -199,8 +201,7 @@ var masterSiteUrl = '<%=basePath %>';
 	</div>
 </div>
 
-<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="http://res.weiunity.com/js/indexedit.js"></script>
+
 <script>
 
 layui.use('element', function(){

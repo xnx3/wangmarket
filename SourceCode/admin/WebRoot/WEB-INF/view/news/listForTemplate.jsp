@@ -255,9 +255,11 @@ function editText(name){
 		//要将其切换回智能模式
 		parent.window.htmledit_mode();
 	}
-
-	parent.document.getElementById("currentTemplatePageName").value = name;
-	parent.loadIframe();
+	
+	try{
+		parent.document.getElementById("currentTemplatePageName").value = name;
+		parent.loadIframe();
+	}catch(err){}
 	
 	try{
 		parent.document.getElementById("currentTemplateType").innerHTML = '详情页模版';
@@ -270,7 +272,10 @@ function editText(name){
 		parent.document.getElementById("liebiaoduyou").style.display = 'none';
 	}catch(err){}
 	
-	parent.layer.close(index);
+	//try{
+		parent.layer.close(index);
+	//}catch(err){}
+	
 }
 
 /**

@@ -110,7 +110,8 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				</dl>
 			</li>
 		</shiro:hasPermission>
-			
+		
+		<% if(com.xnx3.domain.G.aliyunLogUtil != null){ %>		
 		<shiro:hasPermission name="adminLog"> 
 			<li class="layui-nav-item">
 				<a href="javascript:;">
@@ -139,6 +140,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				</dl>
 			</li>
 		</shiro:hasPermission>
+		<% } %>
 		
 		<shiro:hasPermission name="adminRole"> 
 			<li class="layui-nav-item">
@@ -191,6 +193,8 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				</a>
 			</li>
 		</shiro:hasPermission>
+		
+		<% if(com.xnx3.domain.G.aliyunLogUtil != null){ %>
 		<shiro:hasPermission name="AgencyNormalAdd">
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('<%=basePath %>agency/actionLogList.do');">
@@ -207,6 +211,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				</a>
 			</li>
 		</shiro:hasPermission>
+		<% } %>
 		<!-- agency end -->
 		
 		<% if(com.xnx3.im.Global.kefuMNSUtil != null){ %>

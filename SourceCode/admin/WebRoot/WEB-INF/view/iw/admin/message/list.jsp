@@ -10,7 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="信息列表"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Message_state.js"></script>
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
@@ -82,19 +81,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  */
 function deleteMessage(id){
 	$.confirm("您确定要删除此条信息吗?", "确认删除?", function() {
-		$.showLoading('正在删除');
-		$.getJSON('<%=basePath %>/admin/message/delete.do?id='+id,function(obj){
-			$.hideLoading();
-			if(obj.result == '1'){
-				$.toast("删除成功", function() {
-					window.location.reload();	//刷新当前页
-				});
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+		
+		parent.iw.loading("删除中");    //显示“操作中”的等待提示
+		$.post('<%=basePath %>/admin/message/delete.do?id='+id, function(data){
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    if(data.result == '1'){
+		        parent.iw.msgSuccess('删除成功');
+		        window.location.reload();	//刷新当前页
+		     }else if(data.result == '0'){
+		         parent.iw.msgFailure(data.info);
+		     }else{
+		         parent.iw.msgFailure();
+		     }
 		});
+	
 	}, function() {
 		//取消操作
 	});

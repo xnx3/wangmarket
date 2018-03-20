@@ -2,13 +2,17 @@ package com.xnx3.j2ee.controller.admin;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.Message;
 import com.xnx3.j2ee.func.ActionLogCache;
@@ -63,7 +67,7 @@ public class MessageAdminController_ extends BaseController {
 	 * @param id 信息的id，Message.id
 	 */
 	@RequiresPermissions("adminMessageDelete")
-	@RequestMapping("delete")
+	@RequestMapping(value="delete", method = RequestMethod.POST)
 	public String delete(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = messageService.delete(id);
 		if(baseVO.getResult() == BaseVO.SUCCESS){
