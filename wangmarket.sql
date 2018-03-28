@@ -11,7 +11,7 @@
  Target Server Version : 50623
  File Encoding         : utf-8
 
- Date: 12/07/2017 21:42:17 PM
+ Date: 03/28/2018 20:59:18 PM
 */
 
 SET NAMES utf8;
@@ -38,8 +38,7 @@ CREATE TABLE `agency` (
   `state` tinyint(2) DEFAULT '1' COMMENT '代理状态，1正常；2冻结',
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`,`parent_id`,`expiretime`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
-
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `agency`
@@ -47,7 +46,6 @@ CREATE TABLE `agency` (
 BEGIN;
 INSERT INTO `agency` VALUES ('51', '管雷鸣', '17000000001', '392', '1024', '120', '山东潍坊', '921153866', '99999999', '0', '0', '1512818402', '2143123200', '1');
 COMMIT;
-
 
 -- ----------------------------
 --  Table structure for `area`
@@ -171,7 +169,6 @@ BEGIN;
 INSERT INTO `goods` VALUES ('1', '400', '.top  .bin 后缀的顶级域名任选一个', '1年', '域名'), ('2', '6000', '.com  .cn 后缀的顶级域名任选一个', '1年', '域名'), ('3', '2000', '在您原有的附件存储空间基础上，增加100MB', '永久', '空间'), ('4', '20000', '在您原有的附件存储空间基础上，增加1000MB', '永久', '空间'), ('5', '1000', '普通代理。拥有代理后台，可以在代理后台开通任意数量的网站。其建立的网站可以送人，但不可售卖，不可用于商业用途', '1年', '代理资格'), ('6', '200000', '商用代理，同普通代理，其建立的网站允许对外出售，允许其用于商业用途', '1年', '代理资格'), ('7', '1000', '如果您想将网站独立出去，放到自己的服务器或者FTP上，我们可以吧您网站的源代码(html文件)、图片、附件等打包给你，直接上传就可以开通访问', '1次', '网站迁移'), ('8', '500000', '苹果 Apple iPhone7 4G手机 全网通(32G)', '1台', '手机');
 COMMIT;
 
-
 -- ----------------------------
 --  Table structure for `im`
 -- ----------------------------
@@ -210,6 +207,21 @@ CREATE TABLE `input_model` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='输入模型';
 
 -- ----------------------------
+--  Table structure for `log`
+-- ----------------------------
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `addtime` int(11) DEFAULT NULL,
+  `goalid` int(11) DEFAULT NULL,
+  `isdelete` smallint(6) NOT NULL,
+  `type` int(11) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
 --  Table structure for `message`
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;
@@ -242,7 +254,7 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) DEFAULT '0' COMMENT '对应user.id，是哪个用户发表的',
   `addtime` int(11) DEFAULT '0' COMMENT '发布时间',
-  `title` char(30) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '标题',
+  `title` char(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `titlepic` char(100) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '头图',
   `intro` char(160) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介,从内容正文里自动剪切出开始的160个汉字',
   `sharenum` int(11) NOT NULL DEFAULT '0' COMMENT '分享的总数量',
@@ -258,7 +270,6 @@ CREATE TABLE `news` (
   PRIMARY KEY (`id`,`supportnum`,`sharenum`),
   KEY `userid` (`userid`,`type`,`supportnum`,`readnum`,`commentnum`,`cid`,`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2341 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='新闻、产品、独立页面';
-
 
 -- ----------------------------
 --  Table structure for `news_comment`
@@ -475,7 +486,7 @@ COMMIT;
 DROP TABLE IF EXISTS `site_column`;
 CREATE TABLE `site_column` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '栏目名字',
+  `name` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` char(100) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '链接地址',
   `icon` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图标，图片文件',
   `rank` int(4) DEFAULT '0' COMMENT '排序,数字越小越往前',
@@ -550,7 +561,7 @@ CREATE TABLE `system` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lasttime` int(11) DEFAULT '0' COMMENT '最后修改时间，10位时间戳',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统设置，系统的一些参数相关';
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统设置，系统的一些参数相关';
 
 -- ----------------------------
 --  Records of `system`
@@ -669,7 +680,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`,`username`,`phone`) USING BTREE,
   KEY `username` (`username`,`email`,`phone`,`isfreeze`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=391 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=393 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户表';
 
 -- ----------------------------
 --  Records of `user`
@@ -688,7 +699,7 @@ CREATE TABLE `user_role` (
   `roleid` int(11) DEFAULT NULL COMMENT '角色的id，role.id ，一个用户可以有多个角色',
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=411 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户所属哪些角色';
+) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户所属哪些角色';
 
 -- ----------------------------
 --  Records of `user_role`
