@@ -103,7 +103,7 @@ layui.use('upload', function(){
 	  ,exts: 'wscso|xnx3'
 	  ,field: 'templateFile'
 	  ,title :'加载本地模版'
-	  ,size: '1000'
+	  ,size: '5000'
 	  ,before: function(res){
 		$.showLoading('上传中');
 	  }

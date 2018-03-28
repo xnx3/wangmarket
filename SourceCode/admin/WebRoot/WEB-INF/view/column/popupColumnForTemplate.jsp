@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="layui-form-item">
 		<label class="layui-form-label" id="label_columnName">栏目名称</label>
 		<div class="layui-input-block">
-			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限8个汉字以内" class="layui-input" value="${siteColumn.name }">
+			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限40个字符以内" class="layui-input" value="${siteColumn.name }">
 		</div>
 	</div>
 	
@@ -127,8 +127,8 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   //自定义验证规则
   form.verify({
     name: function(value){
-      if(value.length == 0 || value.length > 20){
-        return '请输入20个字以内的栏目名称';
+      if(value.length == 0 || value.length > 40){
+        return '请输入40个字以内的栏目名称';
       }
     }
   });
