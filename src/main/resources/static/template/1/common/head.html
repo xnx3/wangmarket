@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="utf-8">
+    <title>{title}</title>
+    <meta name="keywords" content="{keywords}" />
+	<meta name="description" content="{description}" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	
+	<!-- jQuery WeUI -->
+	<script src="{resUrl}js/jquery-2.1.4.js"></script>
+	<script src="{resUrl}js/jquery-weui.js"></script>
+	<link rel="stylesheet" href="{resUrl}css/weui.min.css">
+	<link rel="stylesheet" href="{resUrl}css/jquery-weui.css">
+	
+	<!-- DOM操作 -->
+	<script src="{resUrl}js/HTML.min.js"></script>
+	
+	<!-- 站点信息缓存 -->
+	<script src="{AttachmentFileUrl}site/{site.id}/data/site.js{editLinuxTime}"></script>
+	<script src="{AttachmentFileUrl}site/{site.id}/data/siteColumn.js{editLinuxTime}"></script>
+	
+	<!-- 模版的加载都是动态加载，在下面js里 -->
+<script type="text/javascript">
+//当前的时间戳
+var time=new Date().getTime();
+//设置OSSUtil.url
+var OSSUrl = '{AttachmentFileUrl}';
+//主站URL
+var masterSiteUrl = '{masterSiteUrl}';
+//资源文件主URL
+var resPath = '{AttachmentFileUrl}';
+
+//设置顶部title区块的标题内容
+function setTitle(t){
+	document.getElementById('title').innerHTML = t;
+}
+
+//是否是编辑模式下
+var edit = '{edit}' == 'edit';
+
+//动态加载js、css文件
+var dynamicLoading = {
+	css: function(path){
+		if(!path || path.length === 0){
+			throw new Error('argument "path" is required !');
+		}
+		var head = document.getElementsByTagName('head')[0];
+		var link = document.createElement('link');
+		link.href = path+'?v='+time;
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		head.appendChild(link);
+	},
+	js: function(path){
+		if(!path || path.length === 0){
+			throw new Error('argument "path" is required !');
+		}
+		var head = document.getElementsByTagName('head')[0];
+		var script = document.createElement('script');
+		script.src = path;
+		script.type = 'text/javascript';
+		head.appendChild(script);
+	}
+}
+
+//获取当前所用模版的编号
+function getTemplateId(){
+	if(typeof(site) != "undefined"){
+		return site['templateId'];
+	}else{
+		return '1';
+	}
+}
+
+dynamicLoading.css("{resUrl}template/"+getTemplateId()+"/style.css");
+
+if(edit){
+	dynamicLoading.css("{resUrl}template/"+getTemplateId()+"/styleedit.css");
+}
+</script>
+</head>

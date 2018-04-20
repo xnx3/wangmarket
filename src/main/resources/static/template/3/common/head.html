@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{title}</title>
+	<meta name="keywords" content="{keywords}" />
+	<meta name="description" content="{description}" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--templateStyleCss-->
+	<!-- 站点信息缓存 -->
+	<script src="{AttachmentFileUrl}site/{site.id}/data/site.js{editLinuxTime}"></script>
+	<script src="{AttachmentFileUrl}site/{site.id}/data/siteColumn.js{editLinuxTime}"></script>
+	<script src="{AttachmentFileUrl}site/{site.id}/data/siteColumnRank.js{editLinuxTime}"></script>
+	<script src="{AttachmentFileUrl}site/{site.id}/data/carouselList.js{editLinuxTime}"></script>
+	<!-- Jquery -->
+	<script src="{resUrl}js/jquery-2.1.4.js"></script>
+	<!-- 模版的加载都是动态加载，在下面js里 -->
+	<script type="text/javascript">
+	var masterSiteUrl = '{_masterSiteUrl}';/*主站URL*/
+	var edit = 'controllerRegEditMode' == 'edit';/*是否是编辑模式下*/
+	var attachmentFileUrl = '{AttachmentFileUrl}';	/*附件url*/
+	</script>
+	
+	<!-- 当前页面所需要的JS库 -->
+	<script src="{resUrl}js/fun.js"></script>
+	<script type="text/javascript">
+	var urlname = window.location.pathname.split('.')[0].toLowerCase();
+	if(urlname != '/index' && urlname != '/'){
+		dynamicLoading.css("{resUrl}template/"+getTemplateId()+"/style.css");	/*非首页将动态加载模版样式文件*/
+	}
+	if(edit){
+		dynamicLoading.css("{resUrl}template/"+getTemplateId()+"/styleedit.css");/*加载编辑模式的CSS*/
+		dynamicLoading.js("{resUrl}js/commonedit.js");/*加载编辑模式的js*/
+	}
+	</script>
+</head>
