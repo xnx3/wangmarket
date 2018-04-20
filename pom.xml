@@ -322,6 +322,13 @@
 		    <version>2.1.7</version>
 		    <type>jar</type>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4</version>
+		</dependency>
 	    
 	    <!-- Swagger2 文档 -->
 		<dependency>

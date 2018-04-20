@@ -61,7 +61,7 @@ public class WeiXinController extends BaseController{
 	 * @throws IOException 
 	 * @throws DocumentException 
 	 */
-	@RequestMapping("weixin")
+	@RequestMapping("weixin${url.suffix}")
 	public void weixin(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException{
 		MessageReceive message = getWeiXinUtil().receiveMessage(request);
 		
