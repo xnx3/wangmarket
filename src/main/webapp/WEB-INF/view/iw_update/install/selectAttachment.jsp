@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div style="padding:30px; padding-bottom:10px; text-align:center; font-size:20px;">
 	第一步：选择文件存储方式
 	<div style="font-size: 14px;">
-		存储上传的图片、附件、网站的缓存页面(.html)
+		存储上传的图片、附件、网站的缓存页面(.html)、以及页面请求的静态资源
 	</div>
 </div>
 

@@ -22,17 +22,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<a href="delete.do" target="_black" style="color:blue; font-weight: bold; font-size:15px;">点此删除安装文件</a>
 </div>
 <% } %>
-<div style="padding:30px; padding-bottom:10px; text-align:center; font-size:20px;">
-	通过此安装，可以让你快速上手使用！
-	
-	<br/>
-	<br/>
-	<br/>
+<div style="padding-top:25%; text-align:center; font-size:20px;">
 	<a href="selectAttachment.do" class="layui-btn layui-btn-primary">开始安装</a>
-	<div style="padding-top:30px; font-size:14px; color:gray;">
-		如果使用后感觉还不错，那么建议将 /src 下的配置文件中，其他功能也配置上。
-	</div>
 </div>
 
+<div style="font-size:14px; color:gray; position: absolute; bottom: 50px; text-align: center; width: 100%;">
+	通过此安装，可以让你快速配置相关参数
+	<br/>
+	您也可以&nbsp;<a href="https://v.qq.com/x/page/c053533596l.html" target="_black"><u>点此查看安装视频</u></a>&nbsp;演示，以作参考
+</div>
 
 <jsp:include page="../../iw/common/foot.jsp"></jsp:include> 

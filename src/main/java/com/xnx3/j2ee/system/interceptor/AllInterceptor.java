@@ -45,9 +45,6 @@ public class AllInterceptor implements HandlerInterceptor {
 	        request.setAttribute("startTime", startTime);  
 		}
     	
-        // 为了测试，打印一句话
-//        System.out.println("访问了url路径--"+request.getRequestURI());
- 
         return true;
     }
  
