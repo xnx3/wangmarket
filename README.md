@@ -1,18 +1,19 @@
 # 注重实际应用－wangmarket
+
 系统成熟、流程完善、细节精致、使用简单。极低的成本投入，30秒安装部署，选好模版一键导入。最快出网站，最快赚到钱。网市场云建站系统，历经8年，不断完善，拒绝半成品！<br/>
-<br/>
-网市场云建站系统，打破传统建站的高成本，让价格不再是阻碍的门槛，让每个人都能有自己的网站！ [www.wang.market](http://www.wang.market)<br/>
+注重实际业务应用，一切以建站公司的利益为主。<br/>
+
+
+## 项目极速搭建体验步骤
+只需一步，你没看错！不需要配置乱七八糟环境，不需要你去下载什么什么容器，点击 “启动” 即可一键运行起来！直接访问 localhost 访问即可使用，追求极致的简单！
+下载链接：[http://www.wang.market/down.html](http://www.wang.market/down.html)
+
 
 ## 导航
 |[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/2725.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
 | ------------- |-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|
 |||||||||
 
-## 使用技术及框架
-采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。<br/>
-v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理，更方便于开发者进行二次开发。<br/>
-其他框架，包含 Shiro、Spring MVC、Hibernate等.<br/>
-目前，提供单机部署直接一键运行。也可分布式部署，只是目前深度依赖阿里云的各个中间件，计划4.1或者4.2版本，将转为SpringCloud
 
 
 ## 功能简介
@@ -33,7 +34,7 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 
 ## 在线快速体验
 ##### 在线免费开通一个网站
-[点此免费开通](http://wang.market/regByPhone.do](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
+[点此免费开通](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
 ##### CMS模式网站管理后台（另外还有[纯傻瓜化操作后台的手机模式、电脑模式](http://www.wang.market/index.html#about)）
 登录网址：[wang.market](http://wang.market)<br/>
 登录帐号：ceshicms<br/>
@@ -43,6 +44,13 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 登录帐号：ceshidaili<br/>
 登录密码：ceshidaili<br/>
 <br/>
+
+## 二次开发<br/>
+#### 环境
+Java 1.8、Mysql 5.5、Maven 3<br/>
+#### 步骤
+1. 直接导入maven项目
+2. 运行 com.xnx3.Application 即可运行项目
 
 ## 项目简介<br/>
 网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>
@@ -55,29 +63,6 @@ svn版本更新迭代837次！<br/>
 版本功能性升级57次！[升级日志](http://www.wang.market/log.html)<br/>
 <br/>
 
-## 二次开发<br/>
-#### 环境
-Java 1.8、Mysql 5.5、Maven 3<br/>
-#### 步骤
-1. 直接导入maven项目
-2. 运行 com.xnx3.Application 即可运行项目
-
-## 项目极速搭建体验步骤
-##### 1. 下载应用程序
-运行程序在 [/application/wangmarket.zip](https://github.com/xnx3/wangmarket/application/wangmarket.zip) 下载后解压缩，解压后的文件可直接丢到tomcat8中<br/>
-##### 2. 配置数据库连接
-数据库SQL文件： [wangmarket.sql](https://github.com/xnx3/wangmarket/blob/master/wangmarket.sql) 可新建一个数据库后直接将其导入。<br/>
-修改数据库的配置文件： /WEB-INF/classes/db.properties<br/>
-##### 3. 执行安装
-数据库配置好后，将项目运行起来，访问项目 /install/index.do 进行下一步下一步安装<br/>
-##### 4. 登陆体验
-登陆地址为 /login.do<br/>
-登陆账号密码都是 ceshicms<br/>
-另，附带10分钟视频说明，让你10分钟就会基本使用。[视频点此查看](https://v.qq.com/x/page/k0516y0fouw.html)<br/>
-<br/>
-[注意，请查看详细安装步骤及注意事项：/else/quickConfig.md](https://github.com/xnx3/wangmarket/blob/master/else/quickConfig.md)<br/>
-[配置文档说明（可不用看）:/else/instructions.md](https://github.com/xnx3/wangmarket/blob/master/else/instructions.md)<br/>
-<br/>
 
 ## 云端模版库<br/>
 你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
@@ -106,13 +91,20 @@ Java 1.8、Mysql 5.5、Maven 3<br/>
 wangmarket                          GitHub目录
 ├─src                               项目源代码 ( Maven )
 ├─pom.xml                           项目源代码 pom ( Maven )
-├─else                              其他的相关文件
+├─else                              其他的杂七杂八相关文件，一般用不到
 │  ├─wangmarket.sql                 项目运行所需要的数据库文件( Mysql数据库，默认sqlite3，一般用不到)
+│  ├─wangmarket.db                  sqlite3 数据库
 │  ├─upgradeLog                     自项目上线运营后～开源之前，升级日志
 │  ├─pc_wap_tag                     手机、电脑模式网站模版所使用的动态标签
 │  └─instructions.md                其他项目配置说明，如邮件发送、日志系统等
-└─
+└─README.md                         说明
 ```
+
+## 使用技术及框架
+采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。<br/>
+v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理，更方便于开发者进行二次开发。<br/>
+其他框架，包含 Shiro、Spring MVC、Hibernate等.<br/>
+目前，提供单机部署直接一键运行。也可分布式部署，只是目前深度依赖阿里云的各个中间件，计划4.1或者4.2版本，将转为SpringCloud
 
 
 ## 交流、反馈<br/>
