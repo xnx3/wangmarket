@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="免费开通网站"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
-<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 <style>
 .myForm{
 	margin: 0 auto;

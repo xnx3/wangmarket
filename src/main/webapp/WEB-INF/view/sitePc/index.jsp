@@ -7,7 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="电脑模式网站管理后台"/>
 </jsp:include>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=basePath %>';
 var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
@@ -201,8 +201,8 @@ var autoAssignDomain = '<%=Global.get("AUTO_ASSIGN_DOMAIN") %>';
 	</div>
 </div>
 
-<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="http://res.weiunity.com/js/indexedit.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
 <script>
 
 layui.use('element', function(){
@@ -362,7 +362,7 @@ openIndex();
 
 
 //版本更新提示
-versionUpdateRemind('<%=G.VERSION %>');
+setTimeout("versionUpdateRemind('<%=G.VERSION %>');",3000);//延时3秒 
 
 </script>
 

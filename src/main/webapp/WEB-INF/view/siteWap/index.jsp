@@ -10,14 +10,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>site/${site.id}/data/site.js?t=<%=DateUtil.timeForUnix13() %>"></script>
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/jquery-2.1.4.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 
 <script>
 var masterSiteUrl = '<%=basePath %>';
 </script>
-<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="http://res.weiunity.com/js/indexedit.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
 <style>
 #editPanel{
 	position: absolute;
@@ -364,7 +364,7 @@ function openIndex(){
 openIndex();
 
 //版本更新提示
-versionUpdateRemind('<%=G.VERSION %>');
+setTimeout("versionUpdateRemind('<%=G.VERSION %>');",3000);//延时3秒 
 
 </script>
 

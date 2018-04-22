@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="IM设置首页"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Role_role.js"></script>
-<script src="http://res.weiunity.com/js/fun.js"></script>
-<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
 
 <table class="layui-table layui-form" lay-even lay-skin="nob" style="margin:0px; padding:0px;">
 	<tbody>

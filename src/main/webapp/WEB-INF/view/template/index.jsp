@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
 
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
 <script src="http://res.weiunity.com/layer/layer.js" type="text/javascript"></script>
@@ -246,8 +246,8 @@ var masterSiteUrl = '<%=basePath %>';
 	</div>
 </div>
 
-<script src="http://res.weiunity.com/js/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="http://res.weiunity.com/js/indexedit.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
 <script>
 
 layui.use('element', function(){
@@ -777,7 +777,7 @@ document.getElementById("liebiaoduyou").style.display = 'none';
 
 
 //版本更新提示
-versionUpdateRemind('<%=G.VERSION %>');
+setTimeout("versionUpdateRemind('<%=G.VERSION %>');",3000);//延时3秒 
 
 </script>
 
@@ -857,7 +857,7 @@ function rightTip(){
 }
 //只有用户名带有ceshi的才会弹出合作联系的提示
 if('${user.username}'.indexOf('ceshi') > -1){
-	setTimeout("rightTip()",2000);
+	setTimeout("rightTip()",8000);
 }
 </script>
 
