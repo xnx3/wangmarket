@@ -10,7 +10,7 @@
 
 
 ## 导航
-|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/2725.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
+|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/3749.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
 | ------------- |-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|
 |||||||||
 
@@ -47,7 +47,7 @@
 
 ## 二次开发<br/>
 #### 环境
-Java 1.8、Mysql 5.5、Maven 3<br/>
+Java 1.8、Maven 3.3.9<br/>
 #### 步骤
 1. 直接导入maven项目
 2. 运行 com.xnx3.Application 即可运行项目
