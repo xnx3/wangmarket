@@ -3,7 +3,9 @@ package com.xnx3.wangmarket.domain;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.aliyun.mns.model.Message;
 import com.xnx3.IntegerUtil;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
@@ -83,6 +85,20 @@ public class DomainUpdateThread {
 							e.printStackTrace();
 						}
 					}
+				}
+			}
+		}).start();
+		
+		
+		//每间隔一天，清空历史map
+		new Thread(new Runnable() {
+			public void run() {
+				messageUpdateMap.clear();
+				
+				try {
+					Thread.sleep(1000 * 60 * 60 * 24);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}).start();
