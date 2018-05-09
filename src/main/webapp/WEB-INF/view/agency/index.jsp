@@ -62,13 +62,13 @@ versionUpdateRemind('<%=G.VERSION %>');
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">账户余额</td>
-			<td>${agency.siteSize }站币
+			<td>${agency.siteSize }<%=Global.get("CURRENCY_NAME") %>
 				<a href="javascript:jumpParentAgency();" id="chongzhianniu" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">充值</a>
             	<div style="margin-top: -23px;margin-left: 145px;">
-            		1站币 = 开通一个网站/年<br/>
-            		1站币 = 续费一个网站/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %>站币 = 开通一个下级代理/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %>站币 = 续费一个下级代理/年<br/>
+            		1<%=Global.get("CURRENCY_NAME") %> = 开通一个网站/年<br/>
+            		1<%=Global.get("CURRENCY_NAME") %> = 续费一个网站/年<br/>
+            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 开通一个下级代理/年<br/>
+            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 续费一个下级代理/年<br/>
             	</div>
             </td>
 		</tr>

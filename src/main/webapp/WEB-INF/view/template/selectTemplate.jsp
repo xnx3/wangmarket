@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<fieldset><legend><a name="fieldset">方案一.不使用模版，自己从头开始做一套模版</a></legend></fieldset>
 </div>
 <div style="padding-left: 50px;">
-	<span style="padding-left:10px; color:#c2c2c2;">注意，此种方式需要您简单掌握HTML的相关知识才可！入门非常简单，<a href="http://res.weiunity.com/html/templateTag/index.html" target="_black" style="color: blue;text-decoration: underline;">点此进入耐心看一看</a>，一小时内学会自己做模版，成大神！</span>
+	<span style="padding-left:10px; color:#c2c2c2;">注意，此种方式需要您简单掌握HTML的相关知识才可！入门非常简单，<a href="http://tag.wscso.com/4192.html" target="_black" style="color: blue;text-decoration: underline;">网市场模板制作入门点此查看</a>，一小时内学会自己做模版，成大神！</span>
 </div>
 
 
