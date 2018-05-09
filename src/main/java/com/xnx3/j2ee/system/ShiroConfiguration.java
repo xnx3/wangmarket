@@ -68,6 +68,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/style/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/ueditor/**", "anon");
+        filterChainDefinitionMap.put("/module/ueditor/dialogs/**", "anon");
         filterChainDefinitionMap.put("/bbs/list.do", "anon");
         filterChainDefinitionMap.put("/bbs/view.do", "anon");
         filterChainDefinitionMap.put("/*.*", "anon");

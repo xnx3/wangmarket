@@ -154,8 +154,8 @@ function updatePassword(userid, name){
 		    { "newPassword": value, userid:userid }, 
 		    function(data){
 		        parent.iw.loadClose();    //关闭“更改中”的等待提示
-		        if(result.result != '1'){
-		            parent.iw.msgFailure(result.info);
+		        if(data.result != '1'){
+		            parent.iw.msgFailure(data.info);
 		        }else{
 		            parent.iw.msgSuccess();
 					location.reload();

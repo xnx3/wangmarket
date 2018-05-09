@@ -46,11 +46,13 @@
 <br/>
 
 ## 二次开发<br/>
-#### 环境
-Java 1.8、Mysql 5.5、Maven 3<br/>
+#### 准备环境
+Java 1.8、Maven 3<br/>
+
 #### 步骤
-1. 直接导入maven项目
-2. 运行 com.xnx3.Application 即可运行项目
+1. File -> Import -> Git -> Projects from Git -> Clone URI<br/>
+2. 然后在URI输入：https://gitee.com/mail_osc/wangmarket.git<br/>
+3. 运行 com.xnx3.Application 即可运行项目<br/>
 
 ## 项目简介<br/>
 网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>

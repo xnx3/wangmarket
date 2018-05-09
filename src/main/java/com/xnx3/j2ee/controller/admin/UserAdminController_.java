@@ -80,7 +80,7 @@ public class UserAdminController_ extends BaseController {
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);
-		return "/iw/admin/user/list";
+		return "/iw_update/admin/user/list";
 	}
 	
 	/**

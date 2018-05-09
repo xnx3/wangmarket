@@ -15,6 +15,7 @@ public class Application {
     	com.xnx3.j2ee.func.Log.info = true;
     	com.xnx3.j2ee.func.Log.error = true;
         SpringApplication.run(Application.class, args);
+        com.xnx3.j2ee.func.Log.info("网市场云建站系统已开启！");
     }
     
 }
