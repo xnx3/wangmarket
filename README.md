@@ -1,3 +1,8 @@
+# 打个广告：找工作，找工作，找工作！有没有收的，哪里机会好去哪，首选地点北京。有意者欢迎加我：
+QQ： 921153866
+微信： xnx3com
+
+
 # 注重实际应用－wangmarket
 
 系统成熟、流程完善、细节精致、使用简单。极低的成本投入，30秒安装部署，选好模版一键导入。最快出网站，最快赚到钱。网市场云建站系统，历经8年，不断完善，拒绝半成品！<br/>
@@ -10,7 +15,7 @@
 
 
 ## 导航
-|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/2725.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
+|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [升级日志](http://www.wang.market/log.html) | [Api接口文档](http://api.wscso.com) |[模版文档](http://tag.wscso.com) | [快速安装](http://www.wang.market/3749.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作](http://www.wang.market/index.html#join) |
 | ------------- |-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|
 |||||||||
 
@@ -46,13 +51,11 @@
 <br/>
 
 ## 二次开发<br/>
-#### 准备环境
-Java 1.8、Maven 3<br/>
-
+#### 环境
+Java 1.8、Maven 3.3.9<br/>
 #### 步骤
-1. File -> Import -> Git -> Projects from Git -> Clone URI<br/>
-2. 然后在URI输入：https://gitee.com/mail_osc/wangmarket.git<br/>
-3. 运行 com.xnx3.Application 即可运行项目<br/>
+1. 直接导入maven项目
+2. 运行 com.xnx3.Application 即可运行项目
 
 ## 项目简介<br/>
 网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>
