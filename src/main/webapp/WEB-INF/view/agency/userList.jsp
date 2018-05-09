@@ -79,10 +79,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div style="padding: 20px;color: gray;">
 	<div>操作按钮提示:</div>
-	<div>冻结：将网站冻结。冻结的网站无法登陆，无法访问。注意，冻结网站不会退返站币，会按照正常的1年/站币方式计费</div>
+	<div>冻结：将网站冻结。冻结的网站无法登陆，无法访问。&nbsp;&nbsp;注意：
+		<ul style="padding-left:70px; font-size:12px;">
+			<li style="list-style-type: decimal;">冻结网站不会退返站币，会按照正常的1年/站币方式计费</li>
+			<li style="list-style-type: decimal;">冻结后，会在一分钟之后生效。你可以新打开一个其他浏览器，输入域名即可看到结果。当前浏览器因缓存，不会立即出现冻结提示，短时间内可以正常浏览，无需在意，等过一个小时缓存过期后自然就可以变过来了。（下面的 解冻 同此）</li>
+		</ul>
+	</div>
 	<div>解冻：将冻结的网站解除冻结状态，解冻后网站恢复正常。</div>
 	<div>改密：更改密码。当用户忘记密码时，对其进行更改密码</div>
-	<div>续费：对网站进行续费操作。网站到期时，用户登录，会提前一个月向用户提示续费。若网站到期，将无法访问！(数据会保留，直至续费继续开通)</div>
+	<div>续费：对网站进行续费操作。网站到期时，用户登录，会提前一个月向用户提示续费。<!-- 若网站到期，将无法访问！(数据会保留，直至续费继续开通) --></div>
 </div>
 
 <script type="text/javascript">
