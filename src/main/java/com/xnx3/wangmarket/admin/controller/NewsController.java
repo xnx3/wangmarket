@@ -330,6 +330,10 @@ public class NewsController extends BaseController {
 		    		columnTreeSB.append("<li class=\"layui-nav-item\" id=\"super"+sct.getSiteColumn().getId()+"\"><a href=\"javascript:;\" class=\"dltitle\">"+sct.getSiteColumn().getName()+"</a><dl class=\"layui-nav-child\" style=\"background-color: #EAEDF1;\">");
 		    		for (int j = 0; j < sct.getList().size(); j++) {
 		    			SiteColumn s = sct.getList().get(j).getSiteColumn();
+		    			if(s == null){
+		    				//理论上不存在
+		    				continue;
+		    			}
 		    			if(s.getUsed() - SiteColumn.USED_UNABLE == 0){
 				    		continue;
 				    	}

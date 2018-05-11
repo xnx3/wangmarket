@@ -516,11 +516,11 @@ public class ColumnController extends BaseController {
 		sc.setName(name);
 		sc.setRank(siteColumn.getRank());
 		sc.setUrl(filter(siteColumn.getUrl()));
-		sc.setUsed(siteColumn.getUsed());
+		sc.setUsed(siteColumn.getUsed() == null? 1:siteColumn.getUsed());
 		sc.setType(siteColumn.getType());
 		sc.setTemplatePageListName(filter(siteColumn.getTemplatePageListName()));
 		sc.setTemplatePageViewName(filter(siteColumn.getTemplatePageViewName()));
-		sc.setListNum(siteColumn.getListNum());
+		sc.setListNum(siteColumn.getListNum() == null ? 10:siteColumn.getListNum());
 		sc.setEditMode(siteColumn.getEditMode() == null ? SiteColumn.EDIT_MODE_INPUT_MODEL : siteColumn.getEditMode());
 		
 		//判断一下选择的输入模型是否符合

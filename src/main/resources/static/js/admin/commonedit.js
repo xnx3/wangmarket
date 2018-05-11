@@ -608,14 +608,16 @@ function exportTemplate(){
 
 //v3.0 解除绑定顶级域名
 function removeDomainBind(){
-	$.showLoading('解除中...');
-	$.getJSON(masterSiteUrl+"site/updateBindDomain.do?bindDomain=",function(result){
-		$.hideLoading();
-		if(result.result != '1'){
-			alert(result.info);
-		}else{
-			$.toast("解除顶级域名绑定成功", function() {});
-		}
+	iw.loading("解绑中...");    //显示“操作中”的等待提示
+	$.post(masterSiteUrl+"site/updateBindDomain.do?bindDomain=", function(data){
+	    iw.loadClose();    //关闭“操作中”的等待提示
+	    if(data.result == '1'){
+	        iw.msgSuccess('解绑成功');
+	     }else if(data.result == '0'){
+	         iw.msgFailure(data.info);
+	     }else{
+	         iw.msgFailure();
+	     }
 	});
 }
 
