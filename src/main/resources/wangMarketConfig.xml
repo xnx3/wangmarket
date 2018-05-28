@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<!-- websocket im 的socket url访问地址 -->
-	<!-- <websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl> -->
-	<websocketUrl>http://localhost:8080/websocket</websocketUrl>
-
 	<!-- 阿里云短信发送 -->
 	<AliyunSMSUtil>
 		<!-- 是否使用此功能。若使用则此为true，若不使用，则下面参数不用管，use为false即可 -->

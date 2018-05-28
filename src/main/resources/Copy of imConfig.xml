@@ -2,14 +2,6 @@
 <configuration>
 	<!-- IM 独有的配置文件，im、admin 应用可用 -->
 	
-	<!-- websocket im 的socket url访问地址，注意，前面没有http，后面网址不要加 / -->
-	<!-- <websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl> -->
-	<websocketUrl>localhost:8081</websocketUrl>
-	
-	<!-- 主程序，主应用，也就是管理后台的网址。根据socketUuid进行查看会话内容的网址，注意最后要加上/ -->
-	<previewByTokenUrl>http://localhost:8080/</previewByTokenUrl>
-	
-	
 	<!-- 消息服务，用于二级域名、绑定域名的更新 -->
 	<aliyunMNS_kefu>
 		<!-- 是否使用此功能。若使用则此为true，若不使用，则下面参数不用管，use为false即可
@@ -41,5 +33,5 @@
 	</aliyunLogKefu>
 	
 	<!-- 根据socketUuid进行查看会话内容的网址，注意最后要加上/ -->
-	<previewByTokenUrl>http://localhost:8081/</previewByTokenUrl>
+	<previewByTokenUrl>http://www.wangshichang.com/</previewByTokenUrl>
 </configuration>

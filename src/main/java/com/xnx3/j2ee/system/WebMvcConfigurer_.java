@@ -29,7 +29,8 @@ public class WebMvcConfigurer_ implements WebMvcConfigurer {
 			registry.addResourceHandler("/site/**").addResourceLocations("classpath:/site/");
 //			registry.addResourceHandler("/site/**").addResourceLocations("src/main/webapp/site/");
 			registry.addResourceHandler("/cache/**").addResourceLocations("classpath:/cache/");
-			Log.info("jar包方式运行，配置虚拟路径 /site、   /cache");
+			registry.addResourceHandler("/head/**").addResourceLocations("classpath:/head/");
+			Log.info("jar包方式运行，配置虚拟路径 /site、   /cache 、 /head");
 		}
 		
 	}

@@ -57,6 +57,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/login.do", "anon");//anon 可以理解为不拦截
         filterChainDefinitionMap.put("/index.jsp", "anon");
         filterChainDefinitionMap.put("/cache/**", "anon");
+        filterChainDefinitionMap.put("/head/**", "anon");	//用户头像，如在线客服那里，上传的头像
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/*.jsp", "anon");
         filterChainDefinitionMap.put("/*.do", "anon");

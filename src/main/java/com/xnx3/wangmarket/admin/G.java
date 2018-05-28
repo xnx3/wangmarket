@@ -77,7 +77,7 @@ public class G {
 	public static Map<String, String> cloudTemplateMap;
 	
 	//webSocket IM的对接url
-	public static String websocketUrl = "";
+//	public static String websocketUrl = "";
 	
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("wangMarketConfig.xml");
@@ -110,8 +110,6 @@ public class G {
 		}else{
 			Log.info("未开启Aliyun短信发送服务");
 		}
-		
-		websocketUrl = c.getValue("websocketUrl");
 	}
 	
 	/**

@@ -50,6 +50,7 @@ public class SitePcController extends BaseController {
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));		//跟im应用交互验证
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
+		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		return "sitePc/index";
 	}
 	

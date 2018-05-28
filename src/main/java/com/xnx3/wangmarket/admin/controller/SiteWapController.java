@@ -43,6 +43,7 @@ public class SiteWapController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
+		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		return "siteWap/index";
 	}
 	

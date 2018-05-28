@@ -67,8 +67,13 @@ public class Global {
 	 * 日志服务，记录客服对话
 	 */
 	public static AliyunLogUtil aliyunLogUtil = null;
-	//根据socketUuid进行查看会话内容的网址
+	
+	//根据socketUuid进行查看会话内容的网址，管理后台网址
 	public static String previewByTokenUrl;
+	
+	//webSocket IM的对接url， 在 imConfig.xml 中配置
+	public static String websocketUrl = "";
+	
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("imConfig.xml");
 		
@@ -122,6 +127,7 @@ public class Global {
 
 		
 		previewByTokenUrl = c.getValue("previewByTokenUrl");
+		websocketUrl = c.getValue("websocketUrl");
 	}
 	
 }

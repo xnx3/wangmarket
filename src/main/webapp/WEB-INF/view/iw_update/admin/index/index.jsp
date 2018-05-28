@@ -331,7 +331,7 @@ var id = ${user.id};	//用户的id，用户唯一
 var password = "${password }";	//加密后密码
 var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的名字
 var sign = '';	//当前用户签名
-var socketUrl = '<%=G.websocketUrl %>'; //socket的url请求地址
+var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
 </script>
 <script src="http://res.weiunity.com/js/im/admin.js"></script>
 <!-- IM end -->

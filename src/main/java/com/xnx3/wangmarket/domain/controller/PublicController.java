@@ -139,9 +139,13 @@ public class PublicController extends BaseController {
 			//加载在线客服
 			int time = DateUtil.timeForUnix10();
 			html = html + ""
+					+ "<script> "
+					+ "		var im_kefu_socketUrl = '"+ com.xnx3.wangmarket.im.Global.websocketUrl +"'; "
+					+ "		var attachmentFileUrl = '"+AttachmentFile.netUrl()+"';"
+					+ "</script>"
 					+ "<script src=\"http://res.weiunity.com/js/fun.js\"></script>"
 					+ "<script src=\""+AttachmentFile.netUrl()+"/site/"+simpleSite.getId()+"/data/site.js?v="+time+"\"></script>"
-					+ "<script src=\"http://res.weiunity.com/js/im/site_kefu.js\"></script>"
+					+ "<script src=\""+AttachmentFile.netUrl()+"/js/im/site_kefu.js\"></script>"
 					+ "";
 			model.addAttribute("html", html);
 			
