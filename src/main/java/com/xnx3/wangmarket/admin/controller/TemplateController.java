@@ -50,6 +50,8 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
@@ -102,6 +104,18 @@ public class TemplateController extends BaseController {
 		}
 		
 		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页");
+		
+		
+		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
+		String pluginMenu = "";
+		if(PluginManage.siteClassManage.size() > 0){
+			for (Map.Entry<String, SitePluginBean> entry : PluginManage.siteClassManage.entrySet()) {
+				SitePluginBean bean = entry.getValue();
+				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+			}
+		}
+		model.addAttribute("pluginMenu", pluginMenu);
+		
 		
 		UserBean userBean = getUserBean();
 		User user = getUser();

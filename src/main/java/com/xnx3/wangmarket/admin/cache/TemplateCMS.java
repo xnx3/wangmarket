@@ -103,6 +103,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("site.address"), site.getAddress());
 		text = text.replaceAll(regex("site.companyName"), site.getCompanyName());
 		
+		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		
 		return text;
 	}
 	
@@ -180,6 +182,7 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("siteColumn.type"), siteColumn.getType()+"");
 		text = text.replaceAll(regex("siteColumn.used"), siteColumn.getUsed()+"");
 		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
+		text = text.replaceAll(regex("siteColumn.parentCodeName"), siteColumn.getParentCodeName()+"");
 		
 		//判断栏目的链接地址
 		String url = "";

@@ -168,6 +168,21 @@ var masterSiteUrl = '<%=basePath %>';
 		</li>
 		<% } %>
 		
+		<li class="layui-nav-item" id="plugin" style="display:none;">
+			<a href="javascript:;">
+				<i class="layui-icon firstMenuIcon">&#xe857;</i>
+				<span class="firstMenuFont">功能插件</span>
+			</a>
+			<dl class="layui-nav-child" id="plugin_submenu">
+				${pluginMenu }
+			</dl>
+		</li>
+		<script>
+			if(document.getElementById('plugin_submenu').innerHTML.length > 5){
+				document.getElementById('plugin').style.display = '';
+			}
+		</script>
+		
 		<li class="layui-nav-item">
 		  	<a id="lanmuguanli" href="javascript:loadIframeByUrl('<%=basePath %>column/popupListForTemplate.do'), notUseTopTools();">
 		  		<i class="layui-icon firstMenuIcon">&#xe638;</i>

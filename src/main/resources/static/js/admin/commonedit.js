@@ -450,7 +450,7 @@ function updateDomain(){
 				 $.post(masterSiteUrl+"site/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
 				 	iw.loadClose();
 				 	if(data.result == '1'){
-				 		iw.msgSuccess("删除成功");
+				 		iw.msgSuccess("修改成功");
 				  	}else if(data.result == '0'){
 				  		iw.msgFailure(data.info);
 				  	}else{

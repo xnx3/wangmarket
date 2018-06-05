@@ -119,8 +119,8 @@ public class NewsController extends BaseController {
 		}
 		
 		title = StringUtil.filterHtmlTag(title);
-		if(title != null && title.length() > 30){
-			title = title.substring(0, 30);
+		if(title != null && title.length() > 60){
+			title = title.substring(0, 60);
 		}
 		
 		text = newsService.setText(text, site);
