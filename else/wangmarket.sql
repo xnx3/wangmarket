@@ -1,24 +1,22 @@
 /*
- Navicat Premium Data Transfer
+Navicat MySQL Data Transfer
 
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 50623
- Source Host           : localhost
- Source Database       : wangmarket
+Source Server         : 本地
+Source Server Version : 50714
+Source Host           : localhost:3306
+Source Database       : wangmarket
 
- Target Server Type    : MySQL
- Target Server Version : 50623
- File Encoding         : utf-8
+Target Server Type    : MYSQL
+Target Server Version : 50714
+File Encoding         : 65001
 
- Date: 03/28/2018 20:59:18 PM
+Date: 2018-06-05 22:41:36
 */
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
---  Table structure for `agency`
+-- Table structure for `agency`
 -- ----------------------------
 DROP TABLE IF EXISTS `agency`;
 CREATE TABLE `agency` (
@@ -41,14 +39,12 @@ CREATE TABLE `agency` (
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Records of `agency`
+-- Records of agency
 -- ----------------------------
-BEGIN;
 INSERT INTO `agency` VALUES ('51', '管雷鸣', '17000000001', '392', '1024', '120', '山东潍坊', '921153866', '99999999', '0', '0', '1512818402', '2143123200', '1');
-COMMIT;
 
 -- ----------------------------
---  Table structure for `area`
+-- Table structure for `area`
 -- ----------------------------
 DROP TABLE IF EXISTS `area`;
 CREATE TABLE `area` (
@@ -63,7 +59,11 @@ CREATE TABLE `area` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='地区，省市区表';
 
 -- ----------------------------
---  Table structure for `carousel`
+-- Records of area
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `carousel`
 -- ----------------------------
 DROP TABLE IF EXISTS `carousel`;
 CREATE TABLE `carousel` (
@@ -80,7 +80,11 @@ CREATE TABLE `carousel` (
 ) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='轮播图\n';
 
 -- ----------------------------
---  Table structure for `collect`
+-- Records of carousel
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `collect`
 -- ----------------------------
 DROP TABLE IF EXISTS `collect`;
 CREATE TABLE `collect` (
@@ -93,7 +97,11 @@ CREATE TABLE `collect` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户关注表';
 
 -- ----------------------------
---  Table structure for `exchange`
+-- Records of collect
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `exchange`
 -- ----------------------------
 DROP TABLE IF EXISTS `exchange`;
 CREATE TABLE `exchange` (
@@ -110,7 +118,11 @@ CREATE TABLE `exchange` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='积分兑换的兑换申请列表';
 
 -- ----------------------------
---  Table structure for `feedback`
+-- Records of exchange
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `feedback`
 -- ----------------------------
 DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
@@ -122,7 +134,43 @@ CREATE TABLE `feedback` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='问题反馈';
 
 -- ----------------------------
---  Table structure for `friend`
+-- Records of feedback
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `form`
+-- ----------------------------
+DROP TABLE IF EXISTS `form`;
+CREATE TABLE `form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自动编号',
+  `siteid` int(11) DEFAULT NULL COMMENT '当前反馈的信息是属于那个站点',
+  `addtime` int(11) DEFAULT NULL COMMENT '信息发布时间',
+  `state` tinyint(2) DEFAULT NULL COMMENT '状态。 1：已读； 0：未读，默认为0',
+  `title` char(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '在后台反馈列表显示的标题',
+  PRIMARY KEY (`id`),
+  KEY `siteid` (`siteid`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='万能表单（formManage）的信息反馈记录表';
+
+-- ----------------------------
+-- Records of form
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `form_data`
+-- ----------------------------
+DROP TABLE IF EXISTS `form_data`;
+CREATE TABLE `form_data` (
+  `id` int(11) NOT NULL COMMENT 'form的分表，对应 form.id',
+  `text` text COLLATE utf8_unicode_ci COMMENT '自定义表单的内容，格式为json字符串',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='form表的分表';
+
+-- ----------------------------
+-- Records of form_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `friend`
 -- ----------------------------
 DROP TABLE IF EXISTS `friend`;
 CREATE TABLE `friend` (
@@ -135,7 +183,11 @@ CREATE TABLE `friend` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='加好友，主表';
 
 -- ----------------------------
---  Table structure for `friend_log`
+-- Records of friend
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `friend_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `friend_log`;
 CREATE TABLE `friend_log` (
@@ -150,7 +202,11 @@ CREATE TABLE `friend_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='好友操作日志记录';
 
 -- ----------------------------
---  Table structure for `goods`
+-- Records of friend_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `goods`
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
@@ -163,14 +219,19 @@ CREATE TABLE `goods` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='积分兑换的可兑换商品表';
 
 -- ----------------------------
---  Records of `goods`
+-- Records of goods
 -- ----------------------------
-BEGIN;
-INSERT INTO `goods` VALUES ('1', '400', '.top  .bin 后缀的顶级域名任选一个', '1年', '域名'), ('2', '6000', '.com  .cn 后缀的顶级域名任选一个', '1年', '域名'), ('3', '2000', '在您原有的附件存储空间基础上，增加100MB', '永久', '空间'), ('4', '20000', '在您原有的附件存储空间基础上，增加1000MB', '永久', '空间'), ('5', '1000', '普通代理。拥有代理后台，可以在代理后台开通任意数量的网站。其建立的网站可以送人，但不可售卖，不可用于商业用途', '1年', '代理资格'), ('6', '200000', '商用代理，同普通代理，其建立的网站允许对外出售，允许其用于商业用途', '1年', '代理资格'), ('7', '1000', '如果您想将网站独立出去，放到自己的服务器或者FTP上，我们可以吧您网站的源代码(html文件)、图片、附件等打包给你，直接上传就可以开通访问', '1次', '网站迁移'), ('8', '500000', '苹果 Apple iPhone7 4G手机 全网通(32G)', '1台', '手机');
-COMMIT;
+INSERT INTO `goods` VALUES ('1', '400', '.top  .bin 后缀的顶级域名任选一个', '1年', '域名');
+INSERT INTO `goods` VALUES ('2', '6000', '.com  .cn 后缀的顶级域名任选一个', '1年', '域名');
+INSERT INTO `goods` VALUES ('3', '2000', '在您原有的附件存储空间基础上，增加100MB', '永久', '空间');
+INSERT INTO `goods` VALUES ('4', '20000', '在您原有的附件存储空间基础上，增加1000MB', '永久', '空间');
+INSERT INTO `goods` VALUES ('5', '1000', '普通代理。拥有代理后台，可以在代理后台开通任意数量的网站。其建立的网站可以送人，但不可售卖，不可用于商业用途', '1年', '代理资格');
+INSERT INTO `goods` VALUES ('6', '200000', '商用代理，同普通代理，其建立的网站允许对外出售，允许其用于商业用途', '1年', '代理资格');
+INSERT INTO `goods` VALUES ('7', '1000', '如果您想将网站独立出去，放到自己的服务器或者FTP上，我们可以吧您网站的源代码(html文件)、图片、附件等打包给你，直接上传就可以开通访问', '1次', '网站迁移');
+INSERT INTO `goods` VALUES ('8', '500000', '苹果 Apple iPhone7 4G手机 全网通(32G)', '1台', '手机');
 
 -- ----------------------------
---  Table structure for `im`
+-- Table structure for `im`
 -- ----------------------------
 DROP TABLE IF EXISTS `im`;
 CREATE TABLE `im` (
@@ -186,14 +247,16 @@ CREATE TABLE `im` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='网站在线客服设置';
 
 -- ----------------------------
---  Records of `im`
+-- Records of im
 -- ----------------------------
-BEGIN;
-INSERT INTO `im` VALUES ('8', '0', '亲，我现在不在，你可以加我QQ921153866', '0', null, '0', null), ('9', '0', '亲，我现在不在线，你可以先加我QQ921153866，或者直接在这里留言', '0', null, '0', null), ('10', '219', '抱歉，我现在不在，你可以先留下联系方式，我一会回来联系您，', '1', '9211538@qq.com', '243', '1'), ('11', null, null, '0', 'sd', '373', null), ('12', null, '哈喽，我现在不在，你可以先关注微信公众号wangmarket', '0', null, '326', '1');
-COMMIT;
+INSERT INTO `im` VALUES ('8', '0', '亲，我现在不在，你可以加我QQ921153866', '0', null, '0', null);
+INSERT INTO `im` VALUES ('9', '0', '亲，我现在不在线，你可以先加我QQ921153866，或者直接在这里留言', '0', null, '0', null);
+INSERT INTO `im` VALUES ('10', '219', '抱歉，我现在不在，你可以先留下联系方式，我一会回来联系您，', '1', '9211538@qq.com', '243', '1');
+INSERT INTO `im` VALUES ('11', null, null, '0', 'sd', '373', null);
+INSERT INTO `im` VALUES ('12', null, '哈喽，我现在不在，你可以先关注微信公众号wangmarket', '0', null, '326', '1');
 
 -- ----------------------------
---  Table structure for `input_model`
+-- Table structure for `input_model`
 -- ----------------------------
 DROP TABLE IF EXISTS `input_model`;
 CREATE TABLE `input_model` (
@@ -207,7 +270,11 @@ CREATE TABLE `input_model` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='输入模型';
 
 -- ----------------------------
---  Table structure for `log`
+-- Records of input_model
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `log`
 -- ----------------------------
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
@@ -222,7 +289,11 @@ CREATE TABLE `log` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
---  Table structure for `message`
+-- Records of log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `message`
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
@@ -237,7 +308,11 @@ CREATE TABLE `message` (
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='发信箱，发信，用户发信表';
 
 -- ----------------------------
---  Table structure for `message_data`
+-- Records of message
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `message_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `message_data`;
 CREATE TABLE `message_data` (
@@ -247,7 +322,11 @@ CREATE TABLE `message_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='对应message，存储内容';
 
 -- ----------------------------
---  Table structure for `news`
+-- Records of message_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `news`
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
@@ -272,7 +351,11 @@ CREATE TABLE `news` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2341 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='新闻、产品、独立页面';
 
 -- ----------------------------
---  Table structure for `news_comment`
+-- Records of news
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `news_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `news_comment`;
 CREATE TABLE `news_comment` (
@@ -286,7 +369,11 @@ CREATE TABLE `news_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='news的评论';
 
 -- ----------------------------
---  Table structure for `news_data`
+-- Records of news_comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `news_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `news_data`;
 CREATE TABLE `news_data` (
@@ -296,14 +383,15 @@ CREATE TABLE `news_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='news内容分表';
 
 -- ----------------------------
---  Records of `news_data`
+-- Records of news_data
 -- ----------------------------
-BEGIN;
-INSERT INTO `news_data` VALUES ('2337', '这是公司介绍的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2338', '这是联系我们的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2339', '这是人才招聘的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2340', '这是招商加盟的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
-COMMIT;
+INSERT INTO `news_data` VALUES ('2337', '这是公司介绍的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
+INSERT INTO `news_data` VALUES ('2338', '这是联系我们的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
+INSERT INTO `news_data` VALUES ('2339', '这是人才招聘的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
+INSERT INTO `news_data` VALUES ('2340', '这是招商加盟的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
 
 -- ----------------------------
---  Table structure for `pay_log`
+-- Table structure for `pay_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `pay_log`;
 CREATE TABLE `pay_log` (
@@ -318,7 +406,11 @@ CREATE TABLE `pay_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='支付日志记录';
 
 -- ----------------------------
---  Table structure for `permission`
+-- Records of pay_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
@@ -334,14 +426,116 @@ CREATE TABLE `permission` (
 ) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Records of `permission`
+-- Records of permission
 -- ----------------------------
-BEGIN;
-INSERT INTO `permission` VALUES ('1', '用户前台用户的个人中心', '/user/info.do', '个人中心', '0', 'user'), ('2', '用户前台用户的个人中心', '/user/info.do', '我的信息', '1', 'userInfo'), ('3', '前端用户在论坛发表帖子', '/bbs/addPost.do', '发帖', '4', 'bbsAddPost'), ('4', '前端，论坛', '/bbs/list.do', '论坛', '0', 'bbs'), ('7', '用户端的我的好友', '/friend/list.do', '我的好友', '0', 'friend'), ('9', '前端的我的好友，添加好友', '/friend/add.do', '添加好友', '7', 'friendAdd'), ('10', '前端，我的好友，好友列表', '/friend/list.do', '好友列表', '7', 'friendList'), ('11', '前端的我的好友，删除好友', '/friend/delete.do', '删除好友', '7', 'friendDelete'), ('12', '后台的用户管理', '/admin/user/list.do', '用户管理', '0', 'adminUser'), ('13', '后台用户管理下的菜单', '/admin/user/list.do', '用户列表', '12', 'adminUserList'), ('14', '后台用户管理下的菜单', '/admin/user/delete.do', '删除用户', '12', 'adminUserDelete'), ('15', '管理后台－系统管理栏目', '/admin/system/index.do', '系统管理', '0', 'adminSystem'), ('16', '管理后台－系统管理－系统参数、系统变量', '/admin/system/variableList.do', '全局变量', '15', 'adminSystemVariable'), ('17', '管理后台－系统管理，刷新所有缓存', '/admin/system/generateAllCache.do', '刷新缓存', '15', 'adminSystemGenerateAllCache'), ('18', '前端，用户中心，注销登录', '/user/logout.do', '注销', '1', 'userLogout'), ('19', '前端，用户中心，更改头像', '/user/uploadHead.do', '更改头像', '1', 'userUploadHead'), ('20', '前端，用户中心，更改用户自己的昵称', '/user/updateNickName.do', '更改昵称', '1', 'userUpdateNickName'), ('21', '前端，用户中心，更改密码', '/user/updatePassword.do', '更改密码', '1', 'userUpdatePassword'), ('22', '前端，用户中心，邮件邀请用户注册', '/user/inviteEmail.do', '邮件邀请注册', '1', 'userInviteEmail'), ('23', '前端，好友中心，首页', '/friend/index.do', '首页', '7', 'friendIndex'), ('24', '前端，站内信', '/message/list.do', '信息', '0', 'message'), ('25', '前端，站内信，信息列表', '/message/list.do', '信息列表', '24', 'messageList'), ('26', '前端，站内信，阅读信息', '/message/view.do', '阅读信息', '24', 'messageView'), ('27', '前端，站内信，发送信息', '/message/send.do', '发送信息', '24', 'messageSend'), ('28', '前端，论坛，帖子列表', '/bbs/list.do', '帖子列表', '4', 'bbsList'), ('29', '前端，论坛，帖子详情', '/bbs/view.do', '帖子详情', '4', 'bbsView'), ('30', '前端，论坛，回复帖子', '/bbs/addComment.do', '回复帖子', '4', 'bbsAddComment'), ('31', '前端，项目组', '/project/index.do', '项目组', '0', 'project'), ('32', '前端，项目组，项目列表', '/project/list.do', '列表', '31', 'projectList'), ('33', '前端，项目组，项目详情', '/project/view.do', '项目详情', '31', 'projectView'), ('34', '前端，项目组，添加项目', '/project/add.do', '添加项目', '31', 'projectAdd'), ('35', '前端，项目组，删除项目', '/project/delete.do', '删除项目', '31', 'projectDelete'), ('36', '前端，项目组，列出属于自己管理的项目列表', '/project/adminList.do', '管理项目列表', '31', 'projectAdminList'), ('37', '前端，项目组，添加成员到项目组', '/project/addMember.do', '添加成员到项目组', '31', 'projectAddMember'), ('38', '前端，项目组，获取项目组用户列表', '/project/memberList.do', '获取项目组用户列表', '31', 'projectMemberList'), ('39', '前端，图表（线框图，流程图等）', '/paint/index.do', '图表', '0', 'paint'), ('40', '前端，图表，图表首页', '/paint/index.do', '首页', '39', 'paintIndex'), ('41', '前端，图表，添加图表（流程、线框图）', '/paint/add.do', '添加', '39', 'paintAdd'), ('42', '前端，图表，评论图表（流程、线框图）', '/paint/addComment.do', '评论图表', '39', 'paintAddComment'), ('43', '前端，图表，该图（流程、线框图）的评论列表', '/paint/commentList.do', '该图评论列表', '39', 'paintCommentList'), ('44', '后台，权限管理', '/admin/role/roleList.do', '权限管理', '0', 'adminRole'), ('46', '后台，权限管理，新增、编辑角色', '/admin/role/editRole.do', '编辑角色', '44', 'adminRoleRole'), ('48', '后台，权限管理，角色列表', '/admin/role/roleList.do', '角色列表', '44', 'adminRoleRoleList'), ('49', '后台，权限管理，删除角色', '/admin/role/deleteRole.do', '删除角色', '44', 'adminRoleDeleteRole'), ('51', '后台，权限管理，资源Permission的添加、编辑功能', '/admin/role/editPermission.do', '编辑资源', '44', 'adminRolePermission'), ('53', '后台，权限管理，资源Permission列表', '/admin/role/permissionList.do', '资源列表', '44', 'adminRolePermissionList'), ('54', '后台，权限管理，删除资源Permission', '/admin/role/deletePermission.do', '删除资源', '44', 'adminRoleDeletePermission'), ('55', '后台，权限管理，编辑角色下资源', '/admin/role/editRolePermission.do', '编辑角色下资源', '44', 'adminRoleEditRolePermission'), ('56', '后台，权限管理，编辑用户所属角色', '/admin/role/editUserRole.do', '编辑用户所属角色', '44', 'adminRoleEditUserRole'), ('57', '后台，论坛管理', '/admin/bbs/postList.do', '论坛管理', '0', 'adminBbs'), ('58', '后台，论坛管理，帖子列表', '/admin/bbs/postList.do', '帖子列表', '57', 'adminBbsPostList'), ('59', '后台，论坛管理，删除帖子', '/admin/bbs/deletePost.do', '删除帖子', '57', 'adminBbsDeletePost'), ('60', '后台，论坛管理，添加板块', '/admin/bbs/addClass.do', '添加板块', '57', 'adminBbsAddClass'), ('61', '后台，论坛管理，添加，修改板块', '/admin/bbs/editClass.do', '修改板块', '57', 'adminBbsClass'), ('63', '后台，论坛管理，板块列表', '/admin/bbs/classList.do', '板块列表', '57', 'adminBbsClassList'), ('64', '后台，论坛管理，删除板块', '/admin/bbs/deleteClass.do', '删除板块', '57', 'adminBbsDeleteClass'), ('65', '后台，站内信消息管理', '/admin/message/list.do', '消息管理', '0', 'adminMessage'), ('66', '后台，站内信消息管理，消息列表', '/admin/message/list.do', '消息列表', '65', 'adminMessageList'), ('67', '后台，站内信消息管理，删除消息', '/admin/message/delete.do', '删除消息', '65', 'adminMessageDelete'), ('68', '后台，系统设置，用户注册后自动拥有的一个权限', '/admin/system/userRegRole.do', '注册用户权限', '15', 'adminSystemUserRegRole'), ('71', '后台，日志管理', '/admin/log/list.do', '日志管理', '0', 'adminLog'), ('72', '后台，日志管理，日志列表', '/admin/log/list.do', '日志列表', '71', 'adminLogList'), ('74', '管理后台－系统管理，新增、修改系统的全局变量', '/admin/system/variable.do', '修改全局变量', '15', 'adminSystemVariable'), ('75', '邀请注册页面，介绍说明页面', '/user/invite.do', '邀请注册页面', '1', 'userInvite'), ('77', '后台，论坛管理，帖子编辑、添加', '/admin/bbs/post.do', '添加修改帖子', '57', 'adminBbsPost'), ('78', '后台，论坛管理，删除帖子回复', '/admin/bbs/deleteComment.do', '删除回帖', '57', 'adminBbsDeletePostComment'), ('79', '后台，论坛管理，回帖列表', '/admin/bbs/commentList.do', '回帖列表', '57', 'adminBbsPostCommentList'), ('80', '后台，用户管理，查看用户详情', '/admin/user/view.do', '用户详情', '12', 'adminUserView'), ('81', '后台，用户管理，冻结、解除冻结会员', '/admin/user/updateFreeze.do', '冻结会员', '12', 'adminUserUpdateFreeze'), ('82', '后台，历史发送的短信验证码', '/admin/smslog/list.do', '验证码管理', '0', 'adminSmsLog'), ('83', '后台，历史发送的短信验证码列表', '/admin/smslog/list.do', '验证码列表', '82', 'adminSmsLogList'), ('86', '后台，在线支付记录', '/admin/payLog/list.do', '支付记录', '0', 'adminPayLog'), ('87', '后台，在线支付记录，记录列表', '/admin/payLog/list.do', '支付列表', '86', 'adminPayLogList'), ('88', '建站代理', '', '建站代理', '0', 'agencyIndex'), ('89', '建站代理，代理商后台首页', '', '首页', '88', 'agencyIndex'), ('90', '建站代理，代理商会员站点列表', '', '会员站点列表', '88', 'agencyUserList'), ('91', '建站代理，添加用户站点', '', '添加用户站点', '88', 'agencyAdd'), ('92', '信息文章相关操作', '', '文章管理', '0', 'adminNews'), ('93', 'News数据表，信息列表', '', '信息列表', '92', 'adminNewsList'), ('94', 'News数据表，信息详情', '', '信息详情', '92', 'adminNewsView'), ('95', 'News数据表，删除信息', '', '删除信息', '92', 'adminNewsDelete'), ('96', 'News数据表，合法性改为合法状态', '', '改为合法', '92', 'adminNewsCancelLegitimate'), ('97', '建站代理，代理商后台，开通其下级普通代理', '', '开通普通代理', '88', 'AgencyNormalAdd'), ('98', '查看当前在线的会员', '', '在线会员', '12', 'adminOnlineUserList'), ('99', '总管理后台的网站管理', '', '全部网站管理', '0', 'adminSite'), ('100', '网站列表', '', '网站列表', '99', 'adminSiteList'), ('101', '网站详情页面', '', '网站详情', '99', 'adminSiteView'), ('102', '添加一个网站跟用户', '', '添加网站', '99', 'adminSiteAdd'), ('103', '访问统计相关', '', '访问统计', '0', 'adminRequestLog'), ('104', '网站的访问情况', '', '访问统计', '103', 'adminRequestLogFangWen'), ('105', '操作的日志列表', '', '操作日志', '88', 'agencyActionLogList'), ('106', '资金变动日志', '', '资金日志', '88', 'agencySiteSizeLogList'), ('107', '我的下级代理商列表', '', '下级列表', '88', 'agencySubAgencyList'), ('108', '给我的下级代理充值站币', null, '站币充值', '88', 'agencyTransferSiteSizeToSubAgencyList'), ('109', '给我开通的网站续费延长使用时间', null, '网站续费', '88', 'agencySiteXuFie'), ('110', '给我下级的代理延长使用期限', '', '代理延期', '88', 'agencyYanQi'), ('111', '将我下级的代理冻结，暂停', '', '冻结代理', '88', 'agencyAgencyFreeze'), ('112', '将我下级的代理接触冻结，恢复正常', '', '解冻代理', '88', 'agencyAgencyUnFreeze'), ('113', '修改站点、代理帐户的密码', '', '修改密码', '88', 'agencySiteUpdatePassword'), ('114', '后台管理首页，登录后台的话，需要授权此项，不然登录成功后仍然无法进入后台，被此页给拦截了', null, '管理后台', '0', 'adminIndex'), ('115', '管理后台首页', '', '后台首页', '114', 'adminIndexIndex'), ('116', '删除系统变量', 'admin/system/deleteVariable.do', '删除变量', '15', 'adminSystemDeleteVariable'), ('117', '后台，日志管理，所有动作的日志图表', '/admin/log/cartogram.do', '统计图表', '71', 'adminLogCartogram'), ('118', '将自己直属下级的某个网站冻结', '', '冻结网站', '88', 'agencySiteFreeze'), ('119', '将自己直属下级的某个网站解除冻结', '', '网站解冻', '88', 'agencySiteFreeze');
-COMMIT;
+INSERT INTO `permission` VALUES ('1', '用户前台用户的个人中心', '/user/info.do', '个人中心', '0', 'user');
+INSERT INTO `permission` VALUES ('2', '用户前台用户的个人中心', '/user/info.do', '我的信息', '1', 'userInfo');
+INSERT INTO `permission` VALUES ('3', '前端用户在论坛发表帖子', '/bbs/addPost.do', '发帖', '4', 'bbsAddPost');
+INSERT INTO `permission` VALUES ('4', '前端，论坛', '/bbs/list.do', '论坛', '0', 'bbs');
+INSERT INTO `permission` VALUES ('7', '用户端的我的好友', '/friend/list.do', '我的好友', '0', 'friend');
+INSERT INTO `permission` VALUES ('9', '前端的我的好友，添加好友', '/friend/add.do', '添加好友', '7', 'friendAdd');
+INSERT INTO `permission` VALUES ('10', '前端，我的好友，好友列表', '/friend/list.do', '好友列表', '7', 'friendList');
+INSERT INTO `permission` VALUES ('11', '前端的我的好友，删除好友', '/friend/delete.do', '删除好友', '7', 'friendDelete');
+INSERT INTO `permission` VALUES ('12', '后台的用户管理', '/admin/user/list.do', '用户管理', '0', 'adminUser');
+INSERT INTO `permission` VALUES ('13', '后台用户管理下的菜单', '/admin/user/list.do', '用户列表', '12', 'adminUserList');
+INSERT INTO `permission` VALUES ('14', '后台用户管理下的菜单', '/admin/user/delete.do', '删除用户', '12', 'adminUserDelete');
+INSERT INTO `permission` VALUES ('15', '管理后台－系统管理栏目', '/admin/system/index.do', '系统管理', '0', 'adminSystem');
+INSERT INTO `permission` VALUES ('16', '管理后台－系统管理－系统参数、系统变量', '/admin/system/variableList.do', '全局变量', '15', 'adminSystemVariable');
+INSERT INTO `permission` VALUES ('17', '管理后台－系统管理，刷新所有缓存', '/admin/system/generateAllCache.do', '刷新缓存', '15', 'adminSystemGenerateAllCache');
+INSERT INTO `permission` VALUES ('18', '前端，用户中心，注销登录', '/user/logout.do', '注销', '1', 'userLogout');
+INSERT INTO `permission` VALUES ('19', '前端，用户中心，更改头像', '/user/uploadHead.do', '更改头像', '1', 'userUploadHead');
+INSERT INTO `permission` VALUES ('20', '前端，用户中心，更改用户自己的昵称', '/user/updateNickName.do', '更改昵称', '1', 'userUpdateNickName');
+INSERT INTO `permission` VALUES ('21', '前端，用户中心，更改密码', '/user/updatePassword.do', '更改密码', '1', 'userUpdatePassword');
+INSERT INTO `permission` VALUES ('22', '前端，用户中心，邮件邀请用户注册', '/user/inviteEmail.do', '邮件邀请注册', '1', 'userInviteEmail');
+INSERT INTO `permission` VALUES ('23', '前端，好友中心，首页', '/friend/index.do', '首页', '7', 'friendIndex');
+INSERT INTO `permission` VALUES ('24', '前端，站内信', '/message/list.do', '信息', '0', 'message');
+INSERT INTO `permission` VALUES ('25', '前端，站内信，信息列表', '/message/list.do', '信息列表', '24', 'messageList');
+INSERT INTO `permission` VALUES ('26', '前端，站内信，阅读信息', '/message/view.do', '阅读信息', '24', 'messageView');
+INSERT INTO `permission` VALUES ('27', '前端，站内信，发送信息', '/message/send.do', '发送信息', '24', 'messageSend');
+INSERT INTO `permission` VALUES ('28', '前端，论坛，帖子列表', '/bbs/list.do', '帖子列表', '4', 'bbsList');
+INSERT INTO `permission` VALUES ('29', '前端，论坛，帖子详情', '/bbs/view.do', '帖子详情', '4', 'bbsView');
+INSERT INTO `permission` VALUES ('30', '前端，论坛，回复帖子', '/bbs/addComment.do', '回复帖子', '4', 'bbsAddComment');
+INSERT INTO `permission` VALUES ('31', '前端，项目组', '/project/index.do', '项目组', '0', 'project');
+INSERT INTO `permission` VALUES ('32', '前端，项目组，项目列表', '/project/list.do', '列表', '31', 'projectList');
+INSERT INTO `permission` VALUES ('33', '前端，项目组，项目详情', '/project/view.do', '项目详情', '31', 'projectView');
+INSERT INTO `permission` VALUES ('34', '前端，项目组，添加项目', '/project/add.do', '添加项目', '31', 'projectAdd');
+INSERT INTO `permission` VALUES ('35', '前端，项目组，删除项目', '/project/delete.do', '删除项目', '31', 'projectDelete');
+INSERT INTO `permission` VALUES ('36', '前端，项目组，列出属于自己管理的项目列表', '/project/adminList.do', '管理项目列表', '31', 'projectAdminList');
+INSERT INTO `permission` VALUES ('37', '前端，项目组，添加成员到项目组', '/project/addMember.do', '添加成员到项目组', '31', 'projectAddMember');
+INSERT INTO `permission` VALUES ('38', '前端，项目组，获取项目组用户列表', '/project/memberList.do', '获取项目组用户列表', '31', 'projectMemberList');
+INSERT INTO `permission` VALUES ('39', '前端，图表（线框图，流程图等）', '/paint/index.do', '图表', '0', 'paint');
+INSERT INTO `permission` VALUES ('40', '前端，图表，图表首页', '/paint/index.do', '首页', '39', 'paintIndex');
+INSERT INTO `permission` VALUES ('41', '前端，图表，添加图表（流程、线框图）', '/paint/add.do', '添加', '39', 'paintAdd');
+INSERT INTO `permission` VALUES ('42', '前端，图表，评论图表（流程、线框图）', '/paint/addComment.do', '评论图表', '39', 'paintAddComment');
+INSERT INTO `permission` VALUES ('43', '前端，图表，该图（流程、线框图）的评论列表', '/paint/commentList.do', '该图评论列表', '39', 'paintCommentList');
+INSERT INTO `permission` VALUES ('44', '后台，权限管理', '/admin/role/roleList.do', '权限管理', '0', 'adminRole');
+INSERT INTO `permission` VALUES ('46', '后台，权限管理，新增、编辑角色', '/admin/role/editRole.do', '编辑角色', '44', 'adminRoleRole');
+INSERT INTO `permission` VALUES ('48', '后台，权限管理，角色列表', '/admin/role/roleList.do', '角色列表', '44', 'adminRoleRoleList');
+INSERT INTO `permission` VALUES ('49', '后台，权限管理，删除角色', '/admin/role/deleteRole.do', '删除角色', '44', 'adminRoleDeleteRole');
+INSERT INTO `permission` VALUES ('51', '后台，权限管理，资源Permission的添加、编辑功能', '/admin/role/editPermission.do', '编辑资源', '44', 'adminRolePermission');
+INSERT INTO `permission` VALUES ('53', '后台，权限管理，资源Permission列表', '/admin/role/permissionList.do', '资源列表', '44', 'adminRolePermissionList');
+INSERT INTO `permission` VALUES ('54', '后台，权限管理，删除资源Permission', '/admin/role/deletePermission.do', '删除资源', '44', 'adminRoleDeletePermission');
+INSERT INTO `permission` VALUES ('55', '后台，权限管理，编辑角色下资源', '/admin/role/editRolePermission.do', '编辑角色下资源', '44', 'adminRoleEditRolePermission');
+INSERT INTO `permission` VALUES ('56', '后台，权限管理，编辑用户所属角色', '/admin/role/editUserRole.do', '编辑用户所属角色', '44', 'adminRoleEditUserRole');
+INSERT INTO `permission` VALUES ('57', '后台，论坛管理', '/admin/bbs/postList.do', '论坛管理', '0', 'adminBbs');
+INSERT INTO `permission` VALUES ('58', '后台，论坛管理，帖子列表', '/admin/bbs/postList.do', '帖子列表', '57', 'adminBbsPostList');
+INSERT INTO `permission` VALUES ('59', '后台，论坛管理，删除帖子', '/admin/bbs/deletePost.do', '删除帖子', '57', 'adminBbsDeletePost');
+INSERT INTO `permission` VALUES ('60', '后台，论坛管理，添加板块', '/admin/bbs/addClass.do', '添加板块', '57', 'adminBbsAddClass');
+INSERT INTO `permission` VALUES ('61', '后台，论坛管理，添加，修改板块', '/admin/bbs/editClass.do', '修改板块', '57', 'adminBbsClass');
+INSERT INTO `permission` VALUES ('63', '后台，论坛管理，板块列表', '/admin/bbs/classList.do', '板块列表', '57', 'adminBbsClassList');
+INSERT INTO `permission` VALUES ('64', '后台，论坛管理，删除板块', '/admin/bbs/deleteClass.do', '删除板块', '57', 'adminBbsDeleteClass');
+INSERT INTO `permission` VALUES ('65', '后台，站内信消息管理', '/admin/message/list.do', '消息管理', '0', 'adminMessage');
+INSERT INTO `permission` VALUES ('66', '后台，站内信消息管理，消息列表', '/admin/message/list.do', '消息列表', '65', 'adminMessageList');
+INSERT INTO `permission` VALUES ('67', '后台，站内信消息管理，删除消息', '/admin/message/delete.do', '删除消息', '65', 'adminMessageDelete');
+INSERT INTO `permission` VALUES ('68', '后台，系统设置，用户注册后自动拥有的一个权限', '/admin/system/userRegRole.do', '注册用户权限', '15', 'adminSystemUserRegRole');
+INSERT INTO `permission` VALUES ('71', '后台，日志管理', '/admin/log/list.do', '日志管理', '0', 'adminLog');
+INSERT INTO `permission` VALUES ('72', '后台，日志管理，日志列表', '/admin/log/list.do', '日志列表', '71', 'adminLogList');
+INSERT INTO `permission` VALUES ('74', '管理后台－系统管理，新增、修改系统的全局变量', '/admin/system/variable.do', '修改全局变量', '15', 'adminSystemVariable');
+INSERT INTO `permission` VALUES ('75', '邀请注册页面，介绍说明页面', '/user/invite.do', '邀请注册页面', '1', 'userInvite');
+INSERT INTO `permission` VALUES ('77', '后台，论坛管理，帖子编辑、添加', '/admin/bbs/post.do', '添加修改帖子', '57', 'adminBbsPost');
+INSERT INTO `permission` VALUES ('78', '后台，论坛管理，删除帖子回复', '/admin/bbs/deleteComment.do', '删除回帖', '57', 'adminBbsDeletePostComment');
+INSERT INTO `permission` VALUES ('79', '后台，论坛管理，回帖列表', '/admin/bbs/commentList.do', '回帖列表', '57', 'adminBbsPostCommentList');
+INSERT INTO `permission` VALUES ('80', '后台，用户管理，查看用户详情', '/admin/user/view.do', '用户详情', '12', 'adminUserView');
+INSERT INTO `permission` VALUES ('81', '后台，用户管理，冻结、解除冻结会员', '/admin/user/updateFreeze.do', '冻结会员', '12', 'adminUserUpdateFreeze');
+INSERT INTO `permission` VALUES ('82', '后台，历史发送的短信验证码', '/admin/smslog/list.do', '验证码管理', '0', 'adminSmsLog');
+INSERT INTO `permission` VALUES ('83', '后台，历史发送的短信验证码列表', '/admin/smslog/list.do', '验证码列表', '82', 'adminSmsLogList');
+INSERT INTO `permission` VALUES ('86', '后台，在线支付记录', '/admin/payLog/list.do', '支付记录', '0', 'adminPayLog');
+INSERT INTO `permission` VALUES ('87', '后台，在线支付记录，记录列表', '/admin/payLog/list.do', '支付列表', '86', 'adminPayLogList');
+INSERT INTO `permission` VALUES ('88', '建站代理', '', '建站代理', '0', 'agencyIndex');
+INSERT INTO `permission` VALUES ('89', '建站代理，代理商后台首页', '', '首页', '88', 'agencyIndex');
+INSERT INTO `permission` VALUES ('90', '建站代理，代理商会员站点列表', '', '会员站点列表', '88', 'agencyUserList');
+INSERT INTO `permission` VALUES ('91', '建站代理，添加用户站点', '', '添加用户站点', '88', 'agencyAdd');
+INSERT INTO `permission` VALUES ('92', '信息文章相关操作', '', '文章管理', '0', 'adminNews');
+INSERT INTO `permission` VALUES ('93', 'News数据表，信息列表', '', '信息列表', '92', 'adminNewsList');
+INSERT INTO `permission` VALUES ('94', 'News数据表，信息详情', '', '信息详情', '92', 'adminNewsView');
+INSERT INTO `permission` VALUES ('95', 'News数据表，删除信息', '', '删除信息', '92', 'adminNewsDelete');
+INSERT INTO `permission` VALUES ('96', 'News数据表，合法性改为合法状态', '', '改为合法', '92', 'adminNewsCancelLegitimate');
+INSERT INTO `permission` VALUES ('97', '建站代理，代理商后台，开通其下级普通代理', '', '开通普通代理', '88', 'AgencyNormalAdd');
+INSERT INTO `permission` VALUES ('98', '查看当前在线的会员', '', '在线会员', '12', 'adminOnlineUserList');
+INSERT INTO `permission` VALUES ('99', '总管理后台的网站管理', '', '全部网站管理', '0', 'adminSite');
+INSERT INTO `permission` VALUES ('100', '网站列表', '', '网站列表', '99', 'adminSiteList');
+INSERT INTO `permission` VALUES ('101', '网站详情页面', '', '网站详情', '99', 'adminSiteView');
+INSERT INTO `permission` VALUES ('102', '添加一个网站跟用户', '', '添加网站', '99', 'adminSiteAdd');
+INSERT INTO `permission` VALUES ('103', '访问统计相关', '', '访问统计', '0', 'adminRequestLog');
+INSERT INTO `permission` VALUES ('104', '网站的访问情况', '', '访问统计', '103', 'adminRequestLogFangWen');
+INSERT INTO `permission` VALUES ('105', '操作的日志列表', '', '操作日志', '88', 'agencyActionLogList');
+INSERT INTO `permission` VALUES ('106', '资金变动日志', '', '资金日志', '88', 'agencySiteSizeLogList');
+INSERT INTO `permission` VALUES ('107', '我的下级代理商列表', '', '下级列表', '88', 'agencySubAgencyList');
+INSERT INTO `permission` VALUES ('108', '给我的下级代理充值站币', null, '站币充值', '88', 'agencyTransferSiteSizeToSubAgencyList');
+INSERT INTO `permission` VALUES ('109', '给我开通的网站续费延长使用时间', null, '网站续费', '88', 'agencySiteXuFie');
+INSERT INTO `permission` VALUES ('110', '给我下级的代理延长使用期限', '', '代理延期', '88', 'agencyYanQi');
+INSERT INTO `permission` VALUES ('111', '将我下级的代理冻结，暂停', '', '冻结代理', '88', 'agencyAgencyFreeze');
+INSERT INTO `permission` VALUES ('112', '将我下级的代理接触冻结，恢复正常', '', '解冻代理', '88', 'agencyAgencyUnFreeze');
+INSERT INTO `permission` VALUES ('113', '修改站点、代理帐户的密码', '', '修改密码', '88', 'agencySiteUpdatePassword');
+INSERT INTO `permission` VALUES ('114', '后台管理首页，登录后台的话，需要授权此项，不然登录成功后仍然无法进入后台，被此页给拦截了', null, '管理后台', '0', 'adminIndex');
+INSERT INTO `permission` VALUES ('115', '管理后台首页', '', '后台首页', '114', 'adminIndexIndex');
+INSERT INTO `permission` VALUES ('116', '删除系统变量', 'admin/system/deleteVariable.do', '删除变量', '15', 'adminSystemDeleteVariable');
+INSERT INTO `permission` VALUES ('117', '后台，日志管理，所有动作的日志图表', '/admin/log/cartogram.do', '统计图表', '71', 'adminLogCartogram');
+INSERT INTO `permission` VALUES ('118', '将自己直属下级的某个网站冻结', '', '冻结网站', '88', 'agencySiteFreeze');
+INSERT INTO `permission` VALUES ('119', '将自己直属下级的某个网站解除冻结', '', '网站解冻', '88', 'agencySiteFreeze');
 
 -- ----------------------------
---  Table structure for `post`
+-- Table structure for `post`
 -- ----------------------------
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
@@ -359,7 +553,11 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='发帖,帖子主表';
 
 -- ----------------------------
---  Table structure for `post_class`
+-- Records of post
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `post_class`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_class`;
 CREATE TABLE `post_class` (
@@ -370,14 +568,19 @@ CREATE TABLE `post_class` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='论坛分类';
 
 -- ----------------------------
---  Records of `post_class`
+-- Records of post_class
 -- ----------------------------
-BEGIN;
-INSERT INTO `post_class` VALUES ('1', '一般论坛', '0'), ('2', '我要报bugs', '0'), ('3', '我要提需求', '0'), ('4', '常见问题', '0'), ('5', '功能更新', '0'), ('6', '使用教程', '0'), ('7', '234', '1'), ('8', '3333', '3');
-COMMIT;
+INSERT INTO `post_class` VALUES ('1', '一般论坛', '0');
+INSERT INTO `post_class` VALUES ('2', '我要报bugs', '0');
+INSERT INTO `post_class` VALUES ('3', '我要提需求', '0');
+INSERT INTO `post_class` VALUES ('4', '常见问题', '0');
+INSERT INTO `post_class` VALUES ('5', '功能更新', '0');
+INSERT INTO `post_class` VALUES ('6', '使用教程', '0');
+INSERT INTO `post_class` VALUES ('7', '234', '1');
+INSERT INTO `post_class` VALUES ('8', '3333', '3');
 
 -- ----------------------------
---  Table structure for `post_comment`
+-- Table structure for `post_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_comment`;
 CREATE TABLE `post_comment` (
@@ -392,7 +595,11 @@ CREATE TABLE `post_comment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='帖子回复';
 
 -- ----------------------------
---  Table structure for `post_data`
+-- Records of post_comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `post_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_data`;
 CREATE TABLE `post_data` (
@@ -403,7 +610,11 @@ CREATE TABLE `post_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='发帖，帖子主表的内容分表';
 
 -- ----------------------------
---  Table structure for `role`
+-- Records of post_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `role`
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -414,14 +625,14 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Records of `role`
+-- Records of role
 -- ----------------------------
-BEGIN;
-INSERT INTO `role` VALUES ('1', '建站用户', '建立网站的用户'), ('9', '总管理', '总后台管理，超级管理员'), ('10', '代理', '商代理，可以开通子代理、网站');
-COMMIT;
+INSERT INTO `role` VALUES ('1', '建站用户', '建立网站的用户');
+INSERT INTO `role` VALUES ('9', '总管理', '总后台管理，超级管理员');
+INSERT INTO `role` VALUES ('10', '代理', '商代理，可以开通子代理、网站');
 
 -- ----------------------------
---  Table structure for `role_permission`
+-- Table structure for `role_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
@@ -433,14 +644,187 @@ CREATE TABLE `role_permission` (
 ) ENGINE=InnoDB AUTO_INCREMENT=212 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='角色所拥有哪些资源的操作权限';
 
 -- ----------------------------
---  Records of `role_permission`
+-- Records of role_permission
 -- ----------------------------
-BEGIN;
-INSERT INTO `role_permission` VALUES ('1', '9', '7'), ('4', '9', '4'), ('5', '9', '3'), ('6', '1', '1'), ('7', '1', '2'), ('8', '1', '4'), ('9', '1', '3'), ('10', '1', '7'), ('11', '1', '9'), ('12', '9', '12'), ('13', '9', '13'), ('14', '9', '1'), ('15', '9', '2'), ('16', '9', '9'), ('17', '9', '15'), ('18', '9', '16'), ('19', '9', '17'), ('20', '9', '18'), ('21', '9', '19'), ('23', '9', '21'), ('24', '9', '22'), ('25', '9', '28'), ('27', '9', '30'), ('28', '9', '11'), ('29', '9', '23'), ('30', '9', '14'), ('31', '9', '24'), ('32', '9', '26'), ('33', '9', '27'), ('34', '9', '31'), ('35', '9', '32'), ('36', '9', '33'), ('37', '9', '34'), ('38', '9', '35'), ('39', '9', '36'), ('40', '9', '37'), ('41', '9', '38'), ('47', '9', '68'), ('48', '9', '25'), ('49', '9', '44'), ('51', '9', '46'), ('53', '9', '48'), ('54', '9', '49'), ('56', '9', '51'), ('58', '9', '53'), ('59', '9', '54'), ('60', '9', '55'), ('61', '9', '56'), ('75', '9', '71'), ('76', '9', '72'), ('77', '9', '74'), ('78', '9', '10'), ('79', '9', '20'), ('80', '9', '75'), ('81', '9', '29'), ('85', '1', '18'), ('86', '1', '19'), ('87', '1', '20'), ('88', '1', '21'), ('89', '1', '22'), ('90', '1', '75'), ('91', '1', '28'), ('92', '1', '29'), ('93', '1', '30'), ('94', '1', '10'), ('95', '1', '11'), ('96', '1', '23'), ('97', '1', '24'), ('98', '1', '25'), ('99', '1', '26'), ('100', '1', '27'), ('101', '9', '80'), ('104', '9', '81'), ('109', '10', '1'), ('110', '10', '2'), ('111', '10', '18'), ('112', '10', '20'), ('113', '10', '21'), ('114', '10', '22'), ('115', '10', '75'), ('116', '10', '24'), ('117', '10', '25'), ('118', '10', '26'), ('119', '10', '27'), ('120', '10', '88'), ('121', '10', '89'), ('122', '10', '90'), ('123', '10', '91'), ('124', '11', '1'), ('125', '11', '2'), ('126', '11', '18'), ('127', '11', '19'), ('128', '11', '20'), ('129', '11', '21'), ('130', '11', '22'), ('131', '11', '75'), ('132', '11', '7'), ('133', '11', '9'), ('134', '11', '10'), ('135', '11', '11'), ('136', '11', '23'), ('137', '11', '24'), ('138', '11', '25'), ('139', '11', '26'), ('140', '11', '27'), ('141', '11', '88'), ('142', '11', '89'), ('143', '11', '90'), ('144', '11', '91'), ('145', '12', '1'), ('146', '12', '2'), ('147', '12', '18'), ('148', '12', '19'), ('149', '12', '20'), ('150', '12', '21'), ('151', '12', '22'), ('152', '12', '75'), ('153', '12', '88'), ('154', '12', '89'), ('155', '12', '90'), ('156', '12', '91'), ('157', '9', '92'), ('158', '9', '93'), ('159', '9', '94'), ('160', '9', '95'), ('161', '9', '96'), ('162', '12', '4'), ('163', '12', '3'), ('164', '12', '28'), ('165', '12', '29'), ('166', '12', '30'), ('167', '12', '7'), ('168', '12', '9'), ('169', '12', '10'), ('170', '12', '11'), ('171', '12', '23'), ('172', '12', '24'), ('173', '12', '25'), ('174', '12', '26'), ('175', '12', '27'), ('176', '10', '19'), ('177', '10', '4'), ('178', '10', '3'), ('179', '10', '28'), ('180', '10', '29'), ('181', '10', '30'), ('182', '10', '7'), ('183', '10', '9'), ('184', '10', '10'), ('185', '10', '11'), ('186', '10', '23'), ('187', '10', '97'), ('188', '9', '98'), ('189', '9', '99'), ('190', '9', '100'), ('191', '9', '101'), ('192', '9', '102'), ('193', '9', '103'), ('194', '9', '104'), ('195', '10', '105'), ('196', '10', '106'), ('197', '10', '107'), ('198', '10', '108'), ('199', '10', '109'), ('200', '10', '110'), ('201', '10', '111'), ('202', '10', '112'), ('203', '10', '113'), ('204', '9', '114'), ('205', '9', '115'), ('206', '10', '114'), ('207', '10', '115'), ('208', '9', '117'), ('209', '9', '116'), ('210', '10', '118'), ('211', '10', '119');
-COMMIT;
+INSERT INTO `role_permission` VALUES ('1', '9', '7');
+INSERT INTO `role_permission` VALUES ('4', '9', '4');
+INSERT INTO `role_permission` VALUES ('5', '9', '3');
+INSERT INTO `role_permission` VALUES ('6', '1', '1');
+INSERT INTO `role_permission` VALUES ('7', '1', '2');
+INSERT INTO `role_permission` VALUES ('8', '1', '4');
+INSERT INTO `role_permission` VALUES ('9', '1', '3');
+INSERT INTO `role_permission` VALUES ('10', '1', '7');
+INSERT INTO `role_permission` VALUES ('11', '1', '9');
+INSERT INTO `role_permission` VALUES ('12', '9', '12');
+INSERT INTO `role_permission` VALUES ('13', '9', '13');
+INSERT INTO `role_permission` VALUES ('14', '9', '1');
+INSERT INTO `role_permission` VALUES ('15', '9', '2');
+INSERT INTO `role_permission` VALUES ('16', '9', '9');
+INSERT INTO `role_permission` VALUES ('17', '9', '15');
+INSERT INTO `role_permission` VALUES ('18', '9', '16');
+INSERT INTO `role_permission` VALUES ('19', '9', '17');
+INSERT INTO `role_permission` VALUES ('20', '9', '18');
+INSERT INTO `role_permission` VALUES ('21', '9', '19');
+INSERT INTO `role_permission` VALUES ('23', '9', '21');
+INSERT INTO `role_permission` VALUES ('24', '9', '22');
+INSERT INTO `role_permission` VALUES ('25', '9', '28');
+INSERT INTO `role_permission` VALUES ('27', '9', '30');
+INSERT INTO `role_permission` VALUES ('28', '9', '11');
+INSERT INTO `role_permission` VALUES ('29', '9', '23');
+INSERT INTO `role_permission` VALUES ('30', '9', '14');
+INSERT INTO `role_permission` VALUES ('31', '9', '24');
+INSERT INTO `role_permission` VALUES ('32', '9', '26');
+INSERT INTO `role_permission` VALUES ('33', '9', '27');
+INSERT INTO `role_permission` VALUES ('34', '9', '31');
+INSERT INTO `role_permission` VALUES ('35', '9', '32');
+INSERT INTO `role_permission` VALUES ('36', '9', '33');
+INSERT INTO `role_permission` VALUES ('37', '9', '34');
+INSERT INTO `role_permission` VALUES ('38', '9', '35');
+INSERT INTO `role_permission` VALUES ('39', '9', '36');
+INSERT INTO `role_permission` VALUES ('40', '9', '37');
+INSERT INTO `role_permission` VALUES ('41', '9', '38');
+INSERT INTO `role_permission` VALUES ('47', '9', '68');
+INSERT INTO `role_permission` VALUES ('48', '9', '25');
+INSERT INTO `role_permission` VALUES ('49', '9', '44');
+INSERT INTO `role_permission` VALUES ('51', '9', '46');
+INSERT INTO `role_permission` VALUES ('53', '9', '48');
+INSERT INTO `role_permission` VALUES ('54', '9', '49');
+INSERT INTO `role_permission` VALUES ('56', '9', '51');
+INSERT INTO `role_permission` VALUES ('58', '9', '53');
+INSERT INTO `role_permission` VALUES ('59', '9', '54');
+INSERT INTO `role_permission` VALUES ('60', '9', '55');
+INSERT INTO `role_permission` VALUES ('61', '9', '56');
+INSERT INTO `role_permission` VALUES ('75', '9', '71');
+INSERT INTO `role_permission` VALUES ('76', '9', '72');
+INSERT INTO `role_permission` VALUES ('77', '9', '74');
+INSERT INTO `role_permission` VALUES ('78', '9', '10');
+INSERT INTO `role_permission` VALUES ('79', '9', '20');
+INSERT INTO `role_permission` VALUES ('80', '9', '75');
+INSERT INTO `role_permission` VALUES ('81', '9', '29');
+INSERT INTO `role_permission` VALUES ('85', '1', '18');
+INSERT INTO `role_permission` VALUES ('86', '1', '19');
+INSERT INTO `role_permission` VALUES ('87', '1', '20');
+INSERT INTO `role_permission` VALUES ('88', '1', '21');
+INSERT INTO `role_permission` VALUES ('89', '1', '22');
+INSERT INTO `role_permission` VALUES ('90', '1', '75');
+INSERT INTO `role_permission` VALUES ('91', '1', '28');
+INSERT INTO `role_permission` VALUES ('92', '1', '29');
+INSERT INTO `role_permission` VALUES ('93', '1', '30');
+INSERT INTO `role_permission` VALUES ('94', '1', '10');
+INSERT INTO `role_permission` VALUES ('95', '1', '11');
+INSERT INTO `role_permission` VALUES ('96', '1', '23');
+INSERT INTO `role_permission` VALUES ('97', '1', '24');
+INSERT INTO `role_permission` VALUES ('98', '1', '25');
+INSERT INTO `role_permission` VALUES ('99', '1', '26');
+INSERT INTO `role_permission` VALUES ('100', '1', '27');
+INSERT INTO `role_permission` VALUES ('101', '9', '80');
+INSERT INTO `role_permission` VALUES ('104', '9', '81');
+INSERT INTO `role_permission` VALUES ('109', '10', '1');
+INSERT INTO `role_permission` VALUES ('110', '10', '2');
+INSERT INTO `role_permission` VALUES ('111', '10', '18');
+INSERT INTO `role_permission` VALUES ('112', '10', '20');
+INSERT INTO `role_permission` VALUES ('113', '10', '21');
+INSERT INTO `role_permission` VALUES ('114', '10', '22');
+INSERT INTO `role_permission` VALUES ('115', '10', '75');
+INSERT INTO `role_permission` VALUES ('116', '10', '24');
+INSERT INTO `role_permission` VALUES ('117', '10', '25');
+INSERT INTO `role_permission` VALUES ('118', '10', '26');
+INSERT INTO `role_permission` VALUES ('119', '10', '27');
+INSERT INTO `role_permission` VALUES ('120', '10', '88');
+INSERT INTO `role_permission` VALUES ('121', '10', '89');
+INSERT INTO `role_permission` VALUES ('122', '10', '90');
+INSERT INTO `role_permission` VALUES ('123', '10', '91');
+INSERT INTO `role_permission` VALUES ('124', '11', '1');
+INSERT INTO `role_permission` VALUES ('125', '11', '2');
+INSERT INTO `role_permission` VALUES ('126', '11', '18');
+INSERT INTO `role_permission` VALUES ('127', '11', '19');
+INSERT INTO `role_permission` VALUES ('128', '11', '20');
+INSERT INTO `role_permission` VALUES ('129', '11', '21');
+INSERT INTO `role_permission` VALUES ('130', '11', '22');
+INSERT INTO `role_permission` VALUES ('131', '11', '75');
+INSERT INTO `role_permission` VALUES ('132', '11', '7');
+INSERT INTO `role_permission` VALUES ('133', '11', '9');
+INSERT INTO `role_permission` VALUES ('134', '11', '10');
+INSERT INTO `role_permission` VALUES ('135', '11', '11');
+INSERT INTO `role_permission` VALUES ('136', '11', '23');
+INSERT INTO `role_permission` VALUES ('137', '11', '24');
+INSERT INTO `role_permission` VALUES ('138', '11', '25');
+INSERT INTO `role_permission` VALUES ('139', '11', '26');
+INSERT INTO `role_permission` VALUES ('140', '11', '27');
+INSERT INTO `role_permission` VALUES ('141', '11', '88');
+INSERT INTO `role_permission` VALUES ('142', '11', '89');
+INSERT INTO `role_permission` VALUES ('143', '11', '90');
+INSERT INTO `role_permission` VALUES ('144', '11', '91');
+INSERT INTO `role_permission` VALUES ('145', '12', '1');
+INSERT INTO `role_permission` VALUES ('146', '12', '2');
+INSERT INTO `role_permission` VALUES ('147', '12', '18');
+INSERT INTO `role_permission` VALUES ('148', '12', '19');
+INSERT INTO `role_permission` VALUES ('149', '12', '20');
+INSERT INTO `role_permission` VALUES ('150', '12', '21');
+INSERT INTO `role_permission` VALUES ('151', '12', '22');
+INSERT INTO `role_permission` VALUES ('152', '12', '75');
+INSERT INTO `role_permission` VALUES ('153', '12', '88');
+INSERT INTO `role_permission` VALUES ('154', '12', '89');
+INSERT INTO `role_permission` VALUES ('155', '12', '90');
+INSERT INTO `role_permission` VALUES ('156', '12', '91');
+INSERT INTO `role_permission` VALUES ('157', '9', '92');
+INSERT INTO `role_permission` VALUES ('158', '9', '93');
+INSERT INTO `role_permission` VALUES ('159', '9', '94');
+INSERT INTO `role_permission` VALUES ('160', '9', '95');
+INSERT INTO `role_permission` VALUES ('161', '9', '96');
+INSERT INTO `role_permission` VALUES ('162', '12', '4');
+INSERT INTO `role_permission` VALUES ('163', '12', '3');
+INSERT INTO `role_permission` VALUES ('164', '12', '28');
+INSERT INTO `role_permission` VALUES ('165', '12', '29');
+INSERT INTO `role_permission` VALUES ('166', '12', '30');
+INSERT INTO `role_permission` VALUES ('167', '12', '7');
+INSERT INTO `role_permission` VALUES ('168', '12', '9');
+INSERT INTO `role_permission` VALUES ('169', '12', '10');
+INSERT INTO `role_permission` VALUES ('170', '12', '11');
+INSERT INTO `role_permission` VALUES ('171', '12', '23');
+INSERT INTO `role_permission` VALUES ('172', '12', '24');
+INSERT INTO `role_permission` VALUES ('173', '12', '25');
+INSERT INTO `role_permission` VALUES ('174', '12', '26');
+INSERT INTO `role_permission` VALUES ('175', '12', '27');
+INSERT INTO `role_permission` VALUES ('176', '10', '19');
+INSERT INTO `role_permission` VALUES ('177', '10', '4');
+INSERT INTO `role_permission` VALUES ('178', '10', '3');
+INSERT INTO `role_permission` VALUES ('179', '10', '28');
+INSERT INTO `role_permission` VALUES ('180', '10', '29');
+INSERT INTO `role_permission` VALUES ('181', '10', '30');
+INSERT INTO `role_permission` VALUES ('182', '10', '7');
+INSERT INTO `role_permission` VALUES ('183', '10', '9');
+INSERT INTO `role_permission` VALUES ('184', '10', '10');
+INSERT INTO `role_permission` VALUES ('185', '10', '11');
+INSERT INTO `role_permission` VALUES ('186', '10', '23');
+INSERT INTO `role_permission` VALUES ('187', '10', '97');
+INSERT INTO `role_permission` VALUES ('188', '9', '98');
+INSERT INTO `role_permission` VALUES ('189', '9', '99');
+INSERT INTO `role_permission` VALUES ('190', '9', '100');
+INSERT INTO `role_permission` VALUES ('191', '9', '101');
+INSERT INTO `role_permission` VALUES ('192', '9', '102');
+INSERT INTO `role_permission` VALUES ('193', '9', '103');
+INSERT INTO `role_permission` VALUES ('194', '9', '104');
+INSERT INTO `role_permission` VALUES ('195', '10', '105');
+INSERT INTO `role_permission` VALUES ('196', '10', '106');
+INSERT INTO `role_permission` VALUES ('197', '10', '107');
+INSERT INTO `role_permission` VALUES ('198', '10', '108');
+INSERT INTO `role_permission` VALUES ('199', '10', '109');
+INSERT INTO `role_permission` VALUES ('200', '10', '110');
+INSERT INTO `role_permission` VALUES ('201', '10', '111');
+INSERT INTO `role_permission` VALUES ('202', '10', '112');
+INSERT INTO `role_permission` VALUES ('203', '10', '113');
+INSERT INTO `role_permission` VALUES ('204', '9', '114');
+INSERT INTO `role_permission` VALUES ('205', '9', '115');
+INSERT INTO `role_permission` VALUES ('206', '10', '114');
+INSERT INTO `role_permission` VALUES ('207', '10', '115');
+INSERT INTO `role_permission` VALUES ('208', '9', '117');
+INSERT INTO `role_permission` VALUES ('209', '9', '116');
+INSERT INTO `role_permission` VALUES ('210', '10', '118');
+INSERT INTO `role_permission` VALUES ('211', '10', '119');
 
 -- ----------------------------
---  Table structure for `site`
+-- Table structure for `site`
 -- ----------------------------
 DROP TABLE IF EXISTS `site`;
 CREATE TABLE `site` (
@@ -474,14 +858,12 @@ CREATE TABLE `site` (
 ) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Records of `site`
+-- Records of site
 -- ----------------------------
-BEGIN;
 INSERT INTO `site` VALUES ('219', '测试演示自定义模版站', '243', '1488446743', '1', '17753600820', '25689732', '1', 'cs', '591', null, '3', '测试演示的自定义模版站', '潍坊软件园', '雷爷', '', '', null, '1', '0', null, 'qiye1', '0', '2000123200', '1');
-COMMIT;
 
 -- ----------------------------
---  Table structure for `site_column`
+-- Table structure for `site_column`
 -- ----------------------------
 DROP TABLE IF EXISTS `site_column`;
 CREATE TABLE `site_column` (
@@ -507,7 +889,11 @@ CREATE TABLE `site_column` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1388 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='站点、首页上显示的栏目';
 
 -- ----------------------------
---  Table structure for `site_data`
+-- Records of site_column
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `site_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `site_data`;
 CREATE TABLE `site_data` (
@@ -517,7 +903,11 @@ CREATE TABLE `site_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='站点相关的一些信息，不常用或者长度变动比较大的';
 
 -- ----------------------------
---  Table structure for `site_size_change`
+-- Records of site_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `site_size_change`
 -- ----------------------------
 DROP TABLE IF EXISTS `site_size_change`;
 CREATE TABLE `site_size_change` (
@@ -534,7 +924,11 @@ CREATE TABLE `site_size_change` (
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Table structure for `sms_log`
+-- Records of site_size_change
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `sms_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_log`;
 CREATE TABLE `sms_log` (
@@ -551,7 +945,11 @@ CREATE TABLE `sms_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='短信验证发送的日志记录';
 
 -- ----------------------------
---  Table structure for `system`
+-- Records of sms_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `system`
 -- ----------------------------
 DROP TABLE IF EXISTS `system`;
 CREATE TABLE `system` (
@@ -564,14 +962,37 @@ CREATE TABLE `system` (
 ) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统设置，系统的一些参数相关';
 
 -- ----------------------------
---  Records of `system`
+-- Records of system
 -- ----------------------------
-BEGIN;
-INSERT INTO `system` VALUES ('USER_REG_ROLE', '用户注册后的权限，其值对应角色 role.id', '1', '6', '1506333513'), ('SITE_NAME', '网站名称', '网·市场', '7', null), ('SITE_KEYWORDS', '网站SEO搜索的关键字，首页根内页没有设置description的都默认用此', 'IW', '8', null), ('SITE_DESCRIPTION', '网站SEO描述，首页根内页没有设置description的都默认用此', '管雷鸣', '9', null), ('CURRENCY_NAME', '站内货币名字', '仙玉', '10', null), ('INVITEREG_AWARD_ONE', '邀请注册后奖励给邀请人多少站内货币（一级下线，直接推荐人，值必须为整数）', '5', '11', null), ('INVITEREG_AWARD_TWO', '邀请注册后奖励给邀请人多少站内货币（二级下线，值必须为整数）', '2', '12', null), ('INVITEREG_AWARD_THREE', '邀请注册后奖励给邀请人多少站内货币（三级下线，值必须为整数）', '1', '13', null), ('INVITEREG_AWARD_FOUR', '邀请注册后奖励给邀请人多少站内货币（四级下线，值必须为整数）', '1', '14', null), ('ROLE_USER_ID', '普通用户的角色id，其值对应角色 role.id', '1', '15', '1506333544'), ('ROLE_SUPERADMIN_ID', '超级管理员的角色id，其值对应角色 role.id', '9', '16', '1506333534'), ('BBS_DEFAULT_PUBLISH_CLASSID', '论坛中，如果帖子发布时，没有指明要发布到哪个论坛板块，那么默认选中哪个板块(分类)，这里便是分类的id，即数据表中的 post_class.id', '3', '20', '1506478724'), ('USER_HEAD_PATH', '用户头像(User.head)上传OSS或服务器进行存储的路径，存储于哪个文件夹中。<br/><b>注意</b><br/>1.这里最前面不要加/，最后要带/，如 head/<br/>2.使用中时，中途最好别改动，不然改动之前的用户设置好的头像就都没了', 'head/', '21', '1506481173'), ('ALLOW_USER_REG', '是否允许用户自行注册。<br/>1：允许用户自行注册<br/>0：禁止用户自行注册', '1', '22', '1507537911'), ('LIST_EVERYPAGE_NUMBER', '所有列表页面，每页显示的列表条数。', '15', '23', '1507538582'), ('SERVICE_MAIL', '网站管理员的邮箱。<br/>当网站出现什么问题，或者什么提醒时，会自动向管理员邮箱发送提示信息', '123456@qq.com', '24', '1511934294'), ('AGENCY_ROLE', '代理商得角色id', '10', '25', '1511943731'), ('ALIYUN_ACCESSKEYID', '阿里云平台的accessKeyId。<br/>若/src下的配置文件中有关此参数为空，则参数变会从这里赋值。<br/>可从这里获取 https://ak-console.aliyun.com', 'null', '26', '1512626213'), ('ALIYUN_ACCESSKEYSECRET', '阿里云平台的accessKeySecret。<br/>若/src下的配置文件中有关此参数为空，则参数变会从这里赋值。<br/>可从这里获取 https://ak-console.aliyun.com', 'null', '27', '1512616421'), ('ALIYUN_OSS_BUCKETNAME', '其实就是xnx3Config配置文件中配置OSS节点进行文件上传的OSS配置。若xml文件中没有配置，那么会自动从这里读取。<br/>若值为auto，则会自动创建。建议值不必修改，默认即可。它可自动给你赋值。', 'auto', '28', '1512626183'), ('IW_AUTO_INSTALL_USE', '是否允许通过访问/install/目录进行可视化配置参数。<br/>true：允许使用<br/>false:不允许使用<br/>建议不要动此处。执行完/install 配置完后，此处会自动变为false', 'true', '29', '1512616421'), ('ALIYUN_LOG_SITESIZECHANGE', '站币变动的日志记录。此项无需改动', 'sitemoneychange', '30', '1512700960'), ('AUTO_ASSIGN_DOMAIN', '网站生成后，会自动分配给网站一个二级域名。这里便是泛解析的主域名。<br/>如果分配有多个二级域名，则用,分割。并且第一个是作为主域名会显示给用户看到。后面的其他的域名用户不会看到，只可以使用访问网站。', 'wang.market', '31', '1512717500'), ('MASTER_SITE_URL', '设置当前建站系统的域名。如建站系统的登录地址为 http://wang.market/login.do ，那么就将 http://wang.market/  填写到此处。', '', '134', '1515401613'), ('ATTACHMENT_FILE_URL', '设置当前建站系统中，上传的图片、附件的访问域名。若后续想要将附件转到云上存储、或开通CDN加速，可平滑上云使用。', '', '135', '1515401592'), ('ATTACHMENT_FILE_MODE', '当前文件附件存储使用的模式，用的阿里云oss，还是服务器本身磁盘进行存储。<br/>可选一：aliyunOSS：阿里云OSS模式存储<br/>可选二：localFile：服务器本身磁盘进行附件存储', 'localFile', '136', '1515395510');
-COMMIT;
+INSERT INTO `system` VALUES ('USER_REG_ROLE', '用户注册后的权限，其值对应角色 role.id', '1', '6', '1506333513');
+INSERT INTO `system` VALUES ('SITE_NAME', '网站名称', '网·市场', '7', null);
+INSERT INTO `system` VALUES ('SITE_KEYWORDS', '网站SEO搜索的关键字，首页根内页没有设置description的都默认用此', 'IW', '8', null);
+INSERT INTO `system` VALUES ('SITE_DESCRIPTION', '网站SEO描述，首页根内页没有设置description的都默认用此', '管雷鸣', '9', null);
+INSERT INTO `system` VALUES ('CURRENCY_NAME', '站内货币名字', '仙玉', '10', null);
+INSERT INTO `system` VALUES ('INVITEREG_AWARD_ONE', '邀请注册后奖励给邀请人多少站内货币（一级下线，直接推荐人，值必须为整数）', '5', '11', null);
+INSERT INTO `system` VALUES ('INVITEREG_AWARD_TWO', '邀请注册后奖励给邀请人多少站内货币（二级下线，值必须为整数）', '2', '12', null);
+INSERT INTO `system` VALUES ('INVITEREG_AWARD_THREE', '邀请注册后奖励给邀请人多少站内货币（三级下线，值必须为整数）', '1', '13', null);
+INSERT INTO `system` VALUES ('INVITEREG_AWARD_FOUR', '邀请注册后奖励给邀请人多少站内货币（四级下线，值必须为整数）', '1', '14', null);
+INSERT INTO `system` VALUES ('ROLE_USER_ID', '普通用户的角色id，其值对应角色 role.id', '1', '15', '1506333544');
+INSERT INTO `system` VALUES ('ROLE_SUPERADMIN_ID', '超级管理员的角色id，其值对应角色 role.id', '9', '16', '1506333534');
+INSERT INTO `system` VALUES ('BBS_DEFAULT_PUBLISH_CLASSID', '论坛中，如果帖子发布时，没有指明要发布到哪个论坛板块，那么默认选中哪个板块(分类)，这里便是分类的id，即数据表中的 post_class.id', '3', '20', '1506478724');
+INSERT INTO `system` VALUES ('USER_HEAD_PATH', '用户头像(User.head)上传OSS或服务器进行存储的路径，存储于哪个文件夹中。<br/><b>注意</b><br/>1.这里最前面不要加/，最后要带/，如 head/<br/>2.使用中时，中途最好别改动，不然改动之前的用户设置好的头像就都没了', 'head/', '21', '1506481173');
+INSERT INTO `system` VALUES ('ALLOW_USER_REG', '是否允许用户自行注册。<br/>1：允许用户自行注册<br/>0：禁止用户自行注册', '1', '22', '1507537911');
+INSERT INTO `system` VALUES ('LIST_EVERYPAGE_NUMBER', '所有列表页面，每页显示的列表条数。', '15', '23', '1507538582');
+INSERT INTO `system` VALUES ('SERVICE_MAIL', '网站管理员的邮箱。<br/>当网站出现什么问题，或者什么提醒时，会自动向管理员邮箱发送提示信息', '123456@qq.com', '24', '1511934294');
+INSERT INTO `system` VALUES ('AGENCY_ROLE', '代理商得角色id', '10', '25', '1511943731');
+INSERT INTO `system` VALUES ('ALIYUN_ACCESSKEYID', '阿里云平台的accessKeyId。<br/>若/src下的配置文件中有关此参数为空，则参数变会从这里赋值。<br/>可从这里获取 https://ak-console.aliyun.com', 'null', '26', '1512626213');
+INSERT INTO `system` VALUES ('ALIYUN_ACCESSKEYSECRET', '阿里云平台的accessKeySecret。<br/>若/src下的配置文件中有关此参数为空，则参数变会从这里赋值。<br/>可从这里获取 https://ak-console.aliyun.com', 'null', '27', '1512616421');
+INSERT INTO `system` VALUES ('ALIYUN_OSS_BUCKETNAME', '其实就是xnx3Config配置文件中配置OSS节点进行文件上传的OSS配置。若xml文件中没有配置，那么会自动从这里读取。<br/>若值为auto，则会自动创建。建议值不必修改，默认即可。它可自动给你赋值。', 'auto', '28', '1512626183');
+INSERT INTO `system` VALUES ('IW_AUTO_INSTALL_USE', '是否允许通过访问/install/目录进行可视化配置参数。<br/>true：允许使用<br/>false:不允许使用<br/>建议不要动此处。执行完/install 配置完后，此处会自动变为false', 'true', '29', '1512616421');
+INSERT INTO `system` VALUES ('ALIYUN_LOG_SITESIZECHANGE', '站币变动的日志记录。此项无需改动', 'sitemoneychange', '30', '1512700960');
+INSERT INTO `system` VALUES ('AUTO_ASSIGN_DOMAIN', '网站生成后，会自动分配给网站一个二级域名。这里便是泛解析的主域名。<br/>如果分配有多个二级域名，则用,分割。并且第一个是作为主域名会显示给用户看到。后面的其他的域名用户不会看到，只可以使用访问网站。', 'wang.market', '31', '1512717500');
+INSERT INTO `system` VALUES ('MASTER_SITE_URL', '设置当前建站系统的域名。如建站系统的登录地址为 http://wang.market/login.do ，那么就将 http://wang.market/  填写到此处。', '', '134', '1515401613');
+INSERT INTO `system` VALUES ('ATTACHMENT_FILE_URL', '设置当前建站系统中，上传的图片、附件的访问域名。若后续想要将附件转到云上存储、或开通CDN加速，可平滑上云使用。', '', '135', '1515401592');
+INSERT INTO `system` VALUES ('ATTACHMENT_FILE_MODE', '当前文件附件存储使用的模式，用的阿里云oss，还是服务器本身磁盘进行存储。<br/>可选一：aliyunOSS：阿里云OSS模式存储<br/>可选二：localFile：服务器本身磁盘进行附件存储', 'localFile', '136', '1515395510');
 
 -- ----------------------------
---  Table structure for `template`
+-- Table structure for `template`
 -- ----------------------------
 DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
@@ -586,7 +1007,11 @@ CREATE TABLE `template` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版';
 
 -- ----------------------------
---  Table structure for `template_data`
+-- Records of template
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `template_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `template_data`;
 CREATE TABLE `template_data` (
@@ -597,7 +1022,11 @@ CREATE TABLE `template_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Table structure for `template_page`
+-- Records of template_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `template_page`
 -- ----------------------------
 DROP TABLE IF EXISTS `template_page`;
 CREATE TABLE `template_page` (
@@ -612,7 +1041,11 @@ CREATE TABLE `template_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Table structure for `template_page_data`
+-- Records of template_page
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `template_page_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `template_page_data`;
 CREATE TABLE `template_page_data` (
@@ -622,7 +1055,11 @@ CREATE TABLE `template_page_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版页的data，模版内容存储';
 
 -- ----------------------------
---  Table structure for `template_var`
+-- Records of template_page_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `template_var`
 -- ----------------------------
 DROP TABLE IF EXISTS `template_var`;
 CREATE TABLE `template_var` (
@@ -638,7 +1075,11 @@ CREATE TABLE `template_var` (
 ) ENGINE=InnoDB AUTO_INCREMENT=418 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='模版变量\nuserid为1的变量都是通用模版的变量，再系统启动起来时，会缓存到全局缓存中';
 
 -- ----------------------------
---  Table structure for `template_var_data`
+-- Records of template_var
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `template_var_data`
 -- ----------------------------
 DROP TABLE IF EXISTS `template_var_data`;
 CREATE TABLE `template_var_data` (
@@ -648,7 +1089,11 @@ CREATE TABLE `template_var_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
---  Table structure for `user`
+-- Records of template_var_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -683,14 +1128,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=393 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户表';
 
 -- ----------------------------
---  Records of `user`
+-- Records of user
 -- ----------------------------
-BEGIN;
-INSERT INTO `user` VALUES ('1', 'admin', '', '94940b4491a87f15333ed68cc0cdf833', 'default.png', '总管理', '9', '1512818402', '1512818402', '127.0.0.1', '9738', '17000000002', '0', '0', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '0'), ('243', 'wangzhan', '', '0c5a0883e40a2a6ad84a42eab27519e6', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1515402694', '218.56.88.231', '6922', '', '0', '392', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, '20180108', '0', '1000', '254'), ('392', 'agency', '', '80c5df10de72fde1b346de758c70d337', 'default.png', '代理', '10', '1512818402', '1515402763', '127.0.0.1', '9738', '17000000001', '0', '1', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '1');
-COMMIT;
+INSERT INTO `user` VALUES ('1', 'admin', '', '94940b4491a87f15333ed68cc0cdf833', 'default.png', '总管理', '9', '1512818402', '1512818402', '127.0.0.1', '9738', '17000000002', '0', '0', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '0');
+INSERT INTO `user` VALUES ('243', 'wangzhan', '', '0c5a0883e40a2a6ad84a42eab27519e6', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1515402694', '218.56.88.231', '6922', '', '0', '392', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, '20180108', '0', '1000', '254');
+INSERT INTO `user` VALUES ('392', 'agency', '', '80c5df10de72fde1b346de758c70d337', 'default.png', '代理', '10', '1512818402', '1515402763', '127.0.0.1', '9738', '17000000001', '0', '1', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '1');
 
 -- ----------------------------
---  Table structure for `user_role`
+-- Table structure for `user_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
@@ -702,10 +1147,8 @@ CREATE TABLE `user_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户所属哪些角色';
 
 -- ----------------------------
---  Records of `user_role`
+-- Records of user_role
 -- ----------------------------
-BEGIN;
-INSERT INTO `user_role` VALUES ('257', '243', '1'), ('412', '392', '10'), ('413', '1', '9');
-COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `user_role` VALUES ('257', '243', '1');
+INSERT INTO `user_role` VALUES ('412', '392', '10');
+INSERT INTO `user_role` VALUES ('413', '1', '9');
