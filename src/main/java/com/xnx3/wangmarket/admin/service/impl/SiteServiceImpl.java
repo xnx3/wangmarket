@@ -2,14 +2,19 @@ package com.xnx3.wangmarket.admin.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
 import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.wangmarket.im.service.ImService;
@@ -421,7 +426,14 @@ public class SiteServiceImpl implements SiteService {
 		for (Map.Entry<String, SiteColumnTreeVO> entry : columnTreeMap.entrySet()) {
 			SiteColumnTreeVO sct = entry.getValue();
 			if(sct.getList().size() > 0){
-				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
+//				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
+				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
+		            public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
+		                /*按员工编号正序排序*/
+		                return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+		            }
+		        });
+				
 			}
 		}
 //		System.out.println("paixuqian:"+columnTreeMap.size());

@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -29,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
   	<c:forEach items="${list}" var="siteColumnTreeVO">
         <tr id="${siteColumnTreeVO.siteColumn.id }">
-        	<td width="140">${siteColumnTreeVO.siteColumn.name }</td>
+        	<td width="140" onclick="javascript:window.open('<%=basePath %>${siteColumnTreeVO.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;">${siteColumnTreeVO.siteColumn.name }</td>
         	<td>${siteColumnTreeVO.siteColumn.codeName }</td>
             <td width="100"><script type="text/javascript">document.write(type['${siteColumnTreeVO.siteColumn.type}']);</script></td>
             <td width="60"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.used}']);</script></td>
@@ -45,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <c:if test="${not empty siteColumnTreeVO.list }">
 			<c:forEach items="${siteColumnTreeVO.list}" var="subSCT">
 		        <tr id="${subSCT.siteColumn.id }">
-		        	<td width="140"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
+		        	<td width="140" onclick="javascript:window.open('<%=basePath %>${subSCT.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
 		        	<td><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
 		            <td width="100"><script type="text/javascript">document.write(type['${subSCT.siteColumn.type}']);</script></td>
 		            <td width="60"><script type="text/javascript">document.write(used['${subSCT.siteColumn.used}']);</script></td>

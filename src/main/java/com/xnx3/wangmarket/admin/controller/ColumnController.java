@@ -511,10 +511,11 @@ public class ColumnController extends BaseController {
 		}else{
 			sc.setUserid(getUserId());
 			sc.setSiteid(site.getId());
+			sc.setRank(0);
 		}
 		
 		sc.setName(name);
-		sc.setRank(siteColumn.getRank());
+//		sc.setRank(siteColumn.getRank());
 		sc.setUrl(filter(siteColumn.getUrl()));
 		sc.setUsed(siteColumn.getUsed() == null? 1:siteColumn.getUsed());
 		sc.setType(siteColumn.getType());
