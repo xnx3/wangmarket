@@ -50,9 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- <td class="numeric">${permissionTree.permissionMark.permission.url }</td> -->
             <td>${permissionTree.permissionMark.permission.percode }</td>
             <td style="width:138px;">
-            	<botton class="layui-btn layui-btn-small" onclick="permission(${permissionTree.permissionMark.permission.id },0);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-            	<botton class="layui-btn layui-btn-small" onclick="deletePermission('${permissionTree.permissionMark.permission.name }', ${permissionTree.permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
-            	<botton class="layui-btn layui-btn-small" onclick="permission(0,${permissionTree.permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe654;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="permission(${permissionTree.permissionMark.permission.id },0);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="deletePermission('${permissionTree.permissionMark.permission.name }', ${permissionTree.permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="permission(0,${permissionTree.permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe654;</i></botton>
             </td>
         </tr>
         
@@ -64,8 +64,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- <td class="numeric">${permissionMark.permission.url }</td> -->
 				<td>${permissionMark.permission.percode }</td>
 				<td>
-					<botton class="layui-btn layui-btn-small" onclick="permission(${permissionMark.permission.id },0);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-					<botton class="layui-btn layui-btn-small" onclick="deletePermission('${permissionMark.permission.name }', ${permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+					<botton class="layui-btn layui-btn-sm" onclick="permission(${permissionMark.permission.id },0);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+					<botton class="layui-btn layui-btn-sm" onclick="deletePermission('${permissionMark.permission.name }', ${permissionMark.permission.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 				</td>
 			</tr>
 		</c:forEach>

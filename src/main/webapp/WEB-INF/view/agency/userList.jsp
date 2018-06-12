@@ -60,15 +60,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td style="width:150px;">
 					<c:choose>
 					<c:when test="${obj['state'] == 1 }">
-						<botton class="layui-btn layui-btn-small" onclick="freeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">冻结</botton>
+						<botton class="layui-btn layui-btn-sm" onclick="freeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">冻结</botton>
 					</c:when>
 					<c:when test="${obj['state'] == 2 }">
-						<botton class="layui-btn layui-btn-small" onclick="unFreeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">解冻</botton>
+						<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">解冻</botton>
 					</c:when>
 					</c:choose>
 	            	
-	            	<botton class="layui-btn layui-btn-small" onclick="xufei('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">续费</botton>
-	            	<botton class="layui-btn layui-btn-small" onclick="updatePassword('${obj['userid'] }','${obj['userusername'] }');" style="margin-left: 3px;">改密</botton>
+	            	<botton class="layui-btn layui-btn-sm" onclick="xufei('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">续费</botton>
+	            	<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${obj['userid'] }','${obj['userusername'] }');" style="margin-left: 3px;">改密</botton>
 	            </td>
 			</tr>
 		</c:forEach>

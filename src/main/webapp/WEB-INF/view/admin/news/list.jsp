@@ -53,8 +53,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <td style="width:60px; cursor: pointer;" onclick="newsView(${news['id']});"><script type="text/javascript">document.write(legitimate[${news['legitimate']}]);</script></td>
 	            <td style="width:100px;"><x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 	            <td style="width:100px;">
-	            	<botton class="layui-btn layui-btn-small" onclick="newsView(${news['id']});" style="margin-left: 3px;"><i class="layui-icon">&#xe60b;</i></botton>
-	            	<a class="layui-btn layui-btn-small" style="margin-left: 3px;" href="perview.do?id=${news['id']}" target="_black"><i class="layui-icon">&#xe615;</i></botton>
+	            	<botton class="layui-btn layui-btn-sm" onclick="newsView(${news['id']});" style="margin-left: 3px;"><i class="layui-icon">&#xe60b;</i></botton>
+	            	<a class="layui-btn layui-btn-sm" style="margin-left: 3px;" href="perview.do?id=${news['id']}" target="_black"><i class="layui-icon">&#xe615;</i></botton>
 	            </td>
 	        </tr>
 		</c:forEach>

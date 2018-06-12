@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td style="width:100px;"><x:time linuxTime="${user.lasttime }" format="yy-MM-dd hh:mm"></x:time></td>
           <td><script type="text/javascript">writeName('${user.authority }');</script></td>
           <td style="width: 100px;">
-          		<botton class="layui-btn layui-btn-small" onclick="deleteUser(${user.id }, '${user.username }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+          		<botton class="layui-btn layui-btn-sm" onclick="deleteUser(${user.id }, '${user.username }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
           </td>
       </tr>
     </c:forEach>

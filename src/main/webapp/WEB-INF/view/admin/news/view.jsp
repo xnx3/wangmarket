@@ -63,8 +63,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            	<script type="text/javascript">
 		            		document.getElementById("legitimate").style.background="red";
 		            	</script>
-						<botton class="layui-btn layui-btn-small" onclick="cancelLegitimate('${news['id'] }');" style="margin-left: 3px;">标记为合法</botton>
-						<botton class="layui-btn layui-btn-small" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+						<botton class="layui-btn layui-btn-sm" onclick="cancelLegitimate('${news['id'] }');" style="margin-left: 3px;">标记为合法</botton>
+						<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>

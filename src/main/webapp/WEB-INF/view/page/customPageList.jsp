@@ -30,9 +30,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td><x:fileSizeToInfo size="${html.size }"></x:fileSizeToInfo></td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${html.lastModified}" /></td>
 			<td>
-				<button class="layui-btn layui-btn-small layui-btn-radius" onclick="edit('${html.key }');">编辑</button>
-				<button class="layui-btn layui-btn-small layui-btn-radius" onclick="perview('${html.key }');">查看</button>
-				<button class="layui-btn layui-btn-small layui-btn-radius layui-btn-danger" onclick="deleteHtml('${html.key }');">删除</button>
+				<button class="layui-btn layui-btn-sm layui-btn-radius" onclick="edit('${html.key }');">编辑</button>
+				<button class="layui-btn layui-btn-sm layui-btn-radius" onclick="perview('${html.key }');">查看</button>
+				<button class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger" onclick="deleteHtml('${html.key }');">删除</button>
 			</td>
 		</tr>
   	</c:forEach>

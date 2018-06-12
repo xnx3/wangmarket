@@ -56,8 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </td>
 	        <td style="width:100px;"><x:time linuxTime="${post.addtime }" format="yy-MM-dd HH:mm"></x:time></td>
 	        <td style="width:105px;">
-	        	<a class="layui-btn layui-btn-small" href="<%=basePath %>admin/bbs/commentList.do?postid=${post.id }" style="margin-left: 3px;">回贴</a>
-	        	<botton class="layui-btn layui-btn-small" onclick="deletePost(${post.id }, '${post.title }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+	        	<a class="layui-btn layui-btn-sm" href="<%=basePath %>admin/bbs/commentList.do?postid=${post.id }" style="margin-left: 3px;">回贴</a>
+	        	<botton class="layui-btn layui-btn-sm" onclick="deletePost(${post.id }, '${post.title }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	        </td>
 	    </tr>
    </c:forEach>

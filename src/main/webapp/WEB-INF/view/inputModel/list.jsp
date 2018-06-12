@@ -35,8 +35,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<td>${model.codeName }</td>
         	<td>${model.remark }</td>
             <td  style="width:110px;">
-            	<botton class="layui-btn layui-btn-small" onclick="window.location.href='edit.do?id=${model.id}';"><i class="layui-icon">&#xe642;</i></botton>
-            	<botton class="layui-btn layui-btn-small" onclick="deleteInputModel('${model.id }', '${model.remark }');"><i class="layui-icon">&#xe640;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="window.location.href='edit.do?id=${model.id}';"><i class="layui-icon">&#xe642;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="deleteInputModel('${model.id }', '${model.remark }');"><i class="layui-icon">&#xe640;</i></botton>
 			</td>
         </tr>
     </c:forEach>

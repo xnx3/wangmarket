@@ -1,5 +1,7 @@
 package com.xnx3.wangmarket.admin.pluginManage;
 
+import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
+
 
 /**
  * 网站管理后台插件的管理Bean

@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <td>${comment.text }</td>
          <td style="width:100px;"><x:time linuxTime="${comment.addtime }" format="yy-MM-dd HH:mm"></x:time></td>
          <td style="width:55px;">
-         	<botton class="layui-btn layui-btn-small" onclick="deleteComment(${comment.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+         	<botton class="layui-btn layui-btn-sm" onclick="deleteComment(${comment.id });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
          </td>
 		</tr>
     </c:forEach>

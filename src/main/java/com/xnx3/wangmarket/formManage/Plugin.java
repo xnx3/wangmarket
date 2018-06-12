@@ -1,26 +1,13 @@
 package com.xnx3.wangmarket.formManage;
 
-import com.xnx3.wangmarket.admin.pluginManage.PluginInterface;
-import com.xnx3.wangmarket.admin.pluginManage.PluginRegister;
+import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
 
+/**
+ * 将此万能表单插件注册到网市场中的网站管理后台中
+ * @author 管雷鸣
+ *
+ */
 @PluginRegister(id="formManage" , menuTitle = "表单反馈",menuHref="../../form/list.do", applyToCMS=true, applyToPC=false, applyToWAP=false)
-public class Plugin implements PluginInterface{
+public class Plugin{
 	
-	public void a(){
-		System.out.println("aaa");
-	}
-	
-	public boolean init() {
-		System.out.println("iii");
-		return true;
-	}
-
-	public boolean install() {
-		return true;
-	}
-
-	public boolean uninstall() {
-		return true;
-	}
-
 }

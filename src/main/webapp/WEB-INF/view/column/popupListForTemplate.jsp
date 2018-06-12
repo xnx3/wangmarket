@@ -36,9 +36,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <td width="60"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.used}']);</script></td>
             <td width="50" onclick="updateRank('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.rank }', '${siteColumnTreeVO.siteColumn.name }');" style="cursor:pointer;">${siteColumnTreeVO.siteColumn.rank }</td>
             <td width="160">
-            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
-            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-            	<botton class="layui-btn layui-btn-small" onclick="deleteColumn('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+            	<botton class="layui-btn layui-btn-sm" onclick="deleteColumn('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 			</td>
         </tr>
         
@@ -52,9 +52,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <td width="60"><script type="text/javascript">document.write(used['${subSCT.siteColumn.used}']);</script></td>
 		            <td width="50" onclick="updateRank('${subSCT.siteColumn.id }', '${subSCT.siteColumn.rank }', '${subSCT.siteColumn.name }');" style="cursor:pointer;">&nbsp;&nbsp;&nbsp;&nbsp;${subSCT.siteColumn.rank }</td>
 		            <td width="160">
-		            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${subSCT.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
-		            	<botton class="layui-btn layui-btn-small" onclick="editColumn('${subSCT.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-		            	<botton class="layui-btn layui-btn-small" onclick="deleteColumn('${subSCT.siteColumn.id }', '${subSCT.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+		            	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${subSCT.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
+		            	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${subSCT.siteColumn.id }',false);" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+		            	<botton class="layui-btn layui-btn-sm" onclick="deleteColumn('${subSCT.siteColumn.id }', '${subSCT.siteColumn.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 					</td>
 		        </tr>
 		    </c:forEach>

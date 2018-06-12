@@ -32,9 +32,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <td>${role.name }</td>
 	        <td>${role.description }</td>
 	        <td style="width:140px;">
-	        	<botton class="layui-btn layui-btn-small" onclick="property('${role.name }', '${role.id }');" style="margin-left: 3px;"><i class="layui-icon">&#xe614;</i></botton>
-	        	<a class="layui-btn layui-btn-small" href="editRolePermission.do?roleId=${role.id }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
-	        	<botton class="layui-btn layui-btn-small" onclick="deleteRole('${role.name }', '${role.id }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+	        	<botton class="layui-btn layui-btn-sm" onclick="property('${role.name }', '${role.id }');" style="margin-left: 3px;"><i class="layui-icon">&#xe614;</i></botton>
+	        	<a class="layui-btn layui-btn-sm" href="editRolePermission.do?roleId=${role.id }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
+	        	<botton class="layui-btn layui-btn-sm" onclick="deleteRole('${role.name }', '${role.id }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	        </td>
 	    </tr>
 	</c:forEach>

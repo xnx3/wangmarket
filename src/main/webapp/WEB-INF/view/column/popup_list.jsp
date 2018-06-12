@@ -60,8 +60,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <td width="100"><script type="text/javascript">document.write(type['${column['type']}']);</script></td>
             <td width="60"><script type="text/javascript">document.write(used['${column['used']}']);</script></td>
             <td width="80">
-            	<botton class="layui-btn layui-btn-small layui-btn-radius" onclick="editColumn('${column['id'] }');">编辑</botton>
-            	<botton class="layui-btn layui-btn-small layui-btn-radius" onclick="deleteColumn('${column['id'] }', '${column['name'] }');">删除</botton>
+            	<botton class="layui-btn layui-btn-sm layui-btn-radius" onclick="editColumn('${column['id'] }');">编辑</botton>
+            	<botton class="layui-btn layui-btn-sm layui-btn-radius" onclick="deleteColumn('${column['id'] }', '${column['name'] }');">删除</botton>
 			</td>
         </tr>
     </c:forEach>

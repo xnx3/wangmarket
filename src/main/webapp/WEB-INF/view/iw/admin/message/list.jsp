@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          	<script type="text/javascript">document.write(state['${message['state'] }']);</script>
          </td>
          <td style="width:50px;">
-         	<botton class="layui-btn layui-btn-small" onclick="deleteMessage(${message['id'] });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+         	<botton class="layui-btn layui-btn-sm" onclick="deleteMessage(${message['id'] });" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
          </td>
 		</tr>
 		<script>

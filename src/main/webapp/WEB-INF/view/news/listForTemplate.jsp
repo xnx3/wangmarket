@@ -131,17 +131,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                <td style="text-align: center; width:140px;">
 		                	<c:choose>
 							    <c:when test="${siteColumn.type == 3 && siteColumn.editMode == 1}">
-									<botton class="layui-btn layui-btn-small" onclick="editText('${siteColumn.templatePageViewName}');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+									<botton class="layui-btn layui-btn-sm" onclick="editText('${siteColumn.templatePageViewName}');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 							    </c:when>
 							    <c:otherwise>
-							    	<a class="layui-btn layui-btn-small" href="news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
+							    	<a class="layui-btn layui-btn-sm" href="news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
 							    </c:otherwise>
 							</c:choose>
 		                	
 		                	<c:choose>
 							    <c:when test="${siteColumn.type == 1 || siteColumn.type == 2}">
-							    	<botton class="layui-btn layui-btn-small" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
-							    	<botton class="layui-btn layui-btn-small" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+							    	<botton class="layui-btn layui-btn-sm" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
+							    	<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 							    </c:when>
 							    <c:otherwise>
 							    </c:otherwise>

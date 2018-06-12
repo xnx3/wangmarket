@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td id="head_td">客服头像</td>
 			<td>
 				<a id="headAId" href="${head }" title="点击预览原图" target="_black"><img id="kefuHead" src="${head }?x-oss-process=image/resize,h_25" /></a>
-				<button type="button" class="layui-btn layui-btn-primary layui-btn-small" id="uploadKefuHeadButton" style="margin-left:20px;">
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" id="uploadKefuHeadButton" style="margin-left:20px;">
 					<i class="layui-icon">&#xe67c;</i>上传图片
 				</button>
 			</td>

@@ -29,8 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <td>${templateVar['remark'] }</td>
             <td style="width:100px;"><x:time linuxTime="${templateVar['updatetime'] }" format="yy-MM-dd hh:mm"></x:time></td>
             <td style="width:110px;">
-            	<a href="templateVar.do?templateVarName=${templateVar['varName'] }" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe642;</i></a>
-            	<button onclick="deleteTemplateVar('${templateVar['id'] }', '${templateVar['varName'] }');" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe640;</i></a>
+            	<a href="templateVar.do?templateVarName=${templateVar['varName'] }" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+            	<button onclick="deleteTemplateVar('${templateVar['id'] }', '${templateVar['varName'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></a>
 			</td>
         </tr>
     </c:forEach>

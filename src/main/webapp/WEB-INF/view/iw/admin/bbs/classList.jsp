@@ -40,9 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <td>${postClass.id }</td>
 	        <td>${postClass.name }</td>
 	        <td style="width:150px;">
-	        	<a class="layui-btn layui-btn-small" href="<%=basePath %>admin/bbs/postList.do?classid=${postClass.id }" style="margin-left: 3px;">贴子</a>
-	        	<botton class="layui-btn layui-btn-small" onclick="class_xnx3(${postClass.id }, '${postClass.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-	        	<botton class="layui-btn layui-btn-small" onclick="deleteClass(${postClass.id }, '${postClass.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+	        	<a class="layui-btn layui-btn-sm" href="<%=basePath %>admin/bbs/postList.do?classid=${postClass.id }" style="margin-left: 3px;">贴子</a>
+	        	<botton class="layui-btn layui-btn-sm" onclick="class_xnx3(${postClass.id }, '${postClass.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+	        	<botton class="layui-btn layui-btn-sm" onclick="deleteClass(${postClass.id }, '${postClass.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	        </td>
 	    </tr>
 	</c:forEach>

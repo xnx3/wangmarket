@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <input type="text" name="code" required lay-verify="required" placeholder="右侧获取手机验证码" autocomplete="off" class="layui-input">
 	    </div>
 	    <div class="layui-form-mid layui-word-aux" style="padding-top: 3px;padding-bottom: 0px; padding-left:5px;">
-			<span class="layui-btn layui-btn-small layui-btn-primary" onclick="getPhoneCode();">获取验证码</span>
+			<span class="layui-btn layui-btn-sm layui-btn-primary" onclick="getPhoneCode();">获取验证码</span>
 		</div>
 	  </div>
 	  <div class="layui-form-item" style="display:none">

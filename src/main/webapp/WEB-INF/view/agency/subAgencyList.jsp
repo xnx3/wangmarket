@@ -54,15 +54,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <td style="width:200px;">
 					<c:choose>
 						<c:when test="${agency['state'] == 1 }">
-							<botton class="layui-btn layui-btn-small" onclick="freeze('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">冻结</botton>
+							<botton class="layui-btn layui-btn-sm" onclick="freeze('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">冻结</botton>
 						</c:when>
 						<c:when test="${agency['state'] == 2 }">
-							<botton class="layui-btn layui-btn-small" onclick="unFreeze('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">解冻</botton>
+							<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">解冻</botton>
 						</c:when>
 					</c:choose>
-					<botton class="layui-btn layui-btn-small" onclick="yanqi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">延期</botton>
-					<botton class="layui-btn layui-btn-small" onclick="chongzhi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">充值</botton>
-					<botton class="layui-btn layui-btn-small" onclick="updatePassword('${agency['userid'] }','${agency['username'] }');" style="margin-left: 3px;">改密</botton>
+					<botton class="layui-btn layui-btn-sm" onclick="yanqi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">延期</botton>
+					<botton class="layui-btn layui-btn-sm" onclick="chongzhi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">充值</botton>
+					<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${agency['userid'] }','${agency['username'] }');" style="margin-left: 3px;">改密</botton>
 		        </td>
 		    </tr>
 		</c:forEach>

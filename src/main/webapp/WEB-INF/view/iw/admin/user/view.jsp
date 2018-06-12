@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td class="iw_table_td_view_name">权限</td>
 			<td>
 	           	<script type="text/javascript">writeName('${u.authority }');</script>
-	           	<botton class="layui-btn layui-btn-small" onclick="editRole();" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+	           	<botton class="layui-btn layui-btn-sm" onclick="editRole();" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 			</td>
 		</tr>
 		<tr>
@@ -69,10 +69,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				&nbsp;&nbsp;
 				<c:choose>
 					<c:when test="${u.isfreeze == 0}">
-						<a class="layui-btn layui-btn-small" href="<%=basePath %>/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_FREEZE %>" style="margin-left: 3px;">冻结账户</a>
+						<a class="layui-btn layui-btn-sm" href="<%=basePath %>/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_FREEZE %>" style="margin-left: 3px;">冻结账户</a>
 					</c:when>
 					<c:otherwise>
-						<a class="layui-btn layui-btn-small" href="<%=basePath %>/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_NORMAL %>" style="margin-left: 3px;">解除冻结</a>
+						<a class="layui-btn layui-btn-sm" href="<%=basePath %>/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_NORMAL %>" style="margin-left: 3px;">解除冻结</a>
 					</c:otherwise>
 				</c:choose>
 			</td>

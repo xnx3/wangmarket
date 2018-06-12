@@ -31,9 +31,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <td style="width:90px;"><script type="text/javascript">document.write(type[${templatePage['type'] }]);</script></td>
             <td>${templatePage['remark'] }</td>
             <td style="width:160px;">
-            	 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe614;</i></button>
-            	 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] });" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe642;</i></button>
-            	 <button onclick="deleteTemplatePage('${templatePage['id'] }', '${templatePage['name'] }');" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe640;</i></button>
+            	 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe614;</i></button>
+            	 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] });" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
+            	 <button onclick="deleteTemplatePage('${templatePage['id'] }', '${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
 			</td>
         </tr>
     </c:forEach>

@@ -215,7 +215,7 @@ var masterSiteUrl = '<%=basePath %>';
 			</a>
 		</li>
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px;">
-			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();" title="power by 网市场">
+			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
 				<i class="layui-icon firstMenuIcon" id="showHiddenLeftMenu_icon">&#xe603;</i>
 				<span class="firstMenuFont">缩小侧边栏</span>
 			</a>
@@ -238,12 +238,12 @@ var masterSiteUrl = '<%=basePath %>';
 				<span>&nbsp;&nbsp;&nbsp;</span>
 				可用：
 					<button onclick="popupTemplateTagHelp('模版变量-简化模式','<%=basePath %>template/templateVarListForUsed.do', '520', '260');">模版变量</button>
-					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '415', '590');">通用标签</button>
-					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','http://tag.wscso.com/2937.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','415', '430');">栏目标签</button>
+					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '465', '660');">通用标签</button>
+					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','http://tag.wscso.com/2937.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','495', '470');">栏目标签</button>
 					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','http://tag.wscso.com/2938.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '540','525');">分页标签</button>
 					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','http://tag.wscso.com/2939.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','340', '398');">文章信息标签</button>
 					<button id="dongtailanmu" onclick="popupTemplateTagHelp('动态栏目调用','http://tag.wscso.com/2940.html#http://tag.wscso.com/2940.html','770', '560');">动态栏目调用</button>
-					<button id="xiangqingduyou" onclick="popupTemplateTagHelp('详情页独有','http://tag.wscso.com/2971.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','500', '300');">详情页独有</button>
+					<button id="xiangqingduyou" onclick="popupTemplateTagHelp('详情页独有','http://tag.wscso.com/2971.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','500', '310');">详情页独有</button>
 					<button id="liebiaoduyou" onclick="popupTemplateTagHelp('列表页独有','http://tag.wscso.com/2970.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','470', '457');">列表页独有</button>
 			</div>
 		</div>
@@ -572,6 +572,19 @@ $(function(){
 	},function(){
 		layer.close(parentagency_tipindex);
 	})
+	
+	//显示、隐藏侧边栏
+	var showHiddenLeftMenu_tipindex = 0;
+	$("#showHiddenLeftMenu").hover(function(){
+		showHiddenLeftMenu_tipindex = layer.tips('power by 网市场', '#showHiddenLeftMenu', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(showHiddenLeftMenu_tipindex);
+	})
+	
 })
 
 

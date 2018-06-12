@@ -49,9 +49,14 @@
 ## 二次开发<br/>
 #### 环境
 Java 1.8、Maven 3.3.9<br/>
+#### IDE开发工具
+请注意，intellij idea 直接导入运行不起来，报错！
+请使用Eclipse、MyEclipse
 #### 步骤
 1. 直接导入maven项目
 2. 运行 com.xnx3.Application 即可运行项目
+3. 访问 /login.do
+
 
 ## 项目简介<br/>
 网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>
