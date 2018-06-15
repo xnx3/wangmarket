@@ -87,6 +87,7 @@ public class AgencyUserController extends BaseController {
 		model.addAttribute("agency", agency);
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("apiKey", apiService.getKey());
+		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		return "agency/index";
 	}
 	

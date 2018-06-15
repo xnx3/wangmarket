@@ -45,6 +45,7 @@ public class AdminIndexController_ extends BaseController{
 		model.addAttribute("user", user);
 		model.addAttribute("indexUrl", url);	//首页(欢迎页)url
 		model.addAttribute("useSMS", G.aliyunSMSUtil == null? "1":"0");	//若是使用SMS短信，开启了，则为1，否则没有开通短信的花则为0
+		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		return "/iw_update/admin/index/index";
 	}
 	
