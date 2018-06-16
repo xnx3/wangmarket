@@ -74,6 +74,9 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/bbs/view.do", "anon");
         filterChainDefinitionMap.put("/*.*", "anon");
         
+        //750套模板
+        filterChainDefinitionMap.put("/template/templateExternalList.do", "anon");
+        
         //因为如果用本地存储的话，生成的网站页面、上传图片，都会存储到网站根目录下site文件夹中，所以要对非.do结尾的文件，不能拦截
 //        filterChainDefinitionMap.put("/site/*.do", "authc");
         filterChainDefinitionMap.put("/site/**", "anon");
