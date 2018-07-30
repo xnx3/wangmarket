@@ -6,8 +6,8 @@
 
 
 ## 项目极速搭建体验步骤
-只需一步，你没看错！不需要配置乱七八糟环境，不需要你去下载什么什么容器，点击 “启动” 即可一键运行起来！直接访问 localhost 访问即可使用，追求极致的简单！
-下载链接：[http://www.wang.market/down.html](http://www.wang.market/down.html)
+只需一步，你没看错！不需要配置乱七八糟环境，不需要你去配置环境，点击 “启动” 即可一键运行起来！直接访问 localhost 访问即可使用，追求极致的简单！
+文档及下载：[http://help.wscso.com/5683.html](http://help.wscso.com/5683.html)
 
 
 ## 导航
@@ -138,6 +138,7 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 著作权登记号：2017SR608214<br/>
 本软件使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需显式保留我们“网市场”版权标示及我们官方首页的链接！<br/>
 另外可以与我们有更多合作可以查看： [http://www.wang.market/index.html#join](http://www.wang.market/index.html#join) <br/>
+[网市场云建站系统软件商业授权说明（不授权也完全可以免费使用！）](http://www.wang.market/5541.html)
 <br/>
 <br/>
 项目由个人历经数年，凭借每晚四小时开发而来。一个人的兴趣、执念、或者信仰，所发挥出的光芒，可能会照亮一个行业
