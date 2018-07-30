@@ -231,7 +231,11 @@ function rightTip(){
 	  }
 	});
 }
-setTimeout("rightTip()",1000);
+
+//未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html
+<% if(G.copyright){ %>
+	setTimeout("rightTip()",1000);
+<% } %>
 </script>
 
 

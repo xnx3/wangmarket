@@ -37,7 +37,7 @@
 			<!-- 日志服务的Project -->
 			<project>requestlog</project>
 			<!-- 上面project下的Logstore -->
-			<logstore>siteconsole</logstore>
+			<logstore>useraction</logstore>
 			
 			<!-- 缓存日志的最大时间，单位为秒。超过这个时间后，将会自动提交日志。即每隔多长时间就自动提交日志，然后清空（ {@link #logGroup} ）重新开始累计 -->
 			<log_cache_max_time>600</log_cache_max_time>

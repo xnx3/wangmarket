@@ -108,8 +108,8 @@ public class TemplateController extends BaseController {
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
-		if(PluginManage.siteClassManage.size() > 0){
-			for (Map.Entry<String, SitePluginBean> entry : PluginManage.siteClassManage.entrySet()) {
+		if(PluginManage.cmsSiteClassManage.size() > 0){
+			for (Map.Entry<String, SitePluginBean> entry : PluginManage.cmsSiteClassManage.entrySet()) {
 				SitePluginBean bean = entry.getValue();
 				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
 			}
@@ -126,6 +126,7 @@ public class TemplateController extends BaseController {
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("user", user);
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
+		model.addAttribute("autoAssignDomain", com.xnx3.wangmarket.domain.G.getAutoAssignMainDomain());	//自动分配的域名，如 wang.market
 		return "template/index";
 	}
 	

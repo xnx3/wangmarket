@@ -133,6 +133,11 @@ layui.use(['form', 'layedit', 'laydate'], function(){
       if(value.length == 0 || value.length > 40){
         return '请输入40个字以内的栏目名称';
       }
+    },
+    type: function(value){
+      if(value=='' || value.length ==0){
+        return '请选择栏目类型';
+      }
     }
   });
   

@@ -91,6 +91,10 @@ public interface SmsLogService {
 	 * 					<li>3:{@link SmsLog#TYPE_BIND_PHONE}绑定手机 </li>
 	 * 				</ul>
 	 * @return {@link BaseVO}
+	 * 			<ul>
+	 * 				<li>若result = SUCCESS，则info为六位数动态验证码code</li>
+	 * 				<li>若result = FAIULRE，则不允许发送短信验证，效验失败，发送达到当日的上限</li>
+	 * 			</ul>
 	 */
 	public BaseVO sendByAliyunSMS(HttpServletRequest request, AliyunSMSUtil aliyunSMSUtil, String signName,String templateCode, String phone, Short type);
 }

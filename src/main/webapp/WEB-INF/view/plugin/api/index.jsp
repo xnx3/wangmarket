@@ -8,7 +8,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../iw/common/head.jsp">
+<jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="api"/>
 </jsp:include>
 
@@ -22,10 +22,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div style="text-align:center; font-size:29px; padding-top:35px; padding-bottom: 10px;">
 	Api 接口
+	<div style="float:right;padding-right: 130px;">
+        <a class="layui-btn" href="http://api.wang.market/welcome.html?MASTER_SITE_URL=<%=Global.get("MASTER_SITE_URL") %>" target="_black">查看接口文档</a>
+    </div>
 </div>
 <div style="padding:40px;">
 key:
 <textarea style="width:100%; height:50px; padding:10px;">${key }</textarea>
 </div>
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>  
+<jsp:include page="../../iw/common/foot.jsp"></jsp:include>  

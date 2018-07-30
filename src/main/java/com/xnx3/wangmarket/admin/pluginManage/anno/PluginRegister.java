@@ -53,4 +53,17 @@ public @interface PluginRegister {
 	 * @return
 	 */
 	boolean applyToWAP() default false;
+	
+	/**
+	 * 是否适用于代理后台， true：是, 不填默认是false
+	 * @return
+	 */
+	boolean applyToAgency() default false;
+	
+	/**
+	 * 是否适用于总管理后台， true：是, 不填默认是false
+	 * @return
+	 */
+	boolean applyToSuperAdmin() default false;
+	
 }

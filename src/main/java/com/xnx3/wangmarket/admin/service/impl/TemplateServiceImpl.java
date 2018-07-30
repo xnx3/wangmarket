@@ -800,7 +800,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public BaseVO deleteTemplatePageForCache(int templatePageId, HttpServletRequest request) {
 		TemplatePageListVO vo = getTemplatePageListByCache(request);
-		int deleteId = 0;	//要删除得list得下表
+		int deleteId = -1;	//要删除得list得下表
 		for (int i = 0; i < vo.getList().size(); i++) {
 			if(vo.getList().get(i).getTemplatePage().getId() - templatePageId == 0){
 				deleteId = i;
@@ -809,7 +809,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		//如果在缓存中发现了它，才会删除，并更新缓存，否则不用理会
-		if(deleteId > 0){
+		if(deleteId > -1){
 			vo.getList().remove(deleteId);
 			//删除后重新讲起加入Session
 			request.getSession().setAttribute(sessionTemplatePageListVO, vo);

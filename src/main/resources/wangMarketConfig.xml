@@ -3,7 +3,7 @@
 	<!-- 阿里云短信发送 -->
 	<AliyunSMSUtil>
 		<!-- 是否使用此功能。若使用则此为true，若不使用，则下面参数不用管，use为false即可 -->
-		<use>true</use>
+		<use>false</use>
 		<regionId>cn-hongkong</regionId>
 		<accessKeyId></accessKeyId>
 		<accessKeySecret></accessKeySecret>
@@ -19,4 +19,6 @@
 		-->
 	</AliyunSMSUtil>
 	
+	<!-- 是否显示版权标记，true:显示。  未授权用户，需保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html -->
+	<copyright>true</copyright>
 </configuration>

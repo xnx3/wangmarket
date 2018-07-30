@@ -1,10 +1,7 @@
 package com.xnx3.j2ee.service;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
-
-import org.hibernate.Session;
 
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.util.Sql;
@@ -17,15 +14,31 @@ import com.xnx3.j2ee.util.Sql;
 public interface SqlService {
 
 	/**
-	 * 获取查询的信息条数
-	 * @param tableName 表名,多个表名中间用,分割，如: "user,message,log"。同样如果是多个表，where参数需要增加关联条件
+	 * 获取查询的信息条数。
+	 * <br/>示例：查询user数据表中，id大于1的信息的条数：
+	 * <pre>
+	 * 	int count = sqlService.count("user", "WHERE id > 1");
+	 * </pre>
+	 * @param tableName 表名,实际数据表中的数据表名字，非实体类的名字。多个表名中间用,分割，如: "user,message,log"。同样如果是多个表，where参数需要增加关联条件
 	 * @param where 查询条件，传入如“WHERE id > 1” ；若没有查询条件，则可以传入null或者""空字符串
 	 * @return 统计条数
 	 */
 	public int count(String tableName,String where);
 
 	/**
-	 * 查询列表，通过 {@link Sql} 自动生成查询语句查询信息列表,返回List实体类。通常用于分页列表
+	 * 查询列表，通过 {@link Sql} 自动生成查询语句查询信息列表,返回List实体类。通常用于分页列表。
+	 * <br/>示例：用户信息的一个分页列表
+	 * <pre>
+	 *		com.xnx3.j2ee.util.Sql sql = new com.xnx3.j2ee.util.Sql(request);
+	 *		//查询user数据表的记录总条数。 传入的user：数据表的名字为user
+	 *		int count = sqlService.count("user", sql.getWhere());
+	 *		//创建分页，并设定每页显示15条
+	 *		com.xnx3.j2ee.util.Page page = new Pacom.xnx3.j2ee.util.Pagege(count, 15, request);
+	 *		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+	 *		sql.setSelectFromAndPage("SELECT * FROM user", page);
+	 *		//因只查询的一个表，所以可以将查询结果转化为实体类，用List接收。
+	 *		List<User> list = sqlService.findBySql(sql, User.class);
+	 * </pre>
 	 * @param sql 组合好的查询{@link Sql}
 	 * @param entityClass 转化为什么实体类返回
 	 * @return List 实体类列表
@@ -34,6 +47,10 @@ public interface SqlService {
 	
 	/**
 	 * 通过原生SQL语句查询,返回List实体类
+	 * <br/>示例：查询列出 user 用户表中，id大于1的用户列表信息
+	 * <pre>
+	 * 		List<User> userList = sqlService.findBySqlQuery("SELECT * FROM user WHERE id > 1", User.class);
+	 * <pre>
 	 * @param sql 原生SQL查询语句
 	 * @param entityClass 转化为什么实体类输出
 	 * @return List 实体类列表
@@ -44,7 +61,7 @@ public interface SqlService {
 	 * 传入原生SQL语句，查询返回一个实体类。 会自动在原生SQL语句末尾添加 LIMIT 0,1 进行组合查询语句
 	 * @param sqlQuery 查询语句，如 SELECT * FROM user WHERE username = 'xnx3'
 	 * @param entityClass 要转换为什么实体类返回，如 User.class
-	 * @return 若查询到，返回查询到的对象(需强制转化为想要的实体类)，若查询不到，返回null
+	 * @return 若查询到，返回查询到的对象，若查询不到，返回null
 	 */
 	public <E> E findAloneBySqlQuery(String sqlQuery,Class<E> entityClass);
 	
@@ -107,7 +124,7 @@ public interface SqlService {
 	
 	/**
 	 * 数据表的某项数值+1
-	 * @param tableName 数据表名称
+	 * @param tableName 数据表名称。实际数据表中的数据表名字，非实体类的名字。
 	 * @param fieldName 执行＋1的项
 	 * @param where 条件，如 id=5
 	 */
@@ -115,7 +132,7 @@ public interface SqlService {
 	
 	/**
 	 * 数据表的某项数值-1
-	 * @param tableName 数据表名称
+	 * @param tableName 数据表名称。实际数据表中的数据表名字，非实体类的名字。
 	 * @param fieldName 执行＋1的项
 	 * @param where 条件，如 id=5
 	 */

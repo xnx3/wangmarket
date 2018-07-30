@@ -31,24 +31,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="intro">
 			<b>进行安装体验本程序，或者对云不是很了解，建议使用此种方式</b>
 			<br/>
-			使用运行程序的服务器本身作为存储对象，会在程序根目录下创建site文件夹存储文件。同帝国CMS、织梦CMS的传统文件存储方式。
+			使用运行程序的服务器本身作为存储对象，会在程序根目录下创建site文件夹存储文件，传统文件存储方式。将生成的html页面、上传的图片，都存储在代码所在的服务器上。
 			<br/>优点：简单，可快速使用，无需再掌握其他知识
 			<br/>缺点：无法分布式部署。建议开通的网站个数在1000个以内
 		</div>
 	</div>
 	
 	<br/>
-	<div class="selectItem" onclick="window.location.href='setAttachmentMode.do?mode=${AttachmentFile_MODE_ALIYUN_OSS}';">
-		<div class="title">可选二：阿里云OSS存储</div>
+	
+	<div class="selectItem" id="yun" onmouseenter="qiehuanshouquan();" onmouseleave="qiehuanshouquanyuanshi();" style="color: gray;" onclick="window.open('http://www.wang.market/5541.html')">
+		<div class="title">可选二：云存储（需授权）</div>
+		<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_ALIYUN_OSS} -->
+	</div>
+	<div style="display:none;" id="weishouquanyun">
+		<div class="title">可选二：云存储（需授权）</div>
 		<div class="intro">
 			云端存储，速度更快、数据更安全！
 			<br/>优点：
 					<ul class="lilist"> 
+						<li>去我方版权标识及链接，相当于你自己的产品，自由开展你的业务。</li>
 						<li>可分布式部署，无网站个数限制</li>
 						<li>使用CDN加速，让网站极速访问</li>
+						<li>增加统计功能</li>
+						<li>增可用手机号自助开通网站</li>
 						<li>可配置多个域名解析绑定服务器，如一台香港的可绑定不需要备案的域名，一台国内的绑定已备案的域名</li>
 					</ul>
-			<div>缺点：需了解相关云知识(OSS、CDN等)，稍微有一点点门槛</div>
+		</div>
+	</div>
+	<div style="display:none;" id="shouquanxinxi">
+		<div class="title">可选二：云存储（需授权）</div>
+		<div style="font-size: 38px;color: red;">
+			需我方授权！
+			<br/>
+			授权费用 ：5000元(包含安装)
+			<br/>
+			永久使用。
 		</div>
 	</div>
 	
@@ -91,5 +108,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 <jsp:include page="common.jsp"></jsp:include>
 
+<script>
+function qiehuanshouquan(){
+	document.getElementById('yun').innerHTML = document.getElementById('shouquanxinxi').innerHTML; 
+}
+//用户鼠标移开，显示云版本的功能
+function qiehuanshouquanyuanshi(){
+	document.getElementById('yun').innerHTML = document.getElementById('weishouquanyun').innerHTML;
+}
+qiehuanshouquanyuanshi();
+</script>
 
 <jsp:include page="../../iw/common/foot.jsp"></jsp:include> 

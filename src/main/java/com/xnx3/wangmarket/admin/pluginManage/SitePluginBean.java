@@ -21,16 +21,8 @@ public class SitePluginBean {
 	public boolean applyToCMS = false;	//是否适用于CMS类型网站管理后台， true：是
 	public boolean applyToPC = false;	//是否适用于PC类型网站管理后台， true：是
 	public boolean applyToWAP = false;	//是否适用于WAP类型网站管理后台， true：是
-	
-	
-//	public SitePluginBean(Class c, String menuTitle, String menuHref, boolean applyToCMS, boolean applyToPC, boolean applyToWAP) {
-//		this.c = c;
-//		this.menuTitle = menuTitle;
-//		this.menuHref = menuHref;
-//		this.applyToCMS = applyToCMS;
-//		this.applyToPC = applyToPC;
-//		this.applyToWAP = applyToWAP;
-//	}
+	public boolean applyToAgency = false;	//是否适用于代理后台， true：是
+	public boolean applyToSuperAdmin = false;	//是否适用于总管理后台， true：是
 	
 	/**
 	 * 将增加注解 PluginRegister 的 class 注册类传入，获取其 SitePluginBean 信息
@@ -46,6 +38,8 @@ public class SitePluginBean {
 			this.applyToCMS = an.applyToCMS();
 			this.applyToPC = an.applyToPC();
 			this.applyToWAP = an.applyToWAP();
+			this.applyToAgency = an.applyToAgency();
+			this.applyToSuperAdmin = an.applyToSuperAdmin();
         }
 	}
 
@@ -105,13 +99,24 @@ public class SitePluginBean {
 		this.id = id;
 	}
 
+	
+	public boolean isApplyToAgency() {
+		return applyToAgency;
+	}
+
+	public boolean isApplyToSuperAdmin() {
+		return applyToSuperAdmin;
+	}
+
 	@Override
 	public String toString() {
-		return "SitePluginBean [c=" + c + ", menuTitle=" + menuTitle
-				+ ", menuHref=" + menuHref + ", applyToCMS=" + applyToCMS
-				+ ", applyToPC=" + applyToPC + ", applyToWAP=" + applyToWAP
-				+ "]";
+		return "SitePluginBean [c=" + c + ", id=" + id + ", menuTitle="
+				+ menuTitle + ", menuHref=" + menuHref + ", applyToCMS="
+				+ applyToCMS + ", applyToPC=" + applyToPC + ", applyToWAP="
+				+ applyToWAP + ", applyToAgency=" + applyToAgency
+				+ ", applyToSuperAdmin=" + applyToSuperAdmin + "]";
 	}
+
 	
 	
 }

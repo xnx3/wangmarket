@@ -1,4 +1,4 @@
-package com.xnx3;
+package com;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

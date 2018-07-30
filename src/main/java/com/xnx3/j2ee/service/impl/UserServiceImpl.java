@@ -194,71 +194,68 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		
-		if(user.getUsername()==null||user.getUsername().equals("")||user.getEmail()==null||user.getEmail().equals("")||user.getPassword()==null||user.getPassword().equals("")){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regDataNotAll"));
-		}else{
-			if(user.getUsername().length() > 20){
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_userNameToLong"));
+
+		if(user.getUsername().length() > 20){
+			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_userNameToLong"));
+		}
+		
+		Random random = new Random();
+		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
+        String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
+		user.setPassword(md5Password);
+		
+		sqlDAO.save(user);
+		if(user.getId()>0){
+			//已注册成功，自动登录成用户
+			UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
+	        token.setRememberMe(false);
+			Subject currentUser = SecurityUtils.getSubject();  
+			
+			try {  
+				currentUser.login(token);  
+			} catch ( UnknownAccountException uae ) {
+			} catch ( IncorrectCredentialsException ice ) {
+			} catch ( LockedAccountException lae ) {
+			} catch ( ExcessiveAttemptsException eae ) {
+			} catch ( org.apache.shiro.authc.AuthenticationException ae ) {  
 			}
 			
-			Random random = new Random();
-			user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
-	        String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
-			user.setPassword(md5Password);
+			//赋予该用户系统设置的默认角色
+			UserRole userRole = new UserRole();
+			userRole.setRoleid(Lang.stringToInt(Global.system.get("USER_REG_ROLE"), 0));
+			userRole.setUserid(user.getId());
+			sqlDAO.save(userRole);
 			
-			sqlDAO.save(user);
-			if(user.getId()>0){
-				//已注册成功，自动登录成用户
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
-		        token.setRememberMe(false);
-				Subject currentUser = SecurityUtils.getSubject();  
+			//推荐人增加奖励
+			if(user.getReferrerid()>0){	//是否有直接推荐人
+				referrerAddAward(referrerUser1, Global.system.get("INVITEREG_AWARD_ONE"), user);
 				
-				try {  
-					currentUser.login(token);  
-				} catch ( UnknownAccountException uae ) {
-				} catch ( IncorrectCredentialsException ice ) {
-				} catch ( LockedAccountException lae ) {
-				} catch ( ExcessiveAttemptsException eae ) {
-				} catch ( org.apache.shiro.authc.AuthenticationException ae ) {  
-				}
-				
-				//赋予该用户系统设置的默认角色
-				UserRole userRole = new UserRole();
-				userRole.setRoleid(Lang.stringToInt(Global.system.get("USER_REG_ROLE"), 0));
-				userRole.setUserid(user.getId());
-				sqlDAO.save(userRole);
-				
-				//推荐人增加奖励
-				if(user.getReferrerid()>0){	//是否有直接推荐人
-					referrerAddAward(referrerUser1, Global.system.get("INVITEREG_AWARD_ONE"), user);
-					
-					if(referrerUser1.getReferrerid()>0){	//一级下线有上级推荐人，拿到二级下线
-						User referrerUser2 = sqlDAO.findById(User.class, referrerUser1.getReferrerid());
-						if(referrerUser2!=null){
-							referrerAddAward(referrerUser2, Global.system.get("INVITEREG_AWARD_TWO"), user);
-							
-							if(referrerUser2.getReferrerid()>0){	//二级下线有上级推荐人，拿到三级下线
-								User referrerUser3 = sqlDAO.findById(User.class, referrerUser2.getReferrerid());
-								if(referrerUser3!=null){
-									referrerAddAward(referrerUser3, Global.system.get("INVITEREG_AWARD_THREE"), user);
-									
-									if(referrerUser3.getReferrerid()>0){	//三级下线有上级推荐人，拿到四级下线
-										User referrerUser4 = sqlDAO.findById(User.class, referrerUser3.getReferrerid());
-										if(referrerUser4!=null){
-											referrerAddAward(referrerUser4, Global.system.get("INVITEREG_AWARD_FOUR"), user);
-										}
+				if(referrerUser1.getReferrerid()>0){	//一级下线有上级推荐人，拿到二级下线
+					User referrerUser2 = sqlDAO.findById(User.class, referrerUser1.getReferrerid());
+					if(referrerUser2!=null){
+						referrerAddAward(referrerUser2, Global.system.get("INVITEREG_AWARD_TWO"), user);
+						
+						if(referrerUser2.getReferrerid()>0){	//二级下线有上级推荐人，拿到三级下线
+							User referrerUser3 = sqlDAO.findById(User.class, referrerUser2.getReferrerid());
+							if(referrerUser3!=null){
+								referrerAddAward(referrerUser3, Global.system.get("INVITEREG_AWARD_THREE"), user);
+								
+								if(referrerUser3.getReferrerid()>0){	//三级下线有上级推荐人，拿到四级下线
+									User referrerUser4 = sqlDAO.findById(User.class, referrerUser3.getReferrerid());
+									if(referrerUser4!=null){
+										referrerAddAward(referrerUser4, Global.system.get("INVITEREG_AWARD_FOUR"), user);
 									}
 								}
 							}
 						}
 					}
 				}
-				
-//				logDao.insert("USER_REGISTER_SUCCESS");
-				baseVO.setBaseVO(BaseVO.SUCCESS, user.getId()+"");
-			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regFailure"));
 			}
+			
+//				logDao.insert("USER_REGISTER_SUCCESS");
+			baseVO.setBaseVO(BaseVO.SUCCESS, user.getId()+"");
+		}else{
+			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regFailure"));
 		}
 		
 		return baseVO;
@@ -325,18 +322,17 @@ public class UserServiceImpl implements UserService{
 		SmsLog smsLog = findByPhoneAddtimeUsedTypeCode(phone, queryAddtime, SmsLog.USED_FALSE, SmsLog.TYPE_LOGIN,code);
     	if(smsLog != null){
     		User user = findByPhone(phone);
-    		if(user == null){
-    			//如果没有用户，则模拟注册一个
-    			Random random = new Random();
-    			user = new User();
-    			String password = random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10);
-    			user.setUsername(phone);
-    			user.setEmail(phone+"@139.com");
-    			user.setPassword(password);
-    			user.setPhone(phone);
-    			reg(user, request);
+    		int userid = 0;
+    		if(user != null && user.getId() != null){
+    			userid = user.getId();
     		}
-    		user = findByPhone(phone);
+    		
+    		/****更改SmsLog状态*****/
+    		smsLog.setUserid(userid);
+    		smsLog.setUsed(SmsLog.USED_TRUE);
+    		sqlDAO.save(smsLog);
+    		
+    		//如果没有用户，则直接返回失败提示
     		if(user == null){
     			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneAndCodeRegFailure"));
     			return baseVO;
@@ -348,10 +344,6 @@ public class UserServiceImpl implements UserService{
 				return baseVO;
 			}
     		
-    		/****更改SmsLog状态*****/
-    		smsLog.setUserid(user.getId());
-    		smsLog.setUsed(SmsLog.USED_TRUE);
-    		sqlDAO.save(smsLog);
     		
     		/*******更改User状态******/
     		user.setLasttime(DateUtil.timeForUnix10());

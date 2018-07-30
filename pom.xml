@@ -45,6 +45,7 @@
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
         </repository>
+        
 	</repositories>
    
   
@@ -88,7 +89,7 @@
 	            <configuration>
 	                <!-- 没有该配置，devtools 不生效 -->
 	                <fork>true</fork>
-	                <mainClass>com.xnx3.Application</mainClass>
+	                <mainClass>com.Application</mainClass>
 	            </configuration>
 	        </plugin>
 	        
@@ -122,7 +123,8 @@
                 <includes>  
                     <include>**/*.jar</include>  
                 </includes>  
-            </resource>  
+            </resource> 
+           
         </resources>  
 	</build>   
   
@@ -270,7 +272,7 @@
 		<dependency>
 			<groupId>com.aliyun.openservices</groupId>
 			<artifactId>aliyun-log</artifactId>
-			<version>0.6.7</version>
+			<version>0.6.18</version>
 			<exclusions>
 			        <exclusion>
 			            <groupId>com.google.protobuf</groupId>

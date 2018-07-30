@@ -72,6 +72,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/module/ueditor/dialogs/**", "anon");
         filterChainDefinitionMap.put("/bbs/list.do", "anon");
         filterChainDefinitionMap.put("/bbs/view.do", "anon");
+        filterChainDefinitionMap.put("/api/*.do", "anon");
         filterChainDefinitionMap.put("/*.*", "anon");
         
         //750套模板

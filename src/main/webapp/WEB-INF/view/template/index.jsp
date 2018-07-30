@@ -25,6 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="http://res.weiunity.com/js/iw.js"></script>	
 <script>
 var masterSiteUrl = '<%=basePath %>';
+var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <style>
 #editPanel{
@@ -151,7 +152,7 @@ var masterSiteUrl = '<%=basePath %>';
 				<dd><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
 				<dd><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
 				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com'), notUseTopTools();">模版开发</a></dd>
-				<dd><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
+				<dd style="display:none;"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
 		
@@ -573,6 +574,8 @@ $(function(){
 		layer.close(parentagency_tipindex);
 	})
 	
+	// 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html 
+	<% if(G.copyright){ %>
 	//显示、隐藏侧边栏
 	var showHiddenLeftMenu_tipindex = 0;
 	$("#showHiddenLeftMenu").hover(function(){
@@ -584,6 +587,7 @@ $(function(){
 	},function(){
 		layer.close(showHiddenLeftMenu_tipindex);
 	})
+	<% } %>
 	
 })
 

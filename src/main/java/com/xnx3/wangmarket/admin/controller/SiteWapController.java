@@ -1,10 +1,14 @@
 package com.xnx3.wangmarket.admin.controller;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.xnx3.MD5Util;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
@@ -12,6 +16,8 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 
@@ -35,6 +41,16 @@ public class SiteWapController extends BaseController {
 	public String index(HttpServletRequest request, Model model){
 		AliyunLog.addActionLog(getSiteId(), "进入通用手机网站控制台首页");
 		
+		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
+		String pluginMenu = "";
+		if(PluginManage.wapSiteClassManage.size() > 0){
+			for (Map.Entry<String, SitePluginBean> entry : PluginManage.wapSiteClassManage.entrySet()) {
+				SitePluginBean bean = entry.getValue();
+				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+			}
+		}
+		model.addAttribute("pluginMenu", pluginMenu);
+		
 		UserBean userBean = getUserBean();
 		User user = getUser();
 		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(userBean.getSite(), userBean.getParentAgency()));
@@ -44,6 +60,7 @@ public class SiteWapController extends BaseController {
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
+		model.addAttribute("autoAssignDomain", com.xnx3.wangmarket.domain.G.getAutoAssignMainDomain());	//自动分配的域名，如 wang.market
 		return "siteWap/index";
 	}
 	

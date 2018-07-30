@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script>
 var masterSiteUrl = '<%=basePath %>';
+var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
@@ -160,6 +161,21 @@ var masterSiteUrl = '<%=basePath %>';
 		</li>
 		<% } %>
 		
+		<li class="layui-nav-item" id="plugin" style="display:none;">
+			<a href="javascript:;">
+				<i class="layui-icon firstMenuIcon">&#xe857;</i>
+				<span class="firstMenuFont">功能插件</span>
+			</a>
+			<dl class="layui-nav-child" id="plugin_submenu">
+				${pluginMenu }
+			</dl>
+		</li>
+		<script>
+			if(document.getElementById('plugin_submenu').innerHTML.length > 5){
+				document.getElementById('plugin').style.display = '';
+			}
+		</script>
+		
 		<li class="layui-nav-item">
 			<a id="neirongguanli" href="javascript:loadIframeByUrl('<%=basePath %>news/listForTemplate.do');">
 				<i class="layui-icon firstMenuIcon">&#xe60a;</i>
@@ -173,7 +189,7 @@ var masterSiteUrl = '<%=basePath %>';
 				<span class="firstMenuFont">预览网站</span>
 			</a>
 		</li>
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" style="display:none;">
 			<a id="wentifankui" href="javascript:openWenTiFanKui();">
 				<i class="layui-icon firstMenuIcon">&#xe607;</i>
 				<span class="firstMenuFont">问题反馈</span>

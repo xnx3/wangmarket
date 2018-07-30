@@ -79,6 +79,8 @@ public class G {
 	//webSocket IM的对接url
 //	public static String websocketUrl = "";
 	
+	public static boolean copyright = true;	//是否显示。
+	
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("wangMarketConfig.xml");
 		
@@ -109,6 +111,11 @@ public class G {
 			AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
 		}else{
 			Log.info("未开启Aliyun短信发送服务");
+		}
+		
+		String cr = c.getValue("copyright");
+		if(cr != null){
+			copyright = cr.equals("true");
 		}
 	}
 	

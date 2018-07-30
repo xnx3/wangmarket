@@ -1,5 +1,7 @@
 package com.xnx3.j2ee.controller.admin;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,7 +14,10 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.G;
+import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 
 /**
  * 管理后台首页
@@ -35,9 +40,30 @@ public class AdminIndexController_ extends BaseController{
 		if(Func.isAuthorityBySpecific(getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 			//有超级管理员权限
 			url = "admin/user/list.do";
+			
+			//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
+			String pluginMenu = "";
+			if(PluginManage.superAdminClassManage.size() > 0){
+				for (Map.Entry<String, SitePluginBean> entry : PluginManage.superAdminClassManage.entrySet()) {
+					SitePluginBean bean = entry.getValue();
+					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+				}
+			}
+			model.addAttribute("pluginMenu", pluginMenu);
 		}else{
 			//代理
 			url = "agency/index.do";
+			
+			String pluginMenu = "";
+			Log.debug("PluginManage.agencyClassManage.size():"+PluginManage.agencyClassManage.size());
+			if(PluginManage.agencyClassManage.size() > 0){
+				for (Map.Entry<String, SitePluginBean> entry : PluginManage.agencyClassManage.entrySet()) {
+					SitePluginBean bean = entry.getValue();
+					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+				}
+			}
+			model.addAttribute("pluginMenu", pluginMenu);
+			
 		}
 		
 		User user = getUser();

@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">二级域名</td>
-			<td><a href="http://${site.domain }.wang.market" target="_black">${site.domain }.wang.market</a></td>
+			<td><a href="http://${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>" target="_black">${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></a></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">绑定域名</td>

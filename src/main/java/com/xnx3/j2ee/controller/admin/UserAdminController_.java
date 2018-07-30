@@ -103,7 +103,7 @@ public class UserAdminController_ extends BaseController {
 		}
 		
 		model.addAttribute("u", user);
-		return "/iw/admin/user/view";
+		return "/iw_update/admin/user/view";
 	}
 	
 	/**

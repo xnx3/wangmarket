@@ -73,6 +73,14 @@ public class UserBean {
 	public void setSiteIm(Im im) {
 		this.im = im;
 	}
-	
+	@Override
+	public String toString() {
+		return "UserBean [myAgency=" + myAgency + ", site=" + site
+				+ ", parentAgency=" + parentAgency
+				+ ", templateVarCompileDataMap=" + templateVarCompileDataMap
+				+ ", templateVarMapForOriginal=" + templateVarMapForOriginal
+				+ ", siteColumnMap=" + siteColumnMap + ", inputModelMap="
+				+ inputModelMap + ", im=" + im + "]";
+	}
 	
 }

@@ -246,21 +246,26 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		
 		
 		<li class="layui-nav-item">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe705;</i>
-				<span class="firstMenuFont">Api 接口</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadUrl('<%=basePath %>api/index.do');">获取 key</a></dd>
-				<dd><a id="im_menu" class="subMenuItem" href="javascript:loadUrl('http://api.wang.market/welcome.html?MASTER_SITE_URL=<%=Global.get("MASTER_SITE_URL") %>');">接口文档</a></dd>
-			</dl>
-		</li>
-		<li class="layui-nav-item">
 			<a href="javascript:updatePassword();" id="xiugaimima">
 				<i class="layui-icon firstMenuIcon">&#xe642;</i>
 				<span class="firstMenuFont">更改密码</span>
 			</a>
 		</li>
+
+
+		<li class="layui-nav-item" id="plugin" style="display:none;">
+			<a href="javascript:;">
+				<i class="layui-icon firstMenuIcon">&#xe857;</i>
+				<span class="firstMenuFont">功能插件</span>
+			</a>
+			<dl class="layui-nav-child" id="plugin_submenu">${pluginMenu }</dl>
+		</li>
+		<script>
+			if(document.getElementById('plugin_submenu').innerHTML.length > 5){
+				document.getElementById('plugin').style.display = '';
+			}
+		</script>
+		
 
 		<li class="layui-nav-item">
 			<a href="<%=basePath %>user/logout.do">
@@ -269,11 +274,16 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</a>
 		</li>
 		
+		
+		<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html -->
+		<% if(G.copyright){ %>
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px; text-align:center;">
 			<a href="http://www.wang.market" target="_black">
 				<span class="firstMenuFont">power by 网市场</span>
 			</a>
 		</li>
+		<% } %>
+		
 	</ul>
 </div>
 
@@ -317,9 +327,11 @@ function rightTip(){
 	  
 	});
 }
-//只有用户名带有ceshi的才会弹出合作联系的提示
+//只有用户名带有ceshi的才会弹出合作联系的提示。当然，如果是已授权的用户，是不弹出这个带有版权的说明的
 if('${user.username}'.indexOf('ceshi') > -1){
-	setTimeout("rightTip()",2000);
+	<% if(G.copyright){ %>
+		setTimeout("rightTip()",2000);
+	<% } %>
 }
 </script>
 
@@ -333,7 +345,7 @@ var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的
 var sign = '';	//当前用户签名
 var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
 </script>
-<script src="http://res.weiunity.com/js/im/admin.js"></script>
+<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/im/admin.js"></script>
 <!-- IM end -->
 <% } %>
 

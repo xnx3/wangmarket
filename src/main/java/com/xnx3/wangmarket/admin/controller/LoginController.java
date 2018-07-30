@@ -125,6 +125,10 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 			
 			vo = smsLogService.sendByAliyunSMS(request, G.aliyunSMSUtil, G.AliyunSMS_SignName, G.AliyunSMS_Login_TemplateCode,  request.getParameter("phone"), SmsLog.TYPE_REG);
 			AliyunLog.addActionLog(getSiteId(), "获取手机号验证码"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，用户获取验证码的手机号："+request.getParameter("phone"));
+			if(vo.getResult() - BaseVO.SUCCESS == 0){
+				//如果成功，将info的验证码去掉
+				vo.setInfo("获取成功！");
+			}
 //		}else{
 //			AliyunLog.addActionLog(getSiteId(), "图片验证码错误！用户想要获取验证码的手机号："+request.getParameter("phone"));
 //		}

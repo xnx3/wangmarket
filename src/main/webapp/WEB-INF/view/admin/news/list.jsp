@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<jsp:param name="iw_name" value="title"/>
 	</jsp:include>
 	<jsp:include page="../../iw/common/list/formSearch_input.jsp">
-		<jsp:param name="iw_label" value="选择框"/>
+		<jsp:param name="iw_label" value="是否合法"/>
 		<jsp:param name="iw_name" value="legitimate"/>
 		<jsp:param name="iw_type" value="select"/>
 	</jsp:include>
