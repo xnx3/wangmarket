@@ -5,14 +5,14 @@
 ||||
 | ------------- |-------------|-------------|
 | 网市场官网 | [www.wang.market](http://www.wang.market) ||
-| 免费模版库 | [www.wang.market/template.jsp](http://www.wang.market/template.jsp) | 二十多个模版，持续增加中 |
+| 免费模版库 | [wang.market/template.jsp](http://wang.market/template.jsp) | 二十多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
 | 扒网站工具 | [gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider) | 看好哪个网站拔下来做成模版 |
 | 付费帮助 | [www.wang.market/4446.html](http://www.wang.market/4446.html) | 如果你不懂技术收费提供帮助。 |
 | 合作代理 | [www.wang.market/index.html#join](http://www.wang.market/index.html#join) | 10元即可加盟代理 |
 
 
-## 项目极速搭建体验步骤
+# 项目极速搭建体验步骤
 [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 解压,双击 “ 启动.bat ”，访问 [localhost](http://localhost) 就这么简单！
 [查看详细视频演示](http://help.wscso.com/5683.html)
 
