@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -16,8 +15,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
-import org.hibernate.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -39,15 +36,20 @@ import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.OSS;
 import com.xnx3.j2ee.func.Safety;
-import com.xnx3.media.ImageUtil;
-//import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 
 @Service
 public class UserServiceImpl implements UserService{
 
-	@Autowired
+	@Resource
 	private SqlDAO sqlDAO;
+
+	public SqlDAO getSqlDAO() {
+		return sqlDAO;
+	}
+
+	public void setSqlDAO(SqlDAO sqlDAO) {
+		this.sqlDAO = sqlDAO;
+	}
 
 	public User findByPhone(Object phone){
 		List<User> list = sqlDAO.findByProperty(User.class, "phone", phone);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
@@ -86,6 +87,12 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 	 * 登陆请求验证
 	 * @param request {@link HttpServletRequest} 
 	 * 		<br/>登陆时form表单需提交三个参数：username(用户名/邮箱)、password(密码)、code（图片验证码的字符）
+	 * @return vo.result:
+	 * 			<ul>
+	 * 				<li>0:失败</li>
+	 * 				<li>1:成功</li>
+	 * 				<li>11:网站到期/代理到期</li>	
+	 * 			</ul>
 	 */
 	@RequestMapping("loginSubmit${url.suffix}")
 	@ResponseBody
@@ -139,7 +146,21 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						
 						//判断网站用户是否是已过期，使用期满，将无法使用
 						if(site != null && site.getExpiretime() != null && site.getExpiretime() < currentTime){
-							return error("您的网站已到期。若要继续使用，请续费");
+							//您的网站已到期。若要继续使用，请续费
+							BaseVO vo = new BaseVO();
+							String info = "";
+							try {
+								info = "您的网站已于 "+DateUtil.dateFormat(site.getExpiretime(), "yyyy-MM-dd")+" 到期！"
+										+ "<br/>若要继续使用，请联系："
+										+ "<br/>姓名："+userBean.getParentAgency().getName()
+										+ "<br/>QQ："+userBean.getParentAgency().getQq()
+										+ "<br/>电话："+userBean.getParentAgency().getPhone();
+							} catch (NotReturnValueException e) {
+								e.printStackTrace();
+							}
+							vo.setBaseVO(11, info);
+							ShiroFunc.getCurrentActiveUser().setObj(null);  	//清空 Session信息
+							return vo;
 						}
 						
 						//计算其网站所使用的资源，比如OSS已占用了多少资源
@@ -155,7 +176,21 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						
 						//判断当前代理是否是已过期，使用期满，将无法登录
 						if (myAgency != null && myAgency.getExpiretime() != null && myAgency.getExpiretime() < currentTime){
-							return error("您的代理资格已到期。若要继续使用，请联系您的上级");
+							//您的代理资格已到期。若要继续使用，请联系您的上级
+							BaseVO vo = new BaseVO();
+							String info = "";
+							try {
+								info = "您的代理资格已于 "+DateUtil.dateFormat(myAgency.getExpiretime(), "yyyy-MM-dd")+" 到期！"
+										+ "<br/>若要继续使用，请联系："
+										+ "<br/>姓名："+userBean.getParentAgency().getName()
+										+ "<br/>QQ："+userBean.getParentAgency().getQq()
+										+ "<br/>电话："+userBean.getParentAgency().getPhone();
+							} catch (NotReturnValueException e) {
+								e.printStackTrace();
+							}
+							vo.setBaseVO(11, info);
+							ShiroFunc.getCurrentActiveUser().setObj(null);  	//清空 Session信息
+							return vo;
 						}
 						
 						ActionLogCache.insert(request, "用户名密码模式登录成功","进入代理后台");

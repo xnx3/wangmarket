@@ -1,7 +1,7 @@
 package com.xnx3.wangmarket.domain.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +23,10 @@ import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.domain.G;
+import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.RequestLog;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+import com.xnx3.wangmarket.domain.pluginManage.DomainPluginManage;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
 
 /**
@@ -41,11 +43,6 @@ public class PublicController extends BaseController {
 	//主站url，即使用泛解析的主域名访问时，直接跳转到的url
 	@Value("masterSiteUrl")
 	private String masterSiteUrl;
-//	@RequestMapping("dns.cgi")
-//	public String htmls(HttpServletRequest request, HttpServletResponse response, Model model,
-//			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
-//		
-//	}
 	
 	/**
 	 * 域名捕获转发
@@ -56,12 +53,6 @@ public class PublicController extends BaseController {
 	public String dns(HttpServletRequest request, HttpServletResponse response, Model model){
 		String htmlFile = request.getServletPath();
 		htmlFile = htmlFile.replace("/", "");	//将开头的 /去掉
-//		String[] hfs = htmlFiles.split(".");
-//		String htmlFile = hfs[0];
-//		//判断访问的站点的哪个文件
-//		if(htmlFile.length() == 0){
-//			htmlFile = "index";
-//		}
 		
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
@@ -83,9 +74,17 @@ public class PublicController extends BaseController {
 			}
 		}
 		
+		RequestInfo requestInfo = new RequestInfo();
+		requestInfo.setHtmlFile(htmlFile);
+		requestInfo.setIp(IpUtil.getIpAddress(request));
+		requestInfo.setReferer(request.getHeader("referer"));
+		requestInfo.setServerName(request.getServerName());
+		requestInfo.setTime(DateUtil.timeForUnix10());
+		requestInfo.setUserAgent(request.getHeader("User-Agent"));
+		
 //		htmlFile = htmlFile + ".html";
 		//访问日志记录
-		requestLog(request, htmlFile);
+		requestLog(request, requestInfo);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			return error404();
@@ -109,16 +108,6 @@ public class PublicController extends BaseController {
 				return "domain/404";
 			}
 			
-//			InputStream in = ossObj.getObjectContent();
-//			String html = null;
-//			try {
-//				html = IOUtils.readStreamAsString(in, "UTF-8");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-			
-//			html = html.replaceAll("(?m)^\\s*$"+System.lineSeparator(), "");
-			
 			//如果用的第六套模版，需要进行手机电脑自适应
 			if(simpleSite.getTemplateId() - 6 == 0){
 				//判断是否增加了 viewport，若没有，补上
@@ -136,17 +125,18 @@ public class PublicController extends BaseController {
 			html = replaceHtmlTag(simpleSite, html);
 			//过滤掉空行
 //			html = html.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", ""); 
-			//加载在线客服
-			int time = DateUtil.timeForUnix10();
-			html = html + ""
-					+ "<script> "
-					+ "		var im_kefu_socketUrl = '"+ com.xnx3.wangmarket.im.Global.websocketUrl +"'; "
-					+ "		var attachmentFileUrl = '"+AttachmentFile.netUrl()+"';"
-					+ "</script>"
-					+ "<script src=\"http://res.weiunity.com/js/fun.js\"></script>"
-					+ "<script src=\""+AttachmentFile.netUrl()+"/site/"+simpleSite.getId()+"/data/site.js?v="+time+"\"></script>"
-					+ "<script src=\""+AttachmentFile.netUrl()+"/js/im/site_kefu.js\"></script>"
-					+ "";
+			
+			
+			/**** 针对html源码处理插件 ****/
+			try {
+				html = DomainPluginManage.manage(html, simpleSite, requestInfo);
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			
+			
 			model.addAttribute("html", html);
 			
 			//判断此网站的类型，是PC端还是手机端
@@ -164,13 +154,13 @@ public class PublicController extends BaseController {
 		}
 	}
 	
-	private void requestLog(HttpServletRequest request, String htmlFile){
+	private void requestLog(HttpServletRequest request, RequestInfo requestInfo){
 		//进行记录访问日志，记录入Session
 		RequestLog requestLog = (RequestLog) request.getSession().getAttribute("requestLog");
 		if(requestLog == null){
 			requestLog = new RequestLog();
-			requestLog.setIp(IpUtil.getIpAddress(request));
-			requestLog.setServerName(request.getServerName());
+			requestLog.setIp(requestInfo.getIp());
+			requestLog.setServerName(requestInfo.getServerName());
 			
 			SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
 			if(vo != null){
@@ -181,10 +171,10 @@ public class PublicController extends BaseController {
 		}
 		
 		LogItem logItem = new LogItem(DateUtil.timeForUnix10());
-		logItem.PushBack("ip", requestLog.getIp());
-		logItem.PushBack("referer", request.getHeader("referer"));
-		logItem.PushBack("userAgent", request.getHeader("User-Agent"));
-		logItem.PushBack("htmlFile", htmlFile);
+		logItem.PushBack("ip", requestInfo.getIp());
+		logItem.PushBack("referer", requestInfo.getReferer());
+		logItem.PushBack("userAgent", requestInfo.getUserAgent());
+		logItem.PushBack("htmlFile", requestInfo.getHtmlFile());
 		logItem.PushBack("siteid", requestLog.getSiteid()+"");
 		requestLog.getLogGroup().add(logItem);
 		
@@ -206,11 +196,20 @@ public class PublicController extends BaseController {
 	@RequestMapping("sitemap.xml")
 	public String sitemap(HttpServletRequest request, Model model){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
+		
+		RequestInfo requestInfo = new RequestInfo();
+		requestInfo.setHtmlFile("sitemap.xml");
+		requestInfo.setIp(IpUtil.getIpAddress(request));
+		requestInfo.setReferer(request.getHeader("referer"));
+		requestInfo.setServerName(request.getServerName());
+		requestInfo.setTime(DateUtil.timeForUnix10());
+		requestInfo.setUserAgent(request.getHeader("User-Agent"));
+		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			return error404();
 		}else{
 			//访问日志记录
-			requestLog(request, "sitemap.xml");
+			requestLog(request, requestInfo);
 			
 			HttpResponse hr = http.get(AttachmentFile.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
 			if(hr.getCode() - 404 == 0){

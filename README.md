@@ -1,36 +1,31 @@
 
-# 注重实际应用－wangmarket
+# 注重实际业务应用，一切以建站公司利益为主。
+<br/>
 
-系统成熟、流程完善、细节精致、使用简单。极低的成本投入，30秒安装部署，选好模版一键导入。最快出网站，最快赚到钱。网市场云建站系统，历经8年，不断完善，拒绝半成品！<br/>
-注重实际业务应用，一切以建站公司的利益为主。如果贵公司也有网站建设业务、或想做这方面业务，而我的项目对你有帮助，欢迎联系我微信(xnx3com)洽谈合作。<br/>
+||||
+| ------------- |-------------|-------------|
+| 网市场官网 | [www.wang.market](http://www.wang.market) ||
+| 免费模版库 | [www.wang.market/template.jsp](http://www.wang.market/template.jsp) | 二十多个模版，持续增加中 |
+| 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
+| 扒网站工具 | [gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider) | 看好哪个网站拔下来做成模版 |
+| 付费帮助 | [www.wang.market/4446.html](http://www.wang.market/4446.html) | 如果你不懂技术收费提供帮助。 |
+| 合作代理 | [www.wang.market/index.html#join](http://www.wang.market/index.html#join) | 10元即可加盟代理 |
+| 商业授权 | [www.wang.market/5541.html](http://www.wang.market/5541.html) | 拥有跟我们wang.market相同的系统 |
 
 
 ## 项目极速搭建体验步骤
-只需一步，你没看错！不需要配置乱七八糟环境，不需要你去配置环境，点击 “启动” 即可一键运行起来！直接访问 localhost 访问即可使用，追求极致的简单！
-文档及下载：[http://help.wscso.com/5683.html](http://help.wscso.com/5683.html)
-
-
-## 导航
-|[官网](http://www.wang.market/)  | [模版库](http://wang.market/template.jsp) | [日志](http://www.wang.market/log.html) | [Api](http://api.wscso.com) |[模版开发](http://tag.wscso.com/4192.html) | [快速安装](http://www.wang.market/3749.html) |[扒网站工具](https://gitee.com/mail_osc/templatespider) |[合作代理](http://www.wang.market/index.html#join) | [收费服务](http://www.wang.market/4446.html) |
-| ------------- |-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|-------------:|
-||||||||||
-
+[点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 解压,双击 “ 启动.bat ”，访问 [localhost](http://localhost) 就这么简单！
+[查看详细视频演示](http://help.wscso.com/5683.html)
 
 
 ## 功能简介
-1. 在线开通网站
-2. 自动分配二级域名
-3. 在线绑定域名
-4. (半)可视化界面编辑
-5. 成熟的云端模版库一键导入创建网站
-6. 网站页面100%全部自定义的模版体系
-7. 承载几百到几十万的网站个数
-8. 极速做网站的效率(导入模版－改图改字－上线)
-1. 自动识别图片是否涉黄、涉政、是否有违规嫌疑
-1. 自动判断网站内的文章是否有违法嫌疑
-2. 配套 [扒网站工具](https://gitee.com/mail_osc/templatespider) 。看到哪个网站好，拿过来变成自己的！
-9. 价格真的可以达到1个网站几块钱！
-10. ………………[更多可查看](http://www.wang.market/index.html#services)
+|||||
+| ------------- |-------------|-------------|-------------|
+| 自助在线开通网站 | 自动分配二级域名 | 免费绑定自己域名 | 网站页面完全自定义 |
+| 可视化界面编辑 | 成熟模版库 | 导入-改字图-上线 | 百万级承载 |
+| 违规涉嫌自动识别 | 配套扒网站工具 | 模版一键备份还原 | 极速复制网站 |
+| 域名入口的访问统计 | 搜索引擎爬虫统计 | 自动化客服系统 | 万能表单反馈系统 |
+| 插件开发快速应用 | 源码开源数据自己掌控 | UEditor/MarkDown编辑 | 成熟，稳定！ |
 <br/>
 
 ## 在线快速体验
@@ -87,8 +82,8 @@ svn版本更新迭代837次！<br/>
 [点击此链接查看代理开通步骤 www.wang.market/3192.html](http://www.wang.market/3192.html) （强烈建议先用体验账号自行体验）
 #### 2. 七百左右成本<br/>
 一台1核2G，安装网市场云建站系统，可以支撑起至少200个以上的网站(也可能过1000个没啥问题。网站本身做好后就很少会登陆后台修改了)。服务器成本一年大约七百。<br/>
-#### 3. 六千以上的成本<br/>
-购买两台及以上，配置为2核4G及以上的云服务器。采用负载均衡、OSS、RDS、Docker、MQ、SLS、及弹性伸缩方案，将网站访问、管理后台、客服等功能完全分离，一年预计最低消耗六千元以上。建立十来万个网站不在话下。此种方式架构部署如下：<br/>
+#### 3. 五千以上的成本<br/>
+购买两台及以上，配置为2核4G及以上的云服务器。采用负载均衡、OSS、RDS、Docker、MQ、SLS、及弹性伸缩方案，将网站访问、管理后台、客服等功能完全分离，一年预计最低消耗五千元以上。建立十来万个网站不在话下。此种方式架构部署如下：<br/>
 ![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
 <br/>
 
@@ -137,7 +132,6 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 ## 版权声明<br/>
 著作权登记号：2017SR608214<br/>
 本软件使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需显式保留我们“网市场”版权标示及我们官方首页的链接！<br/>
-另外可以与我们有更多合作可以查看： [http://www.wang.market/index.html#join](http://www.wang.market/index.html#join) <br/>
 [网市场云建站系统软件商业授权说明（不授权也完全可以免费使用！）](http://www.wang.market/5541.html)
 <br/>
 <br/>

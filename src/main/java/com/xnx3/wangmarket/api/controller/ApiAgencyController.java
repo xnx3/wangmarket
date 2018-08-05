@@ -64,7 +64,7 @@ public class ApiAgencyController extends com.xnx3.wangmarket.admin.controller.Ba
 			return error(vo.getInfo());
 		}
 		
-		Agency agency = vo.getAgency();
+		Agency agency = sqlService.findById(Agency.class, vo.getAgency().getId());
 		
 		//要创建得网站得user
 		User user = new User();

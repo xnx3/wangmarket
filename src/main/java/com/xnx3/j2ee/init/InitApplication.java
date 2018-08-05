@@ -1,30 +1,16 @@
 package com.xnx3.j2ee.init;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
-import com.qikemi.packages.alibaba.aliyun.oss.properties.OSSClientProperties;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.controller.BaseController;
-import com.xnx3.j2ee.entity.System;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.OSS;
@@ -36,8 +22,6 @@ import com.xnx3.j2ee.generateCache.SmsLog;
 import com.xnx3.j2ee.generateCache.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.net.OSSUtil;
-import com.xnx3.version.VersionUtil;
-import com.xnx3.version.VersionVO;
 
 /**
  * 版本相关

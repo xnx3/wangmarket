@@ -19,6 +19,4 @@
 		-->
 	</AliyunSMSUtil>
 	
-	<!-- 是否显示版权标记，true:显示。  未授权用户，需保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html -->
-	<copyright>true</copyright>
 </configuration>

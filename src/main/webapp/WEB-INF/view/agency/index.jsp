@@ -163,7 +163,7 @@ try {
 		  ,shade: 0
 		  ,offset: 'rb'
 		  ,maxmin: true
-		  ,content: 'http://www.wscso.com/jianzhanDemo.html'
+		  ,content: '${AGENCYUSER_FIRST_USE_EXPLAIN_URL}'
 		  ,zIndex: layer.zIndex //重点1
 		});
 	}

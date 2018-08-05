@@ -124,8 +124,16 @@ layui.use('form', function(){
        		layer.msg('登陆成功', {shade: 0.3});
        		window.location.href=obj.info;
        	}else if(obj.result == '0'){
+       		//登陆失败
        		reloadCode();
        		layer.msg(obj.info, {shade: 0.3})
+       	}else if(obj.result == '11'){
+       		//网站已过期。弹出提示
+       		reloadCode();
+       		layer.open({
+			  title: '到期提示'
+			  ,content: obj.info
+			});     
        	}else{
        		reloadCode();
        		layer.msg(result, {shade: 0.3})

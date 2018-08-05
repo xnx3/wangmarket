@@ -990,6 +990,10 @@ INSERT INTO `system` VALUES ('AUTO_ASSIGN_DOMAIN', '网站生成后，会自动�
 INSERT INTO `system` VALUES ('MASTER_SITE_URL', '设置当前建站系统的域名。如建站系统的登录地址为 http://wang.market/login.do ，那么就将 http://wang.market/  填写到此处。', '', '134', '1515401613');
 INSERT INTO `system` VALUES ('ATTACHMENT_FILE_URL', '设置当前建站系统中，上传的图片、附件的访问域名。若后续想要将附件转到云上存储、或开通CDN加速，可平滑上云使用。', '', '135', '1515401592');
 INSERT INTO `system` VALUES ('ATTACHMENT_FILE_MODE', '当前文件附件存储使用的模式，用的阿里云oss，还是服务器本身磁盘进行存储。<br/>可选一：aliyunOSS：阿里云OSS模式存储<br/>可选二：localFile：服务器本身磁盘进行附件存储', 'localFile', '136', '1515395510');
+INSERT INTO `system` ( name, description, value,  id, lasttime) VALUES ('SITEUSER_FIRST_USE_EXPLAIN_URL', '网站建站用户第一天登陆网站管理后台时，会自动弹出使用教程的提示。这里便是教程的链接地址', 'https://v.qq.com/x/page/k0516y0fouw.html', '137', '1533238686');
+INSERT INTO `system` ( name, description, value,  id, lasttime) VALUES ('AGENCYUSER_FIRST_USE_EXPLAIN_URL', '代理用户前15天登陆代理后台时，会自动弹出使用教程的提示。这里便是教程的链接地址', 'http://www.wscso.com/jianzhanDemo.html', '138', '1533238686');
+
+
 
 -- ----------------------------
 -- Table structure for `template`

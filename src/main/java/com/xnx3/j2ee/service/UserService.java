@@ -39,7 +39,7 @@ public interface UserService {
 	public BaseVO loginByPhoneAndCode(HttpServletRequest request);
 	
 	/**
-	 * 传入一个用户id，使当前登陆的用户为此用户。
+	 * 传入一个用户id，使当前登陆的用户为此用户。会自动判断当前登陆的ip地址，是否跟此用户最后一次登陆的ip相同。若相同，则可以登陆成功。若不相同，则登陆不成功。
 	 * @param userid 要登陆的用户的user.id
 	 * @return {@link BaseVO}
 	 */

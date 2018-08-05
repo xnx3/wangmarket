@@ -127,6 +127,7 @@ public class TemplateController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		model.addAttribute("autoAssignDomain", com.xnx3.wangmarket.domain.G.getAutoAssignMainDomain());	//自动分配的域名，如 wang.market
+		model.addAttribute("SITEUSER_FIRST_USE_EXPLAIN_URL", Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
 		return "template/index";
 	}
 	
