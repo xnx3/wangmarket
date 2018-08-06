@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MNSUtil;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
@@ -70,14 +71,15 @@ public class G {
 				mnsDomain_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
 			}
 			if(mnsDomain_accessKeyId.length() < 10){
-				System.out.println("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+				Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
 			}
 			String mnsDomain_endpoint = wangMarketConfig.getValue("aliyunMNS_Domain.endpoint");
 			mnsDomain_queueName = wangMarketConfig.getValue("aliyunMNS_Domain.queueName");
 			
 			domainMNSUtil = new MNSUtil(mnsDomain_accessKeyId, mnsDomain_accessKeySecret, mnsDomain_endpoint);
+			Log.info("已开启分布式域名更新功能(MQ)");
 		}else{
-			System.out.println("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+			Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
 		}
 	}
 	

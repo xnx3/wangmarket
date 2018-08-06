@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.domain.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Vector;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.aliyun.openservices.log.common.LogItem;
-import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
@@ -23,8 +20,8 @@ import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.domain.G;
+import com.xnx3.wangmarket.domain.Log;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
-import com.xnx3.wangmarket.domain.bean.RequestLog;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.pluginManage.DomainPluginManage;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
@@ -84,7 +81,8 @@ public class PublicController extends BaseController {
 		
 //		htmlFile = htmlFile + ".html";
 		//访问日志记录
-		requestLog(request, requestInfo);
+//		requestLog(request, requestInfo);
+		Log.requestLog(request, requestInfo, simpleSiteVO);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			return error404();
@@ -154,39 +152,39 @@ public class PublicController extends BaseController {
 		}
 	}
 	
-	private void requestLog(HttpServletRequest request, RequestInfo requestInfo){
-		//进行记录访问日志，记录入Session
-		RequestLog requestLog = (RequestLog) request.getSession().getAttribute("requestLog");
-		if(requestLog == null){
-			requestLog = new RequestLog();
-			requestLog.setIp(requestInfo.getIp());
-			requestLog.setServerName(requestInfo.getServerName());
-			
-			SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
-			if(vo != null){
-				requestLog.setSiteid(vo.getSimpleSite().getId());
-			}
-			
-			request.getSession().setAttribute("requestLog", requestLog);
-		}
-		
-		LogItem logItem = new LogItem(DateUtil.timeForUnix10());
-		logItem.PushBack("ip", requestInfo.getIp());
-		logItem.PushBack("referer", requestInfo.getReferer());
-		logItem.PushBack("userAgent", requestInfo.getUserAgent());
-		logItem.PushBack("htmlFile", requestInfo.getHtmlFile());
-		logItem.PushBack("siteid", requestLog.getSiteid()+"");
-		requestLog.getLogGroup().add(logItem);
-		
-		if(requestLog.getLogGroup().size() > 1000){
-			try {
-				G.aliyunLogUtil.saveByGroup(requestLog.getServerName(), requestLog.getIp(), requestLog.getLogGroup());
-				requestLog.setLogGroup(new Vector<LogItem>());
-			} catch (LogException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	private void requestLog(HttpServletRequest request, RequestInfo requestInfo){
+//		//进行记录访问日志，记录入Session
+//		RequestLog requestLog = (RequestLog) request.getSession().getAttribute("requestLog");
+//		if(requestLog == null){
+//			requestLog = new RequestLog();
+//			requestLog.setIp(requestInfo.getIp());
+//			requestLog.setServerName(requestInfo.getServerName());
+//			
+//			SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+//			if(vo != null){
+//				requestLog.setSiteid(vo.getSimpleSite().getId());
+//			}
+//			
+//			request.getSession().setAttribute("requestLog", requestLog);
+//		}
+//		
+//		LogItem logItem = new LogItem(DateUtil.timeForUnix10());
+//		logItem.PushBack("ip", requestInfo.getIp());
+//		logItem.PushBack("referer", requestInfo.getReferer());
+//		logItem.PushBack("userAgent", requestInfo.getUserAgent());
+//		logItem.PushBack("htmlFile", requestInfo.getHtmlFile());
+//		logItem.PushBack("siteid", requestLog.getSiteid()+"");
+//		requestLog.getLogGroup().add(logItem);
+//		
+//		if(requestLog.getLogGroup().size() > 1000){
+//			try {
+//				G.aliyunLogUtil.saveByGroup(requestLog.getServerName(), requestLog.getIp(), requestLog.getLogGroup());
+//				requestLog.setLogGroup(new Vector<LogItem>());
+//			} catch (LogException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	
 	/**
 	 * sitemap.xml展示
@@ -209,7 +207,8 @@ public class PublicController extends BaseController {
 			return error404();
 		}else{
 			//访问日志记录
-			requestLog(request, requestInfo);
+//			requestLog(request, requestInfo);
+			Log.requestLog(request, requestInfo, simpleSiteVO);
 			
 			HttpResponse hr = http.get(AttachmentFile.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
 			if(hr.getCode() - 404 == 0){

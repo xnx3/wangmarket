@@ -830,7 +830,7 @@ function shipinjiaocheng(){
 			  ,content: '检测到您刚开通网站第一天，特送上教程一份！<br>您以后可在左侧菜单中，找到“帮助说明”下的"基本使用"，可以随时查看',
 			btn: ['观看视频教程'],
 			yes: function(index, layero){
-				window.open('${}');
+				window.open('${SITEUSER_FIRST_USE_EXPLAIN_URL}');
 			    layer.close(shipinjiaocheng_tip); //如果设定了yes回调，需进行手工关闭
 			  }
 			});    
