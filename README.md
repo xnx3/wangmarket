@@ -44,8 +44,8 @@
 #### 环境
 Java 1.8、Maven 3.3.9<br/>
 #### IDE开发工具
-请注意，intellij idea 直接导入运行不起来，报错！
-请使用Eclipse、MyEclipse
+Eclipse、MyEclipse <br/>
+[请注意，intellij idea 直接导入运行不起来，报错！点此查看解决方式](http://iw.wscso.com/5877.html)
 #### 步骤
 1. 直接导入maven项目
 2. 运行 com.xnx3.Application 即可运行项目
