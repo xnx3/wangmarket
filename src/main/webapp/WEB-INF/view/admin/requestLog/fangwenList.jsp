@@ -41,27 +41,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<% i++; %>
   		<tr>
   			<td style="width:20px;"><%=i %></td>
-          <td style="cursor: pointer; width:150px;" id="xnx3_<%=i %>" onclick="xnx3_<%=i %>_onclick();"><x:substring maxLength="18" text="${log['__topic__'] }"></x:substring> </td>
+          <td style="cursor: pointer; width:150px;" id="xnx3_<%=i %>" onclick="xnx3_<%=i %>_onclick();"><x:substring maxLength="18" text="${log['serverName'] }"></x:substring> </td>
           <td style="cursor: pointer; width:100px;" onclick="xnx3_<%=i %>_onclick();"><x:substring maxLength="12" text="${log['htmlFile'] }"></x:substring> </td>
-          <td style="min-width:150px; cursor: pointer;" onclick="window.location.href='${log['referer'] }';"><x:substring maxLength="50" text="${log['referer'] }"></x:substring></td>
-          <td style="min-width:200px; cursor: pointer;"><x:substring maxLength="60" text="${log['userAgent'] }"></x:substring></td>
+          <td style="min-width:150px; cursor: pointer;" onclick="window.location.href='${log['referer'] }';"><x:substring maxLength="30" text="${log['referer'] }"></x:substring></td>
+          <td style="min-width:200px; cursor: pointer;"><x:substring maxLength="30" text="${log['userAgent'] }"></x:substring></td>
           <td style="width:100px;"><x:time linuxTime="${log['logtime'] }" format="dd日 hh:mm"></x:time></td>
       </tr>
       <script>
       		//<table class="layui-table iw_table"> 这个湿table显示，但是不含<table>的table头，因为鼠标跟随提示跟点击弹出层的class是不一样的
       		var xnx3_<%=i %>_table_content = ''+
-							'<tr><td style="width:80px;">动作</td><td>${log['action']}</td></tr>'+
-							'<tr><td>描述</td><td>${log['remark']}</td></tr>'+
-							'<tr><td>目标id</td><td>${log['goalid']}</td></tr>'+
-							'<tr><td>操作用户</td><td>${log['username']}</td></tr>'+
-							'<tr><td>操作人IP</td><td>${log['ip']}</td></tr>'+
-							'<tr><td>时间</td><td><x:time linuxTime="${log['logtime'] }"></x:time></td></tr>'+
-							'<tr><td>访问网址</td><td>${log['url']}</td></tr>'+
-							'<tr><td>GET参数</td><td>${log['param']}</td></tr>'+
+							'<tr><td style="width:80px;">访问域名</td><td>${log['serverName']}</td></tr>'+
+							'<tr><td>访问页面</td><td>${log['htmlFile']}</td></tr>'+
 							'<tr><td>来源网址</td><td>${log['referer']}</td></tr>'+
+							'<tr><td>访客IP</td><td>${log['ip']}</td></tr>'+
+							'<tr><td>访问网站编号</td><td>${log['siteid']}</td></tr>'+
 							'<tr><td>UserAgent</td><td>${log['userAgent']}</td></tr>'+
-							'<tr><td>触发类</td><td>${log['className']}</td></tr>'+
-							'<tr><tr><td>触发函数</td><td>${log['methodName']}</td></tr>'+
+							'<tr><td>访问时间</td><td><x:time linuxTime="${log['logtime'] }"></x:time></td></tr>'+
 							'</table>';
       
 			//鼠标跟随提示

@@ -89,10 +89,12 @@ public class WangShiChangPlugin implements AutoReply{
 					//不用发送通知
 					new MessageReply(message.getFromUserName(), message.getToUserName()).reply(response, "success");
 				}else{
-					//用户第一次咨询，或者超过5分钟时间进行的对话,需要发送邮件通知，并且回复用户提示。
-					List<String> list = getNoticeEmailList();
-					for (int i = 0; i < list.size(); i++) {
-						MailUtil.sendMail(list.get(i), "网市场公众号有人咨询:"+title, message.getContent());
+					if(title != null && message.getContent() != null){
+						//用户第一次咨询，或者超过5分钟时间进行的对话,需要发送邮件通知，并且回复用户提示。
+						List<String> list = getNoticeEmailList();
+						for (int i = 0; i < list.size(); i++) {
+							MailUtil.sendMail(list.get(i), "网市场公众号有人咨询:"+title, message.getContent());
+						}
 					}
 					
 					reply.replyText("您的信息已收到，我们将有专人负责处理，请耐心等待。");

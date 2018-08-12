@@ -37,31 +37,31 @@ public @interface PluginRegister {
 	String menuHref() default "";
 	
 	/**
-	 * 是否适用于CMS类型网站管理后台， true：是, 不填默认是false
+	 * 是否在CMS模式网站管理后台的功能插件中显示， true：是, 不填默认是false
 	 * @return
 	 */
 	boolean applyToCMS() default false;
 	
 	/**
-	 * 是否适用于PC类型网站管理后台， true：是, 不填默认是false
+	 * 是否在电脑(pc)模式网站管理后台的功能插件中显示， true：是, 不填默认是false
 	 * @return
 	 */
 	boolean applyToPC() default false;
 	
 	/**
-	 * 是否适用于WAP类型网站管理后台， true：是, 不填默认是false
+	 * 是否在手机(wap)模式网站管理后台的功能插件中显示， true：是, 不填默认是false
 	 * @return
 	 */
 	boolean applyToWAP() default false;
 	
 	/**
-	 * 是否适用于代理后台， true：是, 不填默认是false
+	 * 是否在代理后台的功能插件中显示， true：是, 不填默认是false
 	 * @return
 	 */
 	boolean applyToAgency() default false;
 	
 	/**
-	 * 是否适用于总管理后台， true：是, 不填默认是false
+	 * 是否在总管理后台的功能插件中显示， true：是, 不填默认是false
 	 * @return
 	 */
 	boolean applyToSuperAdmin() default false;
