@@ -1,8 +1,7 @@
-package com.xnx3.wangmarket.api.vo;
+package com.xnx3.wangmarket.plugin.api.vo;
 
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 

@@ -1,21 +1,7 @@
-package com.xnx3.wangmarket.api.service;
+package com.xnx3.wangmarket.plugin.api.service;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.ui.Model;
-
-import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.util.Page;
-import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UserVO;
-import com.xnx3.wangmarket.admin.entity.News;
-import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.vo.NewsVO;
-import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
-import com.xnx3.wangmarket.api.vo.UserBeanVO;
+import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
 
 /**
  * Key的管理

@@ -300,7 +300,7 @@ public class PublicController extends BaseController {
 		//替换图片文件
 		html = html.replaceAll("src=\"news/", "src=\""+AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/news/");
 		//替换掉HTML的注释 <!-- -->
-		html = html.replaceAll("<!--(.*?)-->", "");
+		//html = html.replaceAll("<!--(.*?)-->", "");
 		//替换掉JS的注释 /**/
 		html = html.replaceAll("/\\*(.*?)\\*/", "");
 		return html;

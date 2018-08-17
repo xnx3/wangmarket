@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.api;
+package com.xnx3.wangmarket.plugin.api;
 
 import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
 

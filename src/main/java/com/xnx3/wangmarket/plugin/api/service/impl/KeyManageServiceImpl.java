@@ -1,12 +1,9 @@
-package com.xnx3.wangmarket.api.service.impl;
+package com.xnx3.wangmarket.plugin.api.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
@@ -14,12 +11,10 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.UserVO;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.api.service.KeyManageService;
-import com.xnx3.wangmarket.api.vo.UserBeanVO;
+import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
+import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 
 @Service("KeyManageService")

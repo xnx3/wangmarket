@@ -148,4 +148,27 @@ public class Func {
 		}
 		return "";
 	}
+	
+	/**
+	 * 判断当前用户是否是超级管理员，有总管理后台权限
+	 * @return true:有总管理后台的权限；  false：没有
+	 */
+	public static boolean haveSuperAdminAuth(){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * 判断当前用户是否是代理商，有代理后台权限
+	 * @return true:有代理后台的权限；  false：没有
+	 */
+	public static boolean haveAgencyAuth(){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+			return true;
+		}
+		return false;
+	}
 }
