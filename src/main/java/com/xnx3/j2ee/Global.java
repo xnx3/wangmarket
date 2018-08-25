@@ -66,7 +66,7 @@ public class Global {
 	public static int POST_INFO_AUTOCAT_MAX=60;		//发帖时，自动截取内容前多少个字节作为简介。这里是截取的开头的最大字符 systemConfig.xml
 	
 	/**** 文件上传 *****/
-	public static String ossFileUploadImageSuffixList = ""; //图片文件，允许上传的图片的后缀名，多个以|分割，如 "png|jpg|gif"
+	public static String ossFileUploadImageSuffixList = ""; //图片文件，允许上传的图片的后缀名，在 systemConfig.xml 中的 attachmentFile.allowUploadSuffix 中配置
 	
 	/***** 权限相关 *****/
 	public static int roleId_admin = 9;	//超级管理员的角色id
@@ -91,7 +91,7 @@ public class Global {
 		
 		
 		/****图片文件上传 ****/
-		ossFileUploadImageSuffixList = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("OSS.imageSuffixList");
+		ossFileUploadImageSuffixList = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("attachmentFile.allowUploadSuffix");
 	}
 	
 	

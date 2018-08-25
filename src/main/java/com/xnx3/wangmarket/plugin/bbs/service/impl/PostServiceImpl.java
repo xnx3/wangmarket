@@ -1,29 +1,26 @@
-package com.xnx3.j2ee.service.impl;
+package com.xnx3.wangmarket.plugin.bbs.service.impl;
 
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.BaseEntity;
-import com.xnx3.j2ee.entity.Post;
-import com.xnx3.j2ee.entity.PostClass;
-import com.xnx3.j2ee.entity.PostComment;
-import com.xnx3.j2ee.entity.PostData;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.generateCache.Bbs;
-import com.xnx3.j2ee.service.PostService;
+import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.j2ee.vo.PostVO;
+import com.xnx3.wangmarket.plugin.bbs.entity.Post;
+import com.xnx3.wangmarket.plugin.bbs.entity.PostClass;
+import com.xnx3.wangmarket.plugin.bbs.entity.PostComment;
+import com.xnx3.wangmarket.plugin.bbs.entity.PostData;
+import com.xnx3.wangmarket.plugin.bbs.service.PostService;
+import com.xnx3.wangmarket.plugin.bbs.vo.PostVO;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -59,7 +56,7 @@ public class PostServiceImpl implements PostService {
 			return baseVO;
 		}
 		
-		Post post = new com.xnx3.j2ee.entity.Post();
+		Post post = new Post();
 		PostData postData = new PostData();
 		if(id != 0){
 			post = sqlDAO.findById(Post.class, id);
@@ -72,7 +69,6 @@ public class PostServiceImpl implements PostService {
 			}
 		}else{
 			post.setAddtime(com.xnx3.DateUtil.timeForUnix10());
-			post.setState(Post.STATE_NORMAL);
 			post.setUserid(ShiroFunc.getUser().getId());
 			post.setView(0);
 			post.setIsdelete(Post.ISDELETE_NORMAL);
@@ -213,10 +209,10 @@ public class PostServiceImpl implements PostService {
 			return baseVO;
 		}
 		
-		if(p.getState() != Post.STATE_NORMAL){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("bbs_commentPostIsNotNormal"));
-			return baseVO;
-		}
+//		if(p.getState() != Post.STATE_NORMAL){
+//			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("bbs_commentPostIsNotNormal"));
+//			return baseVO;
+//		}
 		
 		if(p.getIsdelete() == Post.ISDELETE_DELETE){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("bbs_commentPostIsDelete"));
@@ -248,10 +244,11 @@ public class PostServiceImpl implements PostService {
 		return sqlDAO.findMapBySqlQuery("SELECT comment.addtime,comment.userid,comment.text,user.head,user.nickname,user.id FROM post_comment comment,user WHERE comment.userid=user.id AND comment.postid= "+postid+" AND user.isfreeze="+User.ISFREEZE_NORMAL+" ORDER BY comment.id DESC "+limitString);
 	}
 	
-	public BaseVO savePostClass(HttpServletRequest request) {
+	public BaseVO savePostClass(HttpServletRequest request, int siteid) {
 		BaseVO baseVO = new BaseVO();
 		int id = Lang.stringToInt(request.getParameter("id"), 0);
 		String name = request.getParameter("name");
+		name = Safety.filter(name);
 		if(name == null || name.length()==0){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("bbs_savePostClassNameNotNull"));
 			return baseVO;
@@ -260,11 +257,17 @@ public class PostServiceImpl implements PostService {
 		PostClass postClass = null;
 		if(id==0){	//新增
 			postClass = new PostClass();
+			postClass.setSiteid(siteid);
 		}else{
 			//修改
 			postClass = sqlDAO.findById(PostClass.class, id);
 			if(postClass == null){
 				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("bbs_updatePostClassNotFind"));
+				return baseVO;
+			}
+			//判断归属
+			if(postClass.getSiteid() - siteid != 0){
+				baseVO.setBaseVO(BaseVO.FAILURE, "板块不属于你，无法操作");
 				return baseVO;
 			}
 		}
@@ -308,6 +311,6 @@ public class PostServiceImpl implements PostService {
 	 * 生成正常未删除的PostClass的缓存的js文件
 	 */
 	private void gerenatePostClassCacheJsFile(){
-		new Bbs().postClass(sqlDAO.findByProperty(PostClass.class, "isdelete", BaseEntity.ISDELETE_NORMAL));
+//		new Bbs().postClass(sqlDAO.findByProperty(PostClass.class, "isdelete", BaseEntity.ISDELETE_NORMAL));
 	}
 }

@@ -7,7 +7,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../common/head.jsp">
+<jsp:include page="../../../iw/common/head.jsp">
    	<jsp:param name="title" value="帖子列表"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Bbs_classid.js"></script>
@@ -43,6 +43,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            </c:forEach>
 	</tbody>
 </table>
-<jsp:include page="../common/page.jsp"></jsp:include>
+<jsp:include page="../../../iw/common/page.jsp"></jsp:include>
 				
-<jsp:include page="../common/foot.jsp"></jsp:include> 
+<jsp:include page="../../../iw/common/foot.jsp"></jsp:include> 

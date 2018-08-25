@@ -72,9 +72,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div class="layui-colla-item" style="font-size:12px;">
 	    <h2 class="layui-colla-title">其他说明</h2>
 	    <div class="layui-colla-content">
-	    	1.模型内容最大可存储两万字。
-    		<br/>2.建议不要引入外部资源文件,如图片、css、js。
-    		<br/>3.已引入JQuery、Layer等js框架，可直接再其中使用
+	    	1. 模型内容最大可存储两万字。
+    		<br/>2. 已引入JQuery、Layer等js框架，可直接再其中使用
+    		<br/>3. 您可自己在其中添加js方法 function save(){} 在点击保存时，会先执行save()，再执行提交。 另外，如果save() 方法 return false，那么会终止保存功能的执行，即不会进行保存
 	    </div>
 	  </div>
 	</div>

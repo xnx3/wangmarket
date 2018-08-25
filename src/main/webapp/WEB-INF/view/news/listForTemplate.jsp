@@ -10,65 +10,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="文章列表"/>
 </jsp:include>
-
-<style>
-.body{
-	margin: 0;padding: 0px;height: 100%;overflow: hidden;
-}
-.menu{
-	width:160px;
-	height:100%;
-	background-color: #EAEDF1;
-	position: absolute;
-}
-
-/* 左侧栏目列表的文字 */
-.layui-nav-tree .layui-nav-item a{
-	color:#333;
-}
-
-/*鼠标移动到某项后的样式*/
-.layui-nav-tree .layui-nav-item a:hover:HOVER{
-	background-color: #f4f6f8;
-	color:#222;
-}
-
-/*子栏目*/
-.layui-nav-tree .layui-nav-item dl dd a{
-	padding-left:35px;
-}
-
-.dltitle{
-	background-color: #EAEDF1;
-}
-
-.layui-nav-itemed>a, .layui-nav-tree .layui-nav-title a, .layui-nav-tree .layui-nav-title a:hover {
-    background-color: #EAEDF1!important;
-    color: #222!important;
-}
-
-.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th{
-	line-height: 2.2;
-	text-align:center;
-}
-
-.layui-nav-child dd{
-	background-color: #EAEDF1;
-}
-
-.layui-nav .layui-nav-item .layui-nav-more{
-	border-top-color: rgba(64, 34, 34, 0.7);
-}
-/*有二级栏目的，二级栏目伸缩的时候，右侧的小尖头的颜色*/
-.layui-nav .layui-nav-itemed .layui-nav-more{
-	border-top-color: rgba(64, 34, 34, 0);
-	border-color: transparent transparent #a42828;
-}
-    
-</style>
+<link href="<%=basePath %>css/site_two_subMenu.css" rel="stylesheet">
 
 <div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
-	
 		
 	<div class="layui-nav layui-nav-tree layui-nav-side menu">
 		<div style="height: 65px;text-align: left;line-height: 65px;font-size: 16px;font-weight: 700;color: black;padding-left: 18px;">内容管理</div>
@@ -76,7 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  ${columnTreeNav }
 		</ul>
 	</div>
-	
 	
 	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
 		

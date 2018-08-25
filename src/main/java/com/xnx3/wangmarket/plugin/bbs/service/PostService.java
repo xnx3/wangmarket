@@ -1,13 +1,10 @@
-package com.xnx3.j2ee.service;
+package com.xnx3.wangmarket.plugin.bbs.service;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import com.xnx3.j2ee.entity.Post;
-import com.xnx3.j2ee.entity.PostClass;
-import com.xnx3.j2ee.entity.PostComment;
-import com.xnx3.j2ee.entity.PostData;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.j2ee.vo.PostVO;
+import com.xnx3.wangmarket.plugin.bbs.vo.PostVO;
+
 /**
  * 论坛帖子
  * @author 管雷鸣
@@ -96,9 +93,10 @@ public interface PostService {
 	 * 				<li>id(板块id， {@link PostClass}.id)，若有id，则是修改，若无id，则是新增板块</li>
 	 * 				<li>name(板块名)，新增的板块的名字</li>
 	 * 			</ul>
+	 * @param siteid 当前板块所属的站点id，对应 site.id
 	 * @return {@link BaseVO} 若成功，info传回板块的id
 	 */
-	public BaseVO savePostClass(HttpServletRequest request);
+	public BaseVO savePostClass(HttpServletRequest request, int siteid);
 	
 	/**
 	 * 删除板块，逻辑删除，改状态isdelete=1

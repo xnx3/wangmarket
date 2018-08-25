@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.entity;
+package com.xnx3.wangmarket.plugin.bbs.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,16 +9,21 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.xnx3.j2ee.entity.BaseEntity;
+
 /**
- * PostClass entity. @author MyEclipse Persistence Tools
+ * 论坛板块
+ * @author 管雷鸣
+ *
  */
 @Entity
-@Table(name = "post_class")
+@Table(name = "plugin_bbs_post_class")
 public class PostClass extends BaseEntity {
 
 	private Integer id;
 	private String name;
-	public Short isdelete;
+	public Short isdelete;		//是否被删除，1已删除， 0正常
+	private Integer siteid;		//该帖子属于哪个网站，站点，对应 site.id
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -48,10 +53,18 @@ public class PostClass extends BaseEntity {
 		this.id = id;
 	}
 
+	public Integer getSiteid() {
+		return siteid;
+	}
+
+	public void setSiteid(Integer siteid) {
+		this.siteid = siteid;
+	}
+
 	@Override
 	public String toString() {
-		return "PostClass [getId()=" + getId() + ", getName()=" + getName()
-				+ ", getIsdelete()=" + getIsdelete() + "]";
+		return "PostClass [id=" + id + ", name=" + name + ", isdelete=" + isdelete + ", siteid=" + siteid + "]";
 	}
+	
 	
 }

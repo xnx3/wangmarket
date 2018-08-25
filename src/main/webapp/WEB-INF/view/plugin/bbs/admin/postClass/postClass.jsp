@@ -4,7 +4,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../../common/head.jsp">
+<jsp:include page="../../../../iw/common/head.jsp">
 	<jsp:param name="title" value="编辑分类板块"/>
 </jsp:include>
 
@@ -36,21 +36,19 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('保存中');
+  	  parent.iw.loading("保存中");
 		var d=$("form").serialize();
-        $.post("<%=basePath %>admin/bbs/saveClass.do", d, function (result) { 
-        	$.hideLoading();
+        $.post("saveClass.do", d, function (result) { 
+        	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		$.toast("操作成功", function() {
-        			parent.location.reload();	//刷新父窗口
-        			parent.layer.close(index);
-				});
-        		parent.layer.msg('操作成功', {shade: 0.3, time:1.4});
+        		parent.iw.msgSuccess('保存成功');
+        		parent.layer.close(index);
+        		parent.location.reload();	//刷新父窗口
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		iw.msgFailure(data.info)
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		iw.msgFailure('500');
         	}
          }, "text");
 		
@@ -60,4 +58,4 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 });  
 </script>
 
-<jsp:include page="../../common/foot.jsp"></jsp:include> 
+<jsp:include page="../../../../iw/common/foot.jsp"></jsp:include> 

@@ -495,7 +495,7 @@ public class SiteServiceImpl implements SiteService {
 			//替换公共标签
 			String v = template.replacePublicTag(entry.getValue().getTemplateVarData().getText());
 			//替换栏目的动态调用标签
-			v = template.replaceSiteColumnBlock(v, columnNewsMap, columnMap, columnTreeMap, true, null);	
+			v = template.replaceSiteColumnBlock(v, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);	
 			Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().put(entry.getKey(), v);
 		}
 		
@@ -526,7 +526,7 @@ public class SiteServiceImpl implements SiteService {
 			//替换公共标签
 			text = template.replacePublicTag(text);
 			//替换栏目的动态调用标签
-			text = template.replaceSiteColumnBlock(text, columnNewsMap, columnMap, columnTreeMap, true, null);	
+			text = template.replaceSiteColumnBlock(text, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);	
 			//装载模版变量
 			text = template.assemblyTemplateVar(text);
 			
@@ -539,7 +539,7 @@ public class SiteServiceImpl implements SiteService {
 		//生成首页
 		String indexHtml = templateCacheMap.get(templatePageIndexVO.getTemplatePage().getName());
 		//替换首页中存在的栏目的动态调用标签
-		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null);
+		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
 		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		//生成首页保存到OSS或本地盘
 		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
@@ -563,7 +563,7 @@ public class SiteServiceImpl implements SiteService {
 				return vo;
 			}
 			//替换内容模版中的动态栏目调用(动态标签引用)
-			viewTemplateHtml = template.replaceSiteColumnBlock(viewTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn);	
+			viewTemplateHtml = template.replaceSiteColumnBlock(viewTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn, newsDataMap);	
 			
 			//如果是新闻或者图文列表，那么才会生成栏目列表页面
 			if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
@@ -574,11 +574,11 @@ public class SiteServiceImpl implements SiteService {
 					return vo;
 				}
 				//替换列表模版中的动态栏目调用(动态标签引用)
-				listTemplateHtml = template.replaceSiteColumnBlock(listTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn);	
+				listTemplateHtml = template.replaceSiteColumnBlock(listTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn, newsDataMap);	
 				
 				
 				//生成其列表页面
-				template.generateListHtmlForWholeSite(listTemplateHtml, siteColumn, columnNewsList);
+				template.generateListHtmlForWholeSite(listTemplateHtml, siteColumn, columnNewsList, newsDataMap);
 				
 				//XML加入栏目页面
 				xml = xml + getSitemapUrl(indexUrl+"/"+template.generateSiteColumnListPageHtmlName(siteColumn, 1)+".html", "0.4");

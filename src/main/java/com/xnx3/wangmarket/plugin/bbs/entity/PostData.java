@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.entity;
+package com.xnx3.wangmarket.plugin.bbs.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

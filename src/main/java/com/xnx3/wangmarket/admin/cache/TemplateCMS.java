@@ -210,9 +210,10 @@ public class TemplateCMS {
 	 * @param newsText 要替换的news标签的模版内容
 	 * @param news {@link News}对象，提供具体替换的数据
 	 * @param siteColumn {@link SiteColumn}主要用到生成独立页面时，栏目代码作为html的文件名
+	 * @param text 文章内容详情，news_data.text
 	 * @return 返回替换好的内容
 	 */
-	public String replaceNewsTag(String newsText,News news, SiteColumn siteColumn){
+	public String replaceNewsTag(String newsText,News news, SiteColumn siteColumn, String news_data_text){
 		//获取到文章图片
 		String titlePic = news.getTitlepic();
 		if(titlePic == null){
@@ -224,7 +225,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("news.title"), news.getTitle());
 		text = text.replaceAll(regex("news.intro"), news.getIntro()+"");
 		text = text.replaceAll(regex("news.cid"), news.getCid()+"");
-
+		
+		
 		//文章头图在正常访问时，使用相对路径
 		if(titlePic.indexOf("http://") == -1){
 			titlePic = "news/"+titlePic;
@@ -253,6 +255,8 @@ public class TemplateCMS {
 				text = text.replaceAll(regex("news.url"), news.getId()+".html");
 			}
 		}
+		
+		text = Template.replaceAll(text, Template.regex("news.text"), replaceNewsText(news_data_text));	//替换新闻内容的详情
 		
 		return text;
 	}
@@ -302,8 +306,9 @@ public class TemplateCMS {
 	 * @param listTemplateHtml 当前栏目所使用的列表模版页的模版内容
 	 * @param siteColumn {@link SiteColumn} 当前栏目的信息
 	 * @param list 当前栏目列表页面的{@link News}列表
+	 * @param newsDataMap 对 newsDataList 网站文章的内容进行调整，调整为map key:newsData.id  value:newsData.text
 	 */
-	public void generateListHtmlForWholeSite(String listTemplateHtml, SiteColumn siteColumn, List<News> newList){
+	public void generateListHtmlForWholeSite(String listTemplateHtml, SiteColumn siteColumn, List<News> newList, Map<Integer, String> newsDataMap){
 		Site site = Func.getCurrentSite();
 		int count = newList.size();	//当前列表的总条数
 		
@@ -344,7 +349,7 @@ public class TemplateCMS {
 					//得到当前列表项对象 News
 					News news = newList.get(indexJ);
 					//替换每个 列表项 模版，将替换好的加入要显示的列表StringBuffer中
-					itemsBuffer.append(replaceNewsTag(listItemTemplate, news, siteColumn));
+					itemsBuffer.append(replaceNewsTag(listItemTemplate, news, siteColumn, newsDataMap.get(news.getId())));
 				}
 				currentListHtml = currentListHtml.replaceAll("<!--TemplateListItemStart-->([\\s|\\S]*?)<!--TemplateListItemEnd-->", itemsBuffer.toString());
 				
@@ -376,7 +381,7 @@ public class TemplateCMS {
 		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
-		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn);	//替换news相关标签
+		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, text);	//替换news相关标签
 		
 		//替换 SEO 相关
 		pageHtml = pageHtml.replaceAll(Template.regex("title"), news.getTitle()+"_"+site.getName());
@@ -494,7 +499,7 @@ public class TemplateCMS {
 		TemplateCMS template = new TemplateCMS(site);
 		String pageHtml = template.replaceSiteColumnTag(templateHtml, siteColumn);	//替换栏目相关标签
 		if(news != null){
-			pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn);	//替换news相关标签
+			pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, text);	//替换news相关标签
 		}
 		
 		pageHtml = Template.replaceAll(pageHtml, Template.regex("text"), template.replaceNewsText(text));	//替换新闻内容的详情
@@ -641,8 +646,9 @@ public class TemplateCMS {
 	 * 			<li>false：不保留，进行替换，将替换好的内容返回</li>
 	 * 		</ul>
 	 * @param currentSiteColumn 服务于codeRetainDynamicTag，若允许替换动态标签时，动态栏目标签则会从此处来取。即当codeRetainDynamicTag为true时，此处也是用不到的，为null即可
+	 * @param newsDataMap 对 newsDataList 网站文章的内容进行调整，调整为map key:newsData.id  value:newsData.text
 	 */
-	public String replaceSiteColumnBlock(String templateHTML, Map<String, List<News>> columnNewsMap, Map<String, SiteColumn> columnMap, Map<String, SiteColumnTreeVO> columnTreeMap, boolean codeRetainDynamicTag, SiteColumn currentSiteColumn){
+	public String replaceSiteColumnBlock(String templateHTML, Map<String, List<News>> columnNewsMap, Map<String, SiteColumn> columnMap, Map<String, SiteColumnTreeVO> columnTreeMap, boolean codeRetainDynamicTag, SiteColumn currentSiteColumn, Map<Integer, String> newsDataMap){
 		Pattern p = Pattern.compile("<!--SiteColumn_Start-->([\\s|\\S]*?)<!--SiteColumn_End-->");
         Matcher m = p.matcher(templateHTML);
         while(m.find()){
@@ -707,7 +713,7 @@ public class TemplateCMS {
                 			String subColumnNewsTemp = replaceSiteColumnTag(subColumnListTemp, subColumn);
                 			
                 			//替换其中引用的子栏目文章
-                			String str = replaceSiteColumnBlock_replaceNews(subColumnNewsTemp,start_number, number, itemTemp, columnNewsMap, subColumn);
+                			String str = replaceSiteColumnBlock_replaceNews(subColumnNewsTemp,start_number, number, itemTemp, columnNewsMap, subColumn, newsDataMap);
                 			//将子栏目替换栏目标签后，加入 itemBuffer
                 			itemBuffer.append(str);
             			}
@@ -725,7 +731,7 @@ public class TemplateCMS {
             		int number = Template.getConfigValue(siteColumnTemplate, "number", 6);		//当前显示多少条记录，最多显示10条
             		int start_number = Template.getConfigValue(siteColumnTemplate, "start_number", 0);		//当前显示多少条记录
             		String itemTemp = Template.getAnnoCenterString(siteColumnTemplate, "List");		//取得list的列表项内容
-                	siteColumnTemplate = replaceSiteColumnBlock_replaceNews(siteColumnTemplate,start_number, number, itemTemp, columnNewsMap, siteColumn);
+                	siteColumnTemplate = replaceSiteColumnBlock_replaceNews(siteColumnTemplate,start_number, number, itemTemp, columnNewsMap, siteColumn, newsDataMap);
             	}
             	
             	//替换栏目标签
@@ -747,9 +753,10 @@ public class TemplateCMS {
 	 * @param itemTemp 取得list的列表项内容，包含动态标签的列表的模板
 	 * @param columnNewsMap key:栏目代码， value：文章列表
 	 * @param siteColumn 当前栏目
+	 * @param newsDataMap 对 newsDataList 网站文章的内容进行调整，调整为map key:newsData.id  value:newsData.text
 	 * @return 替换好的html
 	 */
-	private String replaceSiteColumnBlock_replaceNews(String newsListTemplate, int start_number, int number, String itemTemp, Map<String, List<News>> columnNewsMap, SiteColumn siteColumn){
+	private String replaceSiteColumnBlock_replaceNews(String newsListTemplate, int start_number, int number, String itemTemp, Map<String, List<News>> columnNewsMap, SiteColumn siteColumn, Map<Integer, String> newsDataMap){
 		//如果<!--List_Start-->存在，则需要News信息列表
     	if(newsListTemplate.indexOf("<!--List_Start-->") > -1){
         	StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
@@ -760,7 +767,8 @@ public class TemplateCMS {
         	}
         	int zongshu = number + start_number;	//从start_number 开始，去到第几个为止。
         	for (int i = start_number; i < list.size() && i < zongshu; i++) {
-    			itemBuffer.append(replaceNewsTag(itemTemp, list.get(i), siteColumn));
+    			News news = list.get(i);
+        		itemBuffer.append(replaceNewsTag(itemTemp, news, siteColumn, newsDataMap.get(news.getId())));
     		}
     		newsListTemplate = StringUtil.subStringReplace(newsListTemplate+" ", "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
     	}

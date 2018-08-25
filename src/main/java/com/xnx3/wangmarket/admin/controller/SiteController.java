@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -315,6 +316,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("site", getSite());
 		
 		AliyunLog.addActionLog(getSiteId(), "弹出框口查看我的站点属性信息");
+		
 		
 		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
 		return "site/baseSet";
@@ -815,6 +817,7 @@ public class SiteController extends BaseController {
 	@ResponseBody
 	public UploadFileVO uploadImage(Model model,HttpServletRequest request){
 		UploadFileVO uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/news/", request, "image", 0);
+		
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
 			AliyunLog.addActionLog(getSiteId(), "内容管理上传图片成功："+uploadFileVO.getFileName(), uploadFileVO.getPath());
@@ -822,5 +825,18 @@ public class SiteController extends BaseController {
 		
 		return uploadFileVO;
 	}
+	
+	/**
+	 * 弹出框，修改邮箱
+	 * 网站设置－修改联系信息，如地址、QQ等
+	 */
+	@RequestMapping("popupUpdateEmailSave${url.suffix}")
+	public String popupUpdateEmailSave(Model model){
+		AliyunLog.addActionLog(getSiteId(), "弹出弹出框，修改邮箱","原本的邮箱:"+getUser().getEmail());
+		
+		model.addAttribute("user", getUser());
+		return "site/popup_updateEmail";
+	}
+	
 	
 }

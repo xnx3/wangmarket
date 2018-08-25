@@ -5,25 +5,18 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../../common/head.jsp">
+<jsp:include page="../../../../iw/common/head.jsp">
 	<jsp:param name="title" value="分类板块"/>
 </jsp:include>
-<script type="text/javascript">
-   	//根据板块id删除帖子
-   	function deleteClass(postClassId){
-   		//要用ajax
-   		window.location="<%=basePath %>/admin/bbs/deleteClass.do?id="+postClassId;
-   	}
-</script>
 
-<jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
-	<jsp:include page="../../common/list/formSearch_input.jsp">
+<jsp:include page="../../../../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
+	<jsp:include page="../../../../iw/common/list/formSearch_input.jsp">
 		<jsp:param name="iw_label" value="名称"/>
 		<jsp:param name="iw_name" value="name"/>
 	</jsp:include>
 	
     <input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
-    <a href="javascript:class_xnx3(0,'');" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加板块分类</a>
+    <a href="javascript:class_xnx3(0,'');" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加板块</a>
 </form>
 
 <table class="layui-table iw_table">
@@ -49,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tbody>
 </table>
 <!-- 通用分页跳转 -->
-<jsp:include page="../../common/page.jsp"></jsp:include>
+<jsp:include page="../../../../iw/common/page.jsp"></jsp:include>
 <div style="padding: 20px;color: gray;">
 	<div>操作按钮提示:</div>
 	<div><i class="layui-icon">&#xe642;</i> &nbsp;：编辑操作，进行修改</div>
@@ -58,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <script type="text/javascript">
-//根据id删除系统变量
+//根据id删除板块
 function deleteClass(id,name){
 	var dtp_confirm = layer.confirm('确定要删除分类板块“'+name+'”？', {
 	  btn: ['删除','取消'] //按钮
@@ -66,7 +59,7 @@ function deleteClass(id,name){
 		layer.close(dtp_confirm);
 		
 		parent.iw.loading("删除中");    //显示“操作中”的等待提示
-		$.post('<%=basePath %>admin/bbs/deleteClass.do?id='+id, function(data){
+		$.post('deleteClass.do?id='+id, function(data){
 		    parent.iw.loadClose();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		        parent.iw.msgSuccess('删除成功');
@@ -93,9 +86,9 @@ function class_xnx3(id, name){
 		title: id==0? '新增分类板块':'修改分类板块：&nbsp;&nbsp;'+name+'&nbsp;', 
 		area: ['380px', '180px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>/admin/bbs/class.do?id='+id
+		content: 'postClass.do?id='+id
 	});
 }
 </script>
 
-<jsp:include page="../../common/foot.jsp"></jsp:include> 
+<jsp:include page="../../../../iw/common/foot.jsp"></jsp:include> 

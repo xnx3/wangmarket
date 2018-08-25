@@ -8,7 +8,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../common/head.jsp">
+<jsp:include page="../../../iw/common/head.jsp">
 	<jsp:param name="title" value="我的关注列表"/>
 </jsp:include>
 
@@ -75,4 +75,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 </div>
 
-<jsp:include page="../common/foot.jsp"></jsp:include> 
+<jsp:include page="../../../iw/common/foot.jsp"></jsp:include> 

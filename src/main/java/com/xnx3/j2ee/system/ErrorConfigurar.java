@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
  * @author 管雷鸣
  *
  */
-//@Component
+@Component
 public class ErrorConfigurar implements ErrorPageRegistrar{
 
 	public void registerErrorPages(ErrorPageRegistry registry) {
 		ErrorPage[] errorPages=new ErrorPage[2];
         errorPages[0]=new ErrorPage(HttpStatus.NOT_FOUND,"/404.do");
         errorPages[1]=new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/500.do");
+        errorPages[1]=new ErrorPage(HttpStatus.NOT_ACCEPTABLE,"/406.do");
 
         registry.addErrorPages(errorPages);
 	}

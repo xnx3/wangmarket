@@ -412,6 +412,11 @@ public class NewsController extends BaseController {
 			model.addAttribute("inputModelText", inputModelText);
 			
 			AliyunLog.addActionLog(getSiteId(), "打开创建、修改文章页面");
+			
+			//可上传的后缀列表
+			model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
+			//可上传的文件最大大小(KB)
+			model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
 			return "news/newsForTemplate";
 		}else{
 			return error(model, ni.getInfo());

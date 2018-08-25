@@ -47,7 +47,7 @@ public class OSS {
 	}
 
 	/**
-	 * 判断某个后缀名是否在可上传图片的后缀列表中(systemConfig.xml的OSS.imageSuffixList节点配置)，该图片是否允许上传
+	 * 判断某个后缀名是否在可上传图片的后缀列表中(systemConfig.xml的attachmentFile.allowUploadSuffix节点配置)，该图片是否允许上传
 	 * @param fileSuffix 要判断的上传的文件的后缀名
 	 * @return true：可上传，允许上传，后缀在指定的后缀列表中
 	 */

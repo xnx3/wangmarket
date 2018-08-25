@@ -1,9 +1,9 @@
-package com.xnx3.j2ee.vo;
+package com.xnx3.wangmarket.plugin.bbs.vo;
 
-import com.xnx3.j2ee.entity.Post;
-import com.xnx3.j2ee.entity.PostClass;
-import com.xnx3.j2ee.entity.PostData;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.wangmarket.plugin.bbs.entity.Post;
+import com.xnx3.wangmarket.plugin.bbs.entity.PostClass;
 
 /**
  * 组合好的Post，包含 {@link Post}、 {@link PostData}

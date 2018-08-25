@@ -1,10 +1,10 @@
-package com.xnx3.j2ee.generateCache;
+package com.xnx3.wangmarket.plugin.bbs.generateCache;
 
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
-import com.xnx3.j2ee.entity.Post;
-import com.xnx3.j2ee.entity.PostClass;
+import com.xnx3.j2ee.generateCache.BaseGenerate;
+import com.xnx3.wangmarket.plugin.bbs.entity.PostClass;
 
 /**
  *  论坛相关缓存
@@ -14,7 +14,6 @@ import com.xnx3.j2ee.entity.PostClass;
 @Component
 public class Bbs extends BaseGenerate {
 	public Bbs() {
-		state();
 	}
 	
 	/**
@@ -44,12 +43,4 @@ public class Bbs extends BaseGenerate {
 		generateCacheFile();
 	}
 	
-	public void state(){
-		createCacheObject("state");
-		cacheAdd(Post.STATE_NORMAL, "正常");
-		cacheAdd(Post.STATE_AUDITING, "审核中");
-		cacheAdd(Post.STATE_INCONGRUENT, "不符合要求");
-		cacheAdd(Post.STATE_LOCK, "锁定冻结");
-		generateCacheFile();
-	}
 }

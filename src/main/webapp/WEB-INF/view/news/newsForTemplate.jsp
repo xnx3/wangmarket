@@ -68,20 +68,25 @@ layui.use('upload', function(){
 		elem: '#uploadImagesButton' //绑定元素
 		,url: parent.masterSiteUrl+'site/uploadImage.do' //上传接口
 		,field: 'image'
+		,accept: 'file'
+		,size: ${maxFileSizeKB}
+		,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
 		,done: function(res){
 			//上传完毕回调
 			loadClose();
 			if(res.result == 1){
-				document.getElementById("titlePicInput").value = res.url;
-				document.getElementById("titlePicA").href = res.url;
-				document.getElementById("titlePicImg").src = res.url;
-				document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
+				try{
+					document.getElementById("titlePicInput").value = res.url;
+					document.getElementById("titlePicA").href = res.url;
+					document.getElementById("titlePicImg").src = res.url;
+					document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
+				}catch(err){}
 				parent.iw.msgSuccess("上传成功");
 			}else{
 				parent.iw.msgFailure(res.info);
 			}
 		}
-		,error: function(){
+		,error: function(index, upload){
 			//请求异常回调
 			parent.iw.loadClose();
 			parent.iw.msgFailure();
@@ -98,6 +103,17 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   var form = layui.form;
   //监听提交
 	form.on('submit(demo1)', function(data){
+	
+		//判断是否有 save() 方法，若有，则先执行 save()  这个方法是用户在输入模型中自己定义的
+		if(typeof(save) == 'function'){
+			try{
+				var s_return = save();
+				if(typeof(s_return) == 'boolean' && s_return == false){
+					return false;
+				}
+			}catch(err){}
+		}
+	
 		parent.iw.loading("保存中");    //显示“操作中”的等待提示
 		//创建FormData对象，获取到form表单的相关数据
 		var formobj =  document.getElementById("form");

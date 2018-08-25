@@ -7,9 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +18,7 @@ import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.OSSObject;
+import com.xnx3.BaseVO;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
@@ -35,6 +35,9 @@ import com.xnx3.net.ossbean.PutResult;
  * @author 管雷鸣
  */
 public class AttachmentFile {
+	
+	private static String maxFileSize;	//application.properties 中配置的，比如3MB
+	private static int maxFileSizeKB = -1;	//最大上传限制，单位：KB，在getMaxFileSizeKB()获取
 	
 	public static String mode;	//当前文件附件存储使用的模式，用的阿里云oss，还是服务器本身磁盘进行存储
 	public static final String MODE_ALIYUN_OSS = "aliyunOSS";		//阿里云OSS模式存储
@@ -53,6 +56,59 @@ public class AttachmentFile {
 		}
 		
 		localFilePath = Global.getProjectPath();
+	}
+	
+	/**
+	 * 获取当前允许上传的文件的最大大小
+	 * @return 如 3MB 、 400KB 等
+	 */
+	public static String getMaxFileSize(){
+		if(maxFileSize == null){
+			try {
+				maxFileSize = ApplicationProperties.getProperty("spring.servlet.multipart.max-file-size");
+				Log.debug("加载 application.properties 的文件上传限制："+maxFileSize);
+			} catch (Exception e) {
+				maxFileSize = "3MB";
+				Log.error("出错---强制将大小设置为3MB");
+				e.printStackTrace();
+			}
+		}
+		return maxFileSize;
+	}
+	
+	/**
+	 * 获取当前限制的上传文件最大的大小限制。单位是KB
+	 * @return 单位KB
+	 */
+	public static int getMaxFileSizeKB(){
+		if(maxFileSizeKB == -1){
+			//未初始化，那么进行初始化
+			maxFileSize = getMaxFileSize();
+			
+			if(maxFileSize.indexOf("KB") > 0){
+				//使用KB单位
+				maxFileSizeKB = Lang.stringToInt(maxFileSize.replace("KB", "").trim(), 0);
+				if(maxFileSizeKB == 0){
+					Log.error("application.properties --> spring.servlet.multipart.max-file-size use KB， but !!! string to int failure !");
+				}
+			}else if (maxFileSize.indexOf("MB") > 0) {
+				//使用MB
+				maxFileSizeKB = Lang.stringToInt(maxFileSize.replace("MB", "").trim(), 0) * 1024;
+				if(maxFileSizeKB == 0){
+					Log.error("application.properties --> spring.servlet.multipart.max-file-size use MB， but !!! string to int failure !");
+				}
+			}else if (maxFileSize.indexOf("GB") > 0) {
+				//使用 GB
+				maxFileSizeKB = Lang.stringToInt(maxFileSize.replace("GB", "").trim(), 0) * 1024 * 1024;
+				if(maxFileSizeKB == 0){
+					Log.error("application.properties --> spring.servlet.multipart.max-file-size use GB， but !!! string to int failure !");
+				}
+			}else{
+				//没有找到合适单位，报错
+				Log.error("application.properties --> spring.servlet.multipart.max-file-size not find unit，your are KB ? MB ? GB ? Please use one of them");
+			}
+		}
+		return maxFileSizeKB;
 	}
 	
 	/**
@@ -131,6 +187,35 @@ public class AttachmentFile {
 	}
 	
 	/**
+	 * 判断要上传的文件是否超出大小限制，若超出大小限制，返回出错原因
+	 * @param file 要上传的文件，判断其大小是否超过系统指定的最大限制
+	 * @return 若超出大小，则返回result:Failure ，info为出错原因
+	 */
+	public static UploadFileVO verifyFileMaxLength(File file){
+		UploadFileVO vo = new UploadFileVO();
+		if(file != null){
+			//文件的KB长度
+			int lengthKB = (int) Math.ceil(file.length()/1024);
+			vo = verifyFileMaxLength(lengthKB);
+		}
+		return vo;
+	}
+	
+	/**
+	 * 判断要上传的文件是否超出大小限制，若超出大小限制，返回出错原因
+	 * @param lengthKB 要上传的文件的大小，判断其大小是否超过系统指定的最大限制，单位是KB
+	 * @return 若超出大小，则返回result:Failure ，info为出错原因
+	 */
+	public static UploadFileVO verifyFileMaxLength(int lengthKB){
+		UploadFileVO vo = new UploadFileVO();
+		if(getMaxFileSizeKB() > 0 && lengthKB > getMaxFileSizeKB()){
+			vo.setBaseVO(BaseVO.FAILURE, "文件大小超出限制！上传大小在 "+maxFileSize+" 以内");
+			return vo;
+		}
+		return vo;
+	}
+	
+	/**
 	 * 上传本地文件
 	 * @param filePath 上传后的文件所在的目录、路径，如 "jar/file/"
 	 * @param localPath 本地要上传的文件的绝对路径，如 "/jar_file/iw.jar"
@@ -138,12 +223,18 @@ public class AttachmentFile {
 	 */
 	public static UploadFileVO put(String filePath, String localPath){
 		UploadFileVO vo = new UploadFileVO();
+		
+		File localFile = new File(localPath);
+		vo = verifyFileMaxLength(localFile);
+		if(vo.getResult() - UploadFileVO.FAILURE == 0){
+			return vo;
+		}
+		
 		if(isMode(MODE_ALIYUN_OSS)){
 			PutResult pr = OSSUtil.put(filePath, localPath);
 			vo = PutResultToUploadFileVO(pr);
 		}else if(isMode(MODE_LOCAL_FILE)){
 			directoryInit(filePath);
-			File localFile = new File(localPath);
 			try {
 				InputStream localInput = new FileInputStream(localFile);
 				//将其保存到服务器磁盘
@@ -169,7 +260,6 @@ public class AttachmentFile {
 		if(isMode(MODE_ALIYUN_OSS)){
 			PutResult pr = OSSUtil.put(path, inputStream);
 			vo = PutResultToUploadFileVO(pr);
-			Log.debug("put-OSS上传:"+path);
 		}else if(isMode(MODE_LOCAL_FILE)){
 			directoryInit(path);
 			File file = new File(localFilePath+path);
@@ -270,10 +360,8 @@ public class AttachmentFile {
 			m.setContentLength(meta.getContentLength());
 			m.setUserMetadata(meta.getUserMetadata());
 			OSSUtil.getOSSClient().putObject(OSSUtil.bucketName, filePath, input, m);
-			Log.debug("putForUEditor-使用阿里云OSS上传文件："+filePath);
 		}else if(isMode(MODE_LOCAL_FILE)){
 			put(filePath, input);
-			Log.debug("putForUEditor-本地存储UEditor上传的文件："+filePath);
 		}
 	}
 	
@@ -291,6 +379,14 @@ public class AttachmentFile {
 			vo.setBaseVO(UploadFileVO.FAILURE, Language.show("oss_pleaseSelectUploadFile"));
 			return vo;
 		}
+		
+		//判断文件大小是否超出最大限制的大小
+		int lengthKB = (int) Math.ceil(multipartFile.getSize()/1024);
+		vo = verifyFileMaxLength(lengthKB);
+		if(vo.getResult() - UploadFileVO.FAILURE == 0){
+			return vo;
+		}
+		
 		InputStream inputStream = null;
 		try {
 			inputStream = multipartFile.getInputStream();
@@ -358,29 +454,30 @@ public class AttachmentFile {
 	//允许上传的后缀名数组，存储如 jpg 、 gif、zip
 	private static String[] allowUploadSuffixs;
 	/**
-	 * 判断当前后缀名是否在可允许上传的后缀中(systemConfig.xml的OSS.imageSuffixList节点配置)，该图片是否允许上传
+	 * 判断当前后缀名是否在可允许上传的后缀中(systemConfig.xml的attachmentFile.allowUploadSuffix节点配置)，该图片是否允许上传
 	 * @param fileSuffix 要判断的上传的文件的后缀名
 	 * @return true：可上传，允许上传，后缀在指定的后缀列表中
 	 */
 	public static boolean allowUploadSuffix(String fileSuffix){
 		if(allowUploadSuffixs == null){
-			List<String> suffixList = ConfigManagerUtil.getSingleton("systemConfig.xml").getList("attachmentFile.allowUploadSuffix.suffix");
-			Map<String, String> suffixMap = new HashMap<String, String>();
-			//将list转化为map，这一过程去重、进行不为空筛选
-			for (int i = 0; i < suffixList.size(); i++) {
-				String suffix = suffixList.get(i);
-				if(suffix != null && suffix.length() > 0){
-					suffixMap.put(suffix, "1");
+			
+			String ss[] = Global.ossFileUploadImageSuffixList.split("\\|");
+			//过滤一遍，空跟无效的
+			List<String> list = new ArrayList<String>();
+			for (int i = 0; i < ss.length; i++) {
+				String s = ss[i].trim();
+				if(s != null && s.length() > 0){
+					list.add(s);
 				}
 			}
 			
 			//初始化创建数组
-			allowUploadSuffixs = new String[suffixMap.size()];
-			int i = 0;	//数组的下标
-			for (Map.Entry<String, String> entry : suffixMap.entrySet()) {
-				allowUploadSuffixs[i++] = entry.getKey();
+			allowUploadSuffixs = new String[list.size()];
+			for (int i = 0; i < list.size(); i++) {
+				allowUploadSuffixs[i] = list.get(i);
 			}
 		}
+		
 		
 		//进行判断，判断传入的suffix是否在允许上传的后缀里面
 		for (int j = 0; j < allowUploadSuffixs.length; j++) {

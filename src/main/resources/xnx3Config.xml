@@ -24,6 +24,9 @@
 		<requestIp>210.5.158.31</requestIp>
 	</sms>
 	
+	<!-- 邮件发送。
+		网市场中，判断是否已开启邮件发送功能时，是根据判断username、password是否填写来判断的
+	-->
 	<mail>
 		<!-- mail.smtp.host -->
 		<host>smtpdm.aliyun.com</host>

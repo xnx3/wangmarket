@@ -7,7 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML>
 <html>
 <head>
-	<jsp:include page="../common/head.jsp">
+	<jsp:include page="../../../iw/common/head.jsp">
     	<jsp:param name="title" value="发帖"/>
     </jsp:include>
 </head>

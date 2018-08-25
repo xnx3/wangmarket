@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.entity;
+package com.xnx3.wangmarket.plugin.bbs.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +8,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.xnx3.j2ee.entity.BaseEntity;
 
 /**
  * PostComment entity. @author MyEclipse Persistence Tools
