@@ -12,7 +12,9 @@ import javax.persistence.Table;
 import com.xnx3.j2ee.entity.BaseEntity;
 
 /**
- * Post entity. @author MyEclipse Persistence Tools
+ * 论坛帖子主表，变长的内容存在于分表
+ * @author 管雷鸣
+ *
  */
 @Entity
 @Table(name = "plugin_bbs_post")

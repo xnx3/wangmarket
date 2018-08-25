@@ -6,10 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * PostData entity. @author MyEclipse Persistence Tools
+ * 论坛帖子的帖子内容分表
+ * @author 管雷鸣
+ *
  */
 @Entity
-@Table(name = "post_data")
+@Table(name = "plugin_bbs_post_data")
 public class PostData implements java.io.Serializable {
 
 	// Fields

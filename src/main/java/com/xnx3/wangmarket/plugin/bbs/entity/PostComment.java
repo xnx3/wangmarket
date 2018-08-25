@@ -12,10 +12,12 @@ import javax.persistence.Table;
 import com.xnx3.j2ee.entity.BaseEntity;
 
 /**
- * PostComment entity. @author MyEclipse Persistence Tools
+ * 帖子回复
+ * @author 管雷鸣
+ *
  */
 @Entity
-@Table(name = "post_comment")
+@Table(name = "plugin_bbs_post_comment")
 public class PostComment extends BaseEntity{
 
 	// Fields
