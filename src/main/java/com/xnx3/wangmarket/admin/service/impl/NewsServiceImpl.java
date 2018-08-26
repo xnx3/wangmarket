@@ -218,10 +218,10 @@ public class NewsServiceImpl implements NewsService {
 		Site site = Func.getUserBeanForShiroSession().getSite();
 		n.setSite(site);
 		if(id > 0){
-			if(news.getType() == News.TYPE_IMAGENEWS){
+//			if(news.getType() == News.TYPE_IMAGENEWS){
 				String titlepicImage = "";
 				if(news.getTitlepic() != null && news.getTitlepic().length() > 0){
-					if(news.getTitlepic().indexOf("http://") == 0){
+					if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0){
 						titlepicImage = news.getTitlepic();
 					}else{
 						titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
@@ -229,7 +229,7 @@ public class NewsServiceImpl implements NewsService {
 				}
 				n.setTitlepicImage(titlepicImage);
 				model.addAttribute("titlepicImage", "<img src=\""+titlepicImage+"\" height=\"30\" />");
-			}
+//			}
 			GenerateHTML gh = new GenerateHTML(site);
 			n.setNewsText(gh.restoreNewsText(text));
 			model.addAttribute("text", n.getNewsText());

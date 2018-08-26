@@ -145,11 +145,13 @@ public class InputModelServiceImpl implements InputModelService {
 			if(news == null || news.getId() == null){
 				text = text.replaceAll(Template.regex("news.title"), "");
 				text = text.replaceAll(Template.regex("titlepicImage"), "");
+				text = text.replaceAll(Template.regex("news.titlepic"), "");
 				text = text.replaceAll(Template.regex("text"), "");
 				text = text.replaceAll(Template.regex("news.intro"), "");
 			}else{
 				text = text.replaceAll(Template.regex("news.title"), news.getTitle());
 				text = text.replaceAll(Template.regex("titlepicImage"), newsInit.getTitlepicImage());
+				text = text.replaceAll(Template.regex("news.titlepic"), news.getTitlepic());
 				text = text.replaceAll(Template.regex("news.intro"), news.getIntro());
 				//此处因replaceAll容易出问题，而且｛text｝也只会出现一次，所以直接换为了replace
 				text = text.replace("{text}", newsInit.getNewsText());

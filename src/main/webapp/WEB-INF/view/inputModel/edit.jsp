@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="layui-colla-content" style="font-size:12px;">
 	    	{news.title} 标题<br/>
 	    	{news.intro} 简介<br/>
-	    	{titlepicImage} 标题图/列表图，用于列表展示的图片，若有，会以<img ...>标签显示出来<br/>
+	    	{titlepicImage} 或 {news.titlepic} 标题图/列表图，用于列表展示的图片，若有，会以<img ...>标签显示出来<br/>
 	    	{siteColumn.type} 当前操作的内容所属栏目的类型编码<br/>
 	    	{text} 内容，正文<br/>
 	    </div>
