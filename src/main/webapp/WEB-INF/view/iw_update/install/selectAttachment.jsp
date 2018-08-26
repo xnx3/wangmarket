@@ -29,11 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="selectItem" onclick="window.location.href='setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE}';">
 		<div class="title">可选一：服务器本身存储</div>
 		<div class="intro">
-			<b>进行安装体验本程序，或者对云不是很了解，建议使用此种方式</b>
 			<br/>
 			使用运行程序的服务器本身作为存储对象，会在程序根目录下创建site文件夹存储文件，传统文件存储方式。将生成的html页面、上传的图片，都存储在代码所在的服务器上。
-			<br/>优点：简单，可快速使用，无需再掌握其他知识
-			<br/>缺点：无法分布式部署。建议开通的网站个数在1000个以内
+			<br/>优点：简单，免费！可快速使用，无需再掌握其他知识。
+			<br/>缺点：无法分布式部署。建议开通的网站个数在一万个以内
 		</div>
 	</div>
 	
@@ -44,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_ALIYUN_OSS} -->
 	</div>
 	<div style="display:none;" id="weishouquanyun">
-		<div class="title">可选二：云存储（需授权）</div>
+		<div class="title">可选二：云存储（需购买授权）</div>
 		<div class="intro">
 			云端存储，速度更快、数据更安全！
 			<br/>优点：
@@ -55,6 +54,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li>增加统计功能</li>
 						<li>增可用手机号自助开通网站</li>
 						<li>可配置多个域名解析绑定服务器，如一台香港的可绑定不需要备案的域名，一台国内的绑定已备案的域名</li>
+						<li>包安装</li>
+						<li>提供技术支持、咨询</li>
 					</ul>
 		</div>
 	</div>
@@ -63,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div style="font-size: 38px;color: red;">
 			需我方授权！
 			<br/>
-			授权费用 ：5000元(包含安装)
+			授权费用 ：500元/年、 或5000元永久
 			<br/>
 			永久使用。
 		</div>
