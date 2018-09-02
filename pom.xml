@@ -338,6 +338,16 @@
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>2.2.2</version>
 		</dependency>
+		
+		
+		
+		<!-- RabbitMQ -->
+		<dependency>
+		     <groupId>org.springframework.boot</groupId>
+		     <artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		
 	    
 	    <!-- 本地的 -->
 	    <dependency> 

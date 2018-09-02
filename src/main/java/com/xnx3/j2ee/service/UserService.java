@@ -32,6 +32,15 @@ public interface UserService {
 	public BaseVO loginByUsernameAndPassword(HttpServletRequest request);
 	
 	/**
+	 * 用户名＋密码 进行登陆
+	 * @param username 登陆的用户名或邮箱
+	 * @param password 登陆的密码，明文密码，原始密码，用户登陆输入的密码
+	 * @return {@link BaseVO}
+	 */
+	public BaseVO loginByUsernameAndPassword(HttpServletRequest request, String username, String password);
+	
+	
+	/**
 	 * 手机号＋动态验证码登陆。
 	 * 		<br/>登陆时form表单需提交两个参数：phone(手机号)、code(手机收到的动态验证码)
 	 * @return {@link BaseVO}
@@ -177,4 +186,12 @@ public interface UserService {
 	 * @return 头像的绝对路径网址，如 http://res.weiunity.com/image/imqq.jpg
 	 */
 	public String getHead(String defaultHead);
+	
+	/**
+	 * 用明文密码+ salt ，生成 User.password 中， 加密后的密码
+	 * @param originalPassword 明文密码
+	 * @param salt 盐
+	 * @return MD5加密后的密码
+	 */
+	public String generateMd5Password(String originalPassword, String salt);
 }

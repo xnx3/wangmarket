@@ -55,7 +55,6 @@ public class AdminIndexController_ extends BaseController{
 			url = "agency/index.do";
 			
 			String pluginMenu = "";
-			Log.debug("PluginManage.agencyClassManage.size():"+PluginManage.agencyClassManage.size());
 			if(PluginManage.agencyClassManage.size() > 0){
 				for (Map.Entry<String, SitePluginBean> entry : PluginManage.agencyClassManage.entrySet()) {
 					SitePluginBean bean = entry.getValue();
@@ -63,7 +62,6 @@ public class AdminIndexController_ extends BaseController{
 				}
 			}
 			model.addAttribute("pluginMenu", pluginMenu);
-			
 		}
 		
 		User user = getUser();

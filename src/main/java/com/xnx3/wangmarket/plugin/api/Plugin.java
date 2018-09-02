@@ -7,7 +7,7 @@ import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
  * @author 管雷鸣
  *
  */
-@PluginRegister(id="api" , menuTitle = "API接口",menuHref="../../api/index.do", applyToAgency=true, applyToSuperAdmin=true)
+@PluginRegister(id="api" , menuTitle = "API接口",menuHref="../../plugin/api/index.do", applyToAgency=true, applyToSuperAdmin=true)
 public class Plugin{
 	
 }

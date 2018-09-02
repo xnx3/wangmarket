@@ -67,9 +67,13 @@ public class UserServiceImpl implements UserService{
 	 * @return {@link BaseVO}
 	 */
 	public BaseVO loginByUsernameAndPassword(HttpServletRequest request) {
-		BaseVO baseVO = new BaseVO();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		return loginByUsernameAndPassword(request, username, password);
+	}
+	
+	public BaseVO loginByUsernameAndPassword(HttpServletRequest request, String username, String password){
+		BaseVO baseVO = new BaseVO();
 		if(username==null || username.length() == 0 ){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginUserOrEmailNotNull"));
 			return baseVO;
@@ -879,10 +883,11 @@ public class UserServiceImpl implements UserService{
 		/* 密码加密，保存 */
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
-        String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
+		String md5Password = generateMd5Password(user.getPassword(), user.getSalt());
+		//String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
 		user.setPassword(md5Password);
 		sqlDAO.save(user);
-			
+		
 		if(user.getId()>0){
 			//已注册成功
 			
@@ -921,5 +926,9 @@ public class UserServiceImpl implements UserService{
 		
 		return head;
 	}
-
+	
+	
+	public String generateMd5Password(String originalPassword, String salt){
+        return new Md5Hash(originalPassword, salt ,Global.USER_PASSWORD_SALT_NUMBER).toString();
+	}
 }

@@ -10,15 +10,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>site/${site.id}/data/site.js?t=<%=DateUtil.timeForUnix13() %>"></script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/jquery-2.1.4.js"></script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
+<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="http://res.weiunity.com/js/fun.js"></script>
 
 <script>
 var masterSiteUrl = '<%=basePath %>';
 var autoAssignDomain = '${autoAssignDomain }';
 </script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
+<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=basePath %>js/admin/indexedit.js"></script>
 <style>
 #editPanel{
 	position: absolute;
@@ -396,7 +396,7 @@ var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的
 var sign = '${siteUrl},${site.name}';	//当前用户签名
 var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
 </script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/im/site.js"></script>
+<script src="<%=basePath %>js/im/site.js"></script>
 <!-- IM end -->
 <% } %>
 

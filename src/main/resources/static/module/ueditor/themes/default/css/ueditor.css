@@ -58,6 +58,8 @@ div.edui-box {
 /* control layout */
 .edui-default .edui-button-body, .edui-splitbutton-body, .edui-menubutton-body, .edui-combox-body {
     position: relative;
+    height: 20px;
+    padding: 3px;
 }
 
 .edui-default .edui-popup {
@@ -408,8 +410,8 @@ div.edui-box {
 .edui-default .edui-toolbar .edui-combox-body .edui-button-body {
     width: 60px;
     font-size: 12px;
-    height: 20px;
-    line-height: 20px;
+    height: 22px;
+    line-height: 16px;
     padding-left: 5px;
     white-space: nowrap;
     margin: 0 3px 0 0;
@@ -428,6 +430,7 @@ div.edui-box {
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
+    height: 20px;
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-splitborder {

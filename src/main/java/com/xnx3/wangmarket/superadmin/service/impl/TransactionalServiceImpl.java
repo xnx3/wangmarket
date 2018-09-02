@@ -150,11 +150,21 @@ public class TransactionalServiceImpl implements TransactionalService {
 			return vo;
 		}
 		
+		//避免int溢出
+		long expiretime = site.getExpiretime();
+		expiretime = expiretime + (year * 31622400);
+		System.out.println(expiretime);
+		if(expiretime > 2147483647){
+			vo.setBaseVO(BaseVO.FAILURE, "网站往后续费最大可续费到2038年！此年份后将开启全新建站时代。");
+			return vo;
+		}
+		
 		//判断续费后的网站是否超过了10年 ,当前时间 ＋ 3660天
-		if((site.getExpiretime() + (year * 31622400)) > (DateUtil.timeForUnix10() + 316224000)){
+		if(expiretime > (DateUtil.timeForUnix10() + 316224000)){
 			vo.setBaseVO(BaseVO.FAILURE, "网站往后续费最大为10年！");
 			return vo;
 		}
+		
 		
 		//当前我的IP地址
 		String ip = IpUtil.getIpAddress(request);

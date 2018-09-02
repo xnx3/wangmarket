@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.markdown.controller;
+package com.xnx3.wangmarket.plugin.markdown.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,16 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.wangmarket.admin.controller.BaseController;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
 
 /**
- * 模版相关操作
+ * markdown上传，v4.3版本转移至plugin下
  * @author 管雷鸣
  */
 @Controller
-@RequestMapping("/markdownPlugin")
-public class MarkDownEditPluginController extends BaseController {
+@RequestMapping("/plugin/markdown/")
+public class MarkDownEditPluginController extends BasePluginController {
 	
 	/**
 	 * 上传图片接口

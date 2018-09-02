@@ -85,7 +85,8 @@ public class PublicController extends BaseController {
 		Log.requestLog(request, requestInfo, simpleSiteVO);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
-			return error404();
+			//未发现这个域名对应的网站
+			return "domain/notFindDomain";
 		}else{
 			//判断网站的状态，冻结的网站将无法访问
 			SimpleSite simpleSite = simpleSiteVO.getSimpleSite();
@@ -102,6 +103,10 @@ public class PublicController extends BaseController {
 				//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
 				if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
+				}
+				if(htmlFile.equals("index.html")){
+					//如果是首页，但是没有获取到这个页面的数据，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
+					return "domain/notFindIndexHtml";
 				}
 				return "domain/404";
 			}

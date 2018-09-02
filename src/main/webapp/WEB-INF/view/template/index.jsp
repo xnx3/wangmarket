@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
 
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
+<script src="<%=basePath %>js/fun.js"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
 <script src="http://res.weiunity.com/layer/layer.js" type="text/javascript"></script>
@@ -262,8 +262,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 	</div>
 </div>
 
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
+<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=basePath %>js/admin/indexedit.js"></script>
 <script>
 
 layui.use('element', function(){

@@ -5,6 +5,7 @@ response.setStatus(404);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+<meta name="author" content="管雷鸣">
 <title>404</title>
 <style>
 html{overflow: hidden;}
@@ -174,29 +175,7 @@ body{margin: 0; background-color: #67ace4; font-family: "\5FAE\8F6F\96C5\9ED1"; 
 </div>
 
 <div class="animate below"></div>
-<div class="animate above">
-<style>
-	.tishi{
-		color:gray;
-		padding:25px;
-	}
-	.tishi .yuanyin{
-		font-size:18px;
-	}
-	.tishi ul li{
-		list-style-type: decimal;
-	}
-</style>
-    <div class="tishi">
-        <div class="yuanyin">可能原因：</div>
-        <ul>
-            <li>网站管理后台，没有点击左侧功能菜单的“生成整站”</li>
-            <li>若您刚绑定自己域名，请检查您网站管理后台中，左侧功能菜单的“系统管理” - “网站设置” - “绑定域名”，此项的填写是否正确</li>
-            
-        </ul>
-        
-    </div>  
-</div>
+<div class="animate above"></div>
 
 </body>
 </html>

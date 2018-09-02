@@ -77,6 +77,9 @@ public class ShiroConfiguration {
         //plugin bbs
         filterChainDefinitionMap.put("/plugin/bbs/*.do", "anon");
         
+        //plugin 插件，都是可公开访问，自行在其中加是否登陆验证
+        filterChainDefinitionMap.put("/plugin/**", "anon");
+        
         filterChainDefinitionMap.put("/*.*", "anon");
         
         //750套模板

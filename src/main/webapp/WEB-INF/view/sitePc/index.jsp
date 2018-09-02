@@ -7,7 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="电脑模式网站管理后台"/>
 </jsp:include>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
+<script src="http://res.weiunity.com/js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=basePath %>';
 var autoAssignDomain = '${autoAssignDomain }';
@@ -216,8 +216,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 	</div>
 </div>
 
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/indexedit.js"></script>
+<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=basePath %>js/admin/indexedit.js"></script>
 <script>
 
 layui.use('element', function(){
@@ -392,7 +392,7 @@ var password = "${password }";	//加密后密码
 var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的名字
 var sign = '${siteUrl},${site.name}';	//当前用户签名
 var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
-setTimeout("dynamicLoading.js('<%=Global.get("ATTACHMENT_FILE_URL") %>js/im/site.js')",1500);//延时1.5秒 
+setTimeout("dynamicLoading.js('<%=basePath %>js/im/site.js')",1500);//延时1.5秒 
 </script>
 <!-- IM end -->
 <% } %>

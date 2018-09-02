@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.DateUtil;
+import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
@@ -41,6 +42,11 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 	 */
 	@RequestMapping("/index${url.suffix}")
 	public String index(HttpServletRequest request ,Model model){
+		User user = getUser();
+		if(user == null){
+			return error(model, "请先登录", "login.do");
+		}
+		
 		ActionLogCache.insert(request, "进入我的api首页");
 		model.addAttribute("key", apiService.getKey());
 		return "plugin/api/index";

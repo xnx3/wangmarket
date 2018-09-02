@@ -3,6 +3,7 @@ package com.xnx3.wangmarket.admin;
 import javax.servlet.http.HttpServletRequest;
 
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -154,7 +155,13 @@ public class Func {
 	 * @return true:有总管理后台的权限；  false：没有
 	 */
 	public static boolean haveSuperAdminAuth(){
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+		User user = ShiroFunc.getUser();
+		if(user == null){
+			//未登陆，那就直接是false
+			return false;
+		}
+		
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 			return true;
 		}
 		return false;

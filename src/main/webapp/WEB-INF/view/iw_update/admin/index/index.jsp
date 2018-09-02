@@ -12,11 +12,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="../../../iw/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
+<script src="http://res.weiunity.com/js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 
 <style>
 body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}

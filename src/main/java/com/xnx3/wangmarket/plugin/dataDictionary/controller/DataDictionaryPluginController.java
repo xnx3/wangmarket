@@ -1,18 +1,14 @@
 package com.xnx3.wangmarket.plugin.dataDictionary.controller;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.wangmarket.admin.Func;
-import com.xnx3.wangmarket.admin.controller.BaseController;
+import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
 
 /**
  * 数据字典
@@ -20,7 +16,7 @@ import com.xnx3.wangmarket.admin.controller.BaseController;
  */
 @Controller
 @RequestMapping("/plugin/dataDictionary/")
-public class DataDictionaryPluginController extends BaseController {
+public class DataDictionaryPluginController extends BasePluginController {
 	
 	//数据库名字
     @Value("${database.name}")
@@ -42,7 +38,7 @@ public class DataDictionaryPluginController extends BaseController {
 	public String tableList(Model model){
 		
 		//因为用于总管理后台，判断当前用户是否有总管理后台的权限
-		if(!Func.haveSuperAdminAuth()){
+		if(!haveSuperAdminAuth()){
 			return error(model, "无权使用！");
 		}
 		
@@ -74,7 +70,7 @@ public class DataDictionaryPluginController extends BaseController {
 			@RequestParam(value = "tableName", required = true) String tableName){
 		
 		//因为用于总管理后台，判断当前用户是否有总管理后台的权限
-		if(!Func.haveSuperAdminAuth()){
+		if(!haveSuperAdminAuth()){
 			return error(model, "无权使用！");
 		}
 		
