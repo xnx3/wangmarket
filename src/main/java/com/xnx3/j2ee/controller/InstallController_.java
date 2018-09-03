@@ -55,7 +55,7 @@ public class InstallController_ extends BaseController {
 //		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
 //			return error(model, "系统已禁止使用此！");
 //		}
-		return "iw_update/install/index";
+		return "domain/welcome";
 	}
 	
 

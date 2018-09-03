@@ -1,13 +1,16 @@
 package com.xnx3.wangmarket.domain.controller;
 
 import java.lang.reflect.InvocationTargetException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
@@ -15,6 +18,7 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
+import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
@@ -86,6 +90,12 @@ public class PublicController extends BaseController {
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			//未发现这个域名对应的网站
+			
+			//有可能是系统还未安装，判断，如果是，则进行指引安装
+			if(!isUnInstallRequest()){
+				return "domain/welcome";
+			}
+			
 			return "domain/notFindDomain";
 		}else{
 			//判断网站的状态，冻结的网站将无法访问
@@ -105,7 +115,14 @@ public class PublicController extends BaseController {
 					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
 				}
 				if(htmlFile.equals("index.html")){
-					//如果是首页，但是没有获取到这个页面的数据，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
+					//如果是首页，但是没有获取到这个页面的数据
+					
+					//有可能是系统还未安装，判断，如果是，则进行指引安装
+					if(!isUnInstallRequest()){
+						return "domain/welcome";
+					}
+					
+					//已安装过了，正常访问，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
 					return "domain/notFindIndexHtml";
 				}
 				return "domain/404";
@@ -155,6 +172,24 @@ public class PublicController extends BaseController {
 			}
 			return "domain/pc";
 		}
+	}
+	
+	/**
+	 * 判断是否是第一次安装好后访问,判断一下是不是安装之前 install/index.do 访问的，安装入口还是开启的
+	 * @return
+	 * 		<ul>
+	 * 			<li>false： 系统尚未进行安装，会转到 domain/welcome 进行安装指引</li>
+	 * 			<li>true： 系统已进行安装了，不需要安装指引</li>
+	 * 		</ul>
+	 */
+	private boolean isUnInstallRequest(){
+		//可能是第一次安装好后访问,判断一下是不是安装install/index.do 还是开启的， true：开启的，允许进行安装
+		if(Global.get("IW_AUTO_INSTALL_USE") != null && Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			//install/index.do 还是开启的,那几乎可以肯定，还未安装过，这也就是刚运行来后访问的
+			return false;
+		}
+		
+		return true;
 	}
 	
 //	private void requestLog(HttpServletRequest request, RequestInfo requestInfo){
@@ -273,10 +308,13 @@ public class PublicController extends BaseController {
 				if(twoDomain != null){
 					//用的二级域名
 					simpleSite = G.getDomain(twoDomain);
-				}else{
-					//自己绑定的域名
+				}
+				
+				if(simpleSite == null){
+					//如果没有使用二级域名、或者是二级域名，但在二级域名里面，没找到，那么就从自己绑定的域名里面找
 					simpleSite = G.getBindDomain(serverName);
 				}
+				
 			}
 			
 			if(simpleSite == null){
