@@ -3,7 +3,7 @@
 后端框架为 SpringBoot2 ，前端框架采用 Layui ，数据库为 Sqlite / Mysql 任选，默认是 Sqlite，无需什么准备，拿来即可运行。
 <br/>
 
-## 合作项目推荐
+## 优秀合作项目推荐
 | 项目 | 码云地址 | 简介 |
 | ------------- |-------------|-------------|
 | layui | [gitee.com/sentsin/layui](https://gitee.com/sentsin/layui) | 前端框架，门槛极低，拿来即用 |
