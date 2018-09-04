@@ -52,6 +52,9 @@
 /src/main/resources/static/plugin/bbs/
 /src/main/webapp/WEB-INF/view/plugin/bbs/
 
+# rabbitmq 测试过滤
+/src/main/java/com/xnx3/wangmarket/plugin/test/
+
 /SourceCode/admin/bin/
 
 
