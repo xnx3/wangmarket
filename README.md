@@ -3,6 +3,12 @@
 后端框架为 SpringBoot2 ，前端框架采用 Layui ，数据库为 Sqlite / Mysql 任选，默认是 Sqlite，无需什么准备，拿来即可运行。
 <br/>
 
+## 合作项目推荐
+| 项目 | 码云地址 | 简介 |
+| ------------- |-------------|-------------|
+| layui | [gitee.com/sentsin/layui](https://gitee.com/sentsin/layui) | 前端框架，门槛极低，拿来即用 |
+
+
 ||||
 | ------------- |-------------|-------------|
 | 网市场官网 | [www.wang.market](http://www.wang.market) ||
@@ -16,8 +22,13 @@
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
 
 
-# 项目极速搭建体验步骤
-[点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 解压,双击 “ 启动.bat ”，访问 [localhost](http://localhost) 就这么简单！
+## 项目极速搭建体验步骤
+1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
+2. 解压出来,注意不要有中文路径
+3. 双击 “ 启动.bat ”
+4. 访问 [localhost](http://localhost) 
+
+就这么简单！
 [查看详细视频演示](http://help.wscso.com/5683.html)
 
 
