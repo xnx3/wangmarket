@@ -135,7 +135,8 @@ public class Func {
 		if(site == null){
 			//既不是代理，也不是超级管理员，那肯定就是用户权限了。用户权限没有网站，那就跳转到网站创建页面
 			//v3.9以后，这种情况是不存在的。账号跟网站是一块创建的
-			return "site/createSite.do";
+			//临时这个链接
+			return "template/index.do";
 		}
 		
 		if(site.getClient() - Site.CLIENT_CMS == 0){

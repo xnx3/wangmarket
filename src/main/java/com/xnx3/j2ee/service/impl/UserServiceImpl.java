@@ -618,6 +618,7 @@ public class UserServiceImpl implements UserService{
 		u.setNickname(nickname);
 		sqlDAO.save(u);
 		ShiroFunc.getUser().setNickname(nickname);
+		baseVO.setInfo(nickname);
 		
 		return baseVO;
 	}

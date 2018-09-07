@@ -364,6 +364,29 @@
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3_tld.jar</systemPath>  
 	    </dependency>
+	    
+	    <!-- 一下三个是防xss -->
+	    <dependency> 
+	        <groupId>com.xnx3.antlr</groupId>  
+	        <artifactId>xnx3_antlr</artifactId>  
+	        <version>1.0</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/antlr-3.0.1.jar</systemPath>  
+	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.antlrruntime</groupId>  
+	        <artifactId>xnx3_antlrruntime</artifactId>  
+	        <version>1.0</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/antlr-runtime-3.0.1.jar</systemPath>  
+	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.xssProtect</groupId>  
+	        <artifactId>xnx3_xssProtect</artifactId>  
+	        <version>1.0</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xssProtect-0.1.jar</systemPath>  
+	    </dependency>
 		<!-- iw end --> 
        
    </dependencies>  

@@ -1,34 +1,15 @@
 package com.xnx3.wangmarket.plugin.base.controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.service.ApiService;
-import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
-import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.j2ee.vo.UserVO;
-import com.xnx3.wangmarket.admin.bean.UserBean;
-import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
-import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
 
 /**
  * 所有插件的 Controller 都继承此
  * @author 管雷鸣
  */
 public class BasePluginController extends com.xnx3.wangmarket.admin.controller.BaseController {
-//	@Resource
-//	private SqlService sqlService;
 
 	/**
 	 * 根据user表的authority字段的值，用户是否具有某个指定的角色(Role)
@@ -87,5 +68,40 @@ public class BasePluginController extends com.xnx3.wangmarket.admin.controller.B
 		return false;
 	}
 	
+	
+	/**
+	 * 判断当前用户是否是网站管理者，有网站管理后台权限
+	 * @return true:有网站管理后台的权限；  false：没有
+	 */
+	public static boolean haveSiteAuth(){
+		User user = ShiroFunc.getUser();
+		if(user == null){
+			//未登陆，那就直接是false
+			return false;
+		}
+		
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_USER_ID"))){
+			return true;
+		}
+		return false;
+	}
+	
+
+	/**
+	 * 判断当前用户是否是代理商，有代理后台权限
+	 * @return true:有代理后台的权限；  false：没有
+	 */
+	public static boolean haveAgencyAuth(){
+		User user = ShiroFunc.getUser();
+		if(user == null){
+			//未登陆，那就直接是false
+			return false;
+		}
+		
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("AGENCY_ROLE"))){
+			return true;
+		}
+		return false;
+	}
 	
 }

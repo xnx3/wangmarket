@@ -49,7 +49,23 @@ public class BaseController {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * 设置/更新 当前用户的 Session 用户缓存数据
+	 * @param user 要设置的 user 用户信息缓存
+	 * @return true:设置成功
+	 */
+	public boolean setUser(User user){
+		ActiveUser activeUser = getActiveUser();
+		if(activeUser!=null){
+			activeUser.setUser(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
 	/**
 	 * 获取当前登录用户的id
 	 * @return <ul>
