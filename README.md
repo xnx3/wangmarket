@@ -6,7 +6,7 @@
 ## 优秀合作项目推荐
 | 项目 | 码云地址 | 简介 |
 | ------------- |-------------|-------------|
-| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、定时任务、切面缓存、MVC、事务管理 |
+| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、<br/>定时任务、切面缓存、MVC、事务管理 |
 | layui | [gitee.com/sentsin/layui](https://gitee.com/sentsin/layui) | 前端框架，门槛极低，拿来即用 |
 
 
