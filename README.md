@@ -3,11 +3,6 @@
 后端框架为 SpringBoot2 ，前端框架采用 Layui ，数据库为 Sqlite / Mysql 任选，默认是 Sqlite，无需什么准备，拿来即可运行。
 <br/>
 
-## 优秀合作项目推荐
-| 项目 | 码云地址 | 简介 |
-| ------------- |-------------|-------------|
-| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、<br/>定时任务、切面缓存、MVC、事务管理 |
-| layui | [gitee.com/sentsin/layui](https://gitee.com/sentsin/layui) | 前端框架，门槛极低，拿来即用 |
 
 ## 本项目相关信息
 ||||
@@ -21,6 +16,11 @@
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) |  |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) |  |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
+
+## 优秀合作项目推荐
+| 项目 | 码云地址 | 简介 |
+| ------------- |-------------|-------------|
+| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、定时任务、切面缓存、<br/>MVC、事务管理 |
 
 
 ## 项目极速搭建体验步骤
@@ -87,6 +87,14 @@ svn版本更新迭代837次！<br/>
 [所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
 <br/>
+## 第三方模版
+这些模版都是有本系统的爱好者自己开发的，拿出来无私分享给使用本系统的朋友，在此感谢他们！
+| 作者 | 链接 |
+| ------------- |-------------|
+| 木登子 | [gitee.com/roseberry/template_for_wangmarket](https://gitee.com/roseberry/template_for_wangmarket) |
+<br/>
+
+
 
 ## 使用的成本投入
 #### 1. 无成本<br/>
