@@ -85,8 +85,13 @@ Eclipse、MyEclipse <br/>
 | ------------- |-------------|
 | 木登子 | [gitee.com/roseberry/template_for_wangmarket](https://gitee.com/roseberry/template_for_wangmarket) |
 
-
 <br/>
+
+## 第三方功能插件<br/>
+
+| 作者 | 链接 | 简介 |
+| ------------- |-------------|
+| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
 
 
 ## 项目简介<br/>
@@ -123,7 +128,6 @@ wangmarket                          GitHub目录
 ├─pom.xml                           项目源代码 pom ( Maven )
 ├─else                              其他的杂七杂八相关文件，一般用不到
 │  ├─wangmarket.sql                 项目运行所需要的数据库文件( Mysql数据库，默认sqlite3，一般用不到)
-│  ├─wangmarket.db                  sqlite3 数据库
 │  ├─upgradeLog                     自项目上线运营后～开源之前，升级日志
 │  ├─pc_wap_tag                     手机、电脑模式网站模版所使用的动态标签
 │  └─instructions.md                其他项目配置说明，如邮件发送、日志系统等

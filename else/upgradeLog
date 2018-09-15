@@ -551,4 +551,5 @@ CMS模版，增加编码机制。将模版有汉字的位置采用UTF8编码，�
 修复开源发布的wangmarket.sql数据库安装文件中，带的网站账号wangzhan，其到期时间为2033年。以免在代理后台给其续费时溢出导致错误。
 
 
-
+后续的日志都在 :
+http://www.wang.market/log.html
