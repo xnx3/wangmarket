@@ -90,7 +90,7 @@ Eclipse、MyEclipse <br/>
 ## 第三方功能插件<br/>
 
 | 作者 | 链接 | 简介 |
-| ------------- |-------------|
+| ------------- |-------------|-------------|
 | 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
 
 
