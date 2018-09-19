@@ -15,9 +15,6 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.ApplicationProperties;
-import com.xnx3.j2ee.func.Captcha;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SmsLogService;
 import com.xnx3.j2ee.service.SqlService;
@@ -120,7 +117,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				return error("此手机号已注册过了！请更换一个手机号吧");
 			}
 			
-			vo = smsLogService.sendByAliyunSMS(request, G.aliyunSMSUtil, G.AliyunSMS_SignName, G.AliyunSMS_Login_TemplateCode,  request.getParameter("phone"), SmsLog.TYPE_REG);
+			vo = smsLogService.sendByAliyunSMS(request, G.aliyunSMSUtil, G.AliyunSMS_SignName, G.AliyunSMS_Login_TemplateCode,  filter(request.getParameter("phone")), SmsLog.TYPE_REG);
 			AliyunLog.addActionLog(getSiteId(), "获取手机号验证码"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，用户获取验证码的手机号："+request.getParameter("phone"));
 			if(vo.getResult() - BaseVO.SUCCESS == 0){
 				//如果成功，将info的验证码去掉
@@ -156,6 +153,8 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		if(Global.getInt("ALLOW_USER_REG") == 0){
 			return error("抱歉，当前禁止用户自行注册开通网站！");
 		}
+		phone = filter(phone);
+		code = filter(code);
 		
 		//判断用户的短信验证码
 		BaseVO verifyVO = smsLogService.verifyPhoneAndCode(phone, code, SmsLog.TYPE_REG, 300);

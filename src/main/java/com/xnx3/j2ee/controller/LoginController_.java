@@ -3,16 +3,13 @@ package com.xnx3.j2ee.controller;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.exception.NotReturnValueException;
@@ -22,8 +19,6 @@ import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Captcha;
-import com.xnx3.j2ee.func.Log;
-import com.xnx3.j2ee.service.SmsLogService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -42,8 +37,6 @@ import com.xnx3.wangmarket.superadmin.entity.Agency;
 public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseController {
 	@Resource
 	private UserService userService;
-	@Resource
-	private SmsLogService smsLogService;
 	@Resource
 	private SqlService sqlService;
 	
