@@ -12,6 +12,7 @@ public class TemplatePage extends BaseGenerate{
 	
 	public TemplatePage() {
 		type();
+		editMode();
 	}
 	
 	public void type(){
@@ -19,6 +20,13 @@ public class TemplatePage extends BaseGenerate{
 		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.TYPE_INDEX, "首页模版");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.TYPE_NEWS_LIST, "列表页模版");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.TYPE_NEWS_VIEW, "详情页模版");
+		generateCacheFile();
+	}
+	
+	public void editMode(){
+		createCacheObject("editMode");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_VISUAL, "可视化编辑");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_CODE, "代码编辑");
 		generateCacheFile();
 	}
 }

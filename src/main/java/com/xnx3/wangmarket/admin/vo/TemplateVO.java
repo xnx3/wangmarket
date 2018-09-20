@@ -143,6 +143,13 @@ public class TemplateVO extends BaseVO {
 					//兼容之前没有remark导出的json数据
 					ntp.setRemark(getJsonStringAndSafetyFilter(j.getString("remark")));
 				}
+				if(j.get("editMode") != null){
+					//兼容v4.4之前的版本，v4.4版本增加了templatePage.editMode字段
+					ntp.setEditMode((short) j.getInt("editMode"));
+				}else{
+					//若没有，则默认是智能模式
+					ntp.setEditMode(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_VISUAL);
+				}
 				
 				TemplatePage tp = new TemplatePage();
 				tp.setTemplatePage(ntp);

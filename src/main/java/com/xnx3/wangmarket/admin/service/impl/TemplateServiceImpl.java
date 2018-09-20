@@ -172,78 +172,6 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		Site site = Func.getCurrentSite();
 		
-		//判断其是否是进行了自由编辑，替换掉其中htmledit加入的js跟css文件，也就是替换掉<!--XNX3HTMLEDIT-->跟</head>中间的所有字符，网页源码本身<!--XNX3HTMLEDIT-->跟</head>是挨着的
-		int htmledit_start = html.indexOf("<!--XNX3HTMLEDIT-->");
-		if(htmledit_start > 0){
-			int htmledit_head = html.indexOf("</head>");
-			if(htmledit_head == -1){
-				//出错了，忽略
-			}else{
-				//成功，进行过滤中间的htmledit加入的js跟css
-				html = html.substring(0, htmledit_start)+html.substring(htmledit_head, html.length());
-			}
-			
-			//contenteditable=true去掉
-			if(html.indexOf("<body contenteditable=\"true\">") > -1){
-				html = html.replace("<body contenteditable=\"true\">", "<body>");
-			}else{
-				html = html.replaceAll(" contenteditable=\"true\"", "");
-			}
-		}
-		
-		//如果这个页面中使用了模版变量，保存时，将模版变量去掉，变回模版调用形式{includeid=},卸载变量模版
-		if(html.indexOf("<!--templateVarStart-->") > -1){
-			Template temp = new Template(site);
-			Pattern p = Pattern.compile("<!--templateVarStart-->([\\s|\\S]*?)<!--templateVarEnd-->");
-	        Matcher m = p.matcher(html);
-	        while (m.find()) {
-	        	String templateVarText = m.group(1);	//<!--templateVarName=-->+模版变量的内容
-	        	String templateVarName = temp.getConfigValue(templateVarText, "templateVarName");	//模版变量的名字
-	        	templateVarName = Sql.filter(templateVarName);
-	        	
-	        	//替换出当前模版变量的内容，即去掉templateVarText注释
-	        	templateVarText = templateVarText.replace("<!--templateVarName="+templateVarName+"-->", "");
-	        	
-	        	
-	        	//判断模版变量是否有过变动，当前用户是否修改过模版变量，如果修改过，将修改过的模版变量保存
-	        	//从内存中取模版变量内容
-	        	String content = null;
-	        	BaseVO tvVO = getTemplateVarByCache(templateVarName);
-	        	if(tvVO.getResult() - BaseVO.SUCCESS == 0){
-	        		content = tvVO.getInfo();
-	        	}else{
-	        		vo.setBaseVO(BaseVO.FAILURE, "其中使用的模版变量“"+templateVarName+"”不存在！保存失败，请检查修改后再尝试保存");
-	    			return vo;
-	        	}
-//	        	String content = G.templateVarMap.get(site.getTemplateName()).get(templateVarName);
-	        	
-	        	//讲用户保存的跟内存中的模版变量内容比较，是否一样，若不一样，要将当前的保存
-	        	if(!(content.replaceAll("\r|\n|\t", "").equals(templateVarText.replaceAll("\r|\n|\t", "")))){
-	        		//不一样，进行保存
-	        		
-	        	    //模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-	        	    String templateNameWhere = "";
-	        	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-	        	    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-	        	    }
-	        		com.xnx3.wangmarket.admin.entity.TemplateVar tv = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere + " AND var_name = '"+templateVarName+"'", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
-	        		if(tv != null){
-	        			tv.setUpdatetime(DateUtil.timeForUnix10());
-		        		sqlDAO.save(tv);
-		        		
-		        		TemplateVarData templateVarData = sqlDAO.findById(TemplateVarData.class, tv.getId());
-		        		templateVarData.setText(templateVarText);
-		        		sqlDAO.save(templateVarData);
-		        		
-		        		//保存完后，要将其更新到全局缓存中
-		        		updateTemplateVarForCache(tv, templateVarData);
-	        		}
-	        	}
-	        	
-//	            将用户保存的当前的模版页面，模版变量摘除出来，还原为模版调用的模式
-	            html = html.replaceAll("<!--templateVarStart--><!--templateVarName="+templateVarName+"-->([\\s|\\S]*?)<!--templateVarEnd-->", "{include="+templateVarName+"}");
-	        }
-		}
 		
 		TemplatePage templatePage = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId()+" AND name = '"+fileName+"'", TemplatePage.class);
 		if(templatePage == null){
@@ -256,6 +184,90 @@ public class TemplateServiceImpl implements TemplateService {
 			templatePageData = new TemplatePageData();
 			templatePageData.setId(templatePage.getId());
 		}
+		
+		
+		//判断是代码模式，还是智能模式
+		if(templatePage.getEditMode() != null && templatePage.getEditMode() - TemplatePage.EDIT_MODE_CODE == 0){
+			
+			//代码模式编辑，那么直接保存即可，不需要卸载模版变量等
+			
+		}else{
+			//可视化编辑，需要提取模版变量、过滤 htmledit 等
+			
+			//判断其是否是进行了自由编辑，替换掉其中htmledit加入的js跟css文件，也就是替换掉<!--XNX3HTMLEDIT-->跟</head>中间的所有字符，网页源码本身<!--XNX3HTMLEDIT-->跟</head>是挨着的
+			int htmledit_start = html.indexOf("<!--XNX3HTMLEDIT-->");
+			if(htmledit_start > 0){
+				int htmledit_head = html.indexOf("</head>");
+				if(htmledit_head == -1){
+					//出错了，忽略
+				}else{
+					//成功，进行过滤中间的htmledit加入的js跟css
+					html = html.substring(0, htmledit_start)+html.substring(htmledit_head, html.length());
+				}
+				
+				//contenteditable=true去掉
+				if(html.indexOf("<body contenteditable=\"true\">") > -1){
+					html = html.replace("<body contenteditable=\"true\">", "<body>");
+				}else{
+					html = html.replaceAll(" contenteditable=\"true\"", "");
+				}
+			}
+			
+			//如果这个页面中使用了模版变量，保存时，将模版变量去掉，变回模版调用形式{includeid=},卸载变量模版
+			if(html.indexOf("<!--templateVarStart-->") > -1){
+				Template temp = new Template(site);
+				Pattern p = Pattern.compile("<!--templateVarStart-->([\\s|\\S]*?)<!--templateVarEnd-->");
+		        Matcher m = p.matcher(html);
+		        while (m.find()) {
+		        	String templateVarText = m.group(1);	//<!--templateVarName=-->+模版变量的内容
+		        	String templateVarName = temp.getConfigValue(templateVarText, "templateVarName");	//模版变量的名字
+		        	templateVarName = Sql.filter(templateVarName);
+		        	
+		        	//替换出当前模版变量的内容，即去掉templateVarText注释
+		        	templateVarText = templateVarText.replace("<!--templateVarName="+templateVarName+"-->", "");
+		        	
+		        	//判断模版变量是否有过变动，当前用户是否修改过模版变量，如果修改过，将修改过的模版变量保存
+		        	//从内存中取模版变量内容
+		        	String content = null;
+		        	BaseVO tvVO = getTemplateVarByCache(templateVarName);
+		        	if(tvVO.getResult() - BaseVO.SUCCESS == 0){
+		        		content = tvVO.getInfo();
+		        	}else{
+		        		vo.setBaseVO(BaseVO.FAILURE, "其中使用的模版变量“"+templateVarName+"”不存在！保存失败，请检查修改后再尝试保存");
+		    			return vo;
+		        	}
+//		        	String content = G.templateVarMap.get(site.getTemplateName()).get(templateVarName);
+		        	
+		        	//讲用户保存的跟内存中的模版变量内容比较，是否一样，若不一样，要将当前的保存
+		        	if(!(content.replaceAll("\r|\n|\t", "").equals(templateVarText.replaceAll("\r|\n|\t", "")))){
+		        		//不一样，进行保存
+		        		
+		        	    //模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
+		        	    String templateNameWhere = "";
+		        	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+		        	    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+		        	    }
+		        		com.xnx3.wangmarket.admin.entity.TemplateVar tv = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere + " AND var_name = '"+templateVarName+"'", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
+		        		if(tv != null){
+		        			tv.setUpdatetime(DateUtil.timeForUnix10());
+			        		sqlDAO.save(tv);
+			        		
+			        		TemplateVarData templateVarData = sqlDAO.findById(TemplateVarData.class, tv.getId());
+			        		templateVarData.setText(templateVarText);
+			        		sqlDAO.save(templateVarData);
+			        		
+			        		//保存完后，要将其更新到全局缓存中
+			        		updateTemplateVarForCache(tv, templateVarData);
+		        		}
+		        	}
+		        	
+//		            将用户保存的当前的模版页面，模版变量摘除出来，还原为模版调用的模式
+		            html = html.replaceAll("<!--templateVarStart--><!--templateVarName="+templateVarName+"-->([\\s|\\S]*?)<!--templateVarEnd-->", "{include="+templateVarName+"}");
+		        }
+			}
+			
+		}
+		
 		templatePageData.setText(html);
 		sqlDAO.save(templatePageData);
 		
@@ -608,6 +620,7 @@ public class TemplateServiceImpl implements TemplateService {
 			map.put("remark", StringUtil.StringToUtf8(tp.getRemark()));
 			map.put("type", tp.getType());
 			map.put("text", StringUtil.StringToUtf8(tpv.getTemplatePageData().getText()));
+			map.put("editMode", tp.getEditMode() == null? TemplatePage.EDIT_MODE_VISUAL:tp.getEditMode());
 			templatePageList.add(map);
 		}
 		

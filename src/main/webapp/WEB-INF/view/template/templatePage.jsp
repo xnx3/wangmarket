@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:param name="title" value="编辑模版页面"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>TemplatePage_type.js"></script>
+<script src="<%=basePath+Global.CACHE_FILE %>TemplatePage_editMode.js"></script>
 
 <form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 0px; padding-bottom:0px;">
 	<input type="hidden" name="id" value="${templatePage.id}" />
@@ -22,6 +23,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<label class="layui-form-label" id="label_name">模版页名称</label>
 		<div class="layui-input-block">
 			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${templatePage.name }">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="label_editMode">编辑方式</label>
+		<div class="layui-input-block">
+			<script type="text/javascript">writeSelectAllOptionForeditMode_('${templatePage.editMode}', '请选择', true);</script>
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -63,6 +70,11 @@ layui.use(['form', 'layedit', 'laydate'], function(){
     type: function(value){
       if(value.length == 0){
         return '请选择当前模版页类型';
+      }
+    },
+    editMode: function(value){
+      if(value.length == 0){
+        return '请选择模版页面的编辑方式';
       }
     },
     remark: function(value){
@@ -136,6 +148,20 @@ $(function(){
 	},function(){
 		layer.close(label_remark_index);
 	})
+	
+	//编辑方式
+	var label_editMode_index = 0;
+	$("#label_editMode").hover(function(){
+		label_editMode_index = layer.tips('模版页面的内容编辑方式：<br/><b>可视化编辑</b>：也就是智能模式，想改图片，右键修改-上传；想改文字，鼠标点击直接输入。<br/><b>代码编辑</b>：纯代码编辑，同传统的帝国CMS、织梦CMS的textarea文本框编辑。如果您之前使用过帝国、织梦，您可先用此种方式。另外，如果网站js效果很多，建议使用代码模式。', '#label_editMode', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['230px' , 'auto']
+		});
+	},function(){
+		layer.close(label_editMode_index);
+	})
+	
 });	
 
 

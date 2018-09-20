@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <td>${templatePage['remark'] }</td>
             <td style="width:160px;">
             	 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe614;</i></button>
-            	 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] });" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
+            	 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] }, '${templatePage['editMode'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
             	 <button onclick="deleteTemplatePage('${templatePage['id'] }', '${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
 			</td>
         </tr>
@@ -58,15 +58,18 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
  * 编辑页面的内容代码
  * @param name TemplatePage.name要编辑的模版页面名字
  * @param templateType 当前模版页的类型
+ * @param templateEditMode 编辑方式，1:智能模式； 2:代码模式
  */
-function editText(name, templateType){
-	if(parent.currentMode == 2){
-		//要将其切换回智能模式
-		parent.window.htmledit_mode();
-	}
-
+function editText(name, templateType, templateEditMode){
 	parent.document.getElementById("currentTemplatePageName").value = name;
-	parent.loadIframe();
+	if(templateEditMode == '2'){
+		//要编辑的模版页面是代码模式
+		parent.codeEditMode();
+	}else{
+		//要编辑的模版页面是智能模式
+		parent.loadIframe();
+	}
+	
 	
 	try{
 		if(templateType == <%=TemplatePage.TYPE_INDEX %>){

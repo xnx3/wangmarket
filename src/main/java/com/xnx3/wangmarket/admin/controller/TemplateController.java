@@ -403,6 +403,7 @@ public class TemplateController extends BaseController {
 		templatePage.setName(filter(templatePageInput.getName()));
 		templatePage.setType(templatePageInput.getType());
 		templatePage.setRemark(filter(templatePageInput.getRemark()));
+		templatePage.setEditMode(templatePageInput.getEditMode());
 		sqlService.save(templatePage);
 		if(templatePage.getId() != null && templatePage.getId() > 0){
 			
@@ -446,21 +447,38 @@ public class TemplateController extends BaseController {
 		
 		//判断一下，是否这个模版页面是刚建立的，还没有模版页内容
 		if(vo.getTemplatePageData() == null){
-			vo.setTemplatePageData(new TemplatePageData());
-			vo.getTemplatePageData().setText(Template.newHtml);
+			//没有模版页的内容。
+//			if(vo.getTemplatePage().getEditMode() != null || vo.getTemplatePage().getEditMode() - TemplatePage.EDIT_MODE_VISUAL == 0){
+				//判断一下，如果是可视化模式，需要增加默认的html模版页面
+				vo.setTemplatePageData(new TemplatePageData());
+				vo.getTemplatePageData().setText(Template.newHtml);
+//			}else{
+//				//如果是代码模式，那么就是空字符串就行了
+//				vo.setTemplatePageData(new TemplatePageData());
+//				vo.getTemplatePageData().setText("");
+//			}
 		}
-
-		//装载模版变量
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
-			//判断一下，缓存中是否有模版变量，若所没有，那么要缓存
-			templateService.getTemplateVarAndDateListByCache();
-		}
-		com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(getSite(), true);
-		html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 		
-		//自动在</head>之前，加入htmledit.js
-		html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+Global.get("MASTER_SITE_URL")+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
-		AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "获取指定模版页内容，模版页："+StringUtil.filterXss(pageName));
+		//判断是代码模式，还是智能模式
+		if(vo.getTemplatePage().getEditMode() != null && vo.getTemplatePage().getEditMode() - TemplatePage.EDIT_MODE_CODE == 0){
+			//代码模式，那么直接赋予 templatePageData.text 即可
+			html = vo.getTemplatePageData().getText();
+			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "代码编辑获取指定模版页内容", StringUtil.filterXss(pageName));
+		}else{
+			//如果是智能模式，那么要装载模版变量、可视化编辑等
+			//装载模版变量
+			if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+				//判断一下，缓存中是否有模版变量，若所没有，那么要缓存
+				templateService.getTemplateVarAndDateListByCache();
+			}
+			
+			com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(getSite(), true);
+			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
+			
+			//自动在</head>之前，加入htmledit.js
+			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+Global.get("MASTER_SITE_URL")+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
+			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", StringUtil.filterXss(pageName));
+		}
 		
 		model.addAttribute("pageName", pageName);
 		model.addAttribute("html", html);

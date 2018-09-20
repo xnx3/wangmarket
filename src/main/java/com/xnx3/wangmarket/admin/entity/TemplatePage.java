@@ -42,12 +42,22 @@ public class TemplatePage implements java.io.Serializable {
 	 * 模版页面类型，6:单页面如关于我们，废弃，并入详情页模版
 	 */
 	public final static Short TYPE_ALONEPAGE = 6;
+	
+	/**
+	 * 当前模版页面的编辑模式，1:智能模式， 这里，判断只要不是2，那都是智能模式，以兼容以前的版本
+	 */
+	public final static Short EDIT_MODE_VISUAL = 1;
+	/**
+	 * 当前模版页面的编辑模式，2:代码模式
+	 */
+	public final static Short EDIT_MODE_CODE = 2;
 
 	private Integer id;			//自动编号
-	private String name;			//当前模版页面的名字，（还原模板时会使用到）
+	private String name;		//当前模版页面的名字，（还原模板时会使用到）
+	private Short editMode;		//当前模版页面的编辑模式，1:智能模式； 2:代码模式。  这里，判断只要不是2，那都是智能模式，以兼容以前的版本
 	private Integer userid;		//所属用户的id
 	private Short type;			//当前模版页的类型，类型；0其他；1首页；2新闻列表,文字列表；3新闻详情；6单页面如关于我们
-	private String templateName;	//所属的模版名字
+	private String templateName;//所属的模版名字
 	private int siteid;			//当前模版页面，是那个站点在使用。一个站点拥有一个自己的模版，克隆而来
 	private String remark;		//备注
 	
@@ -96,4 +106,11 @@ public class TemplatePage implements java.io.Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	public Short getEditMode() {
+		return editMode;
+	}
+	public void setEditMode(Short editMode) {
+		this.editMode = editMode;
+	}
+	
 }

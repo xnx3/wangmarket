@@ -289,9 +289,57 @@ if('${needSelectTemplate}' == 1){
 var currentMode = 1;	//默认为智能模式，1智能模式、2代码模式
 //模式切换
 var testEditor;
+
+//代码模式编辑
+function codeEditMode(){
+	useTopTools();
+	document.getElementById("htmledit_mode").style.display='none';	//将 代码模式、智能模式切换的按钮隐藏。代码模式下，不需要再有智能模式
+	
+	if(typeof(textEditor) != 'undefined'){
+		try{
+			//清空上次的
+			testEditor.setValue('');
+		}catch(e){}
+	}
+
+	//判断一下，如果上次是智能模式，那么切换回代码模式
+	if(currentMode == 1){
+		//由智能模式切换代码模式
+		document.getElementById("iframe").style.display='none';
+		document.getElementById("htmlMode").style.display='';
+		
+		document.getElementById("htmledit_mode").innerHTML = '智能模式';
+		currentMode = 2;
+	}
+	
+	iw.loading("加载中");    //显示“操作中”的等待提示
+	$.post("<%=basePath %>template/getTemplatePageText.do?pageName="+document.getElementById("currentTemplatePageName").value, function(data){
+	    iw.loadClose();    //关闭“操作中”的等待提示
+	    document.getElementById("html_textarea").value=data;
+	    
+	    testEditor = editormd("editormd", {
+            width            : "100%",
+            height           : "100%",
+            watch            : false,
+            toolbar          : false,
+            codeFold         : true,
+            searchReplace    : true,
+            placeholder      : "请输入html代码",
+            value            : data,
+            theme            : "default",
+            mode             : "text/html",
+            path             : 'http://res.weiunity.com/editor/lib/'
+        });
+	    
+	},'text');
+}
+
+
 function htmledit_mode(){
 	$.showLoading('切换中...');
+	document.getElementById("htmledit_mode").style.display='';	//将 代码模式、智能模式切换的按钮显示。智能模式下，一直优惠智能模式、代码模式的切换按钮
 	if(currentMode == 1){
+		//由智能模式切换代码模式
 		document.getElementById("iframe").style.display='none';
 		document.getElementById("htmlMode").style.display='';
 		
