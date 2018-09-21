@@ -136,7 +136,8 @@ function useCloudTemplate(templateName){
 			iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("加载成功");
-				parent.window.location.reload();	//刷新当前页
+				//进入内容管理中
+				parent.loadIframeByUrl('<%=basePath%>template/welcome.do');
 		 	}else if(data.result == '0'){
 		 		parent.iw.msgFailure(data.info);
 		 	}else{

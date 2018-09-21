@@ -838,5 +838,17 @@ public class SiteController extends BaseController {
 		return "site/popup_updateEmail";
 	}
 	
+	/**
+	 * 弹出框，绑定自己的域名
+	 */
+	@RequestMapping("popupBindDomain${url.suffix}")
+	public String popupBindDomain(Model model,HttpServletRequest request){
+		model.addAttribute("user", getUser());
+		model.addAttribute("site", getSite());
+		
+		AliyunLog.addActionLog(getSiteId(), "弹出框口，绑定自己的域名");
+		
+		return "site/popup_bindDomain";
+	}
 	
 }

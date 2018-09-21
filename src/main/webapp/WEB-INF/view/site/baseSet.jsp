@@ -107,8 +107,8 @@ function updateDomain_info(){
 
 //更改网站自己绑定的域名
 function updateBindDomain_info(){
-	parent.layer.close(index);
-	parent.$('#subWindowsParam').text('${site.bindDomain }');
+	//parent.layer.close(index);
+	//parent.$('#subWindowsParam').text('${site.bindDomain }');
 	parent.updateBindDomain();
 }
 

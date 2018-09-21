@@ -96,14 +96,15 @@ public class TemplateController extends BaseController {
 		if(vo == null || vo.getResult() - TemplatePageVO.FAILURE == 0){
 			//当前还没有模版页，那么可能是刚开通网站，还没有模版，默认跳转到选择模版的页面
 			model.addAttribute("needSelectTemplate", "1");
-		}else{
-			//将模版变量装载入Session
-			templateService.loadDatabaseTemplateVarToCache();
-			
-			model.addAttribute("templatePage", vo.getTemplatePage());
 		}
+//		else{
+//			//将模版变量装载入Session
+//			templateService.loadDatabaseTemplateVarToCache();
+//			
+//			model.addAttribute("templatePage", vo.getTemplatePage());
+//		}
 		
-		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页");
+		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页-iframe main");
 		
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
@@ -129,6 +130,20 @@ public class TemplateController extends BaseController {
 		model.addAttribute("autoAssignDomain", com.xnx3.wangmarket.domain.G.getAutoAssignMainDomain());	//自动分配的域名，如 wang.market
 		model.addAttribute("SITEUSER_FIRST_USE_EXPLAIN_URL", Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
 		return "template/index";
+	}
+	
+	/**
+	 * 登陆成功之后进入的页面，欢迎页面
+	 */
+	@RequestMapping("/welcome${url.suffix}")
+	public String welcome(HttpServletRequest request,Model model){
+		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台欢迎页面");
+		
+		User user = getUser();
+		model.addAttribute("site", getSite());
+		model.addAttribute("parentAgency", getParentAgency());	//上级代理
+		model.addAttribute("user", user);
+		return "template/welcome";
 	}
 	
 	/**

@@ -102,26 +102,26 @@ var autoAssignDomain = '${autoAssignDomain }';
 
 	<div id="leftMenu" class="layui-nav layui-nav-tree layui-nav-side menu">
 		<ul class="">
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="li_system">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe620;</i>
 				<span class="firstMenuFont">系统管理</span>
 			</a>
 			<dl class="layui-nav-child">
 				<dd><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
-				<dd><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
+				<dd id="dd_wangzhanshuxing"><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
 				<dd><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
 				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
 			</dl>
 		</li>
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="li_template">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe61b;</i>
 				<span class="firstMenuFont">模版管理</span>
 			</a>
 			<dl class="layui-nav-child">
 				<dd><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
-				<dd><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
+				<dd id="dd_mobanyemian"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
 				<dd><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
 				<dd><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
 				<dd><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
@@ -130,7 +130,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 		</li>
 		
 		<% if(com.xnx3.wangmarket.domain.G.aliyunLogUtil != null){ %>
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="li_log">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
 				<span class="firstMenuFont">日志访问</span>
@@ -143,21 +143,21 @@ var autoAssignDomain = '${autoAssignDomain }';
 		</li>
 		<% } %>
 		
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="li_help">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe60b;</i>
 				<span class="firstMenuFont">帮助说明</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
-				<dd><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
-				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com'), notUseTopTools();">模版开发</a></dd>
+				<dd id="dd_help_basicUse"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
+				<dd style="display:none;"><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
+				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com/4192.html'), notUseTopTools();">模版开发</a></dd>
 				<dd style="display:none;"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
 		
 		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="li_kefu">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
 				<span class="firstMenuFont">客服管理</span>
@@ -266,24 +266,101 @@ var autoAssignDomain = '${autoAssignDomain }';
 <script src="<%=basePath %>js/admin/indexedit.js"></script>
 <script>
 
+//收起所有一级栏目。只要是有二级栏目的，能展开的，都会收起
+function backAllFirstColumn(){
+	try{ 
+		document.getElementById("li_system").setAttribute("class", "layui-nav-item");
+		document.getElementById("li_template").setAttribute("class", "layui-nav-item");
+		document.getElementById("li_help").setAttribute("class", "layui-nav-item");
+	}catch(e){}
+	try{ 
+		document.getElementById("li_log").setAttribute("class", "layui-nav-item");
+	}catch(e){}
+	try{ 
+		document.getElementById("li_kefu").setAttribute("class", "layui-nav-item");
+	}catch(e){}
+	try{ 
+		document.getElementById("plugin").setAttribute("class", "layui-nav-item");
+	}catch(e){}
+}
+
+/**
+ * 展开某个一级栏目，将某个一级栏目的二级菜单展开。
+ * @param id 要展开的栏目id，包含： li_system 系统管理；li_template 模版管理； li_log 日志管理 ； li_help 帮助 ； li_kefu 客服 ； plugin 功能插件
+ */
+function unfoldFirstColumn(id){
+	document.getElementById(id).setAttribute("class", "layui-nav-item layui-nav-itemed");
+}
+
+/**
+ * 左侧菜单模拟选中
+ * @param id dd标签的id
+ */
+function selectedLeftMenu(id){
+	document.getElementById(id).setAttribute("class", "layui-this");
+}
+
+
+//使用头部工具栏，使用时，会在头部出现工具栏，或者出现展开的按钮
+function useTopTools(){
+	document.getElementById("htmledit_openButton").style.display='';
+	if(currentTopNavShow == false){
+		document.getElementById("htmledit_openButton").innerHTML = '展开<i class="layui-icon">&#xe602;</i>';
+		document.getElementById("topNav").style.display='none';
+		
+		//主体区域的iframe跟textarea的高度变为100%
+		document.getElementById("iframe").style.paddingBottom='0px';
+		document.getElementById("htmlMode").style.paddingBottom='0px';
+	}else{
+		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
+		document.getElementById("topNav").style.display='';
+		
+		//主体区域的iframe跟textarea的高度变为底部缩紧38px
+		document.getElementById("iframe").style.paddingBottom='38px';
+		document.getElementById("htmlMode").style.paddingBottom='38px';
+	}
+}
+//不使用头部工具栏，不使用时，头部什么也没有
+function notUseTopTools(){
+	//隐藏头部
+	document.getElementById("htmledit_openButton").style.display = 'none';
+	document.getElementById("topNav").style.display='none';
+	
+	//主体区域的iframe跟textarea的高度变为100%
+	document.getElementById("iframe").style.paddingBottom='0px';
+	document.getElementById("htmlMode").style.paddingBottom='0px';
+}
+
+
 layui.use('element', function(){
   var element = layui.element;
 });
 
 //加载iframe，默认加载首页index
-document.getElementById("currentTemplatePageName").value = '${templatePage.name}';	//当前模版页面的名字，修改时必须跟iframe.src一块改动
+//document.getElementById("currentTemplatePageName").value = '${templatePage.name}';	//当前模版页面的名字，修改时必须跟iframe.src一块改动
 function loadIframe(){
 	useTopTools();
 	document.getElementById("iframe").src='<%=basePath %>template/getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value;
 }
 
+//在主题内容区域iframe中加载制定的页面
+function loadIframeByUrl(url){
+	if(currentMode == 2){
+		//如果当前是编辑模版页的代码模式下，将其切换回智能模式。不然内容管理等这些就显示不出来了
+		htmledit_mode();
+	}
+	document.getElementById("iframe").src=url;
+}
+
+notUseTopTools();
 //判断当前主体区域显示的内容
 if('${needSelectTemplate}' == 1){
 	//可能是新网站，还没有选择模版，首先会打开选择模版页面
 	loadIframeByUrl('<%=basePath %>template/selectTemplate.do');
 }else{
-	//有模版了，直接进入首页
-	loadIframe();
+	//有模版了，直接进入欢迎页面
+	//loadIframe();
+	loadIframeByUrl('welcome.do');
 }
 
 var currentMode = 1;	//默认为智能模式，1智能模式、2代码模式
@@ -694,44 +771,6 @@ function popupTemplateTagHelp(title,htmlNameTag, width, height){
 	});
 }
 
-//在主题内容区域iframe中加载制定的页面
-function loadIframeByUrl(url){
-	if(currentMode == 2){
-		//如果当前是编辑模版页的代码模式下，将其切换回智能模式。不然内容管理等这些就显示不出来了
-		htmledit_mode();
-	}
-	document.getElementById("iframe").src=url;
-}
-
-//使用头部工具栏，使用时，会在头部出现工具栏，或者出现展开的按钮
-function useTopTools(){
-	document.getElementById("htmledit_openButton").style.display='';
-	if(currentTopNavShow == false){
-		document.getElementById("htmledit_openButton").innerHTML = '展开<i class="layui-icon">&#xe602;</i>';
-		document.getElementById("topNav").style.display='none';
-		
-		//主体区域的iframe跟textarea的高度变为100%
-		document.getElementById("iframe").style.paddingBottom='0px';
-		document.getElementById("htmlMode").style.paddingBottom='0px';
-	}else{
-		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
-		document.getElementById("topNav").style.display='';
-		
-		//主体区域的iframe跟textarea的高度变为底部缩紧38px
-		document.getElementById("iframe").style.paddingBottom='38px';
-		document.getElementById("htmlMode").style.paddingBottom='38px';
-	}
-}
-//不使用头部工具栏，不使用时，头部什么也没有
-function notUseTopTools(){
-	//隐藏头部
-	document.getElementById("htmledit_openButton").style.display = 'none';
-	document.getElementById("topNav").style.display='none';
-	
-	//主体区域的iframe跟textarea的高度变为100%
-	document.getElementById("iframe").style.paddingBottom='0px';
-	document.getElementById("htmlMode").style.paddingBottom='0px';
-}
 
 //缩小左侧菜单
 var currentZoomOut = false;	//当前左侧导航栏是否是缩小模式

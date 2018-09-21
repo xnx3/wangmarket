@@ -467,52 +467,16 @@ function updateDomain(){
 
 //更改自己绑定的域名,需 getSubWindowsParam()支持
 function updateBindDomain(){
-	$.prompt({
-	 text: "将域名做CNAME记录解析至“domain."+autoAssignDomain+"”" +
-	 		"<br/><span style=\"padding-left:50px; font-size:12px;\">帮助：<a href=\"https://help.aliyun.com/knowledge_detail/39788.html\" target=\"_black\">阿里云域名</a>&nbsp;|&nbsp;<a href=\"http://jingyan.baidu.com/article/86fae346f9f62e3c49121a90.html?st=5&net_type=&bd_page_type=1&os=1&rst=&word=wang.market\" target=\"_black\">新网域名</a></span>&nbsp;|&nbsp;<span style=\"padding-left:5px;\" onmouseover=\"bindDomainWindow_mouseOver();\" id=\"bindDomainWindow_mouseOver_id\" onmouseout=\"bindDomainWindow_mouseOut();\"><a href=\"javascript:;\">其他帮助</a></span>" +
-	 		"<br/>绑定顶级域名之后，网站便会默认使用顶级域名访问。" +
-	 		"<br/>如果您想解除顶级域名绑定，可<button onclick=\"removeDomainBind();\" style=\"padding:2px; cursor:pointer;\">点击此处取消绑定</button>" +
-	 		"<b><br/>中文域名无法绑定、改完后要等待5分钟之后才会生效</b>",
-	 title: "绑定自己的顶级域名",
-	 onOK: function(text) {
-		 if(text == getSubWindowsParam()){
- 			//域名没有变动，无需改动
-		 }else{
-			 iw.loading("修改中");
-			 $.post(masterSiteUrl+"site/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+text, function(data){
-			 	iw.loadClose();
-			 	if(data.result == '1'){
-			 		iw.msgSuccess("操作成功");
-			  	}else if(data.result == '0'){
-			  		iw.msgFailure(data.info);
-			  	}else{
-			  		iw.msgFailure();
-			  	}
-			 });
-		}
-	 },
-	 input: getSubWindowsParam()
+	layer.open({
+		type: 2,
+		closeBtn: 1, //不显示关闭按钮
+		area:['438px','400px'],
+		shadeClose: false, //开启遮罩关闭
+		content: masterSiteUrl+'site/popupBindDomain.do',
+		scrollbar: false,
+		title: '您需要以下这几步，来进行绑定域名',
+		closeBtn: 1
 	});
-}
-//绑定顶级域名窗口，CNAME解析的帮助及说明
-var bindDomainWindow_mouseOver_tipindex = 0;
-function bindDomainWindow_mouseOver(){
-	bindDomainWindow_mouseOver_tipindex = layer.tips("" +
-			"<div style=\"text-align:left;\">例如，我有一个域名 “www.guanleiming.com” 要绑定到这个网站" +
-			"<br/><b>第一步：</b>将这个域名的CNAME记录指向&nbsp;“&nbsp;domain."+autoAssignDomain+"&nbsp;”&nbsp;" +
-			"<div style=\"padding-left:60px;\">" +
-			"	不用备案，香港服务器：domain."+autoAssignDomain +
-			"	<br/>必须备案，国内服务器：beian."+autoAssignDomain+"</div>" +
-			"<b>第二步：</b>在这里填入要绑定的域名 &nbsp;“&nbsp;www.guanleiming.com&nbsp;”&nbsp;" +
-			"<br/><b>第三步：</b>等待5分钟左右，即可访问&nbsp;“&nbsp;www.guanleiming.com&nbsp;”&nbsp;</div>", '#bindDomainWindow_mouseOver_id', {
-		tips: [1, '#0FA6A8'], //还可配置颜色
-		area: ['600px','auto'],
-		time:0,
-		tipsMore: true
-	});
-}
-function bindDomainWindow_mouseOut(){
-	layer.close(bindDomainWindow_mouseOver_tipindex);
 }
 
 
@@ -611,18 +575,30 @@ function exportTemplate(){
 	});
 }
 
-//v3.0 解除绑定顶级域名
-function removeDomainBind(){
-	iw.loading("解绑中...");    //显示“操作中”的等待提示
-	$.post(masterSiteUrl+"site/updateBindDomain.do?bindDomain=", function(data){
-	    iw.loadClose();    //关闭“操作中”的等待提示
-	    if(data.result == '1'){
-	        iw.msgSuccess('解绑成功');
-	     }else if(data.result == '0'){
-	         iw.msgFailure(data.info);
-	     }else{
-	         iw.msgFailure();
-	     }
+
+/** v4.4
+ * 绑定域名、解绑域名
+ * domain 要绑定的域名。 若为空字符串，则是解除绑定
+ */
+function bindDomain(domain){
+	if(domain.length == 0){
+		parent.iw.loading("解绑中");
+	}else{
+		parent.iw.loading("绑定中");
+	}
+	$.post(masterSiteUrl+"site/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
+		parent.iw.loadClose();
+		if(data.result == '1'){
+			if(domain.length == 0){
+				parent.iw.msgSuccess("已解绑");
+			}else{
+				parent.iw.msgSuccess("绑定成功");
+			}
+	 	}else if(data.result == '0'){
+	 		parent.iw.msgFailure(data.info);
+	 	}else{
+	 		parent.iw.msgFailure();
+	 	}
 	});
 }
 
