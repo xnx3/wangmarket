@@ -570,6 +570,7 @@ CREATE TABLE `template_page` (
   `template_name` char(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '所属模版的名字',
   `siteid` int(11) DEFAULT NULL COMMENT '当前使用的站点id',
   `remark` char(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注，限制30个字以内',
+  `edit_mode` tinyint(2) DEFAULT NULL COMMENT '当前模版页面的编辑模式，1:智能模式； 2:代码模式。  这里，判断只要不是2，那都是智能模式，以兼容以前的版本',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版页面，CMS模式网站中用到';
 

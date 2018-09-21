@@ -96,13 +96,11 @@ public class TemplateController extends BaseController {
 		if(vo == null || vo.getResult() - TemplatePageVO.FAILURE == 0){
 			//当前还没有模版页，那么可能是刚开通网站，还没有模版，默认跳转到选择模版的页面
 			model.addAttribute("needSelectTemplate", "1");
+		}else{
+			//将模版变量装载入Session。 必须要装载，将模版变量缓存入session，以便后面使用
+			templateService.loadDatabaseTemplateVarToCache();
+			model.addAttribute("templatePage", vo.getTemplatePage());
 		}
-//		else{
-//			//将模版变量装载入Session
-//			templateService.loadDatabaseTemplateVarToCache();
-//			
-//			model.addAttribute("templatePage", vo.getTemplatePage());
-//		}
 		
 		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页-iframe main");
 		
