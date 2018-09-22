@@ -185,18 +185,18 @@ function openTemplateVarList(){
 }
 
 //打开当前网站的模版页面列表，适用于自定义模版类型
-function openTemplatePageList(){
-	var openTemplatePageListVar = layer.open({
-		type: 2,
-		closeBtn: 1, //不显示关闭按钮
-		anim: 3, area:['600px','680px'],
-		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'template/templatePageList.do',
-		title: '模版页面列表',
-		closeBtn: 1
-	});
-	layer.full(openTemplatePageListVar);
-}
+//function openTemplatePageList(){
+//	var openTemplatePageListVar = layer.open({
+//		type: 2,
+//		closeBtn: 1, //不显示关闭按钮
+//		anim: 3, area:['600px','680px'],
+//		shadeClose: true, //开启遮罩关闭
+//		content: masterSiteUrl+'template/templatePageList.do',
+//		title: '模版页面列表',
+//		closeBtn: 1
+//	});
+//	layer.full(openTemplatePageListVar);
+//}
 
 //打开网站基本信息弹出框
 function openJiBenXinXi(){

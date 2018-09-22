@@ -62,52 +62,11 @@ body{
 <h2 style="padding-top:50px;">入门功能，快捷导航</h2>
 <hr>
 <div>
-<button onclick="helpVideo();" class="layui-btn layui-btn-primary">入门视频教程</button>
-<button onclick="bindDomain();" class="layui-btn layui-btn-primary">绑定域名</button>
-<button onclick="template();" class="layui-btn layui-btn-primary">模版页面</button>
+<button onclick="parent.helpVideo();" class="layui-btn layui-btn-primary">入门视频教程</button>
+<button onclick="parent.openBindDomain();" class="layui-btn layui-btn-primary">绑定域名</button>
+<button onclick="parent.openTemplatePageList();" class="layui-btn layui-btn-primary">模版页面</button>
 
 
 </div>
-
-<script>
-//绑定域名
-function bindDomain(){
-	//收起所有一级栏目
-	parent.backAllFirstColumn();
-	//展开某个一级栏目
-	parent.unfoldFirstColumn('li_system');
-	//选中某个菜单
-	parent.selectedLeftMenu('dd_wangzhanshuxing');
-	
-	//调出绑定域名
-	parent.updateBindDomain();
-}
-
-//模版管理
-function template(){
-	//收起所有一级栏目
-	parent.backAllFirstColumn();
-	//展开某个一级栏目
-	parent.unfoldFirstColumn('li_template');
-	//选中某个菜单
-	parent.selectedLeftMenu('dd_mobanyemian');
-	
-	//打开模版管理
-	parent.loadIframeByUrl('templatePageList.do');
-}
-
-//入门视频
-function helpVideo(){
-	//收起所有一级栏目
-	parent.backAllFirstColumn();
-	//展开某个一级栏目
-	parent.unfoldFirstColumn('li_help');
-	//选中某个菜单
-	parent.selectedLeftMenu('dd_help_basicUse');
-	
-	//打开模版管理
-	parent.loadIframeByUrl('http://www.wscso.com/site_basicUse.html');
-}
-</script>
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>  

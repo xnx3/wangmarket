@@ -110,7 +110,7 @@ public class TemplateController extends BaseController {
 		if(PluginManage.cmsSiteClassManage.size() > 0){
 			for (Map.Entry<String, SitePluginBean> entry : PluginManage.cmsSiteClassManage.entrySet()) {
 				SitePluginBean bean = entry.getValue();
-				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+				pluginMenu += "<dd class=\"twoMenu\"><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
 			}
 		}
 		model.addAttribute("pluginMenu", pluginMenu);

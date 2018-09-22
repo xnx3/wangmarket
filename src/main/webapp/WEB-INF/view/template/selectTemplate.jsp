@@ -63,14 +63,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 <body>
 <div style="padding: 12px;font-weight: 700;padding-left: 32px;color: red; font-size: 20px;">
-	注意，方案二、三，当您使用了一个模版后，将无法再使用其他模版。
+	注意，当您使用了一个模版后，将无法再使用其他模版！如果要更换模版，可以再重新建立一个网站。
 </div>
 
 <div class="site-title">
 	<fieldset><legend><a name="fieldset">方案一.不使用模版，自己从头开始做一套模版</a></legend></fieldset>
 </div>
 <div style="padding-left: 50px;">
-	<span style="padding-left:10px; color:#c2c2c2;">注意，此种方式需要您简单掌握HTML的相关知识才可！入门非常简单，<a href="http://tag.wscso.com/4192.html" target="_black" style="color: blue;text-decoration: underline;"><%=Global.get("SITE_NAME") %>模板制作入门点此查看</a>，一小时内学会自己做模版，成大神！</span>
+	<span style="padding-left:10px; color:#c2c2c2;">注意，此种方式需要您简单掌握HTML的相关知识才可！入门非常简单，<a href="javascript:parent.templateDevHelp();" style="color: blue;text-decoration: underline;"><%=Global.get("SITE_NAME") %>模板制作入门点此查看</a>，一小时内学会自己做模版，成大神！</span>
 </div>
 
 

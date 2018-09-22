@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <script src="<%=basePath %>js/fun.js"></script>
+<script src="<%=basePath %>js/admin/cms/cms.js"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
 <script src="http://res.weiunity.com/layer/layer.js" type="text/javascript"></script>
@@ -108,10 +109,10 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">系统管理</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
-				<dd id="dd_wangzhanshuxing"><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
-				<dd><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
+				<dd class="twoMenu"><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
+				<dd id="dd_wangzhanshuxing" class="twoMenu"><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
+				<dd class="twoMenu"><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
+				<dd class="twoMenu"><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item" id="li_template">
@@ -120,12 +121,12 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">模版管理</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
-				<dd id="dd_mobanyemian"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
-				<dd><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
-				<dd><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
-				<dd><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
-				<dd><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
+				<dd class="twoMenu"><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
+				<dd id="dd_mobanyemian" class="twoMenu"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
+				<dd class="twoMenu"><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
+				<dd class="twoMenu"><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
+				<dd class="twoMenu"><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
+				<dd class="twoMenu"><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
 			</dl>
 		</li>
 		
@@ -136,9 +137,9 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">日志访问</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd><a id="rzfw_fangwentongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/fangwentongji.do'), notUseTopTools();">访问统计</a></dd>
-				<dd><a id="rzfw_pachongtongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/pachongtongji.do'), notUseTopTools();">爬虫统计</a></dd>
-				<dd><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
+				<dd class="twoMenu"><a id="rzfw_fangwentongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/fangwentongji.do'), notUseTopTools();">访问统计</a></dd>
+				<dd class="twoMenu"><a id="rzfw_pachongtongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/pachongtongji.do'), notUseTopTools();">爬虫统计</a></dd>
+				<dd class="twoMenu"><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
 			</dl>
 		</li>
 		<% } %>
@@ -149,10 +150,10 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">帮助说明</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd id="dd_help_basicUse"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
-				<dd style="display:none;"><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
-				<dd><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com/4192.html'), notUseTopTools();">模版开发</a></dd>
-				<dd style="display:none;"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
+				<dd id="dd_help_basicUse" class="twoMenu"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
+				<dd style="display:none;" class="twoMenu"><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
+				<dd id="dd_kaifawendang" class="twoMenu"><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com/4192.html'), notUseTopTools();">模版开发</a></dd>
+				<dd style="display:none;" class="twoMenu"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
 		
@@ -163,8 +164,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">客服管理</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
-				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
+				<dd class="twoMenu"><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
+				<dd class="twoMenu"><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
 			</dl>
 		</li>
 		<% } %>
@@ -265,94 +266,14 @@ var autoAssignDomain = '${autoAssignDomain }';
 <script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 <script src="<%=basePath %>js/admin/indexedit.js"></script>
 <script>
-
-//收起所有一级栏目。只要是有二级栏目的，能展开的，都会收起
-function backAllFirstColumn(){
-	try{ 
-		document.getElementById("li_system").setAttribute("class", "layui-nav-item");
-		document.getElementById("li_template").setAttribute("class", "layui-nav-item");
-		document.getElementById("li_help").setAttribute("class", "layui-nav-item");
-	}catch(e){}
-	try{ 
-		document.getElementById("li_log").setAttribute("class", "layui-nav-item");
-	}catch(e){}
-	try{ 
-		document.getElementById("li_kefu").setAttribute("class", "layui-nav-item");
-	}catch(e){}
-	try{ 
-		document.getElementById("plugin").setAttribute("class", "layui-nav-item");
-	}catch(e){}
-}
-
-/**
- * 展开某个一级栏目，将某个一级栏目的二级菜单展开。
- * @param id 要展开的栏目id，包含： li_system 系统管理；li_template 模版管理； li_log 日志管理 ； li_help 帮助 ； li_kefu 客服 ； plugin 功能插件
- */
-function unfoldFirstColumn(id){
-	document.getElementById(id).setAttribute("class", "layui-nav-item layui-nav-itemed");
-}
-
-/**
- * 左侧菜单模拟选中
- * @param id dd标签的id
- */
-function selectedLeftMenu(id){
-	document.getElementById(id).setAttribute("class", "layui-this");
-}
-
-
-//使用头部工具栏，使用时，会在头部出现工具栏，或者出现展开的按钮
-function useTopTools(){
-	document.getElementById("htmledit_openButton").style.display='';
-	if(currentTopNavShow == false){
-		document.getElementById("htmledit_openButton").innerHTML = '展开<i class="layui-icon">&#xe602;</i>';
-		document.getElementById("topNav").style.display='none';
-		
-		//主体区域的iframe跟textarea的高度变为100%
-		document.getElementById("iframe").style.paddingBottom='0px';
-		document.getElementById("htmlMode").style.paddingBottom='0px';
-	}else{
-		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
-		document.getElementById("topNav").style.display='';
-		
-		//主体区域的iframe跟textarea的高度变为底部缩紧38px
-		document.getElementById("iframe").style.paddingBottom='38px';
-		document.getElementById("htmlMode").style.paddingBottom='38px';
-	}
-}
-//不使用头部工具栏，不使用时，头部什么也没有
-function notUseTopTools(){
-	//隐藏头部
-	document.getElementById("htmledit_openButton").style.display = 'none';
-	document.getElementById("topNav").style.display='none';
-	
-	//主体区域的iframe跟textarea的高度变为100%
-	document.getElementById("iframe").style.paddingBottom='0px';
-	document.getElementById("htmlMode").style.paddingBottom='0px';
-}
-
+//默认不使用头部导航
+notUseTopTools();
 
 layui.use('element', function(){
   var element = layui.element;
 });
 
-//加载iframe，默认加载首页index
-//document.getElementById("currentTemplatePageName").value = '${templatePage.name}';	//当前模版页面的名字，修改时必须跟iframe.src一块改动
-function loadIframe(){
-	useTopTools();
-	document.getElementById("iframe").src='<%=basePath %>template/getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value;
-}
 
-//在主题内容区域iframe中加载制定的页面
-function loadIframeByUrl(url){
-	if(currentMode == 2){
-		//如果当前是编辑模版页的代码模式下，将其切换回智能模式。不然内容管理等这些就显示不出来了
-		htmledit_mode();
-	}
-	document.getElementById("iframe").src=url;
-}
-
-notUseTopTools();
 //判断当前主体区域显示的内容
 if('${needSelectTemplate}' == 1){
 	//可能是新网站，还没有选择模版，首先会打开选择模版页面
@@ -363,11 +284,11 @@ if('${needSelectTemplate}' == 1){
 	loadIframeByUrl('welcome.do');
 }
 
-var currentMode = 1;	//默认为智能模式，1智能模式、2代码模式
+
 //模式切换
 var testEditor;
 
-//代码模式编辑
+//以代码模式编辑模版页面
 function codeEditMode(){
 	useTopTools();
 	document.getElementById("htmledit_mode").style.display='none';	//将 代码模式、智能模式切换的按钮隐藏。代码模式下，不需要再有智能模式
@@ -717,59 +638,6 @@ $(function(){
 })
 
 
-//显示、隐藏顶部的导航栏
-var currentTopNavShow = true;	//当前默认的顶部导航是显示的 
-function showHiddenTopNav(){
-	if(currentTopNavShow){
-		currentTopNavShow = false;
-		document.getElementById("htmledit_openButton").innerHTML = '展开<i class="layui-icon">&#xe602;</i>';
-		document.getElementById("topNav").style.display='none';
-		
-		//主体区域的iframe跟textarea的高度变为100%
-		document.getElementById("iframe").style.paddingBottom='0px';
-		document.getElementById("htmlMode").style.paddingBottom='0px';
-	}else{
-		currentTopNavShow = true;
-		document.getElementById("htmledit_openButton").innerHTML = '<i class="layui-icon">&#xe603;</i>隐藏';
-		document.getElementById("topNav").style.display='';
-		
-		//主体区域的iframe跟textarea的高度变为底部缩紧38px
-		document.getElementById("iframe").style.paddingBottom='38px';
-		document.getElementById("htmlMode").style.paddingBottom='38px';
-	}
-}
-
-/**
- * 弹出模版标签帮助窗口
- * @param title 窗口的标题文字
- * @param htmlNameTag 帮助的网址后面的描点名字
- * @param height 弹出窗口的宽度,整数。会自动拼接px
- * @param height 弹出窗口的高度,整数。会自动拼接px
- */ 
-function popupTemplateTagHelp(title,htmlNameTag, width, height){
-	var url = '';
-	if(htmlNameTag.indexOf('http://') > -1){
-		url = htmlNameTag;
-	}else{
-		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
-	}
-	layer.open({
-		type: 2 //iframe
-		,title:title
-		,area: [width+'px', height+'px']
-		,shade: 0
-		,offset: [ //为了演示，随机坐标
-			Math.random()*($(window).height()-300)
-			,Math.random()*($(window).width()-390)
-		]
- 		,maxmin: true
-		,content: url
-		,zIndex: layer.zIndex //重点1
-		,success: function(layero){
-			layer.setTop(layero); //重点2
-  		}
-	});
-}
 
 
 //缩小左侧菜单
