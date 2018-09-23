@@ -7,6 +7,7 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 
 public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	
@@ -35,11 +36,19 @@ public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	}
 
 	/**
-	 * 获取当前登陆用户的上级用户代理信息。如果当前用户的上级有，且是代理的话
+	 * 获取当前登陆用户的上级用户代理信息的变长表 (agency_data) 数据。如果当前用户的上级有，且是代理的话
 	 * @return {@link Agency} 或 null
 	 */
 	public Agency getParentAgency(){
 		return com.xnx3.wangmarket.superadmin.Func.getParentAgency();
+	}
+	
+	/**
+	 * 获取当前登陆用户的上级用户代理信息。如果当前用户的上级有，且是代理的话
+	 * @return {@link Agency} 或 null
+	 */
+	public AgencyData getParentAgencyData(){
+		return com.xnx3.wangmarket.superadmin.Func.getParentAgencyData();
 	}
 	
 	/**

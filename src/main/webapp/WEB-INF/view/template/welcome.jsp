@@ -9,7 +9,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="../iw/common/head.jsp">
-	<jsp:param name="title" value="欢迎登陆"/>
+	<jsp:param name="title" value="欢迎使用"/>
 </jsp:include>
 
 
@@ -23,14 +23,44 @@ body{
 }
 </style>
 
-<div style="text-align:center; font-size:39px; padding-top:35px; padding-bottom: 10px;">
-	欢迎使用 <%=Global.get("SITE_NAME") %>云建站系统
-</div>
-<div style="padding: 20px; font-size: 25px; border: 1px solid #eee;">
+<div style="padding: 20px; font-size: 22px; border: 1px solid #eee;">
 	您好，我们改版了，原本登陆成功后这个位置显示的编辑首页，你可以在左侧“模版管理” - “模版页面” 中，找到首页，进行编辑即可。<a href="javascript:template();">点击此处快速进入模版管理</a>
-
 </div>
-<table class="layui-table iw_table" lay-even lay-skin="nob" style="width:100%; padding-top:20px;">
+
+
+<div class="layui-tab" id="gonggao" style="display:none;">
+  <ul class="layui-tab-title">
+    <li class="layui-this">公告信息</li>
+    <li>联系</li>
+  </ul>
+  <div class="layui-tab-content" style="font-size:14px;">
+    <div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
+    <div class="layui-tab-item">
+    	名称：${parentAgency.name }<br/>
+    	电话：${parentAgency.phone }<br/>
+    	QQ：${parentAgency.qq }<br/>
+    	地址：${parentAgency.address }<br/>
+    	
+    </div>
+  </div>
+</div>
+<script>
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+});
+try{
+	document.getElementById('parentAgencyNotice').innerHTML = document.getElementById('parentAgencyNotice').innerHTML.replace(/\n/g,"<br/>");
+}catch(e){}
+try{
+	if(document.getElementById('parentAgencyNotice').innerHTML.length > 1){
+		document.getElementById('gonggao').style.display='';
+	}
+}catch(e){}
+</script>
+
+
+<table class="layui-table iw_table" lay-even lay-skin="nob" style="width:100%; margin-top: 20px;">
 	<tbody>
 		<tr>
 			<td class="iw_table_td_view_name">用户名</td>

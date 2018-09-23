@@ -3,13 +3,9 @@ package com.xnx3.wangmarket.superadmin.controller.agency;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import net.sf.json.JSONArray;
-
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
@@ -17,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -28,11 +23,9 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
 import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -42,13 +35,12 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.superadmin.entity.SiteSizeChange;
-import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
-import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.UserVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 import com.xnx3.wangmarket.superadmin.service.TransactionalService;
 import com.xnx3.wangmarket.superadmin.util.SiteSizeChangeLog;
 
@@ -83,13 +75,16 @@ public class AgencyUserController extends BaseController {
 		if(agency == null){
 			return error(model, "代理信息出错！");
 		}
-		
+		//上级代理的变长表数据
+		AgencyData parentAgencyData = getParentAgencyData();
 		
 		AliyunLog.addActionLog(agency.getId(), "进入代理商后台首页");
 		User user = sqlService.findById(User.class, getUserId());
 		model.addAttribute("user", user);
 		model.addAttribute("agency", agency);
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
+		//上级代理的公告内容，要显示出来的
+		model.addAttribute("parentAgencyNotice", parentAgencyData == null ? "":parentAgencyData.getNotice());
 		model.addAttribute("apiKey", apiService.getKey());
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		model.addAttribute("AGENCYUSER_FIRST_USE_EXPLAIN_URL", Global.get("AGENCYUSER_FIRST_USE_EXPLAIN_URL"));
@@ -959,5 +954,6 @@ public class AgencyUserController extends BaseController {
 		model.addAttribute("user", getUser());
 		return "agency/autoCreateSite";
 	}
+	
 	
 }

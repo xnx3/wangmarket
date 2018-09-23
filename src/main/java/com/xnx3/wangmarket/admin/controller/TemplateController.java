@@ -68,6 +68,7 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.InputModelComp
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.SiteColumnCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplatePageCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCompare;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 
 /**
  * 模版相关操作
@@ -136,10 +137,14 @@ public class TemplateController extends BaseController {
 	@RequestMapping("/welcome${url.suffix}")
 	public String welcome(HttpServletRequest request,Model model){
 		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台欢迎页面");
+		//上级代理的变长表数据
+		AgencyData parentAgencyData = getParentAgencyData();
 		
 		User user = getUser();
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
+		//上级代理的公告内容，要显示出来的
+		model.addAttribute("parentAgencyNotice", parentAgencyData == null ? "":parentAgencyData.getNotice());	
 		model.addAttribute("user", user);
 		return "template/welcome";
 	}

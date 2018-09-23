@@ -7,6 +7,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 
 /**
  * 用户登录后，即跟随用户Session一块的缓存，其在Shiro中
@@ -14,8 +15,10 @@ import com.xnx3.wangmarket.superadmin.entity.Agency;
  */
 public class UserBean {
 	private Agency myAgency;		//我的代理信息，如果我是代理的话，才有内容
+	private AgencyData myAgencyData;	//我的代理信息-变长表的信息
 	private Site site;		//当前用户的站点信息
 	private Agency parentAgency;	//我的上级代理信息，当前用户的上级代理信息
+	private AgencyData parentAgencyData;	//我的上级代理信息-变长表的信息
 	private Map<String, String> templateVarCompileDataMap;	//我当前高级模式使用的模版变量，可能是已被编译(替换)过标签的内容了。key:template.name	value:模版变量的内容
 	private Map<String, TemplateVarVO> templateVarMapForOriginal;	//原始的模版变量，其内包含模版变量的数据库中的原始内容. key:templateVar.name 
 	private Map<Integer, SiteColumn> siteColumnMap;		//缓存的当前用户的栏目信息 key:siteColumn.id（CMS模式才会使用此缓存）登录时不会缓存此处，在使用时才会缓存
@@ -73,14 +76,18 @@ public class UserBean {
 	public void setSiteIm(Im im) {
 		this.im = im;
 	}
-	@Override
-	public String toString() {
-		return "UserBean [myAgency=" + myAgency + ", site=" + site
-				+ ", parentAgency=" + parentAgency
-				+ ", templateVarCompileDataMap=" + templateVarCompileDataMap
-				+ ", templateVarMapForOriginal=" + templateVarMapForOriginal
-				+ ", siteColumnMap=" + siteColumnMap + ", inputModelMap="
-				+ inputModelMap + ", im=" + im + "]";
+	public AgencyData getMyAgencyData() {
+		return myAgencyData;
 	}
+	public void setMyAgencyData(AgencyData myAgencyData) {
+		this.myAgencyData = myAgencyData;
+	}
+	public AgencyData getParentAgencyData() {
+		return parentAgencyData;
+	}
+	public void setParentAgencyData(AgencyData parentAgencyData) {
+		this.parentAgencyData = parentAgencyData;
+	}
+	
 	
 }

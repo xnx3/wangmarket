@@ -27,6 +27,7 @@ import com.xnx3.media.CaptchaUtil;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 
 /**
  * 登录、注册
@@ -122,6 +123,12 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						//得到上级的代理信息
 						Agency parentAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + getUser().getReferrerid(), Agency.class);
 						userBean.setParentAgency(parentAgency);
+						
+						if(parentAgency != null){
+							//得到上级代理的变长表信息
+							AgencyData parentAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + parentAgency.getId(), AgencyData.class);
+							userBean.setParentAgencyData(parentAgencyData);
+						}
 					}
 					
 					//当前时间
@@ -166,6 +173,11 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						//得到当前用户代理的相关信息，加入userBean，以存入Session缓存起来
 						Agency myAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + getUserId(), Agency.class);
 						userBean.setMyAgency(myAgency);
+						if(myAgency != null){
+							//得到当前代理用户的变长表信息
+							AgencyData myAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + myAgency.getId(), AgencyData.class);
+							userBean.setMyAgencyData(myAgencyData);
+						}
 						
 						//判断当前代理是否是已过期，使用期满，将无法登录
 						if (myAgency != null && myAgency.getExpiretime() != null && myAgency.getExpiretime() < currentTime){

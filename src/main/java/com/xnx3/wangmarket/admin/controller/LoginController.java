@@ -23,6 +23,7 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -223,13 +224,18 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 			return error(model, vo.getInfo());
 		}
 		
-		
 		//用于缓存入Session，用户的一些基本信息，比如用户的站点信息、用户的上级代理信息、如果当前用户是代理，还包含当前用户的代理信息等
 		UserBean userBean = new UserBean();
 		
 		//得到上级的代理信息
 		Agency parentAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + getUser().getReferrerid(), Agency.class);
 		userBean.setParentAgency(parentAgency);
+		if(parentAgency != null){
+			//得到上级代理的变长表信息
+			AgencyData parentAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + parentAgency.getId(), AgencyData.class);
+			userBean.setParentAgencyData(parentAgencyData);
+		}
+		
 		//当前时间
 		int currentTime = DateUtil.timeForUnix10();	
 

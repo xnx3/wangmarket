@@ -31,6 +31,38 @@ versionUpdateRemind('<%=G.VERSION %>');
 <div style="text-align:center; font-size:29px; padding-top:35px; padding-bottom: 10px;">
 	欢迎登录 <%=Global.get("SITE_NAME") %>云建站系统
 </div>
+
+
+<div class="layui-tab" id="gonggao" style="display:none; margin-left: 30px; margin-right: 30px;">
+  <ul class="layui-tab-title">
+    <li class="layui-this">公告信息</li>
+    <li>联系</li>
+  </ul>
+  <div class="layui-tab-content" style="font-size:14px;">
+    <div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
+    <div class="layui-tab-item">
+    	名称：${parentAgency.name }<br/>
+    	电话：${parentAgency.phone }<br/>
+    	QQ：${parentAgency.qq }<br/>
+    	地址：${parentAgency.address }
+    </div>
+  </div>
+</div>
+<script>
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+});
+try{
+	document.getElementById('parentAgencyNotice').innerHTML = document.getElementById('parentAgencyNotice').innerHTML.replace(/\n/g,"<br/>");
+}catch(e){}
+try{
+	if(document.getElementById('parentAgencyNotice').innerHTML.length > 1){
+		document.getElementById('gonggao').style.display='';
+	}
+}catch(e){}
+</script>
+
 <table class="layui-table iw_table" lay-even lay-skin="nob" style="margin:3%; width:94%;">
 	<tbody>
 		<tr>
@@ -149,7 +181,6 @@ function jumpParentAgency(){
 }
 
 
-
 //代理开通15日内，登录会弹出网站快速开通的视频说明
 try {
 	var currentTime = Date.parse( new Date() ).toString();
@@ -169,7 +200,6 @@ try {
 	}
 } catch(error) {}
 </script>
-
 
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>  

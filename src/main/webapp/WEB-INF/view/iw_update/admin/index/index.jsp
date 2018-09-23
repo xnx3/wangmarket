@@ -178,7 +178,16 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		
+		
 		<!-- agency start -->
+		<shiro:hasPermission name="agencyIndex">
+			<li class="layui-nav-item" id="agencyNotice">
+				<a href="javascript:loadUrl('<%=basePath %>agency/systemSet.do');">
+					<i class="layui-icon firstMenuIcon">&#xe620;</i>
+					<span class="firstMenuFont">系统设置</span>
+				</a>
+			</li>
+		</shiro:hasPermission>
 		<shiro:hasPermission name="agencyIndex">
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('<%=basePath %>agency/userList.do');">
@@ -368,6 +377,7 @@ function systemVersionCheck(){
 		}
 	});
 }
+
 </script>
 
 <shiro:hasPermission name="adminSystem"> 

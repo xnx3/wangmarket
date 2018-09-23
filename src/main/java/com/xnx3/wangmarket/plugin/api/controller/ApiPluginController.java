@@ -19,6 +19,7 @@ import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 
 /**
  * Api接口相关
@@ -78,6 +79,11 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 		//得到上级的代理信息
 		Agency parentAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + vo.getUser().getReferrerid(), Agency.class);
 		userBean.setParentAgency(parentAgency);
+		if(parentAgency != null){
+			//得到上级代理的变长表信息
+			AgencyData parentAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + parentAgency.getId(), AgencyData.class);
+			userBean.setParentAgencyData(parentAgencyData);
+		}
 		//当前时间
 		int currentTime = DateUtil.timeForUnix10();	
 
@@ -90,7 +96,6 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 			return error(model, "您的网站已到期。若要继续使用，请续费");
 		}
 		
-		System.out.println(userBean.toString());
 		ActionLogCache.insert(request, vo.getUser().getId(), "api模式登录成功");
 		
 		//设置当前用户状态为登陆状态
