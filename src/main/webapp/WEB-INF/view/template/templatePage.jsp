@@ -156,7 +156,7 @@ $(function(){
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
-			area : ['280px' , 'auto']
+			area : ['230px' , 'auto']
 		});
 	},function(){
 		layer.close(label_editMode_index);
