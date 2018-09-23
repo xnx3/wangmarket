@@ -282,9 +282,10 @@ public class TemplateController extends BaseController {
 	public String templatePage(HttpServletRequest request,Model model,
 			@RequestParam(value = "pageName", required = false , defaultValue="") String pageName
 			){
+		TemplatePage templatePage;
 		//如果是编辑模式
 		if(pageName.length() > 0){
-			TemplatePage templatePage = sqlService.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+getSiteId()+" AND name = '"+Sql.filter(pageName)+"'", TemplatePage.class);
+			templatePage = sqlService.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+getSiteId()+" AND name = '"+Sql.filter(pageName)+"'", TemplatePage.class);
 			if(templatePage == null){
 				return error(model, "要修改的模版页面不存在");
 			}
@@ -292,12 +293,15 @@ public class TemplateController extends BaseController {
 			
 			AliyunLog.addActionLog(templatePage.getId(), "进入编辑模版页面："+templatePage.getName());
 			
-			model.addAttribute("templatePage", templatePage);
 			model.addAttribute("text", text);
 		}else{
 			AliyunLog.addActionLog(0, "进入新建模版页面");
+			
+			templatePage = new TemplatePage();
+			templatePage.setEditMode(TemplatePage.EDIT_MODE_CODE);
 		}
 		
+		model.addAttribute("templatePage", templatePage);
 		return "template/templatePage";
 	}
 	

@@ -152,11 +152,11 @@ $(function(){
 	//编辑方式
 	var label_editMode_index = 0;
 	$("#label_editMode").hover(function(){
-		label_editMode_index = layer.tips('模版页面的内容编辑方式：<br/><b>可视化编辑</b>：也就是智能模式，想改图片，右键修改-上传；想改文字，鼠标点击直接输入。<br/><b>代码编辑</b>：纯代码编辑，同传统的帝国CMS、织梦CMS的textarea文本框编辑。如果您之前使用过帝国、织梦，您可先用此种方式。另外，如果网站js效果很多，建议使用代码模式。', '#label_editMode', {
+		label_editMode_index = layer.tips('模版页面的内容编辑方式：<br/><b>可视化编辑</b>：也就是智能模式，想改图片，右键修改-上传；想改文字，鼠标点击直接输入。<br/><b>纯代码编辑</b>：纯代码编辑，同传统的帝国CMS、织梦CMS的textarea文本框编辑。如果您之前使用过帝国、织梦，您可先用此种方式。另外，如果网站js效果很多，建议使用代码模式。', '#label_editMode', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
-			area : ['230px' , 'auto']
+			area : ['280px' , 'auto']
 		});
 	},function(){
 		layer.close(label_editMode_index);

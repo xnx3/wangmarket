@@ -26,7 +26,8 @@ public class TemplatePage extends BaseGenerate{
 	public void editMode(){
 		createCacheObject("editMode");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_VISUAL, "可视化编辑");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_CODE, "代码编辑");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.TemplatePage.EDIT_MODE_CODE, "纯代码编辑");
 		generateCacheFile();
 	}
+	
 }
