@@ -671,4 +671,12 @@ BEGIN;
 INSERT INTO `user_role` VALUES ('257', '243', '1'), ('412', '392', '10'), ('413', '1', '9');
 COMMIT;
 
+
+DROP TABLE IF EXISTS `agency_data`;
+CREATE TABLE `agency_data` (
+  `id` int(11) DEFAULT NULL COMMENT '对应 agency.id',
+  `notice` text COLLATE utf8_unicode_ci COMMENT '代理的公告信息，显示给下级用户看的'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='代理表的变长字段表，存储代理的公告等';
+
+
 SET FOREIGN_KEY_CHECKS = 1;
