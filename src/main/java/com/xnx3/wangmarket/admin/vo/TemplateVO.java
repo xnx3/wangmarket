@@ -228,6 +228,12 @@ public class TemplateVO extends BaseVO {
 					//兼容之前没有输入模型导出的模板
 					nsc.setInputModelCodeName(getJsonStringAndSafetyFilter(j.getString("inputModelCodeName")));
 				}
+				if(j.get("listRank") != null){
+					nsc.setListRank((short) j.getInt("listRank"));
+				}else{
+					//默认是按时间倒序，发布时间用越晚，越靠前
+					nsc.setListRank(SiteColumn.LIST_RANK_ADDTIME_ASC);
+				}
 				
 				siteColumnList.add(nsc);
 			}

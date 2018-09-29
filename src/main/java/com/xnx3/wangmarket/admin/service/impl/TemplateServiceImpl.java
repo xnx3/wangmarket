@@ -661,6 +661,7 @@ public class TemplateServiceImpl implements TemplateService {
 			sc.setListNum(sc_ori.getListNum());
 			sc.setEditMode(sc_ori.getEditMode());
 			sc.setInputModelCodeName(sc_ori.getInputModelCodeName());
+			sc.setListRank(sc_ori.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_ASC:sc_ori.getListRank());
 			
 			siteColumnList.add(sc);
 		}
