@@ -67,13 +67,23 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	 */
 	public static final Short EDIT_MODE_TEMPLATE = 1;
 	
+	/**
+	 * 栏目内信息的列表排序规则，按照发布时间倒序，发布时间越晚，排序越靠前
+	 * 默认便是此种的，v4.4版本增加，4.4版本以前只有这一种排序
+	 */
+	public static final Short LIST_RANK_ADDTIME_DESC = 1;
+	
+	/**
+	 * 栏目内信息的列表排序规则，按照发布时间正序，发布时间越早，排序越靠前
+	 */
+	public static final Short LIST_RANK_ADDTIME_ASC = 2;
 	
 	// Fields
 	private Integer id;
 	private String name;
 	private String url;
 	private String icon;
-	private Integer rank;
+	private Integer rank;	//栏目间的排序
 	private Short used;
 	private Integer siteid;
 	private Integer userid;
@@ -87,6 +97,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Integer listNum;
 	private String inputModelCodeName;
 	private Short editMode;	//若是独立页面，内容的编辑方式，是使用富文本编辑框呢，还是直接编辑模板
+	private Short listRank;	//列表排序，当前栏目若是信息列表，信息列表的排序规则
 	
 	
 	// Constructors
@@ -267,18 +278,23 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		}
 	}
 
+	@Column(name = "list_rank")
+	public Short getListRank() {
+		return listRank;
+	}
+
+	public void setListRank(Short listRank) {
+		this.listRank = listRank;
+	}
+
 	@Override
 	public String toString() {
-		return "SiteColumn [id=" + id + ", name=" + name + ", url=" + url
-				+ ", icon=" + icon + ", rank=" + rank + ", used=" + used
-				+ ", siteid=" + siteid + ", userid=" + userid + ", parentid="
-				+ parentid + ", type=" + type + ", templatePageListName="
-				+ templatePageListName + ", templatePageViewName="
-				+ templatePageViewName + ", codeName=" + codeName
-				+ ", parentCodeName=" + parentCodeName + ", listNum=" + listNum
-				+ ", inputModelCodeName=" + inputModelCodeName + ", editMode="
-				+ editMode + "]";
+		return "SiteColumn [id=" + id + ", name=" + name + ", url=" + url + ", icon=" + icon + ", rank=" + rank
+				+ ", used=" + used + ", siteid=" + siteid + ", userid=" + userid + ", parentid=" + parentid + ", type="
+				+ type + ", templatePageListName=" + templatePageListName + ", templatePageViewName="
+				+ templatePageViewName + ", codeName=" + codeName + ", parentCodeName=" + parentCodeName + ", listNum="
+				+ listNum + ", inputModelCodeName=" + inputModelCodeName + ", editMode=" + editMode + ", listRank="
+				+ listRank + "]";
 	}
-	
 	
 }

@@ -21,6 +21,7 @@ import com.xnx3.wangmarket.im.service.ImService;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -344,6 +345,18 @@ public class SiteServiceImpl implements SiteService {
 				}
 			}
 			
+			//默认是按照时间倒序，但是v4.4以后，用户可以自定义，可以根据时间正序排序，如果不是默认的倒序的话，就需要重新排序
+			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
+			if(siteColumn.getListRank() != null && siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
+				Log.info(siteColumn.toString());
+				Collections.sort(nList, new Comparator<News>() {
+		            public int compare(News n1, News n2) {
+	                	//按照发布时间正序排序，发布时间越早，排列越靠前
+	                	return n1.getAddtime() - n2.getAddtime();
+		            }
+		        });
+			}
+			
 			columnMap.put(siteColumn.getCodeName(), siteColumn);
 			columnNewsMap.put(siteColumn.getCodeName(), nList);
 		}
@@ -429,14 +442,18 @@ public class SiteServiceImpl implements SiteService {
 //				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
 				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
 		            public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
-		                /*按员工编号正序排序*/
-		                return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+		                if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+		                	//按照发布时间正序排序，发布时间越早，排列越靠前
+		                	return n2.getNews().getAddtime() - n1.getNews().getAddtime();
+		                }else{
+		                	//按照发布时间倒序排序，发布时间越晚，排列越靠前
+		                	return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+		                }
 		            }
 		        });
 				
 			}
 		}
-//		System.out.println("paixuqian:"+columnTreeMap.size());
 		//排序完后，将其取出，加入columnNewsMap中，供模版中动态调用父栏目代码，就能直接拿到其的所有子栏目信息数据
 		for (Map.Entry<String, SiteColumnTreeVO> entry : columnTreeMap.entrySet()) {
 			SiteColumnTreeVO sct = entry.getValue();

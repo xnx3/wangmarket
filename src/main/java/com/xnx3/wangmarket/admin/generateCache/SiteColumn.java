@@ -13,6 +13,7 @@ public class SiteColumn extends BaseGenerate {
 		used();
 		type();
 		editMode();
+		listRank();
 	}
 	
 	public void used(){
@@ -37,6 +38,16 @@ public class SiteColumn extends BaseGenerate {
 		createCacheObject("editMode");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_INPUT_MODEL, "图文编辑框");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_TEMPLATE, "模板式编辑");
+		generateCacheFile();
+	}
+	
+	/**
+	 * 栏目内信息排序方式
+	 */
+	public void listRank(){
+		createCacheObject("listRank");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_ASC, "发布时间正序");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_DESC, "发布时间倒序");
 		generateCacheFile();
 	}
 }

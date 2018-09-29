@@ -309,8 +309,18 @@ public class NewsController extends BaseController {
 	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
 	    sql.setSelectFromAndPage("SELECT * FROM news", page);
 	    
-	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("addtime DESC");
+	    //排序方式，通过栏目设置的内容排序，进行判断
+	    if(siteColumn != null && siteColumn.getListRank() != null){
+	    	if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+	    		sql.setDefaultOrderBy("addtime ASC");
+	    	}else{
+	    		sql.setDefaultOrderBy("addtime DESC");
+	    	}
+	    }else{
+	    	//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
+	    	sql.setDefaultOrderBy("addtime DESC");
+	    }
+	    
 	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
 	    List<News> list = sqlService.findBySql(sql, News.class);
 	     

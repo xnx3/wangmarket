@@ -14,98 +14,113 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_editMode.js"></script>
+<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_listRank.js"></script>
 
 
-<form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 10px;">
+<form id="form" method="post" class="layui-form" style="padding:0px;margin-bottom: 10px; margin-top:0px;">
 	<input type="hidden" value="${siteColumn.id }" name="id">
 	
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="label_columnName">栏目名称</label>
-		<div class="layui-input-block">
-			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限40个字符以内" class="layui-input" value="${siteColumn.name }">
-		</div>
-	</div>
 	
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="parentColumnCode_label">所属栏目</label>
-		<div class="layui-input-block">
-			<select name="parentCodeName" id="parentCodeName">
-				${parentColumnOption}
-			</select>
+<div class="layui-tab layui-tab-card" style="border-style: none; box-shadow: 0 0px 0px 0 rgba(0,0,0,.1); margin-top: 0px;">
+  <ul class="layui-tab-title">
+    <li class="layui-this">基本设置</li>
+    <li>高级设置</li>
+  </ul>
+  <div class="layui-tab-content" style="padding-right: 35px;">
+    <div class="layui-tab-item layui-show">
+    	<div class="layui-form-item">
+			<label class="layui-form-label" id="label_columnName">栏目名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限40个字符以内" class="layui-input" value="${siteColumn.name }">
+			</div>
 		</div>
-	</div>
-	
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="columnType">栏目类型</label>
-		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionFortype_('${siteColumn.type }','请选择', true);</script>
+		<div class="layui-form-item">
+			<label class="layui-form-label" id="parentColumnCode_label">所属栏目</label>
+			<div class="layui-input-block">
+				<select name="parentCodeName" id="parentCodeName">
+					${parentColumnOption}
+				</select>
+			</div>
 		</div>
-	</div>
-	
-	<!-- 内容编辑方式，当独立页面时才会有效，才会显示。选择是使用内容富文本编辑框编辑，还是使用模板的方式编辑 -->
-	<div class="layui-form-item" id="xnx3_editMode">
-		<label class="layui-form-label" id="columnEditMode">编辑方式</label>
-		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionForeditMode_('${siteColumn.editMode }','', true);</script>
+		<div class="layui-form-item">
+			<label class="layui-form-label" id="columnType">栏目类型</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionFortype_('${siteColumn.type }','请选择', true);</script>
+			</div>
 		</div>
-	</div>
-	
-	<div class="layui-form-item" id="xnx3_listTemplate">
-		<label class="layui-form-label" id="listTemplate">列表模版</label>
-		<div class="layui-input-block">
-			<select name="templatePageListName" lay-verify="listTemplateVerify" id="templatePageListName">
-				${tpl_list_option}
-			</select>
+		<div class="layui-form-item" id="xnx3_listTemplate">
+			<label class="layui-form-label" id="listTemplate">列表模版</label>
+			<div class="layui-input-block">
+				<select name="templatePageListName" lay-verify="listTemplateVerify" id="templatePageListName">
+					${tpl_list_option}
+				</select>
+			</div>
 		</div>
-	</div>
-
-	<div class="layui-form-item" id="xnx3_viewTemplate">
-		<label class="layui-form-label" id="viewTemplate">内容模版</label>
-		<div class="layui-input-block">
-			<select name="templatePageViewName" id="templatePageViewName">
-				${tpl_view_option}
-			</select>
+		<div class="layui-form-item" id="xnx3_viewTemplate">
+			<label class="layui-form-label" id="viewTemplate">内容模版</label>
+			<div class="layui-input-block">
+				<select name="templatePageViewName" id="templatePageViewName">
+					${tpl_view_option}
+				</select>
+			</div>
 		</div>
-	</div>
-
-	<div class="layui-form-item" id="xnx3_url">
-		<label class="layui-form-label">链接网址</label>
-		<div class="layui-input-block">
-			<input type="text" name="url" autocomplete="off" placeholder="请输入目标网页链接地址" class="layui-input" value="${siteColumn.url }">
+		<div class="layui-form-item" id="xnx3_url">
+			<label class="layui-form-label">链接网址</label>
+			<div class="layui-input-block">
+				<input type="text" name="url" autocomplete="off" placeholder="请输入目标网页链接地址" class="layui-input" value="${siteColumn.url }">
+			</div>
 		</div>
-	</div>
-	
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="columnCode">栏目代码</label>
-		<div class="layui-input-block">
-			<input type="text" name="codeName" lay-verify="required" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${siteColumn.codeName }">
+		<div class="layui-form-item">
+			<label class="layui-form-label" id="columnCode">栏目代码</label>
+			<div class="layui-input-block">
+				<input type="text" name="codeName" lay-verify="required" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${siteColumn.codeName }">
+			</div>
 		</div>
-	</div>
-	
-	<div class="layui-form-item" id="listnum">
-		<label class="layui-form-label" id="listnum_label">列表条数</label>
-		<div class="layui-input-block">
-			<input type="number" name="listNum" autocomplete="off" placeholder="列表页面每页显示的条数" class="layui-input" value="${siteColumn.listNum }">
+		<div class="layui-form-item" id="listnum">
+			<label class="layui-form-label" id="listnum_label">列表条数</label>
+			<div class="layui-input-block">
+				<input type="number" name="listNum" autocomplete="off" placeholder="列表页面每页显示的条数" class="layui-input" value="${siteColumn.listNum }">
+			</div>
 		</div>
-	</div>
 		
-	<div class="layui-form-item" id="inputModel">
-		<label class="layui-form-label" id="inputModel_label">输入模型</label>
-		<div class="layui-input-block">
-			<select name="inputModelCodeName" id="inputModelCodeName">
-				${inputModelOptions }
-			</select>
+		
+		
+    </div>
+    <div class="layui-tab-item">
+    	<!-- 高级方式 -->
+    	
+    	<!-- 内容编辑方式，当独立页面时才会有效，才会显示。选择是使用内容富文本编辑框编辑，还是使用模板的方式编辑 -->
+		<div class="layui-form-item" id="xnx3_editMode">
+			<label class="layui-form-label" id="columnEditMode">编辑方式</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForeditMode_('${siteColumn.editMode }','', true);</script>
+			</div>
 		</div>
-	</div>
-	
-	
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="xianshi_label">是否显示</label>
-		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
+		<div class="layui-form-item" id="inputModel">
+			<label class="layui-form-label" id="inputModel_label">输入模型</label>
+			<div class="layui-input-block">
+				<select name="inputModelCodeName" id="inputModelCodeName">
+					${inputModelOptions }
+				</select>
+			</div>
 		</div>
-	</div>
-	
+		<div class="layui-form-item" id="listRank">
+			<label class="layui-form-label" id="listRank_label">信息排序</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForlistRank_('${siteColumn.listRank }','请选择', false);</script>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label" id="xianshi_label">是否显示</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
+			</div>
+		</div>
+    	
+    </div>
+  </div>
+</div>
+
 	
 	<div class="layui-form-item" style="padding-top:15px;">
 		<div class="layui-input-block">
@@ -124,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
 
-layui.use(['form', 'layedit', 'laydate'], function(){
+layui.use(['form', 'layedit', 'laydate', 'element'], function(){
   var form = layui.form;
 
   //自定义验证规则
@@ -308,6 +323,19 @@ $(function(){
 		layer.close(xianshi_index);
 	})
 	
+	//listRank ，信息排序
+	var listRank_index = 0;
+	$("#listRank_label").hover(function(){
+		listRank_index = layer.tips('当前栏目内，内容信息排序方式。有以下两种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前。<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前', '#listRank_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(listRank_index);
+	})
+	
 });	
 
 //当类型改变后，相应的自定义网址也会显示或者隐藏、模版也会相应显示或者隐藏
@@ -323,14 +351,17 @@ function selectTypeChange(){
 		document.getElementById("xnx3_listTemplate").style.display="";
 		document.getElementById("listnum").style.display="";
 		document.getElementById("xnx3_editMode").style.display="none";
+		document.getElementById("listRank").style.display="";
 	}else if(document.getElementById("type").options[3].selected){
 		//独立页面
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_editMode").style.display="";
+		document.getElementById("listRank").style.display="none";
 	}else{
 		//url
 		document.getElementById("xnx3_url").style.display="";
 		document.getElementById("xnx3_editMode").style.display="none";
+		document.getElementById("listRank").style.display="none";
 	}
 }
 selectTypeChange();
