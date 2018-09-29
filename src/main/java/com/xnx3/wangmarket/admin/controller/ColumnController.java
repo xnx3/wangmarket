@@ -72,8 +72,8 @@ public class ColumnController extends BaseController {
 	    sql.appendWhere("userid = "+getUserId());
 	    //查询log数据表的记录总条数
 	    int count = sqlService.count("site_column", sql.getWhere());
-	    //每页显示15条
-	    Page page = new Page(count, 15, request);
+	    //每页显示300条
+	    Page page = new Page(count, 300, request);
 	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
 	    sql.setSelectFromAndPage("SELECT * FROM site_column", page);
 	    
@@ -106,8 +106,8 @@ public class ColumnController extends BaseController {
 	    sql.appendWhere("siteid = "+getSiteId()+" AND userid = "+getUserId());
 	    //查询log数据表的记录总条数
 	    int count = sqlService.count("site_column", sql.getWhere());
-	    //每页显示15条
-	    Page page = new Page(count, 200, request);
+	    //每页显示300条
+	    Page page = new Page(count, 300, request);
 	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
 	    sql.setSelectFromAndPage("SELECT * FROM site_column", page);
 	    
@@ -486,7 +486,7 @@ public class ColumnController extends BaseController {
 		}
 		
 		//标题，名字
-		String name = filter(StringUtil.filterHtmlTag(siteColumn.getName()));
+		String name = filter(siteColumn.getName());
 		if(name == null || name.length()<1){
 			vo.setBaseVO(BaseVO.FAILURE, "您要创建的导航栏目叫什么名字呢");
 			return vo;
@@ -523,6 +523,7 @@ public class ColumnController extends BaseController {
 		sc.setTemplatePageViewName(filter(siteColumn.getTemplatePageViewName()));
 		sc.setListNum(siteColumn.getListNum() == null ? 10:siteColumn.getListNum());
 		sc.setEditMode(siteColumn.getEditMode() == null ? SiteColumn.EDIT_MODE_INPUT_MODEL : siteColumn.getEditMode());
+		sc.setListRank(siteColumn.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_DESC:siteColumn.getListRank());
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = StringUtil.filterHtmlTag(siteColumn.getInputModelCodeName());
