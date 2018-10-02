@@ -167,7 +167,23 @@ public class RoleAdminController_ extends BaseController {
 	@RequiresPermissions("adminRolePermission")
 	@RequestMapping(value="savePermission${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO savePermission(Permission permission,Model model, HttpServletRequest request){
+	public BaseVO savePermission(Permission permissionInput,Model model, HttpServletRequest request){
+		Permission permission;
+		if(permissionInput.getId() != null && permissionInput.getId() > 0){
+			//修改
+			permission = sqlService.findById(Permission.class, permissionInput.getId());
+			if(permission == null){
+				return error("修改的资源不存在");
+			}
+		}else{
+			permission = new Permission();
+		}
+		
+		permission.setDescription(permissionInput.getDescription());
+		permission.setName(permissionInput.getName());
+		permission.setParentId(permissionInput.getParentId());
+		permission.setPercode(permissionInput.getPercode());
+		permission.setUrl(permissionInput.getUrl());
 		sqlService.save(permission);
 		ActionLogCache.insert(request, permission.getId(), "资源Permission保存", permission.getName()+"，"+permission.getDescription());
 		return success();

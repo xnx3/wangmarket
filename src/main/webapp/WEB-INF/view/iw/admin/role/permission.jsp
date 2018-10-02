@@ -65,24 +65,23 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	
 	//监听提交
 	form.on('submit(formSubmit)', function(data){
-		$.showLoading('保存中...');
+		parent.iw.loading("保存中");
 		var d=$("form").serialize();
         $.post("savePermission.do", d, function (result) {
-        	$.hideLoading();
+        	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
-        		parent.location.reload();	//刷新父窗口
-        		parent.layer.close(index);
+        		parent.parent.iw.msgSuccess("操作成功");
+        		parent.layer.close(index);	//关闭当前窗口
+        		parent.location.reload();	//刷新父窗口列表
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.iw.msgFailure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.iw.msgFailure(result);
         	}
          }, "text");
 		return false;
 	});
-	
 });
 </script>
 
