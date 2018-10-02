@@ -32,7 +32,6 @@ public class VersionController_ extends BaseController {
 	@RequestMapping("getNewVersion${url.suffix}")
 	@ResponseBody
 	public VersionVO getNewVersion(HttpServletRequest request){
-//		return VersionUtil.cloudContrast("http://4622204.wang.market/wangmarket.html", getCurrentVersion());
 		return VersionUtil.cloudContrast("http://version.xnx3.com/wangmarket.html", getCurrentVersion());
 	}
 	
