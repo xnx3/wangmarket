@@ -122,6 +122,10 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 		Func.getUserBeanForShiroSession().setSiteColumnMap(siteColumnMap);
 	}
 	
+	public SiteColumn getSiteColumnByCache(int siteColumnId){
+		return getSiteColumnMapByCache().get(siteColumnId);
+	}
+	
 	public Map<Integer, SiteColumn> getSiteColumnMapByCache(){
 		Map<Integer, SiteColumn> siteColumnMap = Func.getUserBeanForShiroSession().getSiteColumnMap();
 		//若缓存中没有，那么重新加入

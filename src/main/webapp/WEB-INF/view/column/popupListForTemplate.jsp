@@ -84,13 +84,14 @@ function editColumn(siteColumnId, isCopy){
 	var url = '<%=basePath %>column/popupColumnForTemplate.do';
 	layer.open({
 		type: 2, 
-		title: false,
+		//title: false,
 		closeBtn: 1,
 		//title:(isCopy? '复制一个栏目快速创建':'修改栏目'),
-		title:false, 
-		area: ['460px', '700px'],
+		area: ['460px', '570px'],
 		shadeClose: true, //开启遮罩关闭
-		content: url+'?id='+siteColumnId+(isCopy? '&isCopy=1':'')
+		content: url+'?id='+siteColumnId+(isCopy? '&isCopy=1':''),
+		title:false, 
+		closeBtn: 1
 	});
 }
 

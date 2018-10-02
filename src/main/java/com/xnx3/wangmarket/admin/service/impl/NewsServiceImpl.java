@@ -264,6 +264,16 @@ public class NewsServiceImpl implements NewsService {
 				return baseVO;
 			}
 		}
+		//获取当前信息所属的栏目
+		SiteColumn siteColumn = sqlDAO.findById(SiteColumn.class, news.getCid());
+		if(siteColumn != null){
+			if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+				baseVO.setBaseVO(BaseVO.FAILURE, "该信息所属的栏目，栏目类型为独立页面，无法删除此信息。如果你想删除，可以删除其所属的栏目，此信息自然就没了");
+				return baseVO;
+			}
+		}else{
+			//如果siteColumn 为null，那么可能就是栏目已经被删除了，当然，这条信息自然也就可以删除掉的
+		}
 		sqlDAO.delete(news);
 		
 		NewsData newsData = sqlDAO.findById(NewsData.class, id);

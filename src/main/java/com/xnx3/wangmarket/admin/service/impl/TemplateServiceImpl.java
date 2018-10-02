@@ -796,6 +796,8 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		//更新模版变量缓存
 		getTemplateVarAndDateListByCache();
+		//将模版变量装载入Session。 必须要装载，将模版变量缓存入session，以便后面使用
+		loadDatabaseTemplateVarToCache();
 		
 		return vo;
 	}

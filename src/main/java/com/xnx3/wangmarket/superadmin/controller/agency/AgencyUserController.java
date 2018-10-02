@@ -626,7 +626,7 @@ public class AgencyUserController extends BaseController {
 	
 
 	/**
-	 * 我的下级代理商列表
+	 * 我的下级网站列表
 	 * @param request
 	 * @param model
 	 * @return

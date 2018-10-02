@@ -82,11 +82,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</c:choose>
 		                	
 		                	<c:choose>
-							    <c:when test="${siteColumn.type == 1 || siteColumn.type == 2}">
-							    	<botton class="layui-btn layui-btn-sm" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
-							    	<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+		                		<c:when test="${siteColumn.type == 3 || siteColumn.type == 5}">
+							    	<!-- 独立页面、超链接是不显示删除按钮、转移栏目的 -->
 							    </c:when>
 							    <c:otherwise>
+							    	<!-- 新闻列表、图文列表, 又或者这里是列出所有信息，siteColumn 本身为空 -->
+							    	<botton class="layui-btn layui-btn-sm" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
+							    	<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 							    </c:otherwise>
 							</c:choose>
 		                	

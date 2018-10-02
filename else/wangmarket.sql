@@ -465,6 +465,7 @@ CREATE TABLE `site_column` (
   `list_num` int(4) DEFAULT '0' COMMENT '适用于CMS模式下，新闻、图文列表，在生成列表页时，每页显示多少条数据',
   `input_model_code_name` char(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'CMS模式有效，绑定此栏目的输入模型 ，对应input_model表的code_name，若是为null或者空，则为默认的输入模型',
   `edit_mode` tinyint(2) DEFAULT '0' COMMENT '若是独立页面，内容编辑的方式，使用富文本编辑框，使用输入模型，则为0， 若是使用模版进行编辑，则为1',
+  `list_rank` tinyint(2) DEFAULT '1' COMMENT '栏目内信息的列表排序规则，1:按照发布时间倒序，发布时间越晚，排序越靠前; 2:按照发布时间正序，发布时间越早，排序越靠前。 如果这里为null，则是v4.4版本以前的，那么默认程序里面会将不为2的全部都认为是1。',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1388 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='栏目表，网站上的栏目';
 

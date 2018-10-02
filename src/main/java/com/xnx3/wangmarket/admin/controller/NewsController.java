@@ -153,16 +153,9 @@ public class NewsController extends BaseController {
 		
 		news.setTitle(title);
 		
-		//v3.11废弃，图片单独上传
-		//上传标题图片,只有是图文模式的时候才会有标题图片的上传
-//		String oldTitlePic = "";	//旧的栏目导航图名字
-//		UploadFileVO uploadFileVO = AttachmentFile.uploadImage("site/"+site.getId()+"/news/", request, "titlePicFile", G.NEWS_TITLEPIC_MAXWIDTH);
-//		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
-//			oldTitlePic = (news.getTitlepic()==null||news.getTitlepic().length()==0)? "":news.getTitlepic();
-//			news.setTitlepic(uploadFileVO.getFileName());
-//		}
 		//上传的图片
-		news.setTitlepic(StringUtil.filterXss(s.getTitlepic()));
+		String titlepic = StringUtil.filterXss(s.getTitlepic());
+		news.setTitlepic(titlepic == null ? "":titlepic);
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
@@ -176,11 +169,6 @@ public class NewsController extends BaseController {
 			newsData.setId(news.getId());
 			newsData.setText(text);
 			sqlService.save(newsData);
-			
-			//如果有旧图，删除掉旧的图片 v3.11后，图片上传已独立出
-//			if(news.getType() == News.TYPE_IMAGENEWS && oldTitlePic.length() > 0){
-//				AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
-//			}
 			
 			if(s.getId() == null || s.getId() == 0){
 				AliyunLog.addActionLog(news.getId(), "新增文章成功，文章："+news.getTitle());
@@ -204,16 +192,6 @@ public class NewsController extends BaseController {
 					//是pc模式，还要刷新首页的数据
 					IndexNews.refreshIndexData(site, siteColumn, newsList);			//PC首页局部刷新
 				}
-				
-				
-//				String pw = siteService.isPcClient(site)? "pc":"wap";
-//				if(site.getClient() - Site.CLIENT_WAP == 0){
-//					//手机页面，那么修改成功后，将直接跳转到内容管理列表中
-//					return success(model, "保存成功", "news/listForTemplate.do?cid="+news.getCid());
-//				}else{
-//					//pc
-//					return success(model, "保存成功！","news/list.do?cid="+news.getCid()+"&client="+pw+"&editMode=edit");
-//				}
 				
 			}else{
 //				return success(model, "保存成功！","news/listForTemplate.do?cid="+news.getCid());
@@ -578,7 +556,16 @@ public class NewsController extends BaseController {
 	public String newsChangeColumnForSelectColumn(HttpServletRequest request,Model model,
 			@RequestParam(value = "newsid", required = true) int newsid,
 			@RequestParam(value = "columnid", required = true) int columnid){
-		 //从缓存中调取当前网站栏目
+		SiteColumn siteColumn = siteColumnService.getSiteColumnByCache(columnid);
+//		if(siteColumn == null){
+//			//不存在，也让其能转移吧
+//			//return error(model, "文章所属栏目不存在");
+//		}
+		if(siteColumn != null && siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+			return error(model, "文章所属栏目的类型为独立页面，此种类型栏目内的文章无法转移！");
+		}
+		
+		//从缓存中调取当前网站栏目
 	    //从缓存中获取栏目树列表
     	List<SiteColumnTreeVO> siteColumnTreeVOList = siteColumnService.getSiteColumnTreeVOByCache();
 	    if(siteColumnTreeVOList.size() > 0){

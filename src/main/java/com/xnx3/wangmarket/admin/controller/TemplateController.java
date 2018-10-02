@@ -656,9 +656,10 @@ public class TemplateController extends BaseController {
 			
 			if(vo.getResult() - BaseVO.SUCCESS == 0){
 				//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
+				//v4.4更新，直接在 templateService.importTemplate 中就更新了
 				request.getSession().setAttribute("templatePageListVO", null);
-				Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
-				Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
+//				Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
+//				Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
 				
 				AliyunLog.addActionLog(getSiteId(), "本地导入模版文件成功！");
 			}else{
@@ -702,9 +703,10 @@ public class TemplateController extends BaseController {
 		BaseVO vo = templateService.importTemplate(hr.getContent(), true);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
 			//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
+			//v4.4更新，直接在 templateService.importTemplate 中就更新了
 			request.getSession().setAttribute("templatePageListVO", null);
-			Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
-			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
+//			Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
+//			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
 			
 			AliyunLog.addActionLog(getSiteId(), "云端导入模版文件成功！");
 		}
