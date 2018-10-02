@@ -1,0 +1,71 @@
+/*
+	newsSearch 网市场站内搜索的css相关
+	author:管雷鸣
+	url:http://www.wang.market
+	QQ:921153866
+*/
+
+/* 分页相关 */
+#xnx3_page {
+	width: 100%;
+	padding-top: 15px;
+	padding-bottom: 20px;
+}
+
+#xnx3_page ul {
+	width: 100%;
+	text-align: center;
+}
+
+#xnx3_page ul li {
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #e2e2e2;
+	background-color: #fff;
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+#xnx3_page ul .xnx3_page_currentPage, #xnx3_page ul .xnx3_page_currentPage a
+	{
+	background-color: #009688;
+	color: #fff;
+}
+
+#xnx3_page ul li a {
+	padding: 0 15px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #fff;
+	color: #333;
+	text-decoration: none;
+}
+
+/* 统计信息，如共几页，当前第几页 */
+#xnx3_page ul .statistics {
+	margin-right: 30px;
+	border: 0px;
+	padding-top: 5px;
+}
+/* 首页的跳转链接 */
+# xnx3_page ul .xnx3_page_home{
+	
+}
+/* 上一页的跳转链接 */
+# xnx3_page ul .xnx3_page_up{
+	
+}
+
+
+
+/* 搜索结果列表，文章列表相关 */
+.xnx3_news_item{
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    float: left;
+    text-decoration: none;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    padding-top: 6px;
+}
