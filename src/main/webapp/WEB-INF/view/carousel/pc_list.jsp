@@ -8,16 +8,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../publicPage/wapCommon/head.jsp">
+<jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="轮播图管理"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Carousel_isshow.js"></script>
 
-<body>
-<!-- 网站顶部标题栏 -->
-<jsp:include page="../publicPage/wapCommon/top.jsp">
-    <jsp:param name="title" value="轮播图管理"/>
-</jsp:include>
 <div class="weui_panel">
       <div class="weui_panel_bd">
         <div class="weui_media_box weui_media_small_appmsg">

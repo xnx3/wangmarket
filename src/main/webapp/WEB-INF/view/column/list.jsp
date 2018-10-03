@@ -7,16 +7,12 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <jsp:include page="../publicPage/adminCommon/head.jsp">
-        <jsp:param name="title" value="栏目导航"/>
-    </jsp:include>
-    <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-    <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
-</head>
-<body>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="栏目导航"/>
+</jsp:include>
+<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+
  
 <div>
     <!-- 表单搜索 -->
@@ -83,10 +79,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </table>
  
 <!-- 通用分页跳转 -->
-<jsp:include page="../publicPage/adminCommon/page.jsp">
+<jsp:include page="../iw/common/page.jsp">
     <jsp:param name="page" value="${page }"/>
 </jsp:include>
  
-<jsp:include page="../publicPage/adminCommon/footImport.jsp"></jsp:include>
+<jsp:include page="../iw/common/foot.jsp"></jsp:include>
 </body>
 </html>

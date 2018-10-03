@@ -70,7 +70,7 @@ public class SiteApiPluginController extends com.xnx3.wangmarket.admin.controlle
 			return error("模版不存在");
 		}
 		
-		BaseVO beanVO = templateService.importTemplate(hr.getContent(), true);
+		BaseVO beanVO = templateService.importTemplate(hr.getContent(), true, request);
 		if(beanVO.getResult() - BaseVO.SUCCESS == 0){
 			//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
 			request.getSession().setAttribute("templatePageListVO", null);

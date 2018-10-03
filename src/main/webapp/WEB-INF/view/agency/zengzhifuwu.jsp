@@ -8,22 +8,12 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<jsp:include page="../publicPage/agencyCommon/head.jsp">
-    	<jsp:param name="title" value="增值服务"/>
-    </jsp:include>
-</head>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="增值服务"/>
+</jsp:include>
 
 <body>
 <section id="container" >
-<jsp:include page="../publicPage/agencyCommon/topHeader.jsp"></jsp:include>   
-<aside>
-    <div id="sidebar" class="nav-collapse">
-		<jsp:include page="../publicPage/agencyCommon/menu.jsp"></jsp:include>          
-    </div>
-</aside>
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
@@ -92,6 +82,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </section>
 
-<jsp:include page="../publicPage/agencyCommon/footImport.jsp"></jsp:include>
+<jsp:include page="../iw/common/foot.jsp"></jsp:include>
 </body>
 </html>

@@ -6,7 +6,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../../publicPage/adminCommon/head.jsp">
+<jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="用户动作"/>
 </jsp:include>
 <script src="<%=basePath+Global.CACHE_FILE %>Log_type.js"></script>
@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tbody>
 </table>
 <!-- 通用分页跳转 -->
-<jsp:include page="../../publicPage/adminCommon/page.jsp" ></jsp:include>
+<jsp:include page="../../iw/common/page.jsp" ></jsp:include>
 
 <script>
 //查看用户信息
@@ -49,4 +49,4 @@ function userView(id){
 }
 
 </script>
-<jsp:include page="../../publicPage/adminCommon/foot.jsp"></jsp:include>  
+<jsp:include page="../../iw/common/foot.jsp"></jsp:include>  

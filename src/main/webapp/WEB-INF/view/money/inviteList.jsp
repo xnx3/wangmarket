@@ -3,7 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><jsp:include page="../publicPage/popup/top.jsp" />
+%>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="我邀请的下级列表"/>
+</jsp:include>
+
 <body>
 
 <table class="layui-table" lay-even style="margin-top:0px; margin-bottom: -1px;" id="table">

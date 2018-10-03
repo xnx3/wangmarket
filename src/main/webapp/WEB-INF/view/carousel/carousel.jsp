@@ -10,24 +10,12 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 Site site = (Site)request.getAttribute("site");
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<jsp:include page="../publicPage/adminCommon/head.jsp">
-    	<jsp:param name="title" value="编辑轮播"/>
-    </jsp:include>
-    <script src="<%=basePath+Global.CACHE_FILE %>Carousel_isshow.js"></script>
-</head>
-
-<body>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="编辑轮播"/>
+</jsp:include>
+<script src="<%=basePath+Global.CACHE_FILE %>Carousel_isshow.js"></script>
 
 <section id="container" >
-<jsp:include page="../publicPage/adminCommon/topHeader.jsp"></jsp:include>     
-<aside>
-    <div id="sidebar" class="nav-collapse">
-        <jsp:include page="../publicPage/adminCommon/menu.jsp"></jsp:include>         
-    </div>
-</aside>
     <!--main content start-->
     <section id="main-content" >
         <section class="wrapper">
@@ -102,6 +90,6 @@ Site site = (Site)request.getAttribute("site");
     <!--main content end-->
 </section>
 
-<jsp:include page="../publicPage/adminCommon/footImport.jsp"></jsp:include>  
+<jsp:include page="../iw/common/foot.jsp"></jsp:include>  
 </body>
 </html>

@@ -3,7 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><jsp:include page="../publicPage/popup/top.jsp" />
+%>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="兑换商城"/>
+</jsp:include>
 <body>
 <!-- author:管雷鸣 -->
 <fieldset class="layui-elem-field" style="margin: 15px;border-radius: 10px;">
