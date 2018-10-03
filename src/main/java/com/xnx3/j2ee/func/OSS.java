@@ -91,7 +91,7 @@ public class OSS {
 		}
 		
 		PutResult pr = null;
-		pr = OSSUtil.put(filePath, "."+fileSuffix, inputStream);
+		pr = OSSUtil.put(filePath, "."+Safety.filter(fileSuffix), inputStream);
 		
 		vo.setPath(pr.getPath());
 		vo.setFileName(pr.getFileName());
@@ -138,7 +138,7 @@ public class OSS {
 		
 		//获取上传的文件的后缀
 		String fileSuffix = null;
-		fileSuffix = Lang.findFileSuffix(multipartFile.getOriginalFilename());
+		fileSuffix = Lang.findFileSuffix(Safety.filter(multipartFile.getOriginalFilename()));
 		
 		if(!imageAllowUpload(fileSuffix)){
 			vo.setBaseVO(UploadFileVO.FAILURE, Language.show("oss_uploadFileNotInSuffixList"));

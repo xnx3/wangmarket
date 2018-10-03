@@ -14,6 +14,7 @@ import com.xnx3.j2ee.entity.Message;
 import com.xnx3.j2ee.entity.MessageData;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.Language;
+import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.MessageService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -168,7 +169,7 @@ public class MessageServiceImpl implements MessageService {
 			
 			MessageData messageData = new MessageData();
 			messageData.setId(message.getId());
-			messageData.setContent(content);
+			messageData.setContent(Safety.filter(content));
 			sqlDAO.save(messageData);
 			
 			if(messageData.getId()==0){

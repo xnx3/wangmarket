@@ -25,7 +25,6 @@ public class ApplicationProperties {
 		try {
             Resource resource = new ClassPathResource("/application.properties");//
             properties = PropertiesLoaderUtils.loadProperties(resource);
-            System.out.println("---size-->"+properties.size());
         } catch (IOException e) {
             e.printStackTrace();
         }

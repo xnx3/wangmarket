@@ -73,6 +73,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public BaseVO loginByUsernameAndPassword(HttpServletRequest request, String username, String password){
+		username = Safety.filter(username);
+		
 		BaseVO baseVO = new BaseVO();
 		if(username==null || username.length() == 0 ){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginUserOrEmailNotNull"));
@@ -139,10 +141,10 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO reg(User user, HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		user.setEmail(StringUtil.filterXss(user.getEmail()));
-		user.setNickname(StringUtil.filterXss(user.getNickname()));
-		user.setPhone(StringUtil.filterXss(user.getPhone()));
-		user.setUsername(StringUtil.filterXss(user.getUsername()));
+		user.setEmail(Safety.filter(user.getEmail()));
+		user.setNickname(Safety.filter(user.getNickname()));
+		user.setPhone(Safety.filter(user.getPhone()));
+		user.setUsername(Safety.filter(user.getUsername()));
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")||user.getPassword()==null||user.getPassword().equals("")){
@@ -309,8 +311,8 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhoneAndCode(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = request.getParameter("phone");
-		String code = request.getParameter("code");
+		String phone = Safety.filter(request.getParameter("phone"));
+		String code = Safety.filter(request.getParameter("code"));
 		if(phone==null || phone.length() != 11){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneAndCodePhoneFailure"));
 			return baseVO;
@@ -394,24 +396,6 @@ public class UserServiceImpl implements UserService{
 	 * @return 若查询到验证码存在，返回 {@link SmsLog}，若查询不到，返回null，即验证码不存在
 	 */
 	private SmsLog findByPhoneAddtimeUsedTypeCode(String phone,int addtime,Short used,Short type,String code){
-//		sqlDAO.findBySqlQuery("SELECT * FROM sms_log WHERE addtime", SmsLog.class);
-//		try {
-//			String queryString = "from SmsLog as model where model.phone= :phone and model.addtime > :addtime and model.used = :used and model.type = :type and model.code = :code";
-//			Query queryObject = sqlDAO.getCurrentSession().createQuery(queryString);
-//			queryObject.setParameter("phone", phone);
-//			queryObject.setParameter("addtime", addtime);
-//			queryObject.setParameter("used", used);
-//			queryObject.setParameter("type", type);
-//			queryObject.setParameter("code", code);
-//			
-//			List<SmsLog> list = queryObject.list();
-//			if(list.size() > 0){
-//				return list.get(0);
-//			}
-//		} catch (RuntimeException re) {
-//			throw re;
-//		}
-		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("phone", phone);
 		parameterMap.put("addtime", addtime);
@@ -434,7 +418,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhone(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = request.getParameter("phone");
+		String phone = Safety.filter(request.getParameter("phone"));
 		if(phone==null){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhonePhoneFailure"));
 			return baseVO;
@@ -446,9 +430,7 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		
-		Log.debug("phone:"+phone);
 		User user = findByPhone(phone);
-		Log.debug("根据用户手机号查询得到用户得信息,user:"+user);
 		if(user == null){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneUserNotFind"));
 			return baseVO;
@@ -456,7 +438,6 @@ public class UserServiceImpl implements UserService{
 		
 		//ip检测
 		String ip = IpUtil.getIpAddress(request);
-		Log.debug("得到用户请求得IP地址："+ip);
 		if(!(user.getLastip().equals(ip) || user.getRegip().equals(ip))){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneIpFailure"));
 			return baseVO;
@@ -549,14 +530,10 @@ public class UserServiceImpl implements UserService{
 		
 		User user = ShiroFunc.getUser();
 		String fileSuffix = "png";
-		fileSuffix = Lang.findFileSuffix(head.getOriginalFilename());
+		fileSuffix = Lang.findFileSuffix(Safety.filter(head.getOriginalFilename()));
 		String newHead = Lang.uuid()+"."+fileSuffix;
 		try {
-//			PutResult result = OSSUtil.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
 			uploadFileVO = AttachmentFile.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
-//			uploadFileVO.setFileName(result.getFileName());
-//			uploadFileVO.setPath(result.getPath());
-//			uploadFileVO.setUrl(result.getUrl());
 		} catch (IOException e) {
 			e.printStackTrace();
 			uploadFileVO.setBaseVO(BaseVO.FAILURE, e.getMessage());
@@ -580,7 +557,7 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO updateSex(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String sex = request.getParameter("sex");
+		String sex = Safety.filter(request.getParameter("sex"));
 		if(sex == null || sex.length()<0){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_updateSexSexNotIsNull"));
 			return baseVO;
@@ -600,11 +577,10 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO updateNickname(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String nickname = request.getParameter("nickname");
+		String nickname = Safety.filter(request.getParameter("nickname"));
 		if(nickname == null){
 			nickname = "";
 		}
-		nickname = Safety.filter(nickname);
 		if(nickname.length()==0){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_updateNicknameNotNull"));
 			return baseVO;
@@ -629,7 +605,8 @@ public class UserServiceImpl implements UserService{
 		if(sign == null){
 			sign = "";
 		}
-		sign = StringUtil.filterHtmlTag(sign);
+		//过滤html标签、sql注入、xss
+		sign = Safety.filter(StringUtil.filterHtmlTag(sign));
 		if(sign.length()>40){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_updateSignSizeFailure"));
 			return baseVO;
@@ -692,11 +669,6 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO loginByUserid(HttpServletRequest request, int userid) {
 		BaseVO baseVO = new BaseVO();
-//		if(userid == 0){
-		//请传入要登陆用户的id
-//			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhonePhoneFailure"));
-//			return baseVO;
-//		}
 		
 		User user = sqlDAO.findById(User.class, userid);
 		if(user == null){
@@ -809,8 +781,8 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO createUser(User user, HttpServletRequest request) {
 		//用户名、密码进行xss、sql防注入
-		user.setUsername(StringUtil.filterXss(Sql.filter(user.getUsername())));
-		user.setPassword(StringUtil.filterXss(Sql.filter(user.getPassword())));
+		user.setUsername(Safety.filter(user.getUsername()));
+		user.setPassword(Safety.filter(user.getPassword()));
 		
 		//既然是注册新用户，那么用户名、密码一定是不能为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){
@@ -875,7 +847,7 @@ public class UserServiceImpl implements UserService{
 		if(user.getHead() == null){
 			user.setHead("default.png");
 		}else{
-			user.setHead(StringUtil.filterXss(Sql.filter(user.getHead())));
+			user.setHead(Safety.filter(user.getHead()));
 		}
 		if(user.getId() != null){
 			user.setId(null);
@@ -885,7 +857,6 @@ public class UserServiceImpl implements UserService{
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
 		String md5Password = generateMd5Password(user.getPassword(), user.getSalt());
-		//String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
 		user.setPassword(md5Password);
 		sqlDAO.save(user);
 		
@@ -911,7 +882,7 @@ public class UserServiceImpl implements UserService{
 			head = defaultHead;
 		}else{
 			if(user.getHead() != null && user.getHead().length() > 10){
-				if(user.getHead().indexOf("http:") == -1){
+				if(user.getHead().indexOf("http:") == -1 || user.getHead().indexOf("https:") == -1){
 					if(user.getHead().equals("default.png")){
 						head = defaultHead;
 					}else{

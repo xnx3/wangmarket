@@ -17,8 +17,10 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.func.Language;
+import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.SmsLogService;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.net.SMSUtil;
@@ -39,13 +41,13 @@ public class SmsLogServiceImpl implements SmsLogService {
 	
 	public int findByPhoneNum(String phone,Short type) {
 		int weeHours = DateUtil.dateToInt10(DateUtil.weeHours(new Date()));
-		return sqlDAO.count("sms_log", "WHERE addtime > "+weeHours + " AND phone = '"+phone+"' AND type = "+type);
+		return sqlDAO.count("sms_log", "WHERE addtime > "+weeHours + " AND phone = '"+Sql.filter(phone)+"' AND type = "+type);
 	}
 
 
 	public int findByIpNum(String ip,Short type) {
 		int weeHours = DateUtil.dateToInt10(DateUtil.weeHours(new Date()));
-		return sqlDAO.count("sms_log", "WHERE addtime > "+weeHours + " AND ip = '"+ip+"' AND type = "+type);
+		return sqlDAO.count("sms_log", "WHERE addtime > "+weeHours + " AND ip = '"+Sql.filter(ip)+"' AND type = "+type);
 	}
 	
 	/**
@@ -204,7 +206,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 			smsLog.setAddtime(DateUtil.timeForUnix10());
 			smsLog.setCode(code);
 			smsLog.setIp(IpUtil.getIpAddress(request));
-			smsLog.setPhone(phone);
+			smsLog.setPhone(Safety.filter(phone));
 			smsLog.setType(type);
 			smsLog.setUsed(SmsLog.USED_FALSE);
 			smsLog.setUserid(0);
@@ -237,26 +239,6 @@ public class SmsLogServiceImpl implements SmsLogService {
 	 * @return 若查询到验证码存在，返回 {@link SmsLog}，若查询不到，返回null，即验证码不存在
 	 */
 	public SmsLog findByPhoneAddtimeUsedTypeCode(String phone,int addtime,Short used,Short type,String code){
-//		sqlDAO.findBySqlQuery("SELECT * FROM sms_log WHERE addtime", SmsLog.class);
-//		try {
-//			String queryString = "from SmsLog as model where model.phone= :phone and model.addtime > :addtime and model.used = :used and model.type = :type and model.code = :code";
-//			Query queryObject = sqlDAO.getCurrentSession().createQuery(queryString);
-//			queryObject.setParameter("phone", phone);
-//			queryObject.setParameter("addtime", addtime);
-//			queryObject.setParameter("used", used);
-//			queryObject.setParameter("type", type);
-//			queryObject.setParameter("code", code);
-//			
-//			EntityManager entityManager = sqlDAO.getEntityManager();
-//			
-//			List<SmsLog> list = queryObject.list();
-//			if(list.size() > 0){
-//				return list.get(0);
-//			}
-//		} catch (RuntimeException re) {
-//			throw re;
-//		}
-		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("phone", phone);
 		parameterMap.put("addtime", addtime);
