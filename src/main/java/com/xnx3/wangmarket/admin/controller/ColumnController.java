@@ -526,7 +526,7 @@ public class ColumnController extends BaseController {
 		sc.setListRank(siteColumn.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_DESC:siteColumn.getListRank());
 		
 		//判断一下选择的输入模型是否符合
-		String inputModelCodeName = StringUtil.filterHtmlTag(siteColumn.getInputModelCodeName());
+		String inputModelCodeName = filter(siteColumn.getInputModelCodeName());
 		if(inputModelCodeName == null || inputModelCodeName.length() == 0 || inputModelCodeName.equals("0")){
 			//使用系统默认输入模型(为0代表是系统模型，因为layui中，如果value没有值的话，系统模型是无法出现选择的)
 			sc.setInputModelCodeName(null);

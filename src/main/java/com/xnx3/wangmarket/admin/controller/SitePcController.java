@@ -289,14 +289,4 @@ public class SitePcController extends BaseController {
 	}
 	
 
-	/**
-	 * 通过手机验证注册开通网站
-	 * @param inviteid 上级id，推荐者id，user.id
-	 */
-	@RequestMapping("tt${url.suffix}")
-	public String t(HttpServletRequest request, Model model){
-		List<User> list = sqlService.findAll(User.class);
-		System.out.println(list);
-		return "regByPhone";
-	}
 }

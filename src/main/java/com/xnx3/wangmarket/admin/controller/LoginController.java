@@ -110,7 +110,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 //		BaseVO vo = Captcha.compare(request.getParameter("code"), request);
 //		if(vo.getResult() == BaseVO.SUCCESS){
 			//判断手机号是否已被注册使用了
-			String phone = request.getParameter("phone");
+			String phone = filter(request.getParameter("phone"));
 			if(phone == null || phone.length() < 3){
 				return error("请输入正确的手机号");
 			}
@@ -154,6 +154,8 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		if(Global.getInt("ALLOW_USER_REG") == 0){
 			return error("抱歉，当前禁止用户自行注册开通网站！");
 		}
+		username = filter(username);
+		email = filter(email);
 		phone = filter(phone);
 		code = filter(code);
 		
@@ -165,9 +167,9 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		
 		//注册用户
 		User user = new User();
-		user.setUsername(filter(username));
-		user.setPhone(filter(phone));
-		user.setEmail(filter(email));
+		user.setUsername(username);
+		user.setPhone(phone);
+		user.setEmail(email);
 		user.setPassword(password);
 		user.setOssSizeHave(G.REG_GENERAL_OSS_HAVE);
 		BaseVO userVO = userService.reg(user, request);

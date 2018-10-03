@@ -287,10 +287,11 @@ public class TemplateController extends BaseController {
 	public String templatePage(HttpServletRequest request,Model model,
 			@RequestParam(value = "pageName", required = false , defaultValue="") String pageName
 			){
+		pageName = filter(pageName);
 		TemplatePage templatePage;
 		//如果是编辑模式
 		if(pageName.length() > 0){
-			templatePage = sqlService.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+getSiteId()+" AND name = '"+Sql.filter(pageName)+"'", TemplatePage.class);
+			templatePage = sqlService.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+getSiteId()+" AND name = '"+pageName+"'", TemplatePage.class);
 			if(templatePage == null){
 				return error(model, "要修改的模版页面不存在");
 			}
@@ -461,6 +462,7 @@ public class TemplateController extends BaseController {
 			@RequestParam(value = "pageName", required = true) String pageName
 			) throws IOException{
 		String html = null;
+		pageName = filter(pageName);
 		
 		TemplatePageVO vo = templateService.getTemplatePageByNameForCache(request, pageName);
 		if(vo.getResult() - TemplatePageVO.FAILURE == 0){
@@ -485,7 +487,7 @@ public class TemplateController extends BaseController {
 		if(vo.getTemplatePage().getEditMode() != null && vo.getTemplatePage().getEditMode() - TemplatePage.EDIT_MODE_CODE == 0){
 			//代码模式，那么直接赋予 templatePageData.text 即可
 			html = vo.getTemplatePageData().getText();
-			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "代码编辑获取指定模版页内容", StringUtil.filterXss(pageName));
+			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "代码编辑获取指定模版页内容", pageName);
 		}else{
 			//如果是智能模式，那么要装载模版变量、可视化编辑等
 			//装载模版变量
@@ -499,7 +501,7 @@ public class TemplateController extends BaseController {
 			
 			//自动在</head>之前，加入htmledit.js
 			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+Global.get("MASTER_SITE_URL")+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
-			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", StringUtil.filterXss(pageName));
+			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
 		
 		model.addAttribute("pageName", pageName);
@@ -517,9 +519,10 @@ public class TemplateController extends BaseController {
 	public BaseVO saveTemplatePageText(HttpServletRequest request,
 			@RequestParam(value = "pageName", required = false, defaultValue="") String pageName,
 			@RequestParam(value = "html", required = true) String html){
+		pageName = filter(pageName);
 		TemplatePageVO vo = templateService.saveTemplatePageText(pageName, html, request);
 		
-		AliyunLog.addActionLog(0, "获取指定模版页"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+StringUtil.filterXss(pageName));
+		AliyunLog.addActionLog(0, "获取指定模版页"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+pageName);
 		
 		BaseVO baseVO = new BaseVO();
 		baseVO.setBaseVO(vo.getResult(), vo.getInfo());
@@ -650,9 +653,9 @@ public class TemplateController extends BaseController {
 			json.put("info", "请选择要导入的模版");
 		}else{
 			String templateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
-			BaseVO vo = templateService.importTemplate(templateText, true);
-			json.put("result", BaseVO.SUCCESS);
-			json.put("info", "成功");
+			BaseVO vo = templateService.importTemplate(templateText, true, request);
+			json.put("result", vo.getResult());
+			json.put("info", vo.getInfo());
 			
 			if(vo.getResult() - BaseVO.SUCCESS == 0){
 				//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
@@ -690,6 +693,7 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public BaseVO remoteImportTemplate(HttpServletRequest request, Model model,
 			@RequestParam(value = "templateName", required = false , defaultValue="") String templateName){
+		templateName = filter(templateName);
 		if(templateName.length() == 0){
 			return error("请选择要远程获取的模版");
 		}
@@ -700,7 +704,7 @@ public class TemplateController extends BaseController {
 			return error("模版不存在");
 		}
 		
-		BaseVO vo = templateService.importTemplate(hr.getContent(), true);
+		BaseVO vo = templateService.importTemplate(hr.getContent(), true, request);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
 			//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
 			//v4.4更新，直接在 templateService.importTemplate 中就更新了

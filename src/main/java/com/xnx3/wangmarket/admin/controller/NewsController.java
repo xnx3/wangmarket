@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.admin.controller;
+ package com.xnx3.wangmarket.admin.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class NewsController extends BaseController {
 			newsData = new NewsData();
 		}
 		
-		title = StringUtil.filterHtmlTag(title);
+		title = StringUtil.filterXss(StringUtil.filterHtmlTag(title));
 		if(title != null && title.length() > 60){
 			title = title.substring(0, 60);
 		}
@@ -509,7 +509,6 @@ public class NewsController extends BaseController {
 		}
 		
 		AliyunLog.addActionLog(newsId, "网站管理后台查看文章页面", url);
-//		return redirect("dns.cgi?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain()+"&htmlFile="+fileName);
 		return redirect(fileName+".html?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain());
 	}
 	

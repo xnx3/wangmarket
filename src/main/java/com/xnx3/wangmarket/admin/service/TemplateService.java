@@ -141,7 +141,7 @@ public interface TemplateService {
 	 * 				</ul>
 	 * @return
 	 */
-	public BaseVO importTemplate(String templateText, boolean copySiteColumn);
+	public BaseVO importTemplate(String templateText, boolean copySiteColumn, HttpServletRequest request);
 	
 	/**
 	 * 获取当前网站所用模版的模版变量列表。读数据库

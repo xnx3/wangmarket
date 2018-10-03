@@ -696,8 +696,15 @@ public class TemplateServiceImpl implements TemplateService {
 		return vo;
 	}
 
-	public BaseVO importTemplate(String templateText, boolean copySiteColumn) {
+	public BaseVO importTemplate(String templateText, boolean copySiteColumn, HttpServletRequest request) {
 		BaseVO vo = new BaseVO();
+		
+		//判断当前网站是否已经有模版了
+		TemplatePageListVO tpl = getTemplatePageListByCache(request);
+		if(tpl.getList().size() > 0){
+			vo.setBaseVO(BaseVO.FAILURE, "该网站已有模版了，无需再次导入。可按 F5 键刷新");
+			return vo;
+		}
 		
 		TemplateVO tvo = new TemplateVO();
 		//导入JSON，生成对象
