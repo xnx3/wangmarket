@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <th>手机号</th>
         <th>最后上线时间</th>
         <th>权限</th>
-        <th>操作</th>    
+        <!-- <th>操作</th>     -->
     </tr> 
   </thead>
   <tbody>
@@ -57,15 +57,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td style="width: 90px;">${user.phone }</td>
           <td style="width:100px;"><x:time linuxTime="${user.lasttime }" format="yy-MM-dd hh:mm"></x:time></td>
           <td><script type="text/javascript">writeName('${user.authority }');</script></td>
-          <td style="width: 100px;">
+          <!-- <td style="width: 100px;">
           		<botton class="layui-btn layui-btn-sm" onclick="deleteUser(${user.id }, '${user.username }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
           </td>
+           -->
       </tr>
     </c:forEach>
   </tbody>
 </table>
 <!-- 通用分页跳转 -->
 <jsp:include page="../../../iw/common/page.jsp"></jsp:include>
+
+<div style="padding:15px; color:gray;">
+	提示：<br/>
+	这里（总管理后台）只是提供查看，若您想开通网站、或者开通代理账户，请登陆 代理后台（也就是账号 agency ）进行操作。默认的代理后台账号密码都是 agency , 您可退出登陆后，直接使用账号 agency 登陆即可进入代理后台。
+	<br/>
+	代理后台相关介绍，点击此处查看 <a href="http://help.wscso.com/5717.html" target="_black">http://help.wscso.com/5717.html</a>
+</div>
 
 <script type="text/javascript">
 //根据id删除用户
