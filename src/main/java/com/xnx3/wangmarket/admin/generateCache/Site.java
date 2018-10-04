@@ -30,9 +30,9 @@ public class Site extends BaseGenerate {
 	
 	public void client(){
 		createCacheObject("client");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_PC, "电脑端");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_WAP, "手机端");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_CMS, "CMS(推荐)");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_PC, "电脑端(旧版，已不推荐)");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_WAP, "手机端(旧版，已不推荐)");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.CLIENT_CMS, "CMS(新版，推荐)");
 		generateCacheFile();
 	}
 	
