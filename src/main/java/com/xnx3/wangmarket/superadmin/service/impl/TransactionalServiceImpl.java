@@ -18,6 +18,7 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
 import com.xnx3.j2ee.func.Language;
+import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -284,6 +285,9 @@ public class TransactionalServiceImpl implements TransactionalService {
 	public UserVO regUser(User user, HttpServletRequest request,
 			boolean isAgency) {
 		UserVO baseVO = new UserVO();
+		user.setUsername(Safety.filter(user.getUsername()));
+		user.setEmail(Safety.filter(user.getEmail()));
+		user.setPhone(Safety.filter(user.getPhone()));
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){

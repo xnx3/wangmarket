@@ -173,7 +173,7 @@ public class FormManagePluginController extends BaseController {
 		form.setTitle(title);
 		sqlService.save(form);
 		if(form.getId() != null && form.getId() > 0){
-			//成功，进而存储具体内容。存储内容时，首先要从提交的数据中，便利出所有表单数据
+			//成功，进而存储具体内容。存储内容时，首先要从提交的数据中，便利出所有表单数据.这里是原始提交的结果，需要进行xss过滤
 			Map<String, String[]> params = new HashMap<String, String[]>();
 			params.putAll(request.getParameterMap());
 			//删除掉siteid、title的参数
@@ -182,7 +182,6 @@ public class FormManagePluginController extends BaseController {
 				params.remove("title");
 			}
 			
-
 			JSONArray jsonArray = new JSONArray();	//text文本框所存储的内容
 			for (Map.Entry<String, String[]> entry : params.entrySet()) { 
 				JSONObject json = new JSONObject();
@@ -195,7 +194,6 @@ public class FormManagePluginController extends BaseController {
 				jsonArray.add(json);
 			}
 			String text = jsonArray.toString();
-			System.out.println(text);
 			if(text.length() > textMaxLength){
 				return error("信息太长，非法提交！");
 			}

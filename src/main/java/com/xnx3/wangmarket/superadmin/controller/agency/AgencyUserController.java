@@ -233,7 +233,7 @@ public class AgencyUserController extends BaseController {
 		//要创建得网站得user
 		User user = new User();
 		user.setReferrerid(userVO.getUser().getId());
-		user.setUsername(username);
+		user.setUsername(filter(username));
 		user.setPassword(password);
 		
 		Site site = new Site();
@@ -480,6 +480,9 @@ public class AgencyUserController extends BaseController {
 	 */
 	private UserVO regUsersss(User user, HttpServletRequest request, boolean isAgency) {
 		UserVO baseVO = new UserVO();
+		user.setUsername(filter(user.getUsername()));
+		user.setEmail(filter(user.getEmail()));
+		user.setPhone(filter(user.getPhone()));
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){
