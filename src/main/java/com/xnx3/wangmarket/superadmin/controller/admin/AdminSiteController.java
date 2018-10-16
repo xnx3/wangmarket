@@ -56,8 +56,6 @@ public class AdminSiteController extends BaseController {
 	/**
 	 * 网站详情
 	 * @param id News.id
-	 * @param model
-	 * @return
 	 */
 	@RequiresPermissions("adminSiteView")
 	@RequestMapping("view${url.suffix}")

@@ -184,3 +184,5 @@ function gainGetParamSearch_DelayRequest(){
 	}
 	setTimeout("gainGetParamSearch_DelayRequest()","200");
 };
+//获取传递来的searchKeyword关键词进行搜索。若未发现这个传入，则不搜索
+gainGetParamSearch();

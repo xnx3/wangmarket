@@ -129,11 +129,14 @@ function addColumn(siteColumnId){
 	var url = '<%=basePath %>column/popupColumnForTemplate.do';
 	layer.open({
 		type: 2, 
-		title:'添加栏目', 
+		//title:'添加栏目', 
 		area: ['460px', '600px'],
 		shadeClose: true, //开启遮罩关闭
-		content: url
+		content: url,
+		title:false, 
+		closeBtn: 1
 	});
+	
 }
 
 /**

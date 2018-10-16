@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div class="layui-form-item">
 		<label class="layui-form-label">网站类型</label>
 		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionForclient_('','请选择', true);</script>
+			<script type="text/javascript">writeSelectAllOptionForclient_('3','请选择', true);</script>
 		</div>
 		<div id="help_client" class="layui-form-mid layui-word-aux" style="cursor: pointer;float: right;margin-top: -38px;margin-right: -28px;"><i class="layui-icon" style="font-size:18px;">&#xe607;</i></div>
 	</div>
@@ -223,12 +223,8 @@ $(function(){
 //右侧弹出提示
 function rightTip(){
 	layer.open({
-	  title: '临时弹窗之问题反馈',offset: 'rb', shadeClose:true, shade:0,
-	  btn: ['反馈问题'] //可以无限个按钮
-	  ,content: '您有什么不懂的，或者自助开通时，遇到什么问题导致您无法操作、不知如何进行，或者无法开通，任何问题都可反馈给我们。也或者直接关注我们微信公众号"wangmarket"进行在线沟通咨询。'
-	  ,yes: function(index, layero){
-		openWenTiFanKui();
-	  }
+	  title: '临时弹窗之问题反馈',offset: 'rb', shadeClose:true, shade:0
+	  ,content: '您有什么不懂的，或者自助开通时，遇到什么问题导致您无法操作、不知如何进行，或者无法开通，任何问题都可反馈给我们。也或者直接关注我们微信公众号"wangmarket"进行在线沟通咨询。<br/>我的QQ:921153866<br/>微信：xnx3com'
 	});
 }
 

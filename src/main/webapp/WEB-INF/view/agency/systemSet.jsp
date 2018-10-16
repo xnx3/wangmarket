@@ -36,6 +36,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
       </td>
     </tr>
+    <tr id="td_phone">
+      <td class="title">联系QQ</td>
+      <td class="value" onclick="popAgency('qq','联系QQ', '${agency.qq }');" style="cursor:pointer;">
+		${agency.qq }
+		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
+      </td>
+    </tr>
     <tr id="td_address">
       <td class="title">办公地点</td>
       <td class="value" onclick="popAgency('address','办公地点', '${agency.address }');" style="cursor:pointer;">
@@ -108,7 +115,7 @@ $(function(){
 	//notice
 	var td_notice_index = 0;
 	$("#td_notice").hover(function(){
-		td_notice_index = layer.tips('客户网站管理后台登陆成功后，欢迎页面显示的公告', '#td_notice', {
+		td_notice_index = layer.tips('客户网站管理后台登陆成功后，欢迎页面显示的公告。若是公告内容少于两个字符，则不会在客户的后台显示公告。', '#td_notice', {
 			tips: [3, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
@@ -139,7 +146,6 @@ function popAgency(name, description, oldValue){
 	    "saveAgency.do", 
 	    { "name": name, "value":value }, 
 	    function(data){
-			console.log(data);
 	        parent.iw.loadClose();    //关闭“更改中”的等待提示
 	        if(data.result != '1'){
 	            parent.iw.msgFailure(data.info);

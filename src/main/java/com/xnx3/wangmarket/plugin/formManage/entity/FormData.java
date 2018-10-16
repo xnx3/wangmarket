@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.formManage.entity;
+package com.xnx3.wangmarket.plugin.formManage.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

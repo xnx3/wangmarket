@@ -6,15 +6,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.wangmarket.im.service.ImService;
@@ -52,7 +48,9 @@ import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.admin.vo.bean.TemplateCommon;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+import com.xnx3.wangmarket.domain.mq.DomainMQ;
 
 @Service("siteService")
 public class SiteServiceImpl implements SiteService {
@@ -348,7 +346,6 @@ public class SiteServiceImpl implements SiteService {
 			//默认是按照时间倒序，但是v4.4以后，用户可以自定义，可以根据时间正序排序，如果不是默认的倒序的话，就需要重新排序
 			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
 			if(siteColumn.getListRank() != null && siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
-				Log.info(siteColumn.toString());
 				Collections.sort(nList, new Comparator<News>() {
 		            public int compare(News n1, News n2) {
 	                	//按照发布时间正序排序，发布时间越早，排列越靠前
@@ -999,7 +996,10 @@ public class SiteServiceImpl implements SiteService {
 				
 				//刷新增加域名缓存
 				//更新域名服务器
-				updateDomainServers(site);
+				MQBean mqBean = new MQBean();
+				mqBean.setType(MQBean.TYPE_NEW_SITE);
+				mqBean.setSimpleSite(new SimpleSite(site));
+				updateDomainServers(mqBean);
 			}
 			
 			//更新当前Session缓存。如果是api接口开通网站，session是空的。所以要加null判断
@@ -1217,20 +1217,22 @@ public class SiteServiceImpl implements SiteService {
 		return "";
 	}
 	
-	public void updateDomainServers(Site site) {
-		SimpleSite ss = new SimpleSite(site);
-		JSONObject json = JSONObject.fromObject(ss);
+	public void updateDomainServers(MQBean mqBean) {
+//		SimpleSite ss = new SimpleSite(site);
+//		JSONObject json = JSONObject.fromObject(ss);
 		
 		//先更新当前应用内存中的
-		com.xnx3.wangmarket.domain.G.putDomain(ss.getDomain(), ss);
-		if(ss.getBindDomain() != null && ss.getBindDomain().length() > 1){
-			com.xnx3.wangmarket.domain.G.putBindDomain(ss.getBindDomain(), ss);
-		}
+//		com.xnx3.wangmarket.domain.G.putDomain(ss.getDomain(), ss);
+//		if(ss.getBindDomain() != null && ss.getBindDomain().length() > 1){
+//			com.xnx3.wangmarket.domain.G.putBindDomain(ss.getBindDomain(), ss);
+//		}
+		
+		DomainMQ.send("domain", JSONObject.fromObject(mqBean).toString());
 		
 		//若用户使用了分布式，那么就要用MNS同步域名改动
-		if(com.xnx3.wangmarket.domain.G.domainMNSUtil != null){
-			com.xnx3.wangmarket.domain.G.domainMNSUtil.putMessage(com.xnx3.wangmarket.domain.G.mnsDomain_queueName, json.toString());
-		}
+//		if(com.xnx3.wangmarket.domain.G.domainMNSUtil != null){
+//			com.xnx3.wangmarket.domain.G.domainMNSUtil.putMessage(com.xnx3.wangmarket.domain.G.mnsDomain_queueName, json.toString());
+//		}
 	}
 	
 }

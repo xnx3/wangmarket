@@ -1,49 +1,19 @@
 package com.xnx3.wangmarket.superadmin.controller.agency;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.json.JSONArray;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.aliyun.openservices.log.exception.LogException;
-import com.xnx3.DateUtil;
-import com.xnx3.Lang;
-import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
-import com.xnx3.exception.NotReturnValueException;
-import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.entity.UserRole;
-import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
-import com.xnx3.j2ee.util.IpUtil;
-import com.xnx3.j2ee.util.Page;
-import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.AliyunLogPageUtil;
-import com.xnx3.wangmarket.admin.Func;
-import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.superadmin.entity.SiteSizeChange;
-import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
-import com.xnx3.wangmarket.admin.vo.SiteVO;
-import com.xnx3.wangmarket.admin.vo.UserVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 import com.xnx3.wangmarket.superadmin.entity.AgencyData;
-import com.xnx3.wangmarket.superadmin.service.TransactionalService;
-import com.xnx3.wangmarket.superadmin.util.SiteSizeChangeLog;
 
 /**
  * 代理商
@@ -107,7 +77,7 @@ public class SystemSetAgencyController extends BaseController {
 			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的地址", agency.getAddress());	//记录操作日志
 		}else if (name.equals("qq")) {
 			agency.setQq(value);
-			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的公司名字", agency.getName());	//记录操作日志
+			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的QQ", agency.getName());	//记录操作日志
 		}else{
 			return error("name无效");
 		}

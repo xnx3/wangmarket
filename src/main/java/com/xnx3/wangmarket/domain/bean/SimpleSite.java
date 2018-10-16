@@ -11,20 +11,29 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * @author 管雷鸣
  */
 public class SimpleSite {
-	private int id;
+	private int id;	//site.id
 	private String domain;
 	private String bindDomain;
 	private int client;
 	private int templateId;
 	private Short state;
+	
 	/*
 	 * 插件
-	 * plugin.get(plugin id)   value：1  判断pluginid是否不为null，若不为null，则是启用了该插件。 至于value则无所谓，没用到
+	 * plugin.get(plugin id)   value：1  判断pluginid是否不为null，若不为null，则是启用了该插件。 value则是自定义存储的一些数据
+	 * 
+	 * 示例：  在线客服插件 kefu
+	 * key："kefu"
+	 * value： 
+	 * 			key:"templateName"	value:"blackdaqi1"
+	 * 			key:"use"			value:1
+	 * 
 	 */
-	private Map<String, String> plugin;
+	private Map<String, Map<String,Object>> plugin;
 	
 	//读数据库的方式载入 SimpleSite ，在系统刚启动时，会自动读数据库中的站点属性，将其载入，分配好域名
 	public SimpleSite(Site site) {
+		plugin = new HashMap<String, Map<String,Object>>();
 		if(site != null){
 			id = site.getId();
 			domain = site.getDomain();
@@ -40,8 +49,27 @@ public class SimpleSite {
 	}
 	
 	public SimpleSite() {
-		
+		plugin = new HashMap<String, Map<String,Object>>();
 	}
+	
+	/**
+	 * 克隆一个 {@link SimpleSite} 对象，将其内容导入到这里面
+	 * @param originalSimpleSite 要克隆的对象
+	 */
+	public void clone(SimpleSite originalSimpleSite){
+		this.bindDomain = originalSimpleSite.getBindDomain();
+		this.client = originalSimpleSite.getClient();
+		this.domain = originalSimpleSite.getDomain();
+		this.id = originalSimpleSite.getId();
+		this.plugin = originalSimpleSite.getPlugin();
+		this.state = originalSimpleSite.getState();
+		this.templateId = originalSimpleSite.getTemplateId();
+		
+		if(this.plugin == null){
+			this.plugin = new HashMap<String, Map<String,Object>>();
+		}
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -53,6 +81,9 @@ public class SimpleSite {
 		return domain;
 	}
 	public void setDomain(String domain) {
+		if(domain.equals("null")){
+			this.domain = "";
+		}
 		this.domain = domain;
 	}
 	public int getClient() {
@@ -67,6 +98,9 @@ public class SimpleSite {
 	}
 
 	public void setBindDomain(String bindDomain) {
+		if(bindDomain.equals("null")){
+			this.bindDomain = "";
+		}
 		this.bindDomain = bindDomain;
 	}
 	
@@ -92,14 +126,14 @@ public class SimpleSite {
 	 * 根据 key = plugin.id 来判断是否启用了该插件
 	 * @return
 	 */
-	public Map<String, String> getPlugin() {
+	public Map<String, Map<String,Object>> getPlugin() {
 		if(plugin == null){
-			return new HashMap<String, String>();
+			return new HashMap<String, Map<String,Object>>();
 		}
 		return plugin;
 	}
 
-	public void setPlugin(Map<String, String> plugin) {
+	public void setPlugin(Map<String, Map<String,Object>> plugin) {
 		this.plugin = plugin;
 	}
 	

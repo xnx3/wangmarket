@@ -86,11 +86,15 @@ public class G {
 	//CDN缓存的资源文件，包括框架的js、css文件、模版style.css文件等。
 	public static final String RES_CDN_DOMAIN = "http://res.weiunity.com/";	
 	
-	//使用系统赠送的二级域名访问，只要是建立过的网站，都会加入此
-	private static Map<String, SimpleSite> domainSiteMap = new HashMap<String, SimpleSite>();
+	/*
+	 * 使用系统赠送的二级域名访问，只要是建立过的网站，都会加入此,持久缓存
+	 * key: domain 二级域名的名字，不含 .wang.market
+	 */
+	public static Map<String, SimpleSite> domainSiteMap = new HashMap<String, SimpleSite>();
 	
-	//使用绑定后的域名访问，这里只有绑定域名后才会加入此处
-	private static Map<String, SimpleSite> bindDomainSiteMap = new HashMap<String, SimpleSite>();
+	//使用绑定后的域名访问，这里只有绑定域名后才会加入此处,持久缓存
+	public static Map<String, SimpleSite> bindDomainSiteMap = new HashMap<String, SimpleSite>();
+	
 	
 	/**
 	 * 更新站点的二级域名缓存，二级域名是系统自己分配的

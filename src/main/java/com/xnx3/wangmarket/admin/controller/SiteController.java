@@ -48,6 +48,8 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.SiteDataVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
+import com.xnx3.wangmarket.domain.bean.MQBean;
+import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
  * 公共的
@@ -261,11 +263,16 @@ public class SiteController extends BaseController {
 		
 		//v2.1更新，直接从Session中拿site.id
 		Site site = sqlService.findById(Site.class, getSiteId());
+		String oldBindDomain = site.getBindDomain();
 		site.setBindDomain(bindDomain);
 		sqlService.save(site);
 		
 		//更新域名服务器
-		siteService.updateDomainServers(site);
+		MQBean mqBean = new MQBean();
+		mqBean.setType(MQBean.TYPE_BIND_DOMAIN);
+		mqBean.setOldValue(oldBindDomain);
+		mqBean.setSimpleSite(new SimpleSite(site));
+		siteService.updateDomainServers(mqBean);
 		
 		//刷新Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
@@ -414,16 +421,24 @@ public class SiteController extends BaseController {
 		
 		//v2.1更新，直接从Session中拿siteid
 		Site site = sqlService.findById(Site.class, getSiteId());
+		String oldDomain = site.getDomain(); 
 		site.setDomain(domain);
 		sqlService.save(site);
 		
-		if(G.SITE_DEPLOYMODE_SHARE){
-			//更新域名服务器
-			siteService.updateDomainServers(site);
-		}else{
-			//更新当前的域名服务器
-			siteService.updateDomainServers(site);
-		}
+		//更新域名服务器
+		MQBean mqBean = new MQBean();
+		mqBean.setType(MQBean.TYPE_DOMAIN);
+		mqBean.setOldValue(oldDomain);
+		mqBean.setSimpleSite(new SimpleSite(site));
+		siteService.updateDomainServers(mqBean);
+		
+//		if(G.SITE_DEPLOYMODE_SHARE){
+//			//更新域名服务器
+//			siteService.updateDomainServers(site);
+//		}else{
+//			//更新当前的域名服务器
+//			siteService.updateDomainServers(site);
+//		}
 		
 		//刷新Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);

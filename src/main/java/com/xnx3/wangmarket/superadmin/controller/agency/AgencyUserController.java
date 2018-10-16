@@ -39,6 +39,8 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.UserVO;
+import com.xnx3.wangmarket.domain.bean.MQBean;
+import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 import com.xnx3.wangmarket.superadmin.service.TransactionalService;
@@ -719,7 +721,11 @@ public class AgencyUserController extends BaseController {
 		AliyunLog.addActionLog(site.getId(), getMyAgency().getName()+"将网站"+site.getName()+"暂停");
 		
 		//更新域名服务器
-		siteService.updateDomainServers(site);
+		MQBean mqBean = new MQBean();
+		mqBean.setType(MQBean.TYPE_STATE);
+//		mqBean.setOldValue(oldDomain);
+		mqBean.setSimpleSite(new SimpleSite(site));
+		siteService.updateDomainServers(mqBean);
 		
 		return success();
 	}
@@ -755,7 +761,10 @@ public class AgencyUserController extends BaseController {
 		AliyunLog.addActionLog(site.getId(), getMyAgency().getName()+"将暂停的网站"+site.getName()+"恢复正常");
 		
 		//更新域名服务器
-		siteService.updateDomainServers(site);
+		MQBean mqBean = new MQBean();
+		mqBean.setType(MQBean.TYPE_STATE);
+		mqBean.setSimpleSite(new SimpleSite(site));
+		siteService.updateDomainServers(mqBean);
 		
 		return success();
 	}

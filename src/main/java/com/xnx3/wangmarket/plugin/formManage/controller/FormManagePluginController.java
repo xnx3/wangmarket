@@ -1,22 +1,18 @@
-package com.xnx3.wangmarket.formManage.controller;
+package com.xnx3.wangmarket.plugin.formManage.controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
@@ -27,9 +23,9 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.controller.BaseController;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
-import com.xnx3.wangmarket.formManage.bean.Frequency;
-import com.xnx3.wangmarket.formManage.entity.Form;
-import com.xnx3.wangmarket.formManage.entity.FormData;
+import com.xnx3.wangmarket.plugin.formManage.bean.Frequency;
+import com.xnx3.wangmarket.plugin.formManage.entity.Form;
+import com.xnx3.wangmarket.plugin.formManage.entity.FormData;
 
 /**
  * CMS模式下，输入模型相关操作

@@ -104,4 +104,17 @@ public class BasePluginController extends com.xnx3.wangmarket.admin.controller.B
 		return false;
 	}
 	
+	/**
+	 * 判断当前用户是否是登陆的用户，有 User
+	 * @return true:已登陆， false未登录
+	 */
+	public static boolean haveUser(){
+		User user = ShiroFunc.getUser();
+		if(user != null){
+			//已登陆
+			return true;
+		}
+		
+		return false;
+	}
 }
