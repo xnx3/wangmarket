@@ -1,4 +1,8 @@
 /*
+
+	mysql 最低版本要求： 5.5.3
+
+
  Navicat Premium Data Transfer
 
  Source Server         : localhost
@@ -581,9 +585,9 @@ CREATE TABLE `template_page` (
 DROP TABLE IF EXISTS `template_page_data`;
 CREATE TABLE `template_page_data` (
   `id` int(11) NOT NULL,
-  `text` text COLLATE utf8_unicode_ci COMMENT '当前模版页面的模版内容',
+  `text` text COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版页面的分表，存储具体模版页面的内容';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版页面的分表，存储具体模版页面的内容';
 
 -- ----------------------------
 --  Table structure for `template_var`
