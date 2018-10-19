@@ -60,7 +60,6 @@ public class PluginManage {
 		PluginRegister an = (PluginRegister) c.getAnnotation(PluginRegister.class);
         if(an != null){
         	SitePluginBean sitePlugin = new SitePluginBean(c);
-        	Log.info(sitePlugin.toString());
         	if(sitePlugin.isApplyToCMS()){
         		cmsSiteClassManage.put(sitePlugin.getId(), sitePlugin);	//将之加入内存中持久化，以便随时使用
         	}
@@ -71,7 +70,6 @@ public class PluginManage {
         		pcSiteClassManage.put(sitePlugin.getId(), sitePlugin);	//将之加入内存中持久化，以便随时使用
         	}
         	if(sitePlugin.isApplyToAgency()){
-        		Log.info("进入agency。。。。"+sitePlugin.toString());
         		agencyClassManage.put(sitePlugin.getId(), sitePlugin);	//将之加入内存中持久化，以便随时使用
         	}
         	if(sitePlugin.isApplyToSuperAdmin()){
