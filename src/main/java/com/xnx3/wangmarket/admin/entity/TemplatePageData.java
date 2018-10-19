@@ -29,7 +29,7 @@ public class TemplatePageData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "text", length = 65535)
+	//@Column(name = "text", length = 65535)
 	public String getText() {
 		return this.text;
 	}
