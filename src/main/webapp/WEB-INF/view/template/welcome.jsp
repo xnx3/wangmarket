@@ -23,9 +23,6 @@ body{
 }
 </style>
 
-<div style="padding: 20px; font-size: 22px; border: 1px solid #eee;">
-	您好，我们改版了，原本登陆成功后这个位置显示的编辑首页，你可以在左侧“模版管理” - “模版页面” 中，找到首页，进行编辑即可。<a href="javascript:template();">点击此处快速进入模版管理</a>
-</div>
 
 
 <div class="layui-tab" id="gonggao" style="display:none;">
