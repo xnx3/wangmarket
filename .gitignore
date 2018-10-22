@@ -52,8 +52,16 @@
 /src/main/resources/static/plugin/bbs/
 /src/main/webapp/WEB-INF/view/plugin/bbs/
 
-# rabbitmq 测试过滤
-/src/main/java/com/xnx3/wangmarket/plugin/test/
+# innerDown 插件过滤
+/src/main/java/com/xnx3/wangmarket/plugin/innerDown/
+/src/main/webapp/WEB-INF/view/plugin/innerDown/
+
+# kefu、 kefu_domain 插件过滤
+/src/main/java/com/xnx3/wangmarket/plugin/kefu/
+/src/main/webapp/WEB-INF/view/plugin/kefu/
+/src/main/resources/static/plugin/kefu/
+/src/main/java/com/xnx3/wangmarket/plugin/kefu_domain/
+
 
 /SourceCode/admin/bin/
 

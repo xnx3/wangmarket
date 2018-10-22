@@ -77,6 +77,15 @@ Eclipse、MyEclipse <br/>
 
 <br/>
 
+
+## 第三方功能插件<br/>
+
+| 作者 | 链接 | 简介 |
+| ------------- |-------------|-------------|
+| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
+| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_innerDown) | 企业内部文件共享插件。企业内部员工的附件共享系统 |
+
+
 ## 第三方模版<br/>
 
 这些模版都是有本系统的爱好者自己开发的，拿出来无私分享给使用本系统的朋友，在此感谢他们！
@@ -86,12 +95,6 @@ Eclipse、MyEclipse <br/>
 | 木登子 | [gitee.com/roseberry/template_for_wangmarket](https://gitee.com/roseberry/template_for_wangmarket) |
 
 <br/>
-
-## 第三方功能插件<br/>
-
-| 作者 | 链接 | 简介 |
-| ------------- |-------------|-------------|
-| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
 
 
 ## 项目简介<br/>

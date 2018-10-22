@@ -13,6 +13,7 @@ public class UploadFileVO extends BaseVO {
 	private String fileName;	//上传成功后的文件名，如 "xnx3.jar"
 	private String path;		//上传成功后的路径，如 "/jar/file/xnx3.jar"
 	private String url;		//文件上传成功后，外网访问的url
+	private long size;		//上传的文件的大小，单位 KB
 	
 	public UploadFileVO() {
 	}
@@ -71,6 +72,14 @@ public class UploadFileVO extends BaseVO {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
 	}
 
 	@Override
