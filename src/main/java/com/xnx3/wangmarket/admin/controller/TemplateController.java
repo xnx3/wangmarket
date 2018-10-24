@@ -208,19 +208,15 @@ public class TemplateController extends BaseController {
 			if(templateVar == null){
 				return error(model, "没有发现属于您的、名字为"+templateVarName+"的模版变量");
 			}
-			TemplateVarData templateVarData = sqlService.findById(TemplateVarData.class, templateVar.getId()); 
 			
 			AliyunLog.addActionLog(getSiteId(), "编辑模式打开模版变量："+templateVarName);
-			
 			model.addAttribute("templateVar", templateVar);
-			model.addAttribute("text", templateVarData.getText());
 		}else{
 			if(templateName.length()<0){
 				return error(model, "您要给哪个模版添加模版变量呢");
 			}
 			
 			AliyunLog.addActionLog(getSiteId(), "打开新建模版变量页面，准备为模版："+templateName+"新建模版变量");
-			
 			model.addAttribute("templateName", templateName);
 		}
 		
@@ -453,6 +449,35 @@ public class TemplateController extends BaseController {
 	}
 	
 	/**
+	 * 获取指定模版变量的内容
+	 * @param varName 模版变量变量名字
+	 * @throws IOException
+	 */
+	@RequestMapping("getTemplateVarText${url.suffix}")
+	public String getTemplateVarText(Model model,HttpServletRequest request,
+			@RequestParam(value = "varName", required = false, defaultValue="") String varName
+			) throws IOException{
+		String text = null;
+		varName = filter(varName);
+		
+		if(varName.length() == 0){
+			//新增
+			text = "";
+		}else{
+			TemplateVarVO tvvo = templateService.getTemplateVarByCache(varName);
+			if(tvvo.getResult() - TemplateVarVO.FAILURE == 0){
+				text = tvvo.getInfo();
+			}else{
+				text = tvvo.getTemplateVarData().getText();
+			}
+		}
+		
+		model.addAttribute("text", text);
+		return "template/getTemplateVarText";
+	}
+	
+	
+	/**
 	 * 获取指定模版页面的内容，用于iframe内，htmledit修改
 	 * @param pageName 要获取的模版页面名字，对应 {@link TemplatePage}.name
 	 * @throws IOException
@@ -573,6 +598,8 @@ public class TemplateController extends BaseController {
 		
 		sqlService.delete(templateVar);	//删除数据库的
 		templateService.deleteTemplateVarForCache(templateVar.getId());	//删除缓存中的
+		//删除 template_var_data 中的数据。 v4.5 更新，盖亚科技-罗浪提醒。
+		sqlService.executeSql("DELETE FROM template_var_data WHERE id="+id);	
 		
 		AliyunLog.addActionLog(templateVar.getId(), "删除模版变量："+templateVar.getTemplateName());
 		
@@ -597,6 +624,8 @@ public class TemplateController extends BaseController {
 		}
 		
 		sqlService.delete(templatePage);
+		//删除模版页面的具体内容数据。v4.5版本增加
+		sqlService.executeSql("DELETE FROM template_page_data WHERE id = "+templatePage.getId());
 		
 		//Session缓存中，要将其删除
 		templateService.deleteTemplatePageForCache(templatePage.getId(), request);

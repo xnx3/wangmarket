@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="htmlMode" style="width:100%;height:auto; ">
 
 			<div id="editormd" style="width:100%; height:auto; min-height:400px;">
-				<textarea id="html_textarea" name="text" lay-verify="text" placeholder="请输入模版变量代码，注意，请不要将head、body标签放到模版变量里面！" class="layui-textarea" style="height: 95%;">${text }</textarea>
+				<textarea id="html_textarea" name="text" lay-verify="text" placeholder="请输入模版变量代码，注意，请不要将head、body标签放到模版变量里面！" class="layui-textarea" style="height: 95%;">数据加载中...</textarea>
 			</div>
 			
         </div>
@@ -125,20 +125,37 @@ function popupTemplateTagHelp(title,htmlNameTag, width, height){
 	});
 }
 
-//代码编辑器
-testEditor = editormd("editormd", {
-          width            : "100%",
-          height            : "650px",
-          watch            : false,
-          toolbar          : false,
-          codeFold         : true,
-          searchReplace    : true,
-          placeholder      : "请输入模版变量的代码",
-          value            : document.getElementById("html_textarea").value,
-          theme            : "default",
-          mode             : "text/html",
-          path             : 'http://res.weiunity.com/editor/lib/'
-      });
+//加载 模版变量 的内容
+function loadTemplateVarText(){
+	parent.iw.loading("加载中");    //显示“操作中”的等待提示
+	$.post("getTemplateVarText.do?varName=${templateVar.varName }", function(data){
+	    parent.iw.loadClose();    //关闭“操作中”的等待提示
+	    if(data.length == 0){
+	    	data = ' ';
+	    }
+	    
+	    
+	    //代码编辑器
+		testEditor = editormd("editormd", {
+	          width            : "100%",
+	          height            : "650px",
+	          watch            : false,
+	          toolbar          : false,
+	          codeFold         : true,
+	          searchReplace    : true,
+	          placeholder      : "请输入模版变量的代码",
+	          value            : data,
+	          theme            : "default",
+	          mode             : "text/html",
+	          path             : 'http://res.weiunity.com/editor/lib/'
+	      });
+	      
+        
+	},"text");
+}
+loadTemplateVarText();
+
+
 </script>
 
 </body>
