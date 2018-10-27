@@ -20,10 +20,11 @@ public class G {
 	//日志服务，用于统计访问日志。 topic:访问域名
 	public static AliyunLogUtil aliyunLogUtil = null;
 	
+	//MNS由v4.5版本废弃，改为自建 rabbitmq
 	//由domainConfig.xml 的 aliyunMNS_Domain节点加载数据
-	public static String mnsDomain_queueName = "";
-	public static MNSUtil domainMNSUtil = null;
-	
+//		public static String mnsDomain_queueName = "";
+//		public static MNSUtil domainMNSUtil = null;
+		
 	static{
 		ConfigManagerUtil wangMarketConfig = ConfigManagerUtil.getSingleton("domainConfig.xml");
 		
@@ -56,31 +57,31 @@ public class G {
 			System.out.println("未开启网站访问日志记录");
 		}
 		
-		
+		//MNS由v4.5版本废弃，改为自建 rabbitmq
 		//加载domain 的 MNS 数据
-		String useMNS = wangMarketConfig.getValue("aliyunMNS_Domain.use");
-		if(useMNS != null && useMNS.equals("true")){
-			String mnsDomain_accessKeyId = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeyId");
-			String mnsDomain_accessKeySecret = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeySecret");
-			if(mnsDomain_accessKeyId == null || mnsDomain_accessKeyId.length() == 0){
-				//取数据库的
-				mnsDomain_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
-			}
-			if(mnsDomain_accessKeySecret == null || mnsDomain_accessKeySecret.length() == 0){
-				//取数据库的
-				mnsDomain_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			}
-			if(mnsDomain_accessKeyId.length() < 10){
-				Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
-			}
-			String mnsDomain_endpoint = wangMarketConfig.getValue("aliyunMNS_Domain.endpoint");
-			mnsDomain_queueName = wangMarketConfig.getValue("aliyunMNS_Domain.queueName");
-			
-			domainMNSUtil = new MNSUtil(mnsDomain_accessKeyId, mnsDomain_accessKeySecret, mnsDomain_endpoint);
-			Log.info("已开启分布式域名更新功能(MQ)");
-		}else{
-			Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
-		}
+//		String useMNS = wangMarketConfig.getValue("aliyunMNS_Domain.use");
+//		if(useMNS != null && useMNS.equals("true")){
+//			String mnsDomain_accessKeyId = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeyId");
+//			String mnsDomain_accessKeySecret = wangMarketConfig.getValue("aliyunMNS_Domain.accessKeySecret");
+//			if(mnsDomain_accessKeyId == null || mnsDomain_accessKeyId.length() == 0){
+//				//取数据库的
+//				mnsDomain_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+//			}
+//			if(mnsDomain_accessKeySecret == null || mnsDomain_accessKeySecret.length() == 0){
+//				//取数据库的
+//				mnsDomain_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+//			}
+//			if(mnsDomain_accessKeyId.length() < 10){
+//				Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+//			}
+//			String mnsDomain_endpoint = wangMarketConfig.getValue("aliyunMNS_Domain.endpoint");
+//			mnsDomain_queueName = wangMarketConfig.getValue("aliyunMNS_Domain.queueName");
+//			
+//			domainMNSUtil = new MNSUtil(mnsDomain_accessKeyId, mnsDomain_accessKeySecret, mnsDomain_endpoint);
+//			Log.info("已开启分布式域名更新功能(MQ)");
+//		}else{
+//			Log.info("您未开启分布式域名更新功能(MQ)，若是后台跟网站访问分开部署的，此项为必须配置的！若是后台跟网站访问是在一块的，此项无需配置。此条提示忽略即可");
+//		}
 	}
 	
 	//CDN缓存的资源文件，包括框架的js、css文件、模版style.css文件等。

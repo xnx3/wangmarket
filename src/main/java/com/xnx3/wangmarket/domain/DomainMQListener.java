@@ -1,5 +1,7 @@
 package com.xnx3.wangmarket.domain;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.domain.G;
@@ -33,26 +35,51 @@ public class DomainMQListener {
 				simpleSite.setClient(simpleSiteJson.getInt("client"));
 				simpleSite.setId(simpleSiteJson.getInt("id"));
 				simpleSite.setTemplateId(simpleSiteJson.getInt("templateId"));
+				mqBean.setSimpleSite(simpleSite);
+				System.out.println(mqBean.toString());
 				
 				switch (json.getInt("type")) {
 				case MQBean.TYPE_BIND_DOMAIN:
 					//更改自己绑定的顶级域名
-					//判断是否有旧的顶级域名，是在修改，还是第一次绑定
-					SimpleSite ss = G.bindDomainSiteMap.get(mqBean.getOldValue());
-					if(ss == null){
-						//是新绑定的
-						ss = new SimpleSite();
-						ss.clone(simpleSite);
+					
+					SimpleSite ss = null;
+					
+					//判断以下几种情况
+					if(simpleSite.getBindDomain().length() > 0){
+						//是更改，或第一次新绑定顶级域名
+						
+						if(mqBean.getOldValue().length() > 0){
+							//oldvalue有值，有旧域名，那么就是对原本绑定的域名进行更改
+							ss = G.bindDomainSiteMap.get(mqBean.getOldValue());
+							if(ss == null){
+								//如果为空，那么重新创建一个。理论上这个是只有在系统启动时，数据库的数据尚未加载过来才会找不到，可以约等于是不存在的！应警报！
+								Log.error("如果为空，那么重新创建一个。理论上这个是只有在系统启动时，数据库的数据尚未加载过来才会找不到，可以约等于是不存在的！应警报！--"+mqBean);
+							}
+							//吧旧的域名删除掉，让旧域名无效
+							G.bindDomainSiteMap.remove(mqBean.getOldValue());
+						}else{
+							//之前没有绑定顶级域名，所以oldvalue是空，那么这里是新站刚绑定一个顶级域名
+							//绑定自己的域名，从原本的二级域名中，获取缓存信息。因为创建网站后，二级域名便一直存在的
+							ss = G.domainSiteMap.get(simpleSite.getDomain());
+						}
+						
+						//更新绑定的域名信息
+						ss.setBindDomain(simpleSite.getBindDomain());
+						
+						//更新缓存
+						G.bindDomainSiteMap.put(simpleSite.getBindDomain(), ss);
+					}else{
+						//新绑定的域名长度为0，那肯定就是解除绑定了。解除绑定，拿到就的域名，直接将这个map的key删掉
+						G.bindDomainSiteMap.remove(mqBean.getOldValue());
 					}
-					//修改自己绑定的顶级域名
-					ss.setBindDomain(simpleSite.getBindDomain());
-					G.bindDomainSiteMap.put(simpleSite.getBindDomain(), ss);
 					
 					break;
 				case MQBean.TYPE_DOMAIN:
 					//更改系统分配的二级域名
 					SimpleSite ss2 = G.domainSiteMap.get(mqBean.getOldValue());
 					ss2.setDomain(simpleSite.getDomain());
+					//删除旧的
+					G.domainSiteMap.remove(mqBean.getOldValue());
 					G.domainSiteMap.put(simpleSite.getDomain(), ss2);
 					
 					break;
