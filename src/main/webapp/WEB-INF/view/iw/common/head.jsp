@@ -36,8 +36,8 @@ if(description == null ){
 <meta name="author" content="管雷鸣">
 
 <!-- layer 、 layui -->
-<link rel="stylesheet" href="http://res.weiunity.com/layui230/css/layui.css">
-<script src="http://res.weiunity.com/layui230/layui.js"></script>
+<link rel="stylesheet" href="http://res.weiunity.com/layui/2.4.3/css/layui.css">
+<script src="http://res.weiunity.com/layui/2.4.3/layui.js"></script>
 <script>
 //加载 layer 模块
 layui.use('layer', function(){
