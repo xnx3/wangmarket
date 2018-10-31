@@ -358,34 +358,6 @@ var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
 <!-- IM end -->
 <% } %>
 
-<script>
-//当前系统版本检测，可做成自己系统的
-function systemVersionCheck(){
-	$.getJSON("../../getNewVersion.do",function(result){
-		if(result.findNewVersion){
-			layer.open({
-				  title: '版本提示'
-				  ,offset: 'rb'
-				  ,time: 3000
-				  ,content: '发现新版本&nbsp;v'+result.newVersion
-				  ,btn: ['查看']
-				  ,shadeClose: true
-				  ,yes: function(index, layero){
-					window.open(result.previewUrl);
-				  }
-			});
-		}
-	});
-}
-
-</script>
-
-<shiro:hasPermission name="adminSystem"> 
-<!-- 只有总管理后台，才会有版本检测 -->
-<script>
-	window.setTimeout(systemVersionCheck,3000); 
-</script>
-</shiro:hasPermission>
 
 </body>
 </html>

@@ -226,8 +226,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("news.intro"), news.getIntro()+"");
 		text = text.replaceAll(regex("news.cid"), news.getCid()+"");
 		//v4.5增加以下两个预留字段
-		text = text.replaceAll(regex("reserve1"), news.getReserve1());
-		text = text.replaceAll(regex("reserve2"), news.getReserve2());
+		text = text.replaceAll(regex("news.reserve1"), news.getReserve1());
+		text = text.replaceAll(regex("news.reserve2"), news.getReserve2());
 		
 		//文章头图在正常访问时，使用相对路径
 		if(titlePic.indexOf("http://") == -1){

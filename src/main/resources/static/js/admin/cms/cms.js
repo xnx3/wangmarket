@@ -121,34 +121,6 @@ function selectedLeftMenu(id){
 }
 
 
-//模版开发入门-引导
-function templateDevHelp(){
-	//收起所有展开的一级栏目、一级取消选中的功能菜单
-	backAllMenu();
-	
-	//展开某个一级栏目
-	unfoldFirstColumn('li_help');
-	//选中某个菜单
-	selectedLeftMenu('dd_kaifawendang');
-	
-	//打开模版管理
-	loadIframeByUrl('http://tag.wscso.com/4192.html');
-}
-
-//入门视频，引导
-function helpVideo(){
-	//收起所有
-	backAllMenu();
-	
-	//展开某个一级栏目
-	unfoldFirstColumn('li_help');
-	//选中某个菜单
-	selectedLeftMenu('dd_help_basicUse');
-	
-	//打开视频说明
-	loadIframeByUrl('http://www.wscso.com/site_basicUse.html');
-}
-
 //模版页面列表，引导打开
 function openTemplatePageList(){
 	//收起所有菜单

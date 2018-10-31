@@ -34,12 +34,12 @@ public class AdminIndexController_ extends BaseController{
 	@RequestMapping("index${url.suffix}")
 	public String index(HttpServletRequest request, Model model){
 		//登录成功后，管理后台的主题页面，默认首页的url
-		String url = "admin/user/list.do"; 
+		String url = "admin/index/welcome.do"; 
 		
 		//这里可以根据不同的管理级别，来指定显示默认是什么页面
 		if(Func.isAuthorityBySpecific(getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 			//有超级管理员权限
-			url = "admin/user/list.do";
+			url = "admin/index/welcome.do";
 			
 			//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 			String pluginMenu = "";
@@ -70,6 +70,7 @@ public class AdminIndexController_ extends BaseController{
 		model.addAttribute("indexUrl", url);	//首页(欢迎页)url
 		model.addAttribute("useSMS", G.aliyunSMSUtil == null? "1":"0");	//若是使用SMS短信，开启了，则为1，否则没有开通短信的花则为0
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
+		
 		return "/iw_update/admin/index/index";
 	}
 	

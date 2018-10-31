@@ -73,7 +73,7 @@ public class NewsController extends BaseController {
 			HttpServletRequest request,Model model){
 		String title = "";
 		if(s.getTitle() != null && s.getTitle().length()>0){
-			title = filter(s.getTitle());
+			title = StringUtil.filterXss(s.getTitle());
 		}else{
 			return error("请输入您页面的名字");
 		}

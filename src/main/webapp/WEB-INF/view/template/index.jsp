@@ -150,9 +150,9 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">帮助说明</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd id="dd_help_basicUse" class="twoMenu"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('http://www.wscso.com/site_basicUse.html'), notUseTopTools();">基本使用</a></dd>
+				<dd id="dd_help_basicUse" class="twoMenu"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>'), notUseTopTools();">基本使用</a></dd>
 				<dd style="display:none;" class="twoMenu"><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
-				<dd id="dd_kaifawendang" class="twoMenu"><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('http://tag.wscso.com/4192.html'), notUseTopTools();">模版开发</a></dd>
+				<dd id="dd_kaifawendang" class="twoMenu"><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=Global.get("SITE_TEMPLATE_DEVELOP_URL") %>'), notUseTopTools();">模版开发</a></dd>
 				<dd style="display:none;" class="twoMenu"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
 			</dl>
 		</li>
@@ -822,6 +822,35 @@ function jumpParentAgency(){
       ,content: content
       ,resize: false
     });
+}
+
+//入门视频，引导
+function helpVideo(){
+	//收起所有
+	backAllMenu();
+	
+	//展开某个一级栏目
+	unfoldFirstColumn('li_help');
+	//选中某个菜单
+	selectedLeftMenu('dd_help_basicUse');
+	
+	//打开视频说明
+	loadIframeByUrl('<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>');
+}
+
+
+//模版开发入门-引导
+function templateDevHelp(){
+	//收起所有展开的一级栏目、一级取消选中的功能菜单
+	backAllMenu();
+	
+	//展开某个一级栏目
+	unfoldFirstColumn('li_help');
+	//选中某个菜单
+	selectedLeftMenu('dd_kaifawendang');
+	
+	//打开模版管理
+	loadIframeByUrl('<%=Global.get("SITE_TEMPLATE_DEVELOP_URL") %>');
 }
 
 //右侧弹出提示
