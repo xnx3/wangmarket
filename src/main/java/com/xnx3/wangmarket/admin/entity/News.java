@@ -61,8 +61,14 @@ public class News implements java.io.Serializable {
 	private Integer siteid;
 	private Short legitimate;
 	
+	//以下两个为预留字段，可以通过输入模型进行扩展
+	private String reserve1;
+	private String reserve2;
+	
 	public News() {
 		this.legitimate = LEGITIMATE_OK;
+		this.reserve1 = "";
+		this.reserve2 = "";
 	}
 
 	public void setId(Integer id) {
@@ -203,6 +209,30 @@ public class News implements java.io.Serializable {
 
 	public void setLegitimate(Short legitimate) {
 		this.legitimate = legitimate;
+	}
+
+	@Column(name = "reserve1")
+	public String getReserve1() {
+		return reserve1;
+	}
+
+	public void setReserve1(String reserve1) {
+		if(reserve1 != null && reserve1.length()>10){
+			reserve1 = reserve1.substring(0, 10);
+		}
+		this.reserve1 = reserve1;
+	}
+
+	@Column(name = "reserve2")
+	public String getReserve2() {
+		return reserve2;
+	}
+
+	public void setReserve2(String reserve2) {
+		if(reserve2 != null && reserve2.length()>10){
+			reserve2 = reserve2.substring(0, 10);
+		}
+		this.reserve2 = reserve2;
 	}
 
 	@Override

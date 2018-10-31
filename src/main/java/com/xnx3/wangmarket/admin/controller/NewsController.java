@@ -152,6 +152,8 @@ public class NewsController extends BaseController {
 		}
 		
 		news.setTitle(title);
+		news.setReserve1(s.getReserve1() == null? "":s.getReserve1());
+		news.setReserve2(s.getReserve2() == null? "":s.getReserve2());
 		
 		//上传的图片
 		String titlepic = StringUtil.filterXss(s.getTitlepic());

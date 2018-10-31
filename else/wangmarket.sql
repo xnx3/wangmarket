@@ -295,6 +295,8 @@ CREATE TABLE `news` (
   `cid` int(11) DEFAULT '0' COMMENT '所属栏目id，对应site_column.id',
   `siteid` int(11) DEFAULT '0' COMMENT '所属站点，对应site.id',
   `legitimate` tinyint(2) DEFAULT '1' COMMENT '是否是合法的，1是，0不是，涉嫌',
+  `reserve1` char(10) DEFAULT '' COMMENT '预留字段，用户可使用输入模型来进行扩展',
+  `reserve2` char(10) DEFAULT '' COMMENT '预留字段，用户可使用输入模型来进行扩展',
   PRIMARY KEY (`id`,`supportnum`,`sharenum`),
   KEY `userid` (`userid`,`type`,`supportnum`,`readnum`,`commentnum`,`cid`,`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2341 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='网站的新闻、产品、独立页面等，都是存储在这';

@@ -243,7 +243,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '465', '638');">通用标签</button>
 					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','http://tag.wscso.com/2937.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','515', '430');">栏目标签</button>
 					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','http://tag.wscso.com/2938.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '555','505');">分页标签</button>
-					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','http://tag.wscso.com/2939.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','340', '420');">文章信息标签</button>
+					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','http://tag.wscso.com/2939.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','340', '490');">文章信息标签</button>
 					<button id="dongtailanmu" onclick="popupTemplateTagHelp('动态栏目调用','http://tag.wscso.com/2940.html#http://tag.wscso.com/2940.html','770', '650');">动态栏目调用</button>
 					<button id="xiangqingduyou" onclick="popupTemplateTagHelp('详情页独有','http://tag.wscso.com/2971.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','500', '310');">详情页独有</button>
 					<button id="liebiaoduyou" onclick="popupTemplateTagHelp('列表页独有','http://tag.wscso.com/2970.html#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','470', '480');">列表页独有</button>
