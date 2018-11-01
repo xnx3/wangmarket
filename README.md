@@ -1,8 +1,11 @@
-
 # 注重实际业务应用，一切以建站公司利益为主。
+延续了帝国CMS、织梦CMS的建站方式，划分 模版页面、模版变量、指定某个栏目使用哪个模版等，用过帝国、织梦的，可快速使用！<br/>
 后端框架为 SpringBoot2 ，前端框架采用 Layui ，数据库为 Sqlite / Mysql 任选，默认是 Sqlite，无需什么准备，拿来即可运行。
 <br/>
 
+## 配套软件：扒网站工具、模版计算工具
+看好哪个网站，用它拔下来做成模版。所见网站，皆可为我所用！
+[gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider)
 
 ## 本项目相关信息
 ||||
@@ -10,18 +13,11 @@
 | 网市场官网 | [www.wang.market](http://www.wang.market) ||
 | 免费模版库 | [wang.market/template.jsp](http://wang.market/template.jsp) | 二十多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
-| 扒网站工具 | [gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider) | 看好哪个网站拔下来做成模版 |
 | 付费帮助 | [www.wang.market/4446.html](http://www.wang.market/4446.html) | 如果你不懂技术收费提供帮助。 |
 | 合作代理 | [www.wang.market/index.html#join](http://www.wang.market/index.html#join) | 10元即可加盟代理 |
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) |  |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) |  |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
-
-## 优秀合作项目推荐
-| 项目 | 码云地址 | 简介 |
-| ------------- |-------------|-------------|
-| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、定时任务、切面缓存、<br/>MVC、事务管理 |
-
 
 ## 项目极速搭建体验步骤
 1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
@@ -55,6 +51,13 @@
 登录帐号：ceshidaili<br/>
 登录密码：ceshidaili<br/>
 <br/>
+
+
+## 优秀合作项目推荐
+| 项目 | 码云地址 | 简介 |
+| ------------- |-------------|-------------|
+| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、定时任务、切面缓存、<br/>MVC、事务管理 |
+
 
 ## 二次开发<br/>
 #### 环境
