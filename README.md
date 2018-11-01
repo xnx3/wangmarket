@@ -41,11 +41,8 @@
 
 ## 在线快速体验
 ##### 在线免费开通一个网站
-[点此免费开通](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
-##### CMS模式网站管理后台（另外还有[纯傻瓜化操作后台的手机模式、电脑模式](http://www.wang.market/index.html#about)）
-登录网址：[wang.market](http://wang.market)<br/>
-登录帐号：ceshicms<br/>
-登录密码：ceshicms<br/>
+[点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
+
 ##### 代理后台，可自由开通、管理网站
 登录网址：[wang.market](http://wang.market)<br/>
 登录帐号：ceshidaili<br/>
@@ -67,7 +64,7 @@ Eclipse、MyEclipse <br/>
 [请注意，intellij idea 直接导入运行不起来，报错！点此查看解决方式](http://iw.wscso.com/5877.html)
 #### 步骤
 1. 直接导入maven项目
-2. 运行 com.xnx3.Application 即可运行项目
+2. 运行 com.xnx3.Application 即可运行项目 (SpringBoot 框架，不懂的请先自行补充此框架相关基础知识)
 3. 访问 /login.do
 
 
