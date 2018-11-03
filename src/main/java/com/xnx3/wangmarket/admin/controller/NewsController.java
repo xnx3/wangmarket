@@ -145,6 +145,7 @@ public class NewsController extends BaseController {
 			}else{
 				intro = textFilterHtml;
 			}
+			intro = intro.replaceAll("nbsp", "");	//过滤掉nbsp标签
 			news.setIntro(intro);
 		}else{
 			//修改News，若表单中穿过来的简介是有值得，那么将表单中传过来的简介的数值进行过滤HTML标签后保存入数据库
