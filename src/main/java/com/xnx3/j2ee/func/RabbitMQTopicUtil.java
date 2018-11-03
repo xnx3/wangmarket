@@ -47,6 +47,8 @@ public class RabbitMQTopicUtil {
 	    factory.setUsername(username);
 	    factory.setPassword(password);
 	    factory.setPort(port);
+	    factory.setAutomaticRecoveryEnabled(true); //设置网络异常重连
+	    //factory.setTopologyRecoveryEnabled(true);//设置重新声明交换器，队列等信息。
 	}
 	
 	/**

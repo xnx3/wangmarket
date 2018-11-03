@@ -36,7 +36,7 @@ public class DomainMQListener {
 				simpleSite.setId(simpleSiteJson.getInt("id"));
 				simpleSite.setTemplateId(simpleSiteJson.getInt("templateId"));
 				mqBean.setSimpleSite(simpleSite);
-				System.out.println(mqBean.toString());
+				Log.debug("domain mq receive : "+mqBean);
 				
 				switch (json.getInt("type")) {
 				case MQBean.TYPE_BIND_DOMAIN:
