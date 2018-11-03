@@ -29,6 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td class="iw_table_td_view_name">简介</td>
 			<td>${news.intro }</td>
 		</tr>
+	<!-- 	
 		<tr>
 			<td class="iw_table_td_view_name">标题图片</td>
 			<td>
@@ -49,6 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</c:choose>
 			</td>
 		</tr>
+	-->
 		
 		<tr>
 			<td class="iw_table_td_view_name">类型</td>
