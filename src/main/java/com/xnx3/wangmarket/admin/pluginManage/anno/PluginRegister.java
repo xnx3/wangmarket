@@ -66,4 +66,28 @@ public @interface PluginRegister {
 	 */
 	boolean applyToSuperAdmin() default false;
 	
+	/**
+	 * 该插件的简介说明
+	 * @return
+	 */
+	String intro() default "";
+	
+	/**
+	 * 该插件的详情说明的网址，点击后进入这个url查看详细说明
+	 * @return
+	 */
+	String detailUrl() default "";
+	
+	/**
+	 * 当前插件的版本号 ， 如  1.0
+	 * @return
+	 */
+	String version() default "";
+	
+	/**
+	 * 远程版本检测的url地址    
+	 * <br/> 其内返回值为 最新版本号|提示有新版本后点击进入的网址|  如： 1.0|http://www.wang.market/wangmarket.html|
+	 * @return
+	 */
+	String versionCheckUrl() default "";
 }

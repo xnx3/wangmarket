@@ -24,6 +24,12 @@ public class SitePluginBean {
 	public boolean applyToAgency = false;	//是否适用于代理后台， true：是
 	public boolean applyToSuperAdmin = false;	//是否适用于总管理后台， true：是
 	
+	//v4.6增加
+	public String intro;	//该插件的简介说明
+	public String detailUrl;	//该插件的详情说明的网址，点击后进入这个url查看详细说明
+	public String version;	//当前插件的版本号
+	public String versionCheckUrl;	//远程版本检测的url地址。 其内返回值为 最新版本号|提示有新版本后点击进入的网址|  如： 1.0|http://www.wang.market/wangmarket.html|
+	
 	/**
 	 * 将增加注解 PluginRegister 的 class 注册类传入，获取其 SitePluginBean 信息
 	 * @param c
@@ -40,6 +46,9 @@ public class SitePluginBean {
 			this.applyToWAP = an.applyToWAP();
 			this.applyToAgency = an.applyToAgency();
 			this.applyToSuperAdmin = an.applyToSuperAdmin();
+			this.intro = an.intro();
+			this.detailUrl = an.detailUrl();
+			this.version = an.version();
         }
 	}
 
@@ -98,7 +107,6 @@ public class SitePluginBean {
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	
 	public boolean isApplyToAgency() {
 		return applyToAgency;
@@ -108,15 +116,43 @@ public class SitePluginBean {
 		return applyToSuperAdmin;
 	}
 
-	@Override
-	public String toString() {
-		return "SitePluginBean [c=" + c + ", id=" + id + ", menuTitle="
-				+ menuTitle + ", menuHref=" + menuHref + ", applyToCMS="
-				+ applyToCMS + ", applyToPC=" + applyToPC + ", applyToWAP="
-				+ applyToWAP + ", applyToAgency=" + applyToAgency
-				+ ", applyToSuperAdmin=" + applyToSuperAdmin + "]";
+	public String getIntro() {
+		return intro;
 	}
 
-	
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public String getDetailUrl() {
+		return detailUrl;
+	}
+
+	public void setDetailUrl(String detailUrl) {
+		this.detailUrl = detailUrl;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getVersionCheckUrl() {
+		return versionCheckUrl;
+	}
+
+	public void setVersionCheckUrl(String versionCheckUrl) {
+		this.versionCheckUrl = versionCheckUrl;
+	}
+
+	public String toString() {
+		return "SitePluginBean [c=" + c + ", id=" + id + ", menuTitle=" + menuTitle + ", menuHref=" + menuHref
+				+ ", applyToCMS=" + applyToCMS + ", applyToPC=" + applyToPC + ", applyToWAP=" + applyToWAP
+				+ ", applyToAgency=" + applyToAgency + ", applyToSuperAdmin=" + applyToSuperAdmin + ", intro=" + intro
+				+ ", detailUrl=" + detailUrl + ", version=" + version + ", versionCheckUrl=" + versionCheckUrl + "]";
+	}
 	
 }

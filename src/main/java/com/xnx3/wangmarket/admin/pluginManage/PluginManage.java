@@ -1,13 +1,10 @@
 package com.xnx3.wangmarket.admin.pluginManage;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
