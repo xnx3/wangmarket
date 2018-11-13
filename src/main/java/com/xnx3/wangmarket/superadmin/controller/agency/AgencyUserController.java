@@ -641,7 +641,7 @@ public class AgencyUserController extends BaseController {
 	public String userList(HttpServletRequest request, Model model){
 		Sql sql = new Sql(request);
 		sql.setSearchTable("user");
-		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+Global.getInt("ALLOW_USER_REG"));
+		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+Global.getInt("USER_REG_ROLE"));
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
