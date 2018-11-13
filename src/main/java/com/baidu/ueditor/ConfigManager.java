@@ -162,7 +162,7 @@ public final class ConfigManager {
 		this.parentPath = file.getParent();
 		
 //		String configContent = this.readFile( this.getConfigPath() );
-		Log.debug(SystemUtil.getProjectClassesPath()+"/ueditor_config.json");
+//		Log.debug(SystemUtil.getProjectClassesPath()+"/ueditor_config.json");
 		String configContent = this.readFile(SystemUtil.getProjectClassesPath()+"/ueditor_config.json");
 		
 		try{

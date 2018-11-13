@@ -27,8 +27,8 @@ public class ActionEnter {
 		this.rootPath = rootPath;
 		this.actionType = request.getParameter( "action" );
 		this.contextPath = request.getContextPath();
-		Log.debug(ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() ).toString());
-		Log.debug("request.getRequestURI() -- > "+request.getRequestURI());
+//		Log.debug(ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() ).toString());
+//		Log.debug("request.getRequestURI() -- > "+request.getRequestURI());
 		
 		this.configManager = ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() );
 		
@@ -53,9 +53,9 @@ public class ActionEnter {
 	}
 	
 	public String invoke() {
-		Log.debug("invoke--into");
-		Log.debug("actionType -- "+actionType);
-		Log.debug("configManager -- "+this.configManager);
+//		Log.debug("invoke--into");
+//		Log.debug("actionType -- "+actionType);
+//		Log.debug("configManager -- "+this.configManager);
 		if ( actionType == null || !ActionMap.mapping.containsKey( actionType ) ) {
 			return new BaseState( false, AppInfo.INVALID_ACTION ).toJSONString();
 		}
@@ -70,7 +70,7 @@ public class ActionEnter {
 		
 		Map<String, Object> conf = null;
 		
-		Log.debug("invoke--switch before actionCode: "+actionCode);
+//		Log.debug("invoke--switch before actionCode: "+actionCode);
 		switch ( actionCode ) {
 		
 			case ActionMap.CONFIG:
@@ -80,7 +80,7 @@ public class ActionEnter {
 			case ActionMap.UPLOAD_SCRAWL:
 			case ActionMap.UPLOAD_VIDEO:
 			case ActionMap.UPLOAD_FILE:
-				Log.debug("invoke--UPLOAD_IMAGE--actionCode: "+actionCode);
+//				Log.debug("invoke--UPLOAD_IMAGE--actionCode: "+actionCode);
 				conf = this.configManager.getConfig( actionCode );
 				state = new Uploader( request, conf ).doExec();
 				break;
