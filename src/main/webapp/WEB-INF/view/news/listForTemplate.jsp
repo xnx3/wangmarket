@@ -195,31 +195,7 @@ function deleteNews(newsid){
  * @param name TemplatePage.name要编辑的模版页面名字
  */
 function editText(name){
-	if(parent.currentMode == 2){
-		//要将其切换回智能模式
-		parent.window.htmledit_mode();
-	}
-	
-	try{
-		parent.document.getElementById("currentTemplatePageName").value = name;
-		parent.loadIframe();
-	}catch(err){}
-	
-	try{
-		parent.document.getElementById("currentTemplateType").innerHTML = '详情页模版';
-		parent.document.getElementById("tongyong").style.display = '';
-		parent.document.getElementById("lanmu").style.display = '';
-		parent.document.getElementById("fenye").style.display = 'none';
-		parent.document.getElementById("wenzhang").style.display = '';
-		parent.document.getElementById("dongtailanmu").style.display = '';
-		parent.document.getElementById("xiangqingduyou").style.display = '';
-		parent.document.getElementById("liebiaoduyou").style.display = 'none';
-	}catch(err){}
-	
-	//try{
-		parent.layer.close(index);
-	//}catch(err){}
-	
+	parent.openTemplatePageList(name);
 }
 
 /**
@@ -240,6 +216,7 @@ function changeColumn(newsid, columnid){
 </script>
 
 ${autoJumpTemplateEdit}
+
 
 </body>
 </html>

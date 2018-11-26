@@ -7,7 +7,7 @@ import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
  * @author 管雷鸣
  *
  */
-@PluginRegister(id="api" , menuTitle = "API接口",menuHref="../../plugin/api/index.do", applyToAgency=true, applyToSuperAdmin=true)
+@PluginRegister(id="api", version="1.0", menuTitle = "API接口",menuHref="../../plugin/api/index.do", applyToAgency=true, applyToSuperAdmin=true, intro="提供api接口，如开通网站等，让网市场云建站系统轻松嵌入你原本的系统之中。")
 public class Plugin{
 	
 }

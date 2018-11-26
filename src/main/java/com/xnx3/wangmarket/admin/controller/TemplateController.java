@@ -163,9 +163,11 @@ public class TemplateController extends BaseController {
 
 	/**
 	 * 模版页面列表
+	 * @param templatePageName 模版页面名字， templatePage.name 如果有传入，则进入列表后会自动进入打开，进入这个页面的编辑模式。 另外，如果传入 templatepage_type_index 则会编辑首页
 	 */
 	@RequestMapping("/templatePageList${url.suffix}")
-	public String templatePageList(HttpServletRequest request,Model model){
+	public String templatePageList(HttpServletRequest request,Model model,
+			@RequestParam(value = "templatePageName", required = false , defaultValue="") String templatePageName){
 		Sql sql = new Sql(request);
 	    sql.setSearchTable("template_page");
 	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
@@ -183,6 +185,30 @@ public class TemplateController extends BaseController {
 	    List<TemplatePage> list = sqlService.findBySql(sql, TemplatePage.class);
 	    
 	    AliyunLog.addActionLog(getSiteId(), "进入模版页列表");
+	    
+	    
+	    if(templatePageName.length() > 0){
+	    	//如果 templatePageName 有值，那么会自动跳转进入编辑内容
+	    	if(templatePageName.equals("templatepage_type_index")){
+	    		//编辑当前网站的首页
+	    		for (int i = 0; i < list.size(); i++) {
+	    			TemplatePage tp = list.get(i);
+	    			if(tp.getType() - TemplatePage.TYPE_INDEX == 0){
+	    				model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
+	    				break;
+	    			}
+				}
+	    	}else{
+	    		//编辑指定的 templatePage.name 页面
+	    		for (int i = 0; i < list.size(); i++) {
+	    			TemplatePage tp = list.get(i);
+	    			if(tp.getName().equals(templatePageName)){
+	    				model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
+	    				break;
+	    			}
+				}
+	    	}
+	    }
 	    
 	    //将数据记录传到页面以供显示
 	    model.addAttribute("list", list);

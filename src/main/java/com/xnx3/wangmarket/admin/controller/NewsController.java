@@ -1,5 +1,6 @@
  package com.xnx3.wangmarket.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
+import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.pc.IndexNews;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
@@ -40,6 +42,8 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+
+import net.sf.json.JSONObject;
 
 /**
  * 图文、新闻
@@ -110,7 +114,7 @@ public class NewsController extends BaseController {
 			news.setOpposenum(0);
 			news.setReadnum(0);
 			news.setStatus(News.STATUS_NORMAL);
-			news.setType(s.getType()==SiteColumn.TYPE_IMAGENEWS? SiteColumn.TYPE_IMAGENEWS:SiteColumn.TYPE_NEWS);
+			news.setType(SiteColumn.TYPE_LIST);
 			news.setUserid(getUserId());
 			news.setAddtime(DateUtil.timeForUnix10());
 			news.setSiteid(siteColumn.getSiteid());
@@ -162,7 +166,27 @@ public class NewsController extends BaseController {
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
-			boolean have = TextFilter.filter(request, "文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml);
+			
+			//v4.6增加
+			String extend = "";
+			Map<String, String[]> extendMap = new HashMap<String, String[]>();
+			for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+				if(entry.getKey().indexOf("extend.") > -1){
+//					System.out.println("newssave---->"+entry.getKey());
+					//保存入时，将 extend. 过滤掉
+					extendMap.put(entry.getKey().replace("extend.", ""), entry.getValue());
+				}
+			}
+			
+			//有扩展的自定义字段，则进行json转换
+			if(extendMap.size() > 0){
+				JSONObject extendJson = JSONObject.fromObject(extendMap);
+				extend = extendJson.toString();
+			}
+			newsData.setExtend(extend);
+			
+			
+			boolean have = TextFilter.filter(request, "文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml+StringUtil.filterEnglishSpecialSymbol(StringUtil.filterHtmlTag(extend)));
 			if(have){
 				//写入news的合法性字段
 				news.setLegitimate(News.LEGITIMATE_NO);
@@ -184,7 +208,7 @@ public class NewsController extends BaseController {
 			/**
 			 * 生成静态页面
 			 */
-			newsService.generateViewHtml(site, news,siteColumn, text, request);	//生成当前内容页
+			newsService.generateViewHtml(site, news,siteColumn, new NewsDataBean(newsData), request);	//生成当前内容页
 			
 			//如果是通用模式，还要生成列表页。当然，CMS模式是不会生成列表页跟首页的
 			if(!Func.isCMS(site)){
@@ -361,13 +385,16 @@ public class NewsController extends BaseController {
 	private String getLeftNavColumnA(int cid, SiteColumn sc, int superid){
 		String href = "";
 		
-		if(sc.getType() - SiteColumn.TYPE_NEWS == 0 || sc.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+		
+		if(sc.getType() - SiteColumn.TYPE_LIST == 0 || sc.getType() - SiteColumn.TYPE_NEWS == 0 || sc.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+			//判断条件后面带着新闻、图文，纯粹是兼容v4.6以前版本、或者以前的模版
 			href = "listForTemplate.do?cid="+sc.getId();
-		}else if (sc.getType() - SiteColumn.TYPE_PAGE == 0) {
+		}else if (sc.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || sc.getType() - SiteColumn.TYPE_PAGE == 0) {
+			//判断条件后面带着TYPE_PAGE，纯粹是兼容v4.6以前版本、或者以前的模版
 //			href = "newsForTemplate.do?alonePageCid="+sc.getId();	这样直接编辑内容
 			href = "listForTemplate.do?cid="+sc.getId();	//这样先进入列表页面
 		}else{
-			href = "javascript:layer.msg('此栏目类型为超链接，无内容。修改本栏目方式：<br/>1.&nbsp;栏目管理，找到相应的栏目，进行修改<br/>2.&nbsp;首页模式，找到相应的栏目，进行修改');";
+			href = "javascript:layer.msg('此栏目类型未知！修改本栏目方式：<br/>栏目管理，找到相应的栏目，进行修改');";
 		}
 		
 		String script = "";	//如果当前栏目为子栏目，此处要将其父栏目下所有子栏目都显示出来
@@ -491,7 +518,7 @@ public class NewsController extends BaseController {
 		//访问的html文件名，不含后缀
 		String fileName = "";
 		//判断是否是独立页面，若是独立页面，需要用 c +cid .html， 或者使用code.html
-		if(type - SiteColumn.TYPE_PAGE == 0){
+		if(type - SiteColumn.TYPE_PAGE == 0 || type - SiteColumn.TYPE_ALONEPAGE == 0){
 			if(generateUrlRule.equals("code")){
 				//从栏目缓存中，取出栏目信息
 				Map<Integer, SiteColumn> columnMap = siteColumnService.getSiteColumnMapByCache();
@@ -563,7 +590,7 @@ public class NewsController extends BaseController {
 //			//不存在，也让其能转移吧
 //			//return error(model, "文章所属栏目不存在");
 //		}
-		if(siteColumn != null && siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+		if(siteColumn != null && (siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0)){
 			return error(model, "文章所属栏目的类型为独立页面，此种类型栏目内的文章无法转移！");
 		}
 		
@@ -611,7 +638,7 @@ public class NewsController extends BaseController {
 		if(haveSubColumn){
 			edit = false;
 		}else{
-			if(column.getType() - SiteColumn.TYPE_IMAGENEWS == 0 || column.getType() - SiteColumn.TYPE_NEWS == 0){
+			if(column.getType() - SiteColumn.TYPE_LIST == 0 || column.getType() - SiteColumn.TYPE_IMAGENEWS == 0 || column.getType() - SiteColumn.TYPE_NEWS == 0){
 				edit = true;
 			}else{
 				edit = false;

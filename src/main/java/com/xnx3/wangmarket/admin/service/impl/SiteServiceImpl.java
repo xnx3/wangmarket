@@ -23,6 +23,7 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
+import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
@@ -105,11 +106,7 @@ public class SiteServiceImpl implements SiteService {
 		for (int i = 0; i < listNews.size(); i++) {
 			News news = listNews.get(i);
 			NewsData newsData = listNewsData.get(i);
-			String text = "";
-			if(newsData != null && newsData.getText() != null){
-				text = newsData.getText();
-			}
-			newsService.generateViewHtml(site, news,siteColumnMap.get(news.getCid()), text, request);
+			newsService.generateViewHtml(site, news,siteColumnMap.get(news.getCid()), new NewsDataBean(newsData), request);
 		}
 		
 		//首页生成
@@ -360,10 +357,10 @@ public class SiteServiceImpl implements SiteService {
 		
 		
 		//对 newsDataList 网站文章的内容进行调整，调整为map key:newsData.id  value:newsData.text
-		Map<Integer, String> newsDataMap = new HashMap<Integer, String>();
+		Map<Integer, NewsDataBean> newsDataMap = new HashMap<Integer, NewsDataBean>();
 		for (int i = 0; i < newsDataList.size(); i++) {
 			NewsData nd = newsDataList.get(i);
-			newsDataMap.put(nd.getId(), nd.getText());
+			newsDataMap.put(nd.getId(), new NewsDataBean(nd));
 		}
 		
 		
@@ -580,7 +577,7 @@ public class SiteServiceImpl implements SiteService {
 			viewTemplateHtml = template.replaceSiteColumnBlock(viewTemplateHtml, columnNewsMap, columnMap, columnTreeMap, false, siteColumn, newsDataMap);	
 			
 			//如果是新闻或者图文列表，那么才会生成栏目列表页面
-			if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+			if(siteColumn.getType() - SiteColumn.TYPE_LIST == 0 || siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
 				//当前栏目的列表模版
 				String listTemplateHtml = templateCacheMap.get(siteColumn.getTemplatePageListName());
 				if(listTemplateHtml == null){
@@ -621,11 +618,11 @@ public class SiteServiceImpl implements SiteService {
 					}
 				}
 				
-			}else if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+			}else if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，只生成内容模版
 				if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
 					//模版式编辑，无 news ， 则直接生成
-					template.generateViewHtmlForTemplateForWholeSite(null, siteColumn, "", viewTemplateHtml, null, null);
+					template.generateViewHtmlForTemplateForWholeSite(null, siteColumn, new NewsDataBean(null), viewTemplateHtml, null, null);
 					//独立页面享有更大的权重，赋予其 0.8
 					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, null)+".html", "0.8");
 				}else{
@@ -638,7 +635,7 @@ public class SiteServiceImpl implements SiteService {
 					}
 				}
 			}else{
-				//其他栏目不管，比如超链接的栏目
+				//其他栏目不管，当然，也没有其他类型栏目了，v4.6版本更新后，CMS模式一共就这两种类型的
 			}
 		} 
 		

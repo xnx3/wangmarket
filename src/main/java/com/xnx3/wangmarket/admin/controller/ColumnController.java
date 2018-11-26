@@ -272,6 +272,24 @@ public class ColumnController extends BaseController {
 				return error(model, "栏目不属于你，无法修改");
 			}
 			
+			//type_list 是v4.6 针对CMS模式新增加的状态，以此替代原本的新闻信息、图文信息两种类型。这里是对以前版本的兼容，判断是属于哪种类型，将其设置到最新的
+			if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0){
+				siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+				siteColumn.setType(SiteColumn.TYPE_LIST);
+				sqlService.save(siteColumn);
+			}
+			if(siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+				siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+				siteColumn.setEditUseTitlepic(SiteColumn.USED_ENABLE);
+				siteColumn.setType(SiteColumn.TYPE_LIST);
+				sqlService.save(siteColumn);
+			}
+			if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+				siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+				siteColumn.setType(SiteColumn.TYPE_ALONEPAGE);
+				sqlService.save(siteColumn);
+			}
+			
 			if(isCopy == 1){
 				/**
 				 * 复制栏目
@@ -297,6 +315,8 @@ public class ColumnController extends BaseController {
 			siteColumn = new SiteColumn();
 			siteColumn.setType(SiteColumn.TYPE_NEWS);//默认为新闻类型
 			siteColumn.setParentid(0); //默认为顶级栏目
+			siteColumn.setEditUseText(SiteColumn.USED_ENABLE);//内容正文默认是都显示的
+			siteColumn.setEditMode(SiteColumn.EDIT_MODE_INPUT_MODEL);//编辑方式，，默认使用内容管理方式编辑
 		}
 
 		//获取用户当前的模版页面列表
@@ -427,7 +447,7 @@ public class ColumnController extends BaseController {
 		AliyunLog.addActionLog(siteColumn.getId(), "保存栏目："+siteColumn.getName());
 		
 		//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
-		if(siteColumn.getType() == SiteColumn.TYPE_PAGE){
+		if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 			siteColumnService.createNonePage(siteColumn,site,updateName);
 		}
 		//生成栏目页面
@@ -498,6 +518,7 @@ public class ColumnController extends BaseController {
 		SiteColumn sc = new SiteColumn();
 		String oldCodeName = null;	//旧的栏目代码内容，数据库中原本存储的栏目代码的内容。若为null，则是新增的
 		if(siteColumn.getId() != null && siteColumn.getId() > 0){
+			//修改栏目
 			addColumn = false;
 			sc = sqlService.findById(SiteColumn.class, siteColumn.getId());
 			if(sc.getSiteid() - site.getId() != 0){
@@ -509,6 +530,7 @@ public class ColumnController extends BaseController {
 			}
 			oldCodeName = sc.getCodeName();
 		}else{
+			//新增栏目
 			sc.setUserid(getUserId());
 			sc.setSiteid(site.getId());
 			sc.setRank(0);
@@ -524,6 +546,10 @@ public class ColumnController extends BaseController {
 		sc.setListNum(siteColumn.getListNum() == null ? 10:siteColumn.getListNum());
 		sc.setEditMode(siteColumn.getEditMode() == null ? SiteColumn.EDIT_MODE_INPUT_MODEL : siteColumn.getEditMode());
 		sc.setListRank(siteColumn.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_DESC:siteColumn.getListRank());
+		sc.setEditUseExtendPhotos(siteColumn.getEditUseExtendPhotos() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseExtendPhotos());
+		sc.setEditUseIntro(siteColumn.getEditUseIntro() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseIntro());
+		sc.setEditUseText(siteColumn.getEditUseText() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseText());
+		sc.setEditUseTitlepic(siteColumn.getEditUseTitlepic() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseTitlepic());
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = filter(siteColumn.getInputModelCodeName());
@@ -621,7 +647,7 @@ public class ColumnController extends BaseController {
 		sqlService.save(sc);
 		if(sc.getId() > 0){
 			//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
-			if(sc.getType() == SiteColumn.TYPE_PAGE){
+			if(sc.getType() - SiteColumn.TYPE_PAGE == 0 || sc.getType() - SiteColumn.TYPE_ALONEPAGE == 0){
 				//判断一下，这个独立页面的内容编辑方式，如果是模版编辑方式，那么是不用创建news的
 				if(sc.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
 					//模版编辑方式，忽略

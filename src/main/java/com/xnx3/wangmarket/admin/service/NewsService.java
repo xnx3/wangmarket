@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
@@ -44,17 +45,17 @@ public interface NewsService {
 	 * 通过普通、通用模版，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情
 	 * @param site 当前站点的site
 	 * @param news 要生成的详情页的 {@link News}
-	 * @param text 内容，NewsData.text
+	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
-	public void generateViewHtml(Site site,News news, SiteColumn siteColumn, String text, HttpServletRequest request);
+	public void generateViewHtml(Site site,News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request);
 	
 	/**
 	 * 通过高级自定义模版，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情
 	 * @param news 要生成的详情页的 {@link News}
 	 * @param siteColumn 要生成的详情页所属的栏目 {@link SiteColumn}
-	 * @param text 内容，NewsData.text
+	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
-	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, String text, HttpServletRequest request);
+	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request);
 	
 	/**
 	 * 新闻、独立页面、图文详情页面的内容text,在用户编辑完成后保存时，将附件、图片等OSS存储的资源路径替换，将 "http://......com/site/14/" 替换为 {prefixUrl}  

@@ -23,6 +23,7 @@ import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
+import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.InputModel;
@@ -326,9 +327,9 @@ public class TemplateServiceImpl implements TemplateService {
 	 * 通过高级自定义模版，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情
 	 * @param news 要生成的详情页的 {@link News}
 	 * @param siteColumn 要生成的详情页所属的栏目 {@link SiteColumn}
-	 * @param text 内容，NewsData.text
+	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
-	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, String text, HttpServletRequest request) {
+	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
 		//获取到当前页面使用的模版
 		String templateHtml = getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		if(templateHtml == null){
@@ -340,14 +341,14 @@ public class TemplateServiceImpl implements TemplateService {
 		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
-		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, text);	//替换news相关标签
+		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签
 		
 		//替换 SEO 相关
 		pageHtml = pageHtml.replaceAll(Template.regex("title"), news.getTitle()+"_"+site.getName());
 		pageHtml = pageHtml.replaceAll(Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
 		pageHtml = pageHtml.replaceAll(Template.regex("description"), news.getIntro());
 		
-		pageHtml = pageHtml.replaceAll(Template.regex("text"), template.replaceNewsText(text));	//替换新闻内容的详情
+		pageHtml = pageHtml.replaceAll(Template.regex("text"), template.replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情
 		
 		String generateUrl = "";
 		if(news.getType() - News.TYPE_PAGE == 0){
@@ -662,6 +663,11 @@ public class TemplateServiceImpl implements TemplateService {
 			sc.setEditMode(sc_ori.getEditMode());
 			sc.setInputModelCodeName(sc_ori.getInputModelCodeName());
 			sc.setListRank(sc_ori.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_ASC:sc_ori.getListRank());
+			//v4.6增加的四个自定义的，内容管理中的输入框
+			sc.setEditUseExtendPhotos(sc_ori.getEditUseExtendPhotos() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseExtendPhotos());
+			sc.setEditUseIntro(sc_ori.getEditUseIntro() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseIntro());
+			sc.setEditUseText(sc_ori.getEditUseText() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseText());
+			sc.setEditUseTitlepic(sc_ori.getEditUseTitlepic() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseTitlepic());
 			
 			siteColumnList.add(sc);
 		}
@@ -756,9 +762,9 @@ public class TemplateServiceImpl implements TemplateService {
 				SiteColumn siteColumn = tvo.getSiteColumnList().get(i);
 				sqlDAO.save(siteColumn);
 				
-				if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+				if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0 || siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0  || siteColumn.getType() - SiteColumn.TYPE_LIST == 0){
 					//列表页面，包括：新闻列表、图文列表，这里只需要将栏目复制过去就行了
-				}else if (siteColumn.getType() - SiteColumn.TYPE_PAGE == 0) {
+				}else if (siteColumn.getType() - SiteColumn.TYPE_PAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0) {
 					//独立页面，需要将栏目复制过去，至于栏目下的单条news，到时候根据栏目的名字自动生成一个模拟的news、news_data，其他的让用户自己去改就行了
 					if(siteColumn.getId() == null || siteColumn.getId() == 0){
 						System.out.println("创建栏目失败！！"+siteColumn.toString());
@@ -771,7 +777,7 @@ public class TemplateServiceImpl implements TemplateService {
 						news.setSiteid(tvo.getCurrentSite().getId());
 						news.setStatus(News.STATUS_NORMAL);
 						news.setTitle(siteColumn.getName());
-						news.setType(News.TYPE_PAGE);
+						news.setType(SiteColumn.TYPE_ALONEPAGE);
 						news.setUserid(tvo.getCurrentSite().getUserid());
 						sqlDAO.save(news);
 						if(news.getId() != null && news.getId() > 0){

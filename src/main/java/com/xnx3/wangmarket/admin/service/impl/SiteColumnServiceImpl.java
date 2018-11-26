@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.xnx3.DateUtil;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -174,7 +175,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 			news.setSiteid(siteColumn.getSiteid());
 			news.setStatus(News.STATUS_NORMAL);
 			news.setTitle(news.getIntro());
-			news.setTitlepic(Safety.filter(siteColumn.getIcon()));
+			news.setTitlepic(StringUtil.filterXss(siteColumn.getIcon()));
 			news.setType(News.TYPE_PAGE);
 			news.setUserid(ShiroFunc.getUser().getId());
 			sqlDAO.save(news);

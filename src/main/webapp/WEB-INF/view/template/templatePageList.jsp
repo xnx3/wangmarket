@@ -163,5 +163,10 @@ function deleteTemplatePage(id, name){
 	});
 }
 </script>
+
+
+<!-- 自动跳转到指定页面进行编辑 -->
+${autoEditText }
+
 </body>
 </html>

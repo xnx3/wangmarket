@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
+import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
@@ -29,6 +31,8 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+
+import net.sf.json.JSONObject;
 
 @Service("newsService")
 public class NewsServiceImpl implements NewsService {
@@ -146,14 +150,14 @@ public class NewsServiceImpl implements NewsService {
 		return currentListHtml;
 	}
 
-	public void generateViewHtml(Site site, News news, SiteColumn siteColumn, String text, HttpServletRequest request) {
+	public void generateViewHtml(Site site, News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
 		if(Func.isCMS(site)){
 			//如果使用的是新一代自定义模版，那么用新的生成模式
-			generateViewHtmlForTemplate(news, siteColumn, text, request);
+			generateViewHtmlForTemplate(news, siteColumn, newsDataBean, request);
 		}else{
 			//如果使用的是通用简单模版，直接使用原来的生成
 			GenerateHTML gh = new GenerateHTML(site);
-			gh.generateViewHtml(site, news, siteColumn, text);
+			gh.generateViewHtml(site, news, siteColumn, newsDataBean.getText());
 		}
 	}
 
@@ -161,20 +165,22 @@ public class NewsServiceImpl implements NewsService {
 	 * 通过高级自定义模版，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情
 	 * @param news 要生成的详情页的 {@link News}
 	 * @param siteColumn 要生成的详情页所属的栏目 {@link SiteColumn}
-	 * @param text 内容，NewsData.text
+	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
-	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, String text, HttpServletRequest request) {
+	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
 		//获取到当前页面使用的模版
 		String templateHtml = templateService.getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		
 		TemplateCMS template = new TemplateCMS(Func.getCurrentSite());
-		template.generateViewHtmlForTemplate(news, siteColumn, text, templateHtml, null, null);
+		template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
 	}
 
 	public NewsInit news(HttpServletRequest request, int id, int cid, Model model) {
 		NewsInit n = new NewsInit();
+		Site site = Func.getUserBeanForShiroSession().getSite();
+		
 		News news = null;
-		String text = "";	//内容
+		NewsData newsData = null;
 		if(id > 0){
 			news = sqlDAO.findById(News.class, id);
 			if(news == null){
@@ -187,9 +193,8 @@ public class NewsServiceImpl implements NewsService {
 			}
 			
 			cid = news.getCid();
-			NewsData newsData = sqlDAO.findById(NewsData.class, news.getId());
+			newsData = sqlDAO.findById(NewsData.class, news.getId());
 			n.setPageTitle("修改信息");
-			text = newsData.getText();
 		}else{
 			news = new News();
 			n.setPageTitle("新增信息");
@@ -211,28 +216,61 @@ public class NewsServiceImpl implements NewsService {
 			}
 			news.setCid(siteColumn.getId());
 			news.setType(siteColumn.getType());
+			
+			//type_list 是v4.6 针对CMS模式新增加的状态，以此替代原本的新闻信息、图文信息两种类型。这里是对以前版本的兼容，判断是属于哪种类型，将其设置到最新的
+			if(Func.isCMS(site)){
+				if(siteColumn.getType() - SiteColumn.TYPE_NEWS == 0){
+					siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+					siteColumn.setType(SiteColumn.TYPE_LIST);
+					sqlDAO.save(siteColumn);
+				}
+				if(siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+					siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+					siteColumn.setEditUseTitlepic(SiteColumn.USED_ENABLE);
+					siteColumn.setType(SiteColumn.TYPE_LIST);
+					sqlDAO.save(siteColumn);
+				}
+				if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+					siteColumn.setEditUseText(SiteColumn.USED_ENABLE);
+					siteColumn.setType(SiteColumn.TYPE_ALONEPAGE);
+					sqlDAO.save(siteColumn);
+				}
+			}
+			
+			
+			
 			model.addAttribute("siteColumn",siteColumn);
 		}
 		n.setSiteColumn(siteColumn);
 		
-		Site site = Func.getUserBeanForShiroSession().getSite();
 		n.setSite(site);
 		if(id > 0){
-//			if(news.getType() == News.TYPE_IMAGENEWS){
-				String titlepicImage = "";
-				if(news.getTitlepic() != null && news.getTitlepic().length() > 0){
-					if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0){
-						titlepicImage = news.getTitlepic();
-					}else{
-						titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
-					}
+			String titlepicImage = "";
+			if(news.getTitlepic() != null && news.getTitlepic().length() > 0){
+				if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0){
+					titlepicImage = news.getTitlepic();
+				}else{
+					titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
 				}
-				n.setTitlepicImage(titlepicImage);
-				model.addAttribute("titlepicImage", "<img src=\""+titlepicImage+"\" height=\"30\" />");
-//			}
-			GenerateHTML gh = new GenerateHTML(site);
-			n.setNewsText(gh.restoreNewsText(text));
-			model.addAttribute("text", n.getNewsText());
+			}
+			n.setTitlepicImage(titlepicImage);
+			model.addAttribute("titlepicImage", "<img src=\""+titlepicImage+"\" height=\"30\" />");
+			
+			//v4.6增加 ，自定义扩展
+			NewsDataBean newsDataBean = new NewsDataBean(newsData);
+//			GenerateHTML gh = new GenerateHTML(site);
+//			n.setNewsText(gh.restoreNewsText(newsData.getText()));
+			model.addAttribute("text", newsDataBean.getText());
+			JSONObject json = newsDataBean.getExtendJson();
+			if(json != null){
+				Iterator<String> it = json.keys(); 
+				while(it.hasNext()){
+					// 获得key
+					String key = it.next(); 
+					String value = json.getString(key);    
+				}
+			}
+			n.setNewsDataBean(newsDataBean);
 		}
 		
 		n.setNews(news);
@@ -267,7 +305,7 @@ public class NewsServiceImpl implements NewsService {
 		//获取当前信息所属的栏目
 		SiteColumn siteColumn = sqlDAO.findById(SiteColumn.class, news.getCid());
 		if(siteColumn != null){
-			if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
+			if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0){
 				baseVO.setBaseVO(BaseVO.FAILURE, "该信息所属的栏目，栏目类型为独立页面，无法删除此信息。如果你想删除，可以删除其所属的栏目，此信息自然就没了");
 				return baseVO;
 			}

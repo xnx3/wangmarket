@@ -1,3 +1,4 @@
+<!-- 文章标题，必须有的 -->
 <div class="layui-form-item">
 	<label class="layui-form-label" id="label_columnName">文章标题</label>
 	<div class="layui-input-block">
@@ -5,23 +6,9 @@
 	</div>
 </div>
 
-<!-- 
-<div class="layui-form-item">
-	<label class="layui-form-label" id="label_columnName">预留字段1</label>
-	<div class="layui-input-block">
-		<input type="text" name="reserve1" placeholder="限制10字以内" class="layui-input" value="{news.reserve1}">
-	</div>
-</div>
-<div class="layui-form-item" >
-	<label class="layui-form-label" id="label_columnName">预留字段2</label>
-	<div class="layui-input-block">
-		<input type="text" name="reserve2" placeholder="限制10字以内" class="layui-input" value="{news.reserve2}">
-	</div>
-</div>
- -->
 
-<!-- 如果是图文列表页面，图片才会在列表显示。由JS控制其显示 -->
-<div class="layui-form-item" id="titlepic" style="display:none;">
+<!-- 标题图片、封面图片。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+<div class="layui-form-item" id="sitecolumn_editUseTitlepic" style="display:none;">
 	<label class="layui-form-label" id="label_columnName">标题图片</label>
 	<div class="layui-input-block">
 		<input name="titlepic" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="{titlepicImage}" style="padding-right: 120px;">
@@ -34,21 +21,67 @@
 	</div>
 </div>
 
-
-<!-- 
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="label_columnName">内容简介</label>
-		<div class="layui-input-block">
-			<textarea class="layui-input" name="intro" style="height:70px;">{news.intro}</textarea>
+<!--  图集，让文章可以拥有多张图片上传的功能。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到文章图集，点击 使用 即可。若是自己添加的输入模型，请保留 id="editUseExtendPhotos" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+<div class="layui-form-item" id="sitecolumn_editUseExtendPhotos" style="display:none;">
+	<div id="photosDefaultValue" style="display:none;">{news.extend.photos}</div><!-- 这里放置图集原本的值 -->
+	<input type="hidden" value="0" id="photos_i" style="display:none;" /><!-- 这里放循环输出input的i，也就是extend.photos数组下标。也就是图集中有多少个input输入框。从0开始。此处由 appendPhotosInput 自动管理，不可吧此删除掉。 -->
+	<label class="layui-form-label" id="label_columnName">文章图集</label>
+	<div class="layui-input-block" id="photoInputList" style="min-height: 0px;">
+		<!-- 同样，这个 photoInputList 里面的也算是每一个item的模版。item模版开始 -->
+		<div id="photos_input_item_{i}" style="padding-top:5px;">
+			<input name="extend.photos" id="titlePicInput{i}" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="{value}" style="padding-right: 174px;">
+			<button type="button" name="{i}" class="layui-btn uploadImagesButton" id="uploadImagesButton{i}" style="float: right;margin-top: -38px;">
+				<i class="layui-icon layui-icon-upload"></i>
+			</button>
+			<a href="{value}" id="titlePicA{i}" style="float: right;margin-top: -38px;margin-right: 116px;" title="预览原始图片" target="_black">
+				<img id="titlePicImg{i}" src="{value}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+			</a><input class="layui-upload-file" type="file" name="fileName">
+			<a href="javascript:deletePhotosInput('{i}');" class="layui-btn" style="float: right;margin-top: -38px;margin-right: 58px;" title="删除" >
+				<i class="layui-icon layui-icon-delete"></i>
+			</a>
 		</div>
+		<!-- item模版结束 -->
 	</div>
+	<div style="padding-top:5px; padding-left:110px;">
+		<a href="javascript:appendPhotosInput('');" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">向图集添加一个图片输入框</a>
+	</div>
+</div>
+<script type="text/javascript" src="../js/admin/cms/news_extend_photos.js"></script>
+
+
+
+
+<!-- 这里，演示扩展字段。
+	更多的使用帮助，可以参考 http://tag.wscso.com/8318.html 
+	这里，增加一个年龄的字段,字段名为 age ，如下所示，叫什么名字，直接写上，就能用！
+-->
+<!-- 
+<div class="layui-form-item">
+	<label class="layui-form-label" id="label_columnName">年龄</label>
+	<div class="layui-input-block">
+		<input type="text" name="extend.age" placeholder="请输入您的年龄，如 五岁" class="layui-input" value="{news.extend.age}">
+	</div>
+</div>
  -->
 
+
+<!-- 若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容简介，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseIntro" ,不然栏目设置中的是否使用功能将会失效！ -->
+<div class="layui-form-item" id="sitecolumn_editUseIntro" style="display:none;">
+	<label class="layui-form-label" id="label_columnName">内容简介</label>
+	<div class="layui-input-block">
+		<textarea class="layui-input" name="intro" style="height:70px;">{news.intro}</textarea>
+	</div>
+</div>
+
+
+<!-- 
+	若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容正文，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseText" ,不然栏目设置中的是否使用功能将会失效！
+ -->
 <!-- 配置文件 -->
 <script type="text/javascript" src="../module/ueditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="../module/ueditor/ueditor.all.js"></script>
-<div class="layui-form-item">
+<div class="layui-form-item" id="sitecolumn_editUseText" style="display:none;">
 	<label class="layui-form-label" id="sucai">
 		内容正文
 		<div style="padding-top:50px; cursor: pointer; text-align: center;" onclick="openSuCai();" id="useSuCai">
@@ -65,15 +98,6 @@
 		<textarea class="layui-input" id="myEditor" name="text" style="height: auto; padding-left: 0px; border: 0px;">{text}</textarea>
 	</div>
 </div>
-
-<script>
-	if({siteColumn.type} == 2){
-		//类型为2，是图文栏目时，才会显示标题图编辑功能
-		document.getElementById('titlepic').style.display='';
-	}
-</script>
-
-    
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
 var ueditorText = document.getElementById('myEditor').innerHTML;
@@ -86,6 +110,7 @@ var ue = UE.getEditor('myEditor',{
 ue.ready(function() {
 	document.getElementById("myEditor").style.height='auto';
 });
+
 
 //打开素材区域
 function openSuCai(){

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.xnx3.file.FileUtil;
@@ -142,6 +145,17 @@ public class InputModelServiceImpl implements InputModelService {
 			text = text.replaceAll(Template.regex("siteColumn.type"), siteColumn.getType()+"");
 			
 			News news = newsInit.getNews();
+			
+			//v4.6 ，过滤掉所有自定义扩展的值调用
+			Map<String, Boolean> map = new HashMap<String, Boolean>();
+			if(text.indexOf("extend.") > 0){
+				Pattern p = Pattern.compile(Template.regex("news.extend.(\\w*?)"));
+		        Matcher m = p.matcher(text);
+		        while(m.find()){
+		        	map.put(m.group(1), true);
+		        }
+			}
+			
 			if(news == null || news.getId() == null){
 				text = text.replaceAll(Template.regex("news.title"), "");
 				text = text.replaceAll(Template.regex("titlepicImage"), "");
@@ -150,6 +164,14 @@ public class InputModelServiceImpl implements InputModelService {
 				text = text.replaceAll(Template.regex("news.intro"), "");
 				text = text.replaceAll(Template.regex("news.reserve1"), "");
 				text = text.replaceAll(Template.regex("news.reserve2"), "");
+				
+				//v4.6,自定义 extend
+				if(map.size() > 0){
+					for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+			        	text = text.replaceAll(Template.regex("news.extend."+entry.getKey()), "");
+			        }
+				}
+				
 			}else{
 				text = text.replaceAll(Template.regex("news.title"), news.getTitle());
 				text = text.replaceAll(Template.regex("titlepicImage"), newsInit.getTitlepicImage());
@@ -159,7 +181,14 @@ public class InputModelServiceImpl implements InputModelService {
 				text = text.replaceAll(Template.regex("news.reserve2"), news.getReserve2());
 				
 				//此处因replaceAll容易出问题，而且｛text｝也只会出现一次，所以直接换为了replace
-				text = text.replace("{text}", newsInit.getNewsText());
+				text = text.replace("{text}", newsInit.getNewsDataBean().getText());
+				
+				//v4.6,自定义 extend
+				if(map.size() > 0){
+					for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+			        	text = text.replaceAll(Template.regex("news.extend."+entry.getKey()), newsInit.getNewsDataBean().getExtendJson(entry.getKey()));
+			        }
+				}
 			}
 		}
 		return text;

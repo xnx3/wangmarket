@@ -154,6 +154,7 @@ div.edui-box {
     zoom: 1;
     border-top-left-radius:2px;
     border-top-right-radius:2px;
+    background-color: white;
 }
 
 .edui-default .edui-editor-toolbarboxouter {

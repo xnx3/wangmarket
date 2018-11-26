@@ -235,6 +235,35 @@ public class TemplateVO extends BaseVO {
 					nsc.setListRank(SiteColumn.LIST_RANK_ADDTIME_ASC);
 				}
 				
+				//v4.6更新，兼容旧版本的模版，将栏目类型进行替换，替换为最新4.6版本的栏目类型
+				if(nsc.getType() - SiteColumn.TYPE_NEWS == 0){
+					nsc.setEditUseText(SiteColumn.USED_ENABLE);
+					nsc.setType(SiteColumn.TYPE_LIST);
+				}
+				if(nsc.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
+					nsc.setEditUseText(SiteColumn.USED_ENABLE);
+					nsc.setEditUseTitlepic(SiteColumn.USED_ENABLE);
+					nsc.setType(SiteColumn.TYPE_LIST);
+				}
+				if(nsc.getType() - SiteColumn.TYPE_PAGE == 0){
+					nsc.setEditUseText(SiteColumn.USED_ENABLE);
+					nsc.setType(SiteColumn.TYPE_ALONEPAGE);
+				}
+				//v4.6版本增加的四个内容管理是否可输入项
+				if(j.get("editUseTitlepic") != null){
+					nsc.setEditUseTitlepic((short) j.getInt("editUseTitlepic"));
+				}
+				if(j.get("editUseIntro") != null){
+					nsc.setEditUseIntro((short) j.getInt("editUseIntro"));
+				}
+				if(j.get("editUseText") != null){
+					nsc.setEditUseText((short) j.getInt("editUseText"));
+				}
+				if(j.get("editUseExtendPhotos") != null){
+					nsc.setEditUseExtendPhotos((short) j.getInt("editUseExtendPhotos"));
+				}
+				
+				
 				siteColumnList.add(nsc);
 			}
 		}

@@ -121,8 +121,11 @@ function selectedLeftMenu(id){
 }
 
 
-//模版页面列表，引导打开
-function openTemplatePageList(){
+/**
+ * 模版页面列表，引导打开
+ * @param templatePageName templatePage.name 要打开编辑的模版页面的name。  如果传入''空字符串，则直接进入模版页面列表，不自动打开某个模版页面。 另外，如果传入 templatepage_type_index 则会编辑首页
+ */
+function openTemplatePageList(templatePageName){
 	//收起所有菜单
 	backAllMenu();
 	//展开某个一级栏目
@@ -130,9 +133,17 @@ function openTemplatePageList(){
 	//选中某个菜单
 	selectedLeftMenu('dd_mobanyemian');
 	
-	//打开模版管理
-	loadIframeByUrl('templatePageList.do');
+	
+	if(templatePageName.length == 0){
+		//打开模版页面列表
+		loadIframeByUrl('templatePageList.do');
+	}else{
+		//编辑某个模版页面
+		loadIframeByUrl('templatePageList.do?templatePageName='+templatePageName);
+	}
 }
+
+
 
 //绑定域名，引导打开
 function openBindDomain(){

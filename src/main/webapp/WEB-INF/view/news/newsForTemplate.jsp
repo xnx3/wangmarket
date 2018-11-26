@@ -46,6 +46,8 @@ if('${siteColumn.type}' == 3 && '${siteColumn.editMode}' == 1){
 }
 </script>
 
+
+
 <form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
 	<input type="hidden" name="id" value="${news.id }" />
 	<input type="hidden" name="cid" value="${news.cid }" />
@@ -61,11 +63,69 @@ if('${siteColumn.type}' == 3 && '${siteColumn.editMode}' == 1){
 </form>
 
 <script>
+try{
+	if('${siteColumn.editUseTitlepic}' == '1'){
+		document.getElementById('sitecolumn_editUseTitlepic').style.display='';
+	}
+}catch(e){ }
+try{
+	if('${siteColumn.editUseExtendPhotos}' == '1'){
+		document.getElementById('sitecolumn_editUseExtendPhotos').style.display='';
+	}
+}catch(e){ }
+try{
+	if('${siteColumn.editUseIntro}' == '1'){
+		document.getElementById('sitecolumn_editUseIntro').style.display='';
+	}
+}catch(e){ }
+try{
+	if('${siteColumn.editUseText}' == '1'){
+		document.getElementById('sitecolumn_editUseText').style.display='';
+	}
+}catch(e){ }
+
+var uploadExtendPhotos = {
+		elem: '.uploadImagesButton' //绑定元素
+		,url: parent.masterSiteUrl+'site/uploadImage.do' //上传接口
+		,field: 'image'
+		,accept: 'file'
+		,size: ${maxFileSizeKB}
+		,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
+		,done: function(res){
+			//上传完毕回调
+			loadClose();
+			
+			var key = this.item[0].name;	//拿到传递参数的key，也就是 extend.photos 中，数组某项的下表
+			
+			if(res.result == 1){
+				try{
+					document.getElementById("titlePicInput"+key).value = res.url;
+					document.getElementById("titlePicA"+key).href = res.url;
+					document.getElementById("titlePicImg"+key).src = res.url;
+					document.getElementById("titlePicImg"+key).style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
+				}catch(err){}
+				parent.iw.msgSuccess("上传成功");
+			}else{
+				parent.iw.msgFailure(res.info);
+			}
+		}
+		,error: function(index, upload){
+			//请求异常回调
+			parent.iw.loadClose();
+			parent.iw.msgFailure();
+		}
+		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+			parent.iw.loading('上传中..');
+		}
+	};
+
+var upload;
 layui.use('upload', function(){
-	var upload = layui.upload;
-	//上传图片
+	upload = layui.upload;
+	//上传图片,封面图
+	//upload.render(uploadPic);
 	upload.render({
-		elem: '#uploadImagesButton' //绑定元素
+		elem: "#uploadImagesButton" //绑定元素
 		,url: parent.masterSiteUrl+'site/uploadImage.do' //上传接口
 		,field: 'image'
 		,accept: 'file'
@@ -95,6 +155,9 @@ layui.use('upload', function(){
 			parent.iw.loading('上传中..');
 		}
 	});
+	
+	//上传图片,图集，v4.6扩展
+	upload.render(uploadExtendPhotos);
 });
 </script>
 

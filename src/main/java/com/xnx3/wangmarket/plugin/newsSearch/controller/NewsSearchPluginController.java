@@ -18,6 +18,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.wangmarket.admin.entity.News;
+import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
 import com.xnx3.wangmarket.plugin.newsSearch.vo.SearchResultVO;
 
@@ -62,7 +63,7 @@ public class NewsSearchPluginController extends BasePluginController {
 		Sql sql = new Sql(request);
 		sql.setSearchTable("news");
 		sql.appendWhere("siteid = "+siteid+" AND status = "+News.STATUS_NORMAL);
-	    sql.appendWhere("( type = "+News.TYPE_NEWS+" OR type = "+News.TYPE_IMAGENEWS+")");
+	    sql.appendWhere("( type = "+News.TYPE_NEWS+" OR type = "+News.TYPE_IMAGENEWS+" OR type = "+SiteColumn.TYPE_LIST+")");
 		sql.setSearchColumn(new String[]{"title"});
 	    int count = sqlService.count("news", sql.getWhere());
 	    Page page = new Page(count, everyPageNumber, request);

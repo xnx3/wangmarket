@@ -23,29 +23,43 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	public static final Short USED_UNABLE = 0;
 	
 	/**
-	 * 所属类型，1新闻信息
+	 * 所属类型，1新闻信息 (CMS 已废弃此状态)
+	 * @deprecated
 	 */
 	public static final Short TYPE_NEWS = 1;
 	/**
-	 * 图文信息
+	 * 图文信息 (CMS 已废弃此状态)
+	 * @deprecated
 	 */
 	public static final Short TYPE_IMAGENEWS = 2;
 	/**
-	 * 独立页面
+	 * 3独立页面
+	 * @deprecated
 	 */
 	public static final Short TYPE_PAGE = 3;
 	/**
-	 * 4留言板
+	 * 4留言板 (CMS 已废弃此状态)
+	 * @deprecated
 	 */
 	public static final Short TYPE_LEAVEWORD= 4;
 	/**
-	 * 5超链接
+	 * 5超链接 (CMS 已废弃此状态)
+	 * @deprecated
 	 */
 	public static final Short TYPE_HREF= 5;
 	/**
-	 * 6纯文字
+	 * 6纯文字 (CMS 已废弃此状态)
+	 * @deprecated
 	 */
 	public static final Short TYPE_TEXT= 6;
+	/**
+	 * 所属类型，7信息列表 (CMS 模式使用，v4.6版本增加，代替新闻信息、图文信息两种状态)
+	 */
+	public static final Short TYPE_LIST= 7;
+	/**
+	 * 所属类型，8独立页面 (CMS 模式使用，v4.6版本增加，代替之前的3独立页面的状态。以实现4.6之前版本向4.6版本的过度)
+	 */
+	public static final Short TYPE_ALONEPAGE= 8;
 	
 	/**
 	 * 客户端类型：PC电脑端
@@ -99,6 +113,10 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Short editMode;	//若是独立页面，内容的编辑方式，是使用富文本编辑框呢，还是直接编辑模板
 	private Short listRank;	//列表排序，当前栏目若是信息列表，信息列表的排序规则
 	
+	private Short editUseTitlepic;		//内容管理中，添加内容时，封面图片的输入。 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
+	private Short editUseIntro;			//内容管理中，添加内容时，文章简介的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
+	private Short editUseText;			//内容管理中，添加内容时，文章详情的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
+	private Short editUseExtendPhotos;	//内容管理中，添加内容时，图集的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
 	
 	// Constructors
 
@@ -287,6 +305,42 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		this.listRank = listRank;
 	}
 
+	@Column(name = "edit_use_titlepic")
+	public Short getEditUseTitlepic() {
+		return editUseTitlepic;
+	}
+
+	public void setEditUseTitlepic(Short editUseTitlepic) {
+		this.editUseTitlepic = editUseTitlepic;
+	}
+
+	@Column(name = "edit_use_intro")
+	public Short getEditUseIntro() {
+		return editUseIntro;
+	}
+
+	public void setEditUseIntro(Short editUseIntro) {
+		this.editUseIntro = editUseIntro;
+	}
+
+	@Column(name = "edit_use_text")
+	public Short getEditUseText() {
+		return editUseText;
+	}
+
+	public void setEditUseText(Short editUseText) {
+		this.editUseText = editUseText;
+	}
+
+	@Column(name = "edit_use_extend_photos")
+	public Short getEditUseExtendPhotos() {
+		return editUseExtendPhotos;
+	}
+
+	public void setEditUseExtendPhotos(Short editUseExtendPhotos) {
+		this.editUseExtendPhotos = editUseExtendPhotos;
+	}
+
 	@Override
 	public String toString() {
 		return "SiteColumn [id=" + id + ", name=" + name + ", url=" + url + ", icon=" + icon + ", rank=" + rank
@@ -294,7 +348,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 				+ type + ", templatePageListName=" + templatePageListName + ", templatePageViewName="
 				+ templatePageViewName + ", codeName=" + codeName + ", parentCodeName=" + parentCodeName + ", listNum="
 				+ listNum + ", inputModelCodeName=" + inputModelCodeName + ", editMode=" + editMode + ", listRank="
-				+ listRank + "]";
+				+ listRank + ", editUseTitlepic=" + editUseTitlepic + ", editUseIntro=" + editUseIntro
+				+ ", editUseText=" + editUseText + ", editUseExtendPhotos=" + editUseExtendPhotos + "]";
 	}
+	
 	
 }

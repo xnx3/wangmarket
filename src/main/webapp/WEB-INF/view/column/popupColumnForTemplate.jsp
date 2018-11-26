@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="layui-tab layui-tab-card" style="border-style: none; box-shadow: 0 0px 0px 0 rgba(0,0,0,.1); margin-top: 0px;">
   <ul class="layui-tab-title">
     <li class="layui-this">基本设置</li>
+    <li>信息录入</li>
     <li>高级设置</li>
   </ul>
   <div class="layui-tab-content" style="padding-right: 35px;">
@@ -45,7 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="layui-form-item">
 			<label class="layui-form-label" id="columnType">栏目类型</label>
 			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionFortype_('${siteColumn.type }','请选择', true);</script>
+				<select name="type" required="type" lay-verify="type" lay-filter="type" id="type">
+					<option value="">请选择</option>
+					<option value="7" <c:if test="${siteColumn.type=='7'}"> selected="selected"</c:if>>信息列表</option>
+					<option value="8" <c:if test="${siteColumn.type=='8'}"> selected="selected"</c:if>>独立页面</option>
+				</select>
 			</div>
 		</div>
 		<div class="layui-form-item" id="xnx3_listTemplate">
@@ -62,12 +67,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<select name="templatePageViewName" id="templatePageViewName">
 					${tpl_view_option}
 				</select>
-			</div>
-		</div>
-		<div class="layui-form-item" id="xnx3_url">
-			<label class="layui-form-label">链接网址</label>
-			<div class="layui-input-block">
-				<input type="text" name="url" autocomplete="off" placeholder="请输入目标网页链接地址" class="layui-input" value="${siteColumn.url }">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -87,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
     </div>
     <div class="layui-tab-item">
-    	<!-- 高级方式 -->
+    	<!-- 信息录入 -->
     	
     	<!-- 内容编辑方式，当独立页面时才会有效，才会显示。选择是使用内容富文本编辑框编辑，还是使用模板的方式编辑 -->
 		<div class="layui-form-item" id="xnx3_editMode">
@@ -96,7 +95,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<script type="text/javascript">writeSelectAllOptionForeditMode_('${siteColumn.editMode }','', true);</script>
 			</div>
 		</div>
-		<div class="layui-form-item" id="inputModel">
+    	
+    	<div class="layui-form-item neirongguanli_shuru" id="inputModel">
 			<label class="layui-form-label" id="inputModel_label">输入模型</label>
 			<div class="layui-input-block">
 				<select name="inputModelCodeName" id="inputModelCodeName">
@@ -104,6 +104,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</select>
 			</div>
 		</div>
+		
+		
+		<div style="padding-left: 30px; font-size: 12px; color: gray;padding-bottom: 10px;" class="neirongguanli_shuru">
+			<hr>
+			以下是当你进入 “内容管理” 中进行编辑文章时，是否显示这几个录入项
+			
+		</div>
+		
+    	
+<style>
+.layui-form-switch em {
+	font-size: 15px;
+}
+</style>    	
+    	<div class="layui-form-item neirongguanli_shuru">
+			<label class="layui-form-label" id="label_editUseTitlepic">标题图片</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="editUseTitlepic" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseTitlepic=='1'}"> checked</c:if>>
+			</div>
+		</div>
+		<div class="layui-form-item neirongguanli_shuru">
+			<label class="layui-form-label" id="label_editUseExtendPhotos">文章图集</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="editUseExtendPhotos" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseExtendPhotos=='1'}"> checked</c:if>>
+			</div>
+		</div>
+		<div class="layui-form-item neirongguanli_shuru">
+			<label class="layui-form-label" id="label_editUseIntro">内容简介</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="editUseIntro" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseIntro=='1'}"> checked</c:if>>
+			</div>
+		</div>
+		<div class="layui-form-item neirongguanli_shuru">
+			<label class="layui-form-label" id="label_editUseText">内容正文</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="editUseText" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseText=='1'}"> checked</c:if>>
+			</div>
+		</div>
+		
+    </div>
+    <div class="layui-tab-item">
+    	<!-- 高级方式 -->
+    	
 		<div class="layui-form-item" id="listRank">
 			<label class="layui-form-label" id="listRank_label">信息排序</label>
 			<div class="layui-input-block">
@@ -221,7 +264,7 @@ $(function(){
 	//编辑方式
 	var columnEditMode_index = 0;
 	$("#columnEditMode").hover(function(){
-		columnEditMode_index = layer.tips('编辑方式，设定其填充内容数据的编辑方式。<br/>1.&nbsp;图文编辑框，系统默认的内容编辑，比如添加新闻、图文时，都可以使用这个。若对此详不是太了解，一律选择此项即可。<br/>2.&nbsp;模版式编辑，直接调取编辑模版页面的方式进行编辑，同样，编辑的工具是模版页，也就是直接对模版页面进行编辑。这种编辑方式，通常其模版页面是只使用了一次的，栏目类型为独立页面', '#columnEditMode', {
+		columnEditMode_index = layer.tips('编辑方式，设定其填充/编辑内容信息的编辑方式。<br/>1.&nbsp;<b>在内容管理中编辑</b>，系统默认的内容编辑，比如添加新闻、图文时，都可以使用这个。若对此详不是太了解，一律选择此项即可。<br/>2.&nbsp;<b>在模版页面中编辑</b>，直接编辑模版页面的方式进行编辑，同样，编辑的工具是模版页，也就是直接对模版页面进行编辑。<br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>', '#columnEditMode', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
@@ -247,7 +290,8 @@ $(function(){
 	//栏目类型
 	var columnType_index = 0;
 	$("#columnType").hover(function(){
-		columnType_index = layer.tips('这里通常使用的有这么三种：<br/><b>新闻信息</b>：像是新闻列表、动态资讯，这种纯文字性质的列表，并点击某项后可进入查看详情<br/><b>图文信息</b>：像是产品展示、案例展示等，图片＋文字形式的列表，并点击项后进入查看详情<br/><b>独立页面</b>：像是公司简介、联系我们、招商加盟这种单独的页面', '#columnType', {
+		//这里通常使用的有这么三种：<br/><b>新闻信息</b>：像是新闻列表、动态资讯，这种纯文字性质的列表，并点击某项后可进入查看详情<br/><b>图文信息</b>：像是产品展示、案例展示等，图片＋文字形式的列表，并点击项后进入查看详情<br/><b>独立页面</b>：像是公司简介、联系我们、招商加盟这种单独的页面
+		columnType_index = layer.tips('<b>信息列表</b>：像是新闻列表、动态资讯、产品展示等，这种信息的列表。这个栏目内的文章条数不固定，用户可以随意添加多条信息。<br/><b>独立页面</b>：像是公司简介、联系我们这种的，一个栏目就只有一个页面的', '#columnType', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
@@ -287,7 +331,7 @@ $(function(){
 	//输入模型
 	var inputModel_index = 0;
 	$("#inputModel_label").hover(function(){
-		inputModel_index = layer.tips('本栏目建立好后，在<b>内容管理</b>中操作本栏目的具体数据时，数据录入的样式。<br/>可在<b>模板管理</b>-<b>输入模型</b>中进行修改<b><br/>注意，不懂此处的建议不要随意修改</b>', '#inputModel_label', {
+		inputModel_index = layer.tips('本栏目建立好后，在<b>内容管理</b>中操作本栏目的具体数据时，数据录入的样式。<br/>可在<b>模板管理</b>-<b>输入模型</b>中进行修改<b><br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>', '#inputModel_label', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
@@ -313,7 +357,7 @@ $(function(){
 	//显示
 	var xianshi_index = 0;
 	$("#xianshi_label").hover(function(){
-		xianshi_index = layer.tips('此处选择显示即可！', '#xianshi_label', {
+		xianshi_index = layer.tips('绝大多数时候，都是显示即可，显示即正常使用。<br/>若是隐藏，在 内容管理 中不会显示此栏目、另外在模版页面中使用动态栏目代码调取子栏目列表时，也不会调取到', '#xianshi_label', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,
@@ -336,31 +380,80 @@ $(function(){
 		layer.close(listRank_index);
 	})
 	
+	
+	//内容管理中，是否使用标题图片
+	var label_editUseTitlepic_index = 0;
+	$("#label_editUseTitlepic").hover(function(){
+		label_editUseTitlepic_index = layer.tips('标题图片，也就是文章的封面图，让每篇文章都有自己的一个封面图。比如，这个封面图可以是网站中，产品列表页面的每个产品的图片。', '#label_editUseTitlepic', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(label_editUseTitlepic_index);
+	})
+	
+	
+	//内容管理中，是否使用图集
+	var label_editUseExtendPhotos_index = 0;
+	$("#label_editUseExtendPhotos").hover(function(){
+		label_editUseExtendPhotos_index = layer.tips('文章图集，也就是让每篇文章都有自己的图集，一篇文章里面，可以上传不固定数量的多张图片，可以在网站中，做出轮播图等效果', '#label_editUseExtendPhotos', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(label_editUseExtendPhotos_index);
+	})
+	
+	//内容管理中，是否使用内容简介
+	var label_editUseIntro_index = 0;
+	$("#label_editUseIntro").hover(function(){
+		label_editUseIntro_index = layer.tips('内容简介，也就是让本栏目中的每篇文章都可以编辑自己的内容简介。这些简介文字，可以在网站中，进行调取出来，比如在新闻列表中，作为新闻的简介说明。<br/>如果设置为不显示，内容简介也会有信息，会自动从内容正文中截取前120个字符作为内容简介的信息。', '#label_editUseIntro', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(label_editUseIntro_index);
+	})
+	
+	//内容管理中，是否使用内容正文
+	var label_editUseText_index = 0;
+	$("#label_editUseText").hover(function(){
+		label_editUseText_index = layer.tips('内容正文，也就是文章的正文、详情。也就是富文本编辑器UEditor编辑的区域，可以通过这里进行随意布局、上传图片、附件、表情、以及插入地图等！', '#label_editUseText', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(label_editUseText_index);
+	})
+	
+	
 });	
 
 //当类型改变后，相应的自定义网址也会显示或者隐藏、模版也会相应显示或者隐藏
 function selectTypeChange(){
 	document.getElementById("xnx3_viewTemplate").style.display="none";	//内容模版
 	document.getElementById("xnx3_listTemplate").style.display="none";	//列表模版
-	document.getElementById("xnx3_url").style.display="none";			//网址
 	document.getElementById("listnum").style.display="none";				//列表页面每页显示多少条
 	
-	if(document.getElementById("type").options[1].selected || document.getElementById("type").options[2].selected){
+	if(document.getElementById("type").options[1].selected){
 		//新闻、图文
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_listTemplate").style.display="";
 		document.getElementById("listnum").style.display="";
 		document.getElementById("xnx3_editMode").style.display="none";
 		document.getElementById("listRank").style.display="";
-	}else if(document.getElementById("type").options[3].selected){
+	}else if(document.getElementById("type").options[2].selected){
 		//独立页面
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_editMode").style.display="";
-		document.getElementById("listRank").style.display="none";
-	}else{
-		//url
-		document.getElementById("xnx3_url").style.display="";
-		document.getElementById("xnx3_editMode").style.display="none";
 		document.getElementById("listRank").style.display="none";
 	}
 }
@@ -369,10 +462,10 @@ selectTypeChange();
 //当编辑方式放生改变
 function selectEditMode(){
 	if(document.getElementById("editMode").options[2].selected){
-		//模板式编辑，将不显示输入模型
-		document.getElementById("inputModel").style.display="none";
+		//模板式编辑，将不显示输入模型、以及图集、内容等输入选项
+		$(".neirongguanli_shuru").hide();
 	}else{
-		document.getElementById("inputModel").style.display="";
+		$(".neirongguanli_shuru").show();
 	}
 }
 selectEditMode();

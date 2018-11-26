@@ -31,13 +31,18 @@ public class SiteColumn extends BaseGenerate {
 //		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_LEAVEWORD, "留言板");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_HREF, "超链接");
 //		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_TEXT, "纯文字");
+		
+		//v4.6，为CMS模式增加
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_LIST, "信息列表");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_ALONEPAGE, "独立页面");
+		
 		generateCacheFile();
 	}
 	
 	public void editMode(){
 		createCacheObject("editMode");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_INPUT_MODEL, "图文编辑框");
-		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_TEMPLATE, "模板式编辑");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_INPUT_MODEL, "在内容管理中编辑");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.EDIT_MODE_TEMPLATE, "在模版页面中编辑");
 		generateCacheFile();
 	}
 	

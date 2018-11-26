@@ -11,13 +11,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "news_data")
 public class NewsData implements java.io.Serializable {
-
-	// Fields
-
 	private Integer id;
 	private String text;
+	private String extend;	//扩展，以json形式存在
+	
 
-	// Constructors
 
 	/** default constructor */
 	public NewsData() {
@@ -52,6 +50,15 @@ public class NewsData implements java.io.Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+
+	public String getExtend() {
+		return extend;
+	}
+
+	public void setExtend(String extend) {
+		this.extend = extend;
 	}
 
 }

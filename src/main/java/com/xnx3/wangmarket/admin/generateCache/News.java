@@ -30,6 +30,9 @@ public class News extends BaseGenerate {
 //		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_LEAVEWORD, "留言板");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_HREF, "超链接");
 //		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_TEXT, "纯文字");
+		
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_LIST, "信息列表");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.TYPE_ALONEPAGE, "独立页面");
 		generateCacheFile();
 	}
 	

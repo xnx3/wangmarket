@@ -285,7 +285,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 	public UserVO regUser(User user, HttpServletRequest request,
 			boolean isAgency) {
 		UserVO baseVO = new UserVO();
-		user.setUsername(Safety.filter(user.getUsername()));
+		user.setUsername(StringUtil.filterXss(user.getUsername()));
 		user.setEmail(Safety.filter(user.getEmail()));
 		user.setPhone(Safety.filter(user.getPhone()));
 		

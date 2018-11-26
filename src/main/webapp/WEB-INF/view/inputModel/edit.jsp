@@ -53,8 +53,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="layui-colla-content" style="font-size:12px;">
 	    	{news.title} 标题<br/>
 	    	{news.intro} 简介<br/>
-	    	{news.reserve1} 预留字段，系统中未使用，可根据你的意愿来自由使用<br/>
-	    	{news.reserve2} 预留字段，系统中未使用，可根据你的意愿来自由使用<br/>
+	    	{news.extend.???} 【推荐】预留字段，可根据你的意愿来自由使用，自由扩展任意多的字段。 <a href="http://tag.wscso.com/8318.html" target="_black">查看详细说明</a><br/>
+	    	{news.reserve1} 【已不推荐！推荐使用 {news.extend.???}】预留字段，系统中未使用，可根据你的意愿来自由使用<br/>
+	    	{news.reserve2} 【已不推荐! 推荐使用 {news.extend.???}】预留字段，系统中未使用，可根据你的意愿来自由使用<br/>
 	    	{titlepicImage} 或 {news.titlepic} 标题图/列表图，用于列表展示的图片，若有，会以<img ...>标签显示出来<br/>
 	    	{siteColumn.type} 当前操作的内容所属栏目的类型编码<br/>
 	    	{text} 内容，正文<br/>
@@ -69,8 +70,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	&nbsp;&nbsp;&nbsp;&nbsp;当提交的简介有内容时，保存简介的内容<br/>
 	    	name="titlePicFile" 标题图，用于存储信息列表展示的图片，如产品展示栏目所需要的产品列表图，注意，此处input标签的type类型需要为file！(选填，若不需要可不再表单中体现)
 	    	name="text" 内容，正文，最大可保存五十万字。几乎可忽略字数限制。<br/>
-	    	name="reserve1" 预留字段，系统中未使用，可根据你的意愿来自由使用。长度限制10个文字字符以内！<br/>
-	    	name="reserve2" 预留字段，系统中未使用，可根据你的意愿来自由使用。长度限制10个文字字符以内！<br/>
+	    	name="news.extend.???" 推荐】预留字段，可根据你的意愿来自由使用,自由扩展任意多的字段。 <a href="http://tag.wscso.com/8318.html" target="_black">查看详细说明</a><br/>
+	    	name="reserve1" 【已不推荐！推荐使用 news.extend.???】预留字段，系统中未使用，可根据你的意愿来自由使用。长度限制10个文字字符以内！<br/>
+	    	name="reserve2" 【已不推荐！推荐使用 news.extend.???】预留字段，系统中未使用，可根据你的意愿来自由使用。长度限制10个文字字符以内！<br/>
 	    </div>
 	  </div>
 	  <div class="layui-colla-item" style="font-size:12px;">
