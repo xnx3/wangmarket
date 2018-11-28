@@ -62,6 +62,13 @@
 /src/main/resources/static/plugin/kefu/
 /src/main/java/com/xnx3/wangmarket/plugin/kefu_domain/
 
+# siteTransfer插件过滤
+/src/main/java/com/xnx3/wangmarket/plugin/siteTransfer/
+/src/main/webapp/WEB-INF/view/plugin/siteTransfer/
+
+
+# site 生成的网站过滤
+/src/main/webapp/site/
 
 /SourceCode/admin/bin/
 

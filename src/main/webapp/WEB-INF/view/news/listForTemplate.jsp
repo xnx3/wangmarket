@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</c:choose>
 		                	
 		                	<c:choose>
-		                		<c:when test="${siteColumn.type == 3 || siteColumn.type == 5}">
+		                		<c:when test="${siteColumn.type == 3 || siteColumn.type == 5 || siteColumn.type == 8}">
 							    	<!-- 独立页面、超链接是不显示删除按钮、转移栏目的 -->
 							    </c:when>
 							    <c:otherwise>

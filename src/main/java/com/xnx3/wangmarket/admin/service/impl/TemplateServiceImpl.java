@@ -812,6 +812,9 @@ public class TemplateServiceImpl implements TemplateService {
 		//将模版变量装载入Session。 必须要装载，将模版变量缓存入session，以便后面使用
 		loadDatabaseTemplateVarToCache();
 		
+		//v4.6更新，直接在 templateService.importTemplate 中就更新了
+		request.getSession().setAttribute("templatePageListVO", null);
+		
 		return vo;
 	}
 	
