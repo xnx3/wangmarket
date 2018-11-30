@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.entity.User;
@@ -154,7 +155,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		if(Global.getInt("ALLOW_USER_REG") == 0){
 			return error("抱歉，当前禁止用户自行注册开通网站！");
 		}
-		username = filter(username);
+		username = StringUtil.filterXss(username);
 		email = filter(email);
 		phone = filter(phone);
 		code = filter(code);
