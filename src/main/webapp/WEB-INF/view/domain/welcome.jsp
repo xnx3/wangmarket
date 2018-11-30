@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    margin: 0 auto;
 		    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 10px 2px;
 		    padding: 30px;
-		    margin-top: 90px;
+		    margin-top: 50px;
   		}
   		.title{
   			border-bottom: 1px solid #eee;
@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		欢迎使用 网市场云建站系统 v<%=G.VERSION %>
     	</div>
     	
-    	<div style="padding:15%; text-align:center;">
+    	<div style="padding:7%; text-align:center;">
 			<a href="<%=basePath %>install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 28px;font-size: 20px;">点击此处开始安装本系统</a>
 			<br/>
 			<div style="font-size:14px; padding-top:5px; color: gray;">
@@ -73,12 +73,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 
     	<div class="info">
-			本系统您完全可以自行部署到你们自己的服务器上进行商用，这一切，都是免费的！如果您感觉效果不错，欢迎捐献支援我(<a href="http://www.wang.market/5541.html" target="_black">购买授权</a>)
     		
-    		<h2>使用帮助</h2>
+    		<h2>联系我们免费帮你安装</h2>
+    		<p style="padding:5px;">我方（潍坊雷鸣云网络科技有限公司）是阿里云指定合作企业，如果你想使用我们的系统，或将我们系统部署到你自己服务器上使用，请先联系我们（ QQ：921153866、 微信： xnx3com ），<b>我方给你开通一个新的阿里云账户</b>，使用新开通的阿里云账户进行购买服务器。</p> 
+    		<ul>
+	    		<li>必选，最基础的，购买一台1核2G的服务器。我们给你部署好，你可直接使用！（此种方式使用的是自带的 Sqlite 数据库）大约可建立一千来个网站。</li>
+	    		<li>可选，在 必选1 的基础上，额外购买 Mysql数据库(RDS) + OSS + CDN , 此种方式更适合建站公司、或开通网站比较多的朋友使用。稳定性强，数据完全分离，数据安全有保障！买云数据库RDS的费用大约900元/年；至于OSS以及CDN，价格相当低，你可以将之理解为每月的费用是5块钱！</li>
+	    		<li>请知悉：我们帮你安装的条件，是你在我们这边开通一个阿里云账户。你帮我们提升阿里云业绩，我们才会免费出人帮你安装。此为我们帮你安装的硬性条件。</li>
+	    	</ul>
+    		<h2>友情提示</h2>
     		<ul>
 	    		<li>本系统共分为三种后台，其中，开通网站是在 <a href="http://help.wscso.com/5717.html" target="_black">代理后台</a> 进行开通！</li>
-	    		<li>如果您要正式使用时，请一定记得自行修改 admin、 agency 的默认密码</li>
+	    		<li>您要正式使用时，请一定记得自行修改 admin、 agency 的默认密码</li>
 	    	</ul>
     		
     		<h2>联系交流</h2>
