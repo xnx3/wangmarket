@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 			
 		    <c:choose>
-			    <c:when test="${siteColumn.type == 1 || siteColumn.type == 2}">
+			    <c:when test="${siteColumn.type == 1 || siteColumn.type == 2 || siteColumn.type == 7}">
 			    	<a href="news.do?cid=${siteColumn['id'] }" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加信息</a>
 			    </c:when>
 			    <c:otherwise>
