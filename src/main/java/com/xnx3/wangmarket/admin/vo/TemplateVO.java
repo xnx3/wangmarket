@@ -262,6 +262,12 @@ public class TemplateVO extends BaseVO {
 				if(j.get("editUseExtendPhotos") != null){
 					nsc.setEditUseExtendPhotos((short) j.getInt("editUseExtendPhotos"));
 				}
+				//v4.7，增加是否生成内容页面
+				if(j.get("useGenerateView") != null){
+					nsc.setUseGenerateView((short) j.getInt("useGenerateView"));
+				}else{
+					nsc.setUseGenerateView(SiteColumn.USED_ENABLE);
+				}
 				
 				
 				siteColumnList.add(nsc);

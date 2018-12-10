@@ -668,6 +668,9 @@ public class TemplateServiceImpl implements TemplateService {
 			sc.setEditUseIntro(sc_ori.getEditUseIntro() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseIntro());
 			sc.setEditUseText(sc_ori.getEditUseText() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseText());
 			sc.setEditUseTitlepic(sc_ori.getEditUseTitlepic() == null? SiteColumn.USED_UNABLE:sc_ori.getEditUseTitlepic());
+			//v4.7，增加是否生成内容页面
+			sc.setUseGenerateView(sc_ori.getUseGenerateView() == null? SiteColumn.USED_ENABLE:sc_ori.getUseGenerateView());
+			
 			
 			siteColumnList.add(sc);
 		}

@@ -456,7 +456,7 @@ CREATE TABLE `site_column` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` char(100) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '链接地址',
-  `icon` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图标，图片文件',
+  `icon` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示',
   `rank` int(4) DEFAULT '0' COMMENT '排序,数字越小越往前',
   `used` tinyint(1) DEFAULT '1' COMMENT '是否启用。1启用，0不启用',
   `siteid` int(11) DEFAULT NULL COMMENT '对应的站点id,site.id',
@@ -476,6 +476,7 @@ CREATE TABLE `site_column` (
   `edit_use_intro` tinyint(2) DEFAULT NULL COMMENT '内容管理中，添加内容时，文章简介的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断',
   `edit_use_text` tinyint(2) DEFAULT NULL COMMENT '内容管理中，添加内容时，文章详情的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断',
   `edit_use_extend_photos` tinyint(2) DEFAULT NULL COMMENT '内容管理中，添加内容时，图集的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断',
+  `use_generate_view` tinyint(2) DEFAULT '1' COMMENT '是否生成内容页面。取值1生成；0不生成，如果为null则默认为1，默认是生成。set时使用 SiteColumn.USED_ENABLE 赋值',
   PRIMARY KEY (`id`),
   KEY `rank` (`rank`,`used`,`siteid`,`userid`,`parentid`,`type`,`client`,`code_name`,`parent_code_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='栏目表，网站上的栏目';

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -36,6 +37,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
@@ -317,6 +319,7 @@ public class ColumnController extends BaseController {
 			siteColumn.setParentid(0); //默认为顶级栏目
 			siteColumn.setEditUseText(SiteColumn.USED_ENABLE);//内容正文默认是都显示的
 			siteColumn.setEditMode(SiteColumn.EDIT_MODE_INPUT_MODEL);//编辑方式，，默认使用内容管理方式编辑
+			siteColumn.setUseGenerateView(SiteColumn.USED_ENABLE);	//是否生成内容页面，默认是生成的
 		}
 
 		//获取用户当前的模版页面列表
@@ -416,6 +419,16 @@ public class ColumnController extends BaseController {
 		}
 		
 		AliyunLog.addActionLog(getSiteId(), "CMS模式下，添加、修改栏目");
+		
+		/*
+		 * 设置标题图片上传相关,v4.7增加
+		 */
+		//可上传的后缀列表
+		model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
+		//可上传的文件最大大小(KB)
+		model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
+		//设置上传后的图片、附件所在的个人路径
+		ShiroFunc.getCurrentActiveUser().setUeUploadParam1(site.getId()+"");
 		
 		model.addAttribute("parentColumnOption", parentColumn.toString());
 		model.addAttribute("site", site);
@@ -550,6 +563,9 @@ public class ColumnController extends BaseController {
 		sc.setEditUseIntro(siteColumn.getEditUseIntro() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseIntro());
 		sc.setEditUseText(siteColumn.getEditUseText() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseText());
 		sc.setEditUseTitlepic(siteColumn.getEditUseTitlepic() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseTitlepic());
+		//v4.7
+		sc.setUseGenerateView(siteColumn.getUseGenerateView() == null? SiteColumn.USED_ENABLE:siteColumn.getUseGenerateView());
+		sc.setIcon(siteColumn.getIcon());
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = filter(siteColumn.getInputModelCodeName());
@@ -636,12 +652,18 @@ public class ColumnController extends BaseController {
 			sc.setParentid(0);		//父栏目id，通用模版只有一级栏目
 		}
 		
-		String oldIconName = sc.getIcon();	//旧的栏目导航图名字
-		
 		//上传图标，并进行压缩处理
-		UploadFileVO upload= AttachmentFile.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
-		if(upload.getResult() == BaseVO.SUCCESS){
-			sc.setIcon(upload.getFileName());
+		if(!StringUtil.StringEqual(sc.getIcon(), siteColumn.getIcon())){
+			//如果是已经上传了新的，那么删除之前传的那个icon文件
+			if(sc.getIcon() != null){
+				String us[] = sc.getIcon().split("/site/"+site.getId()+"/news/");
+				if(us.length > 1 && us[0].equals(Global.get("ATTACHMENT_FILE_URL"))){
+					AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+us[1]);
+				}
+			}
+			
+			//设置上最新的
+			sc.setIcon(siteColumn.getIcon());
 		}
 
 		sqlService.save(sc);
@@ -712,13 +734,6 @@ public class ColumnController extends BaseController {
 							IndexNews.refreshIndexData(site, sc, newsList);
 						}
 					}
-				}
-			}
-			
-			//删除之前传的那个icon文件
-			if(!(oldIconName == null || oldIconName.length() == 0)){
-				if(oldIconName.indexOf("/") == -1){
-					AttachmentFile.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
 				}
 			}
 			

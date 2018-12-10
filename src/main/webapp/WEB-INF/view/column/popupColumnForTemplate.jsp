@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_editMode.js"></script>
 <script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_listRank.js"></script>
+<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_useGenerateView.js"></script>
 
 
 <form id="form" method="post" class="layui-form" style="padding:0px;margin-bottom: 10px; margin-top:0px;">
@@ -159,6 +160,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
 			</div>
 		</div>
+		<div class="layui-form-item" id="useGenerateView_div">
+			<label class="layui-form-label" id="useGenerateView_label">生成内容页</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForuseGenerateView_('${siteColumn.useGenerateView }','请选择', true);</script>
+			</div>
+		</div>
+    	
+		<!-- 标题图片、封面图片。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+		<div class="layui-form-item" id="icon_div">
+			<label class="layui-form-label" id="label_columnName">栏目图片</label>
+			<div class="layui-input-block">
+				<input name="icon" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="${siteColumn.icon }" style="padding-right: 120px;">
+				<button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">
+					<i class="layui-icon layui-icon-upload"></i>
+				</button>
+				<a href="${siteColumn.icon }" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
+					<img id="titlePicImg" src="${siteColumn.icon }?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+				</a><input class="layui-upload-file" type="file" name="fileName">
+			</div>
+		</div>
+    	
     	
     </div>
   </div>
@@ -231,6 +253,48 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
   });
   
 });
+
+
+layui.use('upload', function(){
+	var upload = layui.upload;
+	//上传图片,封面图
+	//upload.render(uploadPic);
+	upload.render({
+		elem: "#uploadImagesButton" //绑定元素
+		,url: '<%=basePath %>site/uploadImage.do' //上传接口
+		,field: 'image'
+		,accept: 'file'
+		,size: ${maxFileSizeKB}
+		,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
+		,done: function(res){
+			//上传完毕回调
+			loadClose();
+			if(res.result == 1){
+				try{
+					document.getElementById("titlePicInput").value = res.url;
+					document.getElementById("titlePicA").href = res.url;
+					document.getElementById("titlePicImg").src = res.url;
+					document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
+				}catch(err){}
+				parent.iw.msgSuccess("上传成功");
+			}else{
+				parent.iw.msgFailure(res.info);
+			}
+		}
+		,error: function(index, upload){
+			//请求异常回调
+			parent.iw.loadClose();
+			parent.iw.msgFailure();
+		}
+		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+			parent.iw.loading('上传中..');
+		}
+	});
+	
+	//上传图片,图集，v4.6扩展
+	upload.render(uploadExtendPhotos);
+});
+
 
 
 //鼠标跟随提示
@@ -434,7 +498,21 @@ $(function(){
 		layer.close(label_editUseText_index);
 	})
 	
+	//是否生成内容详情页面
+	var useGenerateView_label_index = 0;
+	$("#useGenerateView_label").hover(function(){
+		useGenerateView_label_index = layer.tips('是否生成内容详情页面？<br/>如果您这个栏目只是要做一个列表，不做点击进入的详情页面的话，即无内容详情页，也就是此处可以设置为不生成内容页面，可以提高生成整站的速度。<br/><b>注意，若是不懂，请勿改动此处！</b>', '#useGenerateView_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(useGenerateView_label_index);
+	})
 	
+
+
 });	
 
 //当类型改变后，相应的自定义网址也会显示或者隐藏、模版也会相应显示或者隐藏
@@ -444,17 +522,19 @@ function selectTypeChange(){
 	document.getElementById("listnum").style.display="none";				//列表页面每页显示多少条
 	
 	if(document.getElementById("type").options[1].selected){
-		//新闻、图文
+		//列表页面（新闻、图文等）
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_listTemplate").style.display="";
 		document.getElementById("listnum").style.display="";
 		document.getElementById("xnx3_editMode").style.display="none";
 		document.getElementById("listRank").style.display="";
+		document.getElementById("useGenerateView_div").style.display="";
 	}else if(document.getElementById("type").options[2].selected){
 		//独立页面
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_editMode").style.display="";
 		document.getElementById("listRank").style.display="none";
+		document.getElementById("useGenerateView_div").style.display="none";
 	}
 }
 selectTypeChange();

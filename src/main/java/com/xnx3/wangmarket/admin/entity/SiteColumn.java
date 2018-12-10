@@ -96,7 +96,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Integer id;
 	private String name;
 	private String url;
-	private String icon;
+	private String icon;	//本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示
 	private Integer rank;	//栏目间的排序
 	private Short used;
 	private Integer siteid;
@@ -117,6 +117,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Short editUseIntro;			//内容管理中，添加内容时，文章简介的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
 	private Short editUseText;			//内容管理中，添加内容时，文章详情的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
 	private Short editUseExtendPhotos;	//内容管理中，添加内容时，图集的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
+	
+	//v4.7
+	private Short useGenerateView;		//是否生成内容页面。取值1生成；0不生成，如果为null则默认为1，默认是生成。set时使用 SiteColumn.USED_ENABLE 赋值
 	
 	// Constructors
 
@@ -341,6 +344,15 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		this.editUseExtendPhotos = editUseExtendPhotos;
 	}
 
+	@Column(name = "use_generate_view")
+	public Short getUseGenerateView() {
+		return useGenerateView;
+	}
+
+	public void setUseGenerateView(Short useGenerateView) {
+		this.useGenerateView = useGenerateView;
+	}
+
 	@Override
 	public String toString() {
 		return "SiteColumn [id=" + id + ", name=" + name + ", url=" + url + ", icon=" + icon + ", rank=" + rank
@@ -349,8 +361,11 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 				+ templatePageViewName + ", codeName=" + codeName + ", parentCodeName=" + parentCodeName + ", listNum="
 				+ listNum + ", inputModelCodeName=" + inputModelCodeName + ", editMode=" + editMode + ", listRank="
 				+ listRank + ", editUseTitlepic=" + editUseTitlepic + ", editUseIntro=" + editUseIntro
-				+ ", editUseText=" + editUseText + ", editUseExtendPhotos=" + editUseExtendPhotos + "]";
+				+ ", editUseText=" + editUseText + ", editUseExtendPhotos=" + editUseExtendPhotos + ", useGenerateView="
+				+ useGenerateView + "]";
 	}
+
+	
 	
 	
 }

@@ -46,6 +46,14 @@ if('${siteColumn.type}' == 3 && '${siteColumn.editMode}' == 1){
 }
 </script>
 
+<style>
+/*input输入框下面的文字说明*/
+.explain{
+	font-size: 12px;
+    color: gray;
+    padding-top: 3px;
+}
+</style>
 
 
 <form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">

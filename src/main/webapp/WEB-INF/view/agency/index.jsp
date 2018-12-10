@@ -159,7 +159,7 @@ function getTr(name, value){
 		//忽略
 		return "";
 	}else{
-		return '<tr><td>'+name+'</td><td>'+value+'</td></tr>';
+		return '<tr><td style="width:45px;">'+name+'</td><td>'+value+'</td></tr>';
 	}
 }
 //弹出其上级代理的信息

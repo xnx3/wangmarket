@@ -14,6 +14,7 @@ public class SiteColumn extends BaseGenerate {
 		type();
 		editMode();
 		listRank();
+		useGenerateView();
 	}
 	
 	public void used(){
@@ -53,6 +54,16 @@ public class SiteColumn extends BaseGenerate {
 		createCacheObject("listRank");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_ASC, "发布时间正序");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_DESC, "发布时间倒序");
+		generateCacheFile();
+	}
+	
+	/**
+	 * 是否生成内容详情的页面
+	 */
+	public void useGenerateView(){
+		createCacheObject("useGenerateView");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_ENABLE, "生成");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_UNABLE, "不生成");
 		generateCacheFile();
 	}
 }

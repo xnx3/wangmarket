@@ -1,6 +1,7 @@
 package com.xnx3.wangmarket.admin.cache;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,6 +185,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("siteColumn.used"), siteColumn.getUsed()+"");
 		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
 		text = text.replaceAll(regex("siteColumn.parentCodeName"), siteColumn.getParentCodeName()+"");
+		//v4.7
+		text = text.replaceAll(regex("siteColumn.icon"), siteColumn.getIcon());
 		
 		//判断栏目的链接地址
 		String url = "";
@@ -277,7 +280,15 @@ public class TemplateCMS {
 	        }
 		}
 		
-		
+		//v4.7 增加 {news.addtime.day} 、 {news.addtime.month} 、 {news.addtime.year} 、 hour 、 minute
+		if(text.indexOf("{news.addtime.") > -1){
+			Date date = new Date(news.getAddtime());
+			text = text.replaceAll(regex("news.addtime.day"), date.getDay()+"");
+			text = text.replaceAll(regex("news.addtime.month"), date.getMonth()+"");
+			text = text.replaceAll(regex("news.addtime.year"), date.getYear()+"");
+			text = text.replaceAll(regex("news.addtime.hour"), date.getHours()+"");
+			text = text.replaceAll(regex("news.addtime.minute"), date.getMinutes()+"");
+		}
 		
 		return text;
 	}
@@ -417,21 +428,45 @@ public class TemplateCMS {
 		}else{
 			//若是当前页面是列表页的内容详情时，支持上一页、下一页的功能
 			
-			String upPage;	//上一页的超链接
-			String nextPage;	//下一页的超链接
+			String upPage;	//上一页的超链接a标签
+			String nextPage;	//下一页的超链接a标签
+			String upPageUrl;	//上一页的url
+			String nextPageUrl;
+			
 			if(upNews == null){
-				upPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+				if(this.generateUrlRule.equals("code")){
+					//code.html
+					upPage = "<a href=\""+siteColumn.getCodeName()+".html\" target=\"_black\">返回列表</a>";
+					upPageUrl = siteColumn.getCodeName()+".html";
+				}else{
+					//id.html
+					upPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+					upPageUrl = siteColumn.getId()+"_1.html";
+				}
 			}else{
 				upPage = "<a href=\""+upNews.getId()+".html\" target=\"_black\">"+upNews.getTitle()+"</a>";
+				upPageUrl = upNews.getId()+".html";
 			}
 			if(nextNews == null){
-				nextPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+				if(this.generateUrlRule.equals("code")){
+					//code.html
+					nextPage = "<a href=\""+siteColumn.getCodeName()+".html\" target=\"_black\">返回列表</a>";
+					nextPageUrl = siteColumn.getCodeName()+".html";
+				}else{
+					//id.html
+					nextPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+					nextPageUrl = siteColumn.getId()+"_1.html";
+				}	
 			}else{
 				nextPage = "<a href=\""+nextNews.getId()+".html\" target=\"_black\">"+nextNews.getTitle()+"</a>";
+				nextPageUrl = nextNews.getId()+".html";
 			}
 			
 			pageHtml = pageHtml.replaceAll(Template.regex("upPage"), upPage);
 			pageHtml = pageHtml.replaceAll(Template.regex("nextPage"), nextPage);
+			pageHtml = pageHtml.replaceAll(Template.regex("upPageUrl"), upPageUrl);
+			pageHtml = pageHtml.replaceAll(Template.regex("nextPageUrl"), nextPageUrl);
+			
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
@@ -531,36 +566,44 @@ public class TemplateCMS {
 		}else{
 			//若是当前页面是列表页的内容详情时，支持上一页、下一页的功能
 			
-			String upPage;	//上一页的超链接
-			String nextPage;	//下一页的超链接
-			
+			String upPage;	//上一页的超链接a标签
+			String nextPage;	//下一页的超链接a标签
+			String upPageUrl;	//上一页的url
+			String nextPageUrl;
 			
 			if(upNews == null){
 				if(this.generateUrlRule.equals("code")){
 					//code.html
 					upPage = "<a href=\""+siteColumn.getCodeName()+".html\" target=\"_black\">返回列表</a>";
+					upPageUrl = siteColumn.getCodeName()+".html";
 				}else{
 					//id.html
 					upPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+					upPageUrl = siteColumn.getId()+"_1.html";
 				}
 			}else{
 				upPage = "<a href=\""+upNews.getId()+".html\" target=\"_black\">"+upNews.getTitle()+"</a>";
+				upPageUrl = upNews.getId()+".html";
 			}
 			if(nextNews == null){
 				if(this.generateUrlRule.equals("code")){
 					//code.html
 					nextPage = "<a href=\""+siteColumn.getCodeName()+".html\" target=\"_black\">返回列表</a>";
+					nextPageUrl = siteColumn.getCodeName()+".html";
 				}else{
 					//id.html
 					nextPage = "<a href=\"lc"+siteColumn.getId()+"_1.html\" target=\"_black\">返回列表</a>";
+					nextPageUrl = siteColumn.getId()+"_1.html";
 				}	
 			}else{
 				nextPage = "<a href=\""+nextNews.getId()+".html\" target=\"_black\">"+nextNews.getTitle()+"</a>";
+				nextPageUrl = nextNews.getId()+".html";
 			}
-			
 			
 			pageHtml = pageHtml.replaceAll(Template.regex("upPage"), upPage);
 			pageHtml = pageHtml.replaceAll(Template.regex("nextPage"), nextPage);
+			pageHtml = pageHtml.replaceAll(Template.regex("upPageUrl"), upPageUrl);
+			pageHtml = pageHtml.replaceAll(Template.regex("nextPageUrl"), nextPageUrl);
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}

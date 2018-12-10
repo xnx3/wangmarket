@@ -494,7 +494,15 @@ public class NewsController extends BaseController {
 		Site site = getSite();
 		String url = "http://"+Func.getDomain(site)+"/";
 		
-		
+		//从栏目缓存中，取出栏目信息
+		Map<Integer, SiteColumn> columnMap = siteColumnService.getSiteColumnMapByCache();
+		SiteColumn sc = columnMap.get(cid);
+		if(sc == null){
+			return error(model, "文章所属栏目未发现");
+		}
+		if(sc.getUseGenerateView() - SiteColumn.USED_UNABLE == 0){
+			return error(model, "该文章所属的栏目，设置了不生成文章详情页，正在跳至列表页",sc.getCodeName()+".html?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain());
+		}
 		if(site.getClient() - Site.CLIENT_CMS == 0){
 			//如果是CMS模式网站，则需要判断
 			if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
@@ -520,13 +528,6 @@ public class NewsController extends BaseController {
 		//判断是否是独立页面，若是独立页面，需要用 c +cid .html， 或者使用code.html
 		if(type - SiteColumn.TYPE_PAGE == 0 || type - SiteColumn.TYPE_ALONEPAGE == 0){
 			if(generateUrlRule.equals("code")){
-				//从栏目缓存中，取出栏目信息
-				Map<Integer, SiteColumn> columnMap = siteColumnService.getSiteColumnMapByCache();
-				SiteColumn sc = columnMap.get(cid);
-				if(sc == null){
-					return error(model, "文章所属栏目未发现");
-				}
-				
 				fileName = sc.getCodeName();
 				url = url + sc.getCodeName() + ".html"; 
 			}else{

@@ -3,11 +3,26 @@
 	<label class="layui-form-label" id="label_columnName">文章标题</label>
 	<div class="layui-input-block">
 		<input type="text" name="title"  required lay-verify="required" autocomplete="off" placeholder="限制30字以内" class="layui-input" value="{news.title}">
+		<!--  <div class="explain">此处显示在input输入框下面，是帮助说明，指引用户应该如何填写，注意什么等</div>  -->
 	</div>
 </div>
 
 
-<!-- 标题图片、封面图片。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+<!-- 这里，演示扩展字段。
+	更多的使用帮助，可以参考 http://tag.wscso.com/8318.html 
+	这里，增加一个年龄的字段,字段名为 age ，如下所示，叫什么名字，直接写上，就能用！
+-->
+<!-- 
+<div class="layui-form-item">
+	<label class="layui-form-label" id="label_columnName">年龄</label>
+	<div class="layui-input-block">
+		<input type="text" name="extend.age" placeholder="请输入您的年龄，如 五岁" class="layui-input" value="{news.extend.age}">
+		<div class="explain">此处显示在input输入框下面，是帮助说明，指引用户应该如何填写，注意什么等</div>
+	</div>
+</div>
+ -->
+
+<!-- 标题图片、封面图片。若是想在内容管理中，编辑文章时显示此项，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
 <div class="layui-form-item" id="sitecolumn_editUseTitlepic" style="display:none;">
 	<label class="layui-form-label" id="label_columnName">标题图片</label>
 	<div class="layui-input-block">
@@ -18,6 +33,7 @@
 		<a href="{titlepicImage}" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
 			<img id="titlePicImg" src="{titlepicImage}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
 		</a><input class="layui-upload-file" type="file" name="fileName">
+		<!-- <div class="explain">此处显示标题图的帮助说明，比如：建议图片比例为4:3</div> -->
 	</div>
 </div>
 
@@ -43,39 +59,25 @@
 		<!-- item模版结束 -->
 	</div>
 	<div style="padding-top:5px; padding-left:110px;">
-		<a href="javascript:appendPhotosInput('');" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">向图集添加一个图片输入框</a>
+		<a href="javascript:appendPhotosInput('');" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius" style="float:left;">向图集添加一个图片输入框</a>
+		<!-- <div class="explain" style=" float: left; padding-left: 15px; padding-top: 6px; float:left;">这里显示图集的上传指引，比如：建议图片比例为4:3</div> -->
 	</div>
 </div>
 <script type="text/javascript" src="../js/admin/cms/news_extend_photos.js"></script>
 
 
-
-
-<!-- 这里，演示扩展字段。
-	更多的使用帮助，可以参考 http://tag.wscso.com/8318.html 
-	这里，增加一个年龄的字段,字段名为 age ，如下所示，叫什么名字，直接写上，就能用！
--->
-<!-- 
-<div class="layui-form-item">
-	<label class="layui-form-label" id="label_columnName">年龄</label>
-	<div class="layui-input-block">
-		<input type="text" name="extend.age" placeholder="请输入您的年龄，如 五岁" class="layui-input" value="{news.extend.age}">
-	</div>
-</div>
- -->
-
-
-<!-- 若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容简介，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseIntro" ,不然栏目设置中的是否使用功能将会失效！ -->
+<!-- 若是想在内容管理中，编辑文章时显示此项，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容简介，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseIntro" ,不然栏目设置中的是否使用功能将会失效！ -->
 <div class="layui-form-item" id="sitecolumn_editUseIntro" style="display:none;">
 	<label class="layui-form-label" id="label_columnName">内容简介</label>
 	<div class="layui-input-block">
 		<textarea class="layui-input" name="intro" style="height:70px;">{news.intro}</textarea>
+		<!--  <div class="explain">此处显示在input输入框下面，是帮助说明，指引用户应该如何填写，注意什么等</div>  -->
 	</div>
 </div>
 
 
 <!-- 
-	若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容正文，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseText" ,不然栏目设置中的是否使用功能将会失效！
+	若是想在内容管理中，编辑文章时显示此项，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到内容正文，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseText" ,不然栏目设置中的是否使用功能将会失效！
  -->
 <!-- 配置文件 -->
 <script type="text/javascript" src="../module/ueditor/ueditor.config.js"></script>

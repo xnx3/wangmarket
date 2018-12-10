@@ -597,24 +597,27 @@ public class SiteServiceImpl implements SiteService {
 				/*
 				 * 生成当前栏目的内容页面
 				 */
-				for (int i = 0; i < columnNewsList.size(); i++) {
-					News news = columnNewsList.get(i);
-					
-					if(siteColumn.getId() - news.getCid() == 0){
-						//当前文章是此栏目的，那么生成文章详情。不然是不生成的，免得在父栏目中生成子栏目的页面，导致siteColumn调用出现错误
-						//列表页的内容详情页面，还会有上一篇、下一篇的功能
-						News upNews = null;
-						News nextNews = null;
-						if(i > 0){
-							upNews = columnNewsList.get(i-1);
+				//判断栏目属性中，是否设置了生成内容详情页面, v4.7增加
+				if(siteColumn.getUseGenerateView() == null || siteColumn.getUseGenerateView() - SiteColumn.USED_ENABLE == 0){
+					for (int i = 0; i < columnNewsList.size(); i++) {
+						News news = columnNewsList.get(i);
+						
+						if(siteColumn.getId() - news.getCid() == 0){
+							//当前文章是此栏目的，那么生成文章详情。不然是不生成的，免得在父栏目中生成子栏目的页面，导致siteColumn调用出现错误
+							//列表页的内容详情页面，还会有上一篇、下一篇的功能
+							News upNews = null;
+							News nextNews = null;
+							if(i > 0){
+								upNews = columnNewsList.get(i-1);
+							}
+							if((i+1) < columnNewsList.size()){
+								nextNews = columnNewsList.get(i+1);
+							}
+							//生成内容页面
+							template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, upNews, nextNews);
+							//XML加入内容页面
+							xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.5");
 						}
-						if((i+1) < columnNewsList.size()){
-							nextNews = columnNewsList.get(i+1);
-						}
-						//生成内容页面
-						template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, upNews, nextNews);
-						//XML加入内容页面
-						xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.5");
 					}
 				}
 				
