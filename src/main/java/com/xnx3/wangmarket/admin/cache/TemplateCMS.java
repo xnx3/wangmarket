@@ -184,7 +184,7 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("siteColumn.type"), siteColumn.getType()+"");
 		text = text.replaceAll(regex("siteColumn.used"), siteColumn.getUsed()+"");
 		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
-		text = text.replaceAll(regex("siteColumn.parentCodeName"), siteColumn.getParentCodeName()+"");
+		text = text.replaceAll(regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
 		//v4.7
 		text = text.replaceAll(regex("siteColumn.icon"), siteColumn.getIcon());
 		
