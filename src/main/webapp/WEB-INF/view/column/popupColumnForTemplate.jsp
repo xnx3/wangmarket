@@ -194,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
-	<div style="padding:10px;color:#e2e2e2; padding-bottom: 2px; width:100%; text-align:center;">
+	<div style="padding:10px;color:#e2e2e2; padding-bottom: 2px; width:100%; text-align:center; box-sizing: border-box;">
 		提示：鼠标放到左侧描述,可显示当前说明
 	</div>
 </form>

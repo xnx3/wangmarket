@@ -1,7 +1,9 @@
 package com.xnx3.wangmarket.admin.cache;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -282,12 +284,16 @@ public class TemplateCMS {
 		
 		//v4.7 增加 {news.addtime.day} 、 {news.addtime.month} 、 {news.addtime.year} 、 hour 、 minute
 		if(text.indexOf("{news.addtime.") > -1){
-			Date date = new Date(news.getAddtime());
-			text = text.replaceAll(regex("news.addtime.day"), date.getDay()+"");
-			text = text.replaceAll(regex("news.addtime.month"), date.getMonth()+"");
-			text = text.replaceAll(regex("news.addtime.year"), date.getYear()+"");
-			text = text.replaceAll(regex("news.addtime.hour"), date.getHours()+"");
-			text = text.replaceAll(regex("news.addtime.minute"), date.getMinutes()+"");
+			long time = news.getAddtime();
+			Calendar c = new GregorianCalendar();
+			c.setTime(new Date(time * 1000));
+			
+			text = text.replaceAll(regex("news.addtime.year"), c.get(Calendar.YEAR)+"");
+			text = text.replaceAll(regex("news.addtime.month"), (c.get(Calendar.MONTH) + 1)+"");
+			text = text.replaceAll(regex("news.addtime.day"), c.get(Calendar.DAY_OF_MONTH)+"");
+			text = text.replaceAll(regex("news.addtime.hour"), c.get(Calendar.HOUR_OF_DAY)+"");
+			text = text.replaceAll(regex("news.addtime.minute"), c.get(Calendar.MINUTE)+"");
+			text = text.replaceAll(regex("news.addtime.second"), c.get(Calendar.SECOND)+"");
 		}
 		
 		return text;
