@@ -268,6 +268,11 @@ public class TemplateVO extends BaseVO {
 				}else{
 					nsc.setUseGenerateView(SiteColumn.USED_ENABLE);
 				}
+				if(j.get("icon") != null){
+					nsc.setIcon(j.getString("icon"));
+				}else{
+					nsc.setIcon("");
+				}
 				
 				
 				siteColumnList.add(nsc);
