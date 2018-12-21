@@ -322,6 +322,7 @@ DROP TABLE IF EXISTS `news_data`;
 CREATE TABLE `news_data` (
   `id` int(11) NOT NULL COMMENT '对应news.id',
   `text` mediumtext COLLATE utf8_unicode_ci COMMENT '信息内容',
+  `extend` text COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '其他扩展字段，以json形式存在',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='news内容分表';
 
