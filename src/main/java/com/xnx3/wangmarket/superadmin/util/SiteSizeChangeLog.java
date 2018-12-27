@@ -2,9 +2,9 @@ package com.xnx3.wangmarket.superadmin.util;
 
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
-import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MailUtil;
@@ -17,31 +17,26 @@ public class SiteSizeChangeLog {
 	public static AliyunLogUtil aliyunLogUtil;
 	
 	static{
-		ConfigManagerUtil config = ConfigManagerUtil.getSingleton("systemConfig.xml");
 		//判断是否使用日志服务进行日志记录，条件便是 accessKeyId 是否为空。若为空，则不使用
-		String use = config.getValue("log.logService.use");
-		if(use != null && use.equals("true")){
-			String keyId = config.getValue("log.logService.accessKeyId");
-			String keySecret = config.getValue("log.logService.accessKeySecret");
-			if(keyId == null || keyId.length() == 0){
-				//取数据库的
-				keyId = Global.get("ALIYUN_ACCESSKEYID");
-			}
-			if(keySecret == null || keySecret.length() == 0){
-				//取数据库的
-				keySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			}
+		String use = Global.get("ALIYUN_SLS_USE");
+		if(use != null && use.equals("1")){
+			//使用日志服务
+			
+			String keyId = Global.get("ALIYUN_ACCESSKEYID");
+			String keySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+			String endpoint = Global.get("ALIYUN_LOG_ENDPOINT");
+			String project = Global.get("ALIYUN_SLS_PROJECT");
+			String logstore = Global.get("ALIYUN_LOG_SITESIZECHANGE");
+			
 			
 			if(keyId.length() > 10){
-				aliyunLogUtil = new AliyunLogUtil(config.getValue("log.logService.endpoint"),  keyId, keySecret, config.getValue("log.logService.project"), Global.get("ALIYUN_LOG_SITESIZECHANGE"));
-				System.out.println("开启站币变动进行日志操作记录");
+				aliyunLogUtil = new AliyunLogUtil(endpoint,  keyId, keySecret, project, logstore);
+				aliyunLogUtil.setCacheAutoSubmit(0, 60);
+				Log.info("开启日志服务进行操作记录");
 			}else{
 				//此处可能是还没执行install安装
 			}
 			
-		}else{
-			//不使用日志服务进行日志记录，当然，aliyunLogUtil＝null
-			System.out.println("未开启日志服务记录站币变动的日志。若想开启，可参考网址 http://www.guanleiming.com/2348.html");
 		}
 	}
 	

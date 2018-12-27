@@ -168,6 +168,8 @@ public class InitApplication implements CommandLineRunner{
 		String accessKeyId = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.accessKeyId");
 		String accessKeySecret = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.accessKeySecret");
 		String bucketName = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.bucketName");
+		String endpoint = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.endpoint");
+		
 		if(Global.databaseCreateFinish){
 			//如果使用到了数据库，那么进行OSSUtil初始化的判断。因为OSSUtil 的配置文件xnx3Config中，若是参数不填写的话会默认继承system数据表的值
 			if(accessKeyId == null || accessKeyId.length() < 10){
@@ -193,6 +195,10 @@ public class InitApplication implements CommandLineRunner{
 				}
 			}
 		}
+		if(endpoint == null || endpoint.length() == 0){
+			//没有值，那么继承数据表的值
+			accessKeySecret = Global.get("ALIYUN_OSS_ENDPOINT");
+		}
 		
 		boolean checkOss = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("startAutoCheck.oss").equals("true");
 		if(!checkOss){
@@ -207,15 +213,7 @@ public class InitApplication implements CommandLineRunner{
 		
 		java.lang.System.out.println("系统中使用了OSS，开始OSS初始化检测...（若在此等待时间太长，导致项目启动失败，那可能是你网络不给力，你可以吧tomcat的开启的超时时间设置的大一点自然就过去了。也或者将/src/system.xml中，startAutoCheck.oss设置为false）");
 		//先判断 xnx3Config.xml 的 aliyunOSS.accessKeyId是否有配置，若其是空，则肯定是用户还没有进行配置了
-		String endpoint = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.endpoint");
 		
-		if(endpoint == null || endpoint.length() == 0){
-			//尚未配置
-			Global.xnx3Config_oss = false;
-			Global.xnx3Config_oss_explain = "OSS异常：项目根目录下src/xnx3Config.xml配置文件中，aliyunOSS节点下的endpoint为空，如果您不使用文件上传功能，可忽略此项。若使用文件上传功能，请参照 http://www.guanleiming.com/2327.html 进行配置";
-			Log.info(Global.xnx3Config_oss_explain);
-			return;
-		}
 		if(accessKeyId == null || accessKeyId.length() == 0){
 			//尚未配置
 			Global.xnx3Config_oss = false;
@@ -231,48 +229,5 @@ public class InitApplication implements CommandLineRunner{
 			return;
 		}
 		
-		//有配置，则验证其是否是对的
-		try {
-			OSSUtil.accessKeyId = accessKeyId;
-			OSSUtil.accessKeySecret = accessKeySecret;
-			OSSUtil.bucketName = bucketName;
-			OSSUtil.refreshUrl();
-			
-//			OSSUtils oss = new OSSUtils(endpoint, accessKeyId, accessKeySecret , null, null);
-			
-			//检测OSS是否能成功连接上
-			try {
-				OSSUtil.getOSSClient().listBuckets().size();
-			} catch (Exception e) {
-				Global.xnx3Config_oss = false;
-				Global.xnx3Config_oss_explain = "OSS异常：如果您不使用OSS进行上传文件存储，此项忽略即可。此异常多数情况下是src/xnx3Config.xml文件中，aliyunOSS节点下的accessKeyId、accessKeySecret填写错误导致的，请参照 http://www.guanleiming.com/2327.html 进行配置。具体是否是此原因导致的，可以看异常的提示代码 : "+e.getMessage();
-				Log.error(Global.xnx3Config_oss_explain);
-				return;
-			}
-			
-			boolean have = OSSUtil.getOSSClient().doesBucketExist(bucketName);
-			if(!have){
-				//如果不存在这个bucketName，则自动创建一个
-				CreateBucketRequest createBucketRequest= new CreateBucketRequest(bucketName);
-				createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);	// 设置bucket权限为公共读，默认是私有读写
-				OSSUtil.getOSSClient().createBucket(createBucketRequest);
-				
-				//创建完毕后再请求看看，是不是真的创建成功了
-				if(OSSUtil.getOSSClient().doesBucketExist(bucketName)){
-					Log.info("检测到OSS的BucketName不存在，系统已自动将其创建成功");
-				}else{
-					Global.xnx3Config_oss = false;
-					Global.xnx3Config_oss_explain = "检测到OSS的BucketName不存在，系统进行自动创建时，失败！很大可能是BucketName不规范造成的。 建议在src/xnx3Config.xml文件中，aliyunOSS节点下的bucketName，尝试使用 iw+一串小写英文字母 作为它的值， 如 iwwangmarketdomain"+DateUtil.timeForUnix10();
-					Log.info(Global.xnx3Config_oss_explain);
-					return;
-				}
-			}
-//			OSSUtil.getOSSClient().shutdown();
-		} catch (Exception e) {
-			Global.xnx3Config_oss = false;
-			Global.xnx3Config_oss_explain = "检测到OSS的BucketName不存在，系统进行自动创建时，失败！很大可能是BucketName不规范造成的。 建议在src/xnx3Config.xml文件中，aliyunOSS节点下的bucketName，尝试使用 iw+一串小写英文字母 作为它的值， 如 iwwangmarketdomain"+DateUtil.timeForUnix10();
-			Log.error(Global.xnx3Config_oss_explain);
-			e.printStackTrace();
-		}
 	}
 }

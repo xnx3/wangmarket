@@ -12,32 +12,6 @@
 	</attachmentFile>
 
 
-	<log>
-		<!-- logService 动作日志记录的相关参数配置,记录所有用户的动作信息
-			若不使用，不开启，use为false即可
-		 -->
-		<logService>
-			<!-- 是否使用此功能。若使用日志服务记录日志动作，则此为true，若不使用，则下面参数不用管，use为false即可 -->
-			<use>false</use>
-			<!-- 服务入口，如cn-hangzhou.log.aliyuncs.com ，具体参考 https://help.aliyun.com/document_detail/29008.html -->
-			<endpoint>cn-hongkong.log.aliyuncs.com</endpoint>
-			<!-- 阿里云的 AccessKeys  -->
-			<!-- 若accessKeyId不填写，则默认自动从数据库中取system表，name=ALIYUN_ACCESSKEYID的值 -->
-			<accessKeyId></accessKeyId>
-			<!-- 若accessKeySecret不填写，则默认自动从数据库中取system表，name=ALIYUN_ACCESSKEYSECRET的值 -->
-			<accessKeySecret></accessKeySecret>
-			<!-- 日志服务的Project -->
-			<project>requestlog</project>
-			<!-- 上面project下的Logstore -->
-			<logstore>useraction</logstore>
-			
-			<!-- 缓存日志的最大时间，单位为秒。超过这个时间后，将会自动提交日志。即每隔多长时间就自动提交日志，然后清空（ {@link #logGroup} ）重新开始累计 -->
-			<log_cache_max_time>600</log_cache_max_time>
-			<!-- 缓存日志的最大条数。当达到这个条数后，将自动提交日志。 -->
-			<log_cache_max_number>100</log_cache_max_number>
-		</logService>
-	</log>
-	
 	<sms>
 		<!-- 短信同一手机号，某个功能每天发送的条数限制，超过这个条数，这个功能便无法再次发送短信了。 -->
 		<!-- 如登录功能，这个功能今天18453663367这个手机号发送了5次短信，再次发送时，便会失败，今天不能再发送了 -->

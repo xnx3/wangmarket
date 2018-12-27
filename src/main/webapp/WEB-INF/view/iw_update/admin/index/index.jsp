@@ -111,7 +111,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		
-		<% if(com.xnx3.wangmarket.domain.G.aliyunLogUtil != null){ %>		
+		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>		
 		<shiro:hasPermission name="adminLog"> 
 			<li class="layui-nav-item">
 				<a href="javascript:;">
@@ -220,7 +220,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		
-		<% if(com.xnx3.wangmarket.domain.G.aliyunLogUtil != null){ %>
+		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
 		<shiro:hasPermission name="AgencyNormalAdd">
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('<%=basePath %>agency/actionLogList.do');">

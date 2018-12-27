@@ -23,6 +23,8 @@ import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.RequestLogDayLineVO;
 import com.xnx3.wangmarket.admin.vo.RequestLogItemListVO;
 import com.xnx3.wangmarket.domain.G;
+import com.xnx3.wangmarket.domain.Log;
+
 import eu.bitwalker.useragentutils.UserAgent;
 
 /**
@@ -49,7 +51,7 @@ public class RequestLogController extends BaseController {
 	 */
 	@RequestMapping("fangwentongji${url.suffix}")
 	public String fangwentongji(HttpServletRequest request, Model model){
-		if(G.aliyunLogUtil == null){
+		if(Log.aliyunLogUtil == null){
 			return error(model, "未开启网站访问日志统计");
 		}
 		AliyunLog.addActionLog(getSiteId(), "进入日志访问-访问统计页面");
@@ -62,7 +64,7 @@ public class RequestLogController extends BaseController {
 	 */
 	@RequestMapping("pachongtongji${url.suffix}")
 	public String pachongtongji(HttpServletRequest request, Model model){
-		if(G.aliyunLogUtil == null){
+		if(Log.aliyunLogUtil == null){
 			return error(model, "未开启网站访问日志统计");
 		}
 		AliyunLog.addActionLog(getSiteId(), "进入日志访问-爬虫统计页面");
@@ -82,7 +84,7 @@ public class RequestLogController extends BaseController {
 		String query = "siteid="+getSiteId()+" | timeslice 1h | count as c";
 		
 		//今日访问量统计
-		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = Log.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayFangWen = new JSONArray();	//今日访问量，pv
 		String countString = null;
@@ -97,7 +99,7 @@ public class RequestLogController extends BaseController {
 		//昨日
 		//1天前的时间戳
 		int startTime = DateUtil.getDateZeroTime(currentTime - 86400);
-		ArrayList<QueriedLog> zuoriQlList = G.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
+		ArrayList<QueriedLog> zuoriQlList = Log.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
 		JSONArray jsonArrayFangWenZuoRi = new JSONArray();	//昨日访问量，pv
 		for (int i = 0; i < zuoriQlList.size(); i++) {
 			LogItem li = zuoriQlList.get(i).GetLogItem();
@@ -127,7 +129,7 @@ public class RequestLogController extends BaseController {
 		String query = "siteid="+getSiteId()+" | timeslice 24h | count as c";
 		
 		//当月访问量统计
-		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = Log.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayDate = new JSONArray();	//天数
 		JSONArray jsonArrayFangWen = new JSONArray();	//某天访问量，pv
@@ -172,7 +174,7 @@ public class RequestLogController extends BaseController {
 		query = query + " and ("+spider+")";
 		
 		//当月访问量统计
-		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 604800), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = Log.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 604800), currentTime, 0, 100, true);
 		
 		JSONArray jsonArray = new JSONArray();	//某天访问量，pv
 		for (int i = 0; i < jinriQlList.size(); i++) {
@@ -231,7 +233,7 @@ public class RequestLogController extends BaseController {
 		long[] spiderRequestCountArray = new long[spiderNameArray.length];
 		//最近7天的爬虫统计
 		for (int i = 0; i < spiderNameArray.length; i++) {
-			spiderRequestCountArray[i] = G.aliyunLogUtil.queryCount("siteid="+getSiteId()+" AND "+spiderNameArray[i], "", DateUtil.getDateZeroTime(currentTime - 604800), currentTime);
+			spiderRequestCountArray[i] = Log.aliyunLogUtil.queryCount("siteid="+getSiteId()+" AND "+spiderNameArray[i], "", DateUtil.getDateZeroTime(currentTime - 604800), currentTime);
 		}
 		
 		JSONArray jsonArray = new JSONArray();

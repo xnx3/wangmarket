@@ -79,8 +79,8 @@
 		另外若不使用OSS对象存储，accessKeyId 不要填写为空即可！
 	-->
 	<aliyunOSS>
-		<!-- 存储在哪，如杭州的便是 oss-cn-hangzhou.aliyuncs.com  -->
-		<endpoint>oss-cn-hongkong.aliyuncs.com</endpoint>
+		<!-- 存储在哪，如杭州的便是 oss-cn-hangzhou.aliyuncs.com 。授权版本中，若此处不填写，会自动从数据库中加载配置 -->
+		<endpoint></endpoint>
 		<!-- AccessKeyId 可从这里获取 https://ak-console.aliyun.com 若不使用OSS对象存储，此处不要填写为空即可！  -->
 		<accessKeyId></accessKeyId>
 		<!-- AccessKeySecret 可从这里获取 https://ak-console.aliyun.com  -->

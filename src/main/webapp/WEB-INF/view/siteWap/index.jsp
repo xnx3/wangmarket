@@ -135,7 +135,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</a>
 		</li>
 		
-		<% if(com.xnx3.wangmarket.domain.G.aliyunLogUtil != null){ %>
+		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
 		<li class="layui-nav-item">
 			<a href="javascript:;" id="fangwentongji">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>

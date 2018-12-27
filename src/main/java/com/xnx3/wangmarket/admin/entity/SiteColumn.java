@@ -101,7 +101,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Short used;
 	private Integer siteid;
 	private Integer userid;
-	private Integer parentid;
+	private Integer parentid;	//已废弃，用 parentCodeName 取代
 	private Short type;
 //	private Short client;
 	private String templatePageListName;

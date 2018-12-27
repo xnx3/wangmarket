@@ -24,6 +24,7 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.RequestLogDayLineVO;
 import com.xnx3.wangmarket.domain.G;
+import com.xnx3.wangmarket.domain.Log;
 
 /**
  * 访问统计
@@ -50,7 +51,7 @@ public class AdminRequestLogController extends BaseController {
 	@RequiresPermissions("adminRequestLogFangWen")
 	@RequestMapping("fangwentongji${url.suffix}")
 	public String fangwentongji(HttpServletRequest request, Model model){
-		if(G.aliyunLogUtil == null){
+		if(Log.aliyunLogUtil == null){
 			return error(model, "您未开启网站访问相关的日志服务！无法查看网站访问日志");
 		}
 		AliyunLog.addActionLog(0, "进入总管理后台－日志访问-访问统计页面");
@@ -71,7 +72,7 @@ public class AdminRequestLogController extends BaseController {
 		String query = "Mozilla | timeslice 1h | count as c";
 		
 		//今日访问量统计
-		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = Log.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayFangWen = new JSONArray();	//今日访问量，pv
 		for (int i = 0; i < jinriQlList.size(); i++) {
@@ -85,7 +86,7 @@ public class AdminRequestLogController extends BaseController {
 		//昨日
 		//1天前的时间戳
 		int startTime = DateUtil.getDateZeroTime(currentTime - 86400);
-		ArrayList<QueriedLog> zuoriQlList = G.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
+		ArrayList<QueriedLog> zuoriQlList = Log.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
 		JSONArray jsonArrayFangWenZuoRi = new JSONArray();	//昨日访问量，pv
 		for (int i = 0; i < zuoriQlList.size(); i++) {
 			LogItem li = zuoriQlList.get(i).GetLogItem();
@@ -116,7 +117,7 @@ public class AdminRequestLogController extends BaseController {
 		String query = "Mozilla | timeslice 24h | count as c";
 		
 		//当月访问量统计
-		ArrayList<QueriedLog> jinriQlList = G.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = Log.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayDate = new JSONArray();	//天数
 		JSONArray jsonArrayFangWen = new JSONArray();	//某天访问量，pv
@@ -146,10 +147,10 @@ public class AdminRequestLogController extends BaseController {
 	@RequiresPermissions("adminLogList")
 	@RequestMapping("fangwenList${url.suffix}")
 	public String fangwenList(HttpServletRequest request,Model model) throws LogException{
-		if(G.aliyunLogUtil == null){
+		if(Log.aliyunLogUtil == null){
 			return error(model, "您未开启网站访问相关的日志服务！无法查看网站访问日志");
 		}
-		AliyunLogPageUtil log = new AliyunLogPageUtil(G.aliyunLogUtil);
+		AliyunLogPageUtil log = new AliyunLogPageUtil(Log.aliyunLogUtil);
 		
 		//得到当前页面的列表数据
 		JSONArray jsonArray = log.list("", "", true, 100, request);
