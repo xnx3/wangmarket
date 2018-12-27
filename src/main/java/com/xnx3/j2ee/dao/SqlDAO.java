@@ -1,4 +1,5 @@
 package com.xnx3.j2ee.dao;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -166,23 +167,63 @@ public class SqlDAO {
 //	}
 
 	/**
-	 * 根据字段名查值
+	 * 根据字段名查值。value会自动进行sql注入过滤
 	 * @param c {@link Class} 实体类，如 {@link User}.class
 	 * @param propertyName 数据表字段名(Hibernate 语句的字段名)
 	 * @param value 值
 	 * @return {@link List} 实体类
 	 */
 	public <E> List<E> findByProperty(Class<E> c,String propertyName, Object value) {
-		String whereValue = "";	//查询的值。若是字符，则自动拼接上''
+//		String whereValue = "";	//查询的值。若是字符，则自动拼接上''
+//		
+//		//获取type的类型，根据类型，来决定where的组合
+//		String type = value.getClass().getTypeName();
+//		if(type.equalsIgnoreCase("java.lang.String")){
+//			whereValue = "'" + value.toString() + "'";
+//		}else{
+//			whereValue = value.toString();
+//		}
+//		return findBySqlQuery("SELECT * FROM "+getDatabaseTableName(c) + " WHERE "+propertyName+" = "+whereValue, c);
 		
-		//获取type的类型，根据类型，来决定where的组合
-		String type = value.getClass().getTypeName();
-		if(type.equalsIgnoreCase("java.lang.String")){
-			whereValue = "'" + value.toString() + "'";
+		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1";
+ 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("c1", value);
+		return findByHql(hql, parameterMap);
+	}
+	
+	/**
+	 * 根据字段名查一条值，取一条记录。 value会自动进行sql注入过滤
+	 * @param c {@link Class} 实体类，如 {@link User}.class
+	 * @param propertyName 数据表字段名(Hibernate 语句的字段名)
+	 * @param value 值
+	 * @return {@link List} 实体类 。 若没有查到，则返回null
+	 */
+	public <E> E findAloneByProperty(Class<E> c,String propertyName, Object value){
+//		String whereValue = "";	//查询的值。若是字符，则自动拼接上''
+//		
+//		//获取type的类型，根据类型，来决定where的组合
+//		String type = value.getClass().getTypeName();
+//		if(type.equalsIgnoreCase("java.lang.String")){
+//			whereValue = "'" + value.toString() + "'";
+//		}else{
+//			whereValue = value.toString();
+//		}
+//		
+//		List<E> list = findBySqlQuery("SELECT * FROM "+getDatabaseTableName(c) + " WHERE "+propertyName+" = "+whereValue + " LIMIT 0,1", c);
+//		if(list.size() > 0){
+//			return list.get(0); 
+//		}else{
+//			return null;
+//		}
+		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1 LIMIT 0,1";
+ 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("c1", value);
+		List<E> list = findByHql(hql, parameterMap);
+		if(list.size() > 0){
+			return list.get(0);
 		}else{
-			whereValue = value.toString();
+			return null;
 		}
-		return findBySqlQuery("SELECT * FROM "+getDatabaseTableName(c) + " WHERE "+propertyName+" = "+whereValue, c);
 	}
 	
 	/**

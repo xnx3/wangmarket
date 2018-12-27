@@ -107,13 +107,22 @@ public interface SqlService {
 //	public <E> List<E> findByExample(Object entity);
 	
 	/**
-	 * 根据字段名查值
+	 * 根据字段名查值。value会自动进行sql注入过滤
 	 * @param c {@link Class} 实体类，如 {@link User}.class
 	 * @param propertyName 数据表字段名(Hibernate 语句的字段名)
 	 * @param value 值
 	 * @return {@link List} 实体类
 	 */
 	public <E> List<E> findByProperty(Class<E> c,String propertyName, Object value);
+	
+	/**
+	 * 根据字段名查一条值，取一条记录。value会自动进行sql注入过滤
+	 * @param c {@link Class} 实体类，如 {@link User}.class
+	 * @param propertyName 数据表字段名(Hibernate 语句的字段名，驼峰命名,非数据库的字段名)
+	 * @param value 值
+	 * @return {@link List} 实体类
+	 */
+	public <E> E findAloneByProperty(Class<E> c,String propertyName, Object value);
 	
 	/**
 	 * 执行原生SQL语句

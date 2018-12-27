@@ -1,6 +1,8 @@
 package com.xnx3.wangmarket.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -994,11 +996,27 @@ public class ColumnController extends BaseController {
 			return error("栏目不属于你，无法删除");
 		}
 		
+		//判断其下是否还有子栏目，如果还有子栏目，则会将其下的所有子栏目一快删除
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("parentCodeName", siteColumn.getCodeName());
+		List<SiteColumn> subList = sqlService.findByHql("FROM SiteColumn sc WHERE sc.siteid = "+siteColumn.getSiteid()+" AND sc.parentCodeName = :parentCodeName", parameterMap);
+		for (int i = 0; i < subList.size(); i++) {
+			//如果有子栏目，那么删除子栏目
+			sqlService.delete(subList.get(i));
+		}
+
+		//删除当前要删除的栏目
 		sqlService.delete(siteColumn);
 		
 		//判断一下，如果是CMS模式下，还要将缓存中的栏目删除掉
 		if(Func.isCMS(getSite())){
-			siteColumnService.deleteSiteColumnByCache(siteColumn.getId());
+			if(subList.size() > 0){
+				//如果有子栏目，那么直接吧全部栏目缓存重新进行缓存
+				siteColumnService.refreshCache();
+			}else{
+				//如果就只有一个栏目，那么直接去掉这一个栏目的缓存即可
+				siteColumnService.deleteSiteColumnByCache(siteColumn.getId());
+			}
 		}
 		
 		AliyunLog.addActionLog(siteColumn.getId(), "删除栏目："+siteColumn.getName());

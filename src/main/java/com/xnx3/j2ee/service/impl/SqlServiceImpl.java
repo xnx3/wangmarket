@@ -69,6 +69,10 @@ public class SqlServiceImpl implements SqlService {
 		return sqlDAO.findByProperty(c, propertyName, value); 
 	}
 
+	public <E> E findAloneByProperty(Class<E> c,String propertyName, Object value){
+		return sqlDAO.findAloneByProperty(c, propertyName, value); 
+	}
+	
 	public int executeSql(String sql) {
 		return sqlDAO.executeSql(sql);
 	}
