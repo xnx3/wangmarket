@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   		<td id="xnx3_${system.name }"><x:substring maxLength="10" text="${system.value }"></x:substring></td>
 	        <td><x:substring maxLength="40" text="${system.description }"></x:substring></td>
 	        <td style="width:110px;">
-	        	<botton class="layui-btn layui-btn-sm" onclick="variable(${system.id }, '${system.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+	        	<botton class="layui-btn layui-btn-sm" onclick="variable('${system.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 	        	<botton class="layui-btn layui-btn-sm" onclick="deleteVariable(${system.id }, '${system.name }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	        </td>
 	    </tr>
@@ -111,13 +111,13 @@ function deleteVariable(id,name){
  * 修改／新增变量
  * id 要修改的变量的id，若是为0，则是新增
  */
-function variable(id, name){
+function variable(name){
 	layer.open({
 		type: 2, 
-		title: id==0? '新增系统变量':'修改系统变量：&nbsp;&nbsp;'+name+'&nbsp;', 
+		title: name.length==0? '新增系统变量':'修改系统变量：&nbsp;&nbsp;'+name+'&nbsp;', 
 		area: ['380px', '370px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/system/variable.do?id='+id
+		content: '<%=basePath %>admin/system/variable.do?name='+name
 	});
 }
 </script>

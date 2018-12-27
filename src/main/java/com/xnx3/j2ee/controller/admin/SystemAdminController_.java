@@ -60,25 +60,29 @@ public class SystemAdminController_ extends BaseController {
 	
 	/**
 	 * 新增/修改全局变量，修改system表的单个变量
-	 * @param id 要修改的变量的id
+	 * @param name 要修改的变量的name。 如果name为空字符串，则是新增； 如果name不存在这条记录，也是新增这条name的记录
 	 */
 	@RequiresPermissions("adminSystemVariable")
 	@RequestMapping("variable${url.suffix}")
 	public String variable(
-			@RequestParam(value = "id", required = false, defaultValue="0") int id,
+			@RequestParam(value = "name", required = false, defaultValue="") String name,
 			Model model, HttpServletRequest request){
+		
 		System system;
-		if(id == 0){
+		if(name.length() == 0){
 			//新增
 			system = new System();
 			ActionLogCache.insert(request, "进入新增系统变量页面");
 		}else{
 			//修改
-			system = sqlService.findById(System.class, id);
+			system = sqlService.findAloneByProperty(System.class, "name", name);
 			if(system == null){
-				return error(model, "要修改的变量不存在");
+				system = new System();
+				system.setName(name);
+				ActionLogCache.insert(request, "进入修改系统变量页面,新增变量", system.getName());
+			}else{
+				ActionLogCache.insert(request, "进入修改系统变量页面,修改变量", system.getName());
 			}
-			ActionLogCache.insert(request, id, "进入修改系统变量页面", system.getName()+"="+system.getValue());
 		}
 		
 		//编辑页面
@@ -88,29 +92,25 @@ public class SystemAdminController_ extends BaseController {
 	
 
 	/**
-	 * 新增、修改全局变量后的保存
+	 * 新增、修改全局变量后的保存。根据 name 来进行增、改
 	 */
 	@RequiresPermissions("adminSystemVariable")
 	@RequestMapping(value="variableSave${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO variableSave(System sys, Model model, HttpServletRequest request){
 		System system;
-		if(sys.getId() == null || sys.getId() == 0){
-			//新增
+		
+		if(Global.system.get(sys.getName()) == null){
 			system = new System();
+			system.setName(sys.getName());
 		}else{
-			//修改
-			system = sqlService.findById(System.class, sys.getId());
-			if(system == null){
-				return error("要修改的变量不存在");
-			}
+			//有，编辑即可
+			system = sqlService.findAloneByProperty(System.class, "name", sys.getName());
 		}
-
-		//保存
-		system.setName(StringUtil.filterXss(sys.getName()));
-		system.setValue(StringUtil.filterXss(sys.getValue()));
-		system.setDescription(StringUtil.filterXss(sys.getDescription()));
+		
+		system.setDescription(sys.getDescription());
 		system.setLasttime(DateUtil.timeForUnix10());
+		system.setValue(sys.getValue());
 		sqlService.save(system);
 		
 		/***更新内存数据****/

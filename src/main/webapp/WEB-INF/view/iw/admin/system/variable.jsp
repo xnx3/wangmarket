@@ -9,8 +9,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </jsp:include>
 
 <form class="layui-form" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
-	<input type="hidden" value="${system.id }" name="id" />
-	
 	<div class="layui-form-item">
 		<label class="layui-form-label" id="label_columnName">变量名</label>
 		<div class="layui-input-block">
@@ -49,17 +47,15 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('保存中');
+  	  parent.iw.loading("保存中");
 		var d=$("form").serialize();
         $.post("<%=basePath %>admin/system/variableSave.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		$.toast("操作成功", function() {
-        			parent.location.href='variableList.do?orderBy=lasttime_DESC';	//刷新父窗口
-        			parent.layer.close(index);
-				});
-        		parent.layer.msg('操作成功', {shade: 0.3, time:1.4});
+        		parent.parent.iw.msgSuccess("操作成功")
+        		parent.layer.close(index);
+        		parent.location.reload();	//刷新父窗口
         	}else if(obj.result == '0'){
         		parent.layer.msg(obj.info, {shade: 0.3})
         	}else{
