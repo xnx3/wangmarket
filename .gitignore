@@ -66,6 +66,9 @@
 /src/main/java/com/xnx3/wangmarket/plugin/siteTransfer/
 /src/main/webapp/WEB-INF/view/plugin/siteTransfer/
 
+# aliyunServiceCreate 插件过滤
+/src/main/java/com/xnx3/wangmarket/plugin/aliyunServiceCreate/
+/src/main/webapp/WEB-INF/view/plugin/aliyunServiceCreate/
 
 # site 生成的网站过滤
 /src/main/webapp/site/
