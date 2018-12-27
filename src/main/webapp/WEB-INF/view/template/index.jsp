@@ -98,7 +98,13 @@ var autoAssignDomain = '${autoAssignDomain }';
     height: 100%;
     overflow: hidden;
 ">
-
+<style>
+/* 避免屏幕高度太小，造成左侧菜单拉太长，最下面的收缩侧边栏遮挡功能菜单 */
+.layui-nav-item{
+	background-color: #393D49;
+	z-index:99;
+}
+</style>
 <div style="width:100%;height:100%;">
 
 	<div id="leftMenu" class="layui-nav layui-nav-tree layui-nav-side menu">
@@ -130,7 +136,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</dl>
 		</li>
 		
-		<% if(com.xnx3.wangmarket.domain.G.aliyunLogUtil != null){ %>
+		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
 		<li class="layui-nav-item" id="li_log">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
@@ -210,13 +216,17 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</a>
 		</li>
 		
-		<li class="layui-nav-item" style="position: absolute;bottom: 46px;">
+		<li class="layui-nav-item">
 			<a id="tuichudenglu" href="../user/logout.do">
 				<i class="layui-icon firstMenuIcon">&#xe633;</i>
 				<span class="firstMenuFont">退出登陆</span>
 			</a>
 		</li>
-		<li class="layui-nav-item" style="position: absolute;bottom: 0px;">
+		
+		<!-- 两个li的高度，避免遮挡 -->
+		<!-- <div style="height:46px;z-index: 1;">&nbsp;</div> -->
+		
+		<li class="layui-nav-item" style="position: absolute;bottom: 0px;z-index: 2;">
 			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
 				<i class="layui-icon firstMenuIcon" id="showHiddenLeftMenu_icon">&#xe603;</i>
 				<span class="firstMenuFont">缩小侧边栏</span>
