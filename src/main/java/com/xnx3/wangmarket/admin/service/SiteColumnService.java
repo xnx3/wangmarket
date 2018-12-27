@@ -68,4 +68,8 @@ public interface SiteColumnService {
 	 */
 	public void createNonePage(SiteColumn siteColumn, Site site,boolean updateName);
 	
+	/**
+	 * 刷新 Session 中存储的栏目缓存。清空掉原本的缓存，重新从数据库中读最新的栏目数据并缓存入Session。 v4.7增加
+	 */
+	public void refreshCache();
 }

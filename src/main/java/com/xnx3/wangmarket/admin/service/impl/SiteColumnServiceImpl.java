@@ -199,4 +199,16 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 			}
 		}
 	}
+	
+	/**
+	 * 刷新 Session 中存储的栏目缓存。清空掉原本的缓存，重新从数据库中读最新的栏目数据并缓存入Session
+	 */
+	public void refreshCache(){
+		//清空掉原本的
+		Func.getUserBeanForShiroSession().setSiteColumnMap(null);
+		
+		//重新获取一次
+		getSiteColumnMapByCache();
+	}
+	
 }
