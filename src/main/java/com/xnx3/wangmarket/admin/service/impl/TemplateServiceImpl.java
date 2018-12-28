@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
@@ -213,6 +214,9 @@ public class TemplateServiceImpl implements TemplateService {
 					html = html.replaceAll(" contenteditable=\"true\"", "");
 				}
 			}
+			
+			//将 {templatePath} 标签进行动态替换，将路径还原会标签形态
+			html = html.replaceAll(TemplateCMS.TEMPLATE_PATH, "{templatePath}");
 			
 			//如果这个页面中使用了模版变量，保存时，将模版变量去掉，变回模版调用形式{includeid=},卸载变量模版
 			if(html.indexOf("<!--templateVarStart-->") > -1){

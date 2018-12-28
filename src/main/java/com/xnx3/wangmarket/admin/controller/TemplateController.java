@@ -43,6 +43,7 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.Template;
+import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
@@ -550,9 +551,13 @@ public class TemplateController extends BaseController {
 			com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(getSite(), true);
 			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 			
+			// {templatePath} 替换
+			html = html.replaceAll(TemplateCMS.regex("templatePath"), TemplateCMS.TEMPLATE_PATH);
+			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
+			
 			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
 		

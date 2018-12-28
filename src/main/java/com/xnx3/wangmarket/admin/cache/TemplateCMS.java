@@ -30,6 +30,12 @@ public class TemplateCMS {
 	private int linuxTime;	//当前时间戳
 	private Site site;			//当前站点信息
 	
+	//模版引用路径。v4.7增加，值如 http://wang.market/template/
+	public final static String TEMPLATE_PATH;
+	static{
+		TEMPLATE_PATH = Global.get("MASTER_SITE_URL")+"template/";
+	}
+	
 	/**
 	 * CMS模式网站，生成html页面时的命名规则，wang.market的兼容以前版本，255编号以前的使用int规则，免得影响了做SEO的站点。其他的，包括其他服务器或者其他代理使用此程序创建，都是用code规则即可
 	 * int:通用模式的数字模式；
@@ -108,6 +114,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("site.companyName"), site.getCompanyName());
 		
 		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		//v4.7增加
+		text = text.replaceAll(regex("templatePath"), TEMPLATE_PATH);
 		
 		return text;
 	}
