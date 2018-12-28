@@ -50,10 +50,11 @@ public class AttachmentFile {
 	public static String localFilePath = "";	
 	
 	static{
-		mode = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("attachmentFile.mode");
-		if(mode == null){
-			mode = MODE_ALIYUN_OSS;
-		}
+		//4.7版本废弃，由数据库加载配置参数，在 initApplication 中初始化
+//		mode = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("attachmentFile.mode");
+//		if(mode == null){
+//			mode = MODE_ALIYUN_OSS;
+//		}
 		
 		localFilePath = Global.getProjectPath();
 	}
@@ -134,18 +135,7 @@ public class AttachmentFile {
 	 */
 	public static String netUrl(){
 		if(netUrl == null){
-			if(isMode(MODE_ALIYUN_OSS)){
-				netUrl = OSSUtil.url;
-			}else if(isMode(MODE_LOCAL_FILE)){
-				//如果有当前网站的域名，那么返回域名，格式如"http://www.xnx3.com/" 。如果没有，则返回"/"
-				netUrl = Global.get("ATTACHMENT_FILE_URL");
-				if(netUrl != null && netUrl.length() == 0){
-					netUrl = null;
-				}
-			}else{
-				//未发现什么类型。此种情况是不应该存在的
-				Log.error("当前系统未发现附件网址，请执行install/index.do进行安装，选择附件存储方式");
-			}
+			netUrl = Global.get("ATTACHMENT_FILE_URL");
 		}
 		return netUrl;
 	}

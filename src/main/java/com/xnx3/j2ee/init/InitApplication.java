@@ -54,10 +54,15 @@ public class InitApplication implements CommandLineRunner{
 			}
 		}
 		
-
-		//如果使用的是阿里云OSS，进行OSS自动检测、赋值。
+		//设置 附件存储 的位置，是阿里云，还是本地。参数来源于数据库
+		AttachmentFile.mode = Global.get("ATTACHMENT_FILE_MODE");
+		if(AttachmentFile.mode == null){
+			AttachmentFile.mode = AttachmentFile.MODE_LOCAL_FILE;
+		}
+		
+		//如果使用的是阿里云OSS，进行OSS初始化赋值。
 		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS)){
-			checkOssConfig();
+			initOssConfig();
 		}
 		
 		//附件、文件的请求网址(CDN会先查找数据库配置的此项，若此项没有配置，才会使用xnx3Config.xml中配置的oss的cdn)，本地服务器作为存储磁盘，必须使用数据库配置的此附件地址
@@ -164,41 +169,12 @@ public class InitApplication implements CommandLineRunner{
 	/**
 	 * 检测OSS配置信息，服务于 {@link OSS}，保证其能正常使用的配置是否正常
 	 */
-	public void checkOssConfig(){
-		String accessKeyId = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.accessKeyId");
-		String accessKeySecret = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.accessKeySecret");
-		String bucketName = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.bucketName");
-		String endpoint = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.endpoint");
-		
-		if(Global.databaseCreateFinish){
-			//如果使用到了数据库，那么进行OSSUtil初始化的判断。因为OSSUtil 的配置文件xnx3Config中，若是参数不填写的话会默认继承system数据表的值
-			if(accessKeyId == null || accessKeyId.length() < 10){
-				//没有值，那么继承数据表的值
-				accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
-			}
-			if(accessKeySecret == null || accessKeySecret.length() == 0){
-				//没有值，那么继承数据表的值
-				accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			}
-			if(bucketName == null || bucketName.length() == 0){
-				//如果xnx3Config.xml中没有配置buckName的值，那么从system数据表中读取
-				bucketName = Global.get("ALIYUN_OSS_BUCKETNAME");
-				if(bucketName == null){
-					Log.error("数据表system中没有ALIYUN_OSS_BUCKETNAME，数据表有缺，初始化OSS失败！退出OSS初始化");
-					return;
-				}else{
-					if(bucketName.equals("auto")){
-						//若是为auto，则是第一次刚开始用。此时只是提示以下就好
-						Log.info("您可能是刚开始用，OSS还没有创建Bucket，系统运行起来后，您可以访问 /install/index.do 进行安装配置");
-						return;
-					}
-				}
-			}
-		}
-		if(endpoint == null || endpoint.length() == 0){
-			//没有值，那么继承数据表的值
-			accessKeySecret = Global.get("ALIYUN_OSS_ENDPOINT");
-		}
+	public void initOssConfig(){
+		OSSUtil.accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+		OSSUtil.accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+		OSSUtil.bucketName = Global.get("ALIYUN_OSS_BUCKETNAME");
+		OSSUtil.endpoint = Global.get("ALIYUN_OSS_ENDPOINT");
+		OSSUtil.url = AttachmentFile.netUrl();
 		
 		boolean checkOss = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("startAutoCheck.oss").equals("true");
 		if(!checkOss){
@@ -206,28 +182,9 @@ public class InitApplication implements CommandLineRunner{
 			return;
 		}
 		
-		if(accessKeyId == null || accessKeyId.length() < 10){
-			Log.info("OSS对象存储未使用。忽略OSS自检");
+		if(OSSUtil.accessKeyId == null || OSSUtil.accessKeySecret.length() < 10){
+			Log.info("OSS对象存储初始化时，accessKeyId 或 accessKeyId 无有效值（字符小于10）");
 			return;
 		}
-		
-		java.lang.System.out.println("系统中使用了OSS，开始OSS初始化检测...（若在此等待时间太长，导致项目启动失败，那可能是你网络不给力，你可以吧tomcat的开启的超时时间设置的大一点自然就过去了。也或者将/src/system.xml中，startAutoCheck.oss设置为false）");
-		//先判断 xnx3Config.xml 的 aliyunOSS.accessKeyId是否有配置，若其是空，则肯定是用户还没有进行配置了
-		
-		if(accessKeyId == null || accessKeyId.length() == 0){
-			//尚未配置
-			Global.xnx3Config_oss = false;
-			Global.xnx3Config_oss_explain = "OSS异常：项目根目录下src/xnx3Config.xml配置文件中，aliyunOSS节点下的accessKeyId为空，如果您不使用文件上传功能，可忽略此项。若使用文件上传功能，请参照 http://www.guanleiming.com/2327.html 进行配置";
-			Log.info(Global.xnx3Config_oss_explain);
-			return;
-		}
-		if(accessKeySecret == null || accessKeySecret.length() == 0){
-			//尚未配置
-			Global.xnx3Config_oss = false;
-			Global.xnx3Config_oss_explain = "OSS异常：项目根目录下src/xnx3Config.xml配置文件中，aliyunOSS节点下的accessKeySecret为空，如果您不使用文件上传功能，可忽略此项。若使用文件上传功能，请参照 http://www.guanleiming.com/2327.html 进行配置";
-			Log.info(Global.xnx3Config_oss_explain);
-			return;
-		}
-		
 	}
 }

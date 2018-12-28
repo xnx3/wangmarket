@@ -216,7 +216,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</a>
 		</li>
 		
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" style="position: absolute;bottom: 46px;z-index: 2;">
 			<a id="tuichudenglu" href="../user/logout.do">
 				<i class="layui-icon firstMenuIcon">&#xe633;</i>
 				<span class="firstMenuFont">退出登陆</span>

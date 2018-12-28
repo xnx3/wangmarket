@@ -215,10 +215,13 @@ public class SqlDAO {
 //		}else{
 //			return null;
 //		}
-		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1 LIMIT 0,1";
- 		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("c1", value);
-		List<E> list = findByHql(hql, parameterMap);
+		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1";
+		javax.persistence.Query query=entityManager.createQuery(hql);
+		query.setParameter("c1", value);
+	    query.setMaxResults(1);
+		List<E> list= query.getResultList();
+        entityManager.close();
+        
 		if(list.size() > 0){
 			return list.get(0);
 		}else{
