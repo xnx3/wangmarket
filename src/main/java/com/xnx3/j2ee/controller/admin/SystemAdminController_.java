@@ -98,16 +98,14 @@ public class SystemAdminController_ extends BaseController {
 	@RequestMapping(value="variableSave${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO variableSave(System sys, Model model, HttpServletRequest request){
-		System system;
-		
-		if(Global.system.get(sys.getName()) == null){
+		System system = sqlService.findAloneByProperty(System.class, "name", sys.getName());
+		if(system == null){
+			//新增
 			system = new System();
 			system.setName(sys.getName());
 		}else{
-			//有，编辑即可
-			system = sqlService.findAloneByProperty(System.class, "name", sys.getName());
+			//编辑
 		}
-		
 		system.setDescription(sys.getDescription());
 		system.setLasttime(DateUtil.timeForUnix10());
 		system.setValue(sys.getValue());
