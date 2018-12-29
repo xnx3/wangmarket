@@ -413,19 +413,22 @@ public class SiteServiceImpl implements SiteService {
 				for (int i = 0; i < sct.getList().size(); i++) {
 					SiteColumnTreeVO subSct = sct.getList().get(i);	//子栏目的栏目信息
 					
-					//将该栏目的News文章，创建一个新的List
-					List<com.xnx3.wangmarket.admin.bean.News> nList = new ArrayList<com.xnx3.wangmarket.admin.bean.News>(); 
-					List<News> oList = columnNewsMap.get(subSct.getSiteColumn().getCodeName());
-					for (int j = 0; j < oList.size(); j++) {
-						com.xnx3.wangmarket.admin.bean.News n = new com.xnx3.wangmarket.admin.bean.News();
-						News news = oList.get(j);
-						n.setNews(news);
-						n.setRank(news.getId());
-						nList.add(n);
+					//v4.7版本更新，增加判断，只有栏目类型是列表页面的，才会将子栏目的信息合并入父栏目。
+					if(subSct.getSiteColumn().getType() - SiteColumn.TYPE_LIST == 0){
+						//将该栏目的News文章，创建一个新的List
+						List<com.xnx3.wangmarket.admin.bean.News> nList = new ArrayList<com.xnx3.wangmarket.admin.bean.News>(); 
+						List<News> oList = columnNewsMap.get(subSct.getSiteColumn().getCodeName());
+						for (int j = 0; j < oList.size(); j++) {
+							com.xnx3.wangmarket.admin.bean.News n = new com.xnx3.wangmarket.admin.bean.News();
+							News news = oList.get(j);
+							n.setNews(news);
+							n.setRank(news.getId());
+							nList.add(n);
+						}
+						
+						//将新的List，合并入父栏目CodeName的List
+						columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()).addAll(nList);
 					}
-					
-					//将新的List，合并入父栏目CodeName的List
-					columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()).addAll(nList);
 				}
 			}
 		}
