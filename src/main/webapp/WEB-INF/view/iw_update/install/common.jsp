@@ -17,7 +17,7 @@
 <ul class="foot">
 	<li class="first">
 		<a href="selectAttachment.do">
-			第一步.选择存储方式
+			第一步.选择使用方式
 		</a>
 	</li>
 	<li>
