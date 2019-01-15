@@ -24,7 +24,7 @@ public class ActionLogCache {
 			
 			String keyId = Global.get("ALIYUN_ACCESSKEYID");
 			String keySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			String endpoint = Global.get("ALIYUN_LOG_ENDPOINT");
+			String endpoint = Global.get("ALIYUN_SLS_ENDPOINT");
 			String project = Global.get("ALIYUN_SLS_PROJECT");
 			String logstore = Global.get("ALIYUN_SLS_USERACTION_LOGSTORE");
 			

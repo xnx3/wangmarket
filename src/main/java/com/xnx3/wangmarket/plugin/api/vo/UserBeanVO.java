@@ -14,6 +14,7 @@ public class UserBeanVO extends BaseVO{
 	private User user;
 	private Agency agency;
 	private Site site;
+	
 	public User getUser() {
 		return user;
 	}

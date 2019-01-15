@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
+import com.xnx3.StringUtil;
 import com.xnx3.wangmarket.im.service.ImService;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
@@ -247,7 +248,7 @@ public class SiteController extends BaseController {
 			@RequestParam(value = "bindDomain", required = false , defaultValue="") String bindDomain){
 		BaseVO vo = new BaseVO();
 		
-		bindDomain = filter(bindDomain);
+		bindDomain = StringUtil.filterXss(bindDomain);
 		
 		//v3.0版本更新，若不填写，则是绑定空的字符串，也就是解除之前的域名绑定！
 		if(bindDomain.length() == 0){

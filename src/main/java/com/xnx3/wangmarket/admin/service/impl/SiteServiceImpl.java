@@ -505,6 +505,9 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		//当网站只有一个首页时，是不需要这个的。所以只需要上面的，判断一下是否有模版页就够了。 v2.24更新
+		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() != null){	//v4.7加入，避免只有一个首页时，生成整站第一次报错
+			
+		}
 		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {  
 			//替换公共标签
 			String v = template.replacePublicTag(entry.getValue().getTemplateVarData().getText());

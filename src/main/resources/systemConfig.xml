@@ -3,10 +3,6 @@
 
 	<!-- 文件、附件系统。图片上传等都通过此处 -->
 	<attachmentFile>
-		<!-- 附件文件使用模式，目前有两种：  
-			aliyunOSS : 使用阿里云OSS进行文件、附件上传 
-			localFile : 使用运行的服务器本身进行文件存储，比较传统的存储方式，配置最简单，若第一次用，懂得不多，可使用此种方式 -->
-		<mode>localFile</mode>
 		<!-- 允许上传的文件后缀列表，多个以|分割 -->
 		<allowUploadSuffix>png|jpg|jpeg|gif|bmp|flv|swf|mkv|avi|rm|rmvb|mpeg|mpg|ogg|ogv|mov|wmv|mp4|webm|mp3|wav|mid|rar|zip|tar|gz|7z|bz2|cab|iso|doc|docx|xls|xlsx|ppt|pptx|pdf|txt|md|xml</allowUploadSuffix>
 	</attachmentFile>

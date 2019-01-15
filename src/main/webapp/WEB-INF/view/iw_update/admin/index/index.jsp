@@ -111,9 +111,8 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		
-		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>		
 		<shiro:hasPermission name="adminLog"> 
-			<li class="layui-nav-item">
+			<li class="layui-nav-item" id="rizhitongji" style="display:none;">
 				<a href="javascript:;">
 					<i class="layui-icon firstMenuIcon">&#xe62c;</i>
 					<span class="firstMenuFont">日志统计</span>
@@ -140,7 +139,11 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				</dl>
 			</li>
 		</shiro:hasPermission>
-		<% } %>
+		<script>
+		if(${useDomainLog}){
+			document.getElementById('rizhitongji').style.display='';
+		}
+		</script>
 		
 		<shiro:hasPermission name="adminRole"> 
 			<li class="layui-nav-item">

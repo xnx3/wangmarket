@@ -25,6 +25,7 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
+import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.cache.pc.IndexAboutUs;
 import com.xnx3.wangmarket.admin.cache.pc.IndexNews;
 import com.xnx3.wangmarket.admin.entity.InputModel;
@@ -431,6 +432,9 @@ public class ColumnController extends BaseController {
 		model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
 		//设置上传后的图片、附件所在的个人路径
 		ShiroFunc.getCurrentActiveUser().setUeUploadParam1(site.getId()+"");
+		//实际上 sitecolumn.icon 图片的地址，替换掉动态标签的绝对路径 （原本数据库中存储的是可带有动态标签的，模版开发人员可以使用{templatePath}标签来填写icon的图片文件所在路径）
+		String icon = (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", TemplateCMS.TEMPLATE_PATH + "" + site.getTemplateName() + "/");
+		model.addAttribute("icon", icon);
 		
 		model.addAttribute("parentColumnOption", parentColumn.toString());
 		model.addAttribute("site", site);
@@ -521,7 +525,7 @@ public class ColumnController extends BaseController {
 		}
 		
 		//标题，名字
-		String name = filter(siteColumn.getName());
+		String name = StringUtil.filterXss(siteColumn.getName());
 		if(name == null || name.length()<1){
 			vo.setBaseVO(BaseVO.FAILURE, "您要创建的导航栏目叫什么名字呢");
 			return vo;
@@ -553,11 +557,11 @@ public class ColumnController extends BaseController {
 		
 		sc.setName(name);
 //		sc.setRank(siteColumn.getRank());
-		sc.setUrl(filter(siteColumn.getUrl()));
+		sc.setUrl(filter(siteColumn.getUrl()));	//没用了的，废弃的
 		sc.setUsed(siteColumn.getUsed() == null? 1:siteColumn.getUsed());
 		sc.setType(siteColumn.getType());
-		sc.setTemplatePageListName(filter(siteColumn.getTemplatePageListName()));
-		sc.setTemplatePageViewName(filter(siteColumn.getTemplatePageViewName()));
+		sc.setTemplatePageListName(StringUtil.filterXss(siteColumn.getTemplatePageListName()));
+		sc.setTemplatePageViewName(StringUtil.filterXss(siteColumn.getTemplatePageViewName()));
 		sc.setListNum(siteColumn.getListNum() == null ? 10:siteColumn.getListNum());
 		sc.setEditMode(siteColumn.getEditMode() == null ? SiteColumn.EDIT_MODE_INPUT_MODEL : siteColumn.getEditMode());
 		sc.setListRank(siteColumn.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_DESC:siteColumn.getListRank());
@@ -570,7 +574,7 @@ public class ColumnController extends BaseController {
 		sc.setIcon(siteColumn.getIcon());
 		
 		//判断一下选择的输入模型是否符合
-		String inputModelCodeName = filter(siteColumn.getInputModelCodeName());
+		String inputModelCodeName = StringUtil.filterXss(siteColumn.getInputModelCodeName());
 		if(inputModelCodeName == null || inputModelCodeName.length() == 0 || inputModelCodeName.equals("0")){
 			//使用系统默认输入模型(为0代表是系统模型，因为layui中，如果value没有值的话，系统模型是无法出现选择的)
 			sc.setInputModelCodeName(null);
@@ -620,7 +624,7 @@ public class ColumnController extends BaseController {
 							return error("目前系统暂时只支持一级子栏目，当前此栏目已经有下级栏目了，无法再作为子栏目");
 						}
 						
-						sc.setParentCodeName(filter(siteColumn.getParentCodeName()));
+						sc.setParentCodeName(StringUtil.filterXss(siteColumn.getParentCodeName()));
 						sc.setParentid(s.getId());
 					}
 				}
@@ -631,7 +635,7 @@ public class ColumnController extends BaseController {
 				if(siteColumn.getCodeName().length() == 0){
 					sc.setCodeName("");
 				}else{
-					sc.setCodeName(filter(siteColumn.getCodeName()));
+					sc.setCodeName(StringUtil.filterXss(siteColumn.getCodeName()));
 					
 					//查询当前网站codeName是否被占用了，v2.26更改，有数据库查询改为从内存中判断
 					List<SiteColumn> sclistCache = siteColumnService.getSiteColumnListByCache();

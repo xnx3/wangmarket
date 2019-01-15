@@ -17,7 +17,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
  */
 public class G {
 	//当前的版本号。1.x为通用模版时代； 2.x为cms时代, 3.x 整体架构及云模块使用升级， 4.x整体架构升级，由深度依赖阿里云抽离
-	public static final String VERSION = "4.6";	
+	public static final String VERSION = "4.7";	
 	
 	//云端域名。如，云端模版列表，则为 cloudDomain+"cloudTemplateList.do"
 	public static String cloudDomain = "http://wang.market/";
@@ -74,7 +74,7 @@ public class G {
 	 * <br/>key：list.name
 	 * <br/>value：list.intro
 	 */
-	public static Map<String, String> cloudTemplateMap;
+	//public static Map<String, String> cloudTemplateMap;
 	
 	//webSocket IM的对接url
 //	public static String websocketUrl = "";

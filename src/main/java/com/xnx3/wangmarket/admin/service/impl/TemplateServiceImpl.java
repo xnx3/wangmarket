@@ -699,6 +699,30 @@ public class TemplateServiceImpl implements TemplateService {
 		jo.put("templateName", StringUtil.StringToUtf8(site.getTemplateName()));	//当前模版的名字
 		jo.put("sourceUrl", StringUtil.StringToUtf8(Func.getDomain(site))); 	//模版来源的网站，从那个网站导出来的，可以作为预览网站
 		jo.put("useUtf8Encode", "true");	//设置使用UTF8编码将内容进行转码
+
+		//v4.7增加，从数据库template中取 templateName 这个模版，看是否有
+		com.xnx3.wangmarket.admin.entity.Template template = sqlDAO.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", site.getTemplateName());
+		if(template != null){
+			JSONObject tempJson = new JSONObject();
+			tempJson.put("addtime", template.getAddtime());	//模版制作时间
+			tempJson.put("companyname", template.getCompanyname() == null ? "":StringUtil.StringToUtf8(template.getCompanyname()));
+			tempJson.put("iscommon", template.getIscommon());
+			tempJson.put("previewUrl", template.getPreviewUrl() == null ? "":StringUtil.StringToUtf8(template.getPreviewUrl()));
+			tempJson.put("remark", StringUtil.StringToUtf8(template.getRemark()));		//模版的备注
+			tempJson.put("siteurl", template.getSiteurl() == null ? "":StringUtil.StringToUtf8(template.getSiteurl()));	//开发者网站url
+			tempJson.put("terminalDisplay", template.getTerminalDisplay());
+			tempJson.put("terminalIpad", template.getTerminalIpad());
+			tempJson.put("terminalMobile", template.getTerminalMobile());
+			tempJson.put("terminalPc", template.getTerminalPc());
+			tempJson.put("type", template.getType());
+			tempJson.put("username", template.getUsername() == null ? "":StringUtil.StringToUtf8(template.getUsername()));	//开发模版的用户的姓名
+			tempJson.put("name", StringUtil.StringToUtf8(template.getName()));
+			tempJson.put("previewPic", StringUtil.StringToUtf8(template.getPreviewPic()));
+			tempJson.put("wscsoDownUrl", StringUtil.StringToUtf8(template.getWscsoDownUrl()));
+			tempJson.put("zipDownUrl", StringUtil.StringToUtf8(template.getZipDownUrl()));
+			
+			jo.put("template", tempJson);
+		}
 		
 		jo.put("templatePageList", templatePageList);
 		jo.put("templateVarList", templateVarList);
@@ -815,12 +839,18 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		//更新模版变量缓存
+		
+		
 		getTemplateVarAndDateListByCache();
 		//将模版变量装载入Session。 必须要装载，将模版变量缓存入session，以便后面使用
 		loadDatabaseTemplateVarToCache();
 		
 		//v4.6更新，直接在 templateService.importTemplate 中就更新了
 		request.getSession().setAttribute("templatePageListVO", null);
+		
+		//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
+		Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
+		Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
 		
 		return vo;
 	}

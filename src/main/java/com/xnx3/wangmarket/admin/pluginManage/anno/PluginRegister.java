@@ -90,4 +90,10 @@ public @interface PluginRegister {
 	 * @return
 	 */
 	String versionCheckUrl() default "";
+	
+	/**
+	 * 最低支持的版本, 填写如 4.7  ，v4.7增加
+	 */
+	String versionMin() default "";
+	
 }

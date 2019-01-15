@@ -66,9 +66,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:choose>
 			    <c:when test="${usedYunTemplate}">
 			        <div style="float:left; padding-right: 25px;">
-			        	<img src="http://res.weiunity.com/template/${site.templateName }/preview.jpg" class="previewImg" style="height:150px; width:auto;"/>
-						<div class="previewButton"><a href="http://${site.templateName }.wscso.com" target="_black">预览模版</a></div>
-						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${site.templateName }</div>
+			        	<img src="${template.previewPic}" class="previewImg" style="height:150px; width:auto;"/>
+						<div class="previewButton"><a href="${template.previewUrl }" target="_black">预览模版</a></div>
+						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${template.name }</div>
 					</div>
 					<div style="padding-top:10px;">
 						<div>

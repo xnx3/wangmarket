@@ -121,7 +121,7 @@ try{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
 		String nowYear = df.format(d);
 %>
-<div style="position: absolute;bottom: 10px;color: gray;font-size: 14px;text-align: center;width: 100%;">Copyright © 2016-<%=nowYear %> <a href="http://www.wang.market" target="_black">网市场云建站系统</a>. 潍坊雷鸣云网络科技有限公司 版权所有</div>
+<div style="position: fixed;bottom: 5px;color: gray;font-size: 12px;text-align: center;width: 100%;">Copyright © 2016-<%=nowYear %> <a href="http://www.wang.market" style="color: gray;" target="_black">网市场云建站系统</a></div>
 <% } %>
 
 

@@ -175,8 +175,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">
 					<i class="layui-icon layui-icon-upload"></i>
 				</button>
-				<a href="${siteColumn.icon }" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
-					<img id="titlePicImg" src="${siteColumn.icon }?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+				<a href="${icon }" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
+					<img id="titlePicImg" src="${icon }?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
 				</a><input class="layui-upload-file" type="file" name="fileName">
 			</div>
 		</div>

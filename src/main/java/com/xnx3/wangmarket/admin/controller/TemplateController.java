@@ -1,6 +1,7 @@
 package com.xnx3.wangmarket.admin.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,13 +11,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +24,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.xnx3.DateUtil;
+import com.xnx3.Lang;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
+import com.xnx3.UrlUtil;
+import com.xnx3.ZipUtil;
+import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -51,6 +55,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.init.TemplateTemporaryFolder;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.InputModelService;
@@ -58,8 +63,10 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
 import com.xnx3.wangmarket.admin.vo.TemplateCompareVO;
+import com.xnx3.wangmarket.admin.vo.TemplateListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
@@ -708,42 +715,85 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public void uploadImportTemplate(HttpServletResponse response, HttpServletRequest request, 
 			@RequestParam("templateFile") MultipartFile multipartFile) throws IOException{
-		JSONObject json = new JSONObject();
 		if(multipartFile == null){
-			json.put("result", BaseVO.FAILURE);
-			json.put("info", "请选择要导入的模版");
-		}else{
-			String templateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
-			BaseVO vo = templateService.importTemplate(templateText, true, request);
-			json.put("result", vo.getResult());
-			json.put("info", vo.getInfo());
+			responseJson(response, BaseVO.FAILURE, "请选择要导入的模版");
+			return;
+		}
+		
+		String wscsoTemplateText = null;	//wscso后缀的模版文件
+		
+		//判断导入的模版文件格式，是wscso还是zip格式
+		
+		//判断一下上传文件大小
+		int lengthKB = (int) Math.ceil(multipartFile.getInputStream().available()/1024);
+		
+		//获取上传的文件的后缀
+		String fileSuffix = Lang.findFileSuffix(multipartFile.getOriginalFilename()).toLowerCase();
+		if(fileSuffix.equals("wscso")){
+			//wscso的限制在配置文件applilcation.properties的大小以内
+			if(lengthKB > AttachmentFile.getMaxFileSizeKB()){
+				//超过
+				responseJson(response, BaseVO.FAILURE, "纯模版文件最大限制"+AttachmentFile.getMaxFileSizeKB()+"KB以内");
+				return;
+			}
+			wscsoTemplateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
+		}else if (fileSuffix.equals("zip")) {
+			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
+			//zip的限制在50MB以内
+			if(lengthKB > 50*1025){
+				//超过50MB
+				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
+				return;
+			}
 			
-			if(vo.getResult() - BaseVO.SUCCESS == 0){
-				//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
-				//v4.4更新，直接在 templateService.importTemplate 中就更新了
-				request.getSession().setAttribute("templatePageListVO", null);
-//				Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
-//				Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
-				
-				AliyunLog.addActionLog(getSiteId(), "本地导入模版文件成功！");
+			String fileName = DateUtil.timeForUnix13()+"_"+StringUtil.getRandom09AZ(20);
+			File file = new File(TemplateTemporaryFolder.folderPath+fileName+".zip");
+			multipartFile.transferTo(file);
+			
+			//将其解压到同文件夹中
+			try {
+				ZipUtil.unzip(TemplateTemporaryFolder.folderPath+fileName+".zip",TemplateTemporaryFolder.folderPath+fileName+"/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//既然已经解压出来了，那么删除掉zip文件
+			file.delete();
+			//判断一下解压出来的文件中，是否存在 template.wscso 这个模版文件
+			File wscsoFile = new File(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso");
+			if(wscsoFile.exists()){
+				wscsoTemplateText = FileUtil.read(wscsoFile, FileUtil.UTF8);
 			}else{
-				AliyunLog.addActionLog(getSiteId(), "本地导入模版文件失败！");
+				//不存在，那就报错吧
+				responseJson(response, BaseVO.FAILURE, "template.wscso模版文件未发现！");
+				return;
+			}
+				
+			TemplateVO tvo = new TemplateVO();
+			//导入JSON，生成对象
+			tvo.importText(FileUtil.read(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso", FileUtil.UTF8));
+			//v4.7版本以后，导出的都会有 tvo.template 对象
+			String templateName = tvo.getTemplate().getName();
+			//判断数据库中，是否已经有这个模版了
+			com.xnx3.wangmarket.admin.entity.Template template = sqlService.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", templateName);
+			if(template == null){
+				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
+				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
+				new TemplateUtil(templateName).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
+			}else{
+				//不为空，已经有这个模版了，那么就不可以导入资源文件，只导入 wscso 文件就可以了
+				System.out.println("已经有这个模版的资源文件了，忽略:"+template.getName());
 			}
 		}
 		
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("application/json; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try { 
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }
-	    }  
+		//将 wscso 模版文件导入
+		BaseVO vo = templateService.importTemplate(wscsoTemplateText, true, request);
+		if(vo.getResult() - BaseVO.SUCCESS == 0){
+			AliyunLog.addActionLog(getSiteId(), "本地导入模版文件成功！");
+		}else{
+			AliyunLog.addActionLog(getSiteId(), "本地导入模版文件失败！");
+		}
+		
+		responseJson(response, vo.getResult(), vo.getInfo());
 	}
 	
 	/**
@@ -840,11 +890,23 @@ public class TemplateController extends BaseController {
 		boolean usedYunTemplate = false;	//若是云端模板，则为true
 		Site site = getSite();
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			//判断当前网站使用的模板是否在云端模板库中（是否是云端模板）
-			if(G.cloudTemplateMap.get(site.getTemplateName()) != null){
+			//判断当前网站使用的模板是否在云端模板库中（是否是云端模板） | v4.7 更新后，这里就不只是云端模版了，可以统一叫做模版库，因为还可能是本地template的模版
+//			if(G.cloudTemplateMap.get(site.getTemplateName()) != null){
+//				usedYunTemplate = true;
+//			}
+			//首先判断一下是否是在云端模版库
+			com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(site.getTemplateName());
+			if(template != null){
+				//是云端模版
 				usedYunTemplate = true;
 			}
+			
+			//判断一下是否是在本地私有模版库 ，v4.8版本增加
+			
+			
+			model.addAttribute("template", template);
 		}
+		
 		
 		model.addAttribute("usedYunTemplate", usedYunTemplate);
 		model.addAttribute("site", site);
@@ -1552,5 +1614,21 @@ public class TemplateController extends BaseController {
 		
 		return success();
 	}
+	
+
+	/**
+	 * 获取可用模版列表接口
+	 */
+	@RequestMapping(value="getTemplateList${url.suffix}")
+	@ResponseBody
+	public TemplateListVO getTemplateList(HttpServletRequest request, Model model, 
+			@RequestParam(value = "type", required = false, defaultValue="-1") int type){
+		TemplateListVO vo = new TemplateListVO();
+		vo.setList(TemplateUtil.getTemplateList(type));
+		vo.setResult(BaseVO.SUCCESS);
+		
+		return vo;
+	}
+	
 	
 }

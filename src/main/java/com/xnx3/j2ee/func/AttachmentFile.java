@@ -212,16 +212,26 @@ public class AttachmentFile {
 	 * @return {@link PutResult} 若失败，返回null
 	 */
 	public static UploadFileVO put(String filePath, String localPath){
+		File localFile = new File(localPath);
+		return put(filePath, localFile);
+	}
+	
+	/**
+	 * 上传本地文件
+	 * @param filePath 上传后的文件所在的目录、路径，如 "jar/file/"
+	 * @param localFile 本地要上传的文件
+	 * @return {@link PutResult} 若失败，返回null
+	 */
+	public static UploadFileVO put(String filePath, File localFile){
 		UploadFileVO vo = new UploadFileVO();
 		
-		File localFile = new File(localPath);
 		vo = verifyFileMaxLength(localFile);
 		if(vo.getResult() - UploadFileVO.FAILURE == 0){
 			return vo;
 		}
 		
 		if(isMode(MODE_ALIYUN_OSS)){
-			PutResult pr = OSSUtil.put(filePath, localPath);
+			PutResult pr = OSSUtil.put(filePath, localFile.getPath());
 			vo = PutResultToUploadFileVO(pr);
 		}else if(isMode(MODE_LOCAL_FILE)){
 			directoryInit(filePath);

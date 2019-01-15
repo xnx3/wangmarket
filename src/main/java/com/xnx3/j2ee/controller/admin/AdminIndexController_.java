@@ -70,6 +70,7 @@ public class AdminIndexController_ extends BaseController{
 		model.addAttribute("indexUrl", url);	//首页(欢迎页)url
 		model.addAttribute("useSMS", G.aliyunSMSUtil == null? "1":"0");	//若是使用SMS短信，开启了，则为1，否则没有开通短信的花则为0
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
+		model.addAttribute("useDomainLog", com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null);	//是否启用了阿里云日志服务，若未启用，则是false
 		
 		return "/iw_update/admin/index/index";
 	}

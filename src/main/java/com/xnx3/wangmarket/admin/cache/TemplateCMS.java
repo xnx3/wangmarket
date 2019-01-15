@@ -33,7 +33,7 @@ public class TemplateCMS {
 	//模版引用路径。v4.7增加，值如 http://wang.market/template/
 	public final static String TEMPLATE_PATH;
 	static{
-		TEMPLATE_PATH = Global.get("MASTER_SITE_URL")+"template/";
+		TEMPLATE_PATH = Global.get("ATTACHMENT_FILE_URL")+"websiteTemplate/";
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class TemplateCMS {
 		
 		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		//v4.7增加
-		text = text.replaceAll(regex("templatePath"), TEMPLATE_PATH);
+		text = text.replaceAll(regex("templatePath"), TEMPLATE_PATH + "" + site.getTemplateName() + "/");
 		
 		return text;
 	}
@@ -196,8 +196,8 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
 		text = text.replaceAll(regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
 		//v4.7
-		text = text.replaceAll(regex("siteColumn.icon"), siteColumn.getIcon());
-		
+		text = text.replaceAll(regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", TEMPLATE_PATH + "" + site.getTemplateName() + "/"));
+				
 		//判断栏目的链接地址
 		String url = "";
 		if(this.generateUrlRule.equals("code")){
@@ -445,7 +445,7 @@ public class TemplateCMS {
 			String upPage;	//上一页的超链接a标签
 			String nextPage;	//下一页的超链接a标签
 			String upPageUrl;	//上一页的url
-			String nextPageUrl;
+			String nextPageUrl;	//下一页的url
 			
 			if(upNews == null){
 				if(this.generateUrlRule.equals("code")){

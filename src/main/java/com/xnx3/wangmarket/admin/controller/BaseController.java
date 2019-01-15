@@ -65,6 +65,19 @@ public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	}
 	
 	/**
+	 * 设置 site 信息。当 site 数据表有更改后，可以执行此来刷新session存储的site信息
+	 */
+	public void setSite(Site site){
+		UserBean userBean = getUserBean();
+		if(userBean == null || userBean.getSite() == null){
+			return;
+		}else{
+			userBean.setSite(site);;
+		}
+		
+	}
+	
+	/**
 	 * 获取当前登陆用户的站点id
 	 * @return 若当前用户没有站点，返回0
 	 */

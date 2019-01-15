@@ -59,6 +59,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 /*模版简介说明*/
 .info{
 	color:#c2c2c2;
+	font-size: 14px;
+}
+
+#template_type>a{
+	border:0px;
+	margin-left:10px;
+	font-size:16px;
+}
+#template_type>a:before{
+	content: "|";
+    color: #946c6c;
+    padding-right: 12px;
+    font-weight: 400;
+}
+.terminal{
+	font-size: 13px;
+    color: gray;
+}
+.terminal span{
+	padding:3px;
 }
 </style>
 <body>
@@ -87,11 +107,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div style="height:20px; width:100%;">&nbsp;</div>
 <div class="site-title">
-	<fieldset><legend><a name="fieldset">方案三.使用云端官方模版</a>&nbsp;&nbsp;<b>(推荐)</b></legend></fieldset>
+	<fieldset><legend><a name="fieldset">方案三.使用云端现有模版</a>&nbsp;&nbsp;<b>(推荐)</b></legend></fieldset>
 </div>
 
-<div class="list" id="cloudList">
+<div style="width: 100%; padding-left: 20px; padding-right: 20px; box-sizing: border-box;" id="template_type">
 	加载中...
+</div>
+<div class="list" id="cloudList">
+	
 
 </div>
 
@@ -99,15 +122,81 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 layui.use('element', function(){
 	var element = layui.element;
 });
+
+var typeArray = '广告设计|学校培训|五金制造|门窗卫浴|IT互联网|化工环保|建筑能源|智能科技|房产物业|金融理财|工商法律|人力产权|生活家政|服装饰品|医疗保健|装修装饰|摄影婚庆|家具数码|茶酒果蔬|组织政府|餐饮酒店|旅游服务|汽车汽配|畜牧种植|体育健身|儿童玩具|个人博客|文档资料'.split("|");
+//初始化模版列表的type
+function initType(){
+	var html = '<a href="javascript:typeClick(-1);" class="templateType" id="type_-1">全部模版</a>';
+	for(var i = 0; i < typeArray.length; i++){
+		html = html+'<a href="javascript:typeClick('+i+');" class="templateType" id="type_'+i+'">'+typeArray[i]+'</a>';
+	}
+	document.getElementById('template_type').innerHTML = html;
+}
+//type点击触发
+function typeClick(type){
+	//将所有type还原会原本样子
+	$(".templateType").css("font-size","16px");
+	$(".templateType").css("color","black");
+	
+	//将选中的这个设置颜色
+	document.getElementById('type_'+type).style.fontSize='19px';
+	document.getElementById('type_'+type).style.color='red';
+
+	document.getElementById("cloudList").innerHTML = '<div style="font-size: 30px;padding-top: 10%;color: lightgrey; text-align:center;width: 100%;box-sizing: border-box;">加载中...</div>';
+	//若使用云端模版库，则可以将下面请求地址换为 http://wang.market/cloudTemplateList.do
+	//使用当前配置文件的模版，则为：<%=basePath %>cloudTemplateList.do
+	$.getJSON('<%=basePath %>template/getTemplateList.do?type='+type,function(obj){
+		var html = '';	//云端模版的列表
+			if(obj.result == '1'){
+				var divArray = new Array();	//共分四列，也就是下标为0～3
+				for(var i=0; i<obj.list.length; i++){
+					var xiabiao = i%4;	//取余，得数组下表
+					var to = obj.list[i];
+					var temp = '<div>'+
+								'<img src="'+to.previewPic+'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+								'<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>'+
+								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
+								'<div class="terminal">访问支持：'+
+									(to.terminalPc? '<span>电脑端</span>':'')+
+									(to.terminalMobile? '<span>手机端</span>':'')+
+									(to.terminalIpad? '<span>平板</span>':'')+
+									(to.terminalDisplay? '<span>展示机</span>':'')+
+								'</div>'+
+								'<div class="info">'+to.remark+'</div>'+
+								'<div class="info">提供者：'+(to.companyname.length > 0 ? (to.companyname == '潍坊雷鸣云网络科技有限公司'? '官方':to.companyname):to.username)+'</div>'+
+						 		'</div>';
+					if(divArray[xiabiao] == null){
+						divArray[xiabiao] = '';
+					}	 		
+					divArray[xiabiao] = divArray[xiabiao] + temp;
+				}
+				
+				//将四个div分别遍历，组合成显示的html
+				for(var i=0; i<divArray.length; i++){
+					html = html + '<div>' + divArray[i] +'</div>';
+				}
+				
+				document.getElementById("cloudList").innerHTML = html;
+	     	}else if(obj.result == '0'){
+	     		 $.toast(obj.info, "cancel", function(toast) {});
+	     	}else{
+	     		alert(obj.result);
+	     	}
+		});
+	
+}
+initType();
+typeClick(-1);	//默认加载中所有模版
+
 layui.use('upload', function(){
 	layui.upload.render({
 	  url: '<%=basePath %>template/uploadImportTemplate.do'
 	  ,method :'post'
 	  ,elem : '#loadLocalTemplateFile'
-	  ,exts: 'wscso|xnx3'
+	  ,exts: 'wscso|xnx3|zip'
 	  ,field: 'templateFile'
 	  ,title :'加载本地模版'
-	  ,size: '5000'
+	  ,size: '50000'	//50MB ，这里单位是KB
 	  ,before: function(res){
 		$.showLoading('上传中');
 	  }
@@ -149,43 +238,6 @@ function useCloudTemplate(templateName){
 	});
 }
 
-//加载云端的模版列表
-function loadCloudTemplateList(){
-	//若使用云端模版库，则可以将下面请求地址换为 http://wang.market/cloudTemplateList.do
-	//使用当前配置文件的模版，则为：<%=basePath %>cloudTemplateList.do
-	$.getJSON('http://res.weiunity.com/cloudControl/cmsTemplate.json',function(obj){
-		var html = '';	//云端模版的列表
-			if(obj.result == '1'){
-				var divArray = new Array();	//共分四列，也就是下标为0～3
-				for(var i=0; i<obj.list.length; i++){
-					var xiabiao = i%4;	//取余，得数组下表
-					var to = obj.list[i];
-					var temp = '<div>'+
-								'<img src="http://res.weiunity.com/template/'+to.name+'/preview.jpg" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
-								'<div class="previewButton"><a href="http://'+to.name+'.wscso.com" target="_black">点此预览</a></div>'+
-								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编号：'+to.name+'</div>'+
-								'<div class="info">'+to.intro+'</div>'+
-						 		'</div>';
-					if(divArray[xiabiao] == null){
-						divArray[xiabiao] = '';
-					}	 		
-					divArray[xiabiao] = divArray[xiabiao] + temp;
-				}
-				
-				//将四个div分别遍历，组合成显示的html
-				for(var i=0; i<divArray.length; i++){
-					html = html + '<div>' + divArray[i] +'</div>';
-				}
-				
-				document.getElementById("cloudList").innerHTML = html;
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
-		});
-}
-loadCloudTemplateList();
 </script>
 
 </body>

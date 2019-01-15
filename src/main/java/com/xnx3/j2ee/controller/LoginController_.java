@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.j2ee.vo.LoginVO;
 import com.xnx3.media.CaptchaUtil;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -90,16 +93,20 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 	 */
 	@RequestMapping("loginSubmit${url.suffix}")
 	@ResponseBody
-	public BaseVO loginSubmit(HttpServletRequest request,Model model){
+	public LoginVO loginSubmit(HttpServletRequest request,Model model){
+		LoginVO vo = new LoginVO();
+		
 		//验证码校验
 		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
 			ActionLogCache.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
-			return capVO;
+			vo.setBaseVO(capVO);
+			return vo;
 		}else{
 			//验证码校验通过
 			
 			BaseVO baseVO =  userService.loginByUsernameAndPassword(request);
+			vo.setBaseVO(baseVO);
 			if(baseVO.getResult() == BaseVO.SUCCESS){
 				//登录成功,BaseVO.info字段将赋予成功后跳转的地址，所以这里要再进行判断
 				
@@ -111,7 +118,7 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 				//可以根据用户的不同权限，来判断用户登录成功后要跳转到哪个页面
 				if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 					//如果是超级管理员，那么跳转到管理后台
-					baseVO.setInfo("admin/index/index.do");
+					vo.setInfo("admin/index/index.do");
 					ActionLogCache.insert(request, "用户名密码模式登录成功","进入管理后台admin/index/");
 				}else{
 					/* 自己扩展的 */
@@ -147,7 +154,6 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						//判断网站用户是否是已过期，使用期满，将无法使用
 						if(site != null && site.getExpiretime() != null && site.getExpiretime() < currentTime){
 							//您的网站已到期。若要继续使用，请续费
-							BaseVO vo = new BaseVO();
 							String info = "";
 							try {
 								info = "您的网站已于 "+DateUtil.dateFormat(site.getExpiretime(), "yyyy-MM-dd")+" 到期！"
@@ -182,7 +188,7 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						//判断当前代理是否是已过期，使用期满，将无法登录
 						if (myAgency != null && myAgency.getExpiretime() != null && myAgency.getExpiretime() < currentTime){
 							//您的代理资格已到期。若要继续使用，请联系您的上级
-							BaseVO vo = new BaseVO();
+							//BaseVO vo = new BaseVO();
 							String info = "";
 							try {
 								info = "您的代理资格已于 "+DateUtil.dateFormat(myAgency.getExpiretime(), "yyyy-MM-dd")+" 到期！"
@@ -202,16 +208,20 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 					}
 					
 					//设置登录成功后，是跳转到总管理后台、代理后台，还是跳转到wap、pc、cms
-					baseVO.setInfo(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());	
+					vo.setInfo(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());	
 				}
 				
 				//将用户相关信息加入Shiro缓存
 				ShiroFunc.getCurrentActiveUser().setObj(userBean);
+				
+				//将iwSID加入vo返回
+				HttpSession session = request.getSession();
+				vo.setIwSID(session.getId());
 			}else{
 				ActionLogCache.insert(request, "用户名密码模式登录失败",baseVO.getInfo());
 			}
 			
-			return baseVO;
+			return vo;
 		}
 	}
 
