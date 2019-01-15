@@ -549,20 +549,37 @@ COMMIT;
 INSERT INTO system (value, id, name, description, lasttime) VALUES ( 'http://tag.wscso.com/4192.html', '139', 'SITE_TEMPLATE_DEVELOP_URL', '模版开发说明，模版开发入门', '1540972613');
 INSERT INTO system ( value, id, name, description, lasttime) VALUES ( '10000', '10000', 'FEN_GE_XIAN', '分割线，系统变量，若您自己添加，请使用id为 10000以后的数字。 10000以前的数字为系统预留。', '1540972613');
 
+
 -- ----------------------------
 --  Table structure for `template`
 -- ----------------------------
 DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版的名字',
-  `userid` int(11) DEFAULT NULL COMMENT '此模版所属的用户，user.id',
-  `remark` char(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注说明',
-  `siteid` int(11) DEFAULT NULL COMMENT '模版站，生成此模版的网站、同时也作为案例网站,对应site.id',
-  `addtime` int(11) DEFAULT '0' COMMENT '模版添加时间',
-  `updatetime` int(11) DEFAULT '0' COMMENT '模版的最后更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版（暂未用到，预留）';
+  `name` char(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版的名字，编码，唯一，限制50个字符以内',
+  `addtime` int(11) DEFAULT NULL COMMENT '模版添加时间',
+  `userid` int(11) DEFAULT '0' COMMENT '此模版所属的用户，user.id。如果此模版是用户的私有模版，也就是 iscommon=0 时，这里存储导入此模版的用户的id',
+  `remark` char(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版的简介，备注说明，限制300字以内',
+  `preview_url` char(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版预览网址，示例网站网址，绝对路径，',
+  `type` int(11) DEFAULT NULL COMMENT '模版所属分类，如广告、科技、生物、医疗等。',
+  `companyname` char(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版开发者公司名字。如果没有公司，则填写个人姓名',
+  `username` char(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版开发人员的名字，姓名',
+  `siteurl` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版开发者官方网站、企业官网。如果是企业，这里是企业官网的网址，格式如： http://www.leimingyun.com  ，如果是个人，则填写个人网站即可',
+  `terminal_mobile` tinyint(2) DEFAULT NULL COMMENT '网站模版是否支持手机端, 1支持，0不支持',
+  `terminal_pc` tinyint(2) DEFAULT NULL COMMENT '网站模版是否支持PC端, 1支持，0不支持',
+  `terminal_ipad` tinyint(2) DEFAULT NULL COMMENT '网站模版是否支持平板电脑, 1支持，0不支持',
+  `terminal_display` tinyint(2) DEFAULT NULL COMMENT '网站模版是否支持展示机, 1支持，0不支持',
+  `iscommon` tinyint(2) DEFAULT NULL COMMENT '是否是公共的模版 1是公共的模版， 0不是公共的，私有的，是用户自己开通网站导入的',
+  `rank` int(11) DEFAULT NULL COMMENT '公共模版的排序，数字越小越靠前。',
+  `wscso_down_url` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'wscso模版文件下载的url地址',
+  `zip_down_url` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'zip模版素材包文件下载的url地址',
+  `preview_pic` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版预览图的网址，preview.jpg 图片的网址',
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`,`userid`,`type`,`companyname`,`username`,`terminal_mobile`,`terminal_pc`,`terminal_ipad`,`terminal_display`,`iscommon`,`addtime`,`rank`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='模版';
+
+
+
 
 -- ----------------------------
 --  Table structure for `template_data`
