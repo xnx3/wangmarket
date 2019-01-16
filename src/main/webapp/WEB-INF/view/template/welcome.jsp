@@ -115,7 +115,7 @@ try{
 	<button onclick="parent.openTemplatePageList('');" class="layui-btn layui-btn-primary">模版页面列表</button>
 </div>
 
-<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/5541.html -->
+<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html -->
 <% if(G.copyright){ 
 		Date d = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
