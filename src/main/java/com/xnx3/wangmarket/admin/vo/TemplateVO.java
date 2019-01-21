@@ -123,6 +123,70 @@ public class TemplateVO extends BaseVO {
 			}
 		}
 		
+
+		//是否是插件模式
+		if(jo.get("plugin") != null){
+			plugin = getJsonStringAndSafetyFilter(jo.getString("plugin"));
+		}
+		
+		if(jo.get("templateName") != null){
+			templateName = getJsonStringAndFilterXSS(jo, "templateName");
+		}else{
+			templateName = "";
+		}
+		
+		if(jo.get("systemVersion") != null){
+			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
+		}else{
+			systemVersion = "";
+		}
+		
+		if(jo.get("time") != null){
+			time = jo.getInt("time");
+		}
+		
+		if(jo.get("sourceUrl") != null){
+			sourceUrl =  getJsonStringAndFilterXSS(jo, "sourceUrl");
+		}else{
+			sourceUrl = "";
+		}
+		
+		//v4.7版本增加template相关
+		if(jo.get("template") != null){
+			JSONObject tempJson = jo.getJSONObject("template");
+			//进一步判断是否有 template 这个对象
+			if(tempJson.get("type") != null){
+				template = new Template();
+				template.setAddtime(tempJson.getInt("addtime"));
+				template.setCompanyname(getJsonStringAndFilterXSS(tempJson, "companyname"));
+				template.setName(getJsonStringAndFilterXSS(tempJson, "name"));
+				template.setPreviewUrl(getJsonStringAndFilterXSS(tempJson, "previewUrl"));
+				template.setRemark(getJsonStringAndFilterXSS(tempJson, "remark"));
+				template.setSiteurl(getJsonStringAndFilterXSS(tempJson, "siteurl"));
+				template.setTerminalDisplay((short) tempJson.getInt("terminalDisplay"));
+				template.setTerminalIpad((short) tempJson.getInt("terminalIpad"));
+				template.setTerminalMobile((short) tempJson.getInt("terminalMobile"));
+				template.setTerminalPc((short) tempJson.getInt("terminalPc"));
+				template.setType(tempJson.getInt("type"));
+				template.setUsername(getJsonStringAndFilterXSS(tempJson, "username"));
+				template.setPreviewPic(getJsonStringAndFilterXSS(tempJson, "previewPic"));
+				template.setZipDownUrl(getJsonStringAndFilterXSS(tempJson, "zipDownUrl"));
+				template.setWscsoDownUrl(getJsonStringAndFilterXSS(tempJson, "wscsoDownUrl"));
+				if(tempJson.get("iscommon") != null){
+					template.setIscommon((short) tempJson.getInt("iscommon"));
+				}else{
+					//默认不是公共的，私有的
+					template.setIscommon(Template.ISCOMMON_NO);
+				}
+				//如果this.模版名没有，则将template对象的模版名赋予 
+				if(this.templateName == null || this.templateName.length() == 0){
+					this.templateName = template.getName();
+				}
+			}
+		}
+		
+		
+		
 		//TemplatePage模版页
 		templatePageList = new ArrayList<TemplatePage>();
 		if(jo.get("templatePageList") != null){
@@ -130,14 +194,14 @@ public class TemplateVO extends BaseVO {
 			for (int i = 0; i < templatePageArray.size(); i++) {
 				JSONObject j = templatePageArray.getJSONObject(i);
 				com.xnx3.wangmarket.admin.entity.TemplatePage ntp = new com.xnx3.wangmarket.admin.entity.TemplatePage();
-				ntp.setName(StringUtil.filterXss(getJsonString(j.getString("name"))));
+				ntp.setName(getJsonStringAndFilterXSS(j, "name"));
 				ntp.setSiteid(currentSite.getId());
-				ntp.setTemplateName(StringUtil.filterXss(getJsonString(jo.getString("templateName"))));
+				ntp.setTemplateName(this.templateName);
 				ntp.setType((short) j.getInt("type"));
 				ntp.setUserid(currentSite.getUserid());
 				if(j.get("remark") != null){
 					//兼容之前没有remark导出的json数据
-					ntp.setRemark(StringUtil.filterXss(getJsonString(j.getString("remark"))));
+					ntp.setRemark(getJsonStringAndFilterXSS(j, "remark"));
 				}
 				if(j.get("editMode") != null){
 					//兼容v4.4之前的版本，v4.4版本增加了templatePage.editMode字段
@@ -165,11 +229,11 @@ public class TemplateVO extends BaseVO {
 				JSONObject j = templateVarArray.getJSONObject(i);
 				com.xnx3.wangmarket.admin.entity.TemplateVar tv = new com.xnx3.wangmarket.admin.entity.TemplateVar();
 				tv.setAddtime(DateUtil.timeForUnix10());
-				tv.setRemark(StringUtil.filterXss(getJsonString(j.getString("remark"))));
-				tv.setTemplateName(StringUtil.filterXss(getJsonString(jo.getString("templateName"))));
+				tv.setRemark(getJsonStringAndFilterXSS(j, "remark"));
+				tv.setTemplateName(this.templateName);
 				tv.setUpdatetime(tv.getAddtime());
 				tv.setUserid(currentSite.getUserid());
-				tv.setVarName(StringUtil.filterXss(getJsonString(j.getString("var_name"))));
+				tv.setVarName(getJsonStringAndFilterXSS(j, "var_name"));
 				tv.setSiteid(currentSite.getId());
 				
 				TemplateVar t = new TemplateVar();
@@ -190,8 +254,8 @@ public class TemplateVO extends BaseVO {
 			for (int i = 0; i < inputModelArray.size(); i++) {
 				JSONObject j = inputModelArray.getJSONObject(i);
 				InputModel im = new InputModel();
-				im.setCodeName(StringUtil.filterXss(getJsonString(j.getString("codeName"))));
-				im.setRemark(StringUtil.filterXss(getJsonString(j.getString("remark"))));
+				im.setCodeName(getJsonStringAndFilterXSS(j, "codeName"));
+				im.setRemark(getJsonStringAndFilterXSS(j, "remark"));
 				im.setSiteid(currentSite.getId());
 				im.setText(getJsonString(j.getString("text")));
 				inputModelList.add(im);
@@ -208,21 +272,21 @@ public class TemplateVO extends BaseVO {
 				
 				//创建栏目，将栏目复制一份，再当前网站创建栏目
 				SiteColumn nsc = new SiteColumn();
-				nsc.setName(StringUtil.filterXss(getJsonString(j.getString("name"))));
+				nsc.setName(getJsonStringAndFilterXSS(j, "name"));
 				nsc.setRank(j.getInt("rank"));
 				nsc.setUsed((short) j.getInt("used"));
 				nsc.setSiteid(currentSite.getId());
 				nsc.setUserid(currentSite.getUserid());
 				nsc.setType(type);
-				nsc.setTemplatePageListName(StringUtil.filterXss(getJsonString(j.getString("templatePageListName"))));
-				nsc.setTemplatePageViewName(StringUtil.filterXss(getJsonString(j.getString("templatePageViewName"))));
-				nsc.setCodeName(StringUtil.filterXss(getJsonString(j.getString("codeName"))));
-				nsc.setParentCodeName(StringUtil.filterXss(getJsonString(j.getString("parentCodeName"))));
+				nsc.setTemplatePageListName(getJsonStringAndFilterXSS(j, "templatePageListName"));
+				nsc.setTemplatePageViewName(getJsonStringAndFilterXSS(j, "templatePageViewName"));
+				nsc.setCodeName(getJsonStringAndFilterXSS(j, "codeName"));
+				nsc.setParentCodeName(getJsonStringAndFilterXSS(j, "parentCodeName"));
 				nsc.setListNum(j.getInt("listNum"));
 				nsc.setEditMode((short) (j.get("editMode") == null ? 0:j.getInt("editMode")));
 				if(j.get("inputModelCodeName") != null){
 					//兼容之前没有输入模型导出的模板
-					nsc.setInputModelCodeName(StringUtil.filterXss(getJsonString(j.getString("inputModelCodeName"))));
+					nsc.setInputModelCodeName(getJsonStringAndFilterXSS(j, "inputModelCodeName"));
 				}
 				if(j.get("listRank") != null){
 					nsc.setListRank((short) j.getInt("listRank"));
@@ -275,65 +339,6 @@ public class TemplateVO extends BaseVO {
 			}
 		}
 		
-		//是否是插件模式
-		if(jo.get("plugin") != null){
-			plugin = getJsonStringAndSafetyFilter(jo.getString("plugin"));
-		}
-		
-		if(jo.get("templateName") != null){
-			templateName = StringUtil.filterXss(getJsonString(jo.getString("templateName")));
-		}else{
-			templateName = "";
-		}
-		
-		if(jo.get("systemVersion") != null){
-			systemVersion = getJsonStringAndSafetyFilter(jo.getString("systemVersion"));
-		}else{
-			systemVersion = "";
-		}
-		
-		if(jo.get("time") != null){
-			time = jo.getInt("time");
-		}
-		
-		if(jo.get("sourceUrl") != null){
-			sourceUrl = StringUtil.filterXss(getJsonString(jo.getString("sourceUrl")));
-		}else{
-			sourceUrl = "";
-		}
-		
-		
-		//v4.7版本增加template相关
-		if(jo.get("template") != null){
-			JSONObject tempJson = jo.getJSONObject("template");
-			//进一步判断是否有 template 这个对象
-			if(tempJson.get("type") != null){
-				template = new Template();
-				template.setAddtime(tempJson.getInt("addtime"));
-				template.setCompanyname(StringUtil.filterXss(getJsonString(tempJson.getString("companyname"))));
-				template.setName(StringUtil.filterXss(getJsonString(tempJson.getString("name"))));
-				template.setPreviewUrl(StringUtil.filterXss(getJsonString(tempJson.getString("name"))));
-				template.setRemark(StringUtil.filterXss(getJsonString(tempJson.getString("remark"))));
-				template.setSiteurl(StringUtil.filterXss(getJsonString(tempJson.getString("siteurl"))));
-				template.setTerminalDisplay((short) tempJson.getInt("terminalDisplay"));
-				template.setTerminalIpad((short) tempJson.getInt("terminalIpad"));
-				template.setTerminalMobile((short) tempJson.getInt("terminalMobile"));
-				template.setTerminalPc((short) tempJson.getInt("terminalPc"));
-				template.setType(tempJson.getInt("type"));
-				template.setUsername(StringUtil.filterXss(getJsonString(tempJson.getString("username"))));
-				template.setPreviewPic(StringUtil.filterXss(getJsonString(tempJson.getString("previewPic"))));
-				template.setZipDownUrl(StringUtil.filterXss(getJsonString(tempJson.getString("zipDownUrl"))));
-				template.setWscsoDownUrl(StringUtil.filterXss(getJsonString(tempJson.getString("wscsoDownUrl"))));
-				if(tempJson.get("iscommon") != null){
-					template.setIscommon((short) tempJson.getInt("iscommon"));
-				}else{
-					//默认不是公共的，私有的
-					template.setIscommon(Template.ISCOMMON_NO);
-				}
-			}
-		}
-		
-		
 		return true;
 	}
 	
@@ -355,6 +360,20 @@ public class TemplateVO extends BaseVO {
 	}
 	
 	/**
+	 * 获取json的某个 String 的值，并进行xss过滤
+	 */
+	public String getJsonStringAndFilterXSS(JSONObject json, String key){
+		if(json == null){
+			return "";
+		}
+		if(json.get(key) == null){
+			return "";
+		}
+		
+		return StringUtil.filterXss(getJsonString(json.getString(key)));
+	}
+	
+	/**
 	 * 将json取得的字符串进行UTF8编码的判断及解码、并进行安全校验
 	 * @param text json取得的字符串
 	 * @return
@@ -366,6 +385,9 @@ public class TemplateVO extends BaseVO {
 		
 		return Safety.filter(getJsonString(text));
 	}
+	
+	
+	
 	public String getPlugin() {
 		return plugin;
 	}
