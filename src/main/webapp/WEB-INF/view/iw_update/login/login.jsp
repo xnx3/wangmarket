@@ -115,13 +115,18 @@ layui.use('form', function(){
   
   //监听提交
   form.on('submit(formDemo)', function(data){
-  	$.showLoading('登录中...');
+	iw.loading("登陆中...");
+  	//$.showLoading('登录中...');
     var d=$("form").serialize();
 	$.post("<%=basePath %>loginSubmit.do", d, function (result) {
-		$.hideLoading();
+		//$.hideLoading();
+		iw.loadClose();
        	var obj = JSON.parse(result);
+       	try{
+       		console.log(obj);
+       	}catch(e){}
        	if(obj.result == '1'){
-       		layer.msg('登陆成功', {shade: 0.3});
+       		iw.msgSuccess("登陆成功！");
        		window.location.href=obj.info;
        	}else if(obj.result == '0'){
        		//登陆失败

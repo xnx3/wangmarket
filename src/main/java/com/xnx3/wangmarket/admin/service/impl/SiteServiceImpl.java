@@ -310,6 +310,10 @@ public class SiteServiceImpl implements SiteService {
 	public BaseVO refreshForTemplate(HttpServletRequest request){
 		BaseVO vo = new BaseVO();
 		Site site = Func.getCurrentSite();
+		if(site == null){
+			vo.setBaseVO(BaseVO.FAILURE, "尚未登陆");
+			return vo;
+		}
 		
 		TemplateCMS template = new TemplateCMS(site);
 		//取得当前网站所有模版页面
@@ -504,9 +508,9 @@ public class SiteServiceImpl implements SiteService {
 			return vo;
 		}
 		
-		//当网站只有一个首页时，是不需要这个的。所以只需要上面的，判断一下是否有模版页就够了。 v2.24更新
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() != null){	//v4.7加入，避免只有一个首页时，生成整站第一次报错
-			
+		//v4.7加入，避免没有模版变量时，生成整站报错
+		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(new HashMap<String, TemplateVarVO>());
 		}
 		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {  
 			//替换公共标签

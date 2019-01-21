@@ -520,6 +520,7 @@ public class TemplateController extends BaseController {
 	public String getTemplatePageText(Model model,HttpServletRequest request,
 			@RequestParam(value = "pageName", required = true) String pageName
 			) throws IOException{
+		Site site = getSite();
 		String html = null;
 		pageName = filter(pageName);
 		
@@ -555,11 +556,11 @@ public class TemplateController extends BaseController {
 				templateService.getTemplateVarAndDateListByCache();
 			}
 			
-			com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(getSite(), true);
+			com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(site, true);
 			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 			
 			// {templatePath} 替换
-			html = html.replaceAll(TemplateCMS.regex("templatePath"), TemplateCMS.TEMPLATE_PATH);
+			html = html.replaceAll(TemplateCMS.regex("templatePath"), TemplateCMS.TEMPLATE_PATH+site.getTemplateName()+"/");
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
