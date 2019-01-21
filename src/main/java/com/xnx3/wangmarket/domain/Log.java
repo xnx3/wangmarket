@@ -27,7 +27,7 @@ public class Log {
 			String log_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
 			String endpoint = Global.get("ALIYUN_SLS_ENDPOINT");
 			String project = Global.get("ALIYUN_SLS_PROJECT");
-			String logstore = Global.get("ALIYUN_SLS_USERACTION_LOGSTORE");
+			String logstore = Global.get("ALIYUN_SLS_FANGWEN_LOGSTORE");
 			
 			if(log_accessKeyId.length() < 10){
 				System.out.println("未开启网站访问日志记录。授权版本有此功能，详情可参考 http://www.wang.market/price.html");

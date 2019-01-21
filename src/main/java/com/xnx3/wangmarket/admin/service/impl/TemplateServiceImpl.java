@@ -839,20 +839,34 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		//更新模版变量缓存
+		reloadTemplateVarCache(request);
 		
-		
-		getTemplateVarAndDateListByCache();
-		//将模版变量装载入Session。 必须要装载，将模版变量缓存入session，以便后面使用
-		loadDatabaseTemplateVarToCache();
-		
-		//v4.6更新，直接在 templateService.importTemplate 中就更新了
-		request.getSession().setAttribute("templatePageListVO", null);
-		
-		//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
-		Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
-		Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
+		//更新模版页面缓存
+		reloadTemplatePageCache(request);
 		
 		return vo;
+	}
+	
+	/**
+	 * 重新加载模版页面的缓存数据
+	 * @param request
+	 */
+	public void reloadTemplatePageCache(HttpServletRequest request){
+		request.getSession().setAttribute(sessionTemplatePageListVO, null);
+		getTemplatePageListByCache(request);
+	}
+	
+	/**
+	 * 重新加载模版变量的缓存数据。
+	 * <br/>包含生成整站时，已替换了通用动态标签的已编译的模版变量
+	 * @param request
+	 */
+	public void reloadTemplateVarCache(HttpServletRequest request){
+		//先清空掉
+		Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
+		Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
+		//再加载入缓存
+		getTemplateVarAndDateListByCache();
 	}
 	
 	public List<com.xnx3.wangmarket.admin.entity.TemplateVar> getTemplateVarList(){

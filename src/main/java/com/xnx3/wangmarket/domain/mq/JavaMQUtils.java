@@ -54,7 +54,6 @@ public class JavaMQUtils {
 							//取最上面的一个，也就是最早加入的，因为即使过期，肯定是最早加入的开始过期。一直从最早加入的开始遍历，直到遍历到不过期的信息为止
 							JavaQueueBean queue = list.get(0);
 							while(queue != null && currentTime - queue.getAddtime() > EXPIRE_TIME){
-								System.out.println("----remove----"+queue.toString());
 								//已过期，那么就将其删除掉
 								list.remove(0);
 								//将指针指向删除后的第一个，也就是 queue
@@ -88,7 +87,6 @@ public class JavaMQUtils {
 		queue.setAddtime(DateUtil.timeForUnix10());
 		queue.setContent(content);
 		cacheMap.get(pluginId).add(queue);
-		System.out.println("---send-----"+queue.toString());
 		
 		if(receiveInterfaceMap.get(pluginId) != null){
 			receiveInterfaceMap.get(pluginId).receive(content);
