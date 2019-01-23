@@ -45,7 +45,7 @@ public class TemplateCMS {
 	 * @return TEMPLATE_CLOUD_PATH 、 TEMPLATE_PRIVATE_PATH
 	 */
 	public String getTemplatePath(){
-		if(this.template.getResourceImport().equals(com.xnx3.wangmarket.admin.entity.Template.RESOURCE_IMPORT_CLOUD)){
+		if(this.template.getResourceImport() != null && this.template.getResourceImport().equals(com.xnx3.wangmarket.admin.entity.Template.RESOURCE_IMPORT_CLOUD)){
 			//是使用云端模版库
 			return TEMPLATE_CLOUD_PATH;
 		}else{
