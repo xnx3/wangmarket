@@ -2,7 +2,21 @@ try{
 	var photosHtml = document.getElementById('photosDefaultValue').innerHTML.trim();	//得到extend.photos的上一次保存的数据
 	var itemTemplate = document.getElementById('photoInputList').innerHTML.trim();	//得到每一项item的模版
 	document.getElementById('photoInputList').innerHTML = '';	//清空里面原本存在的item模版
-	if(photosHtml.length > 3){
+	
+	/**
+	 * 判断图集是否有值，v4.7增加
+	 * true：有值；
+	 * false：无值
+	 */
+	function photosHaveValue(){
+		if(photosHtml.length > 3){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	if(photosHaveValue()){
 		//有值，那么判断是有一个值，还是有多个值
 		
 		if(photosHtml.indexOf('[') > -1){
@@ -47,6 +61,7 @@ try{
 		var child=document.getElementById("photos_input_item_"+input_photo_i);
 		parent.removeChild(child);
 	}
+	
 	
 }catch(e){
 	console.log(e);

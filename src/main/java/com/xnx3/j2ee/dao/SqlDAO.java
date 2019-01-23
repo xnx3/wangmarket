@@ -199,22 +199,6 @@ public class SqlDAO {
 	 * @return {@link List} 实体类 。 若没有查到，则返回null
 	 */
 	public <E> E findAloneByProperty(Class<E> c,String propertyName, Object value){
-//		String whereValue = "";	//查询的值。若是字符，则自动拼接上''
-//		
-//		//获取type的类型，根据类型，来决定where的组合
-//		String type = value.getClass().getTypeName();
-//		if(type.equalsIgnoreCase("java.lang.String")){
-//			whereValue = "'" + value.toString() + "'";
-//		}else{
-//			whereValue = value.toString();
-//		}
-//		
-//		List<E> list = findBySqlQuery("SELECT * FROM "+getDatabaseTableName(c) + " WHERE "+propertyName+" = "+whereValue + " LIMIT 0,1", c);
-//		if(list.size() > 0){
-//			return list.get(0); 
-//		}else{
-//			return null;
-//		}
 		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1";
 		javax.persistence.Query query=entityManager.createQuery(hql);
 		query.setParameter("c1", value);

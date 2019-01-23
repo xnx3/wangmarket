@@ -113,7 +113,6 @@ public class TemplateController extends BaseController {
 		
 		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页-iframe main");
 		
-		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
 		if(PluginManage.cmsSiteClassManage.size() > 0){
@@ -780,6 +779,12 @@ public class TemplateController extends BaseController {
 				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
 				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
 				new TemplateUtil(templateName).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
+				//将这个模版模版信息记录入数据库
+				template = tvo.getTemplate();
+				template.setIscommon(com.xnx3.wangmarket.admin.entity.Template.ISCOMMON_NO); 	//用户自己导入的，默认是私有的，不加入公共模版库。除非通过模版中心来指定（模版中心属于授权版本）
+				template.setUserid(getUserId());
+				sqlService.save(template);
+				
 			}else{
 				//不为空，已经有这个模版了，那么就不可以导入资源文件，只导入 wscso 文件就可以了
 				System.out.println("已经有这个模版的资源文件了，忽略:"+template.getName());

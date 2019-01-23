@@ -50,7 +50,7 @@ public class CloudTemplateUpdateThread {
 				
 				while(true){
 					boolean result = false;	//同步结果，为true则表示同步成功。如果不成功则继续同步
-					HttpResponse hr = http.get("http://cloud.wscso.com/templatelist");
+					HttpResponse hr = http.get("http://cloud.wscso.com/templatelist?v="+G.VERSION);
 					if(hr.getCode() - 200 == 0){
 						//取到新数据了
 						if(hr.getContent() != null){

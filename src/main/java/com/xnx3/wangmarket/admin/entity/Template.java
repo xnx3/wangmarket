@@ -8,7 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 模版
+ * 模版。
+ * 只要是网站中使用过的模版，都会进入此处进行记录。无论是云端模版、用户自己上传的模版、还是私有模版
  * @author 管雷鸣
  */
 @Entity
