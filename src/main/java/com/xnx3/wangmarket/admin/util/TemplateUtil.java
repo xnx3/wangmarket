@@ -24,6 +24,12 @@ public class TemplateUtil {
 	public static Map<Integer, List<Template>> cloudTemplateMap = new HashMap<Integer, List<Template>>();
 	
 	/**
+	 * 本地数据库中存储的模版名字
+	 * map -  key:template.name
+	 */
+	public static Map<String, Template> databaseTemplateMap = new HashMap<String, Template>();
+	
+	/**
 	 * 获取用户建立网站后，给用户使用的模版列表
 	 * @param templateType 传入具体的值，若调取全部，则传入 -1
 	 * @return

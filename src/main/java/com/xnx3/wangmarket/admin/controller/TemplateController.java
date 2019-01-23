@@ -14,8 +14,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +26,12 @@ import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
-import com.xnx3.UrlUtil;
 import com.xnx3.ZipUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -559,7 +555,8 @@ public class TemplateController extends BaseController {
 			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 			
 			// {templatePath} 替换
-			html = html.replaceAll(TemplateCMS.regex("templatePath"), TemplateCMS.TEMPLATE_PATH+site.getTemplateName()+"/");
+			TemplateCMS templateCMS = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+			html = html.replaceAll(TemplateCMS.regex("templatePath"), templateCMS.getTemplatePath()+site.getTemplateName()+"/");
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";

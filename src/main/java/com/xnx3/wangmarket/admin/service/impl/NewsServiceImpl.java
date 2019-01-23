@@ -171,8 +171,26 @@ public class NewsServiceImpl implements NewsService {
 		//获取到当前页面使用的模版
 		String templateHtml = templateService.getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		
-		TemplateCMS template = new TemplateCMS(Func.getCurrentSite());
-		template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
+		Site site = Func.getCurrentSite();
+		TemplateCMS template = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+		//template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
+		
+		
+		if(templateHtml == null){
+			//出错，没有获取到该栏目的模版页
+			return;
+		}
+		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
+		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
+		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
+		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签
+		
+		//替换 SEO 相关
+		pageHtml = pageHtml.replaceAll(Template.regex("title"), news.getTitle()+"_"+site.getName());
+		pageHtml = pageHtml.replaceAll(Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
+		pageHtml = Template.replaceAll(pageHtml, Template.regex("description"), news.getIntro());
+		
+		template.generateNewsHtml(news, siteColumn, null, null, pageHtml, newsDataBean);
 	}
 
 	public NewsInit news(HttpServletRequest request, int id, int cid, Model model) {

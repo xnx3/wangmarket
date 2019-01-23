@@ -178,6 +178,16 @@ public class TemplateVO extends BaseVO {
 					//默认不是公共的，私有的
 					template.setIscommon(Template.ISCOMMON_NO);
 				}
+				
+				//v4.7.1增加
+				if(tempJson.get("resourceImport") == null){
+					//如果没有指定，默认是使用本地的资源文件
+					template.setResourceImport(Template.RESOURCE_IMPORT_PRIVATE);
+				}else{
+					template.setResourceImport(getJsonStringAndFilterXSS(tempJson, "resourceImport"));
+				}
+				
+				
 				//如果this.模版名没有，则将template对象的模版名赋予 
 				if(this.templateName == null || this.templateName.length() == 0){
 					this.templateName = template.getName();

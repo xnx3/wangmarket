@@ -550,6 +550,7 @@ INSERT INTO system (value, id, name, description, lasttime) VALUES ( 'http://tag
 INSERT INTO system ( value, id, name, description, lasttime) VALUES ( '10000', '10000', 'FEN_GE_XIAN', '分割线，系统变量，若您自己添加，请使用id为 10000以后的数字。 10000以前的数字为系统预留。', '1540972613');
 
 
+
 -- ----------------------------
 --  Table structure for `template`
 -- ----------------------------
@@ -574,11 +575,10 @@ CREATE TABLE `template` (
   `wscso_down_url` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'wscso模版文件下载的url地址',
   `zip_down_url` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'zip模版素材包文件下载的url地址',
   `preview_pic` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模版预览图的网址，preview.jpg 图片的网址',
+  `resource_import` char(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'js、css等资源引用方式。 cloud：使用云端模版库； private:使用私有模版库，也就是本地的',
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`userid`,`type`,`companyname`,`username`,`terminal_mobile`,`terminal_pc`,`terminal_ipad`,`terminal_display`,`iscommon`,`addtime`,`rank`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='模版';
-
-
 
 
 -- ----------------------------

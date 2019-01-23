@@ -433,7 +433,8 @@ public class ColumnController extends BaseController {
 		//设置上传后的图片、附件所在的个人路径
 		ShiroFunc.getCurrentActiveUser().setUeUploadParam1(site.getId()+"");
 		//实际上 sitecolumn.icon 图片的地址，替换掉动态标签的绝对路径 （原本数据库中存储的是可带有动态标签的，模版开发人员可以使用{templatePath}标签来填写icon的图片文件所在路径）
-		String icon = (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", TemplateCMS.TEMPLATE_PATH + "" + site.getTemplateName() + "/");
+		TemplateCMS templateCMS = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+		String icon = (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", templateCMS.getTemplatePath() + site.getTemplateName() + "/");
 		model.addAttribute("icon", icon);
 		
 		model.addAttribute("parentColumnOption", parentColumn.toString());

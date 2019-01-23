@@ -19,6 +19,11 @@ public class Template implements java.io.Serializable {
 	public static final Short ISCOMMON_YES = 1;
 	public static final Short ISCOMMON_NO = 0;
 	
+	//资源引用，使用云端模版库的资源，如css、js
+	public static final String RESOURCE_IMPORT_CLOUD = "cloud";
+	//资源引用，使用本地的资源文件
+	public static final String RESOURCE_IMPORT_PRIVATE = "private";
+	
 	private Integer id;			//自动编号
 	private String name;			//模版的名字，编码，唯一，限制50个字符以内
 	private Integer addtime;		//模版添加时间
@@ -38,6 +43,7 @@ public class Template implements java.io.Serializable {
 	private int rank;			//公共模版的排序，数字越小越靠前。
 	private String wscsoDownUrl;	//wscso模版文件下载的url地址
 	private String zipDownUrl;		//zip模版素材包文件下载的url地址
+	private String resourceImport;	//js、css等资源引用方式。 cloud：使用云端模版库； private:使用私有模版库，也就是本地的
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -167,5 +173,12 @@ public class Template implements java.io.Serializable {
 		this.previewPic = previewPic;
 	}
 	
+	@Column(name = "resource_import")
+	public String getResourceImport() {
+		return resourceImport;
+	}
+	public void setResourceImport(String resourceImport) {
+		this.resourceImport = resourceImport;
+	}
 	
 }
