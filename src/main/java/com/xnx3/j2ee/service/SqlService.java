@@ -2,7 +2,6 @@ package com.xnx3.j2ee.service;
 
 import java.util.List;
 import java.util.Map;
-
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.util.Sql;
 
@@ -176,4 +175,39 @@ public interface SqlService {
 	 * @return list
 	 */
     public List findByHql(String hql, Map<String, Object> parameterMap);
+    
+    /**
+	 * 通过hql语句执行sql。示例：
+	 * <pre>
+	 * 		String hql = "update User u set u.nickname=:nickname WHERE u.username = :username";
+	 * 		Map&lt;String, Object&gt; parameterMap = new HashMap&lt;String, Object&gt;();
+     *		parameterMap.put("nickname", "guan");
+     *		parameterMap.put("username", "guanleiming");
+     *		executeByHql(hql, parameterMap)
+	 * </pre>
+	 * @param hql 执行的hql语句，如 update User u set u.nickname=:nickname WHERE u.id = 1
+	 * @param parameterMap hql中的变量值
+	 * @return 执行此语句后，数据库中更新的记录条数
+	 */
+    public int executeByHql(String hql, Map<String, Object> parameterMap);
+    
+    /**
+	 * HQL update语句，更改值。会自动进行sql注入过滤。
+	 * <br/>其组合的hql语句便是：
+	 * <pre>
+	 * update Template c set t.setPropertyName = setPropertyValue WHERE c.wherePropertyName = wherePropertyValue
+	 * </pre>
+	 * <br/>使用如：
+	 * <pre>
+	 *  //将当前站点使用的模版变量、模版页面全部设置为绑定这个模版
+	 *	updateByHql(TemplatePage.class, "templateName", templateName, "siteid", site.getId());
+	 * </pre>
+	 * @param c {@link Class} 实体类，如 {@link User}.class
+	 * @param setPropertyName 要更新字段的数据表字段名(entity实体类的驼峰写法的字段名)
+	 * @param setPropertyValue 要更新字段的值，新的值。会自动过滤sql注入
+	 * @param wherePropertyName WHERE 查询条件的数据表字段名(entity实体类的驼峰写法的字段名)
+	 * @param wherePropertyValue WHERE 查询条件的数据表字段名的值，条件的值。会自动过滤sql注入
+	 * @return 执行此语句后，数据库中更新的记录条数
+	 */
+	public int updateByHql(Class c, String setPropertyName, String setPropertyValue, String wherePropertyName, Object wherePropertyValue);
 }

@@ -2,15 +2,9 @@ package com.xnx3.j2ee.service.impl;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Sql;
 
@@ -99,5 +93,12 @@ public class SqlServiceImpl implements SqlService {
 	
 	public List findByHql(String hql, Map<String, Object> parameterMap){
 		return sqlDAO.findByHql(hql, parameterMap);
+	}
+	
+	public int executeByHql(String hql, Map<String, Object> parameterMap) {
+		return sqlDAO.executeByHql(hql, parameterMap);
+	}
+	public int updateByHql(Class c, String setPropertyName, String setPropertyValue, String wherePropertyName, Object wherePropertyValue){
+		return sqlDAO.updateByHql(c, setPropertyName, setPropertyValue, wherePropertyName, wherePropertyValue);
 	}
 }

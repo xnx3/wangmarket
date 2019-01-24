@@ -15,11 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
 
-<script type="text/javascript">
-//得到当前版本号，用于版本更新后提醒更新内容
-versionUpdateRemind('<%=G.VERSION %>');
-</script>
-<!-- 版本提示结束 -->
 
 <style>
 .iw_table tbody tr .iw_table_td_view_name{
@@ -201,5 +196,10 @@ try {
 } catch(error) {}
 </script>
 
+<script type="text/javascript">
+//得到当前版本号，用于版本更新后提醒更新内容
+versionUpdateRemind('<%=G.VERSION %>');
+</script>
+<!-- 版本提示结束 -->
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>  

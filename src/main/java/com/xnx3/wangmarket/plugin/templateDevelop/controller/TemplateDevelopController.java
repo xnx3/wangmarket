@@ -30,6 +30,8 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.Template;
+import com.xnx3.wangmarket.admin.entity.TemplatePage;
+import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
@@ -155,6 +157,9 @@ public class TemplateDevelopController extends BasePluginController {
 		sqlService.save(site);
 		setSite(site);
 		
+		//将当前站点使用的模版变量、模版页面全部设置为绑定这个模版
+		sqlService.updateByHql(TemplatePage.class, "templateName", templateName, "siteid", site.getId());
+		sqlService.updateByHql(TemplateVar.class, "templateName", templateName, "siteid", site.getId());
 		
 		//创建模版编码的文件夹
 		File file = new File(Global.getProjectPath()+getExportPath()+templateName);
