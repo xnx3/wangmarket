@@ -57,7 +57,7 @@
     		<li>
     			找到左侧菜单的 “生成整站” 功能， 点击 ，生成整个网站。
     			<div>
-    				<img src="http://res.weiunity.com/image/shengchengzhengzhan.jpg" />
+    				<img src="//res.weiunity.com/image/shengchengzhengzhan.jpg" />
     			</div>
     		</li>
     		<li>生成整站后，再来此页面刷新即可看到您的网站了！</li>

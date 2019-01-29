@@ -2,10 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="回帖列表"/>
 </jsp:include>
@@ -62,7 +58,7 @@ function deleteComment(id){
 		layer.close(dtp_confirm);
 		
 		parent.iw.loading("删除中");    //显示“操作中”的等待提示
-		$.post('<%=basePath %>admin/bbs/deleteComment.do?id='+id, function(data){
+		$.post('/admin/bbs/deleteComment.do?id='+id, function(data){
 		    parent.iw.loadClose();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		        parent.iw.msgSuccess('删除成功');
@@ -85,7 +81,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 </script>

@@ -5,18 +5,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="//res.weiunity.com/js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
-<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 
 
 <style>
@@ -121,7 +117,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 					</button>
 			    </div>
 			    <span  id="stop_4_tishi" style="padding-left: 50px;">
-			    	<a href="<%=basePath %>websiteTemplate/${site.templateName}/preview.jpg"  target="_black">已设置：<img id="stop4_img" src="<%=basePath %>websiteTemplate/${site.templateName}/preview.jpg" class="layui-btn layui-btn-primary" style="border:0px;" onerror="document.getElementById('stop_4_tishi').innerHTML = '尚未上传！请上传首页预览图片';" /></a>
+			    	<a href="/websiteTemplate/${site.templateName}/preview.jpg"  target="_black">已设置：<img id="stop4_img" src="/websiteTemplate/${site.templateName}/preview.jpg" class="layui-btn layui-btn-primary" style="border:0px;" onerror="document.getElementById('stop_4_tishi').innerHTML = '尚未上传！请上传首页预览图片';" /></a>
 			    </span>
 			     
 			    
@@ -129,7 +125,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 			<div class="explain">
 				注意：
 				<ul>
-					<li>需要模版首页的整张图片，也就是全图。你可以使用ps自行将首页整张图做出来、也可以使用一些浏览器三方插件自动将首页截图保存出来。<a href="<%=basePath %>plugin/templateDevelop/images/template_preview_demo.jpg" target="_black">点此查看图片示例</a></li>
+					<li>需要模版首页的整张图片，也就是全图。你可以使用ps自行将首页整张图做出来、也可以使用一些浏览器三方插件自动将首页截图保存出来。<a href="/plugin/templateDevelop/images/template_preview_demo.jpg" target="_black">点此查看图片示例</a></li>
 					<li>图片必须是jpg格式</li>
 					<li>图片大小限制在1MB以内。建议大小在 200KB ～ 500KB 之间</li>
 					<li>如果你要将此模版共享出来，这一步是必须的。如果这个模版只是你自己用，你可以不上传图片</li>
@@ -290,7 +286,6 @@ if('${site.templateName}' != '' && '${site.templateName}' != 'null'){
 </script>
 
 
-
-<script src="<%=basePath %>plugin/templateDevelop/js/js.js?v=<%=G.VERSION %>"></script>
+<script src="/plugin/templateDevelop/js/js.js?v=<%=G.VERSION %>"></script>
 
 <jsp:include page="../../iw/common/foot.jsp"></jsp:include> 

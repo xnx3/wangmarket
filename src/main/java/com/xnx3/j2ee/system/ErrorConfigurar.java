@@ -20,6 +20,8 @@ public class ErrorConfigurar implements ErrorPageRegistrar{
         errorPages[1]=new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/500.do");
         errorPages[2]=new ErrorPage(HttpStatus.NOT_ACCEPTABLE,"/406.do");
         errorPages[3]=new ErrorPage(org.apache.shiro.authz.AuthorizationException.class, "/403.do");	//优先根据此来进行排查。 先根据具体异常的类、再根据错误码
+        //errorPages[3]=new ErrorPage(org.springframework.web.multipart.MaxUploadSizeExceededException.class, "/406.do");	//
+        
         
         registry.addErrorPages(errorPages);
 	}

@@ -29,7 +29,7 @@ public class ExceptionProcess {
     public BaseVO maxUploadSizeExceededException(MaxUploadSizeExceededException e){
     	BaseVO vo = new BaseVO();
     	vo.setBaseVO(BaseVO.FAILURE, "请上传大小在 "+ AttachmentFile.getMaxFileSize()+" 之内的文件");
-    	System.out.println("MaxUploadSizeExceededException : "+e.getMessage());
+    	System.out.println("ExceptionProcess - MaxUploadSizeExceededException : "+e.getMessage());
     	return vo;
     }
 }

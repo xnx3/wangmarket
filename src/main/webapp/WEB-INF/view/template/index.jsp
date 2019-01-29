@@ -1,31 +1,29 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><%@page import="com.xnx3.wangmarket.admin.G"%><!DOCTYPE html>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page import="com.xnx3.wangmarket.admin.G"%><!DOCTYPE html>
 <html style="margin: 0;padding: 0px;height: 100%;overflow: hidden;"><head>
 <meta charset="utf-8">
 <title><%=Global.get("SITE_NAME") %></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
-<script src="<%=basePath %>js/fun.js"></script>
-<script src="<%=basePath %>js/admin/cms/cms.js"></script>
+<script src="/js/fun.js"></script>
+<script src="/js/admin/cms/cms.js"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
-<script src="http://res.weiunity.com/layer/layer.js" type="text/javascript"></script>
-<script src="http://res.weiunity.com/layui2/layui.js"></script>
-<link href="http://res.weiunity.com/layui2/css/layui.css" rel="stylesheet" type="text/css">	
+<script src="//res.weiunity.com/layer/layer.js" type="text/javascript"></script>
+<script src="//res.weiunity.com/layui2/layui.js"></script>
+<link href="//res.weiunity.com/layui2/css/layui.css" rel="stylesheet" type="text/css">	
 
-<script src="http://res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
-<link href="http://res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
-<link href="http://res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">
+<script src="//res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
+<link href="//res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
+<link href="//res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">
 
-<script src="http://res.weiunity.com/js/iw.js"></script>	
+<script src="//res.weiunity.com/js/iw.js"></script>	
 <script>
-var masterSiteUrl = '<%=basePath %>';
+var masterSiteUrl = '//<%=request.getServerName() %>/';
 var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <style>
@@ -119,7 +117,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<dd class="twoMenu"><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
 				<dd id="dd_wangzhanshuxing" class="twoMenu"><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
 				<dd class="twoMenu"><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd class="twoMenu"><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('<%=basePath %>index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
+				<dd class="twoMenu"><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('/index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item" id="li_template">
@@ -128,12 +126,12 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">模版管理</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
-				<dd id="dd_mobanyemian" class="twoMenu"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
-				<dd class="twoMenu"><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
+				<dd class="twoMenu"><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
+				<dd id="dd_mobanyemian" class="twoMenu"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
+				<dd class="twoMenu"><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('/inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
 				<dd class="twoMenu"><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
-				<dd class="twoMenu"><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
-				<dd class="twoMenu"><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
+				<dd class="twoMenu"><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('/template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
+				<dd class="twoMenu"><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
 			</dl>
 		</li>
 		
@@ -144,9 +142,9 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span class="firstMenuFont">日志访问</span>
 			</a>
 			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="rzfw_fangwentongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/fangwentongji.do'), notUseTopTools();">访问统计</a></dd>
-				<dd class="twoMenu"><a id="rzfw_pachongtongji" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/pachongtongji.do'), notUseTopTools();">爬虫统计</a></dd>
-				<dd class="twoMenu"><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
+				<dd class="twoMenu"><a id="rzfw_fangwentongji" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/fangwentongji.do'), notUseTopTools();">访问统计</a></dd>
+				<dd class="twoMenu"><a id="rzfw_pachongtongji" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/pachongtongji.do'), notUseTopTools();">爬虫统计</a></dd>
+				<dd class="twoMenu"><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
 			</dl>
 		</li>
 		<% } %>
@@ -172,7 +170,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</a>
 			<dl class="layui-nav-child">
 				<dd class="twoMenu"><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
-				<dd class="twoMenu"><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('<%=basePath %>im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
+				<dd class="twoMenu"><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('/im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
 			</dl>
 		</li>
 		<% } %>
@@ -193,13 +191,13 @@ var autoAssignDomain = '${autoAssignDomain }';
 		</script>
 		
 		<li class="layui-nav-item">
-		  	<a id="lanmuguanli" href="javascript:loadIframeByUrl('<%=basePath %>column/popupListForTemplate.do'), notUseTopTools();">
+		  	<a id="lanmuguanli" href="javascript:loadIframeByUrl('/column/popupListForTemplate.do'), notUseTopTools();">
 		  		<i class="layui-icon firstMenuIcon">&#xe638;</i>
 		  		<span class="firstMenuFont">栏目管理</span>
 		  	</a>
 		</li>
 		<li class="layui-nav-item">
-			<a id="neirongguanli" href="javascript:loadIframeByUrl('<%=basePath %>news/listForTemplate.do'), notUseTopTools();">
+			<a id="neirongguanli" href="javascript:loadIframeByUrl('/news/listForTemplate.do'), notUseTopTools();">
 				<i class="layui-icon firstMenuIcon">&#xe647;</i>
 				<span class="firstMenuFont">内容管理</span>
 			</a>
@@ -238,8 +236,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 	
 	
 	<!-- 代码编辑模式所需资源 -->
-	<link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
-	<script src="http://res.weiunity.com/editor/editormd.js"></script>
+	<link rel="stylesheet" href="//res.weiunity.com/editor/css/editormd.css" />
+	<script src="//res.weiunity.com/editor/editormd.js"></script>
 
 	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
@@ -250,7 +248,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 				<span id="baocuninit"><button id="save" onclick="saveHtmlSource();">保存更改</button></span>
 				<span>&nbsp;&nbsp;&nbsp;</span>
 				可用：
-					<button onclick="popupTemplateTagHelp('模版变量-简化模式','<%=basePath %>template/templateVarListForUsed.do', '520', '260');">模版变量</button>
+					<button onclick="popupTemplateTagHelp('模版变量-简化模式','/template/templateVarListForUsed.do', '520', '260');">模版变量</button>
 					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '750', '680');">通用标签</button>
 					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','http://tag.wscso.com/2937.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','780', '540');">栏目标签</button>
 					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','http://tag.wscso.com/2938.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '760','605');">分页标签</button>
@@ -274,8 +272,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 	</div>
 </div>
 
-<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
-<script src="<%=basePath %>js/admin/indexedit.js"></script>
+<script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="/js/admin/indexedit.js"></script>
 <script>
 //默认不使用头部导航
 notUseTopTools();
@@ -288,7 +286,7 @@ layui.use('element', function(){
 //判断当前主体区域显示的内容
 if('${needSelectTemplate}' == 1){
 	//可能是新网站，还没有选择模版，首先会打开选择模版页面
-	loadIframeByUrl('<%=basePath %>template/selectTemplate.do');
+	loadIframeByUrl('/template/selectTemplate.do');
 }else{
 	//有模版了，直接进入欢迎页面
 	//loadIframe();
@@ -322,7 +320,7 @@ function codeEditMode(){
 	}
 	
 	iw.loading("加载中");    //显示“操作中”的等待提示
-	$.post("<%=basePath %>template/getTemplatePageText.do?pageName="+document.getElementById("currentTemplatePageName").value, function(data){
+	$.post("/template/getTemplatePageText.do?pageName="+document.getElementById("currentTemplatePageName").value, function(data){
 	    iw.loadClose();    //关闭“操作中”的等待提示
 	    document.getElementById("html_textarea").value=data;
 	    
@@ -337,7 +335,7 @@ function codeEditMode(){
             value            : data,
             theme            : "default",
             mode             : "text/html",
-            path             : 'http://res.weiunity.com/editor/lib/'
+            path             : '//res.weiunity.com/editor/lib/'
         });
 	    
 	},'text');
@@ -372,7 +370,7 @@ function htmledit_mode(){
 	            value            : document.getElementById("html_textarea").value,
 	            theme            : "default",
 	            mode             : "text/html",
-	            path             : 'http://res.weiunity.com/editor/lib/'
+	            path             : '//res.weiunity.com/editor/lib/'
 	        });
 		}
 		
@@ -420,7 +418,7 @@ function saveHtmlSource(){
 	
 	iw.loading('保存中');
 	var pageName = document.getElementById("currentTemplatePageName").value;
-	$.post("<%=basePath %>template/saveTemplatePageText.do", {pageName: pageName, html: html}, function(data){
+	$.post("/template/saveTemplatePageText.do", {pageName: pageName, html: html}, function(data){
 		iw.loadClose();
 		if(data.result == 1){
 			iw.msgSuccess("保存成功");
@@ -758,7 +756,7 @@ function mobanshiyongshuoming(){
 		  ,title : '当前使用的云模版，使用说明。可在左侧模版管理－使用说明中查看'
 		  ,area :['700px','450px']
 		  ,maxmin : true
-		  ,content: 'http://res.weiunity.com/template/'+tn+'/useExplain.html'
+		  ,content: '//res.weiunity.com/template/'+tn+'/useExplain.html'
 		});
 	}
 }
@@ -850,7 +848,7 @@ function rightTip(){
 	  ,btn: ['我知道了'] //可以无限个按钮
 	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
 	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
-	   			'<div style="text-align:center;"><img src="http://res.weiunity.com/image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+	   			'<div style="text-align:center;"><img src="//res.weiunity.com/image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
 	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
 	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
 	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
@@ -868,7 +866,7 @@ if('${user.username}'.indexOf('ceshi') > -1){
 
 <% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
 <!-- IM start -->
-<script src="http://res.weiunity.com/layui217/layui.js"></script>
+<script src="//res.weiunity.com/layui217/layui.js"></script>
 <script>
 var id = ${user.id};	//用户的id，用户唯一
 var password = "${password }";	//加密后密码

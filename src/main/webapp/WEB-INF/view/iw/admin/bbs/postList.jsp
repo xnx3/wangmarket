@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String basePath = "//"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="用户列表"/>

@@ -4,10 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="我开通的网站列表"/>
 </jsp:include>
@@ -23,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="float: right;">
     	<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间'); </script>
     </div>
-    <a href="<%=basePath %>agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
+    <a href="/agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
 </form>	
 
 
@@ -99,7 +95,7 @@ function xufei(siteid, name){
 		title: '给'+name+'延期续费，单位：年',
 	}, function(value, index, elem){
 		iw.loading('续费中...');
-		$.getJSON("<%=basePath %>agency/siteXuFie.do?siteid="+siteid+"&year="+value,function(result){
+		$.getJSON("/agency/siteXuFie.do?siteid="+siteid+"&year="+value,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -115,7 +111,7 @@ function xufei(siteid, name){
 function freeze(siteid, name){
 	layer.confirm('确定要冻结'+name+'吗?<br/>冻结后其将无法登录', {icon: 3, title:'确认冻结'}, function(index){
 		iw.loading('冻结中...');
-		$.getJSON("<%=basePath %>agency/siteFreeze.do?siteid="+siteid,function(result){
+		$.getJSON("/agency/siteFreeze.do?siteid="+siteid,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -132,7 +128,7 @@ function freeze(siteid, name){
 function unFreeze(siteid, name){
 	layer.confirm('确定要解冻'+name+'吗?<br/>解冻后其将会恢复正常使用', {icon: 3, title:'确认解冻'}, function(index){
 		iw.loading('冻结中...');
-		$.getJSON("<%=basePath %>agency/siteUnFreeze.do?siteid="+siteid,function(result){
+		$.getJSON("/agency/siteUnFreeze.do?siteid="+siteid,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -155,7 +151,7 @@ function updatePassword(userid, name){
 		iw.loading('更改中...');
 		parent.iw.loading("更改中");    //显示“更改中”的等待提示
 		$.post(
-		    "<%=basePath %>agency/siteUpdatePassword.do", 
+		    "/agency/siteUpdatePassword.do", 
 		    { "newPassword": value, userid:userid }, 
 		    function(data){
 		        parent.iw.loadClose();    //关闭“更改中”的等待提示

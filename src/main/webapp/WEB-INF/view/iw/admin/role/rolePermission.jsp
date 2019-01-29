@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="编辑角色对应资源的授权"/>
 </jsp:include>
@@ -13,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	margin-bottom: 3px;
 } 
 </style>
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <form action="saveRolePermission.do" method="post" class="layui-form">
 	<input type="hidden" value="${role.id }" name="roleId" />

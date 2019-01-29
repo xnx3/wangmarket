@@ -7,7 +7,7 @@
 <%
 String path = request.getContextPath();
 String port = (request.getServerPort() != 80) ? (":"+request.getServerPort()):"";
-String basePath = request.getScheme()+"://"+request.getServerName()+port+path+"/";
+String basePath = "http://"+request.getServerName()+port+path+"/";
 %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="自助创建网站"/>

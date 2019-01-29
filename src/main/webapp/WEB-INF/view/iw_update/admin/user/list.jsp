@@ -2,14 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../../iw/common/head.jsp">
 	<jsp:param name="title" value="用户列表"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Role_role.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Role_role.js"></script>
 
 <jsp:include page="../../../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../../iw/common/list/formSearch_input.jsp">
@@ -84,7 +80,7 @@ function deleteUser(id,name){
 		layer.close(dtp_confirm);
 		
 		parent.iw.loading("删除中");    //显示“操作中”的等待提示
-		$.post('<%=basePath %>admin/user/deleteUser.do?id='+id, function(data){
+		$.post('/admin/user/deleteUser.do?id='+id, function(data){
 		    parent.iw.loadClose();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		        parent.iw.msgSuccess('操作成功');
@@ -107,7 +103,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 
@@ -118,7 +114,7 @@ function editRole(id, username){
 		title:'修改&nbsp;[&nbsp;'+username+'&nbsp;]&nbsp;权限', 
 		area: ['auto', 'auto'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/role/editUserRole.do?userid='+id
+		content: '/admin/role/editUserRole.do?userid='+id
 	});
 }
 </script>

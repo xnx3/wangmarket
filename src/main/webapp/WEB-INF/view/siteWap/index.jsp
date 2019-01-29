@@ -1,10 +1,8 @@
 <%@page import="com.xnx3.DateUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><%@page import="com.xnx3.wangmarket.admin.G"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page import="com.xnx3.wangmarket.admin.G"%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="手机模式网站管理后台"/>
 </jsp:include>
@@ -14,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="http://res.weiunity.com/js/fun.js"></script>
 
 <script>
-var masterSiteUrl = '<%=basePath %>';
+var masterSiteUrl = '//<%=request.getServerName() %>/';
 var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>

@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
 //标题
 String title = request.getParameter("title");
 if(title == null ){
@@ -36,8 +33,8 @@ if(description == null ){
 <meta name="author" content="管雷鸣">
 
 <!-- layer 、 layui -->
-<link rel="stylesheet" href="http://res.weiunity.com/layui/2.4.3/css/layui.css">
-<script src="http://res.weiunity.com/layui/2.4.3/layui.js"></script>
+<link rel="stylesheet" href="//res.weiunity.com/layui/2.4.3/css/layui.css">
+<script src="//res.weiunity.com/layui/2.4.3/layui.js"></script>
 <script>
 //加载 layer 模块
 layui.use('layer', function(){
@@ -45,15 +42,15 @@ layui.use('layer', function(){
 });
 </script>
 
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <!-- weui，一个UI框架，这个包含weui，依赖Jquery -->
-<script src="http://res.weiunity.com/js/jquery-weui.js"></script>
-<link rel="stylesheet" href="http://res.weiunity.com/css/jquery-weui.css">
-<link rel="stylesheet" href="http://res.weiunity.com/css/weui.min.css">
+<script src="//res.weiunity.com/js/jquery-weui.js"></script>
+<link rel="stylesheet" href="//res.weiunity.com/css/jquery-weui.css">
+<link rel="stylesheet" href="//res.weiunity.com/css/weui.min.css">
 
 <!-- order by 列表的排序 -->
-<script src="http://res.weiunity.com/js/iw.js"></script>
+<script src="//res.weiunity.com/js/iw.js"></script>
 
 <style>
 /*列表页头部form搜索框*/

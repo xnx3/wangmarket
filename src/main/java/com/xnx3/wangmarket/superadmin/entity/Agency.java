@@ -61,6 +61,9 @@ public class Agency implements java.io.Serializable {
 	}
 
 	public String getName() {
+		if(name != null){
+			return name.trim();
+		}
 		return name;
 	}
 
@@ -69,6 +72,9 @@ public class Agency implements java.io.Serializable {
 	}
 
 	public String getPhone() {
+		if(phone != null){
+			return phone.trim();
+		}
 		return phone;
 	}
 

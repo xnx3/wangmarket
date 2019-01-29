@@ -3,14 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="iw/common/head.jsp">
 	<jsp:param name="title" value="免费开通网站"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 <style>
 .myForm{
@@ -55,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 </style>
 
-<form class="layui-form layui-elem-quote layui-quote-nm myForm" action="<%=basePath %>regSubmit.do">
+<form class="layui-form layui-elem-quote layui-quote-nm myForm" action="/regSubmit.do">
   <div class="layui-form-item" style="    height: 70px;
     background-color: #eeeeee;
     line-height: 70px;
@@ -145,7 +142,7 @@ layui.use('form', function(){
   form.on('submit(formDemo)', function(data){
 	$.showLoading('开通中...');
     var d=$("form").serialize();
-	$.post("<%=basePath %>userCreateSite.do", d, function (result) { 
+	$.post("/userCreateSite.do", d, function (result) { 
 		$.hideLoading();
        	var obj = JSON.parse(result);
        	if(obj.result == '1'){

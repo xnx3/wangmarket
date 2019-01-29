@@ -4,16 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="文章详情"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>News_type.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>News_status.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>News_legitimate.js"></script>
+<script src="/<%=Global.CACHE_FILE %>News_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>News_status.js"></script>
+<script src="/<%=Global.CACHE_FILE %>News_legitimate.js"></script>
 
 <table class="layui-table iw_table">
 	<tbody>

@@ -7,9 +7,9 @@
 	<meta name="description" content="网·市场建站平台可用模版列表" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="http://res.weiunity.com/css/weui.min.css">
+	<link rel="stylesheet" href="//res.weiunity.com/css/weui.min.css">
 
-	<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+	<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 	
 <!-- author:管雷鸣 -->
 <style>
@@ -85,7 +85,7 @@
 
 //加载云端的模版列表
 function loadCloudTemplateList(){
-	$.getJSON('http://res.weiunity.com/cloudControl/cmsTemplate.json',function(obj){
+	$.getJSON('//res.weiunity.com/cloudControl/cmsTemplate.json',function(obj){
 		var html = '';	//云端模版的列表
 			if(obj.result == '1'){
 				var elseList = [
@@ -111,7 +111,7 @@ function loadCloudTemplateList(){
 						url = to.name;
 					}
 					var temp = '<div>'+
-								'<img src="http://res.weiunity.com/template/'+to.name+'/preview.jpg" class="previewImg" onclick="window.open(\'http://'+url+'.wscso.com\');" />'+
+								'<img src="//res.weiunity.com/template/'+to.name+'/preview.jpg" class="previewImg" onclick="window.open(\'http://'+url+'.wscso.com\');" />'+
 								'<div class="previewButton"><a href="http://'+url+'.wscso.com" target="_black">点此预览</a></div>'+
 								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编号：'+to.name+'</div>'+
 								'<div class="info">'+to.intro+'</div>'+

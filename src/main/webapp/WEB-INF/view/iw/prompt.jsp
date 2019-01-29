@@ -2,14 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
 String redirectUrl = request.getAttribute("redirectUrl").toString();
 if(redirectUrl.indexOf("http")>-1){
 }else if(redirectUrl.indexOf("avascript")>-1){
 }else{
-	redirectUrl = basePath+redirectUrl;
+	redirectUrl = "/"+redirectUrl;
 }
 
 int state = (int)request.getAttribute("state");
@@ -41,7 +38,7 @@ if(state == Global.PROMPT_STATE_SUCCESS){
     <title>提示</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="http://res.weiunity.com/layui/css/layui.css">
+	<link rel="stylesheet" href="//res.weiunity.com/layui/css/layui.css">
 	<style>
 		.myForm{
 			margin: 0 auto;
@@ -95,7 +92,7 @@ if(state == Global.PROMPT_STATE_SUCCESS){
 </head>	
 <body>
 
-<div class="myForm" action="<%=basePath %>loginSubmit.do">
+<div class="myForm">
   <div style="padding-bottom: 60px; padding-top: 60px;">
   		<div class="tishitubiao">
   			<i class="layui-icon" style="font-size: 120px; color: #5FB878;"><%=tishiIco %></i>  

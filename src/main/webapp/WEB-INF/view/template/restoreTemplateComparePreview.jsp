@@ -6,17 +6,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="还原模版"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_mShowBanner.js"></script>
-
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_mShowBanner.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 <script>
 	var siteColumnType = type;
 	var siteColumnUsed = used;
@@ -369,7 +364,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 			return false;
 		}
 		$.showLoading('还原中');
-        $.post("<%=basePath %>template/restoreTemplateSubmit.do", d, function (result) { 
+        $.post("/template/restoreTemplateSubmit.do", d, function (result) { 
         	$.hideLoading();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

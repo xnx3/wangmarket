@@ -29,10 +29,11 @@ try{
 	}
 }catch(err){}
 
+//v4.8 废弃 masterSiteUrl 参数，以更好适配 https
 //判断是否加载此js之前，定义了 masterSiteUrl
-if(typeof(masterSiteUrl)=="undefined" || masterSiteUrl.length < 2){
-	var masterSiteUrl = 'http://wang.market/';
-}
+//if(typeof(masterSiteUrl)=="undefined" || masterSiteUrl.length < 2){
+//	var masterSiteUrl = 'http://wang.market/';
+//}
 //判断是否加载此js之前，定义了 AUTO_ASSIGN_DOMAIN(system表的泛解析域名)，自动分配的二级域名，以及要绑定顶级域名的CNAME记录指向
 if(typeof(autoAssignDomain)=="undefined" || autoAssignDomain.length < 2){
 	var autoAssignDomain = 'wang.market';
@@ -46,7 +47,7 @@ function updateFooterSiteInfo(){
 		title:'修改联系信息', 
 		area: ['600px', '460px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'site/popupSiteUpdate.do'
+		content: '/site/popupSiteUpdate.do'
 	});
 }
 
@@ -56,7 +57,7 @@ function updateFooterSiteInfo(){
 function updateIndexHtmlSource(){
 //	var updateIndexHtmlSourceVar = layer.open({  
 //        type: 2,  
-//        content: masterSiteUrl+'site/editPageSource.do?fileName=index',
+//        content: '/site/editPageSource.do?fileName=index',
 //        area: ['320px', '195px'],
 //        maxmin: true,
 //        shadeClose: true, //开启遮罩关闭
@@ -79,7 +80,7 @@ function updateHtmlSource(fileName){
 function htmlSource(isNewHtml, fileName){
 	var updateIndexHtmlSourceVar = layer.open({  
         type: 2,  
-        content: masterSiteUrl+'sitePc/editPageSource.do?fileName='+fileName+(isNewHtml=='1' ? "&newHtml=1":""),
+        content: '/sitePc/editPageSource.do?fileName='+fileName+(isNewHtml=='1' ? "&newHtml=1":""),
         area: ['320px', '195px'],
         maxmin: true,
         shadeClose: true, //开启遮罩关闭
@@ -94,7 +95,7 @@ function htmlSource(isNewHtml, fileName){
 function openMoneyIndex(){
 	var openMoneyIndexVar = layer.open({  
         type: 2,  
-        content: masterSiteUrl+'currency/index.do',
+        content: '/currency/index.do',
         area: ['320px', '195px'],
         maxmin: true,
         shadeClose: true, //开启遮罩关闭
@@ -109,7 +110,7 @@ function openMoneyIndex(){
 function openMyInviteList(){
 	layer.open({  
         type: 2,  
-        content: masterSiteUrl+'currency/inviteList.do',
+        content: '/currency/inviteList.do',
         area: ['390px', '500px'],
         maxmin: true,
         shadeClose: true, //开启遮罩关闭
@@ -124,7 +125,7 @@ function openCustomPageList(){
 		closeBtn: 1, //不显示关闭按钮
 		anim: 3, area:['600px','680px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'page/customPageList.do',
+		content: '/page/customPageList.do',
 		title: false,
 		closeBtn: 1
 	});
@@ -135,7 +136,7 @@ function openCustomPageList(){
 function openFangWenTongJi(){
 	var fangwentongjiVar = layer.open({  
         type: 2,  
-        content: masterSiteUrl+'requestLog/index.do',
+        content: '/requestLog/index.do',
         area: ['320px', '195px'],
         maxmin: true,
         shadeClose: true, //开启遮罩关闭
@@ -150,7 +151,7 @@ function openColumnList(){
 		type: 2,
 		anim: 3, area:['733px','600px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'column/popupList.do',
+		content: '/column/popupList.do',
 		title: false,
 		closeBtn: 1
 	});
@@ -163,7 +164,7 @@ function openColumnListForTemplate(){
 		type: 2,
 		anim: 3, area:['733px','600px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'column/popupListForTemplate.do',
+		content: '/column/popupListForTemplate.do',
 		title: false,
 		closeBtn: 1
 	});
@@ -177,7 +178,7 @@ function openTemplateVarList(){
 		closeBtn: 1, //不显示关闭按钮
 		anim: 3, area:['600px','680px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'template/templateVarList.do',
+		content: '/template/templateVarList.do',
 		title: '模版变量列表',
 		closeBtn: 1
 	});
@@ -191,7 +192,7 @@ function openTemplateVarList(){
 //		closeBtn: 1, //不显示关闭按钮
 //		anim: 3, area:['600px','680px'],
 //		shadeClose: true, //开启遮罩关闭
-//		content: masterSiteUrl+'template/templatePageList.do',
+//		content: '/template/templatePageList.do',
 //		title: '模版页面列表',
 //		closeBtn: 1
 //	});
@@ -205,7 +206,7 @@ function openJiBenXinXi(){
 		closeBtn: 1, //不显示关闭按钮
 		anim: 3, area:['390px','260px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'site/popupBasicInfo.do',
+		content: '/site/popupBasicInfo.do',
 		title: false,
 		closeBtn: 1
 	});
@@ -231,7 +232,7 @@ function wenTiFanKuiSubmit(){
 		return;
 	}
 	var wtfk_load_index = layer.load(3);
-	$.post(masterSiteUrl+"site/wenTiFanKui.do", { "text":document.getElementById('wentifankui_textarea').value },
+	$.post("/site/wenTiFanKui.do", { "text":document.getElementById('wentifankui_textarea').value },
 	   function(data){
 			layer.close(wtfk_load_index);
 			if(data.result != '1'){
@@ -250,7 +251,7 @@ function updateBanner(){
 		title:'修改Banner图', 
 		area: ['380px', '290px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'carousel/popupCarouselUpdate.do'
+		content: '/carousel/popupCarouselUpdate.do'
 	});
 }
 
@@ -261,14 +262,14 @@ function updateIndexBanner(){
 		title:'修改首页Banner图', 
 		area: ['380px', '290px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'carousel/popupCarouselUpdate.do?type=2'
+		content: '/carousel/popupCarouselUpdate.do?type=2'
 	});
 }
 
 //更改模版，需 getSubWindowsParam()支持
 function updateTemplate(){
 	$.showLoading('模版更换中');
-	window.location.href=masterSiteUrl+'site/templateSave.do?siteid='+site['id']+'&client=pc&templateId='+getSubWindowsParam();
+	window.location.href='/site/templateSave.do?siteid='+site['id']+'&client=pc&templateId='+getSubWindowsParam();
 }
 
 //修改关于我们的图
@@ -278,7 +279,7 @@ function updateAboutUsImage(){
 		title:'修改关于我们的图片', 
 		area: ['380px', '410px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'site/popupAboutUsImageUpdate.do'
+		content: '/site/popupAboutUsImageUpdate.do'
 	});
 }
 
@@ -292,14 +293,14 @@ function updateSiteColumn(siteColumnId){
 		title:'修改栏目', 
 		area: ['460px', '220px'],
 		shadeClose: true, //开启遮罩关闭
-		content: masterSiteUrl+'column/popupColumnUpdate.do?id='+siteColumnId
+		content: '/column/popupColumnUpdate.do?id='+siteColumnId
 	});
 }
 
 //修改网站的关键词
 function updateSiteKeywords(){
 	$.showLoading();
-	$.post(masterSiteUrl+"site/getSiteData.do", function(result){
+	$.post("/site/getSiteData.do", function(result){
 		 $.hideLoading();
 		if(result.result != '1'){
 			alert(result.info);
@@ -310,7 +311,7 @@ function updateSiteKeywords(){
 				title: "更改网站 keywords",
 				onOK: function(text) {
 					iw.loading("修改中");
-					$.post(masterSiteUrl+"site/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
+					$.post("/site/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
 						iw.loadClose();
 						if(data.result == '1'){
 							iw.msgSuccess("修改成功");
@@ -333,7 +334,7 @@ function updateSiteKeywords(){
 function updateSiteName(){
 	
 	iw.loading("加载中");    //显示“操作中”的等待提示
-	$.post(masterSiteUrl+"site/getSiteData.do", function(data){
+	$.post("/site/getSiteData.do", function(data){
 	    iw.loadClose();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
 			$.prompt({
@@ -342,7 +343,7 @@ function updateSiteName(){
 			 onOK: function(text) {
 				 iw.loading("修改中");
 				 
-				 $.post(masterSiteUrl+"site/updateName.do", {"name":text }, function(data){
+				 $.post("/site/updateName.do", {"name":text }, function(data){
 					 	iw.loadClose();
 					 	if(data.result == '1'){
 					 		iw.msgSuccess("操作成功");
@@ -394,7 +395,7 @@ function updateSiteName(){
 function updateSiteDataDescription(){
 	iw.loading("加载中");
 	
-	$.post(masterSiteUrl+"site/getSiteData.do", function(data){
+	$.post("/site/getSiteData.do", function(data){
 		iw.loadClose();
 		if(data.result == '1'){
 			$.prompt({
@@ -402,7 +403,7 @@ function updateSiteDataDescription(){
 				 title: "更改网站首页描述 Description",
 				 onOK: function(text) {
 					 iw.loading("修改中");
-					 $.post(masterSiteUrl+"site/updateDescription.do", { "siteid": site['id'], "description":text }, function(data2){
+					 $.post("/site/updateDescription.do", { "siteid": site['id'], "description":text }, function(data2){
 					 	iw.loadClose();
 						if(data2.result != '1'){
 							iw.msgFailure(data2.info);
@@ -425,7 +426,7 @@ function updateSiteDataDescription(){
 //刷新首页
 function refreshIndex(){
 	$.showLoading('重新创建中');
-	window.location.href=masterSiteUrl+'site/refreshIndex.do';
+	window.location.href='/site/refreshIndex.do';
 }
 
 //更改二级域名,需 getSubWindowsParam()支持
@@ -447,7 +448,7 @@ function updateDomain(){
 		 }else{
 			 if(text != getSubWindowsParam()){
 				 iw.loading("修改中");
-				 $.post(masterSiteUrl+"site/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
+				 $.post("/site/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
 				 	iw.loadClose();
 				 	if(data.result == '1'){
 				 		iw.msgSuccess("修改成功");
@@ -472,7 +473,7 @@ function updateBindDomain(){
 		closeBtn: 1, //不显示关闭按钮
 		area:['438px','400px'],
 		shadeClose: false, //开启遮罩关闭
-		content: masterSiteUrl+'site/popupBindDomain.do',
+		content: '/site/popupBindDomain.do',
 		scrollbar: false,
 		title: '您需要以下这几步，来进行绑定域名',
 		closeBtn: 1
@@ -486,7 +487,7 @@ function updateBindDomain(){
 function shengchengzhengzhan(){
 	$.showLoading('整站生成中<br/>此过程可能时间比较长，请耐心等待');
 	
-	$.post(masterSiteUrl+"template/refreshForTemplate.do", function(data){
+	$.post("/template/refreshForTemplate.do", function(data){
 		$.hideLoading();
 		if(data.result == '1'){
 			iw.msgSuccess("操作成功");
@@ -565,7 +566,7 @@ function exportTemplate(){
 	  btn: ['立即导出','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		window.open(masterSiteUrl+"template/exportTemplate.do");
+		window.open("/template/exportTemplate.do");
 	}, function(){
 	});
 }
@@ -581,7 +582,7 @@ function bindDomain(domain){
 	}else{
 		parent.iw.loading("绑定中");
 	}
-	$.post(masterSiteUrl+"site/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
+	$.post("/site/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
 		parent.iw.loadClose();
 		if(data.result == '1'){
 			if(domain.length == 0){
@@ -605,7 +606,7 @@ function openKefuSet(){
 		closeBtn: 1, //不显示关闭按钮
 		area:['430px','470px'],
 		shadeClose: false, //开启遮罩关闭
-		content: masterSiteUrl+'im/set.do',
+		content: '/im/set.do',
 		scrollbar: false,
 		title: '网站在线客服设置',
 		closeBtn: 1
@@ -622,7 +623,7 @@ function updatePassword(){
 	}, function(value, index, elem){
 		layer.close(index);
 		iw.loading('更改中...');
-		$.post(masterSiteUrl+"site/updatePassword.do", { "newPassword": value},
+		$.post("/site/updatePassword.do", { "newPassword": value},
 			function(data){
 				iw.loadClose();
 				if(data.result != '1'){

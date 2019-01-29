@@ -1,21 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.DateUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
-<%@page import="com.xnx3.wangmarket.admin.G"%><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
     <jsp:param name="title" value="编辑栏目"/>
 </jsp:include>
 
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_editMode.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_listRank.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_useGenerateView.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_editMode.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_listRank.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_useGenerateView.js"></script>
 
 
 <form id="form" method="post" class="layui-form" style="padding:0px;margin-bottom: 10px; margin-top:0px;">
@@ -235,7 +232,7 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
   form.on('submit(demo1)', function(data){
   		parent.iw.loading('保存中');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
+        $.post("/column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
         	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
@@ -261,7 +258,7 @@ layui.use('upload', function(){
 	//upload.render(uploadPic);
 	upload.render({
 		elem: "#uploadImagesButton" //绑定元素
-		,url: '<%=basePath %>site/uploadImage.do' //上传接口
+		,url: '/site/uploadImage.do' //上传接口
 		,field: 'image'
 		,accept: 'file'
 		,size: ${maxFileSizeKB}

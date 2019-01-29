@@ -3,14 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="文章列表"/>
 </jsp:include>
-<link href="<%=basePath %>css/site_two_subMenu.css" rel="stylesheet">
+<link href="/css/site_two_subMenu.css" rel="stylesheet">
 
 <div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
 		
@@ -174,7 +170,7 @@ function deleteNews(newsid){
 	}, function(){
 		layer.close(dtv_confirm);
 		iw.loading("删除中");
-		$.post("<%=basePath %>news/deleteNewsForAjax.do?id="+newsid, function(data){
+		$.post("/news/deleteNewsForAjax.do?id="+newsid, function(data){
 			iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("删除成功");
@@ -204,7 +200,7 @@ function editText(name){
  * columnid 要转移的文章所在的栏目id
  */
 function changeColumn(newsid, columnid){
-	var url = '<%=basePath %>news/newsChangeColumnForSelectColumn.do?newsid='+newsid+'&columnid='+columnid;
+	var url = '/news/newsChangeColumnForSelectColumn.do?newsid='+newsid+'&columnid='+columnid;
 	layer.open({
 		type: 2, 
 		title:'转移到其他栏目', 

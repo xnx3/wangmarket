@@ -2,10 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版列表"/>
 </jsp:include>
@@ -80,8 +76,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="list">
 	<c:forEach items="${list}" var="template">
 		<div>
-			<a class="imgA" href="http://res.weiunity.com/template_external/${template.code }/index.html" target="_black">
-				<img alt="" src="http://res.weiunity.com/template_external/${template.code }/preview.jpg">
+			<a class="imgA" href="//res.weiunity.com/template_external/${template.code }/index.html" target="_black">
+				<img alt="" src="//res.weiunity.com/template_external/${template.code }/preview.jpg">
 			</a>
 			<div class="code">编号：${template.code }</div>
 			<div class="name">${template.name }</div>

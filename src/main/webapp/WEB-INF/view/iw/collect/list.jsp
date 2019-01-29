@@ -1,15 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../common/head.jsp">
 	<jsp:param name="title" value="我的关注列表"/>
 </jsp:include>
 		
-		<div><h1>我的关注列表</h1><a href="<%=basePath %>collect/add.do"  style="color:blue;">添加关注</a></div>
+		<div><h1>我的关注列表</h1><a href="/collect/add.do"  style="color:blue;">添加关注</a></div>
 		
 		<section id="unseen">
 	        <table class="table table-bordered table-striped table-condensed">
@@ -29,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                 <td>${collect['nickname'] }</td>
 			                 <td class="numeric"><x:time linuxTime="${collect['addtime'] }"></x:time></td>
 			                 <td class="numeric">
-			                 	<a href="<%=basePath %>collect/cancelCollect.do?othersid=${collect['othersid']}" style="color:blue;">取消关注</a>
+			                 	<a href="/collect/cancelCollect.do?othersid=${collect['othersid']}" style="color:blue;">取消关注</a>
 			                 </td>
 			             </tr>
 		            </c:forEach>

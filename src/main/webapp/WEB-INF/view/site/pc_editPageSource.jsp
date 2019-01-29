@@ -1,10 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="修改页面"/>
 </jsp:include>
@@ -53,7 +49,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
   	  $.showLoading('数据保存中');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>sitePc/savePageSource.do", d, function (result) { 
+        $.post("sitePc/savePageSource.do", d, function (result) { 
         	$.hideLoading();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

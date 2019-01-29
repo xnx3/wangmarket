@@ -2,17 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <jsp:include page="../../iw/common/head.jsp">
         <jsp:param name="title" value="数据表列表"/>
     </jsp:include>
-    <script src="<%=basePath+Global.CACHE_FILE %>Form_state.js"></script>
+    <script src="/<%=Global.CACHE_FILE %>Form_state.js"></script>
 </head>
 <body>
 
@@ -52,7 +48,7 @@ function view(tableName){
 		title:'查看数据表 '+tableName, 
 		area: ['980px', '470px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>plugin/dataDictionary/tableView.do?tableName='+tableName
+		content: '/plugin/dataDictionary/tableView.do?tableName='+tableName
 	});
 }
 </script>

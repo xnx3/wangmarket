@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../common/head.jsp">
 	<jsp:param name="title" value="我的好友"/>
 </jsp:include>
 
 <script>
 	$(function(){
-		$.post('<%=basePath %>friend/list.do', function (data) {
+		$.post('/friend/list.do', function (data) {
 			if (data.result) {
 			$('.iconText').html(data.size);
 			$.each(data.list, function (index, value) {
@@ -26,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var uid = $(this).parent().attr("uid");
 					var delre = $(this).parents("li");
 					   		if (isDel) {
-						   		$.post('<%=basePath %>friend/delete.do', {id : uid}, function (data) {
+						   		$.post('/friend/delete.do', {id : uid}, function (data) {
 						   				if (data.result) {
 						   					delre.remove();
 						   				} else {
@@ -51,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			uname.focus();
 			return;
 		}
-   		$.post('<%=basePath %>friend/add.do', {param : uname.val()}, function (data) {
+   		$.post('/friend/add.do', {param : uname.val()}, function (data) {
 
    				if (data.result==1) {
    				$("#addFriendInfo").hide();
@@ -94,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li><a href="../project/list.do">项目组管理</a></li>
 				<li class="on"><a href="./friend/index.do">好友管理</a></li>
 			</ul>
-			<h3 class="clearfix"><img src="<%=basePath %>style/user/img/common/star01.png" alt="">所有成员<span class="iconText"></span></h3>
+			<h3 class="clearfix"><img src="/style/user/img/common/star01.png" alt="">所有成员<span class="iconText"></span></h3>
 			<ul class="listUl clearfix">
 				<li>
 					<div class="addDiv">+</div>
@@ -115,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</dl>
 			</div>
 			<div id="addFriendInfo2" class="none">
-				<form action="<%=basePath %>/user/inviteEmail.do" method="post">
+				<form action="/user/inviteEmail.do" method="post">
 					<dl>
 						<dt>邀请好友<span class="winClose">X</span></dt>
 						<dd class="borderB">

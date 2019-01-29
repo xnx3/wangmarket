@@ -1,23 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.DateUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
-<%@page import="com.xnx3.wangmarket.admin.G"%><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><html>
+<%@page import="com.xnx3.wangmarket.admin.G"%><html>
 <head>
 	<meta charset="utf-8">
 	<title>修改栏目</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+	<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 	<!-- 模版的加载都是动态加载，在下面js里 -->
-	<script src="http://res.weiunity.com/layui/layui.js" type="text/javascript"></script>
-	<link href="http://res.weiunity.com/layui/css/layui.css" rel="stylesheet" type="text/css">	
+	<script src="//res.weiunity.com/layui/layui.js" type="text/javascript"></script>
+	<link href="//res.weiunity.com/layui/css/layui.css" rel="stylesheet" type="text/css">	
 	
-	<script src="http://res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
-	<link href="http://res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
-	<link href="http://res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">	
+	<script src="//res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
+	<link href="//res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
+	<link href="//res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">	
 <body>
 
 
@@ -60,7 +57,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
   	  $.showLoading('栏目保存中');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>column/popupColumnUpdateSubmit.do", d, function (result) { 
+        $.post("/column/popupColumnUpdateSubmit.do", d, function (result) { 
         	$.hideLoading();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

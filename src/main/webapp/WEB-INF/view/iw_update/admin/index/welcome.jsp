@@ -5,18 +5,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../../iw/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="//res.weiunity.com/js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
-<script src="<%=basePath %>js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 
 
 <style>
@@ -58,7 +54,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">微信公众号</td>
-			<td><img src="http://res.weiunity.com/image/weixin_gzh.png" style="height:100px;" /></td>
+			<td><img src="//res.weiunity.com/image/weixin_gzh.png" style="height:100px;" /></td>
 		</tr>
 		
     </tbody>

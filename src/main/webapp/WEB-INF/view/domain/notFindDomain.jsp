@@ -62,13 +62,13 @@
     		<li>
     			找到左侧菜单的 “系统管理” 功能， 点开，找到其下的 “网站设置”
     			<div>
-    				<img src="http://res.weiunity.com/image/wangzhanshezhi.jpg" />
+    				<img src="//res.weiunity.com/image/wangzhanshezhi.jpg" />
     			</div>
     		</li>
     		<li>
     			点击 “网站设置”后，弹出如下窗口，点击如图所示的 “绑定域名”，进行绑定
     			<div>
-    				<img src="http://res.weiunity.com/image/bangdingyuming.jpg" />
+    				<img src="//res.weiunity.com/image/bangdingyuming.jpg" />
     			</div>
     		</li>
     	</ul>

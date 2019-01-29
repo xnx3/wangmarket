@@ -2,15 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="动作日志列表"/>
 </jsp:include>
 
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
@@ -107,7 +103,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 </script>

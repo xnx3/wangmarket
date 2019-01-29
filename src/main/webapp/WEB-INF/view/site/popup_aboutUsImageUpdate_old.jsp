@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.DateUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
-<%@page import="com.xnx3.wangmarket.admin.G"%><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@page import="com.xnx3.wangmarket.admin.G"%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="修改关于我们的图片"/>
 </jsp:include>
@@ -27,7 +24,7 @@ layui.use('upload', function(){
 	var upload = layui.upload;
 	upload.render({
 		elem: '#titlePicFile', //绑定元素
-		url: '<%=basePath %>site/popupAboutUsImageUpdateSubmit.do',
+		url: '/site/popupAboutUsImageUpdateSubmit.do',
 		field:'titlePicFile',
 		exts: 'jpg|gif|png|jpeg|bmp', //那么，就只会支持这三种格式的上传。注意是用|分割。
 		before: function(input){

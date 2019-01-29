@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><%@page import="com.xnx3.wangmarket.admin.G"%>
+<%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
+<%@page import="com.xnx3.wangmarket.admin.G"%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="访问统计"/>
 </jsp:include>
 
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 
 <!-- echarts -->
-<script src="http://res.weiunity.com/js/echarts.min.js" type="text/javascript"></script>
+<script src="//res.weiunity.com/js/echarts.min.js" type="text/javascript"></script>
 
 <div style="padding:20px;">
 	<!-- 当天、昨天的折线图，每小时访问情况 -->
@@ -23,13 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                      
 
 <script type="text/javascript">
-var basePath = '<%=basePath %>';
-
-
 // 基于准备好的dom，初始化echarts实例
 var dayLine = echarts.init(document.getElementById('dayLine'));
 dayLine.showLoading();
-$.get(basePath+'admin/requestLog/dayLineForCurrentDay.do').done(function (data) {
+$.get('/admin/requestLog/dayLineForCurrentDay.do').done(function (data) {
     dayLine.hideLoading();
     dayLine.setOption({
 	    title: {
@@ -107,7 +102,7 @@ $.get(basePath+'admin/requestLog/dayLineForCurrentDay.do').done(function (data) 
 // 基于准备好的dom，初始化echarts实例
 var monthLine = echarts.init(document.getElementById('monthLine'));
 monthLine.showLoading();
-$.get(basePath+'admin/requestLog/dayLineForCurrentMonth.do').done(function (data) {
+$.get('/admin/requestLog/dayLineForCurrentMonth.do').done(function (data) {
     monthLine.hideLoading();
     monthLine.setOption({
 	    title: {

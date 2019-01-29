@@ -4,14 +4,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="代理首页"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Role_role.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Role_role.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
 

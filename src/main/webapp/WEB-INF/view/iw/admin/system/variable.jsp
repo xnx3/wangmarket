@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="编辑系统参数"/>
 </jsp:include>
@@ -49,7 +45,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
   	  parent.iw.loading("保存中");
 		var d=$("form").serialize();
-        $.post("<%=basePath %>admin/system/variableSave.do", d, function (result) { 
+        $.post("/admin/system/variableSave.do", d, function (result) { 
         	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

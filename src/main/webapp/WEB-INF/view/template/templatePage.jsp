@@ -1,15 +1,11 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="编辑模版页面"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>TemplatePage_type.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>TemplatePage_editMode.js"></script>
+<script src="/<%=Global.CACHE_FILE %>TemplatePage_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>TemplatePage_editMode.js"></script>
 
 <form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 0px; padding-bottom:0px;">
 	<input type="hidden" name="id" value="${templatePage.id}" />
@@ -88,7 +84,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
 		parent.iw.loading('保存中');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>template/saveTemplatePage.do", d, function (result) { 
+        $.post("/template/saveTemplatePage.do", d, function (result) { 
         	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -18,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<span style="font-size:31px;">Sorry,您无权访问此页面</span>
 		</div>
 		<div style="padding-top:15px; font-size:12px; color:gray;">
-			友情提示：您可尝试&nbsp;<a href="<%=basePath %>user/logout.do">重新登陆</a>
+			友情提示：您可尝试&nbsp;<a href="/user/logout.do">重新登陆</a>
 		</div>
 	</div>
 	

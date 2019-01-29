@@ -2,14 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="信息列表"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Message_state.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Message_state.js"></script>
 
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
@@ -83,7 +79,7 @@ function deleteMessage(id){
 	$.confirm("您确定要删除此条信息吗?", "确认删除?", function() {
 		
 		parent.iw.loading("删除中");    //显示“操作中”的等待提示
-		$.post('<%=basePath %>/admin/message/delete.do?id='+id, function(data){
+		$.post('/admin/message/delete.do?id='+id, function(data){
 		    parent.iw.loadClose();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		        parent.iw.msgSuccess('删除成功');
@@ -107,7 +103,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 

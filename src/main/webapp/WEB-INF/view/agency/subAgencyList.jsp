@@ -2,10 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="我的下级代理列表"/>
 </jsp:include>
@@ -25,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="float: right;">
     	<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
     </div>
-    <a href="<%=basePath %>agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
+    <a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
 </form>	
              
 <table class="layui-table iw_table">
@@ -90,7 +86,7 @@ function chongzhi(agencyId, agencyName){
 		title: '给'+agencyName+'充值的站币',
 	}, function(value, index, elem){
 		iw.loading('充值中...');
-		$.getJSON("<%=basePath %>agency/transferSiteSizeToSubAgency.do?targetAgencyId="+agencyId+"&transferSiteSize="+value,function(result){
+		$.getJSON("/agency/transferSiteSizeToSubAgency.do?targetAgencyId="+agencyId+"&transferSiteSize="+value,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -114,7 +110,7 @@ function yanqi(agencyId, name){
 		title: '给'+name+'延期，单位：年',
 	}, function(value, index, elem){
 		iw.loading('延长中...');
-		$.getJSON("<%=basePath %>agency/agencyYanQi.do?agencyId="+agencyId+"&year="+value,function(result){
+		$.getJSON("/agency/agencyYanQi.do?agencyId="+agencyId+"&year="+value,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -136,7 +132,7 @@ function updatePassword(userid, name){
 	}, function(value, index, elem){
 		parent.iw.loading("更改中");    //显示“更改中”的等待提示
 		$.post(
-		    "<%=basePath %>agency/siteUpdatePassword.do", 
+		    "/agency/siteUpdatePassword.do", 
 		    { "newPassword": value, userid:userid }, 
 		    function(data){
 		        parent.iw.loadClose();    //关闭“更改中”的等待提示
@@ -157,7 +153,7 @@ function updatePassword(userid, name){
 function freeze(agencyId, name){
 	layer.confirm('确定要冻结'+name+'吗?<br/>冻结后其将无法登录', {icon: 3, title:'确认冻结'}, function(index){
 		iw.loading('冻结中...');
-		$.getJSON("<%=basePath %>agency/agencyFreeze.do?agencyId="+agencyId,function(result){
+		$.getJSON("/agency/agencyFreeze.do?agencyId="+agencyId,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);
@@ -174,7 +170,7 @@ function freeze(agencyId, name){
 function unFreeze(agencyId, name){
 	layer.confirm('确定要解冻'+name+'吗?<br/>解冻后其将会恢复正常使用', {icon: 3, title:'确认解冻'}, function(index){
 		iw.loading('冻结中...');
-		$.getJSON("<%=basePath %>agency/agencyUnFreeze.do?agencyId="+agencyId,function(result){
+		$.getJSON("/agency/agencyUnFreeze.do?agencyId="+agencyId,function(result){
 			iw.loadClose();
 			if(result.result != '1'){
 				alert(result.info);

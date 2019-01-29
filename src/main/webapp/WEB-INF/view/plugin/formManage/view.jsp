@@ -4,14 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="信息详情"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Form_state.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Form_state.js"></script>
 
 <div style="padding:10px;">
 	<button class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1);"><i class="layui-icon">&#xe603;</i>   返回列表</button>

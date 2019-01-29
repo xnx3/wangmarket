@@ -4,14 +4,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版页面列表"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>TemplatePage_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>TemplatePage_type.js"></script>
 
 <table class="layui-table" id="xnx3_body" style="margin:0px;">
   <thead>
@@ -105,7 +101,7 @@ function editText(name, templateType, templateEditMode){
 		}
 	}catch(err){}
 	
-	//parent.document.getElementById('iframe').src='<%=basePath %>template/getTemplatePageText.do?pageName='+name;
+	//parent.document.getElementById('iframe').src='/template/getTemplatePageText.do?pageName='+name;
 	parent.layer.close(index);
 }
 
@@ -118,7 +114,7 @@ function addTemplatePage(){
 		title:'添加模版页', 
 		area: ['400px', '350px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>template/templatePage.do'
+		content: '/template/templatePage.do'
 	});
 }
 
@@ -132,7 +128,7 @@ function editTemplatePageAttribute(pageName){
 		title:'编辑模版页属性', 
 		area: ['400px', '350px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>template/templatePage.do?pageName='+pageName
+		content: '/template/templatePage.do?pageName='+pageName
 	});
 }
 
@@ -147,7 +143,7 @@ function deleteTemplatePage(id, name){
 	}, function(){
 		layer.close(dtp_confirm);
 		parent.iw.loading('删除中');
-		$.post('<%=basePath %>template/deleteTemplatePage.do?id='+id, function(data){
+		$.post('/template/deleteTemplatePage.do?id='+id, function(data){
 			parent.iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("删除成功");

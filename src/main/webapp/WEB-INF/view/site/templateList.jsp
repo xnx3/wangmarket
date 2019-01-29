@@ -2,10 +2,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版列表"/>
 </jsp:include>
@@ -135,7 +131,7 @@ function selectTemp(tempId){
 	}, function(){
 		layer.close(layer_confirm_tip);
 		parent.iw.loading("修改中");
-		$.post("<%=basePath %>site/templateSave.do?templateId="+tempId, function(data){
+		$.post("/site/templateSave.do?templateId="+tempId, function(data){
 			parent.iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("操作成功");

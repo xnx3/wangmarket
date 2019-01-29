@@ -4,15 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
     <jsp:param name="title" value="自定义输入模型"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
 <table class="layui-table" style="margin:0px;">
   <colgroup>
@@ -65,7 +61,7 @@ function deleteInputModel(id, remark){
 		layer.close(dtv_confirm);
 		
 		parent.iw.loading('删除中');
-		$.post('<%=basePath %>inputModel/delete.do?id='+id, function(data){
+		$.post('/inputModel/delete.do?id='+id, function(data){
 		    parent.iw.loadClose();
 		    if(data.result == '1'){
 		        parent.iw.msgSuccess("删除成功");

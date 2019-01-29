@@ -2,16 +2,13 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="基本信息"/>
 </jsp:include>
 
 <body style="text-align:left; min-width:10px;">
-<script src="<%=basePath+Global.CACHE_FILE %>Site_mShowBanner.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_mShowBanner.js"></script>
 
 <div class="weui_cells weui_cells_access" style="margin-top: 0em;">
 	
@@ -103,7 +100,7 @@ $(function(){
 	})
 });
 
-$.post("<%=basePath %>site/getOSSSize.do", function(data){
+$.post("/site/getOSSSize.do", function(data){
 	if(data.result == '1'){
 		document.getElementById('ossSize').innerHTML = (data.info/1000)+'&nbsp;MB';
 		document.getElementById('residueSize').innerHTML = (${user.ossSizeHave}-(data.info/1000))+'&nbsp;MB';

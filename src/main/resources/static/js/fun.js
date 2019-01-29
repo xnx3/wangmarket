@@ -59,13 +59,13 @@ var simpleTime = myDate.getFullYear()+''+myDate.getMonth()+''+myDate.getDate();
 var version = "2.1.1";
 
 //res 资源文件的请求网址
-var resBasePath = "http://res.weiunity.com/";
+var resBasePath = "//res.weiunity.com/";
 
 /*当前管理的路径*/
 var basePath = 'http://wang.market/';
 
 /*设置OSSUtil.url*/
-var OSSUrl = 'http://cdn.weiunity.com/';
+var OSSUrl = '//cdn.weiunity.com/';
 if(typeof(attachmentFileUrl) != 'undefined'){
 	//若 attachmentFileUrl 设置了，那么将其赋予OSSUrl。 OSSUrl是很早之前，1.0版本下来的，这里为了兼容以前的网站。以后直接用attachmentFileUrl即可
 	OSSUrl = attachmentFileUrl;

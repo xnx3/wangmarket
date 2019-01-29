@@ -6,23 +6,20 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 //当前此页面仅仅只是用于PC端的通用模版，CMS模式有自己单独的
-
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="栏目导航"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <!-- DOM操作 -->
-<script src="http://res.weiunity.com/js/HTML.min.js"></script>
+<script src="//res.weiunity.com/js/HTML.min.js"></script>
 <!-- 拖动操作 -->
-<script src="http://res.weiunity.com/js/Sortable.js"></script>
+<script src="//res.weiunity.com/js/Sortable.js"></script>
 
 <!-- Data -->
 <script src="${AttachmentFileUrl }site/${site.id }/data/siteColumn.js"></script>
@@ -92,7 +89,7 @@ function saveRank() {
 			}
 		}
 
-		$.post("<%=basePath %>column/saveRank.do", {
+		$.post("/column/saveRank.do", {
 			siteid : '${site.id}',
 			rankString : rankString
 		}, function(data, status) {
@@ -104,7 +101,7 @@ function saveRank() {
 	//} else {
 	//	console.log("column:"+column.length);
 	//	alert('排序后数据对比出错！需进行排序重置！');
-	//	//window.location.href='<%=basePath %>column/resetRank.do?siteid=${site.id}';
+	//	//window.location.href='/column/resetRank.do?siteid=${site.id}';
 	//}
 }
 
@@ -113,7 +110,7 @@ function saveRank() {
  * siteColumnId 要编辑的栏目的id
  */
 function editColumn(siteColumnId){
-	var url = '<%=basePath %>column/';
+	var url = '/column/';
 	if('${site.templateName}'.length > 0){
 		//模版CMS建站
 		url = url + 'popupColumnForTemplate.do';
@@ -138,7 +135,7 @@ function editColumn(siteColumnId){
 function deleteColumn(siteColumnId, name){
 	$.confirm("您确定要删除\""+name+"\"吗?", "确认删除?", function() {
 		$.showLoading('正在删除');
-		$.getJSON('<%=basePath %>column/delete.do?id='+siteColumnId,function(obj){
+		$.getJSON('/column/delete.do?id='+siteColumnId,function(obj){
 			$.hideLoading();
 			if(obj.result == '1'){
 				$.toast("删除成功", function() {
@@ -160,7 +157,7 @@ function deleteColumn(siteColumnId, name){
  * siteColumnId 要编辑的栏目的id
  */
 function addColumn(siteColumnId){
-	var url = '<%=basePath %>column/';
+	var url = '/column/';
 	if('${site.templateName}'.length > 0){
 		//模版CMS建站
 		url = url + 'popupColumnForTemplate.do';

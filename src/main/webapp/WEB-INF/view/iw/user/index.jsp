@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../common/head.jsp">
 	<jsp:param name="title" value="个人中心"/>
 </jsp:include>
@@ -13,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <hr/>
 <div>
 	<h3>修改头像</h3> 
-	<img src="<%=basePath %>upload/userHead/${user.head }" alt="">
+	<img src="/upload/userHead/${user.head }" alt="">
 	你可以选择png/jpg作为头像
 	<form action="uploadHead.do" enctype="multipart/form-data" method="post">
 		<input type="file" name="head" >

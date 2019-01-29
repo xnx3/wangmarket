@@ -1,16 +1,12 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="栏目管理"/>
 </jsp:include>
 
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
 <form id="form" method="post" enctype="multipart/form-data" action="" class="layui-form" style="padding:20px; padding-top:35px;">
 	<input type="hidden" name="id" value="${siteColumn.id }" />
@@ -102,7 +98,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        data.append('image', file);
 	    });
 		$.ajax({
-			url:'<%=basePath %>column/saveColumn.do',
+			url:'/column/saveColumn.do',
 	        type:'POST',
 	        data:data,
 	        cache: false,

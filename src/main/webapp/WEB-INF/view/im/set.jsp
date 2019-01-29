@@ -5,14 +5,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="IM设置首页"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Role_role.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Role_role.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/fun.js"></script>
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/admin/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
 
@@ -120,7 +116,7 @@ layui.use('upload', function(){
 	var upload = layui.upload;
 	upload.render({
     	elem: '#uploadKefuHeadButton' //绑定元素
-		,url: '<%=basePath %>im/headSave.do' //上传接口
+		,url: '/im/headSave.do' //上传接口
 		,field: 'head'
 		,before: function(obj){
 			loading('上传中...');
@@ -172,7 +168,7 @@ function updateNickname(){
 		},
 		function(value, index, elem){
 			loading('保存中...');
-			$.getJSON("<%=basePath %>im/propertySave.do?nickname="+value,function(result){
+			$.getJSON("/im/propertySave.do?nickname="+value,function(result){
 				loadClose();
 				if(result.result != '1'){
 					alert(result.info);
@@ -193,7 +189,7 @@ function updateEmail(){
 		},
 		function(value, index, elem){
 			loading('保存中...');
-			$.getJSON("<%=basePath %>im/emailSave.do?email="+value,function(result){
+			$.getJSON("/im/emailSave.do?email="+value,function(result){
 				loadClose();
 						//$.hideLoading();
 				if(result.result != '1'){
@@ -218,7 +214,7 @@ function updateAutoReply(){
 		function(value, index, elem){
 			loading('保存中...');
 			
-			$.post("<%=basePath %>im/autoReplySave.do", { "text":''+value },
+			$.post("/im/autoReplySave.do", { "text":''+value },
 				function(data){
 					if(data.result != '1'){
 						msgFailure(data.info);
@@ -235,7 +231,7 @@ function updateAutoReply(){
 //修改当前客服是否使用
 function updateUseKefu(value){
 	loading('修改中...');
-	$.getJSON("<%=basePath %>im/useKefu.do?use="+value,function(result){
+	$.getJSON("/im/useKefu.do?use="+value,function(result){
 		loadClose();
 				//$.hideLoading();
 		if(result.result != '1'){
@@ -248,7 +244,7 @@ function updateUseKefu(value){
 //修改当前离线邮箱接受消息是否使用
 function updateUseEmail(value){
 	loading('修改中...');
-	$.getJSON("<%=basePath %>im/useOffLineEmail.do?use="+value,function(result){
+	$.getJSON("/im/useOffLineEmail.do?use="+value,function(result){
 		loadClose();
 		if(result.result != '1'){
 			alert(result.info);

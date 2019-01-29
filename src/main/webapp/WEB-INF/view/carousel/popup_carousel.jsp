@@ -1,23 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.DateUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
-<%@page import="com.xnx3.wangmarket.admin.G"%><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%><html>
+<%@page import="com.xnx3.wangmarket.admin.G"%>
+<html>
 <head>
 	<meta charset="utf-8">
 	<title>修改Banner</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+	<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 	<!-- 模版的加载都是动态加载，在下面js里 -->
-	<script src="http://res.weiunity.com/layui/layui.js" type="text/javascript"></script>
-	<link href="http://res.weiunity.com/layui/css/layui.css" rel="stylesheet" type="text/css">	
+	<script src="//res.weiunity.com/layui/layui.js" type="text/javascript"></script>
+	<link href="//res.weiunity.com/layui/css/layui.css" rel="stylesheet" type="text/css">	
 	
-	<script src="http://res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
-	<link href="http://res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
-	<link href="http://res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">	
+	<script src="//res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
+	<link href="//res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
+	<link href="//res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">	
 <body>
 
 
@@ -37,7 +35,7 @@ parent.layer.iframeAuto(index);
 
 layui.use('upload', function(){
 	layui.upload({
-		url: '<%=basePath %>carousel/popupCarouselUpdateSubmit.do?id=${carousel.id }',
+		url: '/carousel/popupCarouselUpdateSubmit.do?id=${carousel.id }',
 		title:'点击此处上传Banner图',
 		ext: 'jpg|png|gif', //那么，就只会支持这三种格式的上传。注意是用|分割。
 		before: function(input){

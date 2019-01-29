@@ -1,17 +1,13 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../common/head.jsp">
 	<jsp:param name="title" value="邀请注册"/>
 </jsp:include>
 
 					您的邀请注册地址：
 					<br/>
-					<%=basePath%>reg.do?inviteid=${user.id }
+					/reg.do?inviteid=${user.id }
 					<br/>
 					邀请他人注册，可以获得丰厚的<%=Global.get("CURRENCY_NAME") %>奖励！
 					<br/>比如：

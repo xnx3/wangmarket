@@ -3,10 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版变量列表"/>
 </jsp:include>
@@ -58,7 +54,7 @@ function editColumn(siteColumnId){
 		title:'修改栏目', 
 		area: ['460px', '375px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>column/popupColumnGaoJiUpdate.do?id='+siteColumnId
+		content: '/column/popupColumnGaoJiUpdate.do?id='+siteColumnId
 	});
 }
 
@@ -74,7 +70,7 @@ function deleteTemplateVar(id, name){
 		layer.close(dtv_confirm);
 		
 		parent.iw.loading('删除中');
-		$.post('<%=basePath %>template/deleteTemplateVar.do?id='+id, function(data){
+		$.post('/template/deleteTemplateVar.do?id='+id, function(data){
 			parent.iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("删除成功");

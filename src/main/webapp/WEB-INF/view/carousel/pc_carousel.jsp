@@ -6,12 +6,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 Site site = (Site)request.getAttribute("site");
 %>
 ${headHtml}
-<script src="<%=basePath+Global.CACHE_FILE %>Carousel_isshow.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Carousel_isshow.js"></script>
 
 <body>
 ${topHtml}

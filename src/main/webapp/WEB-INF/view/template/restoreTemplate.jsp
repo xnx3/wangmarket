@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="还原模版"/>
 </jsp:include>
-<link rel="stylesheet" href="http://res.weiunity.com/css/layerGlobal.css" media="all">
+<link rel="stylesheet" href="//res.weiunity.com/css/layerGlobal.css" media="all">
 
 <!-- author:管雷鸣 -->
 <style>
@@ -121,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 </blockquote>
 
-<script src="http://res.weiunity.com/layui2/layui.all.js"></script>
+<script src="//res.weiunity.com/layui2/layui.all.js"></script>
 <script type="text/javascript">
 layui.use('element', function(){
 	var element = layui.element;
@@ -129,7 +126,7 @@ layui.use('element', function(){
 
 layui.upload.render({
 	elem: '#localhostTemplateFileId'
-	,url: '<%=basePath %>template/restoreTemplateByLocalhostFile.do'
+	,url: '/template/restoreTemplateByLocalhostFile.do'
 	,field: 'templateFile'
 	,method :'post'
 	,exts: 'wscso|xnx3'
@@ -153,7 +150,7 @@ layui.upload.render({
 //加载云端模版，触发选中云端模版还原
 function getCloudTemplate(){
 	iw.loading("获取中");
-	$.post('<%=basePath %>template/restoreTemplateByRemote.do', function(data){
+	$.post('/template/restoreTemplateByRemote.do', function(data){
 		iw.loadClose();
 		if(data.result == '1'){
 			templateComparePreview();
@@ -173,7 +170,7 @@ function templateComparePreview(){
 		title:'还原模版，进行比对', 
 		area: ['800px', '560px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>template/restoreTemplateComparePreview.do'
+		content: '/template/restoreTemplateComparePreview.do'
 	});
 }
 </script>

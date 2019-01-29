@@ -1,10 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="设置系统参数"/>
 </jsp:include>
@@ -94,7 +90,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
 	iw.loading('保存中...');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>install/systemSetSave.do", d, function (result) { 
+        $.post("/install/systemSetSave.do", d, function (result) { 
         	iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

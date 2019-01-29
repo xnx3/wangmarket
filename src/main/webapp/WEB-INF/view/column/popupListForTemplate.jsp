@@ -5,15 +5,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
     <jsp:param name="title" value="栏目导航"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
 <table class="layui-table" style="margin:0px;">
   <thead>
@@ -30,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
   	<c:forEach items="${list}" var="siteColumnTreeVO">
         <tr id="${siteColumnTreeVO.siteColumn.id }">
-        	<td width="140" onclick="javascript:window.open('<%=basePath %>${siteColumnTreeVO.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;">${siteColumnTreeVO.siteColumn.name }</td>
+        	<td width="140" onclick="javascript:window.open('/${siteColumnTreeVO.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;">${siteColumnTreeVO.siteColumn.name }</td>
         	<td>${siteColumnTreeVO.siteColumn.codeName }</td>
             <td width="100"><script type="text/javascript">document.write(type['${siteColumnTreeVO.siteColumn.type}']);</script></td>
             <td width="60"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.used}']);</script></td>
@@ -46,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <c:if test="${not empty siteColumnTreeVO.list }">
 			<c:forEach items="${siteColumnTreeVO.list}" var="subSCT">
 		        <tr id="${subSCT.siteColumn.id }">
-		        	<td width="140" onclick="javascript:window.open('<%=basePath %>${subSCT.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
+		        	<td width="140" onclick="javascript:window.open('/${subSCT.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
 		        	<td><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
 		            <td width="100"><script type="text/javascript">document.write(type['${subSCT.siteColumn.type}']);</script></td>
 		            <td width="60"><script type="text/javascript">document.write(used['${subSCT.siteColumn.used}']);</script></td>
@@ -81,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  * isCopy 是否是复制一个新的栏目出来进入编辑状态，1是复制的，    0不是复制的，属于正常的添加或者修改
  */
 function editColumn(siteColumnId, isCopy){
-	var url = '<%=basePath %>column/popupColumnForTemplate.do';
+	var url = '/column/popupColumnForTemplate.do';
 	layer.open({
 		type: 2, 
 		//title: false,
@@ -106,7 +102,7 @@ function deleteColumn(siteColumnId, name){
 	}, function(){
 		layer.close(dtv_confirm);
 		parent.iw.loading('删除中');
-		$.getJSON('<%=basePath %>column/delete.do?id='+siteColumnId,function(obj){
+		$.getJSON('/column/delete.do?id='+siteColumnId,function(obj){
 			parent.iw.loadClose();
 			if(obj.result == '1'){
 				parent.iw.msgSuccess("删除成功");
@@ -126,7 +122,7 @@ function deleteColumn(siteColumnId, name){
  * siteColumnId 要编辑的栏目的id
  */
 function addColumn(siteColumnId){
-	var url = '<%=basePath %>column/popupColumnForTemplate.do';
+	var url = '/column/popupColumnForTemplate.do';
 	layer.open({
 		type: 2, 
 		//title:'添加栏目', 

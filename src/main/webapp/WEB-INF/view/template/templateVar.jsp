@@ -1,17 +1,13 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="编辑模版变量"/>
 </jsp:include>
 
 <!-- 代码编辑模式所需资源 -->
-<link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
-<script src="http://res.weiunity.com/editor/editormd.js"></script>
+<link rel="stylesheet" href="//res.weiunity.com/editor/css/editormd.css" />
+<script src="//res.weiunity.com/editor/editormd.js"></script>
 
 <form id="form" class="layui-form layui-form-pane" action="saveTemplateVar.do" method="post" style="padding:5px;">
   <input type="hidden" name="id" value="${templateVar.id }" />
@@ -75,7 +71,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
 		parent.iw.loading('保存中');
 		var d=$("form").serialize();
-        $.post("<%=basePath %>template/saveTemplateVar.do", d, function (result) { 
+        $.post("/template/saveTemplateVar.do", d, function (result) { 
         	parent.iw.loadClose();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
@@ -105,7 +101,7 @@ function popupTemplateTagHelp(title,htmlNameTag, width, height){
 	if(htmlNameTag.indexOf('http://') > -1){
 		url = htmlNameTag;
 	}else{
-		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
+		url = '//res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
 	}
 	layer.open({
 		type: 2 //iframe
@@ -147,7 +143,7 @@ function loadTemplateVarText(){
 	          value            : data,
 	          theme            : "default",
 	          mode             : "text/html",
-	          path             : 'http://res.weiunity.com/editor/lib/'
+	          path             : '//res.weiunity.com/editor/lib/'
 	      });
 	      
         

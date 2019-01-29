@@ -2,10 +2,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="欢迎使用网市场云建站系统"/>
 </jsp:include>
@@ -62,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</div>
     	
     	<div style="padding:7%; text-align:center;">
-			<a href="<%=basePath %>install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 28px;font-size: 20px;">点击此处开始安装本系统</a>
+			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 28px;font-size: 20px;">点击此处开始安装本系统</a>
 			<br/>
 			<div style="font-size:14px; padding-top:5px; color: gray;">
 				<a href="https://v.qq.com/x/page/c053533596l.html" style="">查看视频演示</a>

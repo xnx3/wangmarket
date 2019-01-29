@@ -3,14 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../common/head.jsp">
 	<jsp:param name="title" value="手机短信验证码列表"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>SmsLog_used.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SmsLog_used.js"></script>
 
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
@@ -68,7 +64,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 </script>

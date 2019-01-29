@@ -4,14 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="网站列表"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
 
 
 <jsp:include page="../../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
@@ -66,7 +62,7 @@ function siteView(id){
 		title:'查看站点信息', 
 		area: ['460px', '470px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/site/view.do?id='+id
+		content: '/admin/site/view.do?id='+id
 	});
 }
 
@@ -77,7 +73,7 @@ function userView(id){
 		title:'查看用户信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '<%=basePath %>admin/user/view.do?id='+id
+		content: '/admin/user/view.do?id='+id
 	});
 }
 </script>

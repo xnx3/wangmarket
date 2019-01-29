@@ -3,11 +3,7 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
 <style>
 .xnx3_input{
 }

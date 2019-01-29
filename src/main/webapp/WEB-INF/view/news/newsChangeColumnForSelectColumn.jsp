@@ -3,10 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="选择栏目"/>
 </jsp:include>
@@ -99,7 +95,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 //选择指定的栏目进行移动文章 targetColumnId 要移动到哪个栏目的id
 function selectColumn(targetColumnId){
 	iw.loading("转移中");
-	$.post("<%=basePath %>news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId, function(data){
+	$.post("/news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId, function(data){
 		iw.loadClose();
 		if(data.result == '1'){
 			parent.iw.msgSuccess("操作成功");

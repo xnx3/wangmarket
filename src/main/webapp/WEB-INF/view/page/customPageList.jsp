@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="栏目导航"/>
 </jsp:include>
@@ -72,7 +69,7 @@ function deleteHtml(fileName){
 		btn: ['删除','取消'] //按钮
 	}, function(){
 		iw.loading("删除中");
-		$.post("<%=basePath %>site/deleteOssData.do?fileName="+fileName+".html", function(data){
+		$.post("/site/deleteOssData.do?fileName="+fileName+".html", function(data){
 			iw.loadClose();
 			if(data.result == '1'){
 				iw.msgSuccess("删除成功");

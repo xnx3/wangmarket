@@ -2,16 +2,13 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="基本信息"/>
 </jsp:include>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_mShowBanner.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>WeUI_mShowBanner.js"></script>
-<script src="<%=basePath+Global.CACHE_FILE %>Site_client.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_mShowBanner.js"></script>
+<script src="/<%=Global.CACHE_FILE %>WeUI_mShowBanner.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
 <body>
 <!-- author:管雷鸣 -->
 <style>
@@ -68,7 +65,7 @@ function selectOptionClient(firstTitle){
 }
 </script>
 
-<form class="layui-form layui-elem-quote layui-quote-nm myForm" action="<%=basePath %>userCreateSite.do">
+<form class="layui-form layui-elem-quote layui-quote-nm myForm" action="/userCreateSite.do">
 	<input type="hidden" name=keywords placeholder="关键词" value="">
 	<input type="hidden" name=mShowBanner placeholder="是否显示轮播图" value="1">
 	
@@ -161,7 +158,7 @@ layui.use('form', function(){
 	  ,time: 0 //不自动关闭
 	});
     var d=$("form").serialize();
-	$.post("<%=basePath %>site/userCreateSite.do", d, function (result) { 
+	$.post("/site/userCreateSite.do", d, function (result) { 
 		layer.close(loadVar);
        	var obj = JSON.parse(result);
        	if(obj.result == '1'){
@@ -185,7 +182,7 @@ layui.use('form', function(){
 		        }
 		        ,yes: function(){
 		        	//点击底部按钮
-		        	window.location.href='<%=basePath %>site/editPcIndex.do?siteid='+obj.site.id;
+		        	window.location.href='/site/editPcIndex.do?siteid='+obj.site.id;
 		        }
 		      });
        	}else if(obj.result == '0'){

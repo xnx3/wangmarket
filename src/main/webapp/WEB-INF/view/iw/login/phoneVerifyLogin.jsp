@@ -1,17 +1,13 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML>
 <html>
 <head>
 	<jsp:include page="../common/head.jsp">
     	<jsp:param name="title" value="手机号登录"/>
     </jsp:include>
-    <link href="<%=basePath %>style/user/css/login.css" rel="stylesheet" type="text/css">
+    <link href="/style/user/css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<article id="container">
@@ -21,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<c:if test="${error != null}">
 					<h1><span>出错：${error }</span></h1>
 				</c:if>
-				<form action="<%=basePath %>loginByPhoneAndCode.do" method="post" id="form">	
+				<form action="/loginByPhoneAndCode.do" method="post" id="form">	
 					<ul><li>
 							<input type="text" placeholder="手机号" class="textInput username" name="phone" value="" >
 							<a href="sendPhoneLoginCode.do?phone=13011658091" target="_black">获取验证码</a>

@@ -2,14 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="选择模版"/>
 </jsp:include>
-<link rel="stylesheet" href="http://res.weiunity.com/css/layerGlobal.css" media="all">
+<link rel="stylesheet" href="//res.weiunity.com/css/layerGlobal.css" media="all">
 
 <!-- author:管雷鸣 -->
 <style>
@@ -82,9 +79,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 </style>
 <body>
-<div style="padding: 12px;font-weight: 700;padding-left: 32px;color: red; font-size: 20px;">
-	注意，当您使用了一个模版后，将无法再使用其他模版！如果要更换模版，可以再重新建立一个网站。
+<div style="padding: 12px;font-weight: 700;padding-left: 32px;color: red; font-size: 30px; text-align: center; padding-top: 30px;">
+	注意，当您选用了一个模版后，将无法再更换模版！
+	<div style="font-size:13px;">如果一定要更换模版，您可以再重新建立一个网站。</div>
 </div>
+
 
 <div class="site-title">
 	<fieldset><legend><a name="fieldset">方案一.不使用模版，自己从头开始做一套模版</a></legend></fieldset>
@@ -144,8 +143,8 @@ function typeClick(type){
 
 	document.getElementById("cloudList").innerHTML = '<div style="font-size: 30px;padding-top: 10%;color: lightgrey; text-align:center;width: 100%;box-sizing: border-box;">加载中...</div>';
 	//若使用云端模版库，则可以将下面请求地址换为 http://wang.market/cloudTemplateList.do
-	//使用当前配置文件的模版，则为：<%=basePath %>cloudTemplateList.do
-	$.getJSON('<%=basePath %>template/getTemplateList.do?type='+type,function(obj){
+	//使用当前配置文件的模版，则为：/cloudTemplateList.do
+	$.getJSON('/template/getTemplateList.do?type='+type,function(obj){
 		var html = '';	//云端模版的列表
 			if(obj.result == '1'){
 				var divArray = new Array();	//共分四列，也就是下标为0～3
@@ -190,22 +189,22 @@ typeClick(-1);	//默认加载中所有模版
 
 layui.use('upload', function(){
 	layui.upload.render({
-	  url: '<%=basePath %>template/uploadImportTemplate.do'
+	  url: '/template/uploadImportTemplate.do'
 	  ,method :'post'
 	  ,elem : '#loadLocalTemplateFile'
 	  ,exts: 'wscso|xnx3|zip'
 	  ,field: 'templateFile'
 	  ,title :'加载本地模版'
-	  ,size: '50000'	//50MB ，这里单位是KB
-	  ,before: function(res){
-		$.showLoading('上传中');
-	  }
+	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
+      , before: function (obj) {
+          parent.iw.loading("上传中");
+      }
 	  ,done: function(res, index, upload){
+	  	parent.iw.loadClose();
 	    //上传成功返回值，必须为json格式
 	    if(res.result == '1'){
-	    	$.toast("模版加载成功", function() {
-				parent.window.location.reload();	//刷新当前页
-			});
+	    	parent.iw.msgSuccess("模版加载成功！");
+	    	window.location.href = 'welcome.do';	//跳转到欢迎页面
 	    }else{
 	    	alert(res.info);
 	    }
@@ -221,12 +220,12 @@ function useCloudTemplate(templateName){
 		layer.close(dtp_confirm);
 		
 		iw.loading("加载中");
-		$.post('<%=basePath %>template/remoteImportTemplate.do?templateName='+templateName, function(data){
+		$.post('/template/remoteImportTemplate.do?templateName='+templateName, function(data){
 			iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("加载成功");
 				//进入内容管理中
-				parent.loadIframeByUrl('<%=basePath%>template/welcome.do');
+				parent.loadIframeByUrl('/template/welcome.do');
 		 	}else if(data.result == '0'){
 		 		parent.iw.msgFailure(data.info);
 		 	}else{
