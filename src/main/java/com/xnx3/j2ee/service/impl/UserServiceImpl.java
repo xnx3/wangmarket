@@ -577,7 +577,7 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO updateNickname(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String nickname = Safety.filter(request.getParameter("nickname"));
+		String nickname = StringUtil.filterXss(request.getParameter("nickname"));
 		if(nickname == null){
 			nickname = "";
 		}

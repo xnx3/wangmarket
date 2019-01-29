@@ -145,7 +145,7 @@ public interface UserService {
 	public BaseVO updateSex(HttpServletRequest request);
 	
 	/**
-	 * 修改昵称
+	 * 修改昵称 ，会自动进行 xss 过滤
 	 * @param request GET／POST传入如： nickname=管雷鸣  不允许为空。字符限制1～15个汉字或英文
 	 * @return 若result为SUCCESS，则info返回修改成功的昵称
 	 */

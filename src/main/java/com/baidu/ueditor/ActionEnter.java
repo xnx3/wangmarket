@@ -9,6 +9,7 @@ import com.baidu.ueditor.define.State;
 import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.Log;
 
 public class ActionEnter {
@@ -22,6 +23,20 @@ public class ActionEnter {
 	private ConfigManager configManager = null;
 
 	public ActionEnter ( HttpServletRequest request, String rootPath ) {
+		
+		//v4.8 增加，避免开发模式下，ue上传会上传到src/main/webapp下的问题
+		int smw = rootPath.indexOf("/src/main/webapp/");
+		// 17 是 /src/main/webapp/ 这个字符的长度
+		if(smw > -1 && smw + 17 == rootPath.length()){
+			//初步判定是在开发环境
+			
+			//获取当前路径，进而确认是否真的是开发模式
+			String path = Global.getProjectPath();
+			if(path.indexOf("/target/classes/") + 16 == path.length()){
+				rootPath = path;
+			}
+		}
+		
 		
 		this.request = request;
 		this.rootPath = rootPath;
