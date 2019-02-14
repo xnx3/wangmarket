@@ -245,7 +245,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 		parameterMap.put("used", used);
 		parameterMap.put("type", type);
 		parameterMap.put("code", code);
-		List<SmsLog> list = sqlDAO.findByHql("from SmsLog as model where model.phone= :phone and model.addtime > :addtime and model.used = :used and model.type = :type and model.code = :code", parameterMap);
+		List<SmsLog> list = sqlDAO.findByHql("from SmsLog as model where model.phone= :phone and model.addtime > :addtime and model.used = :used and model.type = :type and model.code = :code", parameterMap, 0);
 		if(list.size() > 0){
 			return list.get(0);
 		}

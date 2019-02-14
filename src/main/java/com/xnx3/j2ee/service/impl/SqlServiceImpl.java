@@ -92,7 +92,10 @@ public class SqlServiceImpl implements SqlService {
 //	}
 	
 	public List findByHql(String hql, Map<String, Object> parameterMap){
-		return sqlDAO.findByHql(hql, parameterMap);
+		return sqlDAO.findByHql(hql, parameterMap, 0);
+	}
+	public List findByHql(String hql, Map<String, Object> parameterMap, int maxNumber){
+		return sqlDAO.findByHql(hql, parameterMap, maxNumber);
 	}
 	
 	public int executeByHql(String hql, Map<String, Object> parameterMap) {

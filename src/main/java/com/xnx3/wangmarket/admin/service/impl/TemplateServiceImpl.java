@@ -366,7 +366,7 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public void updateTemplateVarForCache(com.xnx3.wangmarket.admin.entity.TemplateVar templateVar,TemplateVarData templateVarData) {
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null || Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap() == null){
 			loadDatabaseTemplateVarToCache();
 		}
 		Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());

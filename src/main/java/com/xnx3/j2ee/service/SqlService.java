@@ -176,6 +176,24 @@ public interface SqlService {
 	 */
     public List findByHql(String hql, Map<String, Object> parameterMap);
     
+
+	/**
+	 * 通过hql语句进行查询。示例：
+	 * <pre>
+	 * 		String hql = "FROM User u WHERE u.username = :username";
+	 * 		Map&lt;String, Object&gt; parameterMap = new HashMap&lt;String, Object&gt;();
+     *		parameterMap.put("username", "guanleiming");
+     *		parameterMap.put("age", "26");
+     *		findByHql(hql, parameterMap)
+	 * </pre>
+	 * @param hql hql语句，如 FROM User u WHERE u.username=:username
+	 * @param parameterMap hql中的查询条件
+	 * @param maxNumber 最大查询条数，同 limit ， 0为不限制
+	 * @return list
+	 */
+    public List findByHql(String hql, Map<String, Object> parameterMap, int maxNumber);
+    
+    
     /**
 	 * 通过hql语句执行sql。示例：
 	 * <pre>

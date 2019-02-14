@@ -177,7 +177,7 @@ public class SqlDAO {
 		String hql = "FROM "+c.getSimpleName()+" c WHERE c."+propertyName+" = :c1";
  		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("c1", value);
-		return findByHql(hql, parameterMap);
+		return findByHql(hql, parameterMap, 0);
 	}
 	
 	
@@ -269,12 +269,16 @@ public class SqlDAO {
 	 * </pre>
 	 * @param hql hql语句，如 FROM User
 	 * @param parameterMap hql中的查询条件
+	 * @param maxNumber 最大查询条数，同 limit ， 0为不限制
 	 * @return list
 	 */
-    public List findByHql(String hql, Map<String, Object> parameterMap) {
+    public List findByHql(String hql, Map<String, Object> parameterMap, int maxNumber) {
         javax.persistence.Query query=entityManager.createQuery(hql);
         for (Map.Entry<String, Object> entry : parameterMap.entrySet()) {
         	query.setParameter(entry.getKey(),entry.getValue());
+        }
+        if(maxNumber > 0){
+        	query.setMaxResults(maxNumber);
         }
         List list= query.getResultList();
         entityManager.close();
