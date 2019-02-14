@@ -882,14 +882,17 @@ public class UserServiceImpl implements UserService{
 			head = defaultHead;
 		}else{
 			if(user.getHead() != null && user.getHead().length() > 10){
-				if(user.getHead().indexOf("http:") == -1 || user.getHead().indexOf("https:") == -1){
+				//判断头像是绝对路径还是相对路径的
+				if(user.getHead().indexOf("http:") == 0 || user.getHead().indexOf("https:") == 0 || user.getHead().indexOf("//") == 0){
+					//如果发现头像是绝对路径，直接将其赋予head，原样返回
+					head = user.getHead();
+				}else{
+					//是相对路径，那就要增加前缀了
 					if(user.getHead().equals("default.png")){
 						head = defaultHead;
 					}else{
 						head = AttachmentFile.netUrl() + Global.get("USER_HEAD_PATH") + user.getHead();
 					}
-				}else{
-					head = user.getHead();
 				}
 			}else{
 				head = defaultHead;
@@ -898,6 +901,7 @@ public class UserServiceImpl implements UserService{
 		
 		return head;
 	}
+	
 	
 	
 	public String generateMd5Password(String originalPassword, String salt){
