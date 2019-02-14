@@ -131,45 +131,66 @@ public class TemplateDevelopController extends BasePluginController {
 			return error( "模版开发仅限本地运行使用！");
 		}
 		
-		Site site = getSite();
-		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			return error("当前已有模版编码，不可再次设置！");
-		}
 		templateName = StringUtil.filterXss(templateName);
 		if(templateName.length() == 0){
 			return error("您还没填写模版编码呢");
 		}
+		
+		Site site = getSite();
 		
 		//在 template 数据表中判断是否存在这个模版，若不存在，则创建
 		Template template = sqlService.findAloneByProperty(Template.class, "name", templateName);
 		if(template != null){
 			return error("模版已存在！请重新起个名吧");
 		}
+		
+		//资源文件设置,创建或者转移
+		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			//return error("当前已有模版编码，不可再次设置！");
+			//当前已有模版编码，判断是否是这个人的，也就是判断一下是否有原本模版编码的模版资源文件
+			System.out.println(Global.getProjectPath()+getExportPath()+site.getTemplateName());
+			if(!FileUtil.exists(Global.getProjectPath()+getExportPath()+site.getTemplateName())){
+				return error("没有发现模版资源文件！模版是你做的吗？");
+			}
+			System.out.println("old----- "+Global.getProjectPath()+getExportPath()+site.getTemplateName());
+			File file = new File(Global.getProjectPath()+getExportPath()+site.getTemplateName());
+			file.renameTo(new File(Global.getProjectPath()+getExportPath()+templateName));
+			System.out.println("new------ "+Global.getProjectPath()+getExportPath()+templateName);
+			
+		}else{
+			//当前还没有模版编码
+			//创建模版编码的文件夹
+			File file = new File(Global.getProjectPath()+getExportPath()+templateName);
+			file.mkdir();	//创建这个文件夹
+			//创建 css 文件夹
+			new File(Global.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
+			//创建 js 文件夹
+			new File(Global.getProjectPath()+getExportPath()+templateName+"/js").mkdir();
+			//创建 images 文件夹
+			new File(Global.getProjectPath()+getExportPath()+templateName+"/images").mkdir();
+			
+		}
+		
+		
 		template = new Template();
 		template.setAddtime(DateUtil.timeForUnix10());
 		template.setName(templateName);
 		template.setUserid(getUserId());
 		sqlService.save(template); 	//保存模版
 		
+		
 		//将当前站点使用模版设置为此模版
 		site = sqlService.findById(Site.class, site.getId());
 		site.setTemplateName(templateName);
 		sqlService.save(site);
+		
+		//更新当前站点的缓存
 		setSite(site);
 		
 		//将当前站点使用的模版变量、模版页面全部设置为绑定这个模版
 		sqlService.updateByHql(TemplatePage.class, "templateName", templateName, "siteid", site.getId());
 		sqlService.updateByHql(TemplateVar.class, "templateName", templateName, "siteid", site.getId());
 		
-		//创建模版编码的文件夹
-		File file = new File(Global.getProjectPath()+getExportPath()+templateName);
-		file.mkdir();	//创建这个文件夹
-		//创建 css 文件夹
-		new File(Global.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
-		//创建 js 文件夹
-		new File(Global.getProjectPath()+getExportPath()+templateName+"/js").mkdir();
-		//创建 images 文件夹
-		new File(Global.getProjectPath()+getExportPath()+templateName+"/images").mkdir();
 		
 		AliyunLog.addActionLog(site.getId(), "模版开发-保存模版编码");
 		

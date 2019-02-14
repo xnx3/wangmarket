@@ -9,6 +9,7 @@ import java.util.Map;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.entity.Template;
 
 /**
@@ -124,9 +125,16 @@ public class TemplateUtil {
 					String subFilePath = subFile.getPath(); 
 					int index = subFilePath.indexOf("/classes/templateTemporaryFile/");
 					String temp = subFilePath.substring(index+31, subFilePath.length());	//得到模版文件名+具体文件目录，如  qiye2/preview.jpg
-					String jutiFile = temp.substring(temp.indexOf("/")+1, temp.length());	//得到模版文件夹内的具体文件目录，如 css/style.jss
+					String jutiFile = temp.substring(temp.indexOf("/")+1, temp.length());	//得到模版文件夹内的具体文件目录，如 css/style.css
 					
-					AttachmentFile.put("websiteTemplate/"+name+"/"+jutiFile, subFile);
+					int jutiIndex = jutiFile.lastIndexOf("/");
+					String mulu = "";	//得到目录结构，相对与模版本身的
+					if(jutiIndex>-1){
+						//有文件结构，格式如  res/css/
+						mulu = jutiFile.substring(0, jutiIndex+1);
+					}
+					Log.info("mulu----"+mulu);
+					AttachmentFile.put("websiteTemplate/"+name+"/"+mulu, subFile);
 				}else{
 					//违规
 					//System.out.println("违规！受攻击了----"+subFile.getName()+"    --"+subFileSuffix);
