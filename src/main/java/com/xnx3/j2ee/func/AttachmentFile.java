@@ -217,7 +217,7 @@ public class AttachmentFile {
 	}
 	
 	/**
-	 * 上传本地文件
+	 * 上传本地文件。上传的文件名会被自动重命名为uuid+后缀
 	 * @param filePath 上传后的文件所在的目录、路径，如 "jar/file/"
 	 * @param localFile 本地要上传的文件
 	 * @return {@link PutResult} 若失败，返回null
@@ -559,7 +559,7 @@ public class AttachmentFile {
 	/**
 	 * 上传文件
 	 * @param filePath 上传后的文件所在的目录、路径，如 "jar/file/"
-	 * @param fileName 上传的文件名，如“xnx3.jar”；主要拿里面的后缀名。也可以直接传入文件的后缀名如“.jar”
+	 * @param fileName 上传的文件名，如“xnx3.jar”；主要拿里面的后缀名。也可以直接传入文件的后缀名如“.jar。新的文件名会是自动生成的 uuid+后缀”
 	 * @param inputStream {@link InputStream}
 	 * @return {@link PutResult} 若失败，返回null
 	 */

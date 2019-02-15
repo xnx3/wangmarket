@@ -280,7 +280,7 @@ if('${site.templateName}' != '' && '${site.templateName}' != 'null'){
 	document.getElementById('step2_weihuoqu').style.display = 'none';
 	
 	//设置第一步中的input为不可编辑
-	$('#templateName').attr("readonly",true);
+	//$('#templateName').attr("readonly",true);
 }
 
 </script>

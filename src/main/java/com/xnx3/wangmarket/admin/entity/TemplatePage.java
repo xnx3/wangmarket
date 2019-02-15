@@ -74,6 +74,9 @@ public class TemplatePage implements java.io.Serializable {
 		return name;
 	}
 	public void setName(String name) {
+		if(name.length() > 20){
+			name = name.substring(0, 20);
+		}
 		this.name = name;
 	}
 	public Integer getUserid() {
