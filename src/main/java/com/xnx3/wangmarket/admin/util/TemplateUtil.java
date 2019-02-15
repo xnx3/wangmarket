@@ -1,12 +1,15 @@
 package com.xnx3.wangmarket.admin.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xnx3.Lang;
+import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
@@ -20,15 +23,25 @@ import com.xnx3.wangmarket.admin.entity.Template;
 public class TemplateUtil {
 	/*
 	 * 用户建立网站后，给用户使用的模版列表，这里仅只是同步的云端模版列表
-	 * map -  key: 
+	 * map -  key: template.name
 	 */
 	public static Map<Integer, List<Template>> cloudTemplateMap = new HashMap<Integer, List<Template>>();
+//	public static Map<String, List<Template>> cloudTemplateMap = new HashMap<String, List<Template>>();
 	
 	/**
 	 * 本地数据库中存储的模版名字
 	 * map -  key:template.name
 	 */
 	public static Map<String, Template> databaseTemplateMap = new HashMap<String, Template>();
+	
+	/**
+	 * 用户建立网站时，选择模版的时候，可用的模版。是集云端模版+本地存储的模版总和。
+	 * 如果用户不用云端模版，那就只是使用本地模版
+	 * 如果用户同时使用云端模版+本地模版，且模版编码同时在云端模版跟本地模版中都有，会优先使用本地模版。本地模版的优先级大于云端模版。
+	 * map  key: template.name
+	 */
+	public static Map<String, Template> useTemplateMap = new HashMap<String, Template>();
+	
 	
 	/**
 	 * 获取用户建立网站后，给用户使用的模版列表
@@ -127,14 +140,12 @@ public class TemplateUtil {
 					String temp = subFilePath.substring(index+31, subFilePath.length());	//得到模版文件名+具体文件目录，如  qiye2/preview.jpg
 					String jutiFile = temp.substring(temp.indexOf("/")+1, temp.length());	//得到模版文件夹内的具体文件目录，如 css/style.css
 					
-					int jutiIndex = jutiFile.lastIndexOf("/");
-					String mulu = "";	//得到目录结构，相对与模版本身的
-					if(jutiIndex>-1){
-						//有文件结构，格式如  res/css/
-						mulu = jutiFile.substring(0, jutiIndex+1);
+					try {
+						AttachmentFile.put("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
 					}
-					Log.info("mulu----"+mulu);
-					AttachmentFile.put("websiteTemplate/"+name+"/"+mulu, subFile);
+					//AttachmentFile.put("websiteTemplate/"+name+"/"+mulu, subFile);
 				}else{
 					//违规
 					//System.out.println("违规！受攻击了----"+subFile.getName()+"    --"+subFileSuffix);

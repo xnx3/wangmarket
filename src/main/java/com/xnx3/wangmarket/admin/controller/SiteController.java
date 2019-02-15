@@ -690,7 +690,7 @@ public class SiteController extends BaseController {
 			sqlService.save(news);
 			
 			//如果有旧图，删除掉旧的图片
-			if(oldTitlePic.length() > 0 && oldTitlePic.indexOf("http://") == -1){
+			if(oldTitlePic.length() > 0 && (oldTitlePic.indexOf("http://") == -1 && oldTitlePic.indexOf("https://") == -1 && oldTitlePic.indexOf("//") == -1)){
 				AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
 			}
 			

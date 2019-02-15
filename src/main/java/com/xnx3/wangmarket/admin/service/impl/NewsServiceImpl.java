@@ -265,7 +265,7 @@ public class NewsServiceImpl implements NewsService {
 		if(id > 0){
 			String titlepicImage = "";
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0){
-				if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0){
+				if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0 || news.getTitlepic().indexOf("//") == 0){
 					titlepicImage = news.getTitlepic();
 				}else{
 					titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();

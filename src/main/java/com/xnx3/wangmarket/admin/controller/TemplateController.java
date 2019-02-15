@@ -31,6 +31,7 @@ import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -560,7 +561,7 @@ public class TemplateController extends BaseController {
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"http://res.weiunity.com/htmledit/htmledit.js\"></script></head>");
+			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\"//res.weiunity.com/htmledit/htmledit.js\"></script></head>");
 			
 			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
@@ -711,7 +712,7 @@ public class TemplateController extends BaseController {
 	@RequestMapping(value="uploadImportTemplate${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public void uploadImportTemplate(HttpServletResponse response, HttpServletRequest request, 
-			@RequestParam("templateFile") MultipartFile multipartFile) throws IOException{
+			@RequestParam("templateFile") MultipartFile multipartFile){
 		if(multipartFile == null){
 			responseJson(response, BaseVO.FAILURE, "请选择要导入的模版");
 			return;
@@ -722,7 +723,14 @@ public class TemplateController extends BaseController {
 		//判断导入的模版文件格式，是wscso还是zip格式
 		
 		//判断一下上传文件大小
-		int lengthKB = (int) Math.ceil(multipartFile.getInputStream().available()/1024);
+		int lengthKB = 0;
+		try {
+			lengthKB = (int) Math.ceil(multipartFile.getInputStream().available()/1024);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			responseJson(response, BaseVO.FAILURE, "未获取到所导入的文件大小");
+			return;
+		}
 		
 		//获取上传的文件的后缀
 		String fileSuffix = Lang.findFileSuffix(multipartFile.getOriginalFilename()).toLowerCase();
@@ -733,7 +741,14 @@ public class TemplateController extends BaseController {
 				responseJson(response, BaseVO.FAILURE, "纯模版文件最大限制"+AttachmentFile.getMaxFileSizeKB()+"KB以内");
 				return;
 			}
-			wscsoTemplateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
+			try {
+				wscsoTemplateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
+			} catch (IOException e) {
+				Log.error("获取到的，导入模版没有内容");
+				e.printStackTrace();
+				responseJson(response, BaseVO.FAILURE, "所获取到所导入的模版未发现模版内容");
+				return;
+			}
 		}else if (fileSuffix.equals("zip")) {
 			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
 			//zip的限制在50MB以内
@@ -745,7 +760,13 @@ public class TemplateController extends BaseController {
 			
 			String fileName = DateUtil.timeForUnix13()+"_"+StringUtil.getRandom09AZ(20);
 			File file = new File(TemplateTemporaryFolder.folderPath+fileName+".zip");
-			multipartFile.transferTo(file);
+			try {
+				multipartFile.transferTo(file);
+			} catch (IllegalStateException | IOException e1) {
+				e1.printStackTrace();
+				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
+				return;
+			}
 			
 			//将其解压到同文件夹中
 			try {
