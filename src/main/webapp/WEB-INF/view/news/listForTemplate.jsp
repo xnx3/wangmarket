@@ -54,7 +54,7 @@
 		                <td style="width:60px;">
 		                	<c:if test="${not empty news.titlepic }">
 		               			<c:choose>
-								    <c:when test="${fn:contains(news.titlepic,'http://')}">
+								    <c:when test="${fn:contains(news.titlepic,'//')}">
 								    	<img src="${news.titlepic }?x-oss-process=image/resize,h_25" height="25" />
 								    </c:when>
 								    <c:otherwise>

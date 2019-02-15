@@ -282,8 +282,11 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("news.reserve1"), news.getReserve1());
 		text = text.replaceAll(regex("news.reserve2"), news.getReserve2());
 		
-		//文章头图在正常访问时，使用相对路径  v4.8版本更新检测到此处，此处属于基本废弃功能，暂时先保留
-		if(titlePic.indexOf("http://") == -1){
+		//文章头图在正常访问时，使用相对路径  
+		if(titlePic.indexOf("//") == 0 || titlePic.indexOf("http://") == 0 || titlePic.indexOf("https://") == 0){
+			//用的绝对路径，这里不用做任何补充
+		}else{
+			//用的相对路径，要加个东西了，不过CMS模式的好像没有这样的了。v4.8版本更新检测到此处，此处属于基本废弃功能，暂时先保留
 			titlePic = "news/"+titlePic;
 		}
 		text = text.replaceAll(regex("news.titlepic"), titlePic);
