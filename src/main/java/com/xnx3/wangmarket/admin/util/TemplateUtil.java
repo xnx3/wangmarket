@@ -23,16 +23,16 @@ import com.xnx3.wangmarket.admin.entity.Template;
 public class TemplateUtil {
 	/*
 	 * 用户建立网站后，给用户使用的模版列表，这里仅只是同步的云端模版列表
-	 * map -  key: template.name
+	 * 在云端模版库同步完成后，会更新这两个存储
 	 */
-	public static Map<Integer, List<Template>> cloudTemplateMap = new HashMap<Integer, List<Template>>();
-//	public static Map<String, List<Template>> cloudTemplateMap = new HashMap<String, List<Template>>();
+	public static Map<Integer, Map<String, Template>> cloudTemplateMapForType = new HashMap<Integer, Map<String, Template>>();	//key: template.type
+	public static Map<String, Template> cloudTemplateMapForName = new HashMap<String, Template>();		//key: template.name
 	
 	/**
-	 * 本地数据库中存储的模版名字
-	 * map -  key:template.name
+	 * 本地数据库中存储的模版名字。当 template 数据有更改时，会同时更新此处
 	 */
-	public static Map<String, Template> databaseTemplateMap = new HashMap<String, Template>();
+	public static Map<String, Template> databaseTemplateMapForName = new HashMap<String, Template>();	//key:template.name
+	public static Map<Integer, Map<String, Template>> databaseTemplateMapForType = new HashMap<Integer, Map<String, Template>>();	//key:template.type
 	
 	/**
 	 * 用户建立网站时，选择模版的时候，可用的模版。是集云端模版+本地存储的模版总和。
@@ -40,38 +40,83 @@ public class TemplateUtil {
 	 * 如果用户同时使用云端模版+本地模版，且模版编码同时在云端模版跟本地模版中都有，会优先使用本地模版。本地模版的优先级大于云端模版。
 	 * map  key: template.name
 	 */
-	public static Map<String, Template> useTemplateMap = new HashMap<String, Template>();
+	//public static Map<String, Template> useTemplateMap = new HashMap<String, Template>();
+	//public static Map<Integer, Template>
 	
+	/**
+	 * 更新内存中存储的数据库自定义模版缓存
+	 * @param template 要更新的模版
+	 */
+	public static void updateDatabaseTemplateMap(Template template){
+		if(template == null){
+			return;
+		}
+		
+		//判断是否是将共享的模版改为私有。也就是相当于从内存中，删除掉某个数据库模版
+		if(template.getIscommon() - Template.ISCOMMON_NO == 0){
+			//确实是改为私有，要从本地模版库中删除
+			databaseTemplateMapForName.remove(template.getName());
+			databaseTemplateMapForType.get(template.getType()).remove(template.getName());
+			return;
+		}
+		
+		//判断 databaseTemplateMap 中是否有存储这个模版了，也就是判断当前是更新，还是添加模版
+		Template temp = databaseTemplateMapForName.get(template.getName());
+		if(temp == null){
+			//不存在，那就是添加模版。直接加入进 databaseTemplateMap
+			databaseTemplateMapForName.put(template.getName(), template);
+			
+			//加入进 databaseTemplateMapForType
+			//判断一下是否有这个一级的key存在，若不存在，择要创建
+			if(databaseTemplateMapForType.get(template.getType()) == null){
+				databaseTemplateMapForType.put(template.getType(), new HashMap<String, Template>());
+			}
+			//将之加入进去
+			databaseTemplateMapForType.get(template.getType()).put(template.getName(), template);
+		}else{
+			//已存在，那就是更新模版数据
+			//直接更新 databaseTemplateMap
+			databaseTemplateMapForName.put(template.getName(), template);
+			
+			//更新 databaseTemplateMapForType
+			//先删除掉原先的template.name
+			databaseTemplateMapForType.get(template.getType()).remove(template.getName());
+			//再将新的加入
+			databaseTemplateMapForType.get(template.getType()).put(template.getName(), template);
+		}
+	}
 	
 	/**
 	 * 获取用户建立网站后，给用户使用的模版列表
 	 * @param templateType 传入具体的值，若调取全部，则传入 -1
 	 * @return
 	 */
-	public static List<Template> getTemplateList(int templateType){
-		List<Template> list = null;
+	public static Map<String,Template> getTemplateList(int templateType){
+		Map<String,Template> map = new HashMap<String, Template>();
+		//List<Template> list = null;
+		
+		//先从云端模版库加载
 		if(templateType > -1){
 			//调取某个分类的
-			list = cloudTemplateMap.get(templateType);
-			if(list == null){
-				list = new ArrayList<Template>();
-			}
+			mapClone(map, cloudTemplateMapForType.get(templateType));
 		}else{
-			//调取所有的,便利map
-			list = new ArrayList<Template>();
-			
-			for (Map.Entry<Integer, List<Template>> entry : cloudTemplateMap.entrySet()) {
-				if(entry.getValue() != null && entry.getValue().size() > 0){
-					//如果这个分类有，那么将其拿出来加入输出的list列表
-					List<Template> oriList = entry.getValue();
-					for (int i = 0; i < oriList.size(); i++) {
-						list.add(oriList.get(i));
-					}
-				}
-			}
+			//调取所有的
+			mapClone(map, cloudTemplateMapForName);
 		}
 		
-		return list;
+		
+		//再从本地模版库加载，本地跟云端有重复，将会覆盖掉云端模版库
+		//判断一下是按分类取还是取所有模版
+		if(templateType > -1){
+			//调取某个分类的
+			mapClone(map, databaseTemplateMapForType.get(templateType));
+		}else{
+			//调取所有的
+			mapClone(map, databaseTemplateMapForName);
+		}
+		
+		
+		return map;
 	}
 	
 	/**
@@ -80,20 +125,23 @@ public class TemplateUtil {
 	 * @return 如果不存在，返回 null
 	 */
 	public static Template getTemplateByName(String name){
-		for (Map.Entry<Integer, List<Template>> entry : TemplateUtil.cloudTemplateMap.entrySet()) {
-			if(entry.getValue() != null && entry.getValue().size() > 0){
-				//如果这个分类有，那么将其拿出来加入输出的list列表
-				List<Template> oriList = entry.getValue();
-				for (int i = 0; i < oriList.size(); i++) {
-					Template temp = oriList.get(i);
-					if(name.equals(temp.getName())){
-						return temp;
-					}
-				}
-			}
+		//先判断数据库本地是否有这个模版
+		Template template = databaseTemplateMapForName.get(name);
+		//如果没有指定预览图，则用模版库默认的
+		if(template.getPreviewPic() == null){
+			
 		}
-		return null;
+		
+		
+		if(template == null){
+			//本地模版库不存在，那么从云端获取
+			template = cloudTemplateMapForName.get(name);
+		}
+		
+		return template;
 	}
+	
+	
 	
 	/**
 	 * 模版中允许存在的后缀，安全的后缀文件
@@ -157,4 +205,21 @@ public class TemplateUtil {
 		
 	}
 	
+	
+	/**
+	 * Map 克隆
+	 * @param mapOriginal 原始的map，最终组合而成的结果map
+	 * @param mapAdd 要增加进入map主体的map，这是要增加合并的map
+	 * @return 确实不用返回的。执行完 mapOriginal 就增加了
+	 */
+	public static Map<String, Template> mapClone(Map<String, Template> mapOriginal, Map<String, Template> mapAdd){
+		if(mapAdd == null){
+			return mapOriginal;
+		}
+		for (Map.Entry<String, Template> entry : mapAdd.entrySet()) { 
+			mapOriginal.put(entry.getKey(), entry.getValue());
+		}
+		
+		return mapOriginal;
+	}
 }

@@ -1650,10 +1650,17 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public TemplateListVO getTemplateList(HttpServletRequest request, Model model, 
 			@RequestParam(value = "type", required = false, defaultValue="-1") int type){
-		TemplateListVO vo = new TemplateListVO();
-		vo.setList(TemplateUtil.getTemplateList(type));
-		vo.setResult(BaseVO.SUCCESS);
+		Map<String, com.xnx3.wangmarket.admin.entity.Template> map = TemplateUtil.getTemplateList(type);
+		List<com.xnx3.wangmarket.admin.entity.Template> list = new ArrayList<com.xnx3.wangmarket.admin.entity.Template>();
 		
+		for (Map.Entry<String, com.xnx3.wangmarket.admin.entity.Template> entry : map.entrySet()) {
+			list.add(entry.getValue());
+		}
+		
+		
+		TemplateListVO vo = new TemplateListVO();
+		vo.setList(list);
+		vo.setResult(BaseVO.SUCCESS);
 		return vo;
 	}
 	

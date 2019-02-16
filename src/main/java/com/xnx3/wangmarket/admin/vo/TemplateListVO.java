@@ -1,6 +1,8 @@
 package com.xnx3.wangmarket.admin.vo;
 
 import java.util.List;
+import java.util.Map;
+
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.Template;
 

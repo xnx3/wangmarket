@@ -23,7 +23,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.net.OSSUtil;
 
 /**
- * 版本相关
+ * 系统启动初始化
  * @author 管雷鸣
  */
 @Component

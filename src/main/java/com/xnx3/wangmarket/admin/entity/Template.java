@@ -181,4 +181,15 @@ public class Template implements java.io.Serializable {
 		this.resourceImport = resourceImport;
 	}
 	
+	@Override
+	public String toString() {
+		return "Template [id=" + id + ", name=" + name + ", addtime=" + addtime + ", userid=" + userid + ", remark="
+				+ remark + ", previewUrl=" + previewUrl + ", previewPic=" + previewPic + ", type=" + type
+				+ ", companyname=" + companyname + ", username=" + username + ", siteurl=" + siteurl
+				+ ", terminalMobile=" + terminalMobile + ", terminalPc=" + terminalPc + ", terminalIpad=" + terminalIpad
+				+ ", terminalDisplay=" + terminalDisplay + ", iscommon=" + iscommon + ", rank=" + rank
+				+ ", wscsoDownUrl=" + wscsoDownUrl + ", zipDownUrl=" + zipDownUrl + ", resourceImport=" + resourceImport
+				+ "]";
+	}
+	
 }

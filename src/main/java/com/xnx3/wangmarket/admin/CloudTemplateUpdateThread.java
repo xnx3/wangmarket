@@ -3,6 +3,8 @@ package com.xnx3.wangmarket.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -73,9 +75,9 @@ public class CloudTemplateUpdateThread {
 											//应该不存在
 											continue;
 										}
-										if(jsonArray.size() > 0 && TemplateUtil.cloudTemplateMap != null){
+										if(jsonArray.size() > 0 && TemplateUtil.cloudTemplateMapForType != null){
 											//有值，那么先清空原本存储的，再填充入
-											TemplateUtil.cloudTemplateMap.clear();
+											TemplateUtil.cloudTemplateMapForType.clear();
 										}
 										//便利最新的，再加入
 										for (int i = 0; i < jsonArray.size(); i++) {
@@ -98,17 +100,27 @@ public class CloudTemplateUpdateThread {
 											template.setWscsoDownUrl(jsonGetString(tempJson, "wscsoTemplateDown"));
 											template.setZipDownUrl(jsonGetString(tempJson, "zipTemplateDown"));
 	
-											if(TemplateUtil.cloudTemplateMap == null){
-												TemplateUtil.cloudTemplateMap = new HashMap<Integer, List<Template>>();
+											if(TemplateUtil.cloudTemplateMapForType == null){
+												TemplateUtil.cloudTemplateMapForType = new HashMap<Integer, Map<String, Template>>();
 											}
-											if(TemplateUtil.cloudTemplateMap.get(template.getType()) == null){
-												TemplateUtil.cloudTemplateMap.put(template.getType(), new ArrayList<Template>());
+											if(TemplateUtil.cloudTemplateMapForType.get(template.getType()) == null){
+												TemplateUtil.cloudTemplateMapForType.put(template.getType(), new HashMap<String, Template>());
 											}
-											TemplateUtil.cloudTemplateMap.get(template.getType()).add(template);
+											TemplateUtil.cloudTemplateMapForType.get(template.getType()).put(template.getName(), template);
 											
 											//G.cloudTemplateMap.put(temp.getString("name"), temp.getString("intro"));
 										}
 										Log.info("同步云模版库完成，共同步"+jsonArray.size()+"个CMS模板");
+										
+										//同步完cloudTemplateMapForType后，继续同步 cloudTemplateMapForName
+										TemplateUtil.cloudTemplateMapForName.clear();
+										for (Map.Entry<Integer, Map<String, Template>> entry : TemplateUtil.cloudTemplateMapForType.entrySet()) {
+											if(entry.getValue() != null && entry.getValue().size() > 0){
+												//如果这个分类有，那么将其拿出来加入本项目内存存储的云端模版列表
+												TemplateUtil.cloudTemplateMapForName.putAll(entry.getValue());
+											}
+										}
+										
 										result = true;
 									}
 								}else{

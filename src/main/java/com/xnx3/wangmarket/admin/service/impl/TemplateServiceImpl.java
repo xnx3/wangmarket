@@ -1052,12 +1052,12 @@ public class TemplateServiceImpl implements TemplateService {
 	public TemplateVO getTemplateForDatabase(String name){
 		com.xnx3.wangmarket.admin.entity.Template template = null;
 		if(name != null){
-			template = TemplateUtil.databaseTemplateMap.get(name);
+			template = TemplateUtil.databaseTemplateMapForName.get(name);
 			if(template == null){
 				template = sqlDAO.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", name);
 				if(template != null){
 					//将其加入map进行缓存
-					TemplateUtil.databaseTemplateMap.put(name, template);
+					TemplateUtil.databaseTemplateMapForName.put(name, template);
 				}
 			}
 		}
