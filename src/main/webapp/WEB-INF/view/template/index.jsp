@@ -23,7 +23,7 @@
 
 <script src="//res.weiunity.com/js/iw.js"></script>	
 <script>
-var masterSiteUrl = '//<%=request.getServerName() %>/';
+var masterSiteUrl = '//<%=request.getServerName() %>:<%=request.getServerPort() %>/';
 var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <style>
