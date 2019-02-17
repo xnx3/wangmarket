@@ -830,18 +830,22 @@ public class TemplateController extends BaseController {
 			@RequestParam(value = "templateName", required = false , defaultValue="") String templateName){
 		templateName = filter(templateName);
 		if(templateName.length() == 0){
-			return error("请选择要远程获取的模版");
+			return error("请选择模版");
 		}
 		
-		HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-		HttpResponse hr = http.get(G.RES_CDN_DOMAIN+"template/"+templateName+"/template.wscso");
-		if(hr.getCode() - 404 == 0){
+		com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(templateName);
+		if(template == null){
 			return error("模版不存在");
 		}
 		
-		BaseVO vo = templateService.importTemplate(hr.getContent(), true, request);
+		BaseVO wscvo = TemplateUtil.getTemplateWscso(template);
+		if(wscvo.getResult() - BaseVO.FAILURE == 0){
+			return wscvo;
+		}
+		
+		BaseVO vo = templateService.importTemplate(wscvo.getInfo(), true, request);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			AliyunLog.addActionLog(getSiteId(), "云端导入模版文件成功！");
+			AliyunLog.addActionLog(getSiteId(), "模版导入成功！");
 		}
 		return vo;
 	}

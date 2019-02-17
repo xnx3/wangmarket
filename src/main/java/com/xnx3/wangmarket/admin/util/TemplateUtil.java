@@ -13,6 +13,10 @@ import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.net.HttpResponse;
+import com.xnx3.net.HttpUtil;
+import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Template;
 
 /**
@@ -127,18 +131,44 @@ public class TemplateUtil {
 	public static Template getTemplateByName(String name){
 		//先判断数据库本地是否有这个模版
 		Template template = databaseTemplateMapForName.get(name);
-		//如果没有指定预览图，则用模版库默认的
-		if(template.getPreviewPic() == null){
-			
-		}
-		
-		
 		if(template == null){
 			//本地模版库不存在，那么从云端获取
 			template = cloudTemplateMapForName.get(name);
 		}
 		
 		return template;
+	}
+	
+	/**
+	 * 获取template.wscso文件的内容，通过模版名
+	 * @param name 模版名
+	 * @return 
+	 * 		<ul>
+	 * 			<li>result:{@link BaseVO}.SUCCESS,则是成功，info返回template.wscso 文件的内容。</li>
+	 * 			<li>result:{@link BaseVO}.FAILURE,则是失败，info返回失败原因</li>
+	 * 		</ul>
+	 */
+	public static BaseVO getTemplateWscso(Template template){
+		BaseVO vo = new BaseVO();
+		
+		if(template.getWscsoDownUrl() != null && template.getWscsoDownUrl().length() > 3){
+			//有 wscso 下载地址，优先通过这个进行下载
+			
+			HttpUtil http = new HttpUtil(HttpUtil.UTF8);
+			HttpResponse hr = http.get(template.getWscsoDownUrl());
+			if(hr.getCode() - 404 == 0){
+				vo.setBaseVO(BaseVO.FAILURE, "模版不存在");
+				return vo;
+			}
+			vo.setInfo(hr.getContent());
+		}else{
+			//未指定 wscso 下载地址，则是通过本地模版库进行加载 template.wscsos
+			
+			String text = AttachmentFile.getTextByPath("websiteTemplate/"+template.getName()+"/template.wscso");
+			vo.setInfo(text);
+		}
+		
+		return vo;
 	}
 	
 	
