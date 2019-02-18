@@ -114,7 +114,6 @@
 </div>
 <div class="list" id="cloudList">
 	
-
 </div>
 
 <script type="text/javascript">

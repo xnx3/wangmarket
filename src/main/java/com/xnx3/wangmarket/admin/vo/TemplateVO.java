@@ -109,6 +109,10 @@ public class TemplateVO extends BaseVO {
 	public boolean importText(String text) {
 		//当前登录用户的站点信息
 		currentSite = Func.getCurrentSite();	
+		if(currentSite == null){
+			//如果这里没有值，那么就是非正常网站用户在使用，可能是总管理后台在使用
+			currentSite = new Site();
+		}
 		
 		this.text = text;
 		

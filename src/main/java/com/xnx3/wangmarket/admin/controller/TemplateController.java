@@ -764,7 +764,7 @@ public class TemplateController extends BaseController {
 				multipartFile.transferTo(file);
 			} catch (IllegalStateException | IOException e1) {
 				e1.printStackTrace();
-				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
+				responseJson(response, BaseVO.FAILURE, e1.getMessage());
 				return;
 			}
 			
