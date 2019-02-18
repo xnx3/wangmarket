@@ -18,6 +18,8 @@
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) |  |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) |  |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
+<br/>
+交流论坛：[bbs.wang.market](http://bbs.wang.market) 【新增，建议有问题到开发论坛发帖求助】<br/>
 
 ## 项目极速搭建体验步骤
 1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
@@ -165,6 +167,7 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 开发者微信：xnx3com<br/>
 开发者微信公众号：wangmarket<br/>
 交流QQ群：472328584<br/>
+交流论坛：[bbs.wang.market](http://bbs.wang.market) 【新增，建议有问题到开发论坛发帖求助】<br/>
 官方网站：[www.wang.market](http://www.wang.market)<br/>
 GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
