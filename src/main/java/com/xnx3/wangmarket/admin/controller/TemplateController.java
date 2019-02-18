@@ -557,7 +557,7 @@ public class TemplateController extends BaseController {
 			
 			// {templatePath} 替换
 			TemplateCMS templateCMS = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
-			html = html.replaceAll(TemplateCMS.regex("templatePath"), templateCMS.getTemplatePath()+site.getTemplateName()+"/");
+			html = html.replaceAll(TemplateCMS.regex("templatePath"), templateCMS.getTemplatePath());
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
@@ -866,6 +866,7 @@ public class TemplateController extends BaseController {
 
 			//最大上传大小，单位 KB
 			model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
+			model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
 			return "template/selectTemplate";
 		}
 	}

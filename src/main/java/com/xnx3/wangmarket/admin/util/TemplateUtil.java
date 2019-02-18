@@ -34,6 +34,10 @@ public class TemplateUtil {
 	
 	/**
 	 * 本地数据库中存储的模版名字。当 template 数据有更改时，会同时更新此处
+	 * 
+	 * 注意！！！！！！
+	 * 此处应用 Redis ，不然分布式情况下，用不同的服务器，生成整站时，因找不到，会使用云端资源库。当然，使用不会有任何影响。但是私有云、局域网不联网的情况下，网站因使用云端资源，无法联网，将会导致无法加载css、js资源等问题。
+	 * 
 	 */
 	public static Map<String, Template> databaseTemplateMapForName = new HashMap<String, Template>();	//key:template.name
 	public static Map<Integer, Map<String, Template>> databaseTemplateMapForType = new HashMap<Integer, Map<String, Template>>();	//key:template.type

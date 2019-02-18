@@ -43,7 +43,14 @@ public class Template implements java.io.Serializable {
 	private int rank;			//公共模版的排序，数字越小越靠前。
 	private String wscsoDownUrl;	//wscso模版文件下载的url地址
 	private String zipDownUrl;		//zip模版素材包文件下载的url地址
-	private String resourceImport;	//js、css等资源引用方式。 cloud：使用云端模版库； private:使用私有模版库，也就是本地的
+	
+	/**
+	 * js、css等资源引用方式。 cloud：使用云端模版库； private:使用私有模版库，也就是本地的
+	 * v4.8更改，已废弃
+	 * 再预留两个版本，之后删除
+	 * @deprecated
+	 */
+	private String resourceImport;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)

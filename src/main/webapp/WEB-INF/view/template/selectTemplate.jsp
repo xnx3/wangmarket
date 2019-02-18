@@ -152,8 +152,8 @@ function typeClick(type){
 					var xiabiao = i%4;	//取余，得数组下表
 					var to = obj.list[i];
 					var temp = '<div>'+
-								'<img src="'+to.previewPic+'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
-								'<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>'+
+								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+								((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 								'<div class="terminal">访问支持：'+
 									(to.terminalPc? '<span>电脑端</span>':'')+

@@ -180,6 +180,7 @@ public class TemplateVO extends BaseVO {
 				}
 				
 				//v4.7.1增加
+				//v4.8重新整理，废弃此字段
 				if(tempJson.get("resourceImport") == null){
 					//如果没有指定，默认是使用本地的资源文件
 					template.setResourceImport(Template.RESOURCE_IMPORT_PRIVATE);

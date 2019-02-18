@@ -722,7 +722,9 @@ public class TemplateServiceImpl implements TemplateService {
 			tempJson.put("previewPic", StringUtil.StringToUtf8(template.getPreviewPic()));
 			tempJson.put("wscsoDownUrl", StringUtil.StringToUtf8(template.getWscsoDownUrl()));
 			tempJson.put("zipDownUrl", StringUtil.StringToUtf8(template.getZipDownUrl()));
+			
 			//导出的模版所使用的js、css等资源文件的所在。如果没有指定，默认使用的是本地的资源，私有资源，v4.7.1增加
+			//v4.8从新调整，废弃
 			tempJson.put("resourceImport", (template.getResourceImport() != null? template.getResourceImport() : com.xnx3.wangmarket.admin.entity.Template.RESOURCE_IMPORT_PRIVATE));
 			
 			

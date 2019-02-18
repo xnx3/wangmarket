@@ -19,6 +19,7 @@ import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
@@ -31,6 +32,7 @@ public class TemplateCMS {
 	private int linuxTime;	//当前时间戳
 	private Site site;			//当前站点信息
 	private com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
+	private String templatePathDomain = null;	//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
 	
 	public final static String TEMPLATE_CLOUD_PATH;	//云端资源库路径，云端引用的js、css都是通过这个。格式如： http://cloudtemplate.weiunity.com/
 	//模版引用路径。v4.7增加，值如 http://wang.market/template/
@@ -42,16 +44,22 @@ public class TemplateCMS {
 	
 	/**
 	 * 获取当前模版所使用的资源文件路径
-	 * @return TEMPLATE_CLOUD_PATH 、 TEMPLATE_PRIVATE_PATH
+	 * @return 如 //cloudtemplate.weiunity.com/websiteTemplate/templateName/
 	 */
 	public String getTemplatePath(){
-		if(this.template.getResourceImport() != null && this.template.getResourceImport().equals(com.xnx3.wangmarket.admin.entity.Template.RESOURCE_IMPORT_CLOUD)){
-			//是使用云端模版库
-			return TEMPLATE_CLOUD_PATH;
-		}else{
-			//使用本地模版库的资源
-			return TEMPLATE_PRIVATE_PATH;
+		if(templatePathDomain == null){
+			//判断 template 是从数据库取的，还是从云端取的。
+			//首先判断是否是从本地模版库取的
+			if(this.template != null && TemplateUtil.databaseTemplateMapForName.get(this.template.getName()) != null){
+				//本地模版库有，则是从从数据库取的
+				templatePathDomain = TEMPLATE_PRIVATE_PATH;
+			}else{
+				//本地模版库没有，则认为是从云端模版库取的
+				templatePathDomain = TEMPLATE_CLOUD_PATH;
+			}
+			templatePathDomain = templatePathDomain + site.getTemplateName() + "/";
 		}
+		return templatePathDomain;
 	}
 	
 	/**
@@ -85,11 +93,6 @@ public class TemplateCMS {
 		linuxTime = DateUtil.timeForUnix10();
 		this.site = site;
 		
-		if(template == null){
-			//如果template没有，那么new一个， resourceImport 默认使用本地的
-			template = new com.xnx3.wangmarket.admin.entity.Template();
-			template.setResourceImport(com.xnx3.wangmarket.admin.entity.Template.RESOURCE_IMPORT_PRIVATE);
-		}
 		this.template = template;
 		
 		if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
@@ -118,7 +121,6 @@ public class TemplateCMS {
 	 */
 	public TemplateCMS(Site site, boolean editMode) {
 		linuxTime = DateUtil.timeForUnix10();
-//		this.templateId = site.getTemplateId();
 		this.site = site;
 		this.editMode = editMode;
 	}
@@ -154,7 +156,7 @@ public class TemplateCMS {
 		
 		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		//v4.7增加
-		text = text.replaceAll(regex("templatePath"), getTemplatePath() + "" + site.getTemplateName() + "/");
+		text = text.replaceAll(regex("templatePath"), getTemplatePath());
 		
 		return text;
 	}
@@ -235,7 +237,7 @@ public class TemplateCMS {
 		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
 		text = text.replaceAll(regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
 		//v4.7
-		text = text.replaceAll(regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", getTemplatePath() + "" + site.getTemplateName() + "/"));
+		text = text.replaceAll(regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", getTemplatePath()));
 				
 		//判断栏目的链接地址
 		String url = "";
