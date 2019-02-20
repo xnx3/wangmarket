@@ -81,11 +81,15 @@
     		<ul>
 	    		<li>本系统共分为三种后台，其中，开通网站是在 <a href="http://help.wscso.com/5717.html" target="_black">代理后台</a> 进行开通！</li>
 	    		<li>您要正式使用时，请一定记得自行修改 admin、 agency 的默认密码</li>
+	    		<li>如有疑问或是在解决不了的，可到 <a href="http://bbs.leimingyun.com" target="_black">社区论坛 bbs.leimingyun.com</a> 发帖求助，我们有专人负责答疑</li>
 	    	</ul>
     		
-    		<h2>联系交流</h2>
+    		<h2>官方、求助</h2>
+    		问题答疑求助： <a href="http://bbs.leimingyun.com" target="_black">bbs.leimingyun.com</a> （求助推荐到此发帖，专人负责答疑）<br/>
     		官网：<a href="http://www.wang.market" target="_black">www.wang.market</a><br/>
     		交流QQ群：472328584<br/>
+    		
+    		<h2>合作联系</h2>
     		作者：管雷鸣<br/>
     		作者QQ：921153866<br/>
     		作者微信：xnx3com<br/>

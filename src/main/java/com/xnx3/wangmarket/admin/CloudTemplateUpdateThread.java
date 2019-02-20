@@ -65,7 +65,6 @@ public class CloudTemplateUpdateThread {
 								e.printStackTrace();
 							}
 							
-							
 							if(json != null){
 								if(json.get("result") != null){
 									if(json.getString("result").equals("1")){

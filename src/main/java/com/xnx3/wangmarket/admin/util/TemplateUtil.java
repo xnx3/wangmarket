@@ -18,6 +18,7 @@ import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Template;
+import com.xnx3.wangmarket.admin.util.interfaces.TemplateUtilFileMove;
 
 /**
  * 模版相关
@@ -183,9 +184,24 @@ public class TemplateUtil {
 	public static final String[] allowSuffixArray = {"js","xml","swf", "css","png","jpg","bmp","jpeg","gif","eot","svg","ttf","woff","woff2","otf","wscso"};
 	
 	private String name;	//当前操作的模版的名字
+	private TemplateUtilFileMove templateUtilFileMove;	//执行 filterTemplateFile() 方法进行文件转移，文件转移执行的命令。
 	
+	/**
+	 * 若不使用 filterTemplateFile() 可用此创建对象
+	 * @param name 模版名字
+	 */
 	public TemplateUtil(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * 若要使用 filterTemplateFile() 。必须用此创建对象
+	 * @param name 模版名字
+	 * @param templateUtilFileMove
+	 */
+	public TemplateUtil(String name, TemplateUtilFileMove templateUtilFileMove) {
+		this.name = name;
+		this.templateUtilFileMove = templateUtilFileMove;
 	}
 	
 	/**
@@ -223,7 +239,8 @@ public class TemplateUtil {
 					String jutiFile = temp.substring(temp.indexOf("/")+1, temp.length());	//得到模版文件夹内的具体文件目录，如 css/style.css
 					
 					try {
-						AttachmentFile.put("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
+						templateUtilFileMove.move("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
+						//AttachmentFile.put("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -257,3 +274,4 @@ public class TemplateUtil {
 		return mapOriginal;
 	}
 }
+

@@ -61,6 +61,7 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.interfaces.TemplateUtilFileMove;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
 import com.xnx3.wangmarket.admin.vo.TemplateCompareVO;
 import com.xnx3.wangmarket.admin.vo.TemplateListVO;
@@ -796,7 +797,11 @@ public class TemplateController extends BaseController {
 			if(template == null){
 				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
 				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
-				new TemplateUtil(templateName).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
+				new TemplateUtil(templateName, new TemplateUtilFileMove() {
+					public void move(String path, InputStream inputStream) {
+						AttachmentFile.put(path, inputStream);
+					}
+				}).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
 				//将这个模版模版信息记录入数据库
 				template = tvo.getTemplate();
 				template.setIscommon(com.xnx3.wangmarket.admin.entity.Template.ISCOMMON_NO); 	//用户自己导入的，默认是私有的，不加入公共模版库。除非通过模版中心来指定（模版中心属于授权版本）
