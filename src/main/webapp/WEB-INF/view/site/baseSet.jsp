@@ -24,7 +24,7 @@
 		</div>
 		<div class="weui_cell_ft" id="domainInput">
 			<span style="float: left;">
-				<div id="domainInput_wangmarket">http://${site.domain }.<%=G.getAutoAssignMainDomain() %></div>
+				<div id="domainInput_wangmarket">http://${site.domain }.${autoAssignDomain }</div>
 			</span>
 		</div>
 	</a>

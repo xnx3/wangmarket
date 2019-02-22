@@ -13,6 +13,7 @@ import com.xnx3.MD5Util;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.Func;
+import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -60,7 +61,7 @@ public class SiteWapController extends BaseController {
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
-		model.addAttribute("autoAssignDomain", com.xnx3.wangmarket.domain.G.getAutoAssignMainDomain());	//自动分配的域名，如 wang.market
+		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());	//自动分配的域名，如 wang.market
 		return "siteWap/index";
 	}
 	

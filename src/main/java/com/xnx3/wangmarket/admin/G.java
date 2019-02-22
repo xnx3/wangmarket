@@ -128,24 +128,35 @@ public class G {
 	}
 	
 	
-	private static String  firstAutoAssignDomain;	//下面方法的持久化缓存
+	//private static String  firstAutoAssignDomain;	//下面方法的持久化缓存
 	/**
 	 * 获取主域名，即 AUTO_ASSIGN_DOMAIN 配置的第一个域名
 	 * 例如，Global.get("AUTO_ASSIGN_DOMAIN") 为 ： wang.market,wscso.com
 	 * @return 返回如 wang.market
 	 */
 	public static String getFirstAutoAssignDomain(){
-		if(firstAutoAssignDomain == null){
-			if(Global.get("AUTO_ASSIGN_DOMAIN") != null){
-				if(Global.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
-					//如果有多个，那么只取第一个
-					String[] s = Global.get("AUTO_ASSIGN_DOMAIN").split(",");
-					firstAutoAssignDomain = s[0];
-				}else{
-					firstAutoAssignDomain = Global.get("AUTO_ASSIGN_DOMAIN");
-				}
+////		if(firstAutoAssignDomain == null){
+//			if(Global.get("AUTO_ASSIGN_DOMAIN") != null){
+//				if(Global.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
+//					//如果有多个，那么只取第一个
+//					String[] s = Global.get("AUTO_ASSIGN_DOMAIN").split(",");
+//					firstAutoAssignDomain = s[0];
+//				}else{
+//					firstAutoAssignDomain = Global.get("AUTO_ASSIGN_DOMAIN");
+//				}
+//			}
+//		}
+		
+		if(Global.get("AUTO_ASSIGN_DOMAIN") != null){
+			if(Global.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
+				//如果有多个，那么只取第一个
+				String[] s = Global.get("AUTO_ASSIGN_DOMAIN").split(",");
+				return s[0];
+			}else{
+				return Global.get("AUTO_ASSIGN_DOMAIN");
 			}
 		}
-		return firstAutoAssignDomain;
+		
+		return "请进入总管理后台，系统管理-系统变量下，修改变量名为 AUTO_ASSIGN_DOMAIN 的值";
 	}
 }

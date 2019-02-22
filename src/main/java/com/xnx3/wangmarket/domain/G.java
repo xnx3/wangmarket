@@ -12,7 +12,7 @@ import com.xnx3.wangmarket.domain.bean.SimpleSite;
  */
 public class G {
 	//二级域名数组，中间存放着用于使用的二级域名的主域名。其中，第一个(twoDomainArray[0])会在程序中显示出来
-	private static String[] twoDomainArray = null;
+	//private static String[] twoDomainArray = null;
 	
 	
 	//CDN缓存的资源文件，包括框架的js、css文件、模版style.css文件等。
@@ -85,23 +85,27 @@ public class G {
 	 * 注意的是，第一个域名会作为网站的官分配的二级域名，在程序里会体现第一个域名。其他的都是备用的，在程序中不会体现，只有用户使用二级域名访问时才会有效
 	 */
 	public static String[] getAutoAssignDomain(){
-		if(twoDomainArray == null){
-			//system表中AUTO_ASSIGN_DOMAIN载入
-			String d = Global.get("AUTO_ASSIGN_DOMAIN");
-			twoDomainArray = d.split(",");
-		}
+//		if(twoDomainArray == null){
+//			//system表中AUTO_ASSIGN_DOMAIN载入
+//			String d = Global.get("AUTO_ASSIGN_DOMAIN");
+//			twoDomainArray = d.split(",");
+//		}
+		//system表中AUTO_ASSIGN_DOMAIN载入
+		String d = Global.get("AUTO_ASSIGN_DOMAIN");
 		
-		return twoDomainArray;
+		return d.split(",");
 	}
 	
 	/**
 	 * 返回当前系统中，网站创建成功后自动分配的二级域名，AUTO_ASSIGN_DOMAIN的第一个，会显示给用户的那个域名
+	 * v4.8版本废弃。由 com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() 代替
 	 */
-	public static String getAutoAssignMainDomain(){
-		if(getAutoAssignDomain().length > 0){
-			return getAutoAssignDomain()[0];
-		}else{
-			return "未设置自动分配的二级(主)域名！";
-		}
-	}
+//	public static String getAutoAssignMainDomain(){
+//		if(getAutoAssignDomain().length > 0){
+//			return getAutoAssignDomain()[0];
+//		}else{
+//			return "未设置自动分配的二级(主)域名！";
+//		}
+//	}
+	
 }

@@ -327,6 +327,7 @@ public class SiteController extends BaseController {
 		
 		
 		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
+		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());
 		return "site/baseSet";
 	}
 	
