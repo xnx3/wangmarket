@@ -10,16 +10,18 @@
 ## 本项目相关信息
 ||||
 | ------------- |-------------|-------------|
-| 网市场官网 | [www.wang.market](http://www.wang.market) ||
-| 免费模版库 | [wang.market/template.jsp](http://wang.market/template.jsp) | 二十多个模版，持续增加中 |
+| 网市场官网 | [www.wang.market](http://www.leimingyun.com) | 潍坊雷鸣云网络科技有限公司 |
+| 功能插件 | [www.leimingyun.com/plugin.html](https://www.leimingyun.com/plugin.html) | 十多个功能插件，持续增加中 |
+| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.jsp) | 二十多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
-| 付费帮助 | [www.wang.market/4446.html](http://www.wang.market/4446.html) | 如果你不懂技术收费提供帮助。 |
-| 合作代理 | [www.wang.market/index.html#join](http://www.wang.market/index.html#join) | 10元即可加盟代理 |
-| 帮助文档 | [help.wscso.com](http://help.wscso.com) |  |
-| 二次开发 | [iw.wscso.com](http://iw.wscso.com) |  |
+| 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 技术人员出租1天300元 |
+| 合作代理 | [www.wang.market/price.html](https://www.leimingyun.com/price.html) | 10元即可加盟代理 |
+| 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
+| 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
+| 交流社区 | [bbs.wang.market](bbs.leimingyun.com) | 有问题到开发论坛发帖求助 |
 <br/>
-交流论坛：[bbs.wang.market](http://bbs.wang.market) 【新增，建议有问题到开发论坛发帖求助】<br/>
+
 
 ## 项目极速搭建体验步骤
 1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
@@ -100,7 +102,7 @@ Eclipse、MyEclipse <br/>
 | 作者 | 链接 | 简介 |
 | ------------- |-------------|-------------|
 | 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
-| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_innerDown) | 企业内部文件共享插件。企业内部员工的附件共享系统 |
+| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_innerDown](https://gitee.com/mail_osc/wangmarket_plugin_innerDown) | 企业内部文件共享插件。企业内部员工的附件共享系统 |
 
 
 ## 第三方模版<br/>
@@ -162,13 +164,14 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 
 
 ## 交流、反馈<br/>
+交流论坛：[bbs.wang.market](http://bbs.wang.market) 【建议有问题到开发论坛发帖求助，我们会每天不定时巡视，回答求助信息。求助必回】<br/>
+交流QQ群：472328584<br/>
+
 开发者姓名：管雷鸣<br/>
 开发者QQ：921153866<br/>
 开发者微信：xnx3com<br/>
 开发者微信公众号：wangmarket<br/>
-交流QQ群：472328584<br/>
-交流论坛：[bbs.wang.market](http://bbs.wang.market) 【新增，建议有问题到开发论坛发帖求助】<br/>
-官方网站：[www.wang.market](http://www.wang.market)<br/>
+官方网站：[www.wang.market](http://www.leimingyun.com)<br/>
 GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
 <br/>
