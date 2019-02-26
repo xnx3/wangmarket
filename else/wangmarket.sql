@@ -327,13 +327,6 @@ CREATE TABLE `news_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='news内容分表';
 
 -- ----------------------------
---  Records of `news_data`
--- ----------------------------
-BEGIN;
-INSERT INTO `news_data` VALUES ('2337', '这是公司介绍的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2338', '这是联系我们的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2339', '这是人才招聘的内容，请登录网站管理后台，找到内容管理，自行修改这些内容'), ('2340', '这是招商加盟的内容，请登录网站管理后台，找到内容管理，自行修改这些内容');
-COMMIT;
-
--- ----------------------------
 --  Table structure for `pay_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `pay_log`;
