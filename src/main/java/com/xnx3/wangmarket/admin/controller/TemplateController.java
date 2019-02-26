@@ -921,29 +921,20 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping("restoreTemplate${url.suffix}")
 	public String restoreTemplate(Model model,HttpServletRequest request){
-		AliyunLog.addActionLog(getSiteId(), "打开还原模板选择页面");
+		Site site = getSite();
+		AliyunLog.addActionLog(site.getId(), "打开还原模板选择页面");
 		
 		//判断当前用户的模板是使用的云端的，还是本地导入的
 		boolean usedYunTemplate = false;	//若是云端模板，则为true
-		Site site = getSite();
-		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			//判断当前网站使用的模板是否在云端模板库中（是否是云端模板） | v4.7 更新后，这里就不只是云端模版了，可以统一叫做模版库，因为还可能是本地template的模版
-//			if(G.cloudTemplateMap.get(site.getTemplateName()) != null){
-//				usedYunTemplate = true;
-//			}
-			//首先判断一下是否是在云端模版库
-			com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(site.getTemplateName());
-			if(template != null){
-				//是云端模版
-				usedYunTemplate = true;
-			}
-			
-			//判断一下是否是在本地私有模版库 ，v4.8版本增加
-			
-			
-			model.addAttribute("template", template);
-		}
 		
+		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			//取出模版库（云端+本地）的模版
+			com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(site.getTemplateName());
+			if(template != null && template.getWscsoDownUrl() != null && template.getWscsoDownUrl().indexOf("//") > -1){
+				usedYunTemplate = true;
+				model.addAttribute("template", template);
+			}
+		}
 		
 		model.addAttribute("usedYunTemplate", usedYunTemplate);
 		model.addAttribute("site", site);
@@ -1018,14 +1009,19 @@ public class TemplateController extends BaseController {
 			return error("当前网站未使用云端模板！云端还原失败");
 		}
 		
-		HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-		HttpResponse hr = http.get(G.RES_CDN_DOMAIN+"template/"+site.getTemplateName()+"/template.wscso");
-		if(hr.getCode() - 404 == 0){
-			return error("云端模版不存在");
+		com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(site.getTemplateName());
+		if(template == null){
+			//并非云端模版
+			return error("模版不存在");
+		}
+		BaseVO tvo = TemplateUtil.getTemplateWscso(template);
+		if(tvo.getResult() - BaseVO.FAILURE == 0){
+			//出错，直接返回
+			return tvo;
 		}
 		
 		TemplateVO templateVO = new TemplateVO();
-		templateVO.importText(hr.getContent());
+		templateVO.importText(tvo.getInfo());
 		tcv = restoreTemplateCompare(request, templateVO);
 		if(tcv.getResult() - TemplateCompareVO.FAILURE == 0){
 			return error(tcv.getInfo());

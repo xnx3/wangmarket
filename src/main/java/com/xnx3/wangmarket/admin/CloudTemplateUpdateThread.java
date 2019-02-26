@@ -96,8 +96,8 @@ public class CloudTemplateUpdateThread {
 											template.setType(jsonGetInt(tempJson, "type"));
 											template.setUsername(jsonGetString(tempJson, "username"));
 											template.setPreviewPic(jsonGetString(tempJson, "previewPic"));
-											template.setWscsoDownUrl(jsonGetString(tempJson, "wscsoTemplateDown"));
-											template.setZipDownUrl(jsonGetString(tempJson, "zipTemplateDown"));
+											template.setWscsoDownUrl(jsonGetString(tempJson, "wscsoDownUrl"));
+											template.setZipDownUrl(jsonGetString(tempJson, "zipDownUrl"));
 	
 											if(TemplateUtil.cloudTemplateMapForType == null){
 												TemplateUtil.cloudTemplateMapForType = new HashMap<Integer, Map<String, Template>>();

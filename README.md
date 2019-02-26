@@ -19,7 +19,7 @@
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
-| 交流社区 | [bbs.wang.market](bbs.leimingyun.com) | 有问题到开发论坛发帖求助 |
+| 交流社区 | [bbs.wang.market](http://bbs.leimingyun.com) | 有问题到开发论坛发帖求助 |
 <br/>
 
 

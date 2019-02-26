@@ -160,7 +160,14 @@ public class TemplateUtil {
 			//有 wscso 下载地址，优先通过这个进行下载
 			
 			HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-			HttpResponse hr = http.get(template.getWscsoDownUrl());
+			
+			String wscsoUrl = template.getWscsoDownUrl();
+			//判断是否加协议了，如果没有加，需要补齐协议
+			if(wscsoUrl != null && wscsoUrl.indexOf("//") == 0){
+				//需要补齐协议
+				wscsoUrl = "http:"+wscsoUrl;
+			}
+			HttpResponse hr = http.get(wscsoUrl);
 			if(hr.getCode() - 404 == 0){
 				vo.setBaseVO(BaseVO.FAILURE, "模版不存在");
 				return vo;
