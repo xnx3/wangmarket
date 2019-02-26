@@ -220,7 +220,8 @@ function exportTemplate(){
 			"terminalMobile":terminalMobile ,
 			"terminalPc":terminalPc ,
 			"terminalIpad":terminalIpad ,
-			"terminalDisplay":terminalDisplay 
+			"terminalDisplay":terminalDisplay,
+			"type":type
 		}, 
 	   function(data){
 			parent.iw.loadClose();
