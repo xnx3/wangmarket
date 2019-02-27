@@ -113,8 +113,13 @@ public class Uploader {
 				Log.debug("doExec--上传OSS： "+OSSClientProperties.ossEndPoint + stateJson.getString("url"));
 			} else {
 				//绝对路径，而非原本的相对路径
-				state.putInfo("url",  AttachmentFile.netUrl() + SystemUtil.getProjectName() + stateJson.getString("url"));
-				Log.debug("doExec--上传服务器磁盘： "+AttachmentFile.netUrl() + SystemUtil.getProjectName() + stateJson.getString("url"));
+				String stateStr = stateJson.getString("state");
+				if(stateStr.equals("SUCCESS")){
+					state.putInfo("url",  AttachmentFile.netUrl() + SystemUtil.getProjectName() + stateJson.getString("url"));
+					Log.debug("doExec--上传服务器磁盘： "+AttachmentFile.netUrl() + SystemUtil.getProjectName() + stateJson.getString("url"));
+				}else{
+					//不成功，忽略。自然会在客户端弹出提示
+				}
 			}
 		}
 		/*
