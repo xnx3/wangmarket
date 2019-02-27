@@ -27,17 +27,17 @@ function showHiddenTopNav(){
 /**
  * 弹出模版标签帮助窗口
  * @param title 窗口的标题文字
- * @param htmlNameTag 帮助的网址后面的描点名字
+ * @param htmlNameTag 帮助的网址后面的描点名字。v4.8更新以后，这里便是打开的url
  * @param height 弹出窗口的宽度,整数。会自动拼接px
  * @param height 弹出窗口的高度,整数。会自动拼接px
  */ 
 function popupTemplateTagHelp(title,htmlNameTag, width, height){
-	var url = '';
-	if(htmlNameTag.indexOf('http://') > -1){
-		url = htmlNameTag;
-	}else{
-		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
-	}
+	var url = htmlNameTag;
+//	if(htmlNameTag.indexOf('http://') > -1){
+//		url = htmlNameTag;
+//	}else{
+//		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
+//	}
 	layer.open({
 		type: 2 //iframe
 		,title:title

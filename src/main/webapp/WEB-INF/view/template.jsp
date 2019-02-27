@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../iw/common/head.jsp">
-	<jsp:param name="title" value="选择模版"/>
+<jsp:include page="iw/common/head.jsp">
+	<jsp:param name="title" value="模版列表"/>
 </jsp:include>
 <link rel="stylesheet" href="//res.weiunity.com/css/layerGlobal.css" media="all">
 
@@ -79,37 +79,7 @@
 }
 </style>
 <body>
-<div style="padding: 12px;font-weight: 700;padding-left: 32px;color: red; font-size: 30px; text-align: center; padding-top: 30px;">
-	注意，当您选用了一个模版后，将无法再更换模版！
-	<div style="font-size:13px;">如果一定要更换模版，您可以再重新建立一个网站。</div>
-</div>
-
-
-<div class="site-title">
-	<fieldset><legend><a name="fieldset">方案一.不使用模版，自己从头开始做一套模版</a></legend></fieldset>
-</div>
-<div style="padding-left: 50px;">
-	<span style="padding-left:10px; color:#c2c2c2;">注意，此种方式需要您简单掌握HTML的相关知识才可！入门非常简单，<a href="javascript:parent.templateDevHelp();" style="color: blue;text-decoration: underline;"><%=Global.get("SITE_NAME") %>模板制作入门点此查看</a>，一小时内学会自己做模版，成大神！</span>
-</div>
-
-
-<div style="height:20px; width:100%;">&nbsp;</div>
-<div class="site-title">
-	<fieldset><legend><a name="fieldset">方案二.使用自己本地模版</a></legend></fieldset>
-</div>
-<div style="padding-left: 50px;">
-	<button type="button" class="layui-btn layui-btn-primary" id="loadLocalTemplateFile">
-		<i class="layui-icon">&#xe67c;</i>上传本地模版
-	</button>
-	<span style="padding-left:10px; color:#c2c2c2;">如果您有自己的模版，可以在此上传您自己的模版文件(导出模版功能导出的文件)，将其应用于当前的网站。</span>
-</div>
-
-<div style="height:20px; width:100%;">&nbsp;</div>
-<div class="site-title">
-	<fieldset><legend><a name="fieldset">方案三.使用云端现有模版</a>&nbsp;&nbsp;<b>(推荐)</b></legend></fieldset>
-</div>
-
-<div style="width: 100%; padding-left: 20px; padding-right: 20px; box-sizing: border-box;" id="template_type">
+<div style="width: 100%; padding-left: 20px; padding-right: 20px; box-sizing: border-box; padding:30px;" id="template_type">
 	加载中...
 </div>
 <div class="list" id="cloudList">
@@ -151,7 +121,7 @@ function typeClick(type){
 					var xiabiao = i%4;	//取余，得数组下表
 					var to = obj.list[i];
 					var temp = '<div>'+
-								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="window.open(\''+to.previewUrl+'\');" />'+
 								((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 								'<div class="terminal">访问支持：'+
@@ -185,56 +155,6 @@ function typeClick(type){
 }
 initType();
 typeClick(-1);	//默认加载中所有模版
-
-layui.use('upload', function(){
-	layui.upload.render({
-	  url: '/template/uploadImportTemplate.do'
-	  ,method :'post'
-	  ,elem : '#loadLocalTemplateFile'
-	  ,exts: 'wscso|xnx3|zip'
-	  ,field: 'templateFile'
-	  ,title :'加载本地模版'
-	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
-      , before: function (obj) {
-          parent.iw.loading("上传中");
-      }
-	  ,done: function(res, index, upload){
-	  	parent.iw.loadClose();
-	    //上传成功返回值，必须为json格式
-	    if(res.result == '1'){
-	    	parent.iw.msgSuccess("模版加载成功！");
-	    	window.location.href = 'welcome.do';	//跳转到欢迎页面
-	    }else{
-	    	alert(res.info);
-	    }
-	  }
-	}); 
-});
-
-//使用某个云端模版，传入其模版名、编号 templateName
-function useCloudTemplate(templateName){
-	var dtp_confirm = layer.confirm('确定要使用编号为“'+templateName+'”的模版？', {
-	  btn: ['立即使用','取消'] //按钮
-	}, function(){
-		layer.close(dtp_confirm);
-		
-		iw.loading("加载中");
-		$.post('/template/remoteImportTemplate.do?templateName='+templateName, function(data){
-			iw.loadClose();
-			if(data.result == '1'){
-				parent.iw.msgSuccess("加载成功");
-				//进入内容管理中
-				parent.loadIframeByUrl('/template/welcome.do');
-		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
-		 	}else{
-		 		parent.iw.msgFailure();
-		 	}
-		});
-		
-	}, function(){
-	});
-}
 
 </script>
 
