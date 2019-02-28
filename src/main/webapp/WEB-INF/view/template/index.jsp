@@ -10,7 +10,7 @@
 <script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
 
 <script src="/js/fun.js"></script>
-<script src="/js/admin/cms/cms.js"></script>
+<script src="/js/admin/cms/cms.js?v=<%=G.VERSION %>"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
 <script src="//res.weiunity.com/layer/layer.js" type="text/javascript"></script>
