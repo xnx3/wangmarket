@@ -121,7 +121,7 @@ function typeClick(type){
 					var xiabiao = i%4;	//取余，得数组下表
 					var to = obj.list[i];
 					var temp = '<div>'+
-								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="window.open(\''+to.previewUrl+'\');" />'+
+								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="previewUrl(\''+to.previewUrl+'\');" />'+
 								((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 								'<div class="terminal">访问支持：'+
@@ -155,6 +155,15 @@ function typeClick(type){
 }
 initType();
 typeClick(-1);	//默认加载中所有模版
+
+//预览网站示例。 url 要预览的网站
+function previewUrl(url){
+	if(url != null && url.length > 8){
+		window.open(url);
+	}else{
+		iw.msgFailure('抱歉，该模版暂无预览体验的网站示例');
+	}
+}
 
 </script>
 
