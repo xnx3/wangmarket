@@ -12,7 +12,7 @@
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
-<script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="/js/admin/commonedit.js?v=${version }"></script>
 
 
 <style>
@@ -32,7 +32,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 		<tr>
 			<td class="iw_table_td_view_name">当前版本</td>
 			<td>
-				<span style="font-size:18px; padding-right:15px;">v<%=G.VERSION %></span>
+				<span style="font-size:18px; padding-right:15px;">v${version }</span>
 				<span id="versionTishi" style="font-size:14px;">(最新版本检测中...)</span>
 			</td>
 		</tr>

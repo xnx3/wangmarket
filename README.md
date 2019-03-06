@@ -90,19 +90,11 @@ Eclipse、MyEclipse <br/>
 
 ## 云端模版库<br/>
 你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
-我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)<br/>
+我们附带有 [云端模版库，点此查看](http://wang.market/template.do)<br/>
 虽然模版不多只有不到20套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。<br/>
 [所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
 <br/>
-
-
-## 第三方功能插件<br/>
-
-| 作者 | 链接 | 简介 |
-| ------------- |-------------|-------------|
-| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_bbs](https://gitee.com/mail_osc/wangmarket_plugin_bbs) | 论坛插件。让每个网站都有一个自己的、独立的论坛。|
-| 鬼画符 | [gitee.com/mail_osc/wangmarket_plugin_innerDown](https://gitee.com/mail_osc/wangmarket_plugin_innerDown) | 企业内部文件共享插件。企业内部员工的附件共享系统 |
 
 
 ## 第三方模版<br/>
@@ -149,7 +141,7 @@ wangmarket                          GitHub目录
 ├─src                               项目源代码 ( Maven )
 ├─pom.xml                           项目源代码 pom ( Maven )
 ├─else                              其他的杂七杂八相关文件，一般用不到
-│  ├─wangmarket.sql                 项目运行所需要的数据库文件( Mysql数据库，默认sqlite3，一般用不到)
+│  ├─wangmarket.sql                 项目运行所需要的数据库文件( Mysql数据库，默认sqlite3)
 │  ├─upgradeLog                     自项目上线运营后～开源之前，升级日志
 │  ├─pc_wap_tag                     手机、电脑模式网站模版所使用的动态标签
 │  └─instructions.md                其他项目配置说明，如邮件发送、日志系统等

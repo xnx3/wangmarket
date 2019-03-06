@@ -35,6 +35,7 @@ public class AdminIndexController extends BaseController{
 		User user = getUser();
 		
 		model.addAttribute("user", user);
+		model.addAttribute("version", G.VERSION);	//版本号
 		return "/iw_update/admin/index/welcome";
 	}
 	
