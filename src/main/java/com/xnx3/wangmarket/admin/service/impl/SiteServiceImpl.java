@@ -40,6 +40,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
+import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.IndexVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.SiteRemainHintVO;
@@ -315,7 +316,7 @@ public class SiteServiceImpl implements SiteService {
 			return vo;
 		}
 		
-		TemplateCMS template = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		//取得当前网站所有模版页面
 //		TemplatePageListVO templatePageListVO = templateService.getTemplatePageListByCache(request);
 		//取得当前网站首页模版页面

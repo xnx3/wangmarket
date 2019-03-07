@@ -189,5 +189,5 @@ public interface TemplateService {
 	 * @param name 要获取的模版的名字
 	 * @return 如果 {@link TemplateVO#getResult()} 为 success，则可以获取到 {@link TemplateVO#getTemplate()} 。当然，获取到的也就只有 getTemplate() 了
 	 */
-	public TemplateVO getTemplateForDatabase(String name);
+//	public TemplateVO getTemplateForDatabase(String name);
 }

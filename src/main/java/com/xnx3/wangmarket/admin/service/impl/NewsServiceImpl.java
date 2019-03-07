@@ -29,6 +29,7 @@ import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
+import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
 
@@ -172,7 +173,7 @@ public class NewsServiceImpl implements NewsService {
 		String templateHtml = templateService.getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		
 		Site site = Func.getCurrentSite();
-		TemplateCMS template = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		//template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
 		
 		

@@ -217,7 +217,7 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 			
 			//将 {templatePath} 标签进行动态替换，将路径还原回标签形态
-			TemplateCMS templateCMS = new TemplateCMS(site, getTemplateForDatabase(site.getTemplateName()));
+			TemplateCMS templateCMS = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 			html = html.replaceAll(templateCMS.getTemplatePath()+site.getTemplateName()+"/", "{templatePath}");
 			
 			//如果这个页面中使用了模版变量，保存时，将模版变量去掉，变回模版调用形式{includeid=},卸载变量模版
@@ -343,7 +343,7 @@ public class TemplateServiceImpl implements TemplateService {
 			return;
 		}
 		Site site = Func.getCurrentSite();
-		TemplateCMS template = new TemplateCMS(site, getTemplateForDatabase(site.getTemplateName()));
+		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
@@ -1050,27 +1050,27 @@ public class TemplateServiceImpl implements TemplateService {
 		return new BaseVO();
 	}
 	
-	
-	public TemplateVO getTemplateForDatabase(String name){
-		com.xnx3.wangmarket.admin.entity.Template template = null;
-		if(name != null){
-			template = TemplateUtil.databaseTemplateMapForName.get(name);
-			if(template == null){
-				template = sqlDAO.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", name);
-				if(template != null){
-					//将其加入map进行缓存
-					TemplateUtil.databaseTemplateMapForName.put(name, template);
-				}
-			}
-		}
-		
-		TemplateVO vo = new TemplateVO();
-		if(template == null){
-			vo.setBaseVO(BaseVO.FAILURE, "模版不存在");
-		}else{
-			vo.setTemplate(template);
-		}
-		return vo;
-	}
+//	
+//	public TemplateVO getTemplateForDatabase(String name){
+//		com.xnx3.wangmarket.admin.entity.Template template = null;
+//		if(name != null){
+//			template = TemplateUtil.databaseTemplateMapForName.get(name);
+//			if(template == null){
+//				template = sqlDAO.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", name);
+//				if(template != null){
+//					//将其加入map进行缓存
+//					TemplateUtil.databaseTemplateMapForName.put(name, template);
+//				}
+//			}
+//		}
+//		
+//		TemplateVO vo = new TemplateVO();
+//		if(template == null){
+//			vo.setBaseVO(BaseVO.FAILURE, "模版不存在");
+//		}else{
+//			vo.setTemplate(template);
+//		}
+//		return vo;
+//	}
 	
 }

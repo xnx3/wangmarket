@@ -557,7 +557,7 @@ public class TemplateController extends BaseController {
 			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
 			
 			// {templatePath} 替换
-			TemplateCMS templateCMS = new TemplateCMS(site, templateService.getTemplateForDatabase(site.getTemplateName()));
+			TemplateCMS templateCMS = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 			html = html.replaceAll(TemplateCMS.regex("templatePath"), templateCMS.getTemplatePath());
 			
 			//自动在</head>之前，加入htmledit.js
