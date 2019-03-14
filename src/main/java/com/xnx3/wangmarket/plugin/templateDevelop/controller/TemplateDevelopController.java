@@ -34,6 +34,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
 
@@ -176,6 +177,7 @@ public class TemplateDevelopController extends BasePluginController {
 		template.setAddtime(DateUtil.timeForUnix10());
 		template.setName(templateName);
 		template.setUserid(getUserId());
+		template.setIscommon(Template.ISCOMMON_YES); //创建的模版，默认是公开的，因为在本地使用，也不会被别人用去。另外公开的，才会加载进本地模版库
 		sqlService.save(template); 	//保存模版
 		
 		
@@ -191,6 +193,8 @@ public class TemplateDevelopController extends BasePluginController {
 		sqlService.updateByHql(TemplatePage.class, "templateName", templateName, "siteid", site.getId());
 		sqlService.updateByHql(TemplateVar.class, "templateName", templateName, "siteid", site.getId());
 		
+		//更新本地模版库
+		TemplateUtil.updateDatabaseTemplateMap(template);
 		
 		AliyunLog.addActionLog(site.getId(), "模版开发-保存模版编码");
 		
