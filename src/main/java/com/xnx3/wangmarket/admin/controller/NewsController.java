@@ -106,6 +106,12 @@ public class NewsController extends BaseController {
 				return error("页面不属于您，无法操作！");
 			}
 			newsData = sqlService.findById(NewsData.class, s.getId());
+			
+			//v4.9增加，提高容错。当news表有，单news_data没有时，自动创建
+			if(newsData == null){
+				newsData = new NewsData();
+				newsData.setId(news.getId());
+			}
 		}else{
 			//新增
 			news = new News();

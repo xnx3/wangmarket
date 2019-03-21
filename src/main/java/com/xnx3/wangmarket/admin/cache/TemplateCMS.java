@@ -17,10 +17,12 @@ import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
+import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 
@@ -210,11 +212,11 @@ public class TemplateCMS {
 	/**
 	 * 替换新闻、图文内容详情的相关标签,UEditor编辑器中编辑的文章保存时带过来的标签
 	 * @param text
-	 * @return
+	 * @return 如果为null则返回空字符串
 	 */
 	public String replaceNewsText(String text) {
 		if(text == null){
-			return null;
+			return "";
 		}
 		text = text.replaceAll(regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 		return text;
@@ -316,6 +318,29 @@ public class TemplateCMS {
 			}
 		}
 		
+		
+		//v4.7 增加 {news.addtime.day} 、 {news.addtime.month} 、 {news.addtime.year} 、 hour 、 minute
+		if(text.indexOf("{news.addtime.") > -1){
+			long time = news.getAddtime();
+			Calendar c = new GregorianCalendar();
+			c.setTime(new Date(time * 1000));
+			
+			text = text.replaceAll(regex("news.addtime.year"), c.get(Calendar.YEAR)+"");
+			text = text.replaceAll(regex("news.addtime.month"), (c.get(Calendar.MONTH) + 1)+"");
+			text = text.replaceAll(regex("news.addtime.day"), c.get(Calendar.DAY_OF_MONTH)+"");
+			text = text.replaceAll(regex("news.addtime.hour"), c.get(Calendar.HOUR_OF_DAY)+"");
+			text = text.replaceAll(regex("news.addtime.minute"), c.get(Calendar.MINUTE)+"");
+			text = text.replaceAll(regex("news.addtime.second"), c.get(Calendar.SECOND)+"");
+		}
+		
+		//v4.9版本增加，提高容错
+		if(newsDataBean == null){
+			//如果newsDataBean为空，则是文章在 news表中有，但是在 news_data 表中没有！正常情况下是不会存在的，除非出错！那么进行日志打印。
+			Log.error("文章在news中有，在news_data中没有！文章id:"+news.getId());
+			//因为已经没有 news_data 表的数据了，直接将替换了news表的数据返回就可以了
+			return newsText;
+		}
+		
 		text = Template.replaceAll(text, Template.regex("news.text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情
 		
 		//v4.6增加
@@ -332,20 +357,6 @@ public class TemplateCMS {
 	        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
 	        	text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsDataBean.getExtendJson(entry.getKey()));	//替换新闻内容的详情
 	        }
-		}
-		
-		//v4.7 增加 {news.addtime.day} 、 {news.addtime.month} 、 {news.addtime.year} 、 hour 、 minute
-		if(text.indexOf("{news.addtime.") > -1){
-			long time = news.getAddtime();
-			Calendar c = new GregorianCalendar();
-			c.setTime(new Date(time * 1000));
-			
-			text = text.replaceAll(regex("news.addtime.year"), c.get(Calendar.YEAR)+"");
-			text = text.replaceAll(regex("news.addtime.month"), (c.get(Calendar.MONTH) + 1)+"");
-			text = text.replaceAll(regex("news.addtime.day"), c.get(Calendar.DAY_OF_MONTH)+"");
-			text = text.replaceAll(regex("news.addtime.hour"), c.get(Calendar.HOUR_OF_DAY)+"");
-			text = text.replaceAll(regex("news.addtime.minute"), c.get(Calendar.MINUTE)+"");
-			text = text.replaceAll(regex("news.addtime.second"), c.get(Calendar.SECOND)+"");
 		}
 		
 		return text;
@@ -584,6 +595,11 @@ public class TemplateCMS {
 	 * @param newsDataBean news_data 整理的，加入了json的数据对象
 	 */
 	public void generateNewsHtml(News news, SiteColumn siteColumn, News upNews, News nextNews, String pageHtml, NewsDataBean newsDataBean){
+		//v4.9增加，提高容错
+		if(newsDataBean == null){
+			newsDataBean = new NewsDataBean(new NewsData());
+		}
+		
 		pageHtml = Template.replaceAll(pageHtml, Template.regex("text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情。新版本中这个标签已经废弃，改用了 {news.text}
 		
 		String generateUrl = "";

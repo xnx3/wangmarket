@@ -21,8 +21,15 @@ public class NewsDataBean {
 			return;
 		}
 		
-		this.id = newsData.getId();
-		this.text = newsData.getText();
+		//如果这个newsData只是new出来，还没赋予值，那么需要执行另一种初始化
+		if(newsData.getId() == null){
+			this.id = 0;
+			this.text = "";
+		}else{
+			this.id = newsData.getId();
+			this.text = newsData.getText();
+		}
+		
 		
 		//判断一下，如果extend里面有内容，才会进行json转换
 		if(newsData.getExtend() != null && newsData.getExtend().length() > 2){

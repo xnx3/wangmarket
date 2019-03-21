@@ -868,4 +868,6 @@ public class SiteController extends BaseController {
 		return "site/popup_bindDomain";
 	}
 	
+	 
+	
 }
