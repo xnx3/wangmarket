@@ -192,7 +192,7 @@ public class TemplateServiceImpl implements TemplateService {
 		//将 {templatePath} 标签进行动态替换，将路径还原回标签形态。
 		//v4.9将其迁移到外面，虽说代码模式不可能有这个，但是万一有bug呢，放到外面保险点
 		TemplateCMS templateCMS = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
-		html = html.replaceAll(templateCMS.getTemplatePath()+site.getTemplateName()+"/", "{templatePath}");
+		html = html.replaceAll(templateCMS.getTemplatePath(), "{templatePath}");
 		
 		
 		//判断是代码模式，还是智能模式
