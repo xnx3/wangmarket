@@ -64,8 +64,15 @@ public class TemplateUtil {
 		//判断是否是将共享的模版改为私有。也就是相当于从内存中，删除掉某个数据库模版
 		if(template.getIscommon() - Template.ISCOMMON_NO == 0){
 			//确实是改为私有，要从本地模版库中删除
-			databaseTemplateMapForName.remove(template.getName());
-			databaseTemplateMapForType.get(template.getType()).remove(template.getName());
+			
+			//因为是新导入，默认也是私有，先判断一下map中是否为null
+			if(databaseTemplateMapForName.get(template.getName()) != null){
+				databaseTemplateMapForName.remove(template.getName());
+			}
+			if(databaseTemplateMapForType.get(template.getType()) != null && databaseTemplateMapForType.get(template.getType()).get(template.getName()) != null){
+				databaseTemplateMapForType.get(template.getType()).remove(template.getName());
+			}
+
 			return;
 		}
 		
