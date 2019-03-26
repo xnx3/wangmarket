@@ -712,12 +712,16 @@ public class SiteServiceImpl implements SiteService {
 		
 		Site site;
 		if(s.getId() != null && s.getId() > 0){
+			//编辑
+			//取出当前登陆的站点的信息
+			Site currentLoginSite = Func.getUserBeanForShiroSession().getSite();
+			
 			site = sqlDAO.findById(Site.class, s.getId());
 			if(site == null){
 				baseVO.setBaseVO(BaseVO.FAILURE, "要编辑的站点不存在");
 				return baseVO;
 			}
-			if(site.getUserid() != siteUserId){
+			if(site.getId() - currentLoginSite.getId() != 0){
 				baseVO.setBaseVO(BaseVO.FAILURE, "站点不属于您，无法操作！");
 				return baseVO;
 			}
@@ -728,12 +732,12 @@ public class SiteServiceImpl implements SiteService {
 			site.setDomain(siteUserId+DateUtil.currentDate("mmss"));
 		}
 		
-		site.setAddress(Safety.filter(s.getAddress()));
-		site.setCompanyName(Safety.filter(s.getCompanyName()));
+		site.setAddress(s.getAddress());
+		site.setCompanyName(s.getCompanyName());
 		site.setUsername(Safety.filter(s.getUsername()));
 		site.setName(name);
 		site.setmShowBanner(s.getmShowBanner());
-		site.setPhone(Safety.filter(s.getPhone()));
+		site.setPhone(s.getPhone());
 		site.setQq(Safety.filter(s.getQq()));
 		site.setBindDomain(s.getBindDomain()==null? "":Safety.filter(s.getBindDomain()));
 		site.setExpiretime(s.getExpiretime());
@@ -1161,26 +1165,26 @@ public class SiteServiceImpl implements SiteService {
 				+ "</url>\n";
 	}
 
-	public SiteVO findByIdForCurrentUser(int id) {
-		SiteVO vo = new SiteVO();
-		
-		if(id == 0){
-			vo.setBaseVO(SiteVO.FAILURE, "请传入要操作的站点编号");
-			return vo;
-		}
-		Site site = sqlDAO.findById(Site.class, id);
-		if(site == null){
-			vo.setBaseVO(SiteVO.FAILURE, "站点不存在");
-			return vo;
-		}
-		if(site.getUserid() - ShiroFunc.getUser().getId() != 0){
-			vo.setBaseVO(SiteVO.FAILURE, "站点不属于您，您无法操作");
-			return vo;
-		}
-		
-		vo.setSite(site);
-		return vo;
-	}
+//	public SiteVO findByIdForCurrentUser(int id) {
+//		SiteVO vo = new SiteVO();
+//		
+//		if(id == 0){
+//			vo.setBaseVO(SiteVO.FAILURE, "请传入要操作的站点编号");
+//			return vo;
+//		}
+//		Site site = sqlDAO.findById(Site.class, id);
+//		if(site == null){
+//			vo.setBaseVO(SiteVO.FAILURE, "站点不存在");
+//			return vo;
+//		}
+//		if(site.getUserid() - ShiroFunc.getUser().getId() != 0){
+//			vo.setBaseVO(SiteVO.FAILURE, "站点不属于您，您无法操作");
+//			return vo;
+//		}
+//		
+//		vo.setSite(site);
+//		return vo;
+//	}
 
 	public SiteRemainHintVO getSiteRemainHint(Site site, Agency agency) {
 		SiteRemainHintVO vo = new SiteRemainHintVO();
