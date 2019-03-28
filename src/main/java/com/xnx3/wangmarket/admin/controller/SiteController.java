@@ -868,6 +868,13 @@ public class SiteController extends BaseController {
 		return "site/popup_bindDomain";
 	}
 	
-	 
+	
+	/**
+	 * 系统管理-预览网站 v4.9
+	 */
+	@RequestMapping("sitePreview${url.suffix}")
+	public String sitePreview(Model model,HttpServletRequest request){
+		return redirect("index.html?domain="+getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
+	}
 	
 }
