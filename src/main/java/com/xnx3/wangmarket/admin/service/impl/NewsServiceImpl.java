@@ -206,7 +206,7 @@ public class NewsServiceImpl implements NewsService {
 				n.setBaseVO(BaseVO.FAILURE, "要编辑的信息不存在");
 				return n;
 			}
-			if(news.getUserid() - ShiroFunc.getUser().getId() != 0){
+			if(news.getSiteid() - site.getId() != 0){
 				n.setBaseVO(BaseVO.FAILURE, "要编辑的信息不属于您，无法操作");
 				return n;
 			}
@@ -229,7 +229,7 @@ public class NewsServiceImpl implements NewsService {
 				n.setBaseVO(BaseVO.FAILURE, "所属栏目不存在！");
 				return n;
 			}
-			if(siteColumn.getUserid() - ShiroFunc.getUser().getId() != 0){
+			if(siteColumn.getSiteid() - site.getId() != 0){
 				n.setBaseVO(BaseVO.FAILURE, "栏目不属于您，无法操作");
 				return n;
 			}
@@ -314,9 +314,10 @@ public class NewsServiceImpl implements NewsService {
 			return baseVO;
 		}
 		
+		Site site = Func.getUserBeanForShiroSession().getSite();
 		//需要验证此信息是本人发布
 		if(authCheck){
-			if(news.getUserid() - ShiroFunc.getUser().getId() != 0){
+			if(news.getSiteid() - site.getId() != 0){
 				baseVO.setBaseVO(BaseVO.FAILURE, "信息不属于你，无权删除");
 				return baseVO;
 			}

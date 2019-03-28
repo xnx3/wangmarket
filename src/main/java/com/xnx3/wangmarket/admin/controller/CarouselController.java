@@ -76,11 +76,15 @@ public class CarouselController extends BaseController {
 	public String carousel(HttpServletRequest request, Model model,
 			@RequestParam(value = "id" , defaultValue="0" , required = false) int id ,
 			@RequestParam(value = "siteid" , defaultValue="0" , required = false) int siteid){
+		Site site = getSite();
 		String title = "";
 		if(id > 0){
 			Carousel carousel = sqlService.findById(Carousel.class, id);
 			if(carousel == null){
 				return error(model, "要修改得轮播图不存在");
+			}
+			if(carousel.getSiteid() - site.getId() != 0){
+				return error(model, "此图所属的站点不属于您，无法操作！");
 			}
 			siteid = carousel.getSiteid();
 			String image = carousel.getImage().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
@@ -100,13 +104,6 @@ public class CarouselController extends BaseController {
 			model.addAttribute("imageImage", "");
 		}
 		
-		Site site = sqlService.findById(Site.class, siteid);
-		if(site == null){
-			return error(model, "此图所属的站点不存在！");
-		}
-		if(site.getUserid() != getUserId()){
-			return error(model, "此图所属的站点不属于您，无法操作！");
-		}
 		
 		siteService.getTemplateCommonHtml(site, title, model);
 		
@@ -288,13 +285,14 @@ public class CarouselController extends BaseController {
 	public void popupCarouselUpdateSubmit(HttpServletRequest request,Model model,HttpServletResponse response,
 			@RequestParam("imageFile") MultipartFile imageFile,
 			@RequestParam(value = "id", required = true) int id){
+		Site site = getSite();
 		JSONObject json = new JSONObject();
 		Carousel carousel = sqlService.findById(Carousel.class, id);
 		if(carousel == null){
 			json.put("result", "0");
 			json.put("info", "当前站点无轮播图，修改失败");
 		}else{
-			if(carousel.getUserid() - getUserId() != 0){
+			if(carousel.getSiteid() - site.getId() != 0){
 				json.put("result", "0");
 				json.put("info", "图不属于你，无法修改");
 			}else{
@@ -302,7 +300,6 @@ public class CarouselController extends BaseController {
 				//轮播图上传/更新
 				String oldImage = null;
 				if(!imageFile.isEmpty()){
-					Site site = getSite();
 					
 					//判断，如果是PC端的话，不用进行压缩
 					UploadFileVO uploadFile = AttachmentFile.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);

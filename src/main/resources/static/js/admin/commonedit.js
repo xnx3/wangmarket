@@ -482,9 +482,9 @@ function updateBindDomain(){
 
 
 /**
- * 高级自定义模版使用，用于生成整站HTML内容
+ * CMS网站，生成整站
  */
-function shengchengzhengzhan(){
+function generatehtml(){
 	$.showLoading('整站生成中<br/>此过程可能时间比较长，请耐心等待');
 	
 	$.post("/template/refreshForTemplate.do", function(data){

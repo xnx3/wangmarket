@@ -60,6 +60,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.util.interfaces.TemplateUtilFileMove;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
@@ -121,6 +122,8 @@ public class TemplateController extends BaseController {
 		}
 		model.addAttribute("pluginMenu", pluginMenu);
 		
+		//左侧菜单
+		model.addAttribute("menuHTML", TemplateAdminMenuUtil.getLeftMenuHtml());
 		
 		UserBean userBean = getUserBean();
 		User user = getUser();
@@ -232,10 +235,11 @@ public class TemplateController extends BaseController {
 			){
 		templateVarName = filter(templateVarName);
 		templateName = filter(templateName);
+		Site site = getSite();
 		
 		//如果是编辑模式
 		if(templateVarName.length() > 0){
-			TemplateVar templateVar = sqlService.findAloneBySqlQuery("SELECT * FROM template_var WHERE userid = "+getUserId()+" AND var_name = '"+templateVarName+"'", TemplateVar.class);
+			TemplateVar templateVar = sqlService.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = "+site.getId()+" AND var_name = '"+templateVarName+"'", TemplateVar.class);
 			if(templateVar == null){
 				return error(model, "没有发现属于您的、名字为"+templateVarName+"的模版变量");
 			}
@@ -278,7 +282,7 @@ public class TemplateController extends BaseController {
 		}else{
 			//修改
 			templateVar = sqlService.findById(TemplateVar.class, templateVarInput.getId());
-			if(templateVar.getUserid() - getUserId() != 0){
+			if(templateVar.getSiteid() - site.getId() != 0){
 				return error("不属于您，无法修改");
 			}
 			
@@ -597,13 +601,14 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping("templateVarListForUsed${url.suffix}")
 	public String templateVarListForUsed(HttpServletRequest request,Model model){
+		Site site = getSite();
 		Sql sql = new Sql(request);
 	    sql.setSearchTable("template_var");
 	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
 	    sql.setSearchColumn(new String[]{"name"});
-	    sql.appendWhere("userid = "+getUserId() + " AND template_name = '"+ getSite().getTemplateName() +"'");
+	    sql.appendWhere("siteid = "+site.getId() + " AND template_name = '"+ getSite().getTemplateName() +"'");
 	    //查询log数据表的记录总条数
-	    int count = sqlService.count("site", sql.getWhere());
+	    int count = sqlService.count("template_var", sql.getWhere());
 	    //每页显示100条
 	    Page page = new Page(count, 100, request);
 	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
@@ -630,7 +635,8 @@ public class TemplateController extends BaseController {
 		if(templateVar == null){
 			return error("要删除的模版变量不存在！");
 		}
-		if(templateVar.getUserid() - getUserId() != 0){
+		Site site = getSite();
+		if(templateVar.getSiteid() - site.getId() != 0){
 			return error("模版变量不属于你，无法删除");
 		}
 		
@@ -657,7 +663,8 @@ public class TemplateController extends BaseController {
 		if(templatePage == null){
 			return error("要删除的模版页不存在！");
 		}
-		if(templatePage.getUserid() - getUserId() != 0){
+		Site site = getSite();
+		if(templatePage.getSiteid() - site.getId() != 0){
 			return error("模版页不属于你，无法删除");
 		}
 		

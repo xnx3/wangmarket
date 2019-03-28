@@ -21,11 +21,11 @@ public interface SiteService {
 	/**
 	 * 创建／修改站点。若是 site.id 大于0，则是修改站点
 	 * @param s {@link Site} 要增加或者修改的site对象
-	 * @param siteUserId 站点所属人的用户id，或根据此来判断站点是否属于此人，是否可修改
+	 * @param siteCreateUserId 站点创建人的用户id
 	 * @param request
 	 * @return {@link SiteVO}
 	 */
-	public SiteVO saveSite(Site s, int siteUserId, HttpServletRequest request);
+	public SiteVO saveSite(Site s, int siteCreateUserId, HttpServletRequest request);
 	
 	
 	/**
@@ -112,7 +112,7 @@ public interface SiteService {
 	 * @param id site.id 
 	 * @return {@link SiteVO}
 	 */
-	public SiteVO findByIdForCurrentUser(int id);
+//	public SiteVO findByIdForCurrentUser(int id);
 	
 	/**
 	 * 获取网站的过期时间以及提示说明（联系的直属上级代理）提示让其找上级代理续费

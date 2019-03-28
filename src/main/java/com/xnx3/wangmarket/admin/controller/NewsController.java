@@ -85,14 +85,15 @@ public class NewsController extends BaseController {
 			return error("请输入您页面的名字");
 		}
 		
+		Site site = getSite();
 		SiteColumn siteColumn = sqlService.findById(SiteColumn.class, s.getCid());
 		if(siteColumn == null){
 			return error("信息所属栏目不存在");
 		}
-		if(siteColumn.getUserid() - getUserId() != 0){
+		if(siteColumn.getSiteid() - site.getId() != 0){
 			return error("信息所属栏目不属于您，无法操作");
 		}
-		Site site = getSite();
+		
 		
 		News news;
 		NewsData newsData;
@@ -102,7 +103,7 @@ public class NewsController extends BaseController {
 			if(news == null){
 				return error("要操作的页面不存在");
 			}
-			if(news.getUserid() != getUserId()){
+			if(news.getSiteid() - site.getId() != 0){
 				return error("页面不属于您，无法操作！");
 			}
 			newsData = sqlService.findById(NewsData.class, s.getId());
@@ -680,7 +681,8 @@ public class NewsController extends BaseController {
 		if(news == null){
 			return error("要转移的文章不存在");
 		}
-		if(news.getUserid() - getUserId() != 0){
+		Site site = getSite();
+		if(news.getSiteid() - site.getId() != 0){
 			return error("该文章不属于您，无法操作");
 		}
 		
@@ -689,7 +691,7 @@ public class NewsController extends BaseController {
 		if(column == null){
 			return error("目标栏目不存在");
 		}
-		if(column.getUserid() - getUserId() != 0){
+		if(column.getSiteid() - site.getId() != 0){
 			return error("目标栏目不属于您，无法操作");
 		}
 		

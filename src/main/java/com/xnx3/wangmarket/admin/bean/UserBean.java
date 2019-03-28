@@ -1,10 +1,12 @@
 package com.xnx3.wangmarket.admin.bean;
 
+import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.wangmarket.im.entity.Im;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 import com.xnx3.wangmarket.superadmin.entity.AgencyData;
@@ -16,7 +18,7 @@ import com.xnx3.wangmarket.superadmin.entity.AgencyData;
 public class UserBean {
 	private Agency myAgency;		//我的代理信息，如果我是代理的话，才有内容
 	private AgencyData myAgencyData;	//我的代理信息-变长表的信息
-	private Site site;		//当前用户的站点信息
+	private Site site;		//当前用户的站点信息，当前用户所能管理的网站信息。如果当前用户是网站用户的话。
 	private Agency parentAgency;	//我的上级代理信息，当前用户的上级代理信息
 	private AgencyData parentAgencyData;	//我的上级代理信息-变长表的信息
 	private Map<String, String> templateVarCompileDataMap;	//我当前高级模式使用的模版变量，可能是已被编译(替换)过标签的内容了。key:template.name	value:模版变量的内容
@@ -24,6 +26,8 @@ public class UserBean {
 	private Map<Integer, SiteColumn> siteColumnMap;		//缓存的当前用户的栏目信息 key:siteColumn.id（CMS模式才会使用此缓存）登录时不会缓存此处，在使用时才会缓存
 	private Map<Integer, InputModel> inputModelMap;	//当前CMS网站的输入模型，由 inputModelService 初始化赋予值。在用户进入内容管理，编辑时才会判断，如果此为null，才会从数据库加载数据
 	private Im im;		//网站客服，进行缓存到这里
+	private Map<String, String> siteMenuRole;	//网站管理后台的左侧菜单使用权限，只限网站用户有效，v4.9版本增加。 key: id，也就是左侧菜单的唯一id标示，比如模版管理是template，生成整站是 shengchengzhengzhan， 至于value，无意义，1即可 
+	
 	
 	public Agency getMyAgency() {
 		return myAgency;
@@ -87,6 +91,16 @@ public class UserBean {
 	}
 	public void setParentAgencyData(AgencyData parentAgencyData) {
 		this.parentAgencyData = parentAgencyData;
+	}
+	
+	public Map<String, String> getSiteMenuRole() {
+		if(siteMenuRole == null){
+			siteMenuRole = new HashMap<String, String>();
+		}
+		return siteMenuRole;
+	}
+	public void setSiteMenuRole(Map<String, String> siteMenuRole) {
+		this.siteMenuRole = siteMenuRole;
 	}
 	
 	

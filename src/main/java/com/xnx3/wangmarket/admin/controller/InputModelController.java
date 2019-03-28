@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.InputModel;
+import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 
@@ -83,15 +84,19 @@ public class InputModelController extends BaseController {
 	@ResponseBody
 	public BaseVO save(HttpServletRequest request, Model model,
 			InputModel im){
+		Site site = getSite();
 		InputModel inputModel;
 		if(im.getId() != null && im.getId() > 0){
 			inputModel = sqlService.findById(InputModel.class, im.getId());
 			if(inputModel == null){
 				return error("要编辑的输入模型不存在！");
 			}
+			if(inputModel.getSiteid() - site.getId() != 0){
+				return error("该输入模型不属于你，无法操作");
+			}
 		}else{
 			inputModel = new InputModel();
-			inputModel.setSiteid(getSiteId());
+			inputModel.setSiteid(site.getId());
 		}
 		
 		inputModel.setRemark(filter(im.getRemark()));

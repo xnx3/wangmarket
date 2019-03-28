@@ -206,7 +206,7 @@ public class ColumnController extends BaseController {
 		if(siteColumn == null){
 			return error(model, "要修改的栏目导航不存在！");
 		}
-		if(siteColumn.getUserid() - getUserId() != 0){
+		if(siteColumn.getSiteid() - site.getId() != 0){
 			return error(model, "栏目不属于你，无法修改");
 		}
 		
@@ -237,7 +237,7 @@ public class ColumnController extends BaseController {
 			if(siteColumn == null){
 				return error(model, "要修改的栏目导航不存在！");
 			}
-			if(siteColumn.getUserid() - getUserId() != 0){
+			if(siteColumn.getSiteid() - site.getId() != 0){
 				return error(model, "栏目不属于你，无法修改");
 			}
 		}else{
@@ -274,7 +274,7 @@ public class ColumnController extends BaseController {
 			if(siteColumn == null){
 				return error(model, "要修改的栏目导航不存在！");
 			}
-			if(siteColumn.getUserid() - getUserId() != 0){
+			if(siteColumn.getSiteid() - site.getId() != 0){
 				return error(model, "栏目不属于你，无法修改");
 			}
 			
@@ -452,14 +452,15 @@ public class ColumnController extends BaseController {
 	@RequestMapping(value="/popupColumnUpdateSubmit${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO popupColumnUpdateSubmit(HttpServletRequest request, SiteColumn sc){
+		Site site = getSite();
 		SiteColumn siteColumn = sqlService.findById(SiteColumn.class , sc.getId());
 		if(siteColumn == null){
 			return error("栏目不存在");
 		}
-		if(siteColumn.getUserid() - getUserId() != 0){
+		if(siteColumn.getSiteid() - site.getId() != 0){
 			return error("栏目不属于你，无法修改");
 		}
-		Site site = getSite();
+		
 		boolean updateName = !sc.getName().equals(siteColumn.getName());	//是否有过修改名字，若有过修改，则为true
 		
 		siteColumn.setName(filter(sc.getName()));
@@ -518,11 +519,7 @@ public class ColumnController extends BaseController {
 		BaseVO vo = new BaseVO();
 		Site site = getSite();
 		if(site == null){
-			vo.setBaseVO(BaseVO.FAILURE, "要修改的导航栏目所属的站点不存在！");
-			return vo;
-		}
-		if(site.getUserid() != getUserId()){
-			vo.setBaseVO(BaseVO.FAILURE, "站点不属于您，无法修改！");
+			vo.setBaseVO(BaseVO.FAILURE, "要修改的栏目所属的站点不存在！");
 			return vo;
 		}
 		
@@ -949,42 +946,28 @@ public class ColumnController extends BaseController {
 			baseVO.setBaseVO(BaseVO.FAILURE, "要修改的栏目导航所属的网站不存在！");
 			return baseVO;
 		}
-		if(site.getUserid() != getUserId()){
-			baseVO.setBaseVO(BaseVO.FAILURE, "站点不属于您，无法修改！");
-			return baseVO;
-		}
+		
 		
 		AliyunLog.addActionLog(site.getId(), "保存栏目排序");
 		
 		new com.xnx3.wangmarket.admin.cache.Site().siteColumnRank(site, Sql.filter(rankString));
 		return new BaseVO();
 	}
-	
 	/**
 	 * 重置排序
+	 * @param siteid 已废弃。从 getSite() 获取
 	 */
 	@RequestMapping(value="/resetRank${url.suffix}")
 	public String resetRank(HttpServletRequest request,
 			@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
 			Model model){
-		if(siteid == 0){
-			return error(model, "请传入站点编号");
-		}
-		Site site = sqlService.findById(Site.class, siteid);
-		if(site == null){
-			return error(model, "要重置栏目导航顺序的网站不存在！");
-		}
-		if(site.getUserid() != getUserId()){
-			return error(model, "站点不属于您，无法修改！");
-		}
-		
+		Site site = getSite();
 		siteColumnService.resetColumnRankAndJs(site);
 		
 		AliyunLog.addActionLog(site.getId(), "重置栏目排序");
 		
 		return success(model, "重置栏目排序成功", Func.getConsoleRedirectUrl());
 	}
-	
 	
 	/**
 	 * 删除栏目
@@ -994,11 +977,12 @@ public class ColumnController extends BaseController {
 	@RequestMapping(value="delete${url.suffix}")
 	@ResponseBody
 	public BaseVO delete(@RequestParam(value = "id", required = false , defaultValue="0") int id){
+		Site site = getSite();
 		SiteColumn siteColumn =sqlService.findById(SiteColumn.class , id);
 		if(siteColumn == null){
 			return error("要删除的栏目不存在！");
 		}
-		if(siteColumn.getUserid() - getUserId() != 0){
+		if(siteColumn.getSiteid() - site.getId() != 0){
 			return error("栏目不属于你，无法删除");
 		}
 		

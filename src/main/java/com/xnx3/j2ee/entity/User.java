@@ -53,6 +53,8 @@ public class User extends BaseEntity {
 	private Integer ossSizeHave;
 	private Integer version;
 	
+	//v4.9增加,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了
+	private Integer siteid;
 	
 	// Constructors
 
@@ -398,6 +400,13 @@ public class User extends BaseEntity {
 		this.ossSize = ossSize;
 	}
 	
+	@Column(name = "siteid")
+	public Integer getSiteid() {
+		return siteid;
+	}
+	public void setSiteid(Integer siteid) {
+		this.siteid = siteid;
+	}
 	public void setOssSizeHave(Integer ossSizeHave) {
 		this.ossSizeHave = ossSizeHave;
 	}
@@ -413,19 +422,6 @@ public class User extends BaseEntity {
 	public void setVersion(Integer version) {
 	    this.version = version;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email
-				+ ", password=" + password + ", head=" + head + ", nickname="
-				+ nickname + ", authority=" + authority + ", regtime="
-				+ regtime + ", lasttime=" + lasttime + ", regip=" + regip
-				+ ", lastip=" + lastip + ", salt=" + salt + ", phone=" + phone
-				+ ", currency=" + currency + ", referrerid=" + referrerid
-				+ ", money=" + money + ", freezemoney=" + freezemoney
-				+ ", isfreeze=" + isfreeze + ", idcardauth=" + idcardauth
-				+ ", sign=" + sign + ", sex=" + sex + ", ossUpdateDate="
-				+ ossUpdateDate + ", ossSize=" + ossSize + ", ossSizeHave="
-				+ ossSizeHave + ", version=" + version + "]";
-	}  
-
+	
+	
 }

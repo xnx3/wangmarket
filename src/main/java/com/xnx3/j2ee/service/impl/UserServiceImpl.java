@@ -868,7 +868,10 @@ public class UserServiceImpl implements UserService{
 			userRole.setRoleid(Lang.stringToInt(user.getAuthority(), Global.getInt("USER_REG_ROLE")));
 			userRole.setUserid(user.getId());
 			sqlDAO.save(userRole);
-			return BaseVO.success();
+			
+			BaseVO vo = new BaseVO();
+			vo.setBaseVO(BaseVO.SUCCESS, user.getId()+"");
+			return vo;
 		}else{
 			return BaseVO.failure(Language.show("user_regFailure"));
 		}

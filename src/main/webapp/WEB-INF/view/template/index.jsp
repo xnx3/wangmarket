@@ -108,129 +108,26 @@ var autoAssignDomain = '${autoAssignDomain }';
 
 	<div id="leftMenu" class="layui-nav layui-nav-tree layui-nav-side menu">
 		<ul class="">
-		<li class="layui-nav-item" id="li_system">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe620;</i>
-				<span class="firstMenuFont">系统管理</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="jibenxinxi" class="subMenuItem" href="javascript:;">基本信息</a></dd>
-				<dd id="dd_wangzhanshuxing" class="twoMenu"><a id="wangzhanshuxing" class="subMenuItem" href="javascript:;">网站设置</a></dd>
-				<dd class="twoMenu"><a id="xiugaimima" class="subMenuItem" href="javascript:updatePassword();">修改密码</a></dd>
-				<dd class="twoMenu"><a id="chakanwangzhan" class="subMenuItem" href="javascript:window.open('/index.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');">预览网站</a></dd>
-			</dl>
-		</li>
-		<li class="layui-nav-item" id="li_template">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe61b;</i>
-				<span class="firstMenuFont">模版管理</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="mobanbianliang" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templateVarList.do'), notUseTopTools();">模版变量</a></dd>
-				<dd id="dd_mobanyemian" class="twoMenu"><a id="mobanyemian" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templatePageList.do'), notUseTopTools();">模版页面</a></dd>
-				<dd class="twoMenu"><a id="shurumoxing" class="subMenuItem" href="javascript:loadIframeByUrl('/inputModel/list.do'), notUseTopTools();">输入模型</a></dd>
-				<dd class="twoMenu"><a id="daochutemplate" class="subMenuItem" href="javascript:exportTemplate();">导出/备份</a></dd>
-				<dd class="twoMenu"><a id="daorutemplate" class="subMenuItem" href="javascript:loadIframeByUrl('/template/selectTemplate.do'), notUseTopTools();">导入/还原</a></dd>
-				<dd class="twoMenu"><a id="templateplugin" class="subMenuItem" href="javascript:loadIframeByUrl('/template/templatePlugin.do'), notUseTopTools();">模版插件</a></dd>
-			</dl>
-		</li>
-		
-		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
-		<li class="layui-nav-item" id="li_log">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe62c;</i>
-				<span class="firstMenuFont">日志访问</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="rzfw_fangwentongji" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/fangwentongji.do'), notUseTopTools();">访问统计</a></dd>
-				<dd class="twoMenu"><a id="rzfw_pachongtongji" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/pachongtongji.do'), notUseTopTools();">爬虫统计</a></dd>
-				<dd class="twoMenu"><a id="rzfw_caozuorizhi" class="subMenuItem" href="javascript:loadIframeByUrl('/requestLog/actionLogList.do'), notUseTopTools();">操作日志</a></dd>
-			</dl>
-		</li>
-		<% } %>
-		
-		<li class="layui-nav-item" id="li_help">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe60b;</i>
-				<span class="firstMenuFont">帮助说明</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd id="dd_help_basicUse" class="twoMenu"><a id="help_basicUse" class="subMenuItem" href="javascript:loadIframeByUrl('<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>'), notUseTopTools();">基本使用</a></dd>
-				<dd style="display:none;" class="twoMenu"><a id="mobanshiyongshuoming" class="subMenuItem" href="javascript:mobanshiyongshuoming();">模版使用</a></dd>
-				<dd id="dd_kaifawendang" class="twoMenu"><a id="kaifawendang" class="subMenuItem" href="javascript:loadIframeByUrl('<%=Global.get("SITE_TEMPLATE_DEVELOP_URL") %>'), notUseTopTools();">模版开发</a></dd>
-				<dd style="display:none;" class="twoMenu"><a id="wentifankui" class="subMenuItem" target="_black" href="javascript:openWenTiFanKui();">问题反馈</a></dd>
-			</dl>
-		</li>
-		
-		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-		<li class="layui-nav-item" id="li_kefu">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
-				<span class="firstMenuFont">客服管理</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd class="twoMenu"><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
-				<dd class="twoMenu"><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('/im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
-			</dl>
-		</li>
-		<% } %>
-		
-		<li class="layui-nav-item" id="plugin" style="display:none;">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe857;</i>
-				<span class="firstMenuFont">功能插件</span>
-			</a>
-			<dl class="layui-nav-child" id="plugin_submenu">
-				${pluginMenu }
-			</dl>
-		</li>
-		<script>
-			if(document.getElementById('plugin_submenu').innerHTML.length > 5){
-				document.getElementById('plugin').style.display = '';
-			}
-		</script>
-		
-		<li class="layui-nav-item">
-		  	<a id="lanmuguanli" href="javascript:loadIframeByUrl('/column/popupListForTemplate.do'), notUseTopTools();">
-		  		<i class="layui-icon firstMenuIcon">&#xe638;</i>
-		  		<span class="firstMenuFont">栏目管理</span>
-		  	</a>
-		</li>
-		<li class="layui-nav-item">
-			<a id="neirongguanli" href="javascript:loadIframeByUrl('/news/listForTemplate.do'), notUseTopTools();">
-				<i class="layui-icon firstMenuIcon">&#xe647;</i>
-				<span class="firstMenuFont">内容管理</span>
-			</a>
-		</li>
-		<li class="layui-nav-item">
-			<a id="parentagency" href="javascript:jumpParentAgency();">
-				<i class="layui-icon firstMenuIcon">&#xe612;</i>
-				<span class="firstMenuFont">技术支持</span>
-			</a>
-		</li>
-		<li class="layui-nav-item">
-			<a id="shengchengzhengzhan" href="javascript:shengchengzhengzhan();">
-				<i class="layui-icon firstMenuIcon">&#xe609;</i>
-				<span class="firstMenuFont">生成整站</span>
-			</a>
-		</li>
-		
-		<li class="layui-nav-item" style="position: absolute;bottom: 46px;z-index: 2;">
-			<a id="tuichudenglu" href="../user/logout.do">
-				<i class="layui-icon firstMenuIcon">&#xe633;</i>
-				<span class="firstMenuFont">退出登陆</span>
-			</a>
-		</li>
-		
-		<!-- 两个li的高度，避免遮挡 -->
-		<!-- <div style="height:46px;z-index: 1;">&nbsp;</div> -->
-		
-		<li class="layui-nav-item" style="position: absolute;bottom: 0px;z-index: 2;">
-			<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
-				<i class="layui-icon firstMenuIcon" id="showHiddenLeftMenu_icon">&#xe603;</i>
-				<span class="firstMenuFont">缩小侧边栏</span>
-			</a>
-		</li>
+			
+			${menuHTML }
+			
+			<li class="layui-nav-item" style="position: absolute;bottom: 46px;z-index: 2;">
+				<a id="tuichudenglu" href="../user/logout.do">
+					<i class="layui-icon firstMenuIcon">&#xe633;</i>
+					<span class="firstMenuFont">退出登陆</span>
+				</a>
+			</li>
+			
+			<!-- 两个li的高度，避免遮挡 -->
+			<!-- <div style="height:46px;z-index: 1;">&nbsp;</div> -->
+			
+			<li class="layui-nav-item" style="position: absolute;bottom: 0px;z-index: 2;">
+				<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
+					<i class="layui-icon firstMenuIcon" id="showHiddenLeftMenu_icon">&#xe603;</i>
+					<span class="firstMenuFont">缩小侧边栏</span>
+				</a>
+			</li>
+			
 		</ul>
 	</div>
 	
@@ -544,64 +441,64 @@ $(function(){
 	
 	
 	//模版的开发文档
-	var kaifawendang_tipindex = 0;
-	$("#kaifawendang").hover(function(){
-		kaifawendang_tipindex = layer.tips('模版开发入门、模版制作帮助文档，帮您十分钟入门，2天成大神。<br/>文档正在完善中', '#kaifawendang', {
+	var mobankaifa_tipindex = 0;
+	$("#mobankaifa").hover(function(){
+		mobankaifa_tipindex = layer.tips('模版开发入门、模版制作帮助文档，帮您十分钟入门，2天成大神。<br/>文档正在完善中', '#mobankaifa', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(kaifawendang_tipindex);
+		layer.close(mobankaifa_tipindex);
 	})
 	
 	//栏目管理
-	var lanmuguanli_tipindex = 0;
-	$("#lanmuguanli").hover(function(){
-		lanmuguanli_tipindex = layer.tips('网站的栏目信息', '#lanmuguanli', {
+	var column_tipindex = 0;
+	$("#column").hover(function(){
+		column_tipindex = layer.tips('网站的栏目信息', '#column', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(lanmuguanli_tipindex);
+		layer.close(column_tipindex);
 	})
 	
 	//内容管理
-	var neirongguanli_tipindex = 0;
-	$("#neirongguanli").hover(function(){
-		neirongguanli_tipindex = layer.tips('网站内容，如关于我们、新闻、产品的内容，都是在这里', '#neirongguanli', {
+	var news_tipindex = 0;
+	$("#news").hover(function(){
+		news_tipindex = layer.tips('网站内容，如关于我们、新闻、产品的内容，都是在这里', '#news', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(neirongguanli_tipindex);
+		layer.close(news_tipindex);
 	})
 	
 	//生成整站
-	var shengchengzhengzhan_tipindex = 0;
-	$("#shengchengzhengzhan").hover(function(){
-		shengchengzhengzhan_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版什么的了，最后这里，生成整站后，别人访问你的网址才能看到效果', '#shengchengzhengzhan', {
+	var generatehtml_tipindex = 0;
+	$("#generatehtml").hover(function(){
+		generatehtml_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版什么的了，最后这里，生成整站后，别人访问你的网址才能看到效果', '#generatehtml', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(shengchengzhengzhan_tipindex);
+		layer.close(generatehtml_tipindex);
 	})
 	
 	
 	//帮助说明－基本功能 说明
-	var help_basicUse_tipindex = 0;
-	$("#help_basicUse").hover(function(){
-		help_basicUse_tipindex = layer.tips('网站基本功能使用说明，基本功能介绍，网站使用引导。看完15分钟视频，便可熟练操作网站', '#help_basicUse', {
+	var shiyongrumen_tipindex = 0;
+	$("#shiyongrumen").hover(function(){
+		shiyongrumen_tipindex = layer.tips('网站基本功能使用说明，基本功能介绍，网站使用引导。看完15分钟视频，便可熟练操作网站', '#shiyongrumen', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(help_basicUse_tipindex);
+		layer.close(shiyongrumen_tipindex);
 	})
 	
 	//模版管理－模版插件
@@ -618,15 +515,15 @@ $(function(){
 	
 	
 	//技术支持，显示自己的上级代理商
-	var parentagency_tipindex = 0;
-	$("#parentagency").hover(function(){
-		parentagency_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#parentagency', {
+	var support_tipindex = 0;
+	$("#support").hover(function(){
+		support_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#support', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
 		});
 	},function(){
-		layer.close(parentagency_tipindex);
+		layer.close(support_tipindex);
 	})
 	
 	// 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html 
@@ -668,29 +565,48 @@ function zoomLeftMenu(){
 		$(".subMenuItem").css("subMenuItem", "ellipsis");
 		$(".subMenuItem").css("font-size", 14);
 		$(".subMenuItem").css("paddingLeft", 43);
-		document.getElementById("jibenxinxi").innerHTML = '基本信息';
-		document.getElementById("wangzhanshuxing").innerHTML = '网站设置';
-		document.getElementById("chakanwangzhan").innerHTML = '预览网站';
-		document.getElementById("wentifankui").innerHTML = '问题反馈';
-		document.getElementById("mobanbianliang").innerHTML = '模版变量';
-		document.getElementById("mobanyemian").innerHTML = '模版页面';
-		document.getElementById("daochutemplate").innerHTML = '导出/备份';
-		document.getElementById("daorutemplate").innerHTML = '导入/还原';
-		document.getElementById("kaifawendang").innerHTML = '开发文档';
-		document.getElementById("mobanshiyongshuoming").innerHTML = '使用说明';
 		try{
-			document.getElementById("rzfw_fangwentongji").innerHTML = '访问统计';
-			document.getElementById("rzfw_pachongtongji").innerHTML = '爬虫统计';
-			document.getElementById("rzfw_caozuorizhi").innerHTML = '操作日志';
-		} catch(error) {}
-		document.getElementById("help_basicUse").innerHTML = '基本使用';
-		document.getElementById("shurumoxing").innerHTML = '输入模型';
-		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-			document.getElementById("im_menu").innerHTML = '基本设置';
-			document.getElementById("im_hostory").innerHTML = '历史咨询';
-		<% } %>
-		document.getElementById("xiugaimima").innerHTML = '修改密码';
-		document.getElementById("templateplugin").innerHTML = '模版插件';
+			document.getElementById("jibenxinxi").innerHTML = '基本信息';
+		}catch(e){}
+		try{
+			document.getElementById("wangzhanshuxing").innerHTML = '网站设置';
+		}catch(e){}
+		try{
+			document.getElementById("chakanwangzhan").innerHTML = '预览网站';
+		}catch(e){}
+		try{
+			document.getElementById("wentifankui").innerHTML = '问题反馈';
+		}catch(e){}
+		try{
+			document.getElementById("mobanbianliang").innerHTML = '模版变量';
+		}catch(e){}
+		try{
+			document.getElementById("mobanyemian").innerHTML = '模版页面';
+		}catch(e){}
+		try{
+			document.getElementById("daochutemplate").innerHTML = '导出/备份';
+		}catch(e){}
+		try{	
+			document.getElementById("daorutemplate").innerHTML = '导入/还原';
+		}catch(e){}
+		try{
+			document.getElementById("mobankaifa").innerHTML = '开发文档';
+		}catch(e){}
+		try{
+			document.getElementById("mobanshiyongshuoming").innerHTML = '使用说明';
+		}catch(e){}
+		try{
+			document.getElementById("shiyongrumen").innerHTML = '基本使用';
+		}catch(e){}
+		try{
+			document.getElementById("shurumoxing").innerHTML = '输入模型';
+		}catch(e){}
+		try{
+			document.getElementById("xiugaimima").innerHTML = '修改密码';
+		}catch(e){}
+		try{
+			document.getElementById("templateplugin").innerHTML = '模版插件';
+		}catch(e){}
 		
 		
 		//左下角的缩放按钮
@@ -712,30 +628,48 @@ function zoomLeftMenu(){
 		$(".subMenuItem").css("textOverflow", "inherit");
 		$(".subMenuItem").css("font-size", 12);
 		$(".subMenuItem").css("paddingLeft", 26);
-		document.getElementById("jibenxinxi").innerHTML = '信息';
-		document.getElementById("wangzhanshuxing").innerHTML = '设置';
-		document.getElementById("chakanwangzhan").innerHTML = '预览';
-		document.getElementById("wentifankui").innerHTML = '反馈';
-		document.getElementById("mobanbianliang").innerHTML = '变量';
-		document.getElementById("mobanyemian").innerHTML = '页面';
-		document.getElementById("daochutemplate").innerHTML = '备份';
-		document.getElementById("daorutemplate").innerHTML = '还原';
-		document.getElementById("kaifawendang").innerHTML = '文档';
-		document.getElementById("mobanshiyongshuoming").innerHTML = '使用';
 		try{
-			document.getElementById("rzfw_fangwentongji").innerHTML = '访问';
-			document.getElementById("rzfw_pachongtongji").innerHTML = '爬虫';
-			document.getElementById("rzfw_caozuorizhi").innerHTML = '日志';
-		} catch(error) {}
-		document.getElementById("help_basicUse").innerHTML = '基本';
-		document.getElementById("shurumoxing").innerHTML = '输入';
-		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-			document.getElementById("im_menu").innerHTML = '设置';
-			document.getElementById("im_hostory").innerHTML = '历史';
-		<% } %>
-		document.getElementById("xiugaimima").innerHTML = '改密';
-		document.getElementById("templateplugin").innerHTML = '插件';
-		
+			document.getElementById("jibenxinxi").innerHTML = '信息';
+		}catch(e){}
+		try{
+			document.getElementById("wangzhanshuxing").innerHTML = '设置';
+		}catch(e){}
+		try{
+			document.getElementById("chakanwangzhan").innerHTML = '预览';
+		}catch(e){}
+		try{
+			document.getElementById("wentifankui").innerHTML = '反馈';
+		}catch(e){}
+		try{
+			document.getElementById("mobanbianliang").innerHTML = '变量';
+		}catch(e){}
+		try{
+			document.getElementById("mobanyemian").innerHTML = '页面';
+		}catch(e){}
+		try{
+			document.getElementById("daochutemplate").innerHTML = '备份';
+		}catch(e){}
+		try{
+			document.getElementById("daorutemplate").innerHTML = '还原';
+		}catch(e){}
+		try{
+			document.getElementById("mobankaifa").innerHTML = '文档';
+		}catch(e){}
+		try{
+			document.getElementById("mobanshiyongshuoming").innerHTML = '使用';
+		}catch(e){}
+		try{
+			document.getElementById("shiyongrumen").innerHTML = '基本';
+		}catch(e){}
+		try{
+			document.getElementById("shurumoxing").innerHTML = '输入';
+		}catch(e){}
+		try{
+			document.getElementById("xiugaimima").innerHTML = '改密';
+		}catch(e){}
+		try{
+			document.getElementById("templateplugin").innerHTML = '插件';
+		}catch(e){}
 		
 		
 		//左下角的缩放按钮
@@ -817,9 +751,9 @@ function helpVideo(){
 	backAllMenu();
 	
 	//展开某个一级栏目
-	unfoldFirstColumn('li_help');
+	unfoldFirstColumn('help');
 	//选中某个菜单
-	selectedLeftMenu('dd_help_basicUse');
+	selectedLeftMenu('dd_shiyongrumen');
 	
 	//打开视频说明
 	loadIframeByUrl('<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>');
@@ -832,9 +766,9 @@ function templateDevHelp(){
 	backAllMenu();
 	
 	//展开某个一级栏目
-	unfoldFirstColumn('li_help');
+	unfoldFirstColumn('help');
 	//选中某个菜单
-	selectedLeftMenu('dd_kaifawendang');
+	selectedLeftMenu('dd_mobankaifa');
 	
 	//打开模版管理
 	loadIframeByUrl('<%=Global.get("SITE_TEMPLATE_DEVELOP_URL") %>');
