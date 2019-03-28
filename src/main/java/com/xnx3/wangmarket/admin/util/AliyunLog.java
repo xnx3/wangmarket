@@ -28,14 +28,17 @@ public class AliyunLog extends ActionLogCache {
 		
 		String siteName = "";
 		String siteDomain = "";
+		int siteid = 0;
 		if(site != null){
 			siteName = site.getName();
 			siteDomain = Func.getDomain(site);
+			siteid = site.getId();
 		}
 		
 		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
+		logItem.PushBack("siteid", siteid+"");
 		insert(logItem, null, goalid, action, remark);
 	}
 	
@@ -55,14 +58,17 @@ public class AliyunLog extends ActionLogCache {
 		
 		String siteName = "";
 		String siteDomain = "";
+		int siteid = 0;
 		if(site != null){
 			siteName = site.getName();
 			siteDomain = Func.getDomain(site);
+			siteid = site.getId();
 		}
 		
 		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
+		logItem.PushBack("siteid", siteid+"");
 		insert(logItem, null, goalid, action, "");
 	}
 	
@@ -80,14 +86,17 @@ public class AliyunLog extends ActionLogCache {
 		
 		String siteName = "";
 		String siteDomain = "";
+		int siteid = 0;
 		if(site != null){
 			siteName = site.getName();
 			siteDomain = Func.getDomain(site);
+			siteid = site.getId();
 		}
 		
 		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
 		logItem.PushBack("siteName", siteName);
 		logItem.PushBack("siteDomain", siteDomain);
+		logItem.PushBack("siteid", siteid+"");
 		insert(logItem, null, 0, action, remark);
 	}
 	
