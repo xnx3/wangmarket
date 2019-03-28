@@ -31,7 +31,7 @@ function shipinjiaocheng(){
 		var currentTime = Date.parse( new Date() ).toString();
 		currentTime = currentTime.substr(0,10);
 		if(currentTime - ${user.regtime } < 86400){
-			var html = '<div style="padding: 10px; font-size: 20px;">由于是您第一天使用，特送出本系统的使用说明</div><iframe frameborder="0" style="width:100%; height:600px;" src="<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>" allowFullScreen="true"></iframe>';    
+			var html = '<div style="padding: 10px; font-size: 20px;">由于是您第一天使用，特送出本系统的使用说明</div><iframe frameborder="0" style="width:100%; height:640px;" src="<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>" allowFullScreen="true"></iframe>';    
 			document.getElementById('shipinshuoming').innerHTML = html;
 		}
 	} catch(error) {}
