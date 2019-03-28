@@ -75,6 +75,9 @@ public class ShiroConfiguration {
 //        filterChainDefinitionMap.put("/bbs/view.do", "anon");
         filterChainDefinitionMap.put("/plugin/api/*.do", "anon");
         
+        //help
+        filterChainDefinitionMap.put("/help/*.do", "anon");
+        
         //plugin bbs
         filterChainDefinitionMap.put("/plugin/bbs/*.do", "anon");
         
