@@ -191,7 +191,7 @@ layui.use('upload', function(){
 	  url: '/template/uploadImportTemplate.do'
 	  ,method :'post'
 	  ,elem : '#loadLocalTemplateFile'
-	  ,exts: 'wscso|xnx3|zip'
+	  ,exts: 'wscso|xnx3'
 	  ,field: 'templateFile'
 	  ,title :'加载本地模版'
 	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB

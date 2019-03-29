@@ -758,6 +758,12 @@ public class TemplateController extends BaseController {
 				return;
 			}
 		}else if (fileSuffix.equals("zip")) {
+			//v4.9增加，禁止zip模版通过此处上传。统一通过总管理后台-功能插件-模版库进行导入
+			if(true){
+				responseJson(response, BaseVO.FAILURE, "已禁止上传zip格式模版！您可通过总管理后台-功能插件-模版库进行导入");
+				return;
+			}
+			
 			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
 			//zip的限制在50MB以内
 			if(lengthKB > 50*1025){
