@@ -63,6 +63,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 			return error(model, "您已登陆，无需注册");
 		}
 		
+		
 		userService.regInit(request);
 		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至regByPhone.do");
 		return redirect("regByPhone.do");

@@ -41,7 +41,7 @@ public class PublicController_ extends BaseController {
 	 */
 	@RequestMapping("406${url.suffix}")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)  
+//	@ResponseStatus(HttpStatus.OK)  
 	public BaseVO error406(HttpServletRequest request){
 		System.out.println("406--");
 		return error("请上传大小在 "+ AttachmentFile.getMaxFileSize()+" 之内的文件");
