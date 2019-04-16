@@ -8,7 +8,7 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Sql;
 
-@Service
+@Service("sqlService")
 public class SqlServiceImpl implements SqlService {
 	
 	@Resource

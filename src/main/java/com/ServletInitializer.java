@@ -2,6 +2,7 @@ package com;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
@@ -9,8 +10,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author 管雷鸣
  *
  */
+@ServletComponentScan
 public class ServletInitializer extends SpringBootServletInitializer {
-    @Override
+    
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
     	com.xnx3.j2ee.func.Log.debug = true;
     	com.xnx3.j2ee.func.Log.info = true;
