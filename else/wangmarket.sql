@@ -453,7 +453,7 @@ COMMIT;
 DROP TABLE IF EXISTS `site_column`;
 CREATE TABLE `site_column` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` char(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` char(100) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '链接地址',
   `icon` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示',
   `rank` int(4) DEFAULT '0' COMMENT '排序,数字越小越往前',
