@@ -2,6 +2,8 @@ package com.xnx3.wangmarket.admin.cache;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -800,6 +802,15 @@ public class TemplateCMS {
             					scList.add(sct);
             				}
             			}
+            			
+            			//一级栏目因为存储于map，是没有排序的，所以取一级栏目，取出后进行排序
+            			Collections.sort(scList, new Comparator<SiteColumnTreeVO>() {
+            	            public int compare(SiteColumnTreeVO sc1, SiteColumnTreeVO sc2) {
+            	            	//按照发布时间正序排序，发布时间越早，排列越靠前
+            	            	return sc1.getSiteColumn().getRank() - sc2.getSiteColumn().getRank();
+            	            }
+            	        });
+            			
             		}else{
             			//调用二级栏目
             			SiteColumnTreeVO stvo = columnTreeMap.get(codeName);
