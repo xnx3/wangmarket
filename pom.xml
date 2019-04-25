@@ -347,7 +347,11 @@
 		     <artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
-		
+		<dependency>
+		  <groupId>com.xnx3.weixin</groupId>
+		  <artifactId>xnx3-weixin</artifactId>
+		  <version>1.0</version>
+		</dependency>
 	    
 	    <!-- 本地的 -->
 	    <dependency> 
