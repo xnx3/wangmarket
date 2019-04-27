@@ -111,13 +111,19 @@ public class TemplateUtil {
 		Map<String,Template> map = new HashMap<String, Template>();
 		//List<Template> list = null;
 		
-		//先从云端模版库加载
-		if(templateType > -1){
-			//调取某个分类的
-			mapClone(map, cloudTemplateMapForType.get(templateType));
+		//判断是否使用云端模版库。默认没有的话是使用。如果值0，则是不使用，否则都是使用
+		String useCloudTemplate = Global.get("PLUGIN_TEMPLATECENTER_USE_ClOUDTEMPLATE");
+		if(useCloudTemplate != null && useCloudTemplate.equals("0")){
+			//不使用云端模版库
 		}else{
-			//调取所有的
-			mapClone(map, cloudTemplateMapForName);
+			//先从云端模版库加载
+			if(templateType > -1){
+				//调取某个分类的
+				mapClone(map, cloudTemplateMapForType.get(templateType));
+			}else{
+				//调取所有的
+				mapClone(map, cloudTemplateMapForName);
+			}
 		}
 		
 		
