@@ -1,11 +1,13 @@
  package com.xnx3.wangmarket.admin.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.pluginManage.newSave.NewsSavePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -42,6 +45,7 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+import com.xnx3.wangmarket.weixin.autoReplyPluginManage.AutoReplyPluginManage;
 
 import net.sf.json.JSONObject;
 
@@ -74,7 +78,7 @@ public class NewsController extends BaseController {
 	@ResponseBody
 	public BaseVO saveNews(News s,
 			@RequestParam(value = "text", required = false , defaultValue="") String text,
-			HttpServletRequest request,Model model){
+			HttpServletRequest request, HttpServletResponse response, Model model){
 		String title = "";
 		if(s.getTitle() != null && s.getTitle().length()>0){
 			title = StringUtil.filterXss(s.getTitle());
@@ -171,6 +175,15 @@ public class NewsController extends BaseController {
 		String titlepic = StringUtil.filterXss(s.getTitlepic());
 		news.setTitlepic(titlepic == null ? "":titlepic);
 		
+		//插件拦截
+		try {
+			NewsSavePluginManage.interceptNews(request, response, news);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
 		sqlService.save(news);
 		if(news.getId() > 0){
 			
@@ -202,6 +215,16 @@ public class NewsController extends BaseController {
 			
 			newsData.setId(news.getId());
 			newsData.setText(text);
+			
+			//插件拦截
+			try {
+				NewsSavePluginManage.interceptNewsData(request, response, newsData);
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			
 			sqlService.save(newsData);
 			
 			if(s.getId() == null || s.getId() == 0){
