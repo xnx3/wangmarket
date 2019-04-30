@@ -4,18 +4,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -25,7 +22,6 @@ import com.xnx3.j2ee.func.TextFilter;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
-import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
@@ -45,7 +41,6 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
-import com.xnx3.wangmarket.weixin.autoReplyPluginManage.AutoReplyPluginManage;
 
 import net.sf.json.JSONObject;
 
@@ -366,7 +361,8 @@ public class NewsController extends BaseController {
 	    	StringBuffer columnTreeSB = new StringBuffer();
 		    for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
 		    	SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
-		    	if(sct.getSiteColumn().getUsed() - SiteColumn.USED_UNABLE == 0){
+		    	//v4.10 增加 adminNewsUsed
+		    	if(sct.getSiteColumn().getUsed() - SiteColumn.USED_UNABLE == 0 || sct.getSiteColumn().getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
 		    		continue;
 		    	}
 		    	
@@ -379,7 +375,8 @@ public class NewsController extends BaseController {
 		    				//理论上不存在
 		    				continue;
 		    			}
-		    			if(s.getUsed() - SiteColumn.USED_UNABLE == 0){
+		    			//v4.10 增加 adminNewsUsed
+		    			if(s.getUsed() - SiteColumn.USED_UNABLE == 0 || s.getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
 				    		continue;
 				    	}
 		    			columnTreeSB.append("<dd>"+getLeftNavColumnA(cid, s, sct.getSiteColumn().getId())+"</dd>");

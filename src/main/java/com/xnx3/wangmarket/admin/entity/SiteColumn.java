@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * SiteColumn entity. @author MyEclipse Persistence Tools
+ * 网站栏目
  */
 @Entity
 @Table(name = "site_column")
@@ -120,6 +120,11 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	
 	//v4.7
 	private Short useGenerateView;		//是否生成内容页面。取值1生成；0不生成，如果为null则默认为1，默认是生成。set时使用 SiteColumn.USED_ENABLE 赋值
+	
+	//v4.10
+	private Short templateCodeColumnUsed;		//是否在模版调用中显示（调取子栏目列表）。在模板中，使用动态栏目调用代码调取栏目列表时，是否会调取到此栏目。例如顶级栏目名为 手机 ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有子栏目列表时，就只有小米、中兴。默认1显示，0为不显示。如果为null也是显示
+//	private Short templateCodeNewsUsed;			//是否在模版调用中显示（调取文章列表）。在模板中，使用动态栏目调用代码调取某个父栏目下，所有子栏目的内容列表时，是否也将此栏目的内容一并调取出来。默认1显示，0为不显示。如果为null也是显示
+	private Short adminNewsUsed;				//是否在内容管理中显示这个栏目。默认1显示，0为不显示。如果为null也是显示
 	
 	// Constructors
 
@@ -351,6 +356,33 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 
 	public void setUseGenerateView(Short useGenerateView) {
 		this.useGenerateView = useGenerateView;
+	}
+
+	@Column(name = "template_code_column_used", columnDefinition="int(2) comment '是否在模版调用中显示（调取子栏目列表）。1使用，0不使用'")
+	public Short getTemplateCodeColumnUsed() {
+		return templateCodeColumnUsed;
+	}
+
+	public void setTemplateCodeColumnUsed(Short templateCodeColumnUsed) {
+		this.templateCodeColumnUsed = templateCodeColumnUsed;
+	}
+//	
+//	@Column(name = "template_code_news_used", columnDefinition="int(2) comment '是否在模版调用中显示（调取文章列表）。1使用，0不使用'")
+//	public Short getTemplateCodeNewsUsed() {
+//		return templateCodeNewsUsed;
+//	}
+//
+//	public void setTemplateCodeNewsUsed(Short templateCodeNewsUsed) {
+//		this.templateCodeNewsUsed = templateCodeNewsUsed;
+//	}
+	
+	@Column(name = "admin_news_used", columnDefinition="int(2) comment '是否在内容管理中显示这个栏目。'")
+	public Short getAdminNewsUsed() {
+		return adminNewsUsed;
+	}
+
+	public void setAdminNewsUsed(Short adminNewsUsed) {
+		this.adminNewsUsed = adminNewsUsed;
 	}
 
 	@Override

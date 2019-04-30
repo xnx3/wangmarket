@@ -14,6 +14,16 @@
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_listRank.js"></script>
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_useGenerateView.js"></script>
 
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_templateCodeColumnUsed.js"></script>
+<script src="/<%=Global.CACHE_FILE %>SiteColumn_adminNewsUsed.js"></script>
+<style>
+.explain{
+	font-size: 12px;
+    color: gray;
+    padding-top: 4px;
+}
+</style>
+
 
 <form id="form" method="post" class="layui-form" style="padding:0px;margin-bottom: 10px; margin-top:0px;">
 	<input type="hidden" value="${siteColumn.id }" name="id">
@@ -23,6 +33,7 @@
   <ul class="layui-tab-title">
     <li class="layui-this">基本设置</li>
     <li>信息录入</li>
+    <li>显示</li>
     <li>高级设置</li>
   </ul>
   <div class="layui-tab-content" style="padding-right: 35px;">
@@ -142,6 +153,46 @@
 		</div>
 		
     </div>
+    
+    <div class="layui-tab-item">
+    	<!-- 显示 -->
+    	
+		<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+	      <legend><a name="compatibility" style="font-size: 14px;">该栏目是否可在模版中用动态栏目代码调取出来</a></legend>
+	    </fieldset>
+    	<div class="layui-form-item">
+			<label class="layui-form-label" id="templateCodeColumnUsed_label" >子栏目列表</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionFortemplateCodeColumnUsed_('${siteColumn.templateCodeColumnUsed }','请选择', true);</script>
+			</div>
+		</div>
+		
+		
+		<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+	      <legend><a name="compatibility" style="font-size: 14px;">是否在内容管理中显示这个栏目</a></legend>
+	    </fieldset>
+    	<div class="layui-form-item">
+			<label class="layui-form-label" id="adminNewsUsed_label" >内容管理中</label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForadminNewsUsed_('${siteColumn.adminNewsUsed }','请选择', true);</script>
+			</div>
+		</div>
+		
+    	
+    	<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+	      <legend><a name="compatibility" style="font-size: 14px;">下面这个已废弃</a></legend>
+	    </fieldset>
+	    <div class="layui-form-item">
+			<label class="layui-form-label" id="xianshi_label"><s>是否显示</s></label>
+			<div class="layui-input-block">
+				<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
+				<div class="explain">注意，这个已经废弃！您可使用上面几个来控制</div>
+			</div>
+		</div>
+    	
+    	
+    </div>
+    
     <div class="layui-tab-item">
     	<!-- 高级方式 -->
     	
@@ -149,12 +200,6 @@
 			<label class="layui-form-label" id="listRank_label">信息排序</label>
 			<div class="layui-input-block">
 				<script type="text/javascript">writeSelectAllOptionForlistRank_('${siteColumn.listRank }','请选择', false);</script>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" id="xianshi_label">是否显示</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
 			</div>
 		</div>
 		<div class="layui-form-item" id="useGenerateView_div">
@@ -289,7 +334,7 @@ layui.use('upload', function(){
 	});
 	
 	//上传图片,图集，v4.6扩展
-	upload.render(uploadExtendPhotos);
+	//upload.render(uploadExtendPhotos);
 });
 
 
@@ -508,7 +553,46 @@ $(function(){
 		layer.close(useGenerateView_label_index);
 	})
 	
-
+	//是否在模版栏目列表中显示栏目
+	var templateCodeColumnUsed_label_index = 0;
+	$("#templateCodeColumnUsed_label").hover(function(){
+		templateCodeColumnUsed_label_index = layer.tips('是否在模版调用中显示（调取子栏目列表）。在模板中，使用动态栏目调用代码调取栏目列表时，是否会调取到此栏目。<br/>例如顶级栏目名为 "手机" ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有子栏目列表时，就只有小米、中兴<br/><b>注意，若是不懂，请勿改动此处！</b>', '#templateCodeColumnUsed_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(templateCodeColumnUsed_label_index);
+	})
+	
+	var adminNewsUsed_label_index = 0;
+	$("#adminNewsUsed_label").hover(function(){
+		adminNewsUsed_label_index = layer.tips('是否在内容管理中显示此栏目。<br/><b>注意，若是不懂，请勿改动此处！</b>', '#adminNewsUsed_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(adminNewsUsed_label_index);
+	})
+	
+	//是否在模版的文章列表中显示此栏目的文章
+	//var templateCodeNewsUsed_label_index = 0;
+	//$("#templateCodeNewsUsed_label").hover(function(){
+	//	templateCodeNewsUsed_label_index = layer.tips('是否在模版调用中显示（调取文章列表）。在模板中，使用动态栏目调用代码调取某个父栏目下的所有文章列表时（调取父栏目下所有子栏目的文章列表），这个栏目(当这个栏目是一个子栏目时)的文章列表是否要一并调取出来。<br/>例如顶级栏目名为 "手机" ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有文章列表时，就只有小米、中兴这两个栏目的文章<br/><b>注意，若是不懂，请勿改动此处！</b>', '#templateCodeNewsUsed_label', {
+	//		tips: [2, '#0FA6A8'], //还可配置颜色
+	//		time:0,
+	//		tipsMore: true,
+	//		area : ['310px' , 'auto']
+	//	});
+	//},function(){
+	//	layer.close(templateCodeNewsUsed_label_index);
+	//})
+	
+	
+	
 
 });	
 

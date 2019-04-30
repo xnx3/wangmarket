@@ -571,6 +571,11 @@ public class ColumnController extends BaseController {
 		//v4.7
 		sc.setUseGenerateView(siteColumn.getUseGenerateView() == null? SiteColumn.USED_ENABLE:siteColumn.getUseGenerateView());
 		sc.setIcon(siteColumn.getIcon());
+		//v4.10
+		sc.setTemplateCodeColumnUsed(siteColumn.getTemplateCodeColumnUsed() == null? SiteColumn.USED_ENABLE:siteColumn.getTemplateCodeColumnUsed());//默认是启用，也就是显示
+//		sc.setTemplateCodeNewsUsed(siteColumn.getTemplateCodeNewsUsed() == null? SiteColumn.USED_ENABLE:siteColumn.getTemplateCodeNewsUsed());
+		sc.setAdminNewsUsed(siteColumn.getAdminNewsUsed() == null ? SiteColumn.USED_ENABLE:siteColumn.getAdminNewsUsed());
+		
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = StringUtil.filterXss(siteColumn.getInputModelCodeName());

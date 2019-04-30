@@ -17,8 +17,8 @@
       <th>栏目名称</th>
       <th>栏目代码</th>
       <th>类型</th>
-      <th>是否显示</th>
-		<th>排序</th>
+      <th title="是否在模版中，使用动态栏目代码调取子栏目列表时，显示此栏目">子栏目显示</th>
+	  <th>排序</th>
       <th>操作</th>
     </tr> 
   </thead>
@@ -29,7 +29,7 @@
         	<td width="140" onclick="javascript:window.open('/${siteColumnTreeVO.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;">${siteColumnTreeVO.siteColumn.name }</td>
         	<td>${siteColumnTreeVO.siteColumn.codeName }</td>
             <td width="100"><script type="text/javascript">document.write(type['${siteColumnTreeVO.siteColumn.type}']);</script></td>
-            <td width="60"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.used}']);</script></td>
+            <td width="80"><script type="text/javascript">document.write(used['${siteColumnTreeVO.siteColumn.templateCodeColumnUsed}']);</script></td>
             <td width="50" onclick="updateRank('${siteColumnTreeVO.siteColumn.id }', '${siteColumnTreeVO.siteColumn.rank }', '${siteColumnTreeVO.siteColumn.name }');" style="cursor:pointer;">${siteColumnTreeVO.siteColumn.rank }</td>
             <td width="160">
             	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${siteColumnTreeVO.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>
@@ -45,7 +45,7 @@
 		        	<td width="140" onclick="javascript:window.open('/${subSCT.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
 		        	<td><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
 		            <td width="100"><script type="text/javascript">document.write(type['${subSCT.siteColumn.type}']);</script></td>
-		            <td width="60"><script type="text/javascript">document.write(used['${subSCT.siteColumn.used}']);</script></td>
+		            <td width="80"><script type="text/javascript">document.write(used['${subSCT.siteColumn.templateCodeColumnUsed}']);</script></td>
 		            <td width="50" onclick="updateRank('${subSCT.siteColumn.id }', '${subSCT.siteColumn.rank }', '${subSCT.siteColumn.name }');" style="cursor:pointer;">&nbsp;&nbsp;&nbsp;&nbsp;${subSCT.siteColumn.rank }</td>
 		            <td width="160">
 		            	<botton class="layui-btn layui-btn-sm" onclick="editColumn('${subSCT.siteColumn.id }',true);" style="margin-left: 3px;"><i class="layui-icon">&#xe630;</i></botton>

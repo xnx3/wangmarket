@@ -15,6 +15,10 @@ public class SiteColumn extends BaseGenerate {
 		editMode();
 		listRank();
 		useGenerateView();
+		
+		//v4.10
+		templateCodeColumnUsed();
+		adminNewsUsed();
 	}
 	
 	public void used(){
@@ -66,4 +70,27 @@ public class SiteColumn extends BaseGenerate {
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_UNABLE, "不生成");
 		generateCacheFile();
 	}
+	
+	/**
+	 * 是否在模版调用中显示（调取子栏目列表） v4.10 增加
+	 */
+	public void templateCodeColumnUsed(){
+		createCacheObject("templateCodeColumnUsed");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_ENABLE, "显示");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_UNABLE, "隐藏");
+		generateCacheFile();
+	}
+	
+
+	/**
+	 * 是否在内容管理中显示这个栏目 v4.10 增加
+	 */
+	public void adminNewsUsed(){
+		createCacheObject("adminNewsUsed");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_ENABLE, "显示");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.USED_UNABLE, "隐藏");
+		generateCacheFile();
+	}
+	
+	
 }
