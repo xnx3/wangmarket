@@ -55,7 +55,6 @@
 </style>
 
 <!-- 背景 -->
-<div class="layui-canvs" style="position: fixed;top: 0px;left: 0px;z-index: -1;"></div>
 
 <form class="layui-form layui-elem-quote layui-quote-nm myForm">
   <div class="layui-form-item touming" style="height: 70px;background-color: #eeeeee;line-height: 70px;text-align: center;font-size: 25px;color: #3F4056;">
@@ -176,25 +175,5 @@ if(navigator.userAgent.indexOf('Chrome') == -1){
 </script>
 
 
-<!-- 以下为背景特效相关 -->
-<script type="text/javascript">
-'use strict';
-layui.use(['jquery'],function(){
-	window.jQuery = window.$ = layui.jquery;
-   $(".layui-canvs").width($(window).width());
-   $(".layui-canvs").height($(window).height());
-
-});
-</script>
-<script type="text/javascript" src="//res.weiunity.com/js/jparticle.jquery.js"></script>
-<script type="text/javascript">
-$(function(){
-	$(".layui-canvs").jParticle({
-		background: "#FFFFFF",
-		color: "#FDFDFD"
-	});
-});
-</script>
-<!-- 背景特效相关结束 -->
 </body>
 </html>
