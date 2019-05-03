@@ -360,6 +360,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 
 	@Column(name = "template_code_column_used", columnDefinition="int(2) comment '是否在模版调用中显示（调取子栏目列表）。1使用，0不使用'")
 	public Short getTemplateCodeColumnUsed() {
+		if(templateCodeColumnUsed == null){
+			return 1;
+		}
 		return templateCodeColumnUsed;
 	}
 
@@ -378,6 +381,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	
 	@Column(name = "admin_news_used", columnDefinition="int(2) comment '是否在内容管理中显示这个栏目。'")
 	public Short getAdminNewsUsed() {
+		if(adminNewsUsed == null){
+			return 1;
+		}
 		return adminNewsUsed;
 	}
 
