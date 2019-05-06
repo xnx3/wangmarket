@@ -50,18 +50,14 @@ public class InputModelServiceImpl implements InputModelService {
 		}
 		return inputModelList;
 	}
-
-	/**
-	 * 获取当前session中的输入模型。若没有，则从数据库中加载当前网站的输入模型数据到Session中。
-	 */
-	public Map<Integer, InputModel> getInputModelBySession(){
+	
+	public Map<Integer, InputModel> getInputModelBySession(int siteid){
 		Map<Integer, InputModel> map = Func.getUserBeanForShiroSession().getInputModelMap();
 		
 		//若是第一次使用，需要从数据库加载输入模型数据
 		if(map == null){
 			map = new HashMap<Integer, InputModel>();
 			
-			int siteid = Func.getUserBeanForShiroSession().getSite().getId();
 			List<InputModel> inputModelList = sqlDAO.findBySqlQuery("SELECT * FROM input_model WHERE siteid = " + siteid, InputModel.class);
 			if(inputModelList != null && inputModelList.size() > 0){
 				//如果取到了当前网站有自己的输入模型，那么将其加入session缓存中
@@ -74,6 +70,14 @@ public class InputModelServiceImpl implements InputModelService {
 		}
 		
 		return map;
+	}
+	
+	/**
+	 * 获取当前session中的输入模型。若没有，则从数据库中加载当前网站的输入模型数据到Session中。
+	 */
+	public Map<Integer, InputModel> getInputModelBySession(){
+		int siteid = Func.getUserBeanForShiroSession().getSite().getId();
+		return getInputModelBySession(siteid);
 	}
 
 	public InputModel getInputModelById(int modelId) {
@@ -127,7 +131,7 @@ public class InputModelServiceImpl implements InputModelService {
 	public String getInputModelTextByIdForNews(NewsInit newsInit) {
 		SiteColumn siteColumn = newsInit.getSiteColumn();
 		
-		InputModel im = getInputModelByCodeName(siteColumn.getInputModelCodeName());
+		InputModel im = getInputModelBySiteColumn(siteColumn);
 		String text = null;	//输入模型中获取的自定义模型具体内容
 		
 		//如果该栏目没有输入模型，那么用默认的
@@ -193,7 +197,18 @@ public class InputModelServiceImpl implements InputModelService {
 		}
 		return text;
 	}
-
+	
+	public InputModel getInputModelBySiteColumn(SiteColumn siteColumn) {
+		Map<Integer, InputModel> map = getInputModelBySession(siteColumn.getSiteid());
+		for (Integer key : map.keySet()) {
+		   InputModel inputModel = map.get(key);
+		   if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(siteColumn.getCodeName())){
+			   return inputModel;
+		   }
+		}
+		return null;
+	}
+	
 	public InputModel getInputModelByCodeName(String codeName) {
 		Map<Integer, InputModel> map = getInputModelBySession();
 		for (Integer key : map.keySet()) {
