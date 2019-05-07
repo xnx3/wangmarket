@@ -202,7 +202,8 @@ public class InputModelServiceImpl implements InputModelService {
 		Map<Integer, InputModel> map = getInputModelBySession(siteColumn.getSiteid());
 		for (Integer key : map.keySet()) {
 		   InputModel inputModel = map.get(key);
-		   if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(siteColumn.getCodeName())){
+		   //此处判断将 siteColumn.getCodeName 改为 siteColumn.getInputModelCodeName()  ，感谢 https://gitee.com/tendeness 提出问题所在
+		   if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(siteColumn.getInputModelCodeName())){
 			   return inputModel;
 		   }
 		}

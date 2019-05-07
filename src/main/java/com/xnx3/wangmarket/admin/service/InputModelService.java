@@ -24,7 +24,7 @@ public interface InputModelService {
 	
 	/**
 	 * 根据输入模型的模型代码,获取自己网站内这个模型
-	 * @param codeName 模型代码
+	 * @param codeName 模型代码，inputModel.codeName
 	 * @return 若返回null，则没有这个模型
 	 */
 	public InputModel getInputModelByCodeName(String codeName);
