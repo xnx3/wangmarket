@@ -31,7 +31,7 @@ public class G {
 	public static final String CACHE_FILE = "cache/data/";
 	public static final String DEFAULT_SITE_COLUMN_ICON_URL = "res/glyph-icons/world.png";
 	
-	//云端url，如云端模板库等
+	//云端url，如云端模板库等，已废弃，在 com.xnx3.j2ee.func.StaticResource
 	public static final String RES_CDN_DOMAIN = "http://res.weiunity.com/";	
 	
 	public static final int TEMPLATE_PC_DEFAULT = 6;	//PC端的默认模版编号是6

@@ -8,7 +8,7 @@
 <jsp:include page="../../../iw/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
-<script src="//res.weiunity.com/js/fun.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
@@ -54,7 +54,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">微信公众号</td>
-			<td><img src="//res.weiunity.com/image/weixin_gzh.png" style="height:100px;" /></td>
+			<td><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="height:100px;" /></td>
 		</tr>
 		
     </tbody>

@@ -158,7 +158,7 @@ layui.use('form', function(){
 	  ,time: 0 //不自动关闭
 	});
     var d=$("form").serialize();
-	$.post("/site/userCreateSite.do", d, function (result) { 
+	$.post("/sites/userCreateSite.do", d, function (result) { 
 		layer.close(loadVar);
        	var obj = JSON.parse(result);
        	if(obj.result == '1'){
@@ -182,7 +182,7 @@ layui.use('form', function(){
 		        }
 		        ,yes: function(){
 		        	//点击底部按钮
-		        	window.location.href='/site/editPcIndex.do?siteid='+obj.site.id;
+		        	window.location.href='/sites/editPcIndex.do?siteid='+obj.site.id;
 		        }
 		      });
        	}else if(obj.result == '0'){

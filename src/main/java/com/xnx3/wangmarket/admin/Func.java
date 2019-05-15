@@ -109,8 +109,8 @@ public class Func {
 	 * @return 重定向跳转网址。返回包含：
 	 * 		<ul>
 	 * 			<li>template/index.do</li>
-	 * 			<li>site/editPcIndex.do</li>
-	 * 			<li>site/editWapIndex.do</li>
+	 * 			<li>sites/editPcIndex.do</li>
+	 * 			<li>sites/editWapIndex.do</li>
 	 * 			<li>admin/index/index.do 代理后台，总管理后台都是用这个</li>
 	 * 		</ul>
 	 */

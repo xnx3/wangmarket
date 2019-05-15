@@ -39,7 +39,7 @@ $(function(){
 			anim: 3, 
 			area:['515px','352px'],
 			shadeClose: true, //开启遮罩关闭
-			content: masterSiteUrl+'site/popupInfo.do',
+			content: masterSiteUrl+'sites/popupInfo.do',
 			title: false
 		});
 	})
@@ -144,7 +144,7 @@ $(function(){
 			closeBtn: 0, //不显示关闭按钮
 			anim: 3, area:['600px','675px'],
 			shadeClose: true, //开启遮罩关闭
-			content: masterSiteUrl+'site/templateList.do?siteid='+site['id']+'&client=pc',
+			content: masterSiteUrl+'sites/templateList.do?siteid='+site['id']+'&client=pc',
 			title: '更换模版',
 			closeBtn: 1
 		});
@@ -429,7 +429,7 @@ if(siteClient == 1){
 			//底部微信二维码
 			upload.render({
 				elem: '#qrImage' //绑定元素
-			    ,url: masterSiteUrl+'site/popupQrImageUpdateSubmit.do' //上传接口
+			    ,url: masterSiteUrl+'sites/popupQrImageUpdateSubmit.do' //上传接口
 			    ,exts: 'jpg|jpeg|gif|png|bmp'
 			    ,field: 'qrImageFile'
 			    ,before: function(res){
@@ -459,7 +459,7 @@ if(siteClient == 1){
 			//关于我们
 			upload.render({
 				elem: '.aboutUsImg' //绑定元素
-			    ,url: masterSiteUrl+'site/popupAboutUsImageUpdateSubmit.do' //上传接口
+			    ,url: masterSiteUrl+'sites/popupAboutUsImageUpdateSubmit.do' //上传接口
 			    ,exts: 'jpg|jpeg|gif|png|bmp'
 			    ,field: 'titlePicFile'
 			    ,before: function(res){

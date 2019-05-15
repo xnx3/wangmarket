@@ -303,7 +303,7 @@ layui.use('upload', function(){
 	//upload.render(uploadPic);
 	upload.render({
 		elem: "#uploadImagesButton" //绑定元素
-		,url: '/site/uploadImage.do' //上传接口
+		,url: '/sites/uploadImage.do' //上传接口
 		,field: 'image'
 		,accept: 'file'
 		,size: ${maxFileSizeKB}

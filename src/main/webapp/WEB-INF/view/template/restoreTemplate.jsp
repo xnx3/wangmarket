@@ -5,7 +5,7 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="还原模版"/>
 </jsp:include>
-<link rel="stylesheet" href="//res.weiunity.com/css/layerGlobal.css" media="all">
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/layerGlobal.css" media="all">
 
 <!-- author:管雷鸣 -->
 <style>
@@ -118,7 +118,7 @@
 	</ul>
 </blockquote>
 
-<script src="//res.weiunity.com/layui2/layui.all.js"></script>
+<script src="${STATIC_RESOURCE_PATH}module/layui/layui.all.js"></script>
 <script type="text/javascript">
 layui.use('element', function(){
 	var element = layui.element;

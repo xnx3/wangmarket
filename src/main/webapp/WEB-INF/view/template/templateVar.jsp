@@ -6,8 +6,8 @@
 </jsp:include>
 
 <!-- 代码编辑模式所需资源 -->
-<link rel="stylesheet" href="//res.weiunity.com/editor/css/editormd.css" />
-<script src="//res.weiunity.com/editor/editormd.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" />
+<script src="${STATIC_RESOURCE_PATH}module/editor/editormd.js"></script>
 
 <form id="form" class="layui-form layui-form-pane" action="saveTemplateVar.do" method="post" style="padding:5px;">
   <input type="hidden" name="id" value="${templateVar.id }" />
@@ -143,7 +143,7 @@ function loadTemplateVarText(){
 	          value            : data,
 	          theme            : "default",
 	          mode             : "text/html",
-	          path             : '//res.weiunity.com/editor/lib/'
+	          path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
 	      });
 	      
         

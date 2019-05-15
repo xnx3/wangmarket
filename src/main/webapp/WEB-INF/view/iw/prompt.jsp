@@ -38,7 +38,7 @@ if(state == Global.PROMPT_STATE_SUCCESS){
     <title>提示</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="//res.weiunity.com/layui/css/layui.css">
+	<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/layui/css/layui.css">
 	<style>
 		.myForm{
 			margin: 0 auto;

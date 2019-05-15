@@ -6,7 +6,7 @@
 <jsp:include page="iw/common/head.jsp">
 	<jsp:param name="title" value="模版列表"/>
 </jsp:include>
-<link rel="stylesheet" href="//res.weiunity.com/css/layerGlobal.css" media="all">
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/layerGlobal.css" media="all">
 
 <!-- author:管雷鸣 -->
 <style>

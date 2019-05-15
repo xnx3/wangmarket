@@ -47,7 +47,7 @@ function updateFooterSiteInfo(){
 		title:'修改联系信息', 
 		area: ['600px', '460px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '/site/popupSiteUpdate.do'
+		content: '/sites/popupSiteUpdate.do'
 	});
 }
 
@@ -206,7 +206,7 @@ function openJiBenXinXi(){
 		closeBtn: 1, //不显示关闭按钮
 		anim: 3, area:['390px','260px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '/site/popupBasicInfo.do',
+		content: '/sites/popupBasicInfo.do',
 		title: false,
 		closeBtn: 1
 	});
@@ -232,7 +232,7 @@ function wenTiFanKuiSubmit(){
 		return;
 	}
 	var wtfk_load_index = layer.load(3);
-	$.post("/site/wenTiFanKui.do", { "text":document.getElementById('wentifankui_textarea').value },
+	$.post("/sites/wenTiFanKui.do", { "text":document.getElementById('wentifankui_textarea').value },
 	   function(data){
 			layer.close(wtfk_load_index);
 			if(data.result != '1'){
@@ -269,7 +269,7 @@ function updateIndexBanner(){
 //更改模版，需 getSubWindowsParam()支持
 function updateTemplate(){
 	$.showLoading('模版更换中');
-	window.location.href='/site/templateSave.do?siteid='+site['id']+'&client=pc&templateId='+getSubWindowsParam();
+	window.location.href='/sites/templateSave.do?siteid='+site['id']+'&client=pc&templateId='+getSubWindowsParam();
 }
 
 //修改关于我们的图
@@ -279,7 +279,7 @@ function updateAboutUsImage(){
 		title:'修改关于我们的图片', 
 		area: ['380px', '410px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '/site/popupAboutUsImageUpdate.do'
+		content: '/sites/popupAboutUsImageUpdate.do'
 	});
 }
 
@@ -300,7 +300,7 @@ function updateSiteColumn(siteColumnId){
 //修改网站的关键词
 function updateSiteKeywords(){
 	$.showLoading();
-	$.post("/site/getSiteData.do", function(result){
+	$.post("/sites/getSiteData.do", function(result){
 		 $.hideLoading();
 		if(result.result != '1'){
 			alert(result.info);
@@ -311,7 +311,7 @@ function updateSiteKeywords(){
 				title: "更改网站 keywords",
 				onOK: function(text) {
 					iw.loading("修改中");
-					$.post("/site/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
+					$.post("/sites/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
 						iw.loadClose();
 						if(data.result == '1'){
 							iw.msgSuccess("修改成功");
@@ -334,7 +334,7 @@ function updateSiteKeywords(){
 function updateSiteName(){
 	
 	iw.loading("加载中");    //显示“操作中”的等待提示
-	$.post("/site/getSiteData.do", function(data){
+	$.post("/sites/getSiteData.do", function(data){
 	    iw.loadClose();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
 			$.prompt({
@@ -343,7 +343,7 @@ function updateSiteName(){
 			 onOK: function(text) {
 				 iw.loading("修改中");
 				 
-				 $.post("/site/updateName.do", {"name":text }, function(data){
+				 $.post("/sites/updateName.do", {"name":text }, function(data){
 					 	iw.loadClose();
 					 	if(data.result == '1'){
 					 		iw.msgSuccess("操作成功");
@@ -395,7 +395,7 @@ function updateSiteName(){
 function updateSiteDataDescription(){
 	iw.loading("加载中");
 	
-	$.post("/site/getSiteData.do", function(data){
+	$.post("/sites/getSiteData.do", function(data){
 		iw.loadClose();
 		if(data.result == '1'){
 			$.prompt({
@@ -403,7 +403,7 @@ function updateSiteDataDescription(){
 				 title: "更改网站首页描述 Description",
 				 onOK: function(text) {
 					 iw.loading("修改中");
-					 $.post("/site/updateDescription.do", { "siteid": site['id'], "description":text }, function(data2){
+					 $.post("/sites/updateDescription.do", { "siteid": site['id'], "description":text }, function(data2){
 					 	iw.loadClose();
 						if(data2.result != '1'){
 							iw.msgFailure(data2.info);
@@ -426,7 +426,7 @@ function updateSiteDataDescription(){
 //刷新首页
 function refreshIndex(){
 	$.showLoading('重新创建中');
-	window.location.href='/site/refreshIndex.do';
+	window.location.href='/sites/refreshIndex.do';
 }
 
 //更改二级域名,需 getSubWindowsParam()支持
@@ -448,7 +448,7 @@ function updateDomain(){
 		 }else{
 			 if(text != getSubWindowsParam()){
 				 iw.loading("修改中");
-				 $.post("/site/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
+				 $.post("/sites/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
 				 	iw.loadClose();
 				 	if(data.result == '1'){
 				 		iw.msgSuccess("修改成功");
@@ -473,7 +473,7 @@ function updateBindDomain(){
 		closeBtn: 1, //不显示关闭按钮
 		area:['438px','400px'],
 		shadeClose: false, //开启遮罩关闭
-		content: '/site/popupBindDomain.do',
+		content: '/sites/popupBindDomain.do',
 		scrollbar: false,
 		title: '您需要以下这几步，来进行绑定域名',
 		closeBtn: 1
@@ -583,7 +583,7 @@ function bindDomain(domain){
 	}else{
 		parent.iw.loading("绑定中");
 	}
-	$.post("/site/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
+	$.post("/sites/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
 		parent.iw.loadClose();
 		if(data.result == '1'){
 			if(domain.length == 0){
@@ -624,7 +624,7 @@ function updatePassword(){
 	}, function(value, index, elem){
 		layer.close(index);
 		iw.loading('更改中...');
-		$.post("/site/updatePassword.do", { "newPassword": value},
+		$.post("/sites/updatePassword.do", { "newPassword": value},
 			function(data){
 				iw.loadClose();
 				if(data.result != '1'){

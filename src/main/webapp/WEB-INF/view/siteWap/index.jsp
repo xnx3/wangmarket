@@ -127,7 +127,7 @@ var autoAssignDomain = '${autoAssignDomain }';
  -->
  
 		<li class="layui-nav-item" id="wapgenghuanmoban">
-			<a href="javascript:loadIframeByUrl('/site/templateList.do?client=wap')">
+			<a href="javascript:loadIframeByUrl('/sites/templateList.do?client=wap')">
 				<i class="layui-icon firstMenuIcon">&#xe61b;</i>
 				<span class="firstMenuFont">更换模版</span>
 			</a>

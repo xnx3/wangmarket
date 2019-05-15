@@ -5,8 +5,8 @@
 	<jsp:param name="title" value="编辑输入模型"/>
 </jsp:include>
 <!-- 代码编辑模式所需资源 -->
-<link rel="stylesheet" href="//res.weiunity.com/editor/css/editormd.css" />
-<script src="//res.weiunity.com/editor/editormd.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" />
+<script src="${STATIC_RESOURCE_PATH}module/editor/editormd.js"></script>
 
 <form id="form" class="layui-form layui-form-pane" action="save.do" method="post" style="padding:5px;">
   <input type="hidden" name="id" value="${inputModel.id }" />
@@ -147,7 +147,7 @@ function loadEditor(){
 	    value            : document.getElementById("html_textarea").value,
 	    theme            : "default",
 	    mode             : "text/html",
-	    path             : '//res.weiunity.com/editor/lib/'
+	    path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
 	});
 }
 

@@ -9,6 +9,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.func.StaticResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,8 @@ public class AllInterceptor implements HandlerInterceptor {
         return true;
     }
  
+    
+    
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
     	if(useExecuteTime){
@@ -59,9 +62,16 @@ public class AllInterceptor implements HandlerInterceptor {
 	        	System.out.println(DateUtil.currentDate("MM-dd HH:mm:ss")+" ControllerExecuteTime : "+executeTime+" ms , "+handler);
 			}
 		}
+    	
+    	//v4.10 增加，资源文件css、js的引用路径，是本地引用，还是cdn引用
+    	String static_resource_path = StaticResource.getPath();
+    	if(modelAndView != null){
+    		modelAndView.addObject("STATIC_RESOURCE_PATH", static_resource_path);
+    	}
     }
  
-    @Override
+
+	@Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
  
     }

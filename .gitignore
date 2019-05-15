@@ -70,6 +70,14 @@
 /src/main/java/com/xnx3/wangmarket/plugin/aliyunServiceCreate/
 /src/main/webapp/WEB-INF/view/plugin/aliyunServiceCreate/
 
+# innerAccount 插件过滤
+/src/main/java/com/xnx3/wangmarket/plugin/innerAccount/
+/src/main/webapp/WEB-INF/view/plugin/innerAccount/
+
+
+
+
+
 # site 生成的网站过滤
 /src/main/webapp/site/
 

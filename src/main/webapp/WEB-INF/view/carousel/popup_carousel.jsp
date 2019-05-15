@@ -8,7 +8,7 @@
 	<title>修改Banner</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
+	<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 	<!-- 模版的加载都是动态加载，在下面js里 -->
 	<script src="//res.weiunity.com/layui/layui.js" type="text/javascript"></script>
 	<link href="//res.weiunity.com/layui/css/layui.css" rel="stylesheet" type="text/css">	

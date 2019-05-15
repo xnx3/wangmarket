@@ -7,21 +7,21 @@
 <title><%=Global.get("SITE_NAME") %></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 
 <script src="/js/fun.js"></script>
 <script src="/js/admin/cms/cms.js?v=<%=G.VERSION %>"></script>
 
 <!-- 模版的加载都是动态加载，在下面js里 -->
-<script src="//res.weiunity.com/layer/layer.js" type="text/javascript"></script>
-<script src="//res.weiunity.com/layui2/layui.js"></script>
-<link href="//res.weiunity.com/layui2/css/layui.css" rel="stylesheet" type="text/css">	
+<script src="${STATIC_RESOURCE_PATH}module/layer/layer.js" type="text/javascript"></script>
+<script src="${STATIC_RESOURCE_PATH}module/layui/layui.js"></script>
+<link href="${STATIC_RESOURCE_PATH}module/layui/css/layui.css" rel="stylesheet" type="text/css">	
 
-<script src="//res.weiunity.com/js/jquery-weui.js" type="text/javascript"></script>
-<link href="//res.weiunity.com/css/weui.min.css" rel="stylesheet" type="text/css">	
-<link href="//res.weiunity.com/css/jquery-weui.css" rel="stylesheet" type="text/css">
+<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js" type="text/javascript"></script>
+<link href="${STATIC_RESOURCE_PATH}css/weui.min.css" rel="stylesheet" type="text/css">	
+<link href="${STATIC_RESOURCE_PATH}css/jquery-weui.css" rel="stylesheet" type="text/css">
 
-<script src="//res.weiunity.com/js/iw.js"></script>	
+<script src="${STATIC_RESOURCE_PATH}js/iw.js"></script>	
 <script>
 var masterSiteUrl = '//<%=request.getServerName() %>:<%=request.getServerPort() %>/';
 var autoAssignDomain = '${autoAssignDomain }';
@@ -133,8 +133,8 @@ var autoAssignDomain = '${autoAssignDomain }';
 	
 	
 	<!-- 代码编辑模式所需资源 -->
-	<link rel="stylesheet" href="//res.weiunity.com/editor/css/editormd.css" />
-	<script src="//res.weiunity.com/editor/editormd.js"></script>
+	<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" />
+	<script src="${STATIC_RESOURCE_PATH}module/editor/editormd.js"></script>
 
 	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
@@ -232,7 +232,7 @@ function codeEditMode(){
             value            : data,
             theme            : "default",
             mode             : "text/html",
-            path             : '//res.weiunity.com/editor/lib/'
+            path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
         });
 	    
 	},'text');
@@ -267,7 +267,7 @@ function htmledit_mode(){
 	            value            : document.getElementById("html_textarea").value,
 	            theme            : "default",
 	            mode             : "text/html",
-	            path             : '//res.weiunity.com/editor/lib/'
+	            path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
 	        });
 		}
 		
@@ -690,7 +690,7 @@ function mobanshiyongshuoming(){
 		  ,title : '当前使用的云模版，使用说明。可在左侧模版管理－使用说明中查看'
 		  ,area :['700px','450px']
 		  ,maxmin : true
-		  ,content: '//res.weiunity.com/template/'+tn+'/useExplain.html'
+		  ,content: '${STATIC_RESOURCE_PATH}template/'+tn+'/useExplain.html'
 		});
 	}
 }
@@ -782,7 +782,7 @@ function rightTip(){
 	  ,btn: ['我知道了'] //可以无限个按钮
 	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
 	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
-	   			'<div style="text-align:center;"><img src="//res.weiunity.com/image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+	   			'<div style="text-align:center;"><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
 	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
 	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
 	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
@@ -800,7 +800,6 @@ if('${user.username}'.indexOf('ceshi') > -1){
 
 <% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
 <!-- IM start -->
-<script src="//res.weiunity.com/layui217/layui.js"></script>
 <script>
 var id = ${user.id};	//用户的id，用户唯一
 var password = "${password }";	//加密后密码

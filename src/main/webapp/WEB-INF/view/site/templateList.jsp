@@ -131,7 +131,7 @@ function selectTemp(tempId){
 	}, function(){
 		layer.close(layer_confirm_tip);
 		parent.iw.loading("修改中");
-		$.post("/site/templateSave.do?templateId="+tempId, function(data){
+		$.post("/sites/templateSave.do?templateId="+tempId, function(data){
 			parent.iw.loadClose();
 			if(data.result == '1'){
 				parent.iw.msgSuccess("操作成功");

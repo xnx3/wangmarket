@@ -6,7 +6,7 @@
 	<jsp:param name="title" value="动作日志列表"/>
 </jsp:include>
 
-<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 
 <jsp:include page="../../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../iw/common/list/formSearch_input.jsp">

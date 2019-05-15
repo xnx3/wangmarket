@@ -14,12 +14,12 @@
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
-<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 
 <!-- DOM操作 -->
-<script src="//res.weiunity.com/js/HTML.min.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/HTML.min.js"></script>
 <!-- 拖动操作 -->
-<script src="//res.weiunity.com/js/Sortable.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/Sortable.js"></script>
 
 <!-- Data -->
 <script src="${AttachmentFileUrl }site/${site.id }/data/siteColumn.js"></script>

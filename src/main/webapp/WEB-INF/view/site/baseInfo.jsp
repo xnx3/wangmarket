@@ -100,7 +100,7 @@ $(function(){
 	})
 });
 
-$.post("/site/getOSSSize.do", function(data){
+$.post("/sites/getOSSSize.do", function(data){
 	if(data.result == '1'){
 		document.getElementById('ossSize').innerHTML = (data.info/1000)+'&nbsp;MB';
 		document.getElementById('residueSize').innerHTML = (${user.ossSizeHave}-(data.info/1000))+'&nbsp;MB';

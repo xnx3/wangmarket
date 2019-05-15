@@ -6,11 +6,11 @@
 	<jsp:param name="title" value="访问统计"/>
 </jsp:include>
 
-<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 
 
 <!-- echarts -->
-<script src="//res.weiunity.com/js/echarts.min.js" type="text/javascript"></script>
+<script src="${STATIC_RESOURCE_PATH}js/echarts.min.js" type="text/javascript"></script>
 
 <div style="padding:20px;">
 	<!-- 当天、昨天的折线图，每小时访问情况 -->

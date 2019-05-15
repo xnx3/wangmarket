@@ -69,7 +69,7 @@ function deleteHtml(fileName){
 		btn: ['删除','取消'] //按钮
 	}, function(){
 		iw.loading("删除中");
-		$.post("/site/deleteOssData.do?fileName="+fileName+".html", function(data){
+		$.post("/sites/deleteOssData.do?fileName="+fileName+".html", function(data){
 			iw.loadClose();
 			if(data.result == '1'){
 				iw.msgSuccess("删除成功");

@@ -74,7 +74,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(demo1)', function(data){
   	  $.showLoading('数据保存中');
 		var d=$("form").serialize();
-        $.post("/site/savePopupSiteUpdate.do", d, function (result) { 
+        $.post("/sites/savePopupSiteUpdate.do", d, function (result) { 
         	$.hideLoading();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){

@@ -4,7 +4,7 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="文章内容"/>
 </jsp:include>
-<script type="text/javascript" src="//res.weiunity.com/js/fun.js"></script>
+<script type="text/javascript" src="${STATIC_RESOURCE_PATH}js/fun.js"></script>
 
 <script type="text/javascript">
 /**
@@ -90,7 +90,7 @@ try{
 
 var uploadExtendPhotos = {
 		elem: '.uploadImagesButton' //绑定元素
-		,url: parent.masterSiteUrl+'site/uploadImage.do' //上传接口
+		,url: parent.masterSiteUrl+'sites/uploadImage.do' //上传接口
 		,field: 'image'
 		,accept: 'file'
 		,size: ${maxFileSizeKB}
@@ -130,7 +130,7 @@ layui.use('upload', function(){
 	//upload.render(uploadPic);
 	upload.render({
 		elem: "#uploadImagesButton" //绑定元素
-		,url: parent.masterSiteUrl+'site/uploadImage.do' //上传接口
+		,url: parent.masterSiteUrl+'sites/uploadImage.do' //上传接口
 		,field: 'image'
 		,accept: 'file'
 		,size: ${maxFileSizeKB}

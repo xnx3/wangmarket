@@ -24,7 +24,7 @@ layui.use('upload', function(){
 	var upload = layui.upload;
 	upload.render({
 		elem: '#titlePicFile', //绑定元素
-		url: '/site/popupAboutUsImageUpdateSubmit.do',
+		url: '/sites/popupAboutUsImageUpdateSubmit.do',
 		field:'titlePicFile',
 		exts: 'jpg|gif|png|jpeg|bmp', //那么，就只会支持这三种格式的上传。注意是用|分割。
 		before: function(input){

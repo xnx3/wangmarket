@@ -8,7 +8,7 @@
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
-<script src="//res.weiunity.com/js/fun.js"></script>
+<script src="${STATIC_RESOURCE_PATH}js/fun.js"></script>
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>

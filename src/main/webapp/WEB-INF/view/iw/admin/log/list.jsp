@@ -6,8 +6,6 @@
 	<jsp:param name="title" value="动作日志列表"/>
 </jsp:include>
 
-<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
-
 <jsp:include page="../../common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../common/list/formSearch_input.jsp">
 		<jsp:param name="iw_label" value="关键词"/>
