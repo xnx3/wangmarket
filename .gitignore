@@ -74,7 +74,14 @@
 /src/main/java/com/xnx3/wangmarket/plugin/innerAccount/
 /src/main/webapp/WEB-INF/view/plugin/innerAccount/
 
+/src/main/java/com/xnx3/wangmarket/plugin/shouguangyoutian/
+/src/main/webapp/WEB-INF/view/plugin/shouguangyoutian/
 
+/src/main/java/com/xnx3/wangmarket/plugin/putFile/
+/src/main/webapp/WEB-INF/view/plugin/putFile/
+
+/src/main/java/com/xnx3/wangmarket/plugin/putNews/
+/src/main/webapp/WEB-INF/view/plugin/putNews/
 
 
 
