@@ -224,8 +224,8 @@ public class NewsController extends BaseController {
 			
 			if(s.getId() == null || s.getId() == 0){
 				AliyunLog.addActionLog(news.getId(), "新增文章成功，文章："+news.getTitle());
-				//刷新sitemap
-				siteService.refreshSiteMap(site);
+				//刷新sitemap，v4.10更新,添加文章时，不再自动生成sitemap.xml，以免数据量大时，新增文章卡顿比较大的问题。
+				//siteService.refreshSiteMap(site);
 			}else{
 				AliyunLog.addActionLog(news.getId(), "修改文章成功，文章："+news.getTitle());
 			}
