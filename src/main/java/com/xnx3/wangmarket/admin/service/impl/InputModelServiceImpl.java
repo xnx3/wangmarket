@@ -177,20 +177,20 @@ public class InputModelServiceImpl implements InputModelService {
 				}
 				
 			}else{
-				text = text.replaceAll(Template.regex("news.title"), news.getTitle());
-				text = text.replaceAll(Template.regex("titlepicImage"), newsInit.getTitlepicImage());
-				text = text.replaceAll(Template.regex("news.titlepic"), news.getTitlepic());
-				text = text.replaceAll(Template.regex("news.intro"), news.getIntro());
-				text = text.replaceAll(Template.regex("news.reserve1"), news.getReserve1());
-				text = text.replaceAll(Template.regex("news.reserve2"), news.getReserve2());
+				text = Template.replaceAll(text, Template.regex("news.title"), news.getTitle());
+				text = Template.replaceAll(text, Template.regex("titlepicImage"), newsInit.getTitlepicImage());
+				text = Template.replaceAll(text, Template.regex("titlepic"), news.getTitlepic());
+				text = Template.replaceAll(text, Template.regex("intro"), news.getIntro());
+				text = Template.replaceAll(text, Template.regex("reserve1"), news.getReserve1());
+				text = Template.replaceAll(text, Template.regex("reserve2"), news.getReserve2());
 				
 				//此处因replaceAll容易出问题，而且｛text｝也只会出现一次，所以直接换为了replace
-				text = text.replace("{text}", newsInit.getNewsDataBean().getText());
+				text = Template.replaceAll(text, Template.regex("text"), newsInit.getNewsDataBean().getText());
 				
 				//v4.6,自定义 extend
 				if(map.size() > 0){
 					for (Map.Entry<String, Boolean> entry : map.entrySet()) {
-			        	text = text.replaceAll(Template.regex("news.extend."+entry.getKey()), newsInit.getNewsDataBean().getExtendJson(entry.getKey()));
+						text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsInit.getNewsDataBean().getExtendJson(entry.getKey()));
 			        }
 				}
 			}

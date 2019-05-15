@@ -279,14 +279,15 @@ public class TemplateCMS {
 //			titlePic = G.DEFAULT_PC_ABOUT_US_TITLEPIC;
 			titlePic = Global.get("MASTER_SITE_URL")+"default/aboutUs.jpg";
 		}
-		String text = newsText.replaceAll(regex("news.id"), news.getId()+"");
-		text = text.replaceAll(regex("news.addtime"), DateUtil.intToString(news.getAddtime(), "yyyy-MM-dd"));
-		text = text.replaceAll(regex("news.title"), news.getTitle());
-		text = text.replaceAll(regex("news.intro"), news.getIntro()+"");
-		text = text.replaceAll(regex("news.cid"), news.getCid()+"");
+		String text = Template.replaceAll(newsText, regex("news.id"), news.getId()+"");
+		text = Template.replaceAll(text, regex("news.addtime"), DateUtil.intToString(news.getAddtime(), "yyyy-MM-dd"));
+		text = Template.replaceAll(text, regex("news.title"), news.getTitle());
+		text = Template.replaceAll(text, regex("news.intro"), news.getIntro()+"");
+		text = Template.replaceAll(text, regex("news.cid"), news.getCid()+"");
+		
 		//v4.5增加以下两个预留字段
-		text = text.replaceAll(regex("news.reserve1"), news.getReserve1());
-		text = text.replaceAll(regex("news.reserve2"), news.getReserve2());
+		text = Template.replaceAll(text, regex("news.reserve1"), news.getReserve1());
+		text = Template.replaceAll(text, regex("news.reserve2"), news.getReserve2());
 		
 		//文章头图在正常访问时，使用相对路径  
 		if(titlePic.indexOf("//") == 0 || titlePic.indexOf("http://") == 0 || titlePic.indexOf("https://") == 0){
@@ -295,7 +296,7 @@ public class TemplateCMS {
 			//用的相对路径，要加个东西了，不过CMS模式的好像没有这样的了。v4.8版本更新检测到此处，此处属于基本废弃功能，暂时先保留
 			titlePic = "news/"+titlePic;
 		}
-		text = text.replaceAll(regex("news.titlepic"), titlePic);
+		text = Template.replaceAll(text, regex("news.titlepic"), titlePic);
 		
 		//news文章url生成模式，替换{news.url}标签
 		if(this.generateUrlRule.equals("code")){
@@ -303,20 +304,20 @@ public class TemplateCMS {
 
 			if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，直接使用code.html
-				text = text.replaceAll(regex("news.url"), siteColumn.getCodeName()+".html");
+				text = Template.replaceAll(text, regex("news.url"), siteColumn.getCodeName()+".html");
 			}else{
 				//列表的某条内容页，则使用通用的id.html
-				text = text.replaceAll(regex("news.url"), news.getId()+".html");
+				text = Template.replaceAll(text, regex("news.url"), news.getId()+".html");
 			}
 		}else{
 			//id.html模式
 			
 			if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
 				//独立页面，直接使用c+sitecolumn.id.html
-				text = text.replaceAll(regex("news.url"), "c"+siteColumn.getId()+".html");
+				text = Template.replaceAll(text, regex("news.url"), "c"+siteColumn.getId()+".html");
 			}else{
 				//列表的某条内容页，则使用通用的id.html
-				text = text.replaceAll(regex("news.url"), news.getId()+".html");
+				text = Template.replaceAll(text, regex("news.url"), news.getId()+".html");
 			}
 		}
 		
@@ -327,12 +328,12 @@ public class TemplateCMS {
 			Calendar c = new GregorianCalendar();
 			c.setTime(new Date(time * 1000));
 			
-			text = text.replaceAll(regex("news.addtime.year"), c.get(Calendar.YEAR)+"");
-			text = text.replaceAll(regex("news.addtime.month"), (c.get(Calendar.MONTH) + 1)+"");
-			text = text.replaceAll(regex("news.addtime.day"), c.get(Calendar.DAY_OF_MONTH)+"");
-			text = text.replaceAll(regex("news.addtime.hour"), c.get(Calendar.HOUR_OF_DAY)+"");
-			text = text.replaceAll(regex("news.addtime.minute"), c.get(Calendar.MINUTE)+"");
-			text = text.replaceAll(regex("news.addtime.second"), c.get(Calendar.SECOND)+"");
+			text = Template.replaceAll(text, regex("news.addtime.year"), c.get(Calendar.YEAR)+"");
+			text = Template.replaceAll(text, regex("news.addtime.month"), (c.get(Calendar.MONTH) + 1)+"");
+			text = Template.replaceAll(text, regex("news.addtime.day"), c.get(Calendar.DAY_OF_MONTH)+"");
+			text = Template.replaceAll(text, regex("news.addtime.hour"), c.get(Calendar.HOUR_OF_DAY)+"");
+			text = Template.replaceAll(text, regex("news.addtime.minute"), c.get(Calendar.MINUTE)+"");
+			text = Template.replaceAll(text, regex("news.addtime.second"), c.get(Calendar.SECOND)+"");
 		}
 		
 		//v4.9版本增加，提高容错
