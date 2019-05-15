@@ -286,7 +286,7 @@ public class SitePcController extends BaseController {
 		String[] fns = fileName.split("\\.");
 		String htmlFile = fns[0];
 		
-		return redirect("site/html.do?htmlFile="+htmlFile);
+		return redirect("sites/html.do?htmlFile="+htmlFile);
 	}
 	
 

@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.admin.controller;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -57,7 +56,7 @@ import com.xnx3.wangmarket.domain.bean.SimpleSite;
  * @author 管雷鸣
  */
 @Controller
-@RequestMapping("/site")
+@RequestMapping("/sites")
 public class SiteController extends BaseController {
 	@Resource
 	private SqlService sqlService;

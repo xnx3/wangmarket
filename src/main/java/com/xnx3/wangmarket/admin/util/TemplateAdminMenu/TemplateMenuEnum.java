@@ -9,7 +9,7 @@ public enum TemplateMenuEnum {
 	SYSTEM_JiBenXinXi("jibenxinxi", "基本信息", "javascript:;", "", "system"),
 	SYSTEM_WangZhanSheZhi("wangzhanshuxing", "网站设置", "javascript:;", "", "system"),
 	SYSTEM_XiuGaiMiMa("xiugaimima", "修改密码", "javascript:updatePassword();", "", "system"),
-	SYSTEM_YuLanWangZhan("chakanwangzhan", "预览网站", "javascript:window.open('/site/sitePreview.do');", "", "system"),
+	SYSTEM_YuLanWangZhan("chakanwangzhan", "预览网站", "javascript:window.open('/sites/sitePreview.do');", "", "system"),
 	
 	TEMPLATE("template", "模版管理", "javascript:;", "&#xe61b;", ""),
 	TEMPLATE_MoBanBianLiang("mobanbianliang", "模版变量", "javascript:loadIframeByUrl('/template/templateVarList.do'), notUseTopTools();", "", "template"),

@@ -771,7 +771,7 @@ public class NewsController extends BaseController {
 		String[] hfs = htmlFiles.split(".");
 		String htmlFile = hfs[0];
 		
-		return redirect("site/html.do?htmlFile="+htmlFile);
+		return redirect("sites/html.do?htmlFile="+htmlFile);
 	}
 	
 }
