@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>markdown</title>
+        <link rel="stylesheet" href="http://res.weiunity.com/editor/css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <div id="test-editormd">
+<textarea style="display:none;">
+[TOC]
+
+## 文章显示示例
+这是正常文字信息，文字内容可以如我这样。
+以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。网·市场！让每个企业、个体户、个人拥有自己的网络名片，网上门头！让价格不再是阻碍的门槛！
+
+## 图片显示示例
+![](http://res.weiunity.com/template_plugin/markdown/preview.jpg)
+
+## 更多语法
+> http://www.markdown.cn/
+</textarea>
+            </div>
+        </div>
+        <script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
+        <script src="http://res.weiunity.com/editor/editormd.js"></script>
+        <script type="text/javascript">
+			var testEditor;
+
+            $(function() {
+                testEditor = editormd("test-editormd", {
+                    width   : "100%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "http://res.weiunity.com/editor/lib/"
+                });
+                testEditor.fullscreen();
+            });
+            
+        </script>
+    </body>
+</html>
