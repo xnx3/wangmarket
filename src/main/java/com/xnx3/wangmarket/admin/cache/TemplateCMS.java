@@ -341,7 +341,7 @@ public class TemplateCMS {
 			//如果newsDataBean为空，则是文章在 news表中有，但是在 news_data 表中没有！正常情况下是不会存在的，除非出错！那么进行日志打印。
 			Log.error("文章在news中有，在news_data中没有！文章id:"+news.getId());
 			//因为已经没有 news_data 表的数据了，直接将替换了news表的数据返回就可以了
-			return newsText;
+			return text;
 		}
 		
 		text = Template.replaceAll(text, Template.regex("news.text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情
