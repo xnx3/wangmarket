@@ -1,11 +1,25 @@
 <ehcache updateCheck="false" name="shiroCache">
    <defaultCache
-            maxElementsInMemory="10000"
+            maxElementsInMemory="100000"
             eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="0"
             overflowToDisk="false"
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
-            />
+    />
+ <!--   
+	eternal：缓存中对象是否为永久的，如果是，超时设置将被忽略，对象从不过期。  
+	maxElementsInMemory：缓存中允许创建的最大对象数  
+	overflowToDisk：内存不足时，是否启用磁盘缓存。  
+	timeToIdleSeconds：缓存数据的钝化时间，也就是在一个元素消亡之前，  两次访问时间的最大时间间隔值，这只能在元素不是永久驻留时有效，如果该值是 0 就意味着元素可以停顿无穷长的时间。  
+	timeToLiveSeconds：缓存数据的生存时间，也就是一个元素从构建到消亡的最大时间间隔值，这只能在元素不是永久驻留时有效，如果该值是0就意味着元素可以停顿无穷长的时间。  
+	memoryStoreEvictionPolicy：缓存满了之后的淘汰算法。  
+	diskPersistent:设定在虚拟机重启时是否进行磁盘存储，默认为false
+	diskExpiryThreadIntervalSeconds: 属性可以设置该线程执行的间隔时间(默认是120秒，不能太小
+		1 FIFO，先进先出  
+		2 LFU，最少被使用，缓存的元素有一个hit属性，hit值最小的将会被清出缓存。  
+		3 LRU，最近最少使用的，缓存的元素有一个时间戳，当缓存容量满了，而又需要腾出地方来缓存新的元素的时候，那么现有缓存元素中时间戳离当前时间最远的元素将被清出缓存。  
+-->  
+            
 </ehcache>
