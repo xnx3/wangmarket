@@ -94,8 +94,10 @@ public class ShiroConfiguration {
         
         //模版列表接口，v4.8增加
         filterChainDefinitionMap.put("/template/getTemplateList.do", "anon");
-        
-        
+         
+        //v4.10
+        filterChainDefinitionMap.put("/module/**", "anon");
+         
         //因为如果用本地存储的话，生成的网站页面、上传图片，都会存储到网站根目录下site文件夹中，所以要对非.do结尾的文件，不能拦截
 //        filterChainDefinitionMap.put("/site/*.do", "authc");
         filterChainDefinitionMap.put("/site/**", "anon");
@@ -134,7 +136,8 @@ public class ShiroConfiguration {
         sessionManager.setSessionIdCookieEnabled(true);
         
         //Session失效时长，毫秒
-        sessionManager.setGlobalSessionTimeout(60000000);
+//        sessionManager.setGlobalSessionTimeout(60000000);
+        sessionManager.setGlobalSessionTimeout(10000);
         
         return sessionManager;
     }
