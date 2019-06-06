@@ -136,8 +136,8 @@ public class ShiroConfiguration {
         sessionManager.setSessionIdCookieEnabled(true);
         
         //Session失效时长，毫秒
-//        sessionManager.setGlobalSessionTimeout(60000000);
-        sessionManager.setGlobalSessionTimeout(10000);
+        sessionManager.setGlobalSessionTimeout(60000000);
+        //sessionManager.setGlobalSessionTimeout(10000);
         
         return sessionManager;
     }
