@@ -169,6 +169,10 @@ var autoAssignDomain = '${autoAssignDomain }';
 	</div>
 </div>
 
+<!-- commonedit.js 需要的变量 -->
+<script>
+	var resBasePath = '${STATIC_RESOURCE_PATH}';
+</script>
 <script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
 <script src="/js/admin/indexedit.js"></script>
 <script>
