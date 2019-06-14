@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,7 +24,8 @@ public class PublicFuncController extends BaseController {
 	 * 模版列表
 	 */
 	@RequestMapping("template${url.suffix}")
-	public String templat(HttpServletRequest request){
+	public String templat(HttpServletRequest request,Model model){
+		model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
 		return "template";
 	}
 	
