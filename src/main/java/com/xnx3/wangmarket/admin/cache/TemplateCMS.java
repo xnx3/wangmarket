@@ -58,7 +58,7 @@ public class TemplateCMS {
 				//本地模版库有，则是从从数据库取的
 				templatePathDomain = TEMPLATE_PRIVATE_PATH;
 			}else{
-				//本地模版库没有，则认为是从云端模版库取的
+				//本地模版库没有，则认为是从云端模版库取的。
 				templatePathDomain = TEMPLATE_CLOUD_PATH;
 			}
 			templatePathDomain = templatePathDomain + site.getTemplateName() + "/";

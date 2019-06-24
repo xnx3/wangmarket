@@ -324,6 +324,7 @@ public class TemplateVO extends BaseVO {
 					nsc.setEditUseText(SiteColumn.USED_ENABLE);
 					nsc.setType(SiteColumn.TYPE_ALONEPAGE);
 				}
+				
 				//v4.6版本增加的四个内容管理是否可输入项
 				if(j.get("editUseTitlepic") != null){
 					nsc.setEditUseTitlepic((short) j.getInt("editUseTitlepic"));
@@ -348,6 +349,8 @@ public class TemplateVO extends BaseVO {
 				}else{
 					nsc.setIcon("");
 				}
+				
+				
 				
 				
 				siteColumnList.add(nsc);
