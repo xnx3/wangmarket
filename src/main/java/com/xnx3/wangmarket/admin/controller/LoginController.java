@@ -1,5 +1,8 @@
 package com.xnx3.wangmarket.admin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,7 @@ import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 
 /**
@@ -150,8 +154,8 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 			@RequestParam(value = "email", required = false , defaultValue="") String email,
 			@RequestParam(value = "password", required = false , defaultValue="") String password,
 			@RequestParam(value = "phone", required = false , defaultValue="") String phone,
-			@RequestParam(value = "code", required = false , defaultValue="") String code,
-			@RequestParam(value = "clilent", required = false , defaultValue="3") Short client
+			@RequestParam(value = "code", required = false , defaultValue="") String code
+//			@RequestParam(value = "clilent", required = false , defaultValue="3") Short client
 			){
 		if(Global.getInt("ALLOW_USER_REG") == 0){
 			return error("抱歉，当前禁止用户自行注册开通网站！");
@@ -162,10 +166,10 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		code = filter(code);
 		
 		//判断用户的短信验证码
-		BaseVO verifyVO = smsLogService.verifyPhoneAndCode(phone, code, SmsLog.TYPE_REG, 300);
-		if(verifyVO.getResult() - BaseVO.FAILURE == 0){
-			return verifyVO;
-		}
+//		BaseVO verifyVO = smsLogService.verifyPhoneAndCode(phone, code, SmsLog.TYPE_REG, 300);
+//		if(verifyVO.getResult() - BaseVO.FAILURE == 0){
+//			return verifyVO;
+//		}
 		
 		//注册用户
 		User user = new User();
@@ -189,12 +193,19 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		if(loginVO.getResult() - BaseVO.FAILURE == 0){
 			return loginVO;
 		}
-		ShiroFunc.getCurrentActiveUser().setObj(new UserBean());
+		UserBean userBean = new UserBean();
+		//将拥有所有功能的管理权限，将功能菜单全部遍历出来，赋予这个用户
+		Map<String, String> menuMap = new HashMap<String, String>();
+		for (TemplateMenuEnum e : TemplateMenuEnum.values()) {
+			menuMap.put(e.id, "1");
+		}
+		userBean.setSiteMenuRole(menuMap);
+		ShiroFunc.getCurrentActiveUser().setObj(userBean);
 		
 		//开通网站
 		Site site = new Site();
 		site.setExpiretime(DateUtil.timeForUnix10() + 31622400);	//到期，一年后，366天后
-		site.setClient(client);
+		site.setClient(Site.CLIENT_CMS);	// v4.11更新 创建网站默认是 CMS 类型
 		site.setPhone(phone);
 		site.setName("网站名字");
 		SiteVO siteVO = siteService.saveSite(site, userid, request);

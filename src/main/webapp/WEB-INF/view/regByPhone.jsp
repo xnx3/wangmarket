@@ -64,7 +64,7 @@
     <%=Global.get("SITE_NAME") %> 云建站平台 免费开通网站
   </div>
   <div style="padding: 30px 50px 40px 0px;">
-  	<div class="layui-form-item">
+  	<div class="layui-form-item" style="display:none;">
 		<label class="layui-form-label">网站类型</label>
 		<div class="layui-input-block">
 			<script type="text/javascript">writeSelectAllOptionForclient_('3','请选择', true);</script>
