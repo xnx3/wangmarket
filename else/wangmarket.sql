@@ -476,9 +476,12 @@ CREATE TABLE `site_column` (
   `edit_use_text` tinyint(2) DEFAULT NULL COMMENT '内容管理中，添加内容时，文章详情的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断',
   `edit_use_extend_photos` tinyint(2) DEFAULT NULL COMMENT '内容管理中，添加内容时，图集的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断',
   `use_generate_view` tinyint(2) DEFAULT '1' COMMENT '是否生成内容页面。取值1生成；0不生成，如果为null则默认为1，默认是生成。set时使用 SiteColumn.USED_ENABLE 赋值',
+  `admin_news_used` int(2) DEFAULT NULL COMMENT '是否在内容管理中显示这个栏目。',
+  `template_code_column_used` int(2) DEFAULT NULL COMMENT '是否在模版调用中显示（调取子栏目列表）。1使用，0不使用',
+  `template_code_news_used` int(2) DEFAULT NULL COMMENT '是否在模版调用中显示（调取文章列表）。1使用，0不使用',
   PRIMARY KEY (`id`),
   KEY `rank` (`rank`,`used`,`siteid`,`userid`,`parentid`,`type`,`client`,`code_name`,`parent_code_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='栏目表，网站上的栏目';
+) ENGINE=InnoDB AUTO_INCREMENT=1755 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='栏目表，网站上的栏目';
 
 -- ----------------------------
 --  Table structure for `site_data`
