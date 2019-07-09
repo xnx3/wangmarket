@@ -43,6 +43,15 @@ public class AdminIndexController_ extends BaseController{
 			
 			//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 			String pluginMenu = "";
+			
+			//判断是否加入了 pluginManage 插件管理 插件。因为这个插件不是自动注册进去的，要单独进行判断是否加载了这个插件的 Plugin 类，从而判断是否有这个插件存在
+			try {
+				Class c = Class.forName("com.xnx3.wangmarket.plugin.pluginManage.Plugin");
+				pluginMenu += "<dd><a id=\"pluginManage\" class=\"subMenuItem\" href=\"javascript:loadUrl('/plugin/pluginManage/index.do'), notUseTopTools();\">插件管理</a></dd>";	//第一个，插件管理
+			} catch (ClassNotFoundException e) {
+				//没有加入 pluginManage 总管理后台的插件管理 功能
+			}
+			
 			if(PluginManage.superAdminClassManage.size() > 0){
 				for (Map.Entry<String, SitePluginBean> entry : PluginManage.superAdminClassManage.entrySet()) {
 					SitePluginBean bean = entry.getValue();

@@ -23,8 +23,8 @@ public class PluginManage {
 	
 	//网站管理后台相关的插件，key：插件名字，如自定义表单插件，便是 formManage
 	public static Map<String, SitePluginBean> cmsSiteClassManage;
-	public static Map<String, SitePluginBean> wapSiteClassManage;
-	public static Map<String, SitePluginBean> pcSiteClassManage;
+	public static Map<String, SitePluginBean> wapSiteClassManage;	//这种模式废弃了
+	public static Map<String, SitePluginBean> pcSiteClassManage;	//这种模式废弃了
 	public static Map<String, SitePluginBean> agencyClassManage;
 	public static Map<String, SitePluginBean> superAdminClassManage;
 	static{

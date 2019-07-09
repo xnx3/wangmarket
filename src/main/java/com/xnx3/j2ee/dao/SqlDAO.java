@@ -140,7 +140,7 @@ public class SqlDAO {
 	 * @param id 主键id
 	 * @return 实体类
 	 */
-	public <E> E findById(Class<E> c , int id) {
+	public <E> E findById(Class<E> c , Object id) {
 		return entityManager.find(c,id);
 	}
 //	

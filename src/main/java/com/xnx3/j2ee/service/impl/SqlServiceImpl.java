@@ -51,7 +51,7 @@ public class SqlServiceImpl implements SqlService {
 		sqlDAO.delete(entity);
 	}
 
-	public <E> E findById(Class<E> c , int id){
+	public <E> E findById(Class<E> c , Object id){
 		return sqlDAO.findById(c, id);
 	}
 

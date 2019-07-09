@@ -96,7 +96,7 @@ public interface SqlService {
 	 * @param id 主键id
 	 * @return 实体类
 	 */
-	public <E> E findById(Class<E> c , int id);
+	public <E> E findById(Class<E> c , Object id);
 	
 	/**
 	 * 根据实体类对象的赋值查纪录列表

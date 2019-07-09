@@ -123,7 +123,7 @@ public class Global {
 	}
 	
 	/**
-	 * 当前项目再硬盘的路径，绝对路径
+	 * 当前项目再硬盘的路径，绝对路径 返回格式如 /aaa/bb/ccc/WEB-INF/classes/  最后会加上 /
 	 */
 	public static String getProjectPath(){
 		if(projectPath == null){
