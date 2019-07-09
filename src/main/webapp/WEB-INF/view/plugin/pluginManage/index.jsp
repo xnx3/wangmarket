@@ -24,6 +24,9 @@
 			<li class="layui-nav-item">
 				<a href="javascript:loadUrl('keyongList.do');" >可安装插件</a>
 			</li>
+			<li class="layui-nav-item">
+				<a href="javascript:loadUrl('keyongList.do');" >可导出插件</a>
+			</li>
 			
 			<!-- 
 				<li class="layui-nav-item" id="super2">
