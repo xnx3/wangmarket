@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -226,7 +227,7 @@ function rightTip(){
 }
 
 //未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html
-<% if(G.copyright){ %>
+<% if(Authorization.copyright){ %>
 	setTimeout("rightTip()",1000);
 <% } %>
 </script>

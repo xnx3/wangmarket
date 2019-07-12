@@ -299,7 +299,6 @@ public class SqlDAO {
 	 * @return 执行此语句后，数据库中更新的记录条数
 	 */
     public int executeByHql(String hql, Map<String, Object> parameterMap) {
-    	System.out.println(hql);
         javax.persistence.Query query=entityManager.createQuery(hql);
         for (Map.Entry<String, Object> entry : parameterMap.entrySet()) {
         	query.setParameter(entry.getKey(),entry.getValue());

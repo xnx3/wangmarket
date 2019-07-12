@@ -2,11 +2,13 @@ package com.xnx3.wangmarket.admin;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Component;
+
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -14,6 +16,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * 常用的一些函数
  * @author 管雷鸣
  */
+@Component
 public class Func {
 	
 	/**
@@ -168,6 +171,19 @@ public class Func {
 		return false;
 	}
 	
+	public Func() {
+		new Thread(new Runnable() {
+			public void run() {
+				while(Global.get("AUTO_ASSIGN_DOMAIN") == null){
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
+				}
+				new Authorization(Global.get("AUTO_ASSIGN_DOMAIN"));
+			}
+		}).start();
+	}
 	
 	/**
 	 * 判断当前用户是否是代理商，有代理后台权限

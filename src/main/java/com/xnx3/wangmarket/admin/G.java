@@ -80,7 +80,7 @@ public class G {
 //	public static String websocketUrl = "";
 	
 	public static boolean copyright = true;	//是否显示。
-	public static final String AUTHORIZE_ID = null;	//授权码，授权用户使用
+	public static String AUTHORIZE_ID = null;	//授权码，授权用户使用
 	
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("wangMarketConfig.xml");
@@ -114,10 +114,8 @@ public class G {
 			Log.info("未开启Aliyun短信发送服务");
 		}
 		
-		String cr = c.getValue("copyright");
-		if(cr != null){
-			copyright = cr.equals("true");
-		}
+		
+		
 	}
 	
 	/**

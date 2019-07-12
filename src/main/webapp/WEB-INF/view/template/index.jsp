@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -531,7 +532,7 @@ $(function(){
 	})
 	
 	// 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html 
-	<% if(G.copyright){ %>
+	<% if(Authorization.copyright){ %>
 	//显示、隐藏侧边栏
 	var showHiddenLeftMenu_tipindex = 0;
 	$("#showHiddenLeftMenu").hover(function(){

@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.entity.User"%>
 <%@page import="com.xnx3.j2ee.Global"%>
@@ -284,7 +285,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		
 		
 		<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html -->
-		<% if(G.copyright){ %>
+		<% if(Authorization.copyright){ %>
 		<li class="layui-nav-item" style="position: absolute;bottom: 0px; text-align:center;">
 			<a href="http://www.wang.market" target="_black">
 				<span class="firstMenuFont">power by 网市场</span>
@@ -337,7 +338,7 @@ function rightTip(){
 }
 //只有用户名带有ceshi的才会弹出合作联系的提示。当然，如果是已授权的用户，是不弹出这个带有版权的说明的
 if('${user.username}'.indexOf('ceshi') > -1){
-	<% if(G.copyright){ %>
+	<% if(Authorization.copyright){ %>
 		setTimeout("rightTip()",2000);
 	<% } %>
 }

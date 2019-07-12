@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
@@ -111,8 +112,8 @@ try{
 	<button onclick="parent.openTemplatePageList('');" class="layui-btn layui-btn-primary">模版页面列表</button>
 </div>
 
-<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html -->
-<% if(G.copyright){ 
+<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！否则将追究法律责任。授权参见：http://www.wang.market/price.html -->
+<% if(Authorization.copyright){ 
 		Date d = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
 		String nowYear = df.format(d);

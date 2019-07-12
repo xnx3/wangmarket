@@ -19,4 +19,6 @@
 		-->
 	</AliyunSMSUtil>
 	
+	<!-- 授权码。授权参见 https://www.leimingyun.com/price.html 当然，不授权完全可以免费使用，并且可商用 -->
+	<authorize></authorize>
 </configuration>
