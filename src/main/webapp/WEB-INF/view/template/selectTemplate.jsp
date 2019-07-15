@@ -149,24 +149,26 @@ function typeClick(type){
 				var divArray = new Array();	//共分四列，也就是下标为0～3
 				for(var i=0; i<obj.list.length; i++){
 					var xiabiao = i%4;	//取余，得数组下表
-					var to = obj.list[i];
-					var temp = '<div>'+
-								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
-								((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
-								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
-								'<div class="terminal">访问支持：'+
-									(to.terminalPc? '<span>电脑端</span>':'')+
-									(to.terminalMobile? '<span>手机端</span>':'')+
-									(to.terminalIpad? '<span>平板</span>':'')+
-									(to.terminalDisplay? '<span>展示机</span>':'')+
-								'</div>'+
-								'<div class="info">'+to.remark+'</div>'+
-								'<div class="info">提供方：'+to.username+'&nbsp;&nbsp;('+(to.companyname.length > 0 ? (to.companyname == '潍坊雷鸣云网络科技有限公司'? '官方':to.companyname):'')+')</div>'+
-						 		'</div>';
-					if(divArray[xiabiao] == null){
-						divArray[xiabiao] = '';
-					}	 		
-					divArray[xiabiao] = divArray[xiabiao] + temp;
+					try{
+						var to = obj.list[i];
+						var temp = '<div>'+
+									'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
+									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
+									'<div class="terminal">访问支持：'+
+										(to.terminalPc? '<span>电脑端</span>':'')+
+										(to.terminalMobile? '<span>手机端</span>':'')+
+										(to.terminalIpad? '<span>平板</span>':'')+
+										(to.terminalDisplay? '<span>展示机</span>':'')+
+									'</div>'+
+									'<div class="info">'+to.remark+'</div>'+
+									'<div class="info">提供方：'+to.username+'&nbsp;&nbsp;('+(to.companyname.length > 0 ? (to.companyname == '潍坊雷鸣云网络科技有限公司'? '官方':to.companyname):'')+')</div>'+
+							 		'</div>';
+						if(divArray[xiabiao] == null){
+							divArray[xiabiao] = '';
+						}	 		
+						divArray[xiabiao] = divArray[xiabiao] + temp;
+					}catch(e){ console.log(e); }
 				}
 				
 				//将四个div分别遍历，组合成显示的html

@@ -146,6 +146,13 @@ public class TemplateController extends BaseController {
 	@RequestMapping("/welcome${url.suffix}")
 	public String welcome(HttpServletRequest request,Model model){
 		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台欢迎页面");
+		
+		TemplatePageVO vo = templateService.getTemplatePageIndexByCache(request);
+		if(vo == null || vo.getResult() - TemplatePageVO.FAILURE == 0){
+			//判断一下是否还没有选择模版，如果还没选择模版，那么跳转到模版选择页面
+			return redirect("template/selectTemplate.do");
+		}
+		
 		//上级代理的变长表数据
 		AgencyData parentAgencyData = getParentAgencyData();
 		

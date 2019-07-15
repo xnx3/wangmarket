@@ -180,7 +180,16 @@ public class Func {
 					} catch (InterruptedException e) {
 					}
 				}
-				new Authorization(Global.get("AUTO_ASSIGN_DOMAIN"));
+				Authorization.setDomain(Global.get("AUTO_ASSIGN_DOMAIN"));
+				new Authorization();
+				
+				while(true){
+					Authorization.setDomain(Global.get("AUTO_ASSIGN_DOMAIN"));
+					try {
+						Thread.sleep(1000 * 60 * 10);
+					} catch (InterruptedException e) {
+					}
+				}
 			}
 		}).start();
 	}

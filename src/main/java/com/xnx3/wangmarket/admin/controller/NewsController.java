@@ -389,7 +389,7 @@ public class NewsController extends BaseController {
 			}
 		    model.addAttribute("columnTreeNav", columnTreeSB.toString());
 	    }else{
-	    	return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧");
+	    	return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧","template/welcome.do");
 	    }
 	    
 	    //将数据记录传到页面以供显示
