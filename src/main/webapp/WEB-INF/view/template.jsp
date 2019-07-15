@@ -120,7 +120,9 @@ function typeClick(type){
 				for(var i=0; i<obj.list.length; i++){
 					var xiabiao = i%4;	//取余，得数组下表
 					var to = obj.list[i];
-					var temp = '<div>'+
+					try{
+						//避免信息有异常导致所有模版都不显示
+						var temp = '<div>'+
 								'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="previewUrl(\''+to.previewUrl+'\');" />'+
 								((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 								'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
@@ -133,10 +135,13 @@ function typeClick(type){
 								'<div class="info">'+to.remark+'</div>'+
 								'<div class="info">提供方：'+to.username+'&nbsp;&nbsp;('+(to.companyname.length > 0 ? (to.companyname == '潍坊雷鸣云网络科技有限公司'? '官方':to.companyname):'')+')</div>'+
 						 		'</div>';
-					if(divArray[xiabiao] == null){
-						divArray[xiabiao] = '';
-					}	 		
-					divArray[xiabiao] = divArray[xiabiao] + temp;
+						if(divArray[xiabiao] == null){
+							divArray[xiabiao] = '';
+						}	 
+						divArray[xiabiao] = divArray[xiabiao] + temp;
+					}catch(e){
+						console.log(e);
+					}
 				}
 				
 				//将四个div分别遍历，组合成显示的html
