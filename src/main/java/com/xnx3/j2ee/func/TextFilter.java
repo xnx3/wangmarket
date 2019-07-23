@@ -96,7 +96,13 @@ public class TextFilter {
 					sendContent = "警告，当前此用户已发现五次疑似违规文本记录！"+MailUtil.BR+MailUtil.BR;
 				}
 				sendContent = sendContent+"疑似违规内容如下："+IllegalText+MailUtil.BR+url;
-				MailUtil.sendMail(receiveEmail, title, sendContent);
+				
+				try{
+					MailUtil.sendMail(receiveEmail, title, sendContent);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 			return true;
 		}
