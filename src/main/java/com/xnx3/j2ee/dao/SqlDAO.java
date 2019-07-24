@@ -143,6 +143,10 @@ public class SqlDAO {
 	public <E> E findById(Class<E> c , Object id) {
 		return entityManager.find(c,id);
 	}
+	
+	public <E> E findById(Class<E> c , int id) {
+		return entityManager.find(c,id);
+	}
 //	
 //	/**
 //	 * 根据实体类对象的赋值查纪录列表

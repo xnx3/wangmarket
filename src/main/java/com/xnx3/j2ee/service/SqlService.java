@@ -93,10 +93,18 @@ public interface SqlService {
 	/**
 	 * 根据主键查记录
 	 * @param entity 实体类，如 {@link User}.class
-	 * @param id 主键id
+	 * @param id 主键id，object
 	 * @return 实体类
 	 */
 	public <E> E findById(Class<E> c , Object id);
+	
+	/**
+	 * 根据主键查记录
+	 * @param entity 实体类，如 {@link User}.class
+	 * @param id 主键id，int
+	 * @return 实体类
+	 */
+	public <E> E findById(Class<E> c , int id);
 	
 	/**
 	 * 根据实体类对象的赋值查纪录列表

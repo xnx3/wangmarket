@@ -54,6 +54,10 @@ public class SqlServiceImpl implements SqlService {
 	public <E> E findById(Class<E> c , Object id){
 		return sqlDAO.findById(c, id);
 	}
+	
+	public <E> E findById(Class<E> c , int id){
+		return sqlDAO.findById(c, id);
+	}
 
 //	public List findByExample(Object entity) {
 //		return sqlDAO.findByExample(entity);
