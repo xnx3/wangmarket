@@ -91,14 +91,11 @@ public class Global {
 				//取数据库的
 				mns_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
 			}
-			if(mns_accessKeyId.length() < 10){
-				System.out.println("未开启MNS！若im采用分布式部署，此服务是必须要开启的！");
-			}else{
+			if(mns_accessKeyId.length() > 10){
 				kefuMNSUtil = new MNSUtil(mns_accessKeyId, mns_accessKeySecret, mns_endpoint);
 				kefuMNSUtil_queueName = c.getValue("aliyunMNS_kefu.queueName");
+				System.out.println("已开启MNS！若im采用分布式部署，此服务是必须要开启的！");
 			}
-		}else{
-			System.out.println("未开启MNS！若im采用分布式部署，此服务是必须要开启的！");
 		}
 		
 		
@@ -116,16 +113,11 @@ public class Global {
 				//取数据库的
 				log_accessKeySecret = com.xnx3.j2ee.Global.get("ALIYUN_ACCESSKEYSECRET");
 			}
-			if(log_accessKeyId.length() < 10){
-				System.out.println("未开启im对话日志记录");
-			}else{
+			if(log_accessKeyId.length() > 10){
 				aliyunLogUtil = new AliyunLogUtil(c.getValue("aliyunLogKefu.endpoint"), log_accessKeyId, log_accessKeySecret, c.getValue("aliyunLogKefu.project"), c.getValue("aliyunLogKefu.logstore"));
 			}
-		}else{
-			System.out.println("未开启im对话日志记录");
 		}
 
-		
 		previewByTokenUrl = c.getValue("previewByTokenUrl");
 		websocketUrl = c.getValue("websocketUrl");
 	}

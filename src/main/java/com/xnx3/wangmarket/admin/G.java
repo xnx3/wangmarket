@@ -101,20 +101,16 @@ public class G {
 				//取数据库的
 				sms_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
 			}
-			if(sms_accessKeyId == null || sms_accessKeyId.length() < 10){
-				Log.info("未开启Aliyun短信发送服务");
+			if(sms_accessKeyId != null && sms_accessKeyId.length() > 10){
+				aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
+				AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
+				AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
+				AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
+				AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
+			}else{
+				Log.info("已开启Aliyun短信发送服务");
 			}
-			
-			aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
-			AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
-			AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
-			AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
-			AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
-		}else{
-			Log.info("未开启Aliyun短信发送服务");
 		}
-		
-		
 		
 	}
 	

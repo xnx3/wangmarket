@@ -64,7 +64,7 @@ public class MNSUpdateThread {
 								im.setUserid(json.getLong("userid"));
 								//将IM存入内存
 								Global.imMap.put(im.getUserid(), im);
-								System.out.println("更新值－－－－>"+im.toString());
+//								System.out.println("更新值－－－－>"+im.toString());
 								
 								//将此计入messageUpdateMap，此消息已经更新过了
 								messageUpdateMap.put(message.getMessageId(), "1");
