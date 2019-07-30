@@ -136,31 +136,31 @@ public class TemplateCMS {
 	 * @return 替换好的内容
 	 */
 	public String replacePublicTag(String text){
-		text = text.replaceAll(regex("OSSUrl"), AttachmentFile.netUrl());	//以废弃，保留，适应以前版本
-		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
-		text = text.replaceAll(regex("resUrl"), AttachmentFile.netUrl());
-		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
-		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = Template.replaceAll(text, regex("OSSUrl"), AttachmentFile.netUrl());	//以废弃，保留，适应以前版本
+		text = Template.replaceAll(text, regex("AttachmentFileUrl"), AttachmentFile.netUrl());
+		text = Template.replaceAll(text, regex("resUrl"), AttachmentFile.netUrl());
+		text = Template.replaceAll(text, regex("linuxTime"), linuxTime+"");
+		text = Template.replaceAll(text, regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
-		text = text.replaceAll(regex("siteId"), site.getId()+"");
-		text = text.replaceAll(regex("siteDomain"), site.getDomain());
-		text = text.replaceAll(regex("siteName"), site.getName());
-		text = text.replaceAll(regex("siteTemplateId"), site.getTemplateId()+"");
+		text = Template.replaceAll(text, regex("siteId"), site.getId()+"");
+		text = Template.replaceAll(text, regex("siteDomain"), site.getDomain());
+		text = Template.replaceAll(text, regex("siteName"), site.getName());
+		text = Template.replaceAll(text, regex("siteTemplateId"), site.getTemplateId()+"");
 		
-		text = text.replaceAll(regex("site.name"), site.getName());
-		text = text.replaceAll(regex("site.id"), site.getId()+"");
-		text = text.replaceAll(regex("site.domain"), site.getDomain());
-		text = text.replaceAll(regex("site.templateId"), site.getTemplateId()+"");
-		text = text.replaceAll(regex("site.username"), site.getUsername());
-		text = text.replaceAll(regex("site.phone"), site.getPhone());
-		text = text.replaceAll(regex("site.qq"), site.getQq());
-		text = text.replaceAll(regex("site.keywords"), site.getKeywords());
-		text = text.replaceAll(regex("site.address"), site.getAddress());
-		text = text.replaceAll(regex("site.companyName"), site.getCompanyName());
+		text = Template.replaceAll(text, regex("site.name"), site.getName());
+		text = Template.replaceAll(text, regex("site.id"), site.getId()+"");
+		text = Template.replaceAll(text, regex("site.domain"), site.getDomain());
+		text = Template.replaceAll(text, regex("site.templateId"), site.getTemplateId()+"");
+		text = Template.replaceAll(text, regex("site.username"), site.getUsername());
+		text = Template.replaceAll(text, regex("site.phone"), site.getPhone());
+		text = Template.replaceAll(text, regex("site.qq"), site.getQq());
+		text = Template.replaceAll(text, regex("site.keywords"), site.getKeywords());
+		text = Template.replaceAll(text, regex("site.address"), site.getAddress());
+		text = Template.replaceAll(text, regex("site.companyName"), site.getCompanyName());
 		
-		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = Template.replaceAll(text, regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		//v4.7增加
-		text = text.replaceAll(regex("templatePath"), getTemplatePath());
+		text = Template.replaceAll(text, regex("templatePath"), getTemplatePath());
 		
 		return text;
 	}
@@ -220,7 +220,7 @@ public class TemplateCMS {
 		if(text == null){
 			return "";
 		}
-		text = text.replaceAll(regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -234,14 +234,14 @@ public class TemplateCMS {
 		if(siteColumn == null){
 			return text;
 		}
-		text = text.replaceAll(regex("siteColumn.id"), siteColumn.getId()+"");
-		text = text.replaceAll(regex("siteColumn.name"), siteColumn.getName());
-		text = text.replaceAll(regex("siteColumn.type"), siteColumn.getType()+"");
-		text = text.replaceAll(regex("siteColumn.used"), siteColumn.getUsed()+"");
-		text = text.replaceAll(regex("siteColumn.codeName"), siteColumn.getCodeName());
-		text = text.replaceAll(regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
+		text = Template.replaceAll(text, regex("siteColumn.id"), siteColumn.getId()+"");
+		text = Template.replaceAll(text, regex("siteColumn.name"), siteColumn.getName());
+		text = Template.replaceAll(text, regex("siteColumn.type"), siteColumn.getType()+"");
+		text = Template.replaceAll(text, regex("siteColumn.used"), siteColumn.getUsed()+"");
+		text = Template.replaceAll(text, regex("siteColumn.codeName"), siteColumn.getCodeName());
+		text = Template.replaceAll(text, regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
 		//v4.7
-		text = text.replaceAll(regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", getTemplatePath()));
+		text = Template.replaceAll(text, regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", getTemplatePath()));
 				
 		//判断栏目的链接地址
 		String url = "";
@@ -258,7 +258,7 @@ public class TemplateCMS {
 				url = "c"+siteColumn.getId()+".html";
 			}
 		}
-		text = text.replaceAll(regex("siteColumn.url"), url);
+		text = Template.replaceAll(text, regex("siteColumn.url"), url);
 		
 		return text;
 	}
@@ -466,7 +466,7 @@ public class TemplateCMS {
 					itemsBuffer.append(newsHTML);
 				}
 				
-				currentListHtml = currentListHtml.replaceAll("<!--TemplateListItemStart-->([\\s|\\S]*?)<!--TemplateListItemEnd-->", itemsBuffer.toString());
+				currentListHtml = Template.replaceAll(currentListHtml, "<!--TemplateListItemStart-->([\\s|\\S]*?)<!--TemplateListItemEnd-->", itemsBuffer.toString());
 			}
 			
 			//写出列表页面的HTML文件
@@ -495,8 +495,8 @@ public class TemplateCMS {
 		pageHtml = replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签
 		
 		//替换 SEO 相关
-		pageHtml = pageHtml.replaceAll(Template.regex("title"), news.getTitle()+"_"+site.getName());
-		pageHtml = pageHtml.replaceAll(Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
+		pageHtml = Template.replaceAll(pageHtml, Template.regex("title"), news.getTitle()+"_"+site.getName());
+		pageHtml = Template.replaceAll(pageHtml, Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
 		pageHtml = Template.replaceAll(pageHtml, Template.regex("description"), news.getIntro());
 		
 		generateNewsHtml(news, siteColumn, upNews, nextNews, pageHtml, newsDataBean);
@@ -645,10 +645,10 @@ public class TemplateCMS {
 				nextPageUrl = nextNews.getId()+".html";
 			}
 			
-			pageHtml = pageHtml.replaceAll(Template.regex("upPage"), upPage);
-			pageHtml = pageHtml.replaceAll(Template.regex("nextPage"), nextPage);
-			pageHtml = pageHtml.replaceAll(Template.regex("upPageUrl"), upPageUrl);
-			pageHtml = pageHtml.replaceAll(Template.regex("nextPageUrl"), nextPageUrl);
+			pageHtml = Template.replaceAll(pageHtml, Template.regex("upPage"), upPage);
+			pageHtml = Template.replaceAll(pageHtml, Template.regex("nextPage"), nextPage);
+			pageHtml = Template.replaceAll(pageHtml, Template.regex("upPageUrl"), upPageUrl);
+			pageHtml = Template.replaceAll(pageHtml, Template.regex("nextPageUrl"), nextPageUrl);
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
@@ -666,34 +666,34 @@ public class TemplateCMS {
 			return "";
 		}
 		String text = replaceSiteColumnTag(pageTemplateHtml, siteColumn);
-		text = text.replaceAll(regex("page.allRecordNumber"), page.getAllRecordNumber()+"");
-		text = text.replaceAll(regex("page.currentPageNumber"), page.getCurrentPageNumber()+"");
-		text = text.replaceAll(regex("page.lastPageNumber"), page.getLastPageNumber()+"");
-		text = text.replaceAll(regex("page.haveNextPage"), page.isHaveNextPage()+"");
-		text = text.replaceAll(regex("page.haveUpPage"), page.isHaveUpPage()+"");
+		text = Template.replaceAll(text, regex("page.allRecordNumber"), page.getAllRecordNumber()+"");
+		text = Template.replaceAll(text, regex("page.currentPageNumber"), page.getCurrentPageNumber()+"");
+		text = Template.replaceAll(text, regex("page.lastPageNumber"), page.getLastPageNumber()+"");
+		text = Template.replaceAll(text, regex("page.haveNextPage"), page.isHaveNextPage()+"");
+		text = Template.replaceAll(text, regex("page.haveUpPage"), page.isHaveUpPage()+"");
 		
 		if(generateUrlRule.equals("code")){
 			//code.html模式
-			text = text.replaceAll(regex("page.firstPage"), siteColumn.getCodeName()+".html");
+			text = Template.replaceAll(text, regex("page.firstPage"), siteColumn.getCodeName()+".html");
 			if(page.getNextPageNumber() > 1){
 				//当下一页大于一页时，才会有页数，否则第一页是没有页数的
-				text = text.replaceAll(regex("page.nextPage"), siteColumn.getCodeName()+"_"+page.getNextPageNumber()+".html");
+				text = Template.replaceAll(text, regex("page.nextPage"), siteColumn.getCodeName()+"_"+page.getNextPageNumber()+".html");
 			}else{
-				text = text.replaceAll(regex("page.nextPage"), siteColumn.getCodeName()+".html");
+				text = Template.replaceAll(text, regex("page.nextPage"), siteColumn.getCodeName()+".html");
 			}
 			
 			if(page.getLastPageNumber() > 1){
 				//当最后一页大于一页时，才会有页数，否则第一页是没有页数的
-				text = text.replaceAll(regex("page.lastPage"), siteColumn.getCodeName()+"_"+page.getLastPageNumber()+".html");
+				text = Template.replaceAll(text, regex("page.lastPage"), siteColumn.getCodeName()+"_"+page.getLastPageNumber()+".html");
 			}else{
-				text = text.replaceAll(regex("page.lastPage"), siteColumn.getCodeName()+".html");
+				text = Template.replaceAll(text, regex("page.lastPage"), siteColumn.getCodeName()+".html");
 			}
 			
 			if(page.getUpPageNumber() == 1){
 				//如果上一页是第一页的话，是不加后面的_?的
-				text = text.replaceAll(regex("page.upPage"), siteColumn.getCodeName()+".html");
+				text = Template.replaceAll(text, regex("page.upPage"), siteColumn.getCodeName()+".html");
 			}else{
-				text = text.replaceAll(regex("page.upPage"), siteColumn.getCodeName()+"_"+page.getUpPageNumber()+".html");
+				text = Template.replaceAll(text, regex("page.upPage"), siteColumn.getCodeName()+"_"+page.getUpPageNumber()+".html");
 			}
 			
 			//上几页的页码跳转
@@ -707,7 +707,7 @@ public class TemplateCMS {
 					upList = upList + "<li class=\"page_pageList\"><a href="+siteColumn.getCodeName()+"_"+tagA.getPageNumber()+".html>"+tagA.getTitle()+"</a></li>";
 				}
 			}
-			text = text.replaceAll(regex("page.upList"), upList);
+			text = Template.replaceAll(text, regex("page.upList"), upList);
 			
 			//下几页的页码跳转
 			String nextList = "";
@@ -715,13 +715,13 @@ public class TemplateCMS {
 				TagA tagA = page.getNextList().get(i);
 				nextList = nextList + "<li class=\"page_pageList\"><a href="+siteColumn.getCodeName()+"_"+tagA.getPageNumber()+".html>"+tagA.getTitle()+"</a></li>";
 			}
-			text = text.replaceAll(regex("page.nextList"), nextList);
+			text = Template.replaceAll(text, regex("page.nextList"), nextList);
 		}else{
 			//通用的id.html模式
-			text = text.replaceAll(regex("page.firstPage"), "lc"+siteColumn.getId()+"_1.html");
-			text = text.replaceAll(regex("page.nextPage"), "lc"+siteColumn.getId()+"_"+page.getNextPageNumber()+".html");
-			text = text.replaceAll(regex("page.lastPage"), "lc"+siteColumn.getId()+"_"+page.getLastPageNumber()+".html");
-			text = text.replaceAll(regex("page.upPage"), "lc"+siteColumn.getId()+"_"+page.getUpPageNumber()+".html");
+			text = Template.replaceAll(text, regex("page.firstPage"), "lc"+siteColumn.getId()+"_1.html");
+			text = Template.replaceAll(text, regex("page.nextPage"), "lc"+siteColumn.getId()+"_"+page.getNextPageNumber()+".html");
+			text = Template.replaceAll(text, regex("page.lastPage"), "lc"+siteColumn.getId()+"_"+page.getLastPageNumber()+".html");
+			text = Template.replaceAll(text, regex("page.upPage"), "lc"+siteColumn.getId()+"_"+page.getUpPageNumber()+".html");
 			
 			//上几页的页码跳转
 			String upList = "";
@@ -729,7 +729,7 @@ public class TemplateCMS {
 				TagA tagA = page.getUpList().get(i);
 				upList = upList + "<li class=\"page_pageList\"><a href=lc"+siteColumn.getId()+"_"+tagA.getPageNumber()+".html>"+tagA.getTitle()+"</a></li>";
 			}
-			text = text.replaceAll(regex("page.upList"), upList);
+			text = Template.replaceAll(text, regex("page.upList"), upList);
 			
 			//下几页的页码跳转
 			String nextList = "";
@@ -737,7 +737,7 @@ public class TemplateCMS {
 				TagA tagA = page.getNextList().get(i);
 				nextList = nextList + "<li class=\"page_pageList\"><a href=lc"+siteColumn.getId()+"_"+tagA.getPageNumber()+".html>"+tagA.getTitle()+"</a></li>";
 			}
-			text = text.replaceAll(regex("page.nextList"), nextList);
+			text = Template.replaceAll(text, regex("page.nextList"), nextList);
 		}
 		
 		return text;
