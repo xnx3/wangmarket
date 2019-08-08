@@ -71,6 +71,8 @@ Eclipse、MyEclipse <br/>
 2. 运行 com.xnx3.Application 即可运行项目 (SpringBoot 框架，不懂的请先自行补充此框架相关基础知识)
 3. 访问 /login.do
 
+参考视频：https://pan.baidu.com/s/1vhmGlr9lhhx7dmjMJBhckQ   
+这个是 wangmarket 开发视频，包含从 gitee 导入 eclipse，以及运行起来后登陆登陆的步骤演示。
 
 ## 优秀合作项目推荐
 | 项目 | 码云地址 | 简介 |
