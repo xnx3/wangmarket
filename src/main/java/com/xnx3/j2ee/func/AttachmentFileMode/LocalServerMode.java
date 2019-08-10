@@ -7,18 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
-import com.aliyun.oss.model.OSSObject;
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.net.OSSUtil;
-import com.xnx3.net.ossbean.PutResult;
 
 /**
  * 附件上传之 服务器本身存储，服务器本地存储，附件存储到服务器硬盘上
