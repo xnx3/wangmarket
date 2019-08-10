@@ -574,7 +574,7 @@ public class TemplateController extends BaseController {
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"htmledit/htmledit.js\"></script></head>");
+			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
 			
 			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
