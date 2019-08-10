@@ -2,9 +2,7 @@ package com.xnx3.wangmarket.plugin.templateDevelop.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.ZipUtil;
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
@@ -37,8 +35,6 @@ import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
-
-import net.sf.json.JSONObject;
 
 /**
  * 模版相关操作
@@ -244,9 +240,9 @@ public class TemplateDevelopController extends BasePluginController {
 		//导出的目录，相对路径
 		String exportPath = getExportPath()+site.getTemplateName()+"/";
 		//初始化创建模版所在文件夹，避免模版不存在导致出错。正常流程中，这个文件夹是已经存在的
-		AttachmentFile.directoryInit(exportPath);
+		LocalServerMode.directoryInit(exportPath);
 		//创建下载链接的存放文件
-		AttachmentFile.directoryInit("plugin_data/templateDevelop/");
+		LocalServerMode.directoryInit("plugin_data/templateDevelop/");
 		
 		//判断一下是否已经有这个 zip 模版文件了，如果已经有了，那么删除掉
 		if(FileUtil.exists(Global.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip")){
