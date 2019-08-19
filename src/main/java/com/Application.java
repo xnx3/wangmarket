@@ -1,8 +1,14 @@
 package com;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 运行入口
@@ -13,11 +19,17 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @ServletComponentScan
 public class Application {
 	
+	// 运行时的参数
+	private static String[] args;
+	// spring容器的配合容器组件
+	public static ConfigurableApplicationContext context;
+	
     public static void main(String[] args) {
     	com.xnx3.j2ee.func.Log.debug = true;
     	com.xnx3.j2ee.func.Log.info = true;
     	com.xnx3.j2ee.func.Log.error = true;
-    	SpringApplication.run(Application.class, args);
+    	context = SpringApplication.run(Application.class, args);
+    	Application.args = args;
     	
         com.xnx3.j2ee.func.Log.info("\n"
         		+ "***************************\n"
@@ -30,6 +42,19 @@ public class Application {
         		+ "  在线开通网站体验网站管理后台： http://wang.market/regByPhone.do?inviteid=50\n"
         		+ "  作者微信：  xnx3com  欢迎各位朋友加微信，交个朋友。  祝您使用愉快！  \n"
         		+ "***************************\n");
+    }
+    
+    /**
+     * 进行Spring相关的信息进行重新加载
+     * @author 李鑫
+     */
+    public static void restart(){
+    	ExecutorService threadPool = new ThreadPoolExecutor (1,1,0, TimeUnit.SECONDS,new ArrayBlockingQueue<> ( 1 ),new ThreadPoolExecutor.DiscardOldestPolicy ());
+        threadPool.execute (()->{
+        	Application.context.close ();
+        	Application.context = SpringApplication.run (Application.class, args);
+        } );
+        threadPool.shutdown ();
     }
     
 }
