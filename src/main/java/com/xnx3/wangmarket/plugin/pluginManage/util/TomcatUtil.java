@@ -96,14 +96,8 @@ public class TomcatUtil implements Runnable{
 	 * @throws IOException
 	 */
 	private static void shutDownTomcat4Windows(String binPath) throws IOException {
-		// 所在磁盘
-		String command1 = binPath.substring(0, 2);
-		// 打开当前btomcat的bin目录
-		String command2 = "cd " + binPath.substring(3, binPath.length());
 		// 执行的cmd命令组
-//		String shutDownCommand = "cmd /c " + command1 + "&&" + command2 + "&&shutdown.bat";
 		String shutDownCommand = "cmd /c cd /d " + binPath + "&&shutdown.bat";
-		System.out.println(shutDownCommand);
 		/*
 		 * 运行命令关闭tomcat
 		 */
@@ -113,7 +107,7 @@ public class TomcatUtil implements Runnable{
 		InputStreamReader isr = new InputStreamReader(inputStream);//将字节流转化成字符流
 		BufferedReader br = new BufferedReader(isr);//将字符流以缓存的形式一行一行输出
 		 /* 为"错误输出流"单独开一个线程读取之,否则会造成标准输出流的阻塞 */
-        Thread t = new Thread(new InputStreamRunnable123(exec.getErrorStream(), "ErrorStream"));
+        Thread t = new Thread(new InputStreamRunnable(exec.getErrorStream(), "ErrorStream"));
         t.start();
 		String line = null;
 		// 输出一下返回信息
@@ -131,9 +125,11 @@ public class TomcatUtil implements Runnable{
 			 * Windows环境下
 			 */
 			try {
+				// 获取bin路径
 				String realPath = environmentMap.get("realPath");
 				int indexOf = realPath.indexOf("webapps");
 				String binPath = realPath.substring(0, indexOf) + "bin";
+				// 关闭tomcat服务
 				shutDownTomcat4Windows(binPath);
 			} catch (IOException e) {
 				e.printStackTrace();
