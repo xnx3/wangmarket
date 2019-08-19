@@ -24,15 +24,6 @@
 <br/>
 
 
-## 项目极速搭建体验步骤
-1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
-2. 解压出来,注意不要有中文路径
-3. 双击 “ 启动.bat ”
-4. 访问 [localhost](http://localhost) 
-
-就这么简单！
-[查看详细视频演示](http://help.wscso.com/5683.html)
-
 
 ## 功能简介
 |||||
@@ -48,11 +39,27 @@
 ##### 在线免费开通一个网站
 [点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
 
-##### 代理后台，可自由开通、管理网站
+##### 体验代理后台的功能：开通、管理网站
 登录网址：[wang.market](http://wang.market)<br/>
 登录帐号：ceshidaili<br/>
 登录密码：ceshidaili<br/>
 <br/>
+
+## 项目在本地快速运行体验，提供一键运行包
+1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
+2. 解压出来,注意不要有中文路径
+3. 双击 “ 启动.bat ”
+4. 访问 [localhost](http://localhost) 
+
+就这么简单！
+[查看详细视频演示](http://help.wscso.com/5683.html)
+
+
+## 放到线上，华为云服务器，花一元快速部署到线上使用
+[http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) 
+
+就这么简单！
+[查看详细视频演示](http://help.wscso.com/5683.html)
 
 ## 建站公司、有意增加建站业务的朋友合作
 我们诚邀各建站公司加入我们，专业的技术团队、使用指导人员辅助到位，您如果感觉本系统对您有用，可联系我们，我们帮你安装，你只管用（不花钱保留版权标记，跟你自己安装的开源版本一样，授权版本的去除版权标记。授权请参考： https://www.leimingyun.com/price.html ）
