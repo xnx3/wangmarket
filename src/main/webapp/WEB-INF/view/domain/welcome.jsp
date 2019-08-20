@@ -71,7 +71,7 @@
     	
     	<div class="info">
     		<h3>服务器选配</h3>
-    		最低配置要求：1核1G <a href="http://help.wscso.com/16329.html" target="_black">详细配置点此查看</a>
+    		最低配置要求：1核1G <a href="http://help.wscso.com/16329.html" target="_black">详细配置点此查看，最低一元成本！</a>
     	</div>
     	
     	<div class="info">
@@ -81,29 +81,21 @@
     	</div>
     	
     	
-    	
-    	<div style="padding:10%; text-align:center;">
+    	<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
 			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 38px;font-size: 24px;">点击此处开始安装本系统</a>
 			<br/>
 			<div style="font-size:14px; padding-top:8px; ">
 				<a href="https://v.qq.com/x/page/c053533596l.html" style="color: gray;">查看视频演示</a>
 				|
-				<a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a>
+				<span style="color: gray;">交流QQ群：472328584</span>
+				<!-- <a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a> -->
 			</div>
 			
 		</div>
-
-    	<div class="info">
-    		<h2>合作联系</h2>
-    		作者：<a href="http://www.guanleiming.com" target="_black">管雷鸣</a>，QQ：921153866 ， 微信：xnx3com<br/>
-    		
-    		<h2>交流、求助</h2>
-    		官网：<a href="http://www.wang.market" target="_black">www.wang.market</a><br/>
-    		交流QQ群：472328584<br/>
-    	</div>
     	
-    	
-    	
+    	<!-- <div style="width: 100%;text-align: center;">
+    		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">网市场云建站系统 - 潍坊雷鸣云网络科技有限公司</a>
+    	</div> -->
     </div>
     
     <script>
