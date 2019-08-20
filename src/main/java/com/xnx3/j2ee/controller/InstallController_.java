@@ -18,6 +18,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -41,6 +42,7 @@ import com.xnx3.net.OSSUtil;
 @Controller
 @RequestMapping("/install/")
 public class InstallController_ extends BaseController {
+	private static String jinzhianzhuang = "您已经安装过了，系统已禁止再次安装。如果您想继续安装，可进入总管理后台，找到系统设置-系统变量,将变量 IW_AUTO_INSTALL_USE 的值设置为 true ，即可再次进行安装。";
 
 	@Resource
 	private SqlService sqlService;
@@ -67,7 +69,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/selectAttachment${url.suffix}")
 	public String selectAttachment(HttpServletRequest request, Model model){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, "系统已禁止使用此！");
+			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentFile.MODE_LOCAL_FILE);
@@ -83,7 +85,7 @@ public class InstallController_ extends BaseController {
 	public String setLocalAttachmentFile(HttpServletRequest request, Model model,
 			@RequestParam(value = "mode", required = false, defaultValue="") String mode){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, "系统已禁止使用此！");
+			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		String m = AttachmentFile.MODE_LOCAL_FILE;	//默认使用服务器进行存储
@@ -106,7 +108,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/systemSet${url.suffix}")
 	public String systemSet(HttpServletRequest request, Model model){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, "系统已禁止使用此！");
+			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		//系统访问域名
@@ -139,7 +141,7 @@ public class InstallController_ extends BaseController {
 			@RequestParam(value = "SERVICE_MAIL", required = false, defaultValue="") String SERVICE_MAIL
 			){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error("系统已禁止使用此！");
+			return error(jinzhianzhuang);
 		}
 		
 		//将其存入system数据表
@@ -173,7 +175,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/accessKey${url.suffix}")
 	public String accessKey(HttpServletRequest request, Model model){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, "系统已禁止使用此！");
+			return error(model, jinzhianzhuang, "login.do");
 		}
 		return "iw_update/install/accessKey";
 	}
@@ -188,7 +190,7 @@ public class InstallController_ extends BaseController {
 			@RequestParam(value = "secret", required = false, defaultValue="") String secret
 			){
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error("系统已禁止使用此！");
+			return error(jinzhianzhuang);
 		}
 		if(id.length() == 0){
 			return error("请输入 Access Key ID");
@@ -268,6 +270,93 @@ public class InstallController_ extends BaseController {
 		}else{
 			return error(model, "删除失败，可能文件已删除了");
 		}
+	}
+	
+	
+
+	/**
+	 * 设置域名，v4.11 增加
+	 */
+	@RequestMapping("/domainSet${url.suffix}")
+	public String domainSet(HttpServletRequest request, Model model){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, jinzhianzhuang, "login.do");
+		}
+		
+		//系统访问域名
+		String autoAssignDomain = Global.get("AUTO_ASSIGN_DOMAIN");
+		if(autoAssignDomain == null || autoAssignDomain.length() < 4){
+			autoAssignDomain = "";
+		}
+		
+		
+		model.addAttribute("autoAssignDomain", autoAssignDomain);
+		return "iw_update/install/domainSet";
+	}
+	
+
+	/**
+	 * 域名更改保存 v4.11增加
+	 */
+	@RequestMapping("/domainSetSave${url.suffix}")
+	@ResponseBody
+	public BaseVO domainSetSave(
+			@RequestParam(value = "autoAssignDomain", required = false, defaultValue="") String autoAssignDomain
+			){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(jinzhianzhuang);
+		}
+		
+		if(autoAssignDomain.length() < 3){
+			return error("请正确设置您的域名");
+		}
+		
+		//更新附件域名的内存缓存
+		AttachmentFile.netUrl = "http://cdn."+autoAssignDomain+"/";
+		
+		//将其存入system数据表
+		sqlService.executeSql("update system set value = 'http://admin."+autoAssignDomain+"/' WHERE name = 'MASTER_SITE_URL'");
+		sqlService.executeSql("update system set value = 'http://cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+		sqlService.executeSql("update system set value = '"+autoAssignDomain+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		
+		//到这一步就结束了，在此禁用install安装
+		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		
+		//更新缓存
+		systemService.refreshSystemCache();
+		
+		return success();
+	}
+	
+	/**
+	 * 设置域名为测试使用的，只为快速测试体验而设置的域名
+	 */
+	@RequestMapping("/setLocalDomain${url.suffix}")
+	public String setLocalDomain(HttpServletRequest request, Model model){
+		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+			return error(model, jinzhianzhuang, "login.do");
+		}
+		
+		//获取域名 ，格式如 http://www.leimingyun.com/
+		String domain = request.getRequestURL().toString().replace("install/setLocalDomain.do", "");
+		
+		//更新附件域名的内存缓存
+		AttachmentFile.netUrl = domain;
+		
+		Log.info("快速测试体验，域名自动获取："+domain);
+		
+		//将其存入system数据表
+		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'MASTER_SITE_URL'");
+		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
+		sqlService.executeSql("update system set value = 'wang.market' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		
+		//到这一步就结束了，在此禁用install安装
+		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		
+		//更新缓存
+		systemService.refreshSystemCache();
+		
+		return redirect("install/installSuccess.do");
 	}
 	
 }

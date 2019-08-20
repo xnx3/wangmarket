@@ -15,10 +15,21 @@
 </style>
 
 <div style="padding:30px; padding-bottom:10px; text-align:center; font-size:20px;">
-	第二步：设置系统相关参数
+	域名设置
 </div>
 <form class="layui-form" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
-
+	
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<div style="color:#d2d2d2; padding-top:5px;">
+				本系统需要独占一个域名！ 
+				比如你准备的域名为 leimingyun.com 
+				
+				第一步：你需要fan jie
+			</div>
+		</div>
+	</div>
+	
 	<div class="layui-form-item">
 		<label class="layui-form-label">访问域名</label>
 		<div class="layui-input-block">
@@ -117,7 +128,12 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 </script>
 
 <style>
-.two{background-color: #5FB878;}
+.two{
+	background-color: #5fb87852;
+    padding: 2px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
 </style>
 <jsp:include page="common.jsp"></jsp:include>
 
