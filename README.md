@@ -153,15 +153,6 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 ## 开发人员
 [管雷鸣](http://www.guanleiming.com) , [李鑫](https://gitee.com/warm_joy)
 
-## 作者简介<br/>
-对网站这种普惠全民的事，有极大的热爱。又或者说，对于能改变什么，有强烈的兴致。<br/>
-高一接触网吧认识电脑，高二接触到网站(UBB标签排版那种)，高三辍学自学HTML、PHP，然后进入四大名校之新华电脑。<br/>
-入校期间开始用新学的Java自写建站系统，1年毕业。于2010年发布wap建站系统 [寻仙JSP＋Mysql](http://down.chinaz.com/soft/29191.htm) [功能说明](http://www.xnx3.com/software/xxJspMql/20121102/8.html)<br/>
-而后发布了多项开发包，如 <br/>
-[Java的辅助开发包](https://github.com/xnx3/xnx3) ，找图找色模拟键盘按键鼠标点击， <br/>
-[iw web快速开发架构](https://github.com/xnx3/iw) 集成了权限、会员、日志、支付等常用项目的功能于一体，适用于有什么新项目可以直接拿来做新功能即可，简化开发时的重复工作。<br/>
-而网市场云建站系统，便是在以上产品的基础上持续优化而来。<br/>
-<br/>
 
 ## 版权声明<br/>
 本软件已申请著作权保护，开源使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需显式保留我们“网市场”版权标示及我们官方首页的链接！<br/>
