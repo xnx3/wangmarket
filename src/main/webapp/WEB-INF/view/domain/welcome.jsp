@@ -7,6 +7,7 @@
 </jsp:include>
 
   	<style>
+  		
   		.content{
   			width: 600px;
   			min-height:80%;
@@ -36,7 +37,10 @@
   			padding:4px;
   			padding-left:40px;
   		}
-  		.info h2{
+  		.info{
+  			font-size:14px;
+  		}
+  		.info h2,h3,h4,h5{
  			border-bottom: 1px solid #eee;
 		    padding-top: 15px;
 		    margin-bottom: 5px;
@@ -50,6 +54,10 @@
   			}
   			
   		}
+  		
+  		a{
+  			color: blue;
+  		}
   	</style>
   	
     <div class="content">
@@ -57,44 +65,41 @@
     		欢迎使用 网市场云建站系统 v<%=G.VERSION %>
     	</div>
     	
-    	<div style="padding:7%; text-align:center;">
-			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 28px;font-size: 20px;">点击此处开始安装本系统</a>
+    	<div class="info">
+    		由 <a href="http://www.leimingyun.com" target="_black">潍坊雷鸣云网络科技有限公司</a> 研发，历经4个大版本，每隔一到两个月就会进行一次小版本升级，共经历60余个小版本的更新迭代，系统完善，欢迎使用！
+    	</div>
+    	
+    	<div class="info">
+    		<h3>服务器选配</h3>
+    		最低配置要求：1核1G <a href="http://help.wscso.com/16329.html" target="_black">详细配置点此查看</a>
+    	</div>
+    	
+    	<div class="info">
+    		<h3>数据库</h3>
+    		系统默认内置 Sqlite 数据库，如果你只是建几个网站，那用这个就足够，无需任何其他配置<br/>
+    		如果你是建站公司，建议配置 Mysql 数据库。<a href="http://help.wscso.com/10240.html" target="_black">点此查看Mysql配置说明</a>
+    	</div>
+    	
+    	
+    	
+    	<div style="padding:10%; text-align:center;">
+			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 38px;font-size: 24px;">点击此处开始安装本系统</a>
 			<br/>
-			<div style="font-size:14px; padding-top:5px; color: gray;">
-				<a href="https://v.qq.com/x/page/c053533596l.html" style="">查看视频演示</a>
+			<div style="font-size:14px; padding-top:8px; ">
+				<a href="https://v.qq.com/x/page/c053533596l.html" style="color: gray;">查看视频演示</a>
 				|
-				<a href="http://help.wscso.com/10240.html">Mysql配置说明</a><br/>
-				<a href="javascript:updateSystemConfig();">安装好后再次修改配置方式点此查看</a>
+				<a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a>
 			</div>
 			
 		</div>
 
     	<div class="info">
+    		<h2>合作联系</h2>
+    		作者：<a href="http://www.guanleiming.com" target="_black">管雷鸣</a>，QQ：921153866 ， 微信：xnx3com<br/>
     		
-    		<h2>联系我们免费帮你安装</h2>
-    		<p style="padding:5px;">我方（潍坊雷鸣云网络科技有限公司）是阿里云指定合作企业，如果你想使用我们的系统，或将我们系统部署到你自己服务器上使用，请先联系我们（ QQ：921153866、 微信： xnx3com ），<b>我方给你开通一个新的阿里云账户</b>，使用新开通的阿里云账户进行购买服务器。</p> 
-    		<ul>
-	    		<li>必选，最基础的，购买一台1核2G的服务器。我们给你部署好，你可直接使用！（此种方式使用的是自带的 Sqlite 数据库）大约可建立一千来个网站。</li>
-	    		<li>可选，云数据库RDS（Mysql数据库）（大约一年一千。如果你不想花这个钱，可以给你装默认的sqlite数据库的。推荐安装 Mysql 数据库版本。）</li>
-	    		<li>请知悉：我们帮你安装的条件，是你在我们这边开通一个阿里云账户。你帮我们提升阿里云业绩，我们才会免费出人帮你安装。此为我们帮你安装的硬性条件。</li>
-	    	</ul>
-    		<h2>友情提示</h2>
-    		<ul>
-	    		<li>本系统共分为三种后台，其中，开通网站是在 <a href="http://help.wscso.com/5717.html" target="_black">代理后台</a> 进行开通！</li>
-	    		<li>您要正式使用时，请一定记得自行修改 admin、 agency 的默认密码</li>
-	    		<li>如有疑问或是在解决不了的，可到 <a href="http://bbs.leimingyun.com" target="_black">社区论坛 bbs.leimingyun.com</a> 发帖求助，我们有专人负责答疑</li>
-	    	</ul>
-    		
-    		<h2>官方、求助</h2>
-    		问题答疑求助： <a href="http://bbs.leimingyun.com" target="_black">bbs.leimingyun.com</a> （求助推荐到此发帖，专人负责答疑）<br/>
+    		<h2>交流、求助</h2>
     		官网：<a href="http://www.wang.market" target="_black">www.wang.market</a><br/>
     		交流QQ群：472328584<br/>
-    		
-    		<h2>合作联系</h2>
-    		作者：管雷鸣<br/>
-    		作者QQ：921153866<br/>
-    		作者微信：xnx3com<br/>
-    		微信公众号：wangmarket<br/>
     	</div>
     	
     	
