@@ -408,9 +408,18 @@ public class SiteController extends BaseController {
 		
 		domain = filter(domain);
 		//是否是不可使用的域名列表中的
-		if(G.forbidDomain.indexOf(","+domain+",") > -1){
-			vo.setBaseVO(BaseVO.FAILURE, "此域名不可使用！请更换再试");
-			return vo;
+		//system表中，保留不给用户申请的二级域名。v4.11增加，多个用|分割，且填写字符必须小写，如 m|wap|www  如果留空不填则无保留域名
+		String forbidDomain = Global.get("FORBID_DOMAIN");	
+		if(forbidDomain != null && forbidDomain.length() > 0){
+			String[] fs = forbidDomain.split("\\|");
+			for (int i = 0; i < fs.length; i++) {
+				if(fs[i] != null && fs[i].length() > 0){
+					if(domain.toLowerCase().equals(fs[i])){
+						vo.setBaseVO(BaseVO.FAILURE, fs[i]+" 此域名属于系统保留域名，不可使用！请更换一个吧");
+						return vo;
+					}
+				}
+			}
 		}
 		
 		//查询这个domain是否有使用的了
