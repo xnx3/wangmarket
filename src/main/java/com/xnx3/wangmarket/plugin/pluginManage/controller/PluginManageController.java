@@ -129,7 +129,11 @@ public class PluginManageController extends BasePluginController {
 		 * 获取升级插件的最新版本号和插件文件的下载url
 		 */
 		HttpResponse httpResponse = 
-				httpUtil.get("http://39.107.137.250/application/getPluginDownUrl.do?plugin_id=" + pluginId);
+				httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
+		// 服务器异常，返回错误信息
+		if(httpResponse.getCode() != 200) {
+			return error("插件云服务异常，请稍后重试。");
+		}
 		String content = httpResponse.getContent();
 		// 对返回结果进行Json处理
 		JSONObject messageJson = JSONObject.fromObject(content);
@@ -160,6 +164,8 @@ public class PluginManageController extends BasePluginController {
 		Class<?> forName = Class.forName(className);
 		SitePluginBean sitePluginBean = new SitePluginBean(forName);
 		pluginMap.put(pluginId, sitePluginBean);
+		//添加动作日志
+		ActionLogCache.insert(request, "升级插件", "升级ID为" + pluginId + "的插件");
 		
 		return success();
 	}
@@ -251,6 +257,8 @@ public class PluginManageController extends BasePluginController {
 		setPagePluginMenu(pluginId, sitePluginBean, 0);
 		// 在缓存插件中移除
 		pluginMap.remove(pluginId);
+		//添加动作日志
+		ActionLogCache.insert(request, "卸载插件", "卸载ID为" + pluginId + "的插件");
 		return success();
 	}
 	
@@ -395,9 +403,9 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		/*
-		 *  将新添加的class（即与插件相关的组件）文件加入SpringIoc容器中
+		 *  将新添加的class（即与插件相关的组件，带有指定注解的类）文件加入SpringIoc容器中
 		 */
-		// 扫面与插件相关的组件
+		// 扫描与插件相关的组件
 		List<Class<?>> classList = getPluginComponent(pluginId);
 		Iterator<Class<?>> iterator = classList.iterator();
 		String compomentName = null;
@@ -440,6 +448,8 @@ public class PluginManageController extends BasePluginController {
 		pluginMap.put(pluginId, sitePluginBean);
 		// 添加功能插件菜单
 		setPagePluginMenu(pluginId, sitePluginBean, 1);
+		//添加动作日志
+		ActionLogCache.insert(request, "安装插件", "安装ID为" + pluginId + "的插件");
 		// 重启容器
 		if(restartApplication) {
 			return success("restart");
@@ -454,6 +464,8 @@ public class PluginManageController extends BasePluginController {
 	@ResponseBody
 	@RequestMapping("/restart${url.suffix}")
 	public String restartApplication(HttpServletRequest request) {
+		//添加动作日志
+		ActionLogCache.insert(request, "启动服务", "因为安装新插件二重启服务器");
 		// 检查当前的运行的环境决定重启的方式
 		if(getPluginPath(request, "").get("environment").equals("tomcat")) {
 			// 创建存放数据信息的Map
@@ -468,6 +480,7 @@ public class PluginManageController extends BasePluginController {
 		}else {
 			com.Application.restart();
 		}
+		
 		return "";
 	}
 	
@@ -639,6 +652,8 @@ public class PluginManageController extends BasePluginController {
 			//更新插件信息
 			sqlService.save(application);
 		}
+		//添加动作日志
+		ActionLogCache.insert(request, "上传插件", "上传ID为" + pluginId + "的插件压缩包");
 		return success();
 	}
 	
@@ -779,7 +794,11 @@ public class PluginManageController extends BasePluginController {
 		 * 检查id是否已被网市场云端插件库占用
 		 */
 		HttpUtil httpUtil = new HttpUtil();
-		HttpResponse httpResponse = httpUtil.get("http://39.107.137.250/application/pluginIdList.do");
+		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/pluginIdList.do");
+		// 服务器异常，返回错误信息
+		if(httpResponse.getCode() != 200) {
+			return error("插件云服务异常，请稍后重试。");
+		}
 		String content = httpResponse.getContent();
 		if(content.indexOf(application.getId()) > -1) {
 			return error("该插件ID已被占用，请更改后重新提交");
@@ -792,7 +811,6 @@ public class PluginManageController extends BasePluginController {
 		
 		if(plugin == null) {
 			//添加操作
-			//对添加的信息进行Xss过滤
 			application.setMenuTitle(application.getMenuTitle());
 			application.setIntro(application.getIntro());
 			application.setAuthorName(application.getAuthorName());
@@ -804,7 +822,6 @@ public class PluginManageController extends BasePluginController {
 			ActionLogCache.insert(request, "添加插件", "添加" + application.getMenuTitle() + "插件");
 		}else {
 			//修改操作
-			//对添加的信息进行Xss过滤
 			application.setId(application.getId());
 			application.setMenuTitle(application.getMenuTitle());
 			application.setIntro(application.getIntro());
@@ -862,11 +879,8 @@ public class PluginManageController extends BasePluginController {
 		}
 		//通过id查询出需要删除的插件信息
 		Application plugin = sqlService.findAloneByProperty(Application.class, "id", pluginId);
-		//将插件的状态设置为删除
-		
-		//更新-插件状态
+		// 删除插件信息
 		sqlService.delete(plugin);
-		
 		//添加动作日志
 		ActionLogCache.insert(request, "删除插件", "删除ID为" + plugin.getMenuTitle() + "的插件");
 		return success();
@@ -959,6 +973,8 @@ public class PluginManageController extends BasePluginController {
 		ZipUtils.dozip(realPath + "export" + File.separator + "ROOT", realPath + "pluginZip" + File.separator + pluginId + ".zip");
 		// 删除临时创建的文件
 		deleteDirectory(new File(realPath + "export" + File.separator), false);
+		//添加动作日志
+		ActionLogCache.insert(request, "导出插件", "导出ID为" + pluginId + "的插件");
 		// 返回需要访问的路径
 		return success(File.separator + "pluginZip" + File.separator + pluginId + ".zip");
 		
@@ -979,25 +995,25 @@ public class PluginManageController extends BasePluginController {
 			new File(newPath).mkdirs();
 		}
 		//得到需要复制的文件
-        File file = new File(oldPath);
-        //文件名称列表
-        String[] filePath = file.list();
-        //如果新文件不存在的创建文件夹
-        if (!(new File(newPath)).exists()) {
-            (new File(newPath)).mkdirs();
-        }
-        //循环遍历文件夹下的文件列表
-        for (int i = 0; i < filePath.length; i++) {
-        	//如果是文件夹
-            if ((new File(oldPath + file.separator + filePath[i])).isDirectory()) {
-                copyDir(oldPath  + file.separator  + filePath[i], newPath  + file.separator + filePath[i]);
-            }
-            //如果是文件
-            if (new File(oldPath  + file.separator + filePath[i]).isFile()) {
-            	FileUtil.copyFile(oldPath + file.separator + filePath[i], newPath + file.separator + filePath[i]);
-            }
-        }
-    }
+		File file = new File(oldPath);
+		//文件名称列表
+		String[] filePath = file.list();
+		//如果新文件不存在的创建文件夹
+		if (!(new File(newPath)).exists()) {
+			(new File(newPath)).mkdirs();
+		}
+		//循环遍历文件夹下的文件列表
+		for (int i = 0; i < filePath.length; i++) {
+			//如果是文件夹
+			if ((new File(oldPath + file.separator + filePath[i])).isDirectory()) {
+				copyDir(oldPath  + file.separator  + filePath[i], newPath  + file.separator + filePath[i]);
+			}
+			//如果是文件
+			if (new File(oldPath  + file.separator + filePath[i]).isFile()) {
+				FileUtil.copyFile(oldPath + file.separator + filePath[i], newPath + file.separator + filePath[i]);
+			}
+		}
+	}
 	
 	/**
 	 * 解压文件到指定的文件夹
@@ -1020,47 +1036,47 @@ public class PluginManageController extends BasePluginController {
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = (ZipEntry) entries.nextElement();
 				// 如果是文件夹，就创建个文件夹
-                if (entry.isDirectory()) {
-                    String dirPath = destDirPath + File.separator + entry.getName();
-                    File dir = new File(dirPath);
-                    dir.mkdirs();
-                } else {
-                    // 如果是文件，就先创建一个文件，然后用io流把内容copy过去
-                    File targetFile = new File(destDirPath + File.separator + entry.getName());
-                    // 保证这个文件的父文件夹必须要存在
-                    if(!targetFile.getParentFile().exists()){
-                        targetFile.getParentFile().mkdirs();
-                    }
-                    try {
-                        targetFile.createNewFile();
+				if (entry.isDirectory()) {
+					String dirPath = destDirPath + File.separator + entry.getName();
+					File dir = new File(dirPath);
+					dir.mkdirs();
+				}else {
+					// 如果是文件，就先创建一个文件，然后用io流把内容copy过去
+					File targetFile = new File(destDirPath + File.separator + entry.getName());
+					// 保证这个文件的父文件夹必须要存在
+					if(!targetFile.getParentFile().exists()){
+						targetFile.getParentFile().mkdirs();
+					}
+					try {
+						targetFile.createNewFile();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-                    // 将压缩文件内容写入到这个文件中
-                    InputStream is = zipFile.getInputStream(entry);
-                    FileOutputStream fos = new FileOutputStream(targetFile);
-                    int len;
-                    byte[] buf = new byte[1024];
-                    while ((len = is.read(buf)) != -1) {
-                        fos.write(buf, 0, len);
-                    }
-                    // 关流顺序，先打开的后关闭
-                    fos.close();
-                    is.close();
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("unzip error from ZipUtils", e);
-        } finally {
-            if(zipFile != null){
-                try {
-                    zipFile.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+					// 将压缩文件内容写入到这个文件中
+					InputStream is = zipFile.getInputStream(entry);
+					FileOutputStream fos = new FileOutputStream(targetFile);
+					int len;
+					byte[] buf = new byte[1024];
+					while ((len = is.read(buf)) != -1) {
+						fos.write(buf, 0, len);
+					}
+					// 关流顺序，先打开的后关闭
+					fos.close();
+					is.close();
+				}
+			}
+		} catch (Exception e) {
+		    throw new RuntimeException("unzip error from ZipUtils", e);
+	    } finally {
+	    	if(zipFile != null){
+	    		try {
+	    			zipFile.close();
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}
+	    	}
+	    }
+	}
 	
 	/**
 	 * 获取对插件操作使用的路径
