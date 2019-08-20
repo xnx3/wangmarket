@@ -40,6 +40,7 @@ import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
@@ -116,6 +117,10 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO upgradePlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "") 
 			String pluginId, @RequestParam(value = "version", required = false, defaultValue = "") 
 			String version,HttpServletRequest request) throws ClassNotFoundException, IOException {
+		
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
+		version = Safety.filter(version);
 		// 校验参数
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
@@ -184,6 +189,8 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO unIstallPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, HttpServletRequest request) throws ClassNotFoundException, IOException {
 		
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
 		//校验插件id
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件信息错误");
@@ -330,7 +337,10 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO installPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, @RequestParam(value = "down_url", required = false, defaultValue = "") 
 			String downUrl, HttpServletRequest request) throws IOException, ClassNotFoundException {
-			
+		
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
+		downUrl = Safety.filter(downUrl);			
 		// 校验信息
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
@@ -609,6 +619,9 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO uploadZip(@RequestParam(value = "file", required = false)
 			MultipartFile file, HttpServletRequest request, @RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
 			throws IllegalStateException, IOException {
+
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
 		// 校验插件id是否合法
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件信息错误");
@@ -716,8 +729,10 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/installList${url.suffix}")
 	public String installList(HttpServletRequest request, Model model, 
 			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
-		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
 		
+		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
+		// 参数安全过滤
+		menuTitle = Safety.filter(menuTitle);		
 		//获取当前已经安装的所有的插件
 		if(pluginMap == null) {
 			pluginMap = pluginService.getCurrentPluginMap();
@@ -771,6 +786,9 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/add${url.suffix}")
 	public String toAddPage(@RequestParam(value = "plugin_id",required = false,defaultValue = "")
 			String pluginId,Model model, HttpServletRequest request) {
+
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
 		//如果id不为空的话进行修改操作，在数据库中取出需要修改的插件信息传递到页面中
 		if(pluginId != null && !(pluginId.equals(""))) {
 			Application plugin = sqlService.findAloneByProperty(Application.class, "id", pluginId);
@@ -848,6 +866,9 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/queryViewById${url.suffix}")
 	public String queryById(HttpServletRequest request,@RequestParam(value = "plugin_id" ,required = false,defaultValue = "")
 			String pluginId,Model model) {
+
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);		
 		//对查询的插件id进行校验
 		if(pluginId == null || pluginId.equals("") ) {
 			return error(model, "插件ID错误，请重新尝试");
@@ -873,6 +894,9 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/deletePlugin${url.suffix}")
 	public BaseVO deletePlugin(@RequestParam(value = "plugin_id" , required = false, defaultValue = "")
 			String pluginId,HttpServletRequest request) {
+		
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);		
 		//校验插件id是否合法
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插ID错误");
@@ -920,6 +944,9 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/upload${url.suffix}")
 	public String uploadZipFile(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, Model model) {
+
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);
 		model.addAttribute("plugin_id", pluginId);
 		return "/plugin/pluginManage/myList/upload";
 	}
@@ -935,7 +962,9 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/exportPlugin${url.suffix}")
 	public BaseVO exportPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, HttpServletRequest request) throws IOException {
-		
+
+		// 参数安全过滤
+		pluginId = Safety.filter(pluginId);		
 		/*
 		 * 判断要导出的插件是否为用户自己开发的本地插件
 		 */
