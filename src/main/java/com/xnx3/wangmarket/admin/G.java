@@ -50,8 +50,6 @@ public class G {
 	
 //	public static final String DEFAULT_PC_ABOUT_US_TITLEPIC = RES_CDN_DOMAIN+"default_image/aboutUs.jpg";	//默认的关于我们的图
 	
-	public static String forbidDomain = ",www,wap,m,3g,4g,5g,mail,domain,idc,service,server,";		//保留域名，不给会员申请的
-	
 	public static Map<String, Map<String, String>> templateVarMap = new HashMap<String, Map<String,String>>(); 	//模版变量缓存，模版变量都会缓存在这里面，使用时，get("模版名字").get("模版下的模版变量名字") = 模版变量内容
 	
 	public static final int REG_GENERAL_OSS_HAVE = 1000;	//普通注册成为会员后，拥有1000MB的存储空间
