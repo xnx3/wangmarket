@@ -58,7 +58,7 @@ public class TomcatUtil implements Runnable{
 	 * @param realPath 当前项目的真实路径 例：/mnt/tomcat/webapps/ROOT/
 	 * @return 创建文件的绝对路径
 	 */
-	private String createShFile4WLinux(String binPath, String realPath) {
+	private String createShFileForWLinux(String binPath, String realPath) {
 		// 写入文件中的内容
 		String shellString = "#!/bin/bash\n";
 		shellString += binPath + "shutdown.sh\n";
@@ -95,7 +95,7 @@ public class TomcatUtil implements Runnable{
 	 * @param binPath tomcat的bin目录
 	 * @throws IOException
 	 */
-	private static void shutDownTomcat4Windows(String binPath) throws IOException {
+	private static void shutDownTomcatForWindows(String binPath) throws IOException {
 		// 执行的cmd命令组
 		String shutDownCommand = "cmd /c cd /d " + binPath + "&&shutdown.bat";
 		/*
@@ -106,9 +106,9 @@ public class TomcatUtil implements Runnable{
 		InputStream inputStream = exec.getInputStream();
 		InputStreamReader isr = new InputStreamReader(inputStream);//将字节流转化成字符流
 		BufferedReader br = new BufferedReader(isr);//将字符流以缓存的形式一行一行输出
-		 /* 为"错误输出流"单独开一个线程读取之,否则会造成标准输出流的阻塞 */
-        Thread t = new Thread(new InputStreamRunnable(exec.getErrorStream(), "ErrorStream"));
-        t.start();
+		/* 为"错误输出流"单独开一个线程读取之,否则会造成标准输出流的阻塞 */
+		Thread t = new Thread(new InputStreamRunnable(exec.getErrorStream(), "ErrorStream"));
+		t.start();
 		String line = null;
 		// 输出一下返回信息
 		while((line = br.readLine()) != null) {
@@ -130,7 +130,7 @@ public class TomcatUtil implements Runnable{
 				int indexOf = realPath.indexOf("webapps");
 				String binPath = realPath.substring(0, indexOf) + "bin";
 				// 关闭tomcat服务
-				shutDownTomcat4Windows(binPath);
+				shutDownTomcatForWindows(binPath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -142,7 +142,7 @@ public class TomcatUtil implements Runnable{
 			String realPath = environmentMap.get("realPath");
 			int indexOf = realPath.indexOf("webapps/");
 			String binPath = realPath.substring(0, indexOf) + "bin/";
-			createShFile4WLinux(binPath, realPath);
+			createShFileForWLinux(binPath, realPath);
 			String command = "cd " + realPath + " && ./restart.sh";
 			exeCommand(command);
 		}
