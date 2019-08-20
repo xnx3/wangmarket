@@ -150,6 +150,9 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
 <br/>
 
+## 开发人员
+[管雷鸣](http://www.guanleiming.com) , [李鑫](https://gitee.com/warm_joy)
+
 ## 作者简介<br/>
 对网站这种普惠全民的事，有极大的热爱。又或者说，对于能改变什么，有强烈的兴致。<br/>
 高一接触网吧认识电脑，高二接触到网站(UBB标签排版那种)，高三辍学自学HTML、PHP，然后进入四大名校之新华电脑。<br/>
