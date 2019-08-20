@@ -13,7 +13,7 @@
 | ------------- |-------------|-------------|
 | 网市场官网 | [www.wang.market](http://www.leimingyun.com) | 潍坊雷鸣云网络科技有限公司 |
 | 功能插件 | [www.leimingyun.com/plugin.html](https://www.leimingyun.com/plugin.html) | 十多个功能插件，持续增加中 |
-| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.jsp) | 三十多个模版，持续增加中 |
+| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 七十多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
 | 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 技术人员出租1天300元 |
 | 系统授权 | [www.wang.market/price.html](https://www.leimingyun.com/price.html) | 拥有更好的服务，帮安装、使用指导 |
@@ -55,10 +55,9 @@
 [查看详细视频演示](http://help.wscso.com/5683.html)
 
 ## 放到线上，华为云服务器，花一元快速部署到线上使用
+按照此网址开通账号、选配服务器，仅需要一元，就能在线上将网市场云建站系统部署起来使用，不再需要其他额外花费！ 
 [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) 
 
-就这么简单！
-[查看详细视频演示](http://help.wscso.com/5683.html)
  
 ## 建站公司、有意增加建站业务的朋友合作
 我们诚邀各建站公司加入我们，专业的技术团队、使用指导人员辅助到位，您如果感觉本系统对您有用，可联系我们，我们帮你安装，你只管用（不花钱保留版权标记，跟你自己安装的开源版本一样，授权版本的去除版权标记。授权请参考： https://www.leimingyun.com/price.html ）
@@ -114,21 +113,19 @@ svn版本更新迭代837次！<br/>
 #### 2. 1000元成本，即可代理加盟<br/>
 免费开通代理平台，最低预充值1000元，即可拥有开通1000个网站名额。你即可尝试开展自己的业务！<br/>
 开通一个网站的价格为：1元/年，以后每次充值不得少于1000元。另外，你可以继续开通你的下级代理、下下级……<br/>
-[查看联系方式 http://www.wang.market/contact.html](http://www.wang.market/contact.html) （这种方式是在我们服务器给你开通代理账户，你所做的网站，数据实际上都是在我们服务器上。）
-#### 3. 700左右成本，安装到自己服务器<br/>
-一台1核2G，安装网市场云建站系统（Sqlite版本），可以支撑起至少100个网站<br/>
-#### 4. 1500左右成本，安装到自己服务器<br/>
-一台1核2G + Mysql云数据库 + 云存储 + CDN + 日志服务，安装网市场云建站系统（Mysql版本），可以支撑起至少3000个网站<br/>
+[查看联系方式 http://www.wang.market/contact.html](http://www.wang.market/contact.html) （这种方式是在我们服务器给你开通代理账户，你所做的网站，数据实际上都是在我们服务器上，你只管使用。）
+#### 3. 1块钱成本，安装到自己服务器<br/>
+一台1核1G，安装网市场云建站系统，可以支撑起至少100个网站。详细步骤参见： [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) <br/>
 #### 5. 3000左右的成本，安装到自己服务器<br/>
-一台2核4G服务器 + Mysql云数据库 + 云存储 + CDN + 日志服务，可以支撑起至少 40000 个网站<br/>
+一台2核4G服务器 + Mysql云数据库 + 云存储 + CDN + 日志服务，可以支撑起至少 40000 个网站 （此方式仅限[授权用户](https://www.leimingyun.com/price.html)）<br/>
 #### 6. 7000以上的成本
-两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + 日志服务，可支撑百万级以上的网站数量。架构如下：<br/>
+两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + 日志服务，可支撑百万级以上的网站数量。（此方式仅限[合作伙伴](https://www.leimingyun.com/price.html)）架构如下：<br/>
 ![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
 <br/>
 
 ## 当前目录结构
 ```
-wangmarket                          GitHub目录
+wangmarket                          项目
 ├─src                               项目源代码 ( Maven )
 ├─pom.xml                           项目源代码 pom ( Maven )
 ├─else                              其他的杂七杂八相关文件，一般用不到
@@ -167,4 +164,3 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 本软件已申请著作权保护，开源使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需显式保留我们“网市场”版权标示及我们官方首页的链接！<br/>
 另外提供授权版本，享受更好的服务，比如帮安装部署、使用指导等，参见：[http://www.wang.market/price.html](http://www.leimingyun.com/price.html)
 <br/>
- 
