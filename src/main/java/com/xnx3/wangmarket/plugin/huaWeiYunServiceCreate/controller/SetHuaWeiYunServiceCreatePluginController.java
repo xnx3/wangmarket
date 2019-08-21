@@ -46,6 +46,7 @@ public class SetHuaWeiYunServiceCreatePluginController extends BasePluginControl
 		// 检查桶名称字段是否存在，默认值为 "auto"
 		initializationSystem("HUAWEIYUN_OBS_BUCKETNAME", "华为云对象存储桶的名字。若值为auto，则会自动创建。建议值不必修改，默认即可。它可自动给你赋值。", "auto");
 		
+		
 		//判断是否设置了accesskey等，如果没有设置，需要先进性设置
 		if((Global.get("HUAWEIYUN_ACCESSKEYID") == null || Global.get("HUAWEIYUN_ACCESSKEYID").length() < 5) || Global.get("HUAWEIYUN_ACCESSKEYSECRET") == null || Global.get("HUAWEIYUN_ACCESSKEYSECRET").length() < 5){
 			return "plugin/huaWeiYunServiceCreate/set/setAccessKey"; 
@@ -107,7 +108,7 @@ public class SetHuaWeiYunServiceCreatePluginController extends BasePluginControl
 	 * 初始化数据库中与华为云相关的信息,如果没有该字段将会进行创建
 	 * @author 李鑫
 	 * @param name 需要初始化的信息的名称 例 “HUAWEIYUN_ACCESSKEYSECRET”
-	 * @param desc 该信息的描述信息
+	 * @param desc 该信息的描述信息 例："华为云秘钥accessKeySecret"
 	 * @param defaultValue 字段的默认值，如果没有默认值请传入 对象 null
 	 */
 	private void initializationSystem(String name, String desc, String defaultValue) {

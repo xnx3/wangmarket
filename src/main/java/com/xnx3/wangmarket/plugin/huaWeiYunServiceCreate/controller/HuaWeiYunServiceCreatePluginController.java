@@ -25,6 +25,7 @@ public class HuaWeiYunServiceCreatePluginController extends BasePluginController
 	 */
 	@RequestMapping("index${url.suffix}")
 	public String index(Model model){
+		// 刷新本地缓存
 		systemService.refreshSystemCache();
 		// 是否有管理员权限
 		if(!haveSuperAdminAuth()){
@@ -37,7 +38,4 @@ public class HuaWeiYunServiceCreatePluginController extends BasePluginController
 			return redirect("plugin/huaWeiYunServiceCreate/set/setAccessKey.do");
 		}
 	}
-	
-	
-	
 }

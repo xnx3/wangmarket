@@ -8,28 +8,27 @@
 
 <table class="layui-table iw_table">
   <tbody>
-	   	<tr>
-	   		<td style="width:200px;"> 服务所在区域 ( End Point )  ：</td>
-	   		<td style="width:160px;"><%=Global.get("HUAWEIYUN_COMMON_ENDPOINT") %></td>
-			<td>
-				设置：
-				<select id="selectId" onchange="selectChange();">
-					<option value="" >请选择服务区域</option>
-					<option value="cn-north-4" >华北-北京四</option>
-					<option value="cn-north-1" >华北-北京一</option>
-					<option value="cn-east-2" >华东-上海二</option>
-					<option value="cn-east-3" >华东-上海三</option>
-					<option value="cn-south-1" >华南-广州</option>
-					<option value="cn-southwest-2" >西南-贵阳一</option>
-					<option value="ap-southeast-1" >亚太-香港</option>
-					<option value="ap-southeast-3" >亚太-新加坡</option>
-					<option value="ap-southeast-2" >亚太-曼谷</option>
-				</select>
-			</td>
-		</tr>
+	<tr>
+		<td style="width:200px;"> 服务所在区域 ( End Point )  ：</td>
+		<td style="width:160px;"><%=Global.get("HUAWEIYUN_COMMON_ENDPOINT") %></td>
+		<td>
+		设置：
+		<select id="selectId" onchange="selectChange();">
+			<option value="" >请选择服务区域</option>
+			<option value="cn-north-4" >华北-北京四</option>
+			<option value="cn-north-1" >华北-北京一</option>
+			<option value="cn-east-2" >华东-上海二</option>
+			<option value="cn-east-3" >华东-上海三</option>
+			<option value="cn-south-1" >华南-广州</option>
+			<option value="cn-southwest-2" >西南-贵阳一</option>
+			<option value="ap-southeast-1" >亚太-香港</option>
+			<option value="ap-southeast-3" >亚太-新加坡</option>
+			<option value="ap-southeast-2" >亚太-曼谷</option>
+			</select>
+		</td>
+	</tr>
   </tbody>
 </table>
-
 
 <script type="text/javascript">
 	//当选择区域之后，触发

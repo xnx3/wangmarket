@@ -91,8 +91,6 @@ public class ObsHuaWeiYunServiceCreatePluginController extends BasePluginControl
 		if(Global.get("HUAWEIYUN_OBS_BUCKETNAME") == null || Global.get("HUAWEIYUN_OBS_BUCKETNAME").equals("auto") || Global.get("HUAWEIYUN_OBS_BUCKETNAME").trim().equals("")) {
 			// 如果不存在，则创建一个
 			getObsHander().createOBSBucket("wangmarket" + DateUtil.timeForUnix10());
-			// 刷新访问OBS的URL
-			getObsHander().getOriginalUrlForOBS();
 			/*
 			 *  修改表数据
 			 */
@@ -110,7 +108,6 @@ public class ObsHuaWeiYunServiceCreatePluginController extends BasePluginControl
 		if(!have){
 			// 如果不存在，则创建一个
 			getObsHander().createOBSBucket("wangmarket" + DateUtil.timeForUnix10());
-			getObsHander().getOriginalUrlForOBS();
 			// 更新当地system表缓存
 			systemService.refreshSystemCache();
 			//创建完毕后再请求看看，是不是真的创建成功了
