@@ -226,9 +226,9 @@
 		
 		<!-- 华为云依赖 -->
 		<dependency>
-		   <groupId>com.huaweicloud</groupId>
-		   <artifactId>esdk-obs-java</artifactId>
-		   <version>3.19.5</version>
+			<groupId>com.huaweicloud</groupId>
+			<artifactId>esdk-obs-java</artifactId>
+			<version>3.19.5</version>
 		</dependency>
 		
 		<!-- iw start -->
