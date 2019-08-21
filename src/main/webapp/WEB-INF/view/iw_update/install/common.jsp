@@ -14,7 +14,7 @@
 	display: inline-block;
 }
 </style>
-<ul class="foot">
+<ul class="foot" style="display:none;">
 	<li class="first">
 		<a href="selectAttachment.do">
 			第一步.选择使用方式

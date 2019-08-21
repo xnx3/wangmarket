@@ -65,9 +65,18 @@
     		欢迎使用 网市场云建站系统 v<%=G.VERSION %>
     	</div>
     	
-    	<div class="info">
-    		由 <a href="http://www.leimingyun.com" target="_black">潍坊雷鸣云网络科技有限公司</a> 研发，历经4个大版本，每隔一到两个月就会进行一次小版本升级，共经历60余个小版本的更新迭代，系统完善，欢迎使用！
-    	</div>
+    	
+    	<div style="padding-top:100px;; padding-bottom:110px; text-align:center;">
+			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 30px;font-size: 20px;">点击此处开始安装本系统</a>
+			<br/>
+			<div style="font-size:12px; padding-top:8px; ">
+				<a href="https://v.qq.com/x/page/c053533596l.html" style="color: gray;">查看视频演示</a>
+				|
+				<span style="color: gray;">交流QQ群：472328584</span>
+				<!-- <a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a> -->
+			</div>
+			
+		</div>
     	
     	<div class="info">
     		<h3>服务器选配</h3>
@@ -81,21 +90,10 @@
     	</div>
     	
     	
-    	<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
-			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 38px;font-size: 24px;">点击此处开始安装本系统</a>
-			<br/>
-			<div style="font-size:14px; padding-top:8px; ">
-				<a href="https://v.qq.com/x/page/c053533596l.html" style="color: gray;">查看视频演示</a>
-				|
-				<span style="color: gray;">交流QQ群：472328584</span>
-				<!-- <a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a> -->
-			</div>
-			
-		</div>
     	
-    	<!-- <div style="width: 100%;text-align: center;">
-    		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">网市场云建站系统 - 潍坊雷鸣云网络科技有限公司</a>
-    	</div> -->
+    	<div style="width: 100%;text-align: center; padding-top: 50px;">
+    		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">潍坊雷鸣云网络科技有限公司</a>
+    	</div>
     </div>
     
     <script>

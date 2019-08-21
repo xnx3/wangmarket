@@ -65,10 +65,10 @@ public class PublicController extends BaseController {
 		 */
 		if(htmlFile.equals("index.html")){
 			//如果访问的是首页，且访问的是masterSiteUrl，那么直接到 login.do
-			if(("http://"+request.getServerName()+"/").equals(Global.get("MASTER_SITE_URL"))){
+			if(Global.get("MASTER_SITE_URL").indexOf("://"+request.getServerName()) > 0){
 				//如果是主站，则判断，其后面是否是跟随着get传递的domain参数。若是，则是预览网站。若没有，则是直接访问主站，  跳转到login.do进行登录
 				String d = request.getParameter("domain");
-				if((d == null || d.length() == 0) && !simpleSiteVO.isSourceBySession()){
+				if(d == null || d.length() == 0){
 					//用户是直接访问主站，进入登录页面
 					return redirect("login.do");
 				}
