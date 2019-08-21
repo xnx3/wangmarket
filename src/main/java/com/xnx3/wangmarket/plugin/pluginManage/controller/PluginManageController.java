@@ -206,7 +206,7 @@ public class PluginManageController extends BasePluginController {
 		String compomentName = null;
 		while (iterator.hasNext()) {
 			Class<?> compomentClass = iterator.next();
-			//得到类名首字母小写的类名称，删除相应的ioc组件
+			//得到类名首字母小写的类名称，删除相应的IOC组件
 			compomentName = compomentClass.getSimpleName();
 			compomentName = compomentName.substring(0, 1).toLowerCase() + compomentName.substring(1, compomentName.length());
 			// 将组件添加到IOC容器中
@@ -273,8 +273,8 @@ public class PluginManageController extends BasePluginController {
 	 * 检索多个文件夹中与插件相关的文件夹
 	 * @author 李鑫
 	 * @param pluginId 检索的插件id
-	 * @param filePathList 徐亚检索的文件目录列表
-	 * @return 检索的与插件相关的文件夹
+	 * @param filePathList 需要检索的文件目录列表
+	 * @return 检索的与插件相关的文件夹列表
 	 */
 	private List<File> getPluginFile(String pluginId, List<String> filePathList) {
 		// 删除与插件有关的文件夹
@@ -293,7 +293,6 @@ public class PluginManageController extends BasePluginController {
 				deleteFileList.addAll(Arrays.asList(listFiles));
 			}
 		}
-		
 		return deleteFileList;
 	}
 	
@@ -393,7 +392,9 @@ public class PluginManageController extends BasePluginController {
 			if(!new File(realPath + "yunPlugin" + File.separator + fileName).exists()) {
 				new File(realPath + "yunPlugin" + File.separator + fileName).createNewFile();
 			}
-			//云端插件进行下载，并且解压
+			/*
+			 * 云端插件进行下载，并且解压
+			 */
 			FileUtil.downFile(downUrl, realPath + "yunPlugin" + File.separator + fileName);
 			
 			try {
@@ -541,7 +542,7 @@ public class PluginManageController extends BasePluginController {
 	 * @param pluginId 操作插件的id
 	 * @param sitePluginBean 插件的信息
 	 * @param action 进行的操作 0：删除操作 1：添加操作
-	 * @return 该返回参数无意义，热河情况下都为true。
+	 * @return 该返回参数无意义，任何情况下都为true。
 	 */
 	private boolean setPagePluginMenu(String pluginId, SitePluginBean sitePluginBean, int action) {
 		// 添加插件菜单操作
@@ -671,7 +672,8 @@ public class PluginManageController extends BasePluginController {
 	}
 	
 	/**
-	 * 入口页面
+	 * 插件管理首页入口
+	 * @author 李鑫
 	 */
 	@RequestMapping("/index${url.suffix}")
 	public String index(HttpServletRequest request ,Model model){
