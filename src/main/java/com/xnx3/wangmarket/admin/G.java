@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.Log;
