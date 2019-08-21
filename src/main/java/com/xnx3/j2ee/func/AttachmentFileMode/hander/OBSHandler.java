@@ -153,7 +153,7 @@ public class OBSHandler {
 	 * 创建文件夹
 	 * @author 李鑫
 	 * @param bucketName 操作的桶的名称 例："wangmarket1232311"
-	 * @param fileName 新建文件夹的路径，根路径开始，请务必以"/"结尾。例："2019/0817/"
+	 * @param fileName 新建文件夹的路径，总根路径开始，请务必以"/"结尾。例："2019/0817/"
 	 * @return {@link com.obs.services.model.PutObjectResult} 返回创建的结果
 	 */
 	public PutObjectResult mkdirFolder(String bucketName, String fileName) {
@@ -205,7 +205,7 @@ public class OBSHandler {
 	 * @return 桶原生的访问前缀，即不经过CDN加速的访问路径
 	 */
 	public String getOriginalUrlForOBS() {
-		return "//" + obsBucketName + "." + endpoint.substring(8, endpoint.length()) + ":443/";
+		return "//" + obsBucketName + "." + endpoint.substring(8, endpoint.length()) + "/";
 	}
 	
 	/**
@@ -216,6 +216,7 @@ public class OBSHandler {
 	 * @return 根据信息获得桶的访问路径 例："//wangmarket21345665.obs.cn-north-1.myhuaweicloud.com/"
 	 */
 	public String getUrlByBucketName(String bucketName, String endpoint) {
+		String url = null;
 		if (url == null || url.length() == 0) {
 			url = "//" + bucketName + "." +  endpoint + ".myhuaweicloud.com" + "/";
 		}
@@ -292,6 +293,10 @@ public class OBSHandler {
 	 * @return 若已经手动设置CDN路径返回为CND路径，反之则为OBS原始的访问路径
 	 */
 	public String getUrl() {
+		// 用户没有配置CDN，获的桶的原生访问路径
+		if(url == null) {
+			url = getOriginalUrlForOBS();
+		}
 		return url;
 	}
 }
