@@ -45,6 +45,7 @@ import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
+import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.PluginService;
@@ -445,6 +446,19 @@ public class PluginManageController extends BasePluginController {
 			return error("插件ID错误");
 		}
 		/*
+		 * 判断安装的插件是否为未经授权用户可以使用插件
+		 */
+		HttpUtil httpUtil = new HttpUtil();
+		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getFreePluginName.do");
+		if(httpResponse.getCode() != 200) {
+			return error("云插件服务器错误，请稍后重试。");
+		}
+		// 如果没有授权并且该插件未经授权用户不可用，向客户提示信息
+		if(httpResponse.getContent().indexOf(pluginId) == -1 && Authorization.copyright) {
+			return error("此插件进授权用户可用");
+		}
+		
+		/*
 		 * 判断插件是否已经安装
 		 */
 		if(!(pluginMap.get(pluginId) == null)) {
@@ -452,8 +466,8 @@ public class PluginManageController extends BasePluginController {
 		}
 		// 下载文件名称
 		String fileName = pluginId + "zip";
-		HttpUtil httpUtil = new HttpUtil();
-		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
+		// 获取插件压缩包的下载url
+		httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
 		if(httpResponse.getCode() != 200) {
 			return error("云插件服务器错误，请稍后重试。");
 		}
