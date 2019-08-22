@@ -1,4 +1,5 @@
 <%@page import="com.xnx3.j2ee.Global"%>
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
@@ -101,10 +102,20 @@ $(function(){
 
 // 分页查询
 function pageQuery(currentPage,menuTitle) {
+	// 获取插件搜索条件
 	if(menuTitle == 'menu') {
 		menuTitle = $("#menuTitle").val();
 	}
-	$.post("http://39.107.137.250//application/list.do",{"currentPage" : currentPage, "menu_title" : menuTitle},function(data){
+	var freeIdList = "";
+	//未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html
+	
+	// 获取未经授权用户可以使用的插件id列表
+	$.post("//plugin.wangmarket.leimingyun.com/application/getFreePluginName.do",function(data, status){
+		freeIdList = data;
+	});
+		
+	
+	$.post("//plugin.wangmarket.leimingyun.com/application/list.do",{"currentPage" : currentPage, "menu_title" : menuTitle},function(data){
 		//如果返回结果为成功
 		if(data.result == 1){
 			/*
@@ -125,12 +136,33 @@ function pageQuery(currentPage,menuTitle) {
 		    html += '    <td style="text-align:center;" onclick="pluginView(\'' + plugin.id + '\');">' + yesOrNo(plugin.supportSqlite) + '</td>';
 		    html += '    <td style="text-align:center;" onclick="pluginView(\'' + plugin.id + '\');">' + versionFormat(plugin.version) + '</td>';
 		    html += '    <td style="text-align:center;">';
-		    // 判断检查是否已经安装
-		    if(pluginIds.indexOf(plugin.id) == -1){
-			    html += '<botton class="layui-btn layui-btn-sm" onclick="installPlugin(\'' + plugin.id + '\', \'' + plugin.menuTitle + '\', \'' + plugin.downUrl + '\')" style="margin-left: 3px;"><i class="layui-icon">&#xe61f;安装</i></botton>';
-		    }else{
-			    html += '<botton class="layui-btn layui-btn-sm" onclick="javascript:;" style="margin-left: 3px;"><i class="layui-icon">&#x1005;已安装</i></botton>';
-		    }
+		   
+		    // 已授权用户
+		    <% if(!Authorization.copyright){ %>
+		    	 // 判断检查是否已经安装
+			    if(pluginIds.indexOf(plugin.id) == -1){
+				    html += '<botton class="layui-btn layui-btn-sm" onclick="installPlugin(\'' + plugin.id + '\', \'' + plugin.menuTitle + '\', \'' + plugin.downUrl + '\')" style="margin-left: 3px;"><i class="layui-icon">&#xe61f;安装</i></botton>';
+			    }else{
+				    html += '<botton class="layui-btn layui-btn-sm" onclick="javascript:;" style="margin-left: 3px;"><i class="layui-icon">&#x1005;已安装</i></botton>';
+			    }
+		    <% } %>
+		    
+		    // 未授权用户
+		    <% if(Authorization.copyright){ %>
+		   		// 判断为授权用户是否可以使用
+			    if(freeIdList.indexOf(plugin.id) == -1) {
+			    	 html += '<botton class="layui-btn layui-btn-sm" onclick="showUnAyth()" style="margin-left: 3px;"><i class="layui-icon" style = "background : gary;">&#x1006;禁用</i></botton>';
+			    }else {
+			    	 // 判断检查是否已经安装
+			    	if(pluginIds.indexOf(plugin.id) == -1){
+					    html += '<botton class="layui-btn layui-btn-sm" onclick="installPlugin(\'' + plugin.id + '\', \'' + plugin.menuTitle + '\', \'' + plugin.downUrl + '\')" style="margin-left: 3px;"><i class="layui-icon">&#xe61f;安装</i></botton>';
+				    }else{
+					    html += '<botton class="layui-btn layui-btn-sm" onclick="javascript:;" style="margin-left: 3px;"><i class="layui-icon">&#x1005;已安装</i></botton>';
+				    }
+			    }
+	    	<% } %>
+		    
+		    
 		    html += '    </td>';
 		    html += '</tr>';
 			});
@@ -197,7 +229,7 @@ function installPlugin(pluginId, pluginName, downUrl) {
 		}, function(){
 			layer.close(dtp_confirm);
 			parent.iw.loading("安装中");    //显示“操作中”的等待提示
-			$.post('/plugin/pluginManage/installPlugin.do', {"plugin_id" : pluginId, "down_url" : downUrl}, function(data){
+			$.post('/plugin/pluginManage/installYunPlugin.do', {"plugin_id" : pluginId}, function(data){
 			    parent.iw.loadClose();    //关闭“操作中”的等待提示
 			    if(data.result == 1){
 			    	if(data.info == 'restart') {
@@ -224,6 +256,11 @@ function installPlugin(pluginId, pluginName, downUrl) {
 	});
 }
 
+//提示禁止安装信息
+function showUnAyth() {
+	iw.msgFailure("此插件仅授权用户可用");
+}
+
 //查看用户详情信息
 function pluginView(plugin_id){
 	layer.open({
@@ -231,7 +268,7 @@ function pluginView(plugin_id){
 		title:'查看插件信息', 
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
-		content: 'http://39.107.137.250:80/application/queryById.do?plugin_id=' + plugin_id
+		content: '//plugin.wangmarket.leimingyun.com/application/queryById.do?plugin_id=' + plugin_id
 	});
 }
 </script>

@@ -16,7 +16,7 @@
 <input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 
 <a class="layui-btn layui-btn-normal"
-	href="/plugin/pluginManage/add.do">添加插件</a>
+	href="javascript:addPlugin();">添加插件</a>
 
 <div style="float: right;" class="layui-form">
 	<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间,money_DESC=账户余额,currency=<%=Global.get("CURRENCY_NAME")%>'); </script>
@@ -45,19 +45,25 @@ function versionFormat(version){
 }
 
 </script>
+
+<div style="width:100%;padding:2px 30px 2px 0;text-align: right;font-size: 16px;">
+	<span style="color:red;font-weight: bold;">注：</span>
+	<i style="padding-right: 7px;" class="layui-icon">&#xe642;编辑</i>
+	<i style="padding-right: 7px;" class="layui-icon">&#xe640;删除</i>
+	<i style="padding-right: 7px;" class="layui-icon">&#xe61f;安装</i>
+	<i style="padding-right: 7px;" class="layui-icon">&#xe681;上传、更新</i>
+	<i style="padding-right: 7px;" class="layui-icon">&#xe601;导出</i>
+	
+</div>
+
 <table class="aui-table-responsive layui-table iw_table"
 	style="color: black; font-size: 14px;">
 	<thead>
 		<tr>
 			<th style="text-align: center;">插件ID</th>
 			<th style="text-align: center;">插件名称</th>
-			<th style="text-align: center;">作者名称</th>
-			<th style="text-align: center;">授权专用</th>
-			<th style="text-align: center;">支持Mysql</th>
-			<th style="text-align: center;">支持Sqlite</th>
-			<th style="text-align: center;">最低支持版本</th>
 			<th style="text-align: center;">安装状态</th>
-			<th style="text-align: center;width: 360px;">操作</th>
+			<th style="text-align: center;width: 240px;">操作</th>
 		</tr>
 	</thead>
 	<tbody id="tbody">
@@ -69,53 +75,42 @@ function versionFormat(version){
 					onclick="pluginView('${plugin.id }');">${plugin.menuTitle }</td>
 				<td style="text-align: center;"
 					onclick="pluginView('${plugin.id }');">${plugin.authorName }</td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');"><script>yesOrNo(${plugin.supportAuthorizeVersion })</script></td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');"><script>yesOrNo(${plugin.supportMysql })</script></td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');"><script>yesOrNo(${plugin.supportSqlite })</script></td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');"><script>versionFormat(${plugin.version })</script></td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');"><script>yesOrNo(${plugin.installState })</script></td>
 				<td style="text-align: center;">
 					<botton
 						class="layui-btn layui-btn-sm"
 						onclick="editPlugin('${plugin.id }')" style="margin-left: 3px;">
-					<i class="layui-icon">&#xe642;编辑</i></botton>
+					<i class="layui-icon" title="编辑">&#xe642;</i></botton>
 					 <botton
 						class="layui-btn layui-btn-sm"
 						onclick="deletePlugin('${plugin.id }','${plugin.menuTitle }')" style="margin-left: 3px;">
-					<i class="layui-icon">&#xe640;删除</i>
+					<i class="layui-icon" title="删除">&#xe640;</i>
 					</botton> <c:if
 						test="${plugin.installState == 0 }">
 						<botton class="layui-btn layui-btn-sm"
 							onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }', '${plugin.downUrl }')"
 							style="margin-left: 3px;">
-						<i class="layui-icon">&#xe61f;安装</i></botton>
+						<i class="layui-icon" title="安装">&#xe61f;</i></botton>
 					</c:if>
 					</botton> 
-					<c:choose>
-						<c:when test="${plugin.downUrl == null || plugin.downUrl eq '' }">
-							<botton class="layui-btn layui-btn-sm"
-								onclick="upload('${plugin.id }')"
-								style="margin-left: 3px;">
-							<i class="layui-icon">&#xe681;上传</i></botton>
-						</c:when>
-						<c:otherwise>
-							<botton class="layui-btn layui-btn-sm" 
-								onclick="upload('${plugin.id }')"
-								style="margin-left: 3px;">
-							<i class="layui-icon">&#xe681;更新</i></botton>
-						</c:otherwise>
-					</c:choose>
+					<botton class="layui-btn layui-btn-sm"
+						onclick="upload('${plugin.id }')"
+						style="margin-left: 3px;">
+					<i class="layui-icon" title="上传、更新">&#xe681;</i>
+					</botton>
+					<c:if test="${plugin.downUrl != null && !empty plugin.downUrl }">
+						<a class="layui-btn layui-btn-sm"
+						  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }','${plugin.downUrl }')"
+						  style="margin-left: 3px;">
+						  <i title = "导出" class="layui-icon">&#xe601;</i>
+					    </a>
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>
 
 	</tbody>
 </table>
+<a id = "downPlugin" href = ""></a>
 <!-- 通用分页跳转 -->
 <jsp:include page="../../../iw/common/page.jsp"></jsp:include>
 
@@ -171,6 +166,23 @@ function installPlugin(pluginId, pluginName, downUrl) {
 	});
 }
 
+//导出插件
+function exportPlugin(plugin_id, plugin_name,downUrl) {
+	var dtp_confirm = layer.confirm('确定要导出插件“' + plugin_name + '”？', {
+		  btn: ['导出','取消'] //按钮
+		}, function(){
+			layer.close(dtp_confirm);
+			parent.iw.loading("导出中");    //显示“操作中”的等待提示
+		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+	        //设置下载文件的返回路径
+	        $("#downPlugin").attr("href" , downUrl.replace('127.0.0.1','localhost'));
+	        //下载文件
+	        $("#downPlugin")[0].click();
+	        parent.iw.msgSuccess('导出成功');
+		}, function(){
+	});		
+}
+
 
 //根据id删除插件
 function deletePlugin(plugin_id,name){
@@ -206,9 +218,26 @@ function pluginView(plugin_id){
 	});
 }
 
+// 添加插件
+function addPlugin() {
+	layer.open({
+		type: 2, 
+		title:'添加插件', 
+		area: ['460px', '630px'],
+		shadeClose: true, //开启遮罩关闭
+		content: '/plugin/pluginManage/add.do'
+	});
+}
+
 //修改插件信息
 function editPlugin(plugin_id, pluginname){
-	window.location.href = '/plugin/pluginManage/add.do?plugin_id=' + plugin_id;
+	layer.open({
+		type: 2, 
+		title:'修改插件信息', 
+		area: ['460px', '630px'],
+		shadeClose: true, //开启遮罩关闭
+		content: '/plugin/pluginManage/add.do?plugin_id=' + plugin_id
+	});
 }
 
 </script>

@@ -18,4 +18,13 @@ public class Safety {
 		return StringUtil.filterXss(Sql.filter(text));
 	}
 	
+	/**
+	 * 进行xss攻击过滤，常用语用户输入
+	 * @author 李鑫
+	 * @param text 要过滤得字符串
+	 * @return 过滤好的字符
+	 */
+	public static String xssFilter(String text) {
+		return StringUtil.filterXss(text);
+	}
 }

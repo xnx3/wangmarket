@@ -37,15 +37,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
-import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
@@ -119,8 +116,8 @@ public class PluginManageController extends BasePluginController {
 			String version,HttpServletRequest request) throws ClassNotFoundException, IOException {
 		
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
-		version = Safety.filter(version);
+		pluginId = Safety.xssFilter(pluginId);
+		version = Safety.xssFilter(version);
 		// 校验参数
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
@@ -156,9 +153,9 @@ public class PluginManageController extends BasePluginController {
 		if(unIstallBaseVO.getResult() == 0) {
 			return error("插件升级失败");
 		}
-		String downUrl = messageJson.getString("url");
+		
 		// 安装最新版本的插件
-		BaseVO istallBaseVO = installPlugin(pluginId, downUrl, request);
+		BaseVO istallBaseVO = installYunPlugin(pluginId, request);
 		if(istallBaseVO.getResult() == 0) {
 			return error("插件升级失败");
 		}
@@ -190,7 +187,7 @@ public class PluginManageController extends BasePluginController {
 			String pluginId, HttpServletRequest request) throws ClassNotFoundException, IOException {
 		
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
+		pluginId = Safety.xssFilter(pluginId);
 		//校验插件id
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件信息错误");
@@ -323,10 +320,9 @@ public class PluginManageController extends BasePluginController {
 	}
 	
 	/**
-	 * 安装插件
+	 * 安装本地插件
 	 * @author 李鑫
 	 * @param pluginName 安装插件的id以及版本号 例如：kefu-10
-	 * @param downUrl 下载插件压缩包的的Url
 	 * @return {@link com.xnx3.BaseVO } result：1：成功,info:restart:安装成功，但是重新启动;0：失败，info：失败信息
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
@@ -334,18 +330,13 @@ public class PluginManageController extends BasePluginController {
 	@ResponseBody
 	@RequestMapping("/installPlugin${url.suffix}")
 	public BaseVO installPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, @RequestParam(value = "down_url", required = false, defaultValue = "") 
-			String downUrl, HttpServletRequest request) throws IOException, ClassNotFoundException {
+			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
 		
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
-		downUrl = Safety.filter(downUrl);			
+		pluginId = Safety.xssFilter(pluginId);
 		// 校验信息
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
-		}
-		if(downUrl == null || downUrl.equals("")) {
-			return error("请检查插件压缩文件是否上传");
 		}
 		/*
 		 * 判断插件是否已经安装
@@ -361,57 +352,146 @@ public class PluginManageController extends BasePluginController {
 		Map<String, String> pluginPath = getPluginPath(request, pluginId);
 		
 		/*
-		 * 如果是本地插件直接进行解压安装
+		 * 本地插件直接进行解压安装
 		 */
-		if(downUrl.indexOf("127.0.0.1") > -1) {
-			try {
-				// 创建临时文件夹
-				if(!new File(realPath + "installPlugin" + File.separator).exists()) {
-					new File(realPath + "installPlugin" + File.separator).mkdirs();
-				}
-				// 对插件文件进行解压到ROOT目录下
-				unZip(new File(realPath + "myPlugin" + File.separator + fileName),realPath + "installPlugin" + File.separator);
+		try {
+			// 创建临时文件夹
+			if(!new File(realPath + "installPlugin" + File.separator).exists()) {
+				new File(realPath + "installPlugin" + File.separator).mkdirs();
+			}
+			// 对插件文件进行解压到ROOT目录下
+			unZip(new File(realPath + "myPlugin" + File.separator + fileName),realPath + "installPlugin" + File.separator);
 
-				// 复制插件文件到项目中
-				copyPluginFile(realPath, pluginPath, pluginId);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return error("插件的压缩文件不存在");
+			// 复制插件文件到项目中
+			copyPluginFile(realPath, pluginPath, pluginId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error("插件的压缩文件不存在");
+		}
+		
+		/*
+		 *  将新添加的class（即与插件相关的组件，带有指定注解的类）文件加入SpringIoc容器中
+		 */
+		// 扫描与插件相关的组件
+		List<Class<?>> classList = getPluginComponent(pluginId);
+		Iterator<Class<?>> iterator = classList.iterator();
+		String compomentName = null;
+		// 是否重新
+		boolean restartApplication = false;
+		//循环遍历所有的带有Controller的类
+		while (iterator.hasNext()) {
+			Class<?> compomentClass = iterator.next();
+			//得到类名首字母小写的类名称作为在IOC容器中的id
+			compomentName = compomentClass.getSimpleName();
+			compomentName = compomentName.substring(0, 1).toLowerCase() + compomentName.substring(1, compomentName.length());
+			// 将组件添加到IOC容器中
+			ComponentUtils.addBean(compomentClass.getName(), compomentName, new HashMap<Object, Object>(), applicationContext);
+			// 如果是controller类，进行requestMapping映射。
+			if(compomentClass.getAnnotation(Controller.class) != null ) {
+				// 注册组件中的Mapping映射
+				ComponentUtils.registerMapping4Class(compomentClass, applicationContext, "\\$\\{url.suffix}", ".do");
+			}
+			// 判断是否hibernate的实体类
+			if(compomentClass.getAnnotation(Entity.class) != null) {
+				// 判断是否有新加入的实体类
+				EntityManager entityManager = applicationContext.getBean(EntityManager.class);
+				MetamodelImpl metamodel = (MetamodelImpl) entityManager.getMetamodel();
+				// 有新加入实体类的需要重启容器
+				try {
+					metamodel.entityPersister(compomentClass);
+				} catch (MappingException e) {
+					// 设置为需要重启
+					restartApplication = true;
+					e.printStackTrace();
+				}
 			}
 		}
 		/*
-		 * 云端插件安装
+		 * 将新添加的class文件加入已安装的插件缓存中容器中，并且在首页功能插件中显示
 		 */
-		if(downUrl.indexOf("127.0.0.1") == -1) {
-			/*
-			 * 创建临时文件
-			 */
-			if(!new File(realPath + "yunPlugin" + File.separator).exists()) {
-				new File(realPath + "yunPlugin" + File.separator).mkdirs();
+		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
+		Class<?> forName = Class.forName(className);
+		SitePluginBean sitePluginBean = new SitePluginBean(forName);
+		pluginMap.put(pluginId, sitePluginBean);
+		// 添加功能插件菜单
+		setPagePluginMenu(pluginId, sitePluginBean, 1);
+		//添加动作日志
+		ActionLogCache.insert(request, "安装插件", "安装ID为" + pluginId + "的插件");
+		// 重启容器
+		if(restartApplication) {
+			return success("restart");
+		}
+		return success();
+	}
+	
+	/**
+	 * 安装云插件库插件
+	 * @author 李鑫
+	 * @param pluginName 安装插件的id以及版本号 例如：kefu-10
+	 * @return {@link com.xnx3.BaseVO } result：1：成功,info:restart:安装成功，但是重新启动;0：失败，info：失败信息
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	@ResponseBody
+	@RequestMapping("/installYunPlugin${url.suffix}")
+	public BaseVO installYunPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
+			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
+		
+		// 参数安全过滤
+		pluginId = Safety.xssFilter(pluginId);
+		
+		// 校验信息
+		if(pluginId == null || pluginId.equals("")) {
+			return error("插件ID错误");
+		}
+		/*
+		 * 判断插件是否已经安装
+		 */
+		if(!(pluginMap.get(pluginId) == null)) {
+			return error("该插件您已安装或者与本地插件ID发生冲突。");
+		}
+		// 下载文件名称
+		String fileName = pluginId + "zip";
+		HttpUtil httpUtil = new HttpUtil();
+		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
+		if(httpResponse.getCode() != 200) {
+			return error("云插件服务器错误，请稍后重试。");
+		}
+		JSONObject fromObject = JSONObject.fromObject(httpResponse.getContent());
+		// 云插件的下载地址
+		String downUrl = fromObject.getString("url");
+		//获取当前项目的真实路径
+		String realPath = request.getServletContext().getRealPath("/");
+		Map<String, String> pluginPath = getPluginPath(request, pluginId);
+		
+		/*
+		 * 创建临时文件
+		 */
+		if(!new File(realPath + "yunPlugin" + File.separator).exists()) {
+			new File(realPath + "yunPlugin" + File.separator).mkdirs();
+		}
+		if(!new File(realPath + "yunPlugin" + File.separator + fileName).exists()) {
+			new File(realPath + "yunPlugin" + File.separator + fileName).createNewFile();
+		}
+		/*
+		 * 云端插件进行下载，并且解压
+		 */
+		FileUtil.downFile(downUrl, realPath + "yunPlugin" + File.separator + fileName);
+		
+		try {
+			// 创建临时文件夹
+			if(!new File(realPath + "installPlugin").exists()) {
+				new File(realPath + "installPlugin").mkdirs();
 			}
-			if(!new File(realPath + "yunPlugin" + File.separator + fileName).exists()) {
-				new File(realPath + "yunPlugin" + File.separator + fileName).createNewFile();
-			}
-			/*
-			 * 云端插件进行下载，并且解压
-			 */
-			FileUtil.downFile(downUrl, realPath + "yunPlugin" + File.separator + fileName);
-			
-			try {
-				// 创建临时文件夹
-				if(!new File(realPath + "installPlugin").exists()) {
-					new File(realPath + "installPlugin").mkdirs();
-				}
-				// 对插件文件进行解压到ROOT目录下
-				unZip(new File(realPath + "yunPlugin" + File.separator + fileName),realPath + "installPlugin" + File.separator);
-				// 复制插件文件到项目中
-				copyPluginFile(realPath, pluginPath, pluginId);
-				// 删除下载的云插件
-				deleteDirectory(new File(realPath + "yunPlugin" + File.separator), false);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return error("插件的压缩文件不存在");
-			}
+			// 对插件文件进行解压到ROOT目录下
+			unZip(new File(realPath + "yunPlugin" + File.separator + fileName),realPath + "installPlugin" + File.separator);
+			// 复制插件文件到项目中
+			copyPluginFile(realPath, pluginPath, pluginId);
+			// 删除下载的云插件
+			deleteDirectory(new File(realPath + "yunPlugin" + File.separator), false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error("插件的压缩文件不存在");
 		}
 		/*
 		 *  将新添加的class（即与插件相关的组件，带有指定注解的类）文件加入SpringIoc容器中
@@ -467,6 +547,8 @@ public class PluginManageController extends BasePluginController {
 		}
 		return success();
 	}
+	
+	
 	
 	/**
 	 * 重新加载容器
@@ -620,9 +702,9 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO uploadZip(@RequestParam(value = "file", required = false)
 			MultipartFile file, HttpServletRequest request, @RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
 			throws IllegalStateException, IOException {
-
+		
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
+		pluginId = Safety.xssFilter(pluginId);
 		// 校验插件id是否合法
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件信息错误");
@@ -634,38 +716,23 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 本地上传
 		 */
-		if(Global.get("ATTACHMENT_FILE_MODE").equals("localFile")) {
-			// 在数据中取得插件的信息
-			Application application = sqlService.findAloneByProperty(Application.class, "id", pluginId);
-			// 得到当前的真是路径
-			String realPath = request.getServletContext().getRealPath("/");
-			// 创建文件夹
-			new File(realPath + File.separator + "myPlugin").mkdirs();
-			// 创建上传的文件
-			File uploadFile = new File(realPath + "myPlugin" + File.separator + pluginId + ".zip");
-			if(!uploadFile.exists()) {
-				uploadFile.createNewFile();
-			}
-			// 将数据写入到上传的目标文件
-			file.transferTo(uploadFile);
-			// 设置插件的下载地址
-			application.setDownUrl("http://" + IpUtil.getIpAddress(request) + ":" + request.getLocalPort() + File.separator + "myPlugin" + File.separator + pluginId + ".zip");
-			//更新插件信息
-			sqlService.save(application);
-		}else {
-			/*
-			 *  上传插件到oss
-			 */
-			UploadFileVO uploadFileVO = AttachmentFile.uploadFileByMultipartFile("plugin" + File.separator + pluginId + File.separator, file);
-			if(uploadFileVO.getResult() == 0) {
-				return error("上传失败，请联系管理员");
-			}
-			Application application = sqlService.findAloneByProperty(Application.class, "id", pluginId);
-			// 设置插件的下载地址
-			application.setDownUrl("http:" + uploadFileVO.getUrl());
-			//更新插件信息
-			sqlService.save(application);
+		// 在数据中取得插件的信息
+		Application application = sqlService.findAloneByProperty(Application.class, "id", pluginId);
+		// 得到当前的真是路径
+		String realPath = request.getServletContext().getRealPath("/");
+		// 创建文件夹
+		new File(realPath + File.separator + "myPlugin").mkdirs();
+		// 创建上传的文件
+		File uploadFile = new File(realPath + "myPlugin" + File.separator + pluginId + ".zip");
+		if(!uploadFile.exists()) {
+			uploadFile.createNewFile();
 		}
+		// 将数据写入到上传的目标文件
+		file.transferTo(uploadFile);
+		// 设置插件的下载地址
+		application.setDownUrl("http://" + IpUtil.getIpAddress(request) + ":" + request.getLocalPort() + File.separator + "myPlugin" + File.separator + pluginId + ".zip");
+		//更新插件信息
+		sqlService.save(application);
 		//添加动作日志
 		ActionLogCache.insert(request, "上传插件", "上传ID为" + pluginId + "的插件压缩包");
 		return success();
@@ -677,10 +744,6 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@RequestMapping("/index${url.suffix}")
 	public String index(HttpServletRequest request ,Model model){
-		// 将之前导出插件临时的文件夹进行删除
-		if(new File(request.getServletContext().getRealPath("/") + "pluginZip" + File.separator).exists()) {
-			deleteDirectory(new File(request.getServletContext().getRealPath("/") + "pluginZip" + File.separator), false);
-		}
 		return "/plugin/pluginManage/index";
 	}
 	
@@ -734,7 +797,7 @@ public class PluginManageController extends BasePluginController {
 		
 		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
 		// 参数安全过滤
-		menuTitle = Safety.filter(menuTitle);		
+		menuTitle = Safety.xssFilter(menuTitle);		
 		//获取当前已经安装的所有的插件
 		if(pluginMap == null) {
 			pluginMap = pluginService.getCurrentPluginMap();
@@ -790,7 +853,7 @@ public class PluginManageController extends BasePluginController {
 			String pluginId,Model model, HttpServletRequest request) {
 
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
+		pluginId = Safety.xssFilter(pluginId);
 		//如果id不为空的话进行修改操作，在数据库中取出需要修改的插件信息传递到页面中
 		if(pluginId != null && !(pluginId.equals(""))) {
 			Application plugin = sqlService.findAloneByProperty(Application.class, "id", pluginId);
@@ -832,10 +895,7 @@ public class PluginManageController extends BasePluginController {
 		if(plugin == null) {
 			//添加操作
 			application.setMenuTitle(application.getMenuTitle());
-			application.setIntro(application.getIntro());
-			application.setAuthorName(application.getAuthorName());
 			application.setAddtime(DateUtil.timeForUnix10());
-			application.setUpdatetime(DateUtil.timeForUnix10());
 			//新增插件
 			sqlService.save(application);
 			//添加动作日志
@@ -844,9 +904,6 @@ public class PluginManageController extends BasePluginController {
 			//修改操作
 			application.setId(application.getId());
 			application.setMenuTitle(application.getMenuTitle());
-			application.setIntro(application.getIntro());
-			application.setAuthorName(application.getAuthorName());
-			application.setAddtime(DateUtil.timeForUnix10());
 			application.setUpdatetime(DateUtil.timeForUnix10());
 			//将用户新修改的信息赋值给持久态的实体类
 			BeanUtils.copyProperties(application, plugin);
@@ -870,7 +927,7 @@ public class PluginManageController extends BasePluginController {
 			String pluginId,Model model) {
 
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);		
+		pluginId = Safety.xssFilter(pluginId);		
 		//对查询的插件id进行校验
 		if(pluginId == null || pluginId.equals("") ) {
 			return error(model, "插件ID错误，请重新尝试");
@@ -898,7 +955,7 @@ public class PluginManageController extends BasePluginController {
 			String pluginId,HttpServletRequest request) {
 		
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);		
+		pluginId = Safety.xssFilter(pluginId);		
 		//校验插件id是否合法
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插ID错误");
@@ -946,9 +1003,8 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/upload${url.suffix}")
 	public String uploadZipFile(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, Model model) {
-
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);
+		pluginId = Safety.xssFilter(pluginId);
 		model.addAttribute("plugin_id", pluginId);
 		return "/plugin/pluginManage/myList/upload";
 	}
@@ -966,7 +1022,7 @@ public class PluginManageController extends BasePluginController {
 			String pluginId, HttpServletRequest request) throws IOException {
 
 		// 参数安全过滤
-		pluginId = Safety.filter(pluginId);		
+		pluginId = Safety.xssFilter(pluginId);		
 		/*
 		 * 判断要导出的插件是否为用户自己开发的本地插件
 		 */
@@ -1006,9 +1062,22 @@ public class PluginManageController extends BasePluginController {
 		deleteDirectory(new File(realPath + "export" + File.separator), false);
 		//添加动作日志
 		ActionLogCache.insert(request, "导出插件", "导出ID为" + pluginId + "的插件");
+		// 开启线程删除导出的文件
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(10 * 1000);
+					// 删除导出临时文件夹
+					deleteDirectory(new File(realPath + "pluginZip"), false);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
 		// 返回需要访问的路径
 		return success(File.separator + "pluginZip" + File.separator + pluginId + ".zip");
-		
 	}
 	
 	
