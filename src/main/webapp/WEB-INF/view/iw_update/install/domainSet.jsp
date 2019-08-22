@@ -40,11 +40,13 @@
   		}
   		.info{
   			font-size:14px;
+  			line-height: 22px;
   		}
   		.info h2,h3,h4,h5{
  			border-bottom: 1px solid #eee;
-		    padding-top: 15px;
-		    margin-bottom: 5px;
+		    padding-top: 23px;
+		    margin-bottom: 10px;
+		    padding-bottom: 5px;
   		}
   		
   		@media only screen and (max-width: 700px) {
@@ -87,7 +89,7 @@
     	</div>
     	
     	<div class="info">
-    		<h2>第二步：进行解析</h2>
+    		<h2>第二步：进行域名泛解析</h2>
     		登陆你的域名管理后台，添加一条泛解析 <span style="color: rebeccapurple; font-size: 16px; padding-left: 10px; padding-right: 10px;">*.<span id="jiexidomain"></span></span> 指向到本服务器的ip
     		<br/>
     		<span style="color:gray; font-size:8px;">泛解析不会的，可以自行百度搜索。或者<a href="https://www.leimingyun.com/pay.html" target="_black">请求我们有偿帮助</a></span>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
@@ -96,6 +97,16 @@ public class PublicController extends BaseController {
 				return "domain/welcome";
 			}
 			
+			//v4.11增加
+			String adminUrl = "";	//网站管理后台url
+			if(ApplicationProperties.getProperty("spring.rabbitmq.host") == null){
+				//单服务器部署，用相对路径就可以
+				adminUrl = "/";
+			}else{
+				//多服务器分布式部署，用绝对路径
+				adminUrl = Global.get("MASTER_SITE_URL");
+			}
+			model.addAttribute("adminUrl", adminUrl);
 			return "domain/notFindDomain";
 		}else{
 			//判断网站的状态，冻结的网站将无法访问

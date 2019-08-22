@@ -53,7 +53,7 @@
     	</div>
     	
     	<ul>
-    		<li>使用此网站的账号跟密码，登陆 <a href="<%=Global.get("MASTER_SITE_URL") %>login.do" target="_black">网站管理后台</a></li>
+    		<li>使用此网站的账号跟密码，登陆 <a href="${adminUrl }login.do" target="_black">网站管理后台</a></li>
     		<li>
     			找到左侧菜单的 “生成整站” 功能， 点击 ，生成整个网站。
     			<div>

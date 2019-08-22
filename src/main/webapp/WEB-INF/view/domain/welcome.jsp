@@ -37,13 +37,15 @@
   			padding:4px;
   			padding-left:40px;
   		}
-  		.info{
+		.info{
   			font-size:14px;
+  			line-height: 22px;
   		}
   		.info h2,h3,h4,h5{
  			border-bottom: 1px solid #eee;
-		    padding-top: 15px;
-		    margin-bottom: 5px;
+		    padding-top: 23px;
+		    margin-bottom: 10px;
+		    padding-bottom: 5px;
   		}
   		
   		@media only screen and (max-width: 700px) {
