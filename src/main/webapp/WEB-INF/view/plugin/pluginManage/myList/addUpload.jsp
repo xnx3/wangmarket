@@ -118,8 +118,8 @@ layui.use('element', function(){
 //上传学校头像的点击事件 
 layui.use('upload', function(){
 	layui.upload.render({
-	  url: '/plugin/pluginManage/uploadZip.do'
-	  ,data: {"plugin_id" : '${plugin_id }'}
+	  url: '/plugin/pluginManage/addByZip.do'
+	  ,data: {}
 	  ,method :'post'
 	  ,elem : '#uploadFile'
 	  ,exts: 'zip'
@@ -132,11 +132,11 @@ layui.use('upload', function(){
 	  ,done: function(res, index, upload){
 	  	parent.iw.loadClose();
 	    //上传成功返回值，必须为json格式
-	    if(res.result == '1'){
+	    if(res.result == 1){
 	    	parent.iw.msgSuccess("上传成功！");
 	    	parent.location.reload();	//刷新父窗口列表
 	    }else{
-	    	parent.iw.msgFailure(data.info);
+	    	parent.iw.msgFailure(res.info);
 	    }
 	  }
 	}); 

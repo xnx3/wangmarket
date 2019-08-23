@@ -16,11 +16,8 @@
 <input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 
 <a class="layui-btn layui-btn-normal"
-	href="javascript:addPlugin();">添加插件</a>
+	href="javascript:addPlugin();">添加上传插件</a>
 
-<div style="float: right;" class="layui-form">
-	<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间,money_DESC=账户余额,currency=<%=Global.get("CURRENCY_NAME")%>'); </script>
-</div>
 </form>
 <script type="text/javascript">
 
@@ -45,16 +42,6 @@ function versionFormat(version){
 }
 
 </script>
-
-<div style="width:100%;padding:2px 30px 2px 0;text-align: right;font-size: 16px;">
-	<span style="color:red;font-weight: bold;">注：</span>
-	<i style="padding-right: 7px;" class="layui-icon">&#xe642;编辑</i>
-	<i style="padding-right: 7px;" class="layui-icon">&#xe640;删除</i>
-	<i style="padding-right: 7px;" class="layui-icon">&#xe61f;安装</i>
-	<i style="padding-right: 7px;" class="layui-icon">&#xe681;上传、更新</i>
-	<i style="padding-right: 7px;" class="layui-icon">&#xe601;导出</i>
-	
-</div>
 
 <table class="aui-table-responsive layui-table iw_table"
 	style="color: black; font-size: 14px;">
@@ -110,6 +97,15 @@ function versionFormat(version){
 
 	</tbody>
 </table>
+<div style="width:100%;padding:10px 30px 2px 0;text-align: right;font-size: 16px;">
+	<span style="color:red;font-weight: bold;">注：</span>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe642;编辑</i>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe640;删除</i>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe61f;安装</i>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe681;上传、更新</i>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe601;导出</i>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
 <a id = "downPlugin" href = ""></a>
 <!-- 通用分页跳转 -->
 <jsp:include page="../../../iw/common/page.jsp"></jsp:include>
@@ -223,9 +219,9 @@ function addPlugin() {
 	layer.open({
 		type: 2, 
 		title:'添加插件', 
-		area: ['460px', '630px'],
+		area: ['260px', '330px'],
 		shadeClose: true, //开启遮罩关闭
-		content: '/plugin/pluginManage/add.do'
+		content: '/plugin/pluginManage/toAddByZipPage.do'
 	});
 }
 
