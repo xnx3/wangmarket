@@ -15,8 +15,8 @@
 
 <input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 
-<a class="layui-btn layui-btn-normal"
-	href="javascript:addPlugin();">添加上传插件</a>
+<a class="layui-btn layui-btn-normal" id = "uploadPluginZip"
+	href="javascript:;">添加更新插件</a>
 
 </form>
 <script type="text/javascript">
@@ -60,10 +60,6 @@ function versionFormat(version){
 				<td style="text-align: center;" >${plugin.menuTitle }</td>
 				<td style="text-align: center;">${plugin.authorName }</td>
 				<td style="text-align: center;">
-					<botton
-						class="layui-btn layui-btn-sm"
-						onclick="editPlugin('${plugin.id }')" style="margin-left: 3px;">
-					<i class="layui-icon" title="编辑">&#xe642;</i></botton>
 					 <botton
 						class="layui-btn layui-btn-sm"
 						onclick="deletePlugin('${plugin.id }','${plugin.menuTitle }')" style="margin-left: 3px;">
@@ -71,7 +67,7 @@ function versionFormat(version){
 					</botton> <c:if
 						test="${plugin.installState == 0 }">
 						<botton class="layui-btn layui-btn-sm"
-							onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }', '${plugin.downUrl }')"
+							onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')"
 							style="margin-left: 3px;">
 						<i class="layui-icon" title="安装">&#xe61f;</i></botton>
 					</c:if>
@@ -81,13 +77,11 @@ function versionFormat(version){
 						style="margin-left: 3px;">
 					<i class="layui-icon" title="上传、更新">&#xe681;</i>
 					</botton>
-					<c:if test="${plugin.downUrl != null && !empty plugin.downUrl }">
-						<a class="layui-btn layui-btn-sm"
-						  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')"
-						  style="margin-left: 3px;">
-						  <i title = "导出" class="layui-icon">&#xe601;</i>
-					    </a>
-					</c:if>
+					<a class="layui-btn layui-btn-sm"
+					  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')"
+					  style="margin-left: 3px;">
+					  <i title = "导出" class="layui-icon">&#xe601;</i>
+				    </a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -96,10 +90,9 @@ function versionFormat(version){
 </table>
 <div style="width:100%;padding:10px 30px 2px 0;text-align: right;font-size: 16px;">
 	<span style="color:red;font-weight: bold;">注：</span>
-	<i style="padding-right: 15px;" class="layui-icon">&#xe642;编辑</i>
 	<i style="padding-right: 15px;" class="layui-icon">&#xe640;删除</i>
 	<i style="padding-right: 15px;" class="layui-icon">&#xe61f;安装</i>
-	<i style="padding-right: 15px;" class="layui-icon">&#xe681;上传、更新</i>
+	<i style="padding-right: 15px;" class="layui-icon">&#xe681;更新</i>
 	<i style="padding-right: 15px;" class="layui-icon">&#xe601;导出</i>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
@@ -109,11 +102,11 @@ function versionFormat(version){
 
 <script type="text/javascript">
 
-// 上传插件压缩文件
+// 更新插件压缩文件
 function upload(pluginId){
 	layer.open({
 		type: 2, 
-		title:'上传插件文件', 
+		title:'更新插件文件', 
 		area: ['260px', '330px'],
 		shadeClose: true, //开启遮罩关闭
 		content: '/plugin/pluginManage/upload.do?plugin_id=' + pluginId
@@ -121,18 +114,13 @@ function upload(pluginId){
 }
 
 //安装插件
-function installPlugin(pluginId, pluginName, downUrl) {
-	if(typeof(downUrl) == 'undefined' || downUrl == '') {
-		iw.msgFailure('请先上传插件的压缩文件');
-		return false;
-	}
-	
+function installPlugin(pluginId, pluginName) {
 	var dtp_confirm = layer.confirm('确定要安装' + pluginName+  '？', {
 		  btn: ['安装','取消'] //按钮
 		}, function(){
 			layer.close(dtp_confirm);
 			parent.iw.loading("安装中");    //显示“操作中”的等待提示
-			$.post('/plugin/pluginManage/installPlugin.do', {"plugin_id" : pluginId, "down_url" : downUrl}, function(data){
+			$.post('/plugin/pluginManage/installPlugin.do', {"plugin_id" : pluginId}, function(data){
 			    parent.iw.loadClose();    //关闭“操作中”的等待提示
 			    if(data.result == 1){
 			    	if(data.info == 'restart') {
@@ -198,27 +186,32 @@ function deletePlugin(plugin_id,name){
 	});
 }
 
-// 添加插件
-function addPlugin() {
-	layer.open({
-		type: 2, 
-		title:'添加插件', 
-		area: ['260px', '330px'],
-		shadeClose: true, //开启遮罩关闭
-		content: '/plugin/pluginManage/toAddByZipPage.do'
-	});
-}
-
-//修改插件信息
-function editPlugin(plugin_id, pluginname){
-	layer.open({
-		type: 2, 
-		title:'修改插件信息', 
-		area: ['460px', '630px'],
-		shadeClose: true, //开启遮罩关闭
-		content: '/plugin/pluginManage/add.do?plugin_id=' + plugin_id
-	});
-}
+// 通过上传插件压缩包进行添加插件
+layui.use('upload', function(){
+	layui.upload.render({
+	  url: '/plugin/pluginManage/addByZip.do'
+	  ,data: {}
+	  ,method :'post'
+	  ,elem : '#uploadPluginZip'
+	  ,exts: 'zip'
+	  ,field: 'file'
+	  ,title :'上传插件'
+	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
+      , before: function (obj) {
+          parent.iw.loading("上传中");
+      }
+	  ,done: function(res, index, upload){
+	  	parent.iw.loadClose();
+	    //上传成功返回值，必须为json格式
+	    if(res.result == 1){
+	    	parent.iw.msgSuccess("上传成功！");
+	    	parent.location.reload();	//刷新父窗口列表
+	    }else{
+	    	parent.iw.msgFailure(res.info);
+	    }
+	  }
+	}); 
+});
 
 </script>
 

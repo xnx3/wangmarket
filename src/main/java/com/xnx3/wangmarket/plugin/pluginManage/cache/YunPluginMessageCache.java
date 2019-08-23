@@ -46,15 +46,15 @@ public class YunPluginMessageCache {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					while (true) {
+				while (true) {
+					try {
 						// 刷新云插件信息
 						refreshYunPluginLibrary();
 						// 设置每间隔一个小时进行一次更新数据
 						Thread.sleep(60 * 60 * 1000);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
 				}
 			}
 		}).start();;
