@@ -53,7 +53,6 @@
 	         </td>
 	     </tr>
   	</c:forEach>
-  		 
   </tbody>
 </table>
 <a id = "downPlugin" href = ""></a>

@@ -38,23 +38,19 @@ import com.xnx3.FileUtil;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.PluginService;
 import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
+import com.xnx3.wangmarket.plugin.pluginManage.cache.YunPluginMessageCache;
 import com.xnx3.wangmarket.plugin.pluginManage.entity.Application;
 import com.xnx3.wangmarket.plugin.pluginManage.util.ComponentUtils;
 import com.xnx3.wangmarket.plugin.pluginManage.util.ScanClassesUtil;
 import com.xnx3.wangmarket.plugin.pluginManage.util.TomcatUtil;
 import com.xnx3.wangmarket.plugin.pluginManage.util.ZipUtils;
-
-import net.sf.json.JSONObject;
 
 /**
  * 插件管理中心
@@ -124,25 +120,11 @@ public class PluginManageController extends BasePluginController {
 		if(version == null || version.equals("")) {
 			return error("插件升级版本错误");
 		}
-		// 获取插件最新版本的下载地址
-		HttpUtil httpUtil = new HttpUtil();
 		/*
-		 * 获取升级插件的最新版本号和插件文件的下载url
+		 *  比较两个插件版本是否相同，不相同即可升级。 因为不存在安装版本比最新版本高的情况
 		 */
-		HttpResponse httpResponse = 
-				httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
-		// 服务器异常，返回错误信息
-		if(httpResponse.getCode() != 200) {
-			return error("插件云服务异常，请稍后重试。");
-		}
-		String content = httpResponse.getContent();
-		// 对返回结果进行Json处理
-		JSONObject messageJson = JSONObject.fromObject(content);
-		if(messageJson.getString("result").equals("0")) {
-			return error(messageJson.getString("info"));
-		}
-		// 比较两个插件版本是否相同，不相同即可升级。 因为不存在安装版本比最新版本高的情况
-		String newVersion = messageJson.getString("version");
+		// 获取最新版本号
+		String newVersion = YunPluginMessageCache.applicationMap.get(pluginId).getVersion() + "";
 		newVersion = newVersion.replaceAll("0", "");
 		if((newVersion.equals(version.replaceAll(".", "")))) {
 			return error("您目前安装已是最新版本，无需更新");
@@ -152,7 +134,6 @@ public class PluginManageController extends BasePluginController {
 		if(unIstallBaseVO.getResult() == 0) {
 			return error("插件升级失败");
 		}
-		
 		// 安装最新版本的插件
 		BaseVO istallBaseVO = installYunPlugin(pluginId, request);
 		if(istallBaseVO.getResult() == 0) {
@@ -443,19 +424,23 @@ public class PluginManageController extends BasePluginController {
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
 		}
+		
 		/*
 		 * 判断安装的插件是否为未经授权用户可以使用插件
 		 */
-		HttpUtil httpUtil = new HttpUtil();
-		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getFreePluginName.do");
-		if(httpResponse.getCode() != 200) {
-			return error("云插件服务器错误，请稍后重试。");
-		}
 		// 如果没有授权并且该插件未经授权用户不可用，向客户提示信息
-		if(httpResponse.getContent().indexOf(pluginId) == -1 && Authorization.copyright) {
-			return error("此插件进授权用户可用");
+		Application application = YunPluginMessageCache.applicationMap.get(pluginId);
+		if(Authorization.copyright) {
+			if(application.getSupportFreeVersion() - 1 != 0) {
+				return error("该插件未经授权用户不可用");
+			}
 		}
-		
+		// 如果授权并且该插件授权用户不可用，向客户提示信息
+		if(!Authorization.copyright) {
+			if(application.getSupportAuthorizeVersion() - 1 != 0) {
+				return error("该插件经授权用户不可用");
+			}
+		}
 		/*
 		 * 判断插件是否已经安装
 		 */
@@ -465,13 +450,7 @@ public class PluginManageController extends BasePluginController {
 		// 下载文件名称
 		String fileName = pluginId + "zip";
 		// 获取插件压缩包的下载url
-		httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId);
-		if(httpResponse.getCode() != 200) {
-			return error("云插件服务器错误，请稍后重试。");
-		}
-		JSONObject fromObject = JSONObject.fromObject(httpResponse.getContent());
-		// 云插件的下载地址
-		String downUrl = fromObject.getString("url");
+		String downUrl = application.getDownUrl();
 		//获取当前项目的真实路径
 		String realPath = request.getServletContext().getRealPath("/");
 		Map<String, String> pluginPath = getPluginPath(request, pluginId);
@@ -741,8 +720,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		// 将数据写入到上传的目标文件
 		file.transferTo(uploadFile);
-		// 设置插件的下载地址
-		application.setDownUrl("http://" + IpUtil.getIpAddress(request) + ":" + request.getLocalPort() + File.separator + "myPlugin" + File.separator + pluginId + ".zip");
+		
 		//更新插件信息
 		sqlService.save(application);
 		//添加动作日志
@@ -821,7 +799,7 @@ public class PluginManageController extends BasePluginController {
 		if(!uploadFile.exists()) {
 			uploadFile.createNewFile();
 		}
-		// 复制文件以插件id作为文件名
+		// 将数据写入到上传的目标文件
 		FileUtil.copyFile(shortTimeFile.getAbsolutePath(), uploadFile.getAbsolutePath());
 		
 		//删除临时文件
@@ -831,8 +809,6 @@ public class PluginManageController extends BasePluginController {
 		application = new Application();
 		application.setId(pluginId);
 		application.setMenuTitle(menuTitle);
-		// 设置插件的下载地址
-		application.setDownUrl("http://localhost:" + request.getLocalPort() + File.separator + "myPlugin" + File.separator + pluginId + ".zip");
 		//更新插件信息
 		sqlService.save(application);
 		
@@ -934,40 +910,54 @@ public class PluginManageController extends BasePluginController {
 	/**
 	 * 查看网市场插件列表
 	 * @author 李鑫
+	 * @param menuTitle 用户查询插件的筛选条件
+	 * @return
 	 */
 	@RequestMapping("/yunList${url.suffix}")
-	public String yunList(HttpServletRequest request ,Model model){
+	public String yunList(HttpServletRequest request ,Model model,@RequestParam(value = "menu_title", required = false
+			, defaultValue = "") String menuTitle){
+		List<Application> list = new LinkedList<Application>();
+		// 将云端插件保存
+		list.addAll(YunPluginMessageCache.applicationList);
+		/*
+		 * 筛选符合条件的id，不符合条件的插件去除掉
+		 */
+		// 如果搜索条件不为空
+		if(menuTitle != null && !menuTitle.trim().equals("")) {
+			// 循环遍历当前列表
+			Iterator<Application> iterator = YunPluginMessageCache.applicationList.iterator();
+			while (iterator.hasNext()) {
+				Application application = (Application) iterator.next();
+				// 如果不满足当前查询条件，移除该插件信息
+				if(!application.getMenuTitle().contains(menuTitle)) {
+					list.remove(application);
+				}
+			}
+		}
+		
 		// 将已经安装的插件id放入缓存中
+		model.addAttribute("list", list);
+		model.addAttribute("page", YunPluginMessageCache.page);
+		model.addAttribute("isUnAuth", Authorization.copyright);
 		model.addAttribute("pluginIds", pluginMap.toString());
 		return "/plugin/pluginManage/yunList/list";
 	}
 	
 	/**
-	 * 通过id查看插件的详细信息
+	 * 查询云插件插件详情
 	 * @author 李鑫
-	 * @param pluginId 查看详情插件的id
+	 * @param pluginId 查询的插件id
 	 */
-	@RequestMapping("/queryViewById${url.suffix}")
-	public String queryById(HttpServletRequest request,@RequestParam(value = "plugin_id" ,required = false,defaultValue = "")
-			String pluginId,Model model) {
-
+	@RequestMapping("queryYunPluginById${url.suffix}")
+	public String queryYunPluginById(@RequestParam(value = "plugin_id", required = false, defaultValue = "") 
+			String pluginId, Model model) {
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);		
-		//对查询的插件id进行校验
-		if(pluginId == null || pluginId.equals("") ) {
-			return error(model, "插件ID错误，请重新尝试");
-		}
-		
-		//在数据库中查询插件信息，传递到前端页面中
-		Application plugin = sqlService.findAloneByProperty(Application.class, "id", pluginId);
-		model.addAttribute("plugin", plugin);
-		//添加动作日志
-		ActionLogCache.insert(request,"查看插件详情" ,"通过id查看" + plugin.getMenuTitle() + "插件");
-		
-		return "/plugin/pluginManage/myList/view";	
+		pluginId = Safety.xssFilter(pluginId);
+		// 传递插件信息到页面
+		model.addAttribute("plugin", YunPluginMessageCache.applicationMap.get(pluginId));
+		return "/plugin/pluginManage/yunList/view";
 	}
 	
-
 	/**
 	 * 删除插件
 	 * @author 李鑫
@@ -1120,7 +1110,7 @@ public class PluginManageController extends BasePluginController {
 		}.start();
 		
 		// 返回需要访问的路径
-		return success(File.separator + "pluginZip" + File.separator + pluginId + ".zip");
+		return success("/pluginZip/" + pluginId + ".zip");
 	}
 	
 	

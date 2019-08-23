@@ -56,12 +56,9 @@ function versionFormat(version){
 	<tbody id="tbody">
 		<c:forEach var="plugin" items="${list }">
 			<tr>
-				<td style="text-align: center;" id = "id"
-					onclick="pluginView('${plugin.id }');">${plugin.id }</td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');">${plugin.menuTitle }</td>
-				<td style="text-align: center;"
-					onclick="pluginView('${plugin.id }');">${plugin.authorName }</td>
+				<td style="text-align: center;" id = "id">${plugin.id }</td>
+				<td style="text-align: center;" >${plugin.menuTitle }</td>
+				<td style="text-align: center;">${plugin.authorName }</td>
 				<td style="text-align: center;">
 					<botton
 						class="layui-btn layui-btn-sm"
@@ -86,7 +83,7 @@ function versionFormat(version){
 					</botton>
 					<c:if test="${plugin.downUrl != null && !empty plugin.downUrl }">
 						<a class="layui-btn layui-btn-sm"
-						  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }','${plugin.downUrl }')"
+						  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')"
 						  style="margin-left: 3px;">
 						  <i title = "导出" class="layui-icon">&#xe601;</i>
 					    </a>
@@ -163,15 +160,13 @@ function installPlugin(pluginId, pluginName, downUrl) {
 }
 
 //导出插件
-function exportPlugin(plugin_id, plugin_name,downUrl) {
+function exportPlugin(plugin_id, plugin_name) {
 	var dtp_confirm = layer.confirm('确定要导出插件“' + plugin_name + '”？', {
 		  btn: ['导出','取消'] //按钮
 		}, function(){
 			layer.close(dtp_confirm);
-			parent.iw.loading("导出中");    //显示“操作中”的等待提示
-		    parent.iw.loadClose();    //关闭“操作中”的等待提示
 	        //设置下载文件的返回路径
-	        $("#downPlugin").attr("href" , downUrl.replace('127.0.0.1','localhost'));
+	        $("#downPlugin").attr("href" , "/myPlugin/" + plugin_id + ".zip");
 	        //下载文件
 	        $("#downPlugin")[0].click();
 	        parent.iw.msgSuccess('导出成功');
@@ -200,17 +195,6 @@ function deletePlugin(plugin_id,name){
 		     }
 		});
 	}, function(){
-	});
-}
-
-//查看插件详情信息
-function pluginView(plugin_id){
-	layer.open({
-		type: 2, 
-		title:'查看插件信息', 
-		area: ['460px', '630px'],
-		shadeClose: true, //开启遮罩关闭
-		content: '/plugin/pluginManage/queryViewById.do?plugin_id=' + plugin_id
 	});
 }
 
