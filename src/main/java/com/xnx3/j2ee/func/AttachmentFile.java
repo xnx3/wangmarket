@@ -5,20 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.xnx3.BaseVO;
+import com.xnx3.FileUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
-import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFileMode.AliyunOSSMode;
+import com.xnx3.j2ee.func.AttachmentFileMode.HuaweiyunOBSMode;
 import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
 import com.xnx3.j2ee.func.AttachmentFileMode.StorageModeInterface;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
+import com.xnx3.net.ossbean.PutResult;
 
 /**
  * 附件的操作，如OSS、或服务器本地文件
@@ -33,6 +38,7 @@ public class AttachmentFile {
 	public static String mode;	//当前文件附件存储使用的模式，用的阿里云oss，还是服务器本身磁盘进行存储
 	public static final String MODE_ALIYUN_OSS = "aliyunOSS";		//阿里云OSS模式存储
 	public static final String MODE_LOCAL_FILE = "localFile";		//服务器本身磁盘进行附件存储
+	public static final String MODE_HUAWEIYUN_OBS = "huaWeiYunOBS";		//华为云OBS模式存储
 	
 	public static StorageModeInterface storageMode;	//会根据数据库中 mode 的值，决定创建什么模式的存储。不可直接使用，需使用 getStorageMode() 获取
 	
@@ -53,6 +59,12 @@ public class AttachmentFile {
 	 * @return 如果在数据库表 system 表加载成功之前调用此方法，会返回null，当然，这个空指针几乎可忽略。实际使用中不会有这种情况
 	 */
 	public static StorageModeInterface getStorageMode(){
+		// 如果数据库的信息已经被更新，上传使用的对象也需要更新
+		if(!mode.equals(Global.get("ATTACHMENT_FILE_MODE"))) {
+			mode = Global.get("ATTACHMENT_FILE_MODE");
+			storageMode = null;
+		}
+		
 		if(storageMode == null){
 			//接口未初始化，那么根据当前设定的存储模式，进行初始化创建存储对象
 			if(AttachmentFile.mode == null){
@@ -63,6 +75,8 @@ public class AttachmentFile {
 					storageMode = new AliyunOSSMode();
 				}else if (mode.equalsIgnoreCase(AttachmentFile.MODE_LOCAL_FILE)) {
 					storageMode = new LocalServerMode();
+				}else if (mode.equalsIgnoreCase(AttachmentFile.MODE_HUAWEIYUN_OBS)) {
+					storageMode = new HuaweiyunOBSMode();
 				}
 				
 				/*
@@ -70,11 +84,13 @@ public class AttachmentFile {
 				 * 待扩展
 				 * 
 				 */
-				
 			}
 			
 			if(isMode(MODE_ALIYUN_OSS)){
 				storageMode = new AliyunOSSMode();
+			}
+			if(isMode(MODE_HUAWEIYUN_OBS)){
+				storageMode = new HuaweiyunOBSMode();
 			}
 		}
 		return storageMode;

@@ -15,6 +15,7 @@ import com.obs.services.model.AccessControlList;
 import com.obs.services.model.DeleteObjectResult;
 import com.obs.services.model.ListObjectsRequest;
 import com.obs.services.model.ObjectListing;
+import com.obs.services.model.ObjectMetadata;
 import com.obs.services.model.ObsBucket;
 import com.obs.services.model.ObsObject;
 import com.obs.services.model.PutObjectResult;
@@ -41,7 +42,7 @@ public class OBSHandler {
 	 * 创建华为云OBS的本地控制器
 	 * <br/>
 	 * <br/>
-	 * 使用示例 obsHandler = new OBSHandler("jasygaas327i6ewliasfi", "navugaiuaio1231isdhvsdtyquys", "https://obs.cn-		north-1.myhuaweicloud.com");
+	 * 使用示例 obsHandler = new OBSHandler("jasygaas327i6ewliasfi", "navugaiuaio1231isdhvsdtyquys", "https://obs.cn-	north-1.myhuaweicloud.com");
 	 * 
 	 * @author 李鑫
 	 * @param accessKeyId 华为云的 Access Key Id
@@ -55,12 +56,40 @@ public class OBSHandler {
 	}
 	
 	/**
+	 * 创建华为云OBS的本地控制器
+	 * <br/>
+	 * <br/>
+	 * 使用示例 obsHandler = new OBSHandler("jasygaas327i6ewliasfi", "navugaiuaio1231isdhvsdtyquys", "https://obs.cn-	north-1.myhuaweicloud.com", "wangmarket156987656");
+	 * 
+	 * @author 李鑫
+	 * @param accessKeyId 华为云的 Access Key Id
+	 * @param accessKeySecret 华为云的 Access Key Secret
+	 * @param endpoint 华为云连接的地址节点
+	 * @param obsBucketName 进行操作的桶名称
+	 */
+	public OBSHandler(String accessKeyId, String accessKeySecret, String endpoint, String obsBucketName) {
+		this.accessKeyId = accessKeyId;
+		this.accessKeySecret = accessKeySecret;
+		this.endpoint = endpoint;
+		this.obsBucketName = obsBucketName;
+	}
+	
+	/**
 	 * 设置OBS访问的CDN路径
 	 * @author 李鑫
 	 * @param url 需要配置的访问OBS的CDN路径 传入的格式如 http://cdn.leimingyun.com/  
 	 */
 	public void setUrlForCDN(String url) {
 		this.url = url;
+	}
+	
+	/**
+	 * 设置OBS操作的同桶名称
+	 * @author 李鑫
+	 * @param obsBucketName 需要操作的桶名称 例：“wangmarket156921738”
+	 */
+	public void setObsBucketName(String obsBucketName) {
+		this.obsBucketName = obsBucketName;
 	}
 	
 	/**
@@ -83,7 +112,7 @@ public class OBSHandler {
 	 * @return 下载文件的字节数组
 	 * @throws IOException
 	 */
-	public byte[] downObject(String bucketName, String filePath) throws IOException {
+	public byte[] getFileByteArray(String bucketName, String filePath) throws IOException {
 		ObsObject obsObject = getObsClient().getObject(bucketName, filePath);
 		InputStream input = obsObject.getObjectContent();
 		byte[] b = new byte[1024];
@@ -200,6 +229,31 @@ public class OBSHandler {
 	}
 	
 	/**
+	 * 通过流上传文件并设置指定文件属性
+	 * @author 李鑫
+	 * @param bucketName 操作的桶的名称 例："wangmarket1232311"
+	 * @param fileName 上传的路径和文件名 例："site/2010/example.txt"
+	 * @param inputStream 上传文件的输入流
+	 * @param metaData 上传文件的属性
+	 * @return {@link com.obs.services.model.PutObjectResult} 返回上传的结果
+	 */
+	public PutObjectResult putFilebyInstreamAndMeta(String bucketName, String fileName, InputStream inputStream, ObjectMetadata metaData) {
+		return getObsClient().putObject(bucketName, fileName, inputStream, metaData);
+	}
+	
+	/**
+	 * OBS内对象复制
+	 * @author 李鑫
+	 * @param sourceBucketName 源文件的桶名称 例："wangmarket1232311"
+	 * @param sourcePath 源文件的路径和文件名 例："site/2010/example.txt"
+	 * @param destBucketName 目标文件的桶名称 例："swangmarket34578345"
+	 * @param destPath 目标文件的路径和文件名 例："site/2010/example_bak.txt"
+	 */
+	public void copyObject(String sourceBucketName, String sourcePath,String destBucketName, String destPath) {
+		getObsClient().copyObject(sourceBucketName, sourcePath, destBucketName, destPath);
+	}
+	
+	/**
 	 * 获得原生OBSBucket的访问前缀
 	 * @author 李鑫
 	 * @return 桶原生的访问前缀，即不经过CDN加速的访问路径
@@ -284,7 +338,7 @@ public class OBSHandler {
 	 * @return 如果有桶，那么返回桶的名称，如 "wangmarket1232311" ，如果没有，则返回 null
 	 */
 	public String getObsBucketName() {
-		return obsBucketName;
+		return this.obsBucketName;
 	}
 	
 	/**

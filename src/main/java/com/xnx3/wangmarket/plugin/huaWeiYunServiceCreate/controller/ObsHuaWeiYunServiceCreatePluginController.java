@@ -128,6 +128,8 @@ public class ObsHuaWeiYunServiceCreatePluginController extends BasePluginControl
 				return error("检测到OBS的BucketName不存在，系统进行自动创建时，失败!如有需要，请联系我们。");
 			}
 		}else{
+			// 更新当地system表缓存
+			systemService.refreshSystemCache();
 			return success("OBS创建成功");
 		}
 	}
