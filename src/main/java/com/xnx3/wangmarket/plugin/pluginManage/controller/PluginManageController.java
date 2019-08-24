@@ -40,6 +40,8 @@ import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.net.HttpResponse;
+import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
@@ -51,6 +53,8 @@ import com.xnx3.wangmarket.plugin.pluginManage.util.ComponentUtils;
 import com.xnx3.wangmarket.plugin.pluginManage.util.ScanClassesUtil;
 import com.xnx3.wangmarket.plugin.pluginManage.util.TomcatUtil;
 import com.xnx3.wangmarket.plugin.pluginManage.util.ZipUtils;
+
+import net.sf.json.JSONObject;
 
 /**
  * 插件管理中心
@@ -450,7 +454,20 @@ public class PluginManageController extends BasePluginController {
 		// 下载文件名称
 		String fileName = pluginId + "zip";
 		// 获取插件压缩包的下载url
-		String downUrl = application.getDownUrl();
+		HttpUtil httpUtil = new HttpUtil();
+		// 验证授权身份获取下载地址
+		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id);
+		// 请求异常
+		if(httpResponse.getCode() - 200 != 0) {
+			return error("云端插件库异常，轻稍后重试");
+		}
+		JSONObject contentJson = JSONObject.fromObject(httpResponse.getContent());
+		// 请求结果异常
+		if(contentJson.getInt("result") == 0) {
+			return error(contentJson.getString("info"));
+		}
+		// 请求成功，获取下载地址
+		String downUrl = contentJson.getString("url");
 		//获取当前项目的真实路径
 		String realPath = request.getServletContext().getRealPath("/");
 		Map<String, String> pluginPath = getPluginPath(request, pluginId);
