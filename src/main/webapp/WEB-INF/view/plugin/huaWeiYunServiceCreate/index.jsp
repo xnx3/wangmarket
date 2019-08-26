@@ -55,7 +55,7 @@
 					parent.iw.msgFailure(data.info);
 				}else{
 					parent.iw.msgSuccess("操作成功!记得更改cdn附件路径。");
-					window.onload();	//刷新页面
+					setTimeout(function(){ window.onload(); }, 3000);
 				}
 			}, 
 		"json");

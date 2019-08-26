@@ -136,12 +136,12 @@ public class PluginManageController extends BasePluginController {
 		// 卸载插件
 		BaseVO unIstallBaseVO = unIstallPlugin(pluginId, request);
 		if(unIstallBaseVO.getResult() == 0) {
-			return error("插件升级失败");
+			return error("插件卸载已安装版本时出错");
 		}
 		// 安装最新版本的插件
 		BaseVO istallBaseVO = installYunPlugin(pluginId, request);
 		if(istallBaseVO.getResult() == 0) {
-			return error("插件升级失败");
+			return error("插件安装最新版本时出错");
 		}
 		/*
 		 * 在新升级的class上获取插件版本注解上的最新消息更新到缓存中

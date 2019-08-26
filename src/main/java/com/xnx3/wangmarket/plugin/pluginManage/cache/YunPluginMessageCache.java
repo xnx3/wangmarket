@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.xnx3.StringUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.plugin.pluginManage.entity.Application;
@@ -51,7 +52,7 @@ public class YunPluginMessageCache {
 						// 刷新云插件信息
 						refreshYunPluginLibrary();
 						// 设置每间隔一个小时进行一次更新数据
-						Thread.sleep(60 * 60 * 1000);
+						Thread.sleep(10 * 1000);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -71,15 +72,16 @@ public class YunPluginMessageCache {
 		Map<String, Application> shortTimeMap = new HashMap<String, Application>();
 		List<Application> shortTimeList = new LinkedList<Application>();
 		String shortTimePage = "";
-		HttpUtil httpUtil = new HttpUtil();
+		HttpUtil httpUtil = new HttpUtil("UTF-8");
 		// 查询云端插件库获取插件信息
 		HttpResponse response = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/list.do");
 		// 请求失败返回false
 		if(response.getCode() - 200 != 0) {
 			return false;
 		}
+		String content = StringUtil.utf8ToString(response.getContent());
 		// 对请求获得信息进行封装
-		JSONObject contentJsonObject = JSONObject.fromObject(response.getContent());
+		JSONObject contentJsonObject = JSONObject.fromObject(content);
 		if(contentJsonObject.getInt("result") == 0) {
 			return false;
 		}
