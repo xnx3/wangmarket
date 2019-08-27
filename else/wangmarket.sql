@@ -11,7 +11,7 @@
  Target Server Version : 50623
  File Encoding         : utf-8
 
- Date: 08/20/2019 15:26:21 PM
+ Date: 08/27/2019 15:22:52 PM
 */
 
 SET NAMES utf8;
@@ -326,8 +326,8 @@ CREATE TABLE `news_comment` (
 DROP TABLE IF EXISTS `news_data`;
 CREATE TABLE `news_data` (
   `id` int(11) NOT NULL COMMENT '对应news.id',
-  `text` mediumtext COLLATE utf8_unicode_ci COMMENT '信息内容',
-  `extend` text COLLATE utf8_unicode_ci COMMENT '其他扩展字段，以json形式存在',
+  `text` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '信息内容',
+  `extend` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '其他扩展字段，以json形式存在',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='news内容分表';
 
@@ -609,7 +609,7 @@ CREATE TABLE `template_page` (
 DROP TABLE IF EXISTS `template_page_data`;
 CREATE TABLE `template_page_data` (
   `id` int(11) NOT NULL,
-  `text` text COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容',
+  `text` mediumtext COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='模版页面的分表，存储具体模版页面的内容';
 
@@ -635,7 +635,7 @@ CREATE TABLE `template_var` (
 DROP TABLE IF EXISTS `template_var_data`;
 CREATE TABLE `template_var_data` (
   `id` int(11) NOT NULL COMMENT '对应template_var.id',
-  `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '模版变量的内容文字',
+  `text` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '模版变量的内容文字',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='模版变量，分表，存储具体变量的内容';
 
