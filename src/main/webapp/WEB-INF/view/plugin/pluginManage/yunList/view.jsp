@@ -11,18 +11,35 @@
 //判断是否显示的函数
 function yesOrNoShow(msg){
 	if(msg == 1){
-		return document.write('显示');
+		document.write('显示');
 	}else{
-		return  document.write('不显示');;
+		document.write('不显示');;
 	}
 }
 //判断是否支持的函数
 function yesOrNoSupport(msg){
 	if(msg == 1){
-		return  document.write('支持');
+		document.write('支持');
 	}else{
-		return  document.write('不支持');
+		document.write('不支持');
 	}
+}
+//格式化版本号将10010010转换为1.1.1格式
+function versionFormat(version){
+	version = version + '';
+	var one = version.substring(0,3).replace(/000/g, '0').replace(/0/g, '');
+	var two = version.substring(3,6).replace(/000/g, '0').replace(/0/g, '');
+	var three = version.substring(6,9).replace(/000/g, '0').replace(/0/g, '');
+	if(one == ''){
+		one = '0';
+	}
+	if(two == ''){
+		two = '0';
+	}
+	if(three == ''){
+		three = '0';
+	}
+	document.write(one + '.' + two + '.' + three);
 }
 
 </script>
@@ -139,11 +156,11 @@ function yesOrNoSupport(msg){
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">当前插件版本</td>
-			<td>${plugin.version }</td>
+			<td><script>versionFormat(${plugin.version })</script></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">支持网市场最低版本</td>
-			<td>${plugin.wangmarketVersionMin }</td>
+			<td><script>versionFormat(${plugin.wangmarketVersionMin })</script></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">插件简介</td>

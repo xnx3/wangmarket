@@ -16,9 +16,6 @@
 	</div>
     <a class="layui-btn iw_list_search_submit" onclick="titleQuery()"  >搜索</a>
     
-    <div style="float: right; " class="layui-form">
-		<script type="text/javascript"> orderBy('id_DESC=编号'); </script>
-	</div>
 </form>
 <div style="height: 10px;"></div>
 <script type="text/javascript">
@@ -34,13 +31,20 @@ function yesOrNo(code) {
 
 //格式化版本号将10010010转换为1.1.1格式
 function versionFormat(version){
-	//对版本中的0进行替换
-	version = version.toString().replace(/00/g, '.').replace(/0/g, '.');
-	//如果是以.为结尾的话去掉最后的点
-	if(version.lastIndexOf('.') == version.length - 1){
-		version = version.substring(0,version.length - 1);
+	version = version + '';
+	var one = version.substring(0,3).replace(/000/g, '0').replace(/0/g, '');
+	var two = version.substring(3,6).replace(/000/g, '0').replace(/0/g, '');
+	var three = version.substring(6,9).replace(/000/g, '0').replace(/0/g, '');
+	if(one == ''){
+		one = '0';
 	}
-	document.write(version);
+	if(two == ''){
+		two = '0';
+	}
+	if(three == ''){
+		three = '0';
+	}
+	document.write(one + '.' + two + '.' + three);
 }
 </script>
 <table class="aui-table-responsive layui-table iw_table" style="color: black;font-size: 14px;">
@@ -217,7 +221,7 @@ function installPlugin(pluginId, pluginName) {
 		    			});
 			    	}else {
 			    		parent.iw.msgSuccess('安装成功');
-				        window.location.reload();	//刷新当前页
+			    		parent.parent.window.location.reload();	//刷新当前页
 			    	}
 			     }else if(data.result == 0){
 			         parent.iw.msgFailure(data.info);

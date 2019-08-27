@@ -16,9 +16,6 @@
 	</div>
     <button class="layui-btn iw_list_search_submit" type="submit">搜索</button>
     
-    <div style="float: right; " class="layui-form">
-		<script type="text/javascript"> orderBy('id_DESC=编号'); </script>
-	</div>
 </form>
 <div style="height: 10px;"></div>
 
@@ -35,9 +32,9 @@
   <tbody id="tbody">
   	<c:forEach var = "plugin" items="${pluginList }">
   		<tr>
-	     	<td style="text-align:center;cursor: pointer;" onclick="pluginView('${plugin.id }');">${plugin.id }</td>
-	         <td style="text-align:center;cursor: pointer;width:150px;" onclick="pluginView('${plugin.id }');">${plugin.menuTitle }</td>
-	         <td style="text-align:center;cursor: pointer;" onclick="pluginView('${plugin.id }');">${plugin.intro }</td>
+	     	<td style="text-align:center;cursor: pointer;">${plugin.id }</td>
+	         <td style="text-align:center;cursor: pointer;width:150px;">${plugin.menuTitle }</td>
+	         <td style="text-align:center;cursor: pointer;">${plugin.intro }</td>
 	         <td style="text-align:center; width:200px;">
          		<a class="layui-btn layui-btn-sm" onclick="unIntallPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe640;卸载</i></a>
 				<!-- 如果是自己开发的插件可以导出 -->
@@ -57,7 +54,23 @@
 </table>
 <a id = "downPlugin" href = ""></a>
 <script type="text/javascript">
-	
+	//格式化版本号将10010010转换为1.1.1格式
+	function versionFormat(version){
+		version = version + '';
+		var one = version.substring(0,3).replace(/000/g, '0').replace(/0/g, '');
+		var two = version.substring(3,6).replace(/000/g, '0').replace(/0/g, '');
+		var three = version.substring(6,9).replace(/000/g, '0').replace(/0/g, '');
+		if(one == ''){
+			one = '0';
+		}
+		if(two == ''){
+			two = '0';
+		}
+		if(three == ''){
+			three = '0';
+		}
+		return one + '.' + two + '.' + three;
+	}
 	// 升级插件
 	function upgradePlugin(pluginId, version, pluginName) {
 		var dtp_confirm = layer.confirm('确定要升级插件' + pluginName + '？', {
@@ -67,7 +80,7 @@
 				parent.iw.loading("升级中");    //显示“操作中”的等待提示
 				$.post('/plugin/pluginManage/upgradePlugin.do',{"plugin_id" : pluginId, "version" : version }, function(data){
 				    parent.iw.loadClose();    //关闭“操作中”的等待提示
-				    if(data.result == '1'){
+				    if(data.result == 1){
 				        parent.iw.msgSuccess('升级成功');
 				        window.location.reload();	//刷新当前页
 				     }else if(data.result == '0'){

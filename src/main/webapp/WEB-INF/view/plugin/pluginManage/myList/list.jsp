@@ -58,7 +58,7 @@ function versionFormat(version){
 			<tr>
 				<td style="text-align: center;" id = "id">${plugin.id }</td>
 				<td style="text-align: center;" >${plugin.menuTitle }</td>
-				<td style="text-align: center;">${plugin.authorName }</td>
+				<td style="text-align: center;"><script>yesOrNo(${plugin.installState })</script></td>
 				<td style="text-align: center;">
 					 <botton
 						class="layui-btn layui-btn-sm"
@@ -135,7 +135,7 @@ function installPlugin(pluginId, pluginName) {
 			    			});
 			    	}else {
 			    		parent.iw.msgSuccess('安装成功');
-				        window.location.reload();	//刷新当前页
+			    		parent.parent.window.location.reload();	//刷新当前页
 			    	}
 			     }else if(data.result == 0){
 			         parent.iw.msgFailure(data.info);

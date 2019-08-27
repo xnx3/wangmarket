@@ -125,12 +125,28 @@ public class PluginManageController extends BasePluginController {
 			return error("插件升级版本错误");
 		}
 		/*
+		 * 判断安装的插件是否为未经授权用户可以使用插件
+		 */
+		// 如果没有授权并且该插件未经授权用户不可用，向客户提示信息
+		Application application = YunPluginMessageCache.applicationMap.get(pluginId);
+		if(Authorization.copyright) {
+			if(application.getSupportFreeVersion() - 1 != 0) {
+				return error("该插件未经授权用户不可用");
+			}
+		}
+		// 如果授权并且该插件授权用户不可用，向客户提示信息
+		if(!Authorization.copyright) {
+			if(application.getSupportAuthorizeVersion() - 1 != 0) {
+				return error("该插件经授权用户不可用");
+			}
+		}
+		
+		/*
 		 *  比较两个插件版本是否相同，不相同即可升级。 因为不存在安装版本比最新版本高的情况
 		 */
 		// 获取最新版本号
 		String newVersion = YunPluginMessageCache.applicationMap.get(pluginId).getVersion() + "";
-		newVersion = newVersion.replaceAll("0", "");
-		if((newVersion.equals(version.replaceAll(".", "")))) {
+		if(compareVersion(version,newVersion)) {
 			return error("您目前安装已是最新版本，无需更新");
 		}
 		// 卸载插件
@@ -154,6 +170,30 @@ public class PluginManageController extends BasePluginController {
 		ActionLogCache.insert(request, "升级插件", "升级ID为" + pluginId + "的插件");
 		
 		return success();
+	}
+	
+	/**
+	 * 比较插件现在安装版本和云插件库最新版本是否相同
+	 * @author 李鑫
+	 * @param nowVersion 现在安装的版本
+	 * @param newVersion 云插件库最新的版本
+	 * @return true: 当前版本与与插件库最新版本相同，否则反之。
+	 */
+	private boolean compareVersion(String nowVersion, String newVersion) {
+		String one = newVersion.substring(0,3).replace("000", "0").replace("0", "");
+		String two = newVersion.substring(3,6).replace("000", "0").replace("0", "");
+		String three = newVersion.substring(6,9).replace("000", "0").replace("0", "");
+		if(one.equals("")) {
+			one = "0";
+		}
+		if(two.equals("")) {
+			two = "0";
+		}
+		if(three.equals("")) {
+			three = "0";
+		}
+		nowVersion = one + "" + two + "." +three;
+		return nowVersion.equals(nowVersion);
 	}
 	
 	
@@ -206,7 +246,7 @@ public class PluginManageController extends BasePluginController {
 				e.printStackTrace();
 			}
 		}
-		/**
+		/*
 		 * 删除本地相关的插件文件
 		 */
 		//获取操作的路径
