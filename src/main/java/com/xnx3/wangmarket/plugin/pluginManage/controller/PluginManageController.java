@@ -737,7 +737,7 @@ public class PluginManageController extends BasePluginController {
 
 
 	/**
-	 * 上传插件压缩文件
+	 * 更新插件压缩文件
 	 * @author 李鑫
 	 * @param file 需要上传的文件
 	 * @param pluginId 上传的插件问价的id

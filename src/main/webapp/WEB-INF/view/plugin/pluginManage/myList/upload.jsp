@@ -2,6 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
+
+<link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+<jsp:include page="../../../iw/common/head.jsp">
+	<jsp:param name="title" value="上传文件"/>
+</jsp:include>
 <style type="text/css">
 
 .hovereffect {
@@ -92,6 +98,8 @@ opacity: 0;
 } */
 
 </style>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
  	<div style="padding:10px">
 	 	<p style="width: 100%;text-align: center;">
 		<button class="layui-btn" id="uploadFile" lay-submit lay-filter="formSubmit">上传插件</button>
@@ -124,7 +132,7 @@ layui.use('upload', function(){
 	  ,done: function(res, index, upload){
 	  	parent.iw.loadClose();
 	    //上传成功返回值，必须为json格式
-	    if(res.result == 1){
+	    if(res.result == '1'){
 	    	parent.iw.msgSuccess("上传成功！");
 	    	parent.location.reload();	//刷新父窗口列表
 	    }else{
@@ -135,4 +143,5 @@ layui.use('upload', function(){
 });
 
 </script>
+
 <jsp:include page="../../../iw/common/foot.jsp"></jsp:include>
