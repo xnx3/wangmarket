@@ -65,7 +65,7 @@
     	<div class="select">
 			<!-- 这里的 onmouseenter 是为了避免下面的收费鼠标移开后，不变回来，所以这里又加了一个，如果下面的收费的霉变过来，鼠标移动过来后，收费的恢复回来 -->
 			<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE} -->
-			<div class="selectItem" onclick="window.location.href='domainSet.do';" onmouseenter="qiehuanshouquanyuanshi();">
+			<div class="selectItem" onclick="mianfeiban();" onmouseenter="qiehuanshouquanyuanshi();">
 				<div class="title">免费版</div>
 				<div class="intro">
 					<br/>服务器存储
@@ -160,6 +160,41 @@ function qiehuanshouquanyuanshi(){
 	document.getElementById('yun').innerHTML = document.getElementById('weishouquanyun').innerHTML;
 }
 qiehuanshouquanyuanshi();
+
+function mianfeiban(){
+	if(window.location.hostname.indexOf('localhost') > -1 || window.location.hostname.indexOf('127.0.0.1') > -1){
+		
+		layer.open({
+			type: 1
+			,title: false
+			,closeBtn: false
+			,area: '590px;'
+			,shade: 0.8
+			,id: 'versionUpdateTipsss'
+			,resize: false
+			,btn: ['本地快速安装','完整安装']
+			,btnAlign: 'c'
+			,moveType: 1
+			,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300; text-align:left;">'
+				+'<div style="width:100%; text-align:center; font-size:22px;"> <span style="font-size:28px; padding-right:15px;"></span>友情提示</div><br>'
+				+'<style> .xnx3_gxc li{list-style-type: decimal;} </style>'
+				+'<ul style="list-style-type: decimal;" class="xnx3_gxc">'
+				+'<div>监测到您访问域名是本地的，如果是本地体验功能、或者做模版，您可以点下面的 本地快速安装 。 </div>'
+				+'</ul></div>'
+				
+			,yes: function(index, layero){
+				window.location.href="setLocalDomain.do";
+			}
+			,btn2: function(index, layero){
+				window.location.href='domainSet.do';
+			}
+		});
+		
+		
+	}else{
+		window.location.href='domainSet.do';
+	}
+}
 </script>
   
 </html>
