@@ -3,6 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	//登陆用户名
+	String username = request.getParameter("username");
+	if(username == null || (username != null && username.equals("null"))){
+		username = "";
+	}
+	
+	//登陆密码
+	String password = request.getParameter("password");
+	if(password == null || (password != null && password.equals("null"))){
+		password = "";
+	}
+ %>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="登录"/>
 </jsp:include>
@@ -64,13 +77,13 @@
   	<div class="layui-form-item">
 	    <label class="layui-form-label">用户名</label>
 	    <div class="layui-input-block">
-	      <input type="text" name="username" required  lay-verify="required" placeholder="请输入 用户名/邮箱" autocomplete="off" class="layui-input baisetouming">
+	      <input type="text" name="username" required  lay-verify="required" value="<%=username %>" placeholder="请输入 用户名/邮箱" autocomplete="off" class="layui-input baisetouming">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label"> 密 码&nbsp;&nbsp; </label>
 	    <div class="layui-input-block">
-	      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input baisetouming">
+	      <input type="password" name="password" required lay-verify="required" value="<%=password %>" placeholder="请输入密码" autocomplete="off" class="layui-input baisetouming">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
