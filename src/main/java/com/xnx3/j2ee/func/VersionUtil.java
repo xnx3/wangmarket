@@ -31,7 +31,6 @@ public class VersionUtil {
 			}
 		}
 		
-		System.out.println(versionStr);
 		String first = versionStr.substring(0, 3);
 		String two = versionStr.substring(3, 6);
 		String three = versionStr.substring(6, 9);
@@ -39,9 +38,6 @@ public class VersionUtil {
 		int firstInt = Lang.stringToInt(first, 1);
 		int twoInt = Lang.stringToInt(two, 0);
 		int threeInt = Lang.stringToInt(three, 0);
-		System.out.println(firstInt);
-		System.out.println(twoInt);
-		System.out.println(threeInt);
 		
 		String str = firstInt+"";
 		if(twoInt == 0){
