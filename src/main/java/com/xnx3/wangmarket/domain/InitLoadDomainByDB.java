@@ -32,7 +32,7 @@ public class InitLoadDomainByDB {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if(Global.get("SITE_NAME") == null || Global.get("SITE_NAME").length() == 0){
+					if(Global.get("ATTACHMENT_FILE_MODE") == null || Global.get("ATTACHMENT_FILE_MODE").length() == 0){
 						//项目还未启动，system数据都还没有加载，继续等待
 					}else{
 						//system数据表数据已加载入内存，可以进行初始化域名数据了，退出等待
