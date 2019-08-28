@@ -16,7 +16,7 @@
 <input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 
 <a class="layui-btn layui-btn-normal" id = "uploadPluginZip"
-	href="javascript:;">添加更新插件</a>
+	href="javascript:;">添加插件</a>
 
 </form>
 <script type="text/javascript">

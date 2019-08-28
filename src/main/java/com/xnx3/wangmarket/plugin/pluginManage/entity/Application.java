@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 应用插件
@@ -34,6 +35,8 @@ public class Application {
 	private Short supportFreeVersion;	//若wangmarket使用的是免费开源版本，是否支持该插件运行。 1支持，0或者其他是不支持
 	private Short supportAuthorizeVersion;	//若wangmarket使用的是授权版本，是否支持该插件运行。 1支持，0或者其他是不支持
 	private String downUrl; //插件下载的url
+	
+	@Transient
 	private Short installState;	//插件是否被安装 0：未安装  1：已安装
 	
 	

@@ -121,10 +121,10 @@ public class PluginManageController extends BasePluginController {
 		pluginId = Safety.xssFilter(pluginId);
 		version = Safety.xssFilter(version);
 		// 校验参数
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
 		}
-		if(version == null || version.equals("")) {
+		if(version == null || version.trim().equals("")) {
 			return error("插件升级版本错误");
 		}
 		/*
@@ -243,7 +243,7 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		//校验插件id
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件信息错误");
 		}
 		/**
@@ -389,7 +389,7 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		// 校验信息
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
 		}
 		
@@ -496,7 +496,7 @@ public class PluginManageController extends BasePluginController {
 		pluginId = Safety.xssFilter(pluginId);
 		
 		// 校验信息
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
 		}
 		/*
@@ -554,7 +554,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		// 下载文件名称
-		String fileName = pluginId + "zip";
+		String fileName = pluginId + ".zip";
 		// 获取插件压缩包的下载url
 		HttpUtil httpUtil = new HttpUtil();
 		// 验证授权身份获取下载地址
@@ -816,7 +816,7 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		// 校验插件id是否合法
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件信息错误");
 		}
 		// 校验上传的文件是否正常
@@ -845,15 +845,6 @@ public class PluginManageController extends BasePluginController {
 		//添加动作日志
 		ActionLogCache.insert(request, "上传插件", "上传ID为" + pluginId + "的插件压缩包");
 		return success();
-	}
-	
-	/**
-	 * 跳转添加插件压缩包页面
-	 * @author 李鑫
-	 */
-	@RequestMapping("toAddByZipPage${url.suffix}")
-	public String toAddByZipPage() {
-		return "plugin/pluginManage/myList/addUpload";
 	}
 	
 	/**
@@ -898,6 +889,9 @@ public class PluginManageController extends BasePluginController {
 		// 获取id和名称
 		String pluginId = sBuffer.toString().split("-")[0].trim();
 		String menuTitle = sBuffer.toString().split("-")[1].trim();
+		if(YunPluginMessageCache.applicationMap.get(pluginId) != null) {
+			return error("该插件ID与云插件库id重复，请更换ID后上传");
+		}
 		/*
 		 * 本地上传
 		 */
@@ -953,20 +947,7 @@ public class PluginManageController extends BasePluginController {
 	public String myList(HttpServletRequest request ,Model model){
 		Sql sql = new Sql(request);
 		//搜索的列
-		String[] searchColumnArray = new String[]{
-			"menu_title",
-			"apply_to_cms=",
-			"apply_to_pc=",
-			"apply_to_wap=",
-			"apply_to_agency=",
-			"apply_to_superadmin=",
-			"support_oss_storage=",
-			"support_sqlite=",
-			"support_local_storage=",
-			"support_mysql=",
-			"support_sls=",
-			"wangmarket_version_min<"
-		};
+		String[] searchColumnArray = new String[]{"menu_title"};
 		sql.setSearchColumn(searchColumnArray);
 		
 		int count = sqlService.count("application", sql.getWhere());
@@ -994,7 +975,7 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
 		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
 		// 参数安全过滤
-		menuTitle = Safety.xssFilter(menuTitle);		
+		menuTitle = Safety.xssFilter(menuTitle.trim());		
 		//获取当前已经安装的所有的插件
 		if(pluginMap == null) {
 			pluginMap = pluginService.getCurrentPluginMap();
@@ -1008,7 +989,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		// 获取本地插件的id列表
 		List<String> idList = new LinkedList<String>();
-		// sql语句
+		// 传入用户本地的插件id列表
 		String sql = "SELECT id FROM application;";
 		// 执行sql语句 返回执行结果
 		List<Map<String, Object>> list = sqlService.findMapBySqlQuery(sql);
@@ -1019,7 +1000,7 @@ public class PluginManageController extends BasePluginController {
 			// 将遍历结果放于list中
 			idList.add((String) map.get("id"));
 		}
-		
+		// 将用户本地开发的插件id列表传递到页面
 		model.addAttribute("ids", idList.toString());
 		model.addAttribute("pluginList", pluginList);
 		return "/plugin/pluginManage/installList/list";
@@ -1070,7 +1051,7 @@ public class PluginManageController extends BasePluginController {
 	public String queryYunPluginById(@RequestParam(value = "plugin_id", required = false, defaultValue = "") 
 			String pluginId, Model model) {
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = Safety.xssFilter(pluginId.trim());
 		// 传递插件信息到页面
 		model.addAttribute("plugin", YunPluginMessageCache.applicationMap.get(pluginId));
 		return "/plugin/pluginManage/yunList/view";
@@ -1090,7 +1071,7 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);		
 		//校验插件id是否合法
-		if(pluginId == null || pluginId.equals("")) {
+		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插ID错误");
 		}
 		//通过id查询出需要删除的插件信息
@@ -1137,7 +1118,7 @@ public class PluginManageController extends BasePluginController {
 	public String uploadZipFile(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, Model model) {
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
 		return "/plugin/pluginManage/myList/upload";
 	}
@@ -1154,9 +1135,12 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/exportPlugin${url.suffix}")
 	public BaseVO exportPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
 			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
-
+		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);		
+		pluginId = Safety.xssFilter(pluginId);	
+		if(pluginId == null || pluginId.trim().equals("")) {
+			return error("插件id格式错误");
+		}
 		/*
 		 * 判断要导出的插件是否为用户自己开发的本地插件
 		 */
