@@ -140,6 +140,10 @@ public class PluginManageController extends BasePluginController {
 		Integer minInteger;
 		boolean isOk = true;
 		for (int i = 0; i < nowVersionSplit.length; i++) {
+			// 当前版本为两位数，最小版本为三位数说明没问题
+			if(i == 2 && minVersionSplit.length == 2) {
+				continue;
+			}
 			nowInteger = Integer.parseInt(nowVersionSplit[i]);
 			minInteger = Integer.parseInt(minVersionSplit[i]);
 			// 如果版本过低
@@ -509,6 +513,10 @@ public class PluginManageController extends BasePluginController {
 		Integer minInteger;
 		boolean isOk = true;
 		for (int i = 0; i < nowVersionSplit.length; i++) {
+			// 当前版本为两位数，最小版本为三位数说明没问题
+			if(i == 2 && minVersionSplit.length == 2) {
+				continue;
+			}
 			nowInteger = Integer.parseInt(nowVersionSplit[i]);
 			minInteger = Integer.parseInt(minVersionSplit[i]);
 			// 如果版本过低
