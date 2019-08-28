@@ -32,9 +32,13 @@ function yesOrNo(code) {
 //格式化版本号将10010010转换为1.1.1格式
 function versionFormat(version){
 	version = version + '';
-	var one = version.substring(0,3).replace(/000/g, '0').replace(/0/g, '');
-	var two = version.substring(3,6).replace(/000/g, '0').replace(/0/g, '');
-	var three = version.substring(6,9).replace(/000/g, '0').replace(/0/g, '');
+	var add = 9 - version.length;
+	for(var i = 0 ; i < add; i ++) {
+		version = "0" + version;
+	}
+	var one = version.substring(0,3).replace(/\b(0+)/gi, "");
+	var two = version.substring(3,6).replace(/\b(0+)/gi, "");
+	var three = version.substring(6,9).replace(/\b(0+)/gi, "");
 	if(one == ''){
 		one = '0';
 	}
@@ -42,9 +46,10 @@ function versionFormat(version){
 		two = '0';
 	}
 	if(three == ''){
-		three = '0';
+		document.write(one + '.' + two);
+	}else {
+		document.write(one + '.' + two + '.' + three);
 	}
-	document.write(one + '.' + two + '.' + three);
 }
 </script>
 <table class="aui-table-responsive layui-table iw_table" style="color: black;font-size: 14px;">
@@ -77,7 +82,7 @@ function versionFormat(version){
 	        	<c:if test="${isUnAuth == false }">
 	        		<c:choose>
 			   			<c:when test="${plugin.supportAuthorizeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-sm" onclick="showUnAuth()" style="margin-left: 3px;"><i class="layui-icon" style = "background : gary;">&#x1006;禁用</i></botton>
+			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth(true)" style="width: 80px;font-size:12px;line-height: 30px;height: 30px;text-align: center;">需未授权</botton>
 			   			</c:when>
 			   			<c:otherwise>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false }">
@@ -95,10 +100,10 @@ function versionFormat(version){
 		    
 			    <!-- 未授权用户 -->
 			    <c:if test="${isUnAuth ==true }">
-			   		<!-- 判断为授权用户是否可以使用 -->
+			   		<!-- 判断未授权用户是否可以使用 -->
 			   		<c:choose>
 			   			<c:when test="${plugin.supportFreeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-sm" onclick="showUnAuth(true)" style="margin-left: 3px;"><i class="layui-icon" style = "background : gary;">&#x1006;禁用</i></botton>
+			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth()" style="width: 80px;font-size:12px;line-height: 30px;height: 30px;text-align: center;">需授权</botton>
 			   			</c:when>
 			   			<c:otherwise>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false}">
@@ -151,54 +156,6 @@ function versionFormat(version){
 
 <script type="text/javascript">
 
- // 分页查询
-function page() {
-	/*
-	* 插件列表分页
-	*/
-	var page = JSON.parse('${page }');
-	var pageHtml = '';
-	pageHtml += '<ul>';
-	// 判断当前页面是否是列表页第一页，若不是第一页，那会显示首页、上一页的按钮
-	if(page.currentFirstPage == false) {
-		pageHtml += '	<li><a href="javascript:pageQuery(1);">首页</a></li>';
-		// 截取上一页的页数
-		pageHtml += '	<li><a href="javascript:pageQuery(' + page.upPageNumber + ', \'' + menuTitle + '\');">上一页</a></li>';
-	}
-	
-	//输出上几页的连接按钮
-	$.each(page.upList, function(i, a) {
-		// 截取当前的代表的页数
-		/* var num = a.href.charAt(page.upPage.length - 1); */
-		pageHtml += '<li><a href="javascript:pageQuery(' + (i + 1) + ', \'' + menuTitle + '\');">' + a.title + '</a></li>';
-	});
-	// 当前页面，当前第几页 
-	pageHtml += '<li class="xnx3_page_currentPage"><a href="#">' + page.currentPageNumber + '</a></li>';
-	pageHtml += '';
-	
-	//输出下几页的连接按钮 
-	$.each(page.nextList, function(i, a) {
-		// 截取当前的代表的耶稣
-		var num = a.href.charAt(page.upPage.length - 1);
-		pageHtml += '<li><a href="javascript:pageQuery(' + num + ', \'' + menuTitle + '\');">' + a.title + '</a></li>';
-	});
-	
-	pageHtml += '';
-	// 判断当前页面是否是列表页最后一页，若不是最后一页，那会显示下一页、尾页的按钮
-	if(page.currentLastPage == false) {
-		// 截取下一页的页数
-		pageHtml += '<li><a href="javascript:pageQuery(' + page.nextPageNumber + ', \'' + menuTitle + '\');">下一页</a></li>';
-		pageHtml += '<li><a href="javascript:pageQuery(' + page.allRecordNumber + ', \'' + menuTitle + '\');">尾页</a></li>';
-	}
-	pageHtml += '<li style="margin-right:30px;border:0px; padding-top:5px;">共' + page.allRecordNumber + '条，' + page.lastPageNumber + '页</li>';
-	pageHtml += '</ul>';
-	
-	// 将拼装的字符加入到div中
-	$("#xnx3_page").html(pageHtml);
-}
-/*page();  */
-
-
 //安装插件
 function installPlugin(pluginId, pluginName) {
 	var dtp_confirm = layer.confirm('确定要安装' + pluginName+  '？', {
@@ -243,16 +200,15 @@ function titleQuery(){
 
 //提示禁止安装信息
 function showUnAuth(auth) {
-	if(auth){
-		iw.msgFailure("此插件仅授权用户可用");
-	}
-	if(!auth){
-		iw.msgFailure("此插件仅未经授权用户可用");
+	if(auth == true) {
+		iw.msgFailure("此插件仅未授权用户可用");
+	}else{
+		window.location.href = 'http://www.leimingyun.com/price.html';	
 	}
 	
 }
 
-//查看用户详情信息
+//查看插件详情信息
 function pluginView(plugin_id){
 	layer.open({
 		type: 2, 

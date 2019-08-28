@@ -35,14 +35,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.func.VersionUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
+import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.PluginService;
@@ -125,6 +128,30 @@ public class PluginManageController extends BasePluginController {
 			return error("插件升级版本错误");
 		}
 		/*
+		 * 判断当前网市场版本是否满足插件所支持的网市场最小版本
+		 */
+		int minVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getWangmarketVersionMin();
+		String minVersion = VersionUtil.intToStr(minVersionInt);
+		String[] minVersionSplit = minVersion.split("\\.");
+		// 将版本格式化为三位数进行比较
+		String nowVersion = G.VERSION;
+		String[] nowVersionSplit = nowVersion.split("\\.");
+		Integer nowInteger;
+		Integer minInteger;
+		boolean isOk = true;
+		for (int i = 0; i < nowVersionSplit.length; i++) {
+			nowInteger = Integer.parseInt(nowVersionSplit[i]);
+			minInteger = Integer.parseInt(minVersionSplit[i]);
+			// 如果版本过低
+			if(nowInteger - minInteger < 0) {
+				isOk = false;
+			}
+		}
+		if(!isOk) {
+			return error("当前网市场版较低，请更新后重试。");
+		}
+		
+		/*
 		 * 判断安装的插件是否为未经授权用户可以使用插件
 		 */
 		// 如果没有授权并且该插件未经授权用户不可用，向客户提示信息
@@ -142,13 +169,37 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		/*
-		 *  比较两个插件版本是否相同，不相同即可升级。 因为不存在安装版本比最新版本高的情况
+		 *  比较当前安装和云插件库的插件版本
 		 */
-		// 获取最新版本号
-		String newVersion = YunPluginMessageCache.applicationMap.get(pluginId).getVersion() + "";
-		if(compareVersion(version,newVersion)) {
+		// 获取云插件库最新版本号
+		int newVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getVersion();
+		// 格式话最新版本号
+		String newVersion = VersionUtil.intToStr(newVersionInt);
+		String[] newVersionSplit = newVersion.split("\\.");
+		// 将版本格式化为三位数进行比较
+		nowVersion = version;
+		nowVersionSplit = nowVersion.split("\\.");
+		Integer newInteger;
+		isOk = true;
+		for (int i = 0; i < nowVersionSplit.length; i++) {
+			// 当前的安装版本是三位数，云插件是两位数则跳过比较
+			if(i == 2 && newVersionSplit.length == 2) {
+				continue;
+			}
+			// 现在的版本
+			nowInteger = Integer.parseInt(nowVersionSplit[i]);
+			// 云插件库最新的版本
+			newInteger = Integer.parseInt(newVersionSplit[i]);
+			// 如果版本过低
+			if(nowInteger - newInteger < 0) {
+				isOk = false;
+			}
+		}
+		// 比较版本大小
+		if(isOk) {
 			return error("您目前安装已是最新版本，无需更新");
 		}
+		
 		// 卸载插件
 		BaseVO unIstallBaseVO = unIstallPlugin(pluginId, request);
 		if(unIstallBaseVO.getResult() == 0) {
@@ -171,31 +222,6 @@ public class PluginManageController extends BasePluginController {
 		
 		return success();
 	}
-	
-	/**
-	 * 比较插件现在安装版本和云插件库最新版本是否相同
-	 * @author 李鑫
-	 * @param nowVersion 现在安装的版本
-	 * @param newVersion 云插件库最新的版本
-	 * @return true: 当前版本与与插件库最新版本相同，否则反之。
-	 */
-	private boolean compareVersion(String nowVersion, String newVersion) {
-		String one = newVersion.substring(0,3).replace("000", "0").replace("0", "");
-		String two = newVersion.substring(3,6).replace("000", "0").replace("0", "");
-		String three = newVersion.substring(6,9).replace("000", "0").replace("0", "");
-		if(one.equals("")) {
-			one = "0";
-		}
-		if(two.equals("")) {
-			two = "0";
-		}
-		if(three.equals("")) {
-			three = "0";
-		}
-		nowVersion = one + "" + two + "." +three;
-		return nowVersion.equals(nowVersion);
-	}
-	
 	
 	/**
 	 * 卸载网市场插件
@@ -362,6 +388,7 @@ public class PluginManageController extends BasePluginController {
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
 		}
+		
 		/*
 		 * 判断插件是否已经安装
 		 */
@@ -468,6 +495,38 @@ public class PluginManageController extends BasePluginController {
 		if(pluginId == null || pluginId.equals("")) {
 			return error("插件ID错误");
 		}
+		/*
+		 * 判断当前网市场版本是否满足插件所支持的网市场最小版本
+		 */
+		int minVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getWangmarketVersionMin();
+		// 将版本号中的.替换掉
+		String minVersion = VersionUtil.intToStr(minVersionInt);
+		String[] minVersionSplit = minVersion.split("\\.");
+		// 将版本格式化为三位数进行比较
+		String nowVersion = G.VERSION;
+		String[] nowVersionSplit = nowVersion.split("\\.");
+		Integer nowInteger;
+		Integer minInteger;
+		boolean isOk = true;
+		for (int i = 0; i < nowVersionSplit.length; i++) {
+			nowInteger = Integer.parseInt(nowVersionSplit[i]);
+			minInteger = Integer.parseInt(minVersionSplit[i]);
+			// 如果版本过低
+			if(nowInteger - minInteger < 0) {
+				isOk = false;
+			}
+		}
+		// 版本过低不能安装
+		if(!isOk) {
+			return error("当前网市场版较低，请更新后重试。");
+		}
+		
+		/*
+		 * 判断插件是否已经安装
+		 */
+		if(!(pluginMap.get(pluginId) == null)) {
+			return error("该插件您已安装或者与本地插件ID发生冲突。");
+		}
 		
 		/*
 		 * 判断安装的插件是否为未经授权用户可以使用插件
@@ -485,18 +544,13 @@ public class PluginManageController extends BasePluginController {
 				return error("该插件经授权用户不可用");
 			}
 		}
-		/*
-		 * 判断插件是否已经安装
-		 */
-		if(!(pluginMap.get(pluginId) == null)) {
-			return error("该插件您已安装或者与本地插件ID发生冲突。");
-		}
+		
 		// 下载文件名称
 		String fileName = pluginId + "zip";
 		// 获取插件压缩包的下载url
 		HttpUtil httpUtil = new HttpUtil();
 		// 验证授权身份获取下载地址
-		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id);
+		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + Global.get("AUTO_ASSIGN_DOMAIN"));
 		// 请求异常
 		if(httpResponse.getCode() - 200 != 0) {
 			return error("云端插件库异常，轻稍后重试");
@@ -930,7 +984,6 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/installList${url.suffix}")
 	public String installList(HttpServletRequest request, Model model, 
 			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
-		
 		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
 		// 参数安全过滤
 		menuTitle = Safety.xssFilter(menuTitle);		

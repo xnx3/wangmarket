@@ -27,9 +27,13 @@ function yesOrNoSupport(msg){
 //格式化版本号将10010010转换为1.1.1格式
 function versionFormat(version){
 	version = version + '';
-	var one = version.substring(0,3).replace(/000/g, '0').replace(/0/g, '');
-	var two = version.substring(3,6).replace(/000/g, '0').replace(/0/g, '');
-	var three = version.substring(6,9).replace(/000/g, '0').replace(/0/g, '');
+	var add = 9 - version.length;
+	for(var i = 0 ; i < add; i ++) {
+		version = "0" + version;
+	}
+	var one = version.substring(0,3).replace(/\b(0+)/gi, "");
+	var two = version.substring(3,6).replace(/\b(0+)/gi, "");
+	var three = version.substring(6,9).replace(/\b(0+)/gi, "");
 	if(one == ''){
 		one = '0';
 	}
@@ -37,9 +41,10 @@ function versionFormat(version){
 		two = '0';
 	}
 	if(three == ''){
-		three = '0';
+		document.write(one + '.' + two);
+	}else {
+		document.write(one + '.' + two + '.' + three);
 	}
-	document.write(one + '.' + two + '.' + three);
 }
 
 </script>
