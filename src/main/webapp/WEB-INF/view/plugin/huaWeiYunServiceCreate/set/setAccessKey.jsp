@@ -9,7 +9,7 @@
 <table class="layui-table iw_table">
   <tbody>
 	   	<tr>
-	   		<td>AccessKey ID ：</td>
+	   		<td>Access Key Id ：</td>
 	   		<td><%=Global.get("HUAWEIYUN_ACCESSKEYID") %></td>
 			<td style="width:110px;">
 				<botton class="layui-btn layui-btn-sm" onclick="variable('HUAWEIYUN_ACCESSKEYID');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
@@ -24,7 +24,9 @@
 		</tr>
   </tbody>
 </table>
-	
+<div style="height: 80px;line-height: 80px;text-align: right;padding-right:40px; font-size: 16px;">
+	<span style="color: red;">注：</span>如果您尚未了解华为云Access Key Id 和 secret Access Keyd等信息，请<a href = "http://wang.market/16666.html" style="color: blue;" target = "_blank">&nbsp;点击这里&nbsp;</a>查看帮助文档
+</div>	
 
 <script type="text/javascript">
 	/* 

@@ -96,6 +96,9 @@ function versionFormat(version){
 	<i style="padding-right: 15px;" class="layui-icon">&#xe601;导出</i>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
+<div style="height: 100%;text-align: right;padding-right:40px; font-size: 16px;">
+	<span style="color: red;"></span><a href = "http://wang.market/16664.html" style="color: gray;" target = "_blank">&nbsp;点击查看插件压缩包规范文档&nbsp;</a>
+</div>	
 <a id = "downPlugin" href = ""></a>
 <!-- 通用分页跳转 -->
 <%-- <jsp:include page="../../../iw/common/page.jsp"></jsp:include> --%>

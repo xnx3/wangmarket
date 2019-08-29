@@ -24,6 +24,7 @@
 		</tr>
   </tbody>
 </table>
+
 <!-- <div onclick="deleteThis" style="border:1px; width:100%; height:80px; font-size:50px;">创建完毕？彻底删除此插件</div> -->
 
 <script>
@@ -42,7 +43,7 @@
 		obsObj.innerHTML = "已使用";
 	}else{
 		//未使用
-		obsObj.innerHTML = '未使用&nbsp;&nbsp; <button onclick="createOBS();">创建此组建云服务并启用</button>';
+		obsObj.innerHTML = '未使用&nbsp;&nbsp; <button onclick="createOBS();">创建此组件云服务并启用</button>';
 	}
 
 	//创建OBS服务及自动配置
@@ -54,7 +55,7 @@
 				if(data.result != '1'){
 					parent.iw.msgFailure(data.info);
 				}else{
-					parent.iw.msgSuccess("操作成功!记得更改cdn附件路径。");
+					parent.iw.msgSuccess("创建成功");
 					window.location.reload(); // 刷新当前页
 				}
 			}, 

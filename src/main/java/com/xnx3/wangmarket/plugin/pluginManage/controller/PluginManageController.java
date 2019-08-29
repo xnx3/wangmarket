@@ -76,7 +76,9 @@ public class PluginManageController extends BasePluginController {
 	@Autowired
 	private ApplicationContext applicationContext;
 	
-	//当前已经安装的插件
+	/**
+	 * 当前已经安装的插件
+	 */
 	private Map<String, SitePluginBean> pluginMap;
 	
 	/**
@@ -151,7 +153,7 @@ public class PluginManageController extends BasePluginController {
 				isOk = false;
 			}
 		}
-		if(!isOk) {
+		if(isOk == false) {
 			return error("当前网市场版较低，请更新后重试。");
 		}
 		
@@ -396,7 +398,7 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断插件是否已经安装
 		 */
-		if(!(pluginMap.get(pluginId) == null)) {
+		if(pluginMap.get(pluginId) != null) {
 			return error("该插件您已安装或者与本地插件ID发生冲突。");
 		}
 		
@@ -532,7 +534,7 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断插件是否已经安装
 		 */
-		if(!(pluginMap.get(pluginId) == null)) {
+		if(pluginMap.get(pluginId) != null) {
 			return error("该插件您已安装或者与本地插件ID发生冲突。");
 		}
 		
@@ -873,7 +875,7 @@ public class PluginManageController extends BasePluginController {
 		// 得到配置文件的输入流
 		ZipEntry entry = zipFile.getEntry("ROOT/system.txt");
 		if(entry == null) {
-			return error("压缩包内缺少system.txt配置文件");
+			return error("压缩包内缺少system.txt配置文件，请检查后重新上传");
 		}
 		InputStream inputStream = zipFile.getInputStream(entry);
 		/*
@@ -953,7 +955,7 @@ public class PluginManageController extends BasePluginController {
 		sql.setSearchColumn(searchColumnArray);
 		
 		int count = sqlService.count("application", sql.getWhere());
-		Page page = new Page(count, 20, request);
+		Page page = new Page(count, 1000, request);
 		sql.setSelectFromAndPage("SELECT * FROM application", page);
 		List<Application> list = sqlService.findBySql(sql, Application.class);
 		
