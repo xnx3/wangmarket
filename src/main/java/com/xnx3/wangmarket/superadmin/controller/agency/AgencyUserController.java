@@ -3,9 +3,10 @@ package com.xnx3.wangmarket.superadmin.controller.agency;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.json.JSONArray;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -34,7 +36,6 @@ import com.xnx3.net.AliyunLogPageUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.superadmin.entity.SiteSizeChange;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
@@ -43,8 +44,11 @@ import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.superadmin.entity.Agency;
 import com.xnx3.wangmarket.superadmin.entity.AgencyData;
+import com.xnx3.wangmarket.superadmin.entity.SiteSizeChange;
 import com.xnx3.wangmarket.superadmin.service.TransactionalService;
 import com.xnx3.wangmarket.superadmin.util.SiteSizeChangeLog;
+
+import net.sf.json.JSONArray;
 
 /**
  * 代理商
@@ -408,6 +412,23 @@ public class AgencyUserController extends BaseController {
 			@RequestParam(value = "companyName", required = false , defaultValue="") String companyName,
 			@RequestParam(value = "email", required = false , defaultValue="") String email
 			){
+		
+		// 参数合法校验
+		if(contactUsername == null || companyName.trim().equals("")) {
+			return error("请输入联系人姓名");
+		}
+		if(phone == null || phone.trim().equals("")) {
+			return error("请输入联系人手机号");
+		}
+		if(contactUsername == null || companyName.trim().equals("")) {
+			return error("请输入联系人姓名");
+		}
+		if(address == null || address.trim().equals("")) {
+			return error("请输入公司地址");
+		}
+		if(companyName == null || companyName.trim().equals("")) {
+			return error("请输入公司名称");
+		}
 
 		Agency myAgency = sqlService.findById(Agency.class, getMyAgency().getId());
 		if(myAgency.getSiteSize() < G.agencyAddSubAgency_siteSize){
