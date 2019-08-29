@@ -75,6 +75,7 @@ function useTopTools(){
 		document.getElementById("iframe").style.paddingBottom='38px';
 		document.getElementById("htmlMode").style.paddingBottom='38px';
 	}
+	document.getElementById("iframe").style.marginTop='38px';
 }
 
 //不使用头部工具栏，不使用时，头部什么也没有。用于模版页面的编辑
@@ -85,6 +86,7 @@ function notUseTopTools(){
 	
 	//主体区域的iframe跟textarea的高度变为100%
 	document.getElementById("iframe").style.paddingBottom='0px';
+	document.getElementById("iframe").style.marginTop='0px';
 	document.getElementById("htmlMode").style.paddingBottom='0px';
 }
 

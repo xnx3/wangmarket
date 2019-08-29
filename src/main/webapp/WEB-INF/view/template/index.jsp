@@ -164,7 +164,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 					padding-left:1px;
 				}
 			</style>
-			<div id="editormd" style="width:100%; height:100%;"></div>
+			<div id="editormd" style="width:100%; height:100%; margin-top: 38px;"></div>
 			<textarea id="html_textarea"></textarea>
         </div>
 	</div>
@@ -215,6 +215,7 @@ function codeEditMode(){
 	if(currentMode == 1){
 		//由智能模式切换代码模式
 		document.getElementById("iframe").style.display='none';
+		document.getElementById("iframe").style.marginTop='0px';
 		document.getElementById("htmlMode").style.display='';
 		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
@@ -250,6 +251,7 @@ function htmledit_mode(){
 	if(currentMode == 1){
 		//由智能模式切换代码模式
 		document.getElementById("iframe").style.display='none';
+		document.getElementById("iframe").style.marginTop='0px';
 		document.getElementById("htmlMode").style.display='';
 		
 		//判断一下，如果模版页面不是正常的HTML模版，那么在切换到代码模式时，不进行赋值textarea的操作
@@ -282,6 +284,7 @@ function htmledit_mode(){
 		//由代码模式切换智能模式
 		
 		document.getElementById("iframe").style.display='';
+		document.getElementById("iframe").style.marginTop='38px';
 		document.getElementById("htmlMode").style.display='none';
 		
 		//将editormd的值转到textarea中
