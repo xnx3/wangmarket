@@ -766,7 +766,7 @@ public class PluginManageController extends BasePluginController {
 	/**
 	 * 扫描与插件有关的IOC组件
 	 * @author 李鑫
-	 * @param pluginId插件的id
+	 * @param pluginId 插件的id
 	 * @return 与插件有关的IOC组件的Class列表
 	 * @throws IOException
 	 */
@@ -916,8 +916,10 @@ public class PluginManageController extends BasePluginController {
 		FileUtil.copyFile(shortTimeFile.getAbsolutePath(), uploadFile.getAbsolutePath());
 		
 		//删除临时文件
-		shortTimeFile.delete();
-		
+		boolean delete = shortTimeFile.delete();
+		if(!delete) {
+			shortTimeFile.delete();
+		}
 		// 设置插件信息
 		application = new Application();
 		application.setId(pluginId);

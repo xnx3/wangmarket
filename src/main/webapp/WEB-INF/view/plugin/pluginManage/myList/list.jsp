@@ -98,7 +98,7 @@ function versionFormat(version){
 </div>
 <a id = "downPlugin" href = ""></a>
 <!-- 通用分页跳转 -->
-<jsp:include page="../../../iw/common/page.jsp"></jsp:include>
+<%-- <jsp:include page="../../../iw/common/page.jsp"></jsp:include> --%>
 
 <script type="text/javascript">
 
