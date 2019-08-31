@@ -67,6 +67,10 @@ import net.sf.json.JSONObject;
 @RequestMapping("/plugin/pluginManage/")
 public class PluginManageController extends BasePluginController {
 	
+	public PluginManageController() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Resource
 	private PluginService pluginService;
 	
@@ -79,7 +83,7 @@ public class PluginManageController extends BasePluginController {
 	/**
 	 * 当前已经安装的插件
 	 */
-	private Map<String, SitePluginBean> pluginMap;
+	private static Map<String, SitePluginBean> installedPluginMap;
 	
 	/**
 	 * 筛选出与插件相关的文件夹
@@ -115,9 +119,10 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/upgradePlugin${url.suffix}")
-	public BaseVO upgradePlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "") 
-			String pluginId, @RequestParam(value = "version", required = false, defaultValue = "") 
-			String version,HttpServletRequest request) throws ClassNotFoundException, IOException {
+	public BaseVO upgradePlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId, 
+			@RequestParam(value = "version", required = false, defaultValue = "") String version) 
+					throws ClassNotFoundException, IOException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
@@ -207,12 +212,12 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		// 卸载插件
-		BaseVO unIstallBaseVO = unIstallPlugin(pluginId, request);
+		BaseVO unIstallBaseVO = unIstallPlugin(request, pluginId);
 		if(unIstallBaseVO.getResult() == 0) {
 			return error("插件卸载已安装版本时出错");
 		}
 		// 安装最新版本的插件
-		BaseVO istallBaseVO = installYunPlugin(pluginId, request);
+		BaseVO istallBaseVO = installYunPlugin(request, pluginId);
 		if(istallBaseVO.getResult() == 0) {
 			return error("插件安装最新版本时出错");
 		}
@@ -222,7 +227,7 @@ public class PluginManageController extends BasePluginController {
 		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
 		Class<?> forName = Class.forName(className);
 		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-		pluginMap.put(pluginId, sitePluginBean);
+		installedPluginMap.put(pluginId, sitePluginBean);
 		//添加动作日志
 		ActionLogCache.insert(request, "升级插件", "升级ID为" + pluginId + "的插件");
 		
@@ -239,8 +244,8 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/unIstallPlugin${url.suffix}")
-	public BaseVO unIstallPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, HttpServletRequest request) throws ClassNotFoundException, IOException {
+	public BaseVO unIstallPlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) throws ClassNotFoundException, IOException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
@@ -316,7 +321,7 @@ public class PluginManageController extends BasePluginController {
 		SitePluginBean sitePluginBean = new SitePluginBean(forName);
 		setPagePluginMenu(pluginId, sitePluginBean, 0);
 		// 在缓存插件中移除
-		pluginMap.remove(pluginId);
+		installedPluginMap.remove(pluginId);
 		//添加动作日志
 		ActionLogCache.insert(request, "卸载插件", "卸载ID为" + pluginId + "的插件");
 		return success();
@@ -385,8 +390,9 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/installPlugin${url.suffix}")
-	public BaseVO installPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
+	public BaseVO installPlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
+					throws IOException, ClassNotFoundException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
@@ -398,7 +404,7 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断插件是否已经安装
 		 */
-		if(pluginMap.get(pluginId) != null) {
+		if(installedPluginMap.get(pluginId) != null) {
 			return error("该插件您已安装或者与本地插件ID发生冲突。");
 		}
 		
@@ -469,7 +475,7 @@ public class PluginManageController extends BasePluginController {
 		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
 		Class<?> forName = Class.forName(className);
 		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-		pluginMap.put(pluginId, sitePluginBean);
+		installedPluginMap.put(pluginId, sitePluginBean);
 		// 添加功能插件菜单
 		setPagePluginMenu(pluginId, sitePluginBean, 1);
 		//添加动作日志
@@ -491,8 +497,9 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/installYunPlugin${url.suffix}")
-	public BaseVO installYunPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
+	public BaseVO installYunPlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
+					throws IOException, ClassNotFoundException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
@@ -534,7 +541,7 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断插件是否已经安装
 		 */
-		if(pluginMap.get(pluginId) != null) {
+		if(installedPluginMap.get(pluginId) != null) {
 			return error("该插件您已安装或者与本地插件ID发生冲突。");
 		}
 		
@@ -648,7 +655,7 @@ public class PluginManageController extends BasePluginController {
 		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
 		Class<?> forName = Class.forName(className);
 		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-		pluginMap.put(pluginId, sitePluginBean);
+		installedPluginMap.put(pluginId, sitePluginBean);
 		// 添加功能插件菜单
 		setPagePluginMenu(pluginId, sitePluginBean, 1);
 		//添加动作日志
@@ -723,8 +730,8 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * eclipse下特有的文件夹
 		 */
-		if(new File(pluginMap.get("rootPath") + "META-INF" + File.separator + "resources" + File.separator + "installPlugin" + File.separator).exists()) {
-			deleteDirectory(new File(pluginMap.get("rootPath") + "META-INF" + File.separator + "resources" + File.separator + "installPlugin" + File.separator), false);
+		if(new File(installedPluginMap.get("rootPath") + "META-INF" + File.separator + "resources" + File.separator + "installPlugin" + File.separator).exists()) {
+			deleteDirectory(new File(installedPluginMap.get("rootPath") + "META-INF" + File.separator + "resources" + File.separator + "installPlugin" + File.separator), false);
 		}
 		
 	}
@@ -804,16 +811,17 @@ public class PluginManageController extends BasePluginController {
 	 * 更新插件压缩文件
 	 * @author 李鑫
 	 * @param file 需要上传的文件
-	 * @param pluginId 上传的插件问价的id
+	 * @param pluginId 上传的插件文件的id
 	 * @return {@link com.xnx3.BaseVO} result：1：成功；2：失败、info：失败原因
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
 	@ResponseBody
 	@RequestMapping("/uploadZip${url.suffix}")
-	public BaseVO uploadZip(@RequestParam(value = "file", required = false)
-			MultipartFile file, HttpServletRequest request, @RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
-			throws IllegalStateException, IOException {
+	public BaseVO uploadZip(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId, 
+			@RequestParam(value = "file", required = false) MultipartFile file) 
+					throws IllegalStateException, IOException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
@@ -981,11 +989,11 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		menuTitle = Safety.xssFilter(menuTitle.trim());		
 		//获取当前已经安装的所有的插件
-		if(pluginMap == null) {
-			pluginMap = pluginService.getCurrentPluginMap();
+		if(installedPluginMap == null) {
+			installedPluginMap = pluginService.getCurrentPluginMap();
 		}
 		// 循环遍历安装的map
-		for (Map.Entry<String, SitePluginBean> entry : pluginMap.entrySet()) {
+		for (Map.Entry<String, SitePluginBean> entry : installedPluginMap.entrySet()) {
 			// 根据插件名称搜索插件
 			if(entry.getValue().getMenuTitle().indexOf(menuTitle) != -1) {
 				pluginList.add(entry.getValue());
@@ -1017,8 +1025,10 @@ public class PluginManageController extends BasePluginController {
 	 * @return
 	 */
 	@RequestMapping("/yunList${url.suffix}")
-	public String yunList(HttpServletRequest request ,Model model,@RequestParam(value = "menu_title", required = false
-			, defaultValue = "") String menuTitle){
+	public String yunList(HttpServletRequest request ,Model model,
+			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
+		
+		
 		List<Application> list = new LinkedList<Application>();
 		// 将云端插件保存
 		list.addAll(YunPluginMessageCache.applicationList);
@@ -1042,7 +1052,11 @@ public class PluginManageController extends BasePluginController {
 		model.addAttribute("list", list);
 		model.addAttribute("page", YunPluginMessageCache.page);
 		model.addAttribute("isUnAuth", Authorization.copyright);
-		model.addAttribute("pluginIds", pluginMap.toString());
+		// 初始化安装的插件信息
+		if(installedPluginMap == null) {
+			installedPluginMap = pluginService.getCurrentPluginMap();
+		}
+		model.addAttribute("pluginIds", installedPluginMap.toString());
 		return "/plugin/pluginManage/yunList/list";
 	}
 	
@@ -1052,8 +1066,8 @@ public class PluginManageController extends BasePluginController {
 	 * @param pluginId 查询的插件id
 	 */
 	@RequestMapping("queryYunPluginById${url.suffix}")
-	public String queryYunPluginById(@RequestParam(value = "plugin_id", required = false, defaultValue = "") 
-			String pluginId, Model model) {
+	public String queryYunPluginById(Model model, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		// 传递插件信息到页面
@@ -1069,8 +1083,9 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/deletePlugin${url.suffix}")
-	public BaseVO deletePlugin(@RequestParam(value = "plugin_id" , required = false, defaultValue = "")
-			String pluginId,HttpServletRequest request) {
+	public BaseVO deletePlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id" , required = false, defaultValue = "")
+			String pluginId) {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);		
@@ -1095,8 +1110,8 @@ public class PluginManageController extends BasePluginController {
 	 */
 	private List<Application> setPluginInstallState(List<Application> list) {
 		//如果已安装插件缓存为空 ，进行初始化处理
-		if(pluginMap == null ) {
-			pluginMap = pluginService.getCurrentPluginMap();
+		if(installedPluginMap == null ) {
+			installedPluginMap = pluginService.getCurrentPluginMap();
 		}
 		Application application = null;
 		//循环遍历需要检验的插件列表
@@ -1104,7 +1119,7 @@ public class PluginManageController extends BasePluginController {
 		while (iterator.hasNext()) {
 			application = iterator.next();
 			//如果当前校验的插件在安装插件缓存中存在设置为安装状态。否则反之
-			if(pluginMap.get(application.getId()) != null) {
+			if(installedPluginMap.get(application.getId()) != null) {
 				application.setInstallState((short) 1); 
 			}else {
 				application.setInstallState((short) 0); 
@@ -1119,8 +1134,8 @@ public class PluginManageController extends BasePluginController {
 	 * @param pluginId 上传文件的插件id
 	 */
 	@RequestMapping("/upload${url.suffix}")
-	public String uploadZipFile(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, Model model) {
+	public String uploadZipFile(Model model, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
@@ -1137,8 +1152,8 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/exportPlugin${url.suffix}")
-	public BaseVO exportPlugin(@RequestParam(value = "plugin_id", required = false, defaultValue = "")
-			String pluginId, HttpServletRequest request) throws IOException, ClassNotFoundException {
+	public BaseVO exportPlugin(HttpServletRequest request, 
+			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) throws IOException, ClassNotFoundException {
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);	

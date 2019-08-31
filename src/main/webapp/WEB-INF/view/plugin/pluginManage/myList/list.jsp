@@ -62,24 +62,21 @@ function versionFormat(version){
 				<td style="text-align: center;">
 					 <botton
 						class="layui-btn layui-btn-sm"
-						onclick="deletePlugin('${plugin.id }','${plugin.menuTitle }')" style="margin-left: 3px;">
+						onclick="deletePlugin('${plugin.id }','${plugin.menuTitle }')">
 					<i class="layui-icon" title="删除">&#xe640;</i>
 					</botton> <c:if
 						test="${plugin.installState == 0 }">
 						<botton class="layui-btn layui-btn-sm"
-							onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')"
-							style="margin-left: 3px;">
+							onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')">
 						<i class="layui-icon" title="安装">&#xe61f;</i></botton>
 					</c:if>
 					</botton> 
 					<botton class="layui-btn layui-btn-sm"
-						onclick="upload('${plugin.id }')"
-						style="margin-left: 3px;">
+						onclick="upload('${plugin.id }')">
 					<i class="layui-icon" title="上传、更新">&#xe681;</i>
 					</botton>
 					<a class="layui-btn layui-btn-sm"
-					  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')"
-					  style="margin-left: 3px;">
+					  onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')">
 					  <i title = "导出" class="layui-icon">&#xe601;</i>
 				    </a>
 				</td>
@@ -97,7 +94,7 @@ function versionFormat(version){
 	&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
 <div style="height: 100%;text-align: right;padding-right:40px; font-size: 16px;">
-	<span style="color: red;"></span><a href = "http://wang.market/16664.html" style="color: gray;" target = "_blank">&nbsp;点击查看插件压缩包规范文档&nbsp;</a>
+	<span style="color: red;"></span><a href = "http://help.wang.market/16664.html" style="color: gray;" target = "_blank">&nbsp;点击查看插件压缩包规范文档&nbsp;</a>
 </div>	
 <a id = "downPlugin" href = ""></a>
 <!-- 通用分页跳转 -->

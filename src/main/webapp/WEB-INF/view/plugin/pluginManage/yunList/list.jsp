@@ -23,9 +23,9 @@
 //判断表格显示是或者否
 function yesOrNo(code) {
 	if(code == 1){
-		document.write('是');
+		document.write('<i class="layui-icon" style = "color:green;">&#x1005;</i>');
 	}else {
-		document.write('否');
+		document.write('<i class="layui-icon" style = "color:#EE4926;">&#x1007;</i>');
 	}
 }
 
@@ -58,14 +58,12 @@ function versionFormat(version){
 		<th style="text-align: center;">插件ID</th>
         <th style="text-align: center;">插件名称</th>
         <th style="text-align: center;">作者名称</th>
-        <th style="text-align: center;">是否开源</th>
         <th style="text-align: center;">支持Mysql</th>
         <th style="text-align: center;">支持Sqlite</th>
         <th style="text-align: center;">插件版本</th>
+        <th style="text-align: center;width: 150px;">最低网市场版本</th>
         <th style="text-align: center;width: 100px;">操作</th>
     </tr>
-     
-     
   </thead>
   <tbody id="tbody">
   		<c:forEach var="plugin" items="${list }">
@@ -73,23 +71,23 @@ function versionFormat(version){
 			<td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')">${plugin.id }</td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')">${plugin.menuTitle }</td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')">${plugin.authorName }</td>
-	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>yesOrNo('${plugin.supportFreeVersion}')</script></td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>yesOrNo('${plugin.supportMysql}')</script></td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>yesOrNo('${plugin.supportSqlite}')</script></td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>versionFormat('${plugin.version }')</script></td>
+	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>versionFormat('${plugin.wangmarketVersionMin }')</script></td>
 	        <td style="text-align: center;width: 100px;">
 	        	<!-- 已授权用户 -->
 	        	<c:if test="${isUnAuth == false }">
 	        		<c:choose>
 			   			<c:when test="${plugin.supportAuthorizeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth(true)" style="width: 80px;font-size:12px;line-height: 30px;height: 30px;text-align: center;">需未授权</botton>
+			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth(true)" style="width: 80px;font-size:14px;line-height: 30px;height: 30px;text-align: center;padding:0 10px 0 10px;">需未授权</botton>
 			   			</c:when>
 			   			<c:otherwise>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false }">
-			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe61f;安装</i></botton>
+			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
 			   				</c:if>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-			   					<botton class="layui-btn layui-btn-sm" onclick="javascript:;" style="margin-left: 3px;"><i class="layui-icon">&#x1005;已安装</i>
+			   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;"><i class="layui-icon" style="font-size:15px;text-align: center;">已安装</i>
 			   				</c:if>
 			   			</c:otherwise>
 		   			</c:choose>
@@ -103,14 +101,14 @@ function versionFormat(version){
 			   		<!-- 判断未授权用户是否可以使用 -->
 			   		<c:choose>
 			   			<c:when test="${plugin.supportFreeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth()" style="width: 80px;font-size:12px;line-height: 30px;height: 30px;text-align: center;">需授权</botton>
+			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth()" style="width: 80px;font-size:15px;line-height: 30px;height: 30px;text-align: center;">需授权</botton>
 			   			</c:when>
 			   			<c:otherwise>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false}">
-			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe61f;安装</i></botton>
+			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
 			   				</c:if>
 			   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-			   					<botton class="layui-btn layui-btn-sm" onclick="javascript:;" style="margin-left: 3px;"><i class="layui-icon">&#x1005;已安装</i>
+			   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;width: 80px"><i class="layui-icon"  style="font-size:15px;text-align: center;">已安装</i>
 			   				</c:if>
 			   			</c:otherwise>
 			   		</c:choose>
@@ -120,39 +118,7 @@ function versionFormat(version){
     </c:forEach>
   </tbody>
 </table>
-<style>
-	#xnx3_page{
-		width:100%;
-		padding-top:15px;
-		padding-bottom: 20px;
-	}
-	#xnx3_page ul{
-		width: 100%;
-		text-align: center;
-	}
-	#xnx3_page ul li{
-		display: inline-block;
-	    vertical-align: middle;
-	    border: 1px solid #e2e2e2;
-	    background-color: #fff;
-	    padding-right: 1px;
-    	padding-left: 1px;
-	}
-	#xnx3_page ul .xnx3_page_currentPage, #xnx3_page ul .xnx3_page_currentPage a{
-		background-color: #009688;
-		color:#fff;
-	}
-	#xnx3_page ul li a{
-	 	padding: 0 15px;
-	 	height: 30px;
-	    line-height: 30px;
-	    background-color: #fff;
-	    color: #333;
-	 }
-</style>
-<div id="xnx3_page">
-	
-</div>
+
 
 <script type="text/javascript">
 
@@ -178,7 +144,7 @@ function installPlugin(pluginId, pluginName) {
 		    			});
 			    	}else {
 			    		parent.iw.msgSuccess('安装成功');
-			    		parent.parent.window.location.reload();	//刷新当前页
+			    		window.location.href = 'http://localhost:8080/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
 			    	}
 			     }else if(data.result == 0){
 			         parent.iw.msgFailure(data.info);

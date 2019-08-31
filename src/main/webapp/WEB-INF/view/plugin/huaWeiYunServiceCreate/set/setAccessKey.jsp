@@ -25,7 +25,7 @@
   </tbody>
 </table>
 <div style="height: 80px;line-height: 80px;text-align: right;padding-right:40px; font-size: 16px;">
-	<span style="color: red;">注：</span>如果您尚未了解华为云Access Key Id 和 secret Access Keyd等信息，请<a href = "http://wang.market/16666.html" style="color: blue;" target = "_blank">&nbsp;点击这里&nbsp;</a>查看帮助文档
+	<span style="color: red;">注：</span>如果您尚未了解华为云Access Key Id 和 secret Access Keyd等信息，请<a href = "http://help.wang.market/16666.html" style="color: blue;" target = "_blank">&nbsp;点击这里&nbsp;</a>查看帮助文档
 </div>	
 
 <script type="text/javascript">

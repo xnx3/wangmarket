@@ -16,13 +16,13 @@
 		</div>
 		<ul class="">
 			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('myList.do');" >我开发的插件</a>
+				<a href="javascript:loadUrl('myList.do');" >开发插件列表</a>
 			</li>
 			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('installList.do');" >安装插件管理</a>
+				<a href="javascript:loadUrl('installList.do');" >安装插件列表</a>
 			</li>
 			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('yunList.do');" >云端插件库</a>
+				<a href="javascript:loadUrl('yunList.do');" >插件云市场</a>
 			</li>
 			
 			<!-- 
@@ -44,7 +44,7 @@
 	</div>
 	
 	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
-		<iframe src="/plugin/pluginManage/myList.do" id="iframe" frameborder="0" style="width:100%; height:100%;"></iframe>
+		<iframe src="/plugin/pluginManage/yunList.do" id="iframe" frameborder="0" style="width:100%; height:100%;"></iframe>
 	</div>
 </div>
 
