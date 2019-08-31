@@ -16,10 +16,10 @@ public class VersionUtil {
 	 * 		<br/>bug版本：三位数，如 001
 	 *  如:
 	 * 		<ul>
-	 * 			<li>4009001 转化为 4.9.1</li>
-	 * 			<li>4009000 转化为 4.9</li>
-	 * 			<li>4000000 转化为 4.0</li>
-	 * 			<li>11009021 转化为 11.9.21</li>
+	 * 			<li> 4 009 001 转化为 4.9.1</li>
+	 * 			<li> 4 009 000 转化为 4.9</li>
+	 * 			<li> 4 000 000 转化为 4.0</li>
+	 * 			<li>11 009 021 转化为 11.9.21</li>
 	 *  	</ul>
 	 * @return 字符串 如： 4.9.1  、 4.8 、 5.0  
 	 */
@@ -54,18 +54,35 @@ public class VersionUtil {
 	/**
 	 * 将 String 格式版本号转化为int格式 ，如:
 	 * 		<ul>
-	 * 			<li>4.9.1 转化为 400900100</li>
-	 * 			<li>4.9 转化为 400900000</li>
-	 * 			<li>4.0 转化为 400000100</li>
+	 * 			<li>4.9.1 转化为  4 009 001</li>
+	 * 			<li>4.9 转化为 	 4 009 000</li>
+	 * 			<li>4.0 转化为 	 4 000 000</li>
+	 * 			<li>42.1 转化为 	42 001 000</li>
 	 *  	</ul>
-	 * @return 字符串 如： 4.9.1  、 4.8 、 5.0  
+	 * @return int 。如果转换失败，则返回 0
 	 */
 	public static int strToInt(String version){
+		if(version == null){
+			return 0;
+		}
+		if (version.split("\\.").length == 2) {
+			//如： 4.8  那么就补上 .0 变为 4.8.0
+			version = version + ".0";
+		}
+		String[] vers = version.split("\\.");
+		if(vers.length != 3){
+			//异常，不应该存在的
+			return 0;
+		}
 		
-		return 0;
+		int firstVersion = Lang.stringToInt(vers[0], 0);
+		int twoVersion = Lang.stringToInt(vers[1], 0);
+		int threeVersion = Lang.stringToInt(vers[2], 0);
+		
+		return firstVersion*1000000 + twoVersion*1000 + threeVersion;
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(intToStr(10010001));;
+		System.out.println(strToInt("4.8"));;
 	}
 }
