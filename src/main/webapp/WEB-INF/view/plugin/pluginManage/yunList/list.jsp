@@ -76,43 +76,49 @@ function versionFormat(version){
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>versionFormat('${plugin.version }')</script></td>
 	        <td style="text-align: center;cursor:pointer;" onclick="pluginView('${plugin.id }')"><script>versionFormat('${plugin.wangmarketVersionMin }')</script></td>
 	        <td style="text-align: center;width: 100px;">
-	        	<!-- 已授权用户 -->
-	        	<c:if test="${isUnAuth == false }">
-	        		<c:choose>
-			   			<c:when test="${plugin.supportAuthorizeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth(true)" style="width: 80px;font-size:14px;line-height: 30px;height: 30px;text-align: center;padding:0 10px 0 10px;">需未授权</botton>
-			   			</c:when>
-			   			<c:otherwise>
-			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false }">
-			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
-			   				</c:if>
-			   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-			   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;"><i class="layui-icon" style="font-size:15px;text-align: center;">已安装</i>
-			   				</c:if>
-			   			</c:otherwise>
-		   			</c:choose>
-	        	</c:if>
-		    	<!-- 判断检查是否已经安装 -->
+	        <c:choose>
+	        	<c:when test="${fn:contains(unSupportPluginId, plugin.id) == true }">
+	        		<botton class="layui-btn layui-btn-disabled" onclick="showUnSupport()" style="width: 80px;font-size:14px;line-height: 30px;height: 30px;text-align: center;padding:0 10px 0 10px;">不支持</botton>
+	        		
+	        	</c:when>
+	        	<c:otherwise>
+	        		<!-- 已授权用户 -->
+		        	<c:if test="${isUnAuth == false }">
+		        		<c:choose>
+				   			<c:when test="${plugin.supportAuthorizeVersion == 0 }">
+				   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth(true)" style="width: 80px;font-size:14px;line-height: 30px;height: 30px;text-align: center;padding:0 10px 0 10px;">需未授权</botton>
+				   			</c:when>
+				   			<c:otherwise>
+				   				<c:if test="${fn:contains(pluginIds, plugin.id) == false }">
+				   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
+				   				</c:if>
+				   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
+				   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;"><i class="layui-icon" style="font-size:15px;text-align: center;">已安装</i>
+				   				</c:if>
+				   			</c:otherwise>
+			   			</c:choose>
+		        	</c:if>
+			    	<!-- 判断检查是否已经安装 -->
 			    
-				    
-		    
-			    <!-- 未授权用户 -->
-			    <c:if test="${isUnAuth ==true }">
-			   		<!-- 判断未授权用户是否可以使用 -->
-			   		<c:choose>
-			   			<c:when test="${plugin.supportFreeVersion == 0 }">
-			   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth()" style="width: 80px;font-size:15px;line-height: 30px;height: 30px;text-align: center;">需授权</botton>
-			   			</c:when>
-			   			<c:otherwise>
-			   				<c:if test="${fn:contains(pluginIds, plugin.id) == false}">
-			   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
-			   				</c:if>
-			   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-			   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;width: 80px"><i class="layui-icon"  style="font-size:15px;text-align: center;">已安装</i>
-			   				</c:if>
-			   			</c:otherwise>
-			   		</c:choose>
-		    	</c:if>
+				    <!-- 未授权用户 -->
+				    <c:if test="${isUnAuth ==true }">
+				   		<!-- 判断未授权用户是否可以使用 -->
+				   		<c:choose>
+				   			<c:when test="${plugin.supportFreeVersion == 0 }">
+				   				<botton class="layui-btn layui-btn-disabled" onclick="showUnAuth()" style="width: 80px;font-size:15px;line-height: 30px;height: 30px;text-align: center;">需授权</botton>
+				   			</c:when>
+				   			<c:otherwise>
+				   				<c:if test="${fn:contains(pluginIds, plugin.id) == false}">
+				   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
+				   				</c:if>
+				   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
+				   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;width: 80px"><i class="layui-icon"  style="font-size:15px;text-align: center;">已安装</i>
+				   				</c:if>
+				   			</c:otherwise>
+				   		</c:choose>
+			    	</c:if>
+	        	</c:otherwise>
+	        </c:choose>
 	        </td>
 	    </tr>
     </c:forEach>
@@ -172,6 +178,10 @@ function showUnAuth(auth) {
 		window.location.href = 'http://www.leimingyun.com/price.html';	
 	}
 	
+}
+
+function showUnSupport() {
+	iw.msgFailure("您当前环境不支持该插件");
 }
 
 //查看插件详情信息

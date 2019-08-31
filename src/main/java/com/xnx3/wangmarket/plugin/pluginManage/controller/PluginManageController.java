@@ -67,10 +67,6 @@ import net.sf.json.JSONObject;
 @RequestMapping("/plugin/pluginManage/")
 public class PluginManageController extends BasePluginController {
 	
-	public PluginManageController() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	@Resource
 	private PluginService pluginService;
 	
@@ -508,6 +504,22 @@ public class PluginManageController extends BasePluginController {
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
 		}
+		
+		/*
+		 * 判断当前使用的数据库是否满足插件要求
+		 */
+		String dataBaseType = applicationContext.getEnvironment().getProperty("spring.datasource.url");
+		if(dataBaseType.indexOf("mysql") > -1) {
+			if(YunPluginMessageCache.applicationMap.get(pluginId).getSupportMysql() == 0) {
+				return error("该插件不支持MySQL数据库");
+			}
+		}
+		if(dataBaseType.indexOf("sqlite") > -1) {
+			if(YunPluginMessageCache.applicationMap.get(pluginId).getSupportSqlite() == 0) {
+				return error("该插件不支持Sqlite数据库");
+			}
+		}
+		
 		/*
 		 * 判断当前网市场版本是否满足插件所支持的网市场最小版本
 		 */
@@ -1047,16 +1059,45 @@ public class PluginManageController extends BasePluginController {
 				}
 			}
 		}
+		/*
+		 * 判断当前使用的数据库是否满足插件要求
+		 */
+		String dataBaseType = applicationContext.getEnvironment().getProperty("spring.datasource.url");
+		// 保存当前使用的数据库类型不支持的插件Id
+		List<String> noSupportPluginIdList = new ArrayList<String>();
+		// 如果是MySql环境，则把不支持MySQL的插件进行保存
+		if(dataBaseType.indexOf("mysql") > -1) {
+			Iterator<Application> iterator = YunPluginMessageCache.applicationList.iterator();
+			while (iterator.hasNext()) {
+				Application application = (Application) iterator.next();
+				if(application.getSupportMysql() == 0) {
+					noSupportPluginIdList.add(application.getId());
+				}
+			}
+		}
+		// 如果是Sqlite环境，则把不支持Sqlite的插件进行保存
+		if(dataBaseType.indexOf("sqlite") > -1) {
+			Iterator<Application> iterator = YunPluginMessageCache.applicationList.iterator();
+			while (iterator.hasNext()) {
+				Application application = (Application) iterator.next();
+				if(application.getSupportSqlite() == 0) {
+					noSupportPluginIdList.add(application.getId());
+				}
+			}
+		}
 		
 		// 将已经安装的插件id放入缓存中
 		model.addAttribute("list", list);
 		model.addAttribute("page", YunPluginMessageCache.page);
+		// 将授权信息转到前端
 		model.addAttribute("isUnAuth", Authorization.copyright);
 		// 初始化安装的插件信息
 		if(installedPluginMap == null) {
 			installedPluginMap = pluginService.getCurrentPluginMap();
 		}
 		model.addAttribute("pluginIds", installedPluginMap.toString());
+		// 将当前环境不支持的插件Id转到前端页面啊
+		model.addAttribute("unSupportPluginId", noSupportPluginIdList);
 		return "/plugin/pluginManage/yunList/list";
 	}
 	
