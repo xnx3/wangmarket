@@ -588,4 +588,14 @@ public class AttachmentFile {
 		return getStorageMode().getDirectorySize(path);
 	}
 	
+	/**
+	 * 已废弃！使用时请用 LocalServerMode.directoryInit(String)
+	 * <br/>目录检测，检测是否存在。若不存在，则自动创建目录。适用于使用本地磁盘进行存储
+	 * @param path 要检测的目录，相对路径，如 jar/file/  创建到file文件，末尾一定加/     或者jar/file/a.jar创建懂啊file文件
+	 * @deprecated
+	 * @see LocalServerMode#directoryInit(String)
+	 */
+	public static void directoryInit(String path){
+		LocalServerMode.directoryInit(path);
+	}
 }

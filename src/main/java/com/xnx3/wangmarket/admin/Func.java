@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.VersionUtil;
 import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.wangmarket.Authorization;
@@ -181,6 +182,10 @@ public class Func {
 					}
 				}
 				Authorization.setDomain(Global.get("AUTO_ASSIGN_DOMAIN"));
+				try {
+					Authorization.setVersion(VersionUtil.strToInt(G.VERSION));
+				} catch (Exception e) {
+				}
 				new Authorization();
 				
 				while(true){
