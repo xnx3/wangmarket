@@ -60,17 +60,24 @@ public class PublicController extends BaseController {
 		
 		/*
 		 * 判断，当访问 index.html 有这么几种情况
-		 * 1. 访问建好的某个网站首页   -- /index.html
+		 * 1. 访问建好的某个网站首页   -- /index.html   有可能用户顶级域名解析过来了，但是还没有在网站后台绑定
 		 * 2. 访问主站(总管理后台)		/index.html
-		 * 3. 网站管理后台中，预览网站		/index.html + session|get参数domain
+		 * 3. 网站管理后台中，预览网站		/index.html + session|get参数domain,不过既然获取了get传来的参数，那么 simpleSiteVO.result 是 success 的
+		 * 
 		 */
 		if(htmlFile.equals("index.html")){
-			//如果访问的是首页，且访问的是masterSiteUrl，那么直接到 login.do
-			if(Global.get("MASTER_SITE_URL").indexOf("://"+request.getServerName()) > 0){
-				//如果是主站，则判断，其后面是否是跟随着get传递的domain参数。若是，则是预览网站。若没有，则是直接访问主站，  跳转到login.do进行登录
-				String d = request.getParameter("domain");
-				if(d == null || d.length() == 0){
-					//用户是直接访问主站，进入登录页面
+			if(simpleSiteVO != null && simpleSiteVO.getResult() - SImpleSiteVO.SUCCESS == 0){
+				//成功，用户直接访问的某个网站首页，肯定不进入登陆页面的
+			}else{
+				/*
+				 * 不正常，因为没有找到对应的网站，那就应该是有两种情况： 
+				 * 1. 访问顶级域名，但是域名解析过来了，但是还没有在网站后台绑定，所以找不到网站
+				 * 2. 访问主站（管理后台）
+				 * 判断一下，到底是1，还是2
+				 */
+				//如果访问的是首页，且访问的是masterSiteUrl，那么直接到 login.do
+				if(Global.get("MASTER_SITE_URL").indexOf("://"+request.getServerName()) > 0){
+					// 访问的是 直接跳转到登陆页面
 					return redirect("login.do");
 				}
 			}
