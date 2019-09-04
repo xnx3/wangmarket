@@ -125,7 +125,6 @@ function versionFormat(version){
   </tbody>
 </table>
 
-
 <script type="text/javascript">
 
 //安装插件
@@ -135,30 +134,72 @@ function installPlugin(pluginId, pluginName) {
 		}, function(){
 			layer.close(dtp_confirm);
 			parent.iw.loading("安装中");    //显示“操作中”的等待提示
-			$.post('/plugin/pluginManage/installYunPlugin.do', {"plugin_id" : pluginId}, function(data){
-			    parent.iw.loadClose();    //关闭“操作中”的等待提示
-			    if(data.result == 1){
-			    	if(data.info == 'restart') {
-			    		var aler = layer.alert('安装成功。该插件需要重新启动当前服务，请稍后重试。<span style="color:red;">注：windows系统tomcat环境下需要手动启动tomcat。</span>', {
-		    			  skin: 'layui-layer-molv' //样式类名
-		    			  ,closeBtn: 0
-		    			}, function(){
-		    				// 关闭弹窗
-		    				layer.close(aler);
-		    				// 重启服务器
-		    				window.location.href = '/plugin/pluginManage/restart.do';
-		    			});
-			    	}else {
-			    		parent.iw.msgSuccess('安装成功');
-			    		parent.parent.window.location.href = '/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
-			    	}
-			     }else if(data.result == 0){
-			         parent.iw.msgFailure(data.info);
-			     }else{
-			         parent.iw.msgFailure();
-			     }
+			$.ajax({
+				url:'/plugin/pluginManage/installYunPlugin.do?plugin_id=' + pluginId,
+				type:'POST',
+				cache: false,
+				contentType: false,
+				processData: false,
+				success:function(data){
+					parent.iw.loadClose();    //关闭“操作中”的等待提示
+					if(data.result == 1){
+						if(data.info == 'restart') {
+							var aler = layer.alert('安装成功。该插件需要重新启动当前服务，请稍后重试。<span style="color:red;">注：windows系统tomcat环境下需要手动启动tomcat。</span>', {
+						  skin: 'layui-layer-molv' //样式类名
+						  ,closeBtn: 0
+						}, function(){
+							// 关闭弹窗
+							layer.close(aler);
+							// 重启服务器
+							parent.iw.loading("请稍候,此过程大约1分钟左右");
+							$.ajax({
+								url:'/plugin/pluginManage/restart.do',
+						        type:'POST',
+						        cache: false,
+						        contentType: false,
+						        processData: false,
+						        success:function(data){
+						        	if(data.result == '1'){
+						        		//定时器 持续访问后台 直到服务器重启完毕
+						        		window.setInterval("revisit()", 3000);
+								    }
+						        },
+						        error:function(){
+						        }
+							});
+						});
+						}else {
+							parent.iw.msgSuccess('安装成功');
+							parent.parent.window.location.href = '/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
+						}
+					}else if(data.result == 0){
+					     parent.iw.msgFailure(data.info);
+					}else{
+					     parent.iw.msgFailure();
+					}
+ 				},
+ 				error:function(){
+ 			}
 			});
 		}, function(){
+	});
+}
+
+//服务器重启后重新访问后台
+function revisit(){
+	$.ajax({
+		url:'/login.do',
+        type:'POST',
+        contentType: false,    //不可缺
+        processData: false,    //不可缺
+        success:function(data){
+        	if(data != null && data != '' && data != undefined){
+        		parent.iw.loadClose();
+        		parent.parent.window.location.reload();
+		    }
+        },
+        error:function(){
+        }
 	});
 }
 
