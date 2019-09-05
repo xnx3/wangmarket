@@ -687,7 +687,7 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@ResponseBody
 	@RequestMapping("/restart${url.suffix}")
-	public String restartApplication(HttpServletRequest request) {
+	public BaseVO restartApplication(HttpServletRequest request) {
 		//添加动作日志
 		ActionLogCache.insert(request, "启动服务", "因为安装新插件二重启服务器");
 		// 检查当前的运行的环境决定重启的方式
@@ -705,7 +705,7 @@ public class PluginManageController extends BasePluginController {
 			com.Application.restart();
 		}
 		
-		return "";
+		return success();
 	}
 	
 	/**
