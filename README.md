@@ -152,9 +152,3 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 
 ## 开发人员
 [管雷鸣](http://www.guanleiming.com) , [李鑫](https://gitee.com/warm_joy)
-
-
-## 版权声明<br/>
-本软件已申请著作权保护，开源使用 Apache License 2.0 协议。您可以随意修改、发布，或用于商业领域。但首页底部需显式保留我们“网市场”版权标示及我们官方首页的链接！<br/>
-另外提供授权版本，享受更好的服务，比如帮安装部署、使用指导等，参见：[http://www.wang.market/price.html](http://www.leimingyun.com/price.html)
-<br/>
