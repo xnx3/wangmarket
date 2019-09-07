@@ -115,7 +115,7 @@ public class Global {
 			//没有这个值，那么从system这个原始map中找找
 			String s = system.get(systemName);
 			if(s != null){
-				i = Integer.parseInt(s);
+				i = Lang.stringToInt(s, 0);
 				systemForInteger.put(systemName, i);
 			}
 		}
