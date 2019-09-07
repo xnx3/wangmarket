@@ -11,12 +11,13 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * @author 管雷鸣
  */
 public class SimpleSite {
-	private int id;	//site.id
+	private int id;	//site.id ，废弃，用 siteid 代替
 	private String domain;
 	private String bindDomain;
 	private int client;
 	private int templateId;
 	private Short state;
+	private int siteid;	//site.id 
 	
 	/*
 	 * 插件
@@ -36,6 +37,7 @@ public class SimpleSite {
 		plugin = new HashMap<String, Map<String,Object>>();
 		if(site != null){
 			id = site.getId();
+			siteid = id;
 			domain = site.getDomain();
 			client = site.getClient();
 			bindDomain = site.getBindDomain();
@@ -64,18 +66,27 @@ public class SimpleSite {
 		this.plugin = originalSimpleSite.getPlugin();
 		this.state = originalSimpleSite.getState();
 		this.templateId = originalSimpleSite.getTemplateId();
+		this.siteid = this.id;
 		
 		if(this.plugin == null){
 			this.plugin = new HashMap<String, Map<String,Object>>();
 		}
 	}
 	
-	
+	/**
+	 * 废弃，请使用 getSiteid()
+	 * @deprecated
+	 */
 	public int getId() {
 		return id;
 	}
+	/**
+	 * 废弃，请使用 setSiteid()
+	 * @deprecated
+	 */
 	public void setId(int id) {
 		this.id = id;
+		this.siteid = id;
 	}
 	public String getDomain() {
 		return domain;
@@ -123,8 +134,9 @@ public class SimpleSite {
 	}
 
 	/**
+	 * 已废弃，使用 PluginCache
 	 * 根据 key = plugin.id 来判断是否启用了该插件
-	 * @return
+	 * @deprecated
 	 */
 	public Map<String, Map<String,Object>> getPlugin() {
 		if(plugin == null){
@@ -133,6 +145,10 @@ public class SimpleSite {
 		return plugin;
 	}
 
+	/**
+	 * 已废弃，使用 PluginCache
+	 * @deprecated
+	 */
 	public void setPlugin(Map<String, Map<String,Object>> plugin) {
 		this.plugin = plugin;
 	}
@@ -152,6 +168,19 @@ public class SimpleSite {
 		return true;
 	}
 	
+	/**
+	 * 获取 site.id
+	 * @return
+	 */
+	public int getSiteid() {
+		return siteid;
+	}
+
+	public void setSiteid(int siteid) {
+		this.id = siteid;
+		this.siteid = siteid;
+	}
+
 	@Override
 	public String toString() {
 		return "SimpleSite [id=" + id + ", domain=" + domain + ", bindDomain=" + bindDomain + ", client=" + client

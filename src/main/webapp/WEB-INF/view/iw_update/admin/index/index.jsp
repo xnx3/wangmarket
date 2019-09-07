@@ -138,7 +138,10 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</shiro:hasPermission>
 		<script>
 		if(${useDomainLog}){
-			document.getElementById('rizhitongji').style.display='';
+			try{
+				//代理后台是没有这个按钮id的
+				document.getElementById('rizhitongji').style.display='';
+			}catch(e){}
 		}
 		</script>
 		
