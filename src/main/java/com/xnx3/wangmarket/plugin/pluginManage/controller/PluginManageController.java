@@ -120,6 +120,11 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "version", required = false, defaultValue = "") String version) 
 					throws ClassNotFoundException, IOException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}
+		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		version = Safety.xssFilter(version);
@@ -243,6 +248,10 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO unIstallPlugin(HttpServletRequest request, 
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) throws ClassNotFoundException, IOException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		//校验插件id
@@ -390,6 +399,10 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
 					throws IOException, ClassNotFoundException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		// 校验信息
@@ -497,6 +510,10 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) 
 					throws IOException, ClassNotFoundException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		
@@ -688,6 +705,12 @@ public class PluginManageController extends BasePluginController {
 	@ResponseBody
 	@RequestMapping("/restart${url.suffix}")
 	public BaseVO restartApplication(HttpServletRequest request) {
+		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}
+		
 		//添加动作日志
 		ActionLogCache.insert(request, "启动服务", "因为安装新插件二重启服务器");
 		// 检查当前的运行的环境决定重启的方式
@@ -835,6 +858,10 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "file", required = false) MultipartFile file) 
 					throws IllegalStateException, IOException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);
 		// 校验插件id是否合法
@@ -880,7 +907,12 @@ public class PluginManageController extends BasePluginController {
 	@ResponseBody
 	@RequestMapping("addByZip${url.suffix}")
 	public BaseVO uploadPluginZip(MultipartFile file, HttpServletRequest request) throws IOException {
-		// 得到当前的真是路径
+		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
+		// 得到当前的项目真实路径
 		String realPath = request.getServletContext().getRealPath("/");
 		File shortTimeFile = new File(realPath + "shortTimeFile.zip");
 		if(!shortTimeFile.exists()) {
@@ -1127,7 +1159,10 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO deletePlugin(HttpServletRequest request, 
 			@RequestParam(value = "plugin_id" , required = false, defaultValue = "")
 			String pluginId) {
-		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);		
 		//校验插件id是否合法
@@ -1196,6 +1231,10 @@ public class PluginManageController extends BasePluginController {
 	public BaseVO exportPlugin(HttpServletRequest request, 
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) throws IOException, ClassNotFoundException {
 		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error("您没有该功能操作权限");
+		}		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId);	
 		if(pluginId == null || pluginId.trim().equals("")) {
@@ -1317,7 +1356,7 @@ public class PluginManageController extends BasePluginController {
 	 * @param destDirPath 解压到的目标 例如："/User/a/"
 	 * @throws RuntimeException
 	 */
-	public static void unZip(File srcFile, String destDirPath) throws RuntimeException {
+	private void unZip(File srcFile, String destDirPath) throws RuntimeException {
 		// 判断源文件是否存在
 		if (!srcFile.exists()) {
 			throw new RuntimeException(srcFile.getPath() + ",所指文件不存在");
