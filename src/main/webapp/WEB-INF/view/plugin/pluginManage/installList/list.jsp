@@ -40,7 +40,7 @@
 				<!-- 如果是自己开发的插件可以导出 -->
 				<!-- 云端模板库的只能升级了 -->
          		<c:choose>
-         			<c:when test="${fn:contains(ids, plugin.id) }">
+         			<c:when test="${fn:contains(ids, plugin.id) == false }">
          				<a class="layui-btn layui-btn-sm" onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe601;导出</i></a>
          			</c:when>
          			<c:otherwise>

@@ -6,6 +6,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Safety;
@@ -923,7 +925,7 @@ public class PluginManageController extends BasePluginController {
 		 */
 		// 上传到临时文件
 		file.transferTo(shortTimeFile);
-		ZipFile zipFile = new ZipFile(shortTimeFile);
+		ZipFile zipFile = new ZipFile(shortTimeFile, Charset.forName("UTF-8"));
 		// 得到配置文件的输入流
 		ZipEntry entry = zipFile.getEntry("ROOT/system.txt");
 		if(entry == null) {
@@ -940,9 +942,14 @@ public class PluginManageController extends BasePluginController {
 		}
 		inputStream.close();
 		zipFile.close();
+		// 将文件内的UTF-8编码进行常规字符串
+		String content = sBuffer.toString();
+		content = StringUtil.utf8ToString(content);
+		// 转为json格式获取配置信息
+		JSONObject systemObject = JSONObject.fromObject(content);
+		String pluginId = systemObject.getString("pluginId");
+		String menuTitle = systemObject.getString("menuTitle");
 		// 获取id和名称
-		String pluginId = sBuffer.toString().split("-")[0].trim();
-		String menuTitle = sBuffer.toString().split("-")[1].trim();
 		if(YunPluginMessageCache.applicationMap.get(pluginId) != null) {
 			return error("该插件ID与云插件库id重复，请更换ID后上传");
 		}
@@ -977,7 +984,7 @@ public class PluginManageController extends BasePluginController {
 		// 设置插件信息
 		application = new Application();
 		application.setId(pluginId);
-		application.setMenuTitle(menuTitle);
+		application.setMenuTitle(new String(menuTitle.getBytes(), "utf-8"));
 		//更新插件信息
 		sqlService.save(application);
 		
@@ -1045,18 +1052,14 @@ public class PluginManageController extends BasePluginController {
 		}
 		// 获取本地插件的id列表
 		List<String> idList = new LinkedList<String>();
-		// 传入用户本地的插件id列表
-		String sql = "SELECT id FROM application;";
-		// 执行sql语句 返回执行结果
-		List<Map<String, Object>> list = sqlService.findMapBySqlQuery(sql);
 		// 遍历结果
-		Iterator<Map<String, Object>> iterator = list.iterator();
+		Iterator<Application> iterator = YunPluginMessageCache.applicationList.iterator();
 		while (iterator.hasNext()) {
-			Map<String, Object> map = iterator.next();
+			Application application = iterator.next();
 			// 将遍历结果放于list中
-			idList.add((String) map.get("id"));
+			idList.add(application.getId());
 		}
-		// 将用户本地开发的插件id列表传递到页面
+		// 将云插件库的ID信息放到页面中
 		model.addAttribute("ids", idList.toString());
 		model.addAttribute("pluginList", pluginList);
 		return "/plugin/pluginManage/installList/list";
@@ -1243,8 +1246,8 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断要导出的插件是否为用户自己开发的本地插件
 		 */
-		Application application = sqlService.findById(Application.class, pluginId);
-		if(application == null) {
+		Application application = YunPluginMessageCache.applicationMap.get(pluginId);
+		if(application != null) {
 			return error("该插件不是您的本地插件，不支持导出。");
 		}
 		
@@ -1286,7 +1289,13 @@ public class PluginManageController extends BasePluginController {
 			systemFile.createNewFile();
 		}
 		FileOutputStream outputStream = new FileOutputStream(systemFile);
-		String content = pluginId + "-" + sitePluginBean.getMenuTitle();
+		// 将插件信息封装为json配置文件
+		JSONObject json = new JSONObject();
+		json.put("pluginId", pluginId);
+		json.put("menuTitle", sitePluginBean.getMenuTitle());
+		String content = json.toString();
+		// 将配置信息转为UTF8编码进行保存 防止中文。读取是在进行转回
+		content = StringUtil.StringToUtf8(content);
 		byte[] bytes = content.getBytes();
 		outputStream.write(bytes, 0, bytes.length);
 		outputStream.close();
