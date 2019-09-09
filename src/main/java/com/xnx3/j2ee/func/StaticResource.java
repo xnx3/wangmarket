@@ -19,7 +19,7 @@ public class StaticResource {
 	 */
 	public static String getPath(){
 		String path = Global.get(SYSTEM_NAME_PATH);
-		if(path == null || path.length() < 6){
+		if(path == null || path.length() == 0){
 			return "//res.weiunity.com/";
 		}else{
 			return path;

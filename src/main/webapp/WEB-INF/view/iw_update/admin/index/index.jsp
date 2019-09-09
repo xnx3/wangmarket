@@ -146,7 +146,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</script>
 		
 		<shiro:hasPermission name="adminRole"> 
-			<li class="layui-nav-item">
+			<li class="layui-nav-item" id="adminRole">
 				<a href="javascript:;">
 					<i class="layui-icon firstMenuIcon">&#xe628;</i>
 					<span class="firstMenuFont">权限管理</span>
@@ -160,6 +160,14 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 					</shiro:hasPermission>
 				</dl>
 			</li>
+			<script>
+				try{
+					if('<%=Global.getInt("ROLE_ADMIN_SHOW") %>' == '0'){
+						document.getElementById('adminRole').style.display = 'none';
+					}
+				}catch(e){}
+			
+			</script>
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="adminSystem"> 
