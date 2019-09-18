@@ -72,6 +72,22 @@ public class TemplateTagController extends BaseController {
 		Site site = getSite();
 		//站点下的栏目
 		SiteColumn siteColumn = sqlService.findAloneByProperty(SiteColumn.class, "siteid", site.getId());
+		if(siteColumn == null) {
+			siteColumn = new SiteColumn();
+			//栏目的id
+			siteColumn.setId(1);
+			siteColumn.setName("产品中心");
+			//栏目类型
+			siteColumn.setType(SiteColumn.TYPE_ALONEPAGE);
+			//栏目是否启用/显示
+			siteColumn.setUsed(SiteColumn.USED_ENABLE);
+			//栏目代码
+			siteColumn.setCodeName("product");
+			//当前栏目的父栏目代码
+			siteColumn.setParentCodeName("");
+			//栏目图片
+			siteColumn.setIcon("http://cdn.weiunity.com/res/glyph-icons/world.png");
+		}
 		
 		model.addAttribute("siteColumn", siteColumn);
 		return "templateTag/column";
@@ -88,9 +104,25 @@ public class TemplateTagController extends BaseController {
 		//站点下的栏目
 		SiteColumn siteColumn = sqlService.findAloneByProperty(SiteColumn.class, "siteid", site.getId());
 		//通过站点ID跟栏目ID找出对应的文章内容
-		List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE siteid = " + site.getId() + " AND cid = " + siteColumn.getId(), News.class);
-		News news = newsList.get(0);
-		
+		List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE siteid = " + site.getId()+" LIMIT 0,1", News.class);
+		News news = new News();
+		if(siteColumn == null || newsList.size() == 0) {
+			//文章编号
+			news.setId(1);
+			//文章标题
+			news.setTitle("产品周边");
+			//文章的列表图
+			news.setTitlepic("例：http://cdn.weiunity.com/res/glyph-icons/world.png");
+			//文章的简介
+			news.setIntro("这是产品周边");
+			//该文章所属的栏目的编号
+			news.setCid(1);
+			//发布时间
+			news.setAddtime(1568008570);
+		}else {
+			news = newsList.get(0);
+			
+		}
 		model.addAttribute("news", news);
 		return "templateTag/news";
 	}
