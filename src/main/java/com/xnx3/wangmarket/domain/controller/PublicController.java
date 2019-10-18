@@ -104,16 +104,8 @@ public class PublicController extends BaseController {
 				return "domain/welcome";
 			}
 			
-			//v4.11增加
-			String adminUrl = "";	//网站管理后台url
-			if(ApplicationProperties.getProperty("spring.rabbitmq.host") == null){
-				//单服务器部署，用相对路径就可以
-				adminUrl = "/";
-			}else{
-				//多服务器分布式部署，用绝对路径
-				adminUrl = Global.get("MASTER_SITE_URL");
-			}
-			model.addAttribute("adminUrl", adminUrl);
+			//v4.12增加
+			model.addAttribute("adminUrl", getAdminLoginUrl());
 			return "domain/notFindDomain";
 		}else{
 			//判断网站的状态，冻结的网站将无法访问
@@ -141,6 +133,8 @@ public class PublicController extends BaseController {
 					}
 					
 					//已安装过了，正常访问，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
+					//v4.12增加
+					model.addAttribute("adminUrl", getAdminLoginUrl());
 					return "domain/notFindIndexHtml";
 				}
 				return "domain/404";
@@ -189,6 +183,21 @@ public class PublicController extends BaseController {
 				}
 			}
 			return "domain/pc";
+		}
+	}
+	
+	/**
+	 * 返回当前网市场云建站系统登陆的url网址 (不带 login.do)
+	 * @return 登陆url地址，如  http://wang.market/ 
+	 */
+	private String getAdminLoginUrl(){
+		String rabbitmqHost = ApplicationProperties.getProperty("spring.rabbitmq.host");
+		if(rabbitmqHost == null || rabbitmqHost.length() == 0){
+			//单服务器部署，用相对路径就可以
+			return "/";
+		}else{
+			//多服务器分布式部署，用绝对路径
+			return Global.get("MASTER_SITE_URL");
 		}
 	}
 	
