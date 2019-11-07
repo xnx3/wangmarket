@@ -51,7 +51,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">登陆账号</label>
 		<div class="layui-input-block xnx3_input">
-			<input type="text" name="username" id = "username" placeholder="限20个英文或汉字，开通代理后，用户用此账号登陆wang.market管理" autocomplete="off" class="layui-input">
+			<input type="text" name="username" id = "username" placeholder="限20个英文或汉字，开通代理后，用户用此账号进行登陆" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
