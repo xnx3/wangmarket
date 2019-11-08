@@ -182,18 +182,21 @@ public class BaseController {
 	
 	/**
 	 * 重定向跳转页面
-	 * @param redirectUtl 重定向到的url地址
+	 * @param redirectUrl 重定向到的url地址
 	 * 				<ul>
 	 * 					<li>站内跳转，如：user/info.do	内网页面，前面无须/，默认自动补齐之前路径。此便是跳转到当前项目根目录下/user/info.do页面，
-	 * 					<li>站外跳转，如：http://www.xnx3.com	外网页面，写全即可
+	 * 					<li>站外跳转，如：http://www.xnx3.com	外网页面，写全即可，也或者 //www.xnx3.com 也是直接跳转到外网
 	 * 				</ul>
 	 * @return 组合后的字符串，如：redirect:/admin/user/list.do
 	 */
-	public String redirect(String redirectUtl) {
-		if(redirectUtl != null && redirectUtl.indexOf("http")>-1){
-			return "redirect:"+redirectUtl;
+	public String redirect(String redirectUrl) {
+		if(redirectUrl.indexOf("//") == 0){
+			redirectUrl = "http:"+redirectUrl;
+		}
+		if(redirectUrl != null && (redirectUrl.indexOf("http://")>-1 || redirectUrl.indexOf("https://")>-1)){
+			return "redirect:"+redirectUrl;
 		}else{
-			return "redirect:/"+redirectUtl;
+			return "redirect:/"+redirectUrl;
 		}
 	}
 
