@@ -50,6 +50,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 /* 二级菜单 */
 .menu .layui-nav-item .layui-nav-child .subMenuItem{
 	padding-left:48px;
+	font-size: 13px;
 }
 </style>
 
