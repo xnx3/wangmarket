@@ -2,21 +2,35 @@
 <configuration>
 	<!-- 阿里云短信发送 -->
 	<AliyunSMSUtil>
-		<!-- 是否使用此功能。若使用则此为true，若不使用，则下面参数不用管，use为false即可 -->
+		<!-- 是否使用此功能。
+			true : 使用短信功能，下面的参数也要进行配置
+			false : 不使用短信功能，下面的参数就不用管了。
+		 -->
 		<use>false</use>
+		
+		<!-- 区域。不懂可以使用默认的
+			cn-hongkong 	香港
+			cn-hangzhou 	杭州
+		 -->
 		<regionId>cn-hongkong</regionId>
+		
+		<!-- 下面 accessKeyId 、accessKeySecret 如何获取 ，参考 https://help.aliyun.com/document_detail/101339.html -->
 		<accessKeyId></accessKeyId>
 		<accessKeySecret></accessKeySecret>
 		
-		<!-- 短信签名 -->
+		<!-- 短信签名 , 需要到阿里云后台，增加一个签名。 签名增加地址  https://dysms.console.aliyun.com/dysms.htm?#/domestic/text/sign
+			添加一个签名，签名的类型选择 “验证码” 即可。
+		 -->
 		<signName>网市场</signName>
-		<!-- 登陆的短信模版 -->
+		
+		<!-- 注册登陆的短信模版  增加签名完成后，再增加一个短信的模版， 模版增加地址  https://dysms.console.aliyun.com/dysms.htm?#/domestic/text/template
+			添加一个模版，填写如下
+				模版类型:验证码
+				模版名称:注册短信验证
+				模版内容:您当前在网市场注册的短信验证码为${code}
+				申请说明:注册验证
+		 -->
 		<login_templateCode>SMS_44315702</login_templateCode>
-		<!-- 向代理商帐户转移站币，通知接收站币的乙方 -->
-		<agency_siteSizeRecharge_templateCode>SMS_70095340</agency_siteSizeRecharge_templateCode>
-		<!-- 网站使用期限延期(续费)后提醒对方 
-			<siteYanQi_templateCode>SMS_71035143</siteYanQi_templateCode>
-		-->
 	</AliyunSMSUtil>
 	
 	<!-- 授权码。授权参见 https://www.leimingyun.com/price.html 当然，不授权完全可以免费使用，并且可商用 -->

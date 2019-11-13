@@ -62,7 +62,7 @@ public class G {
 	public static String AliyunSMS_SignName = "网市场";	//短信签名
 	public static String AliyunSMS_Login_TemplateCode = "";	//登陆的短信模版
 	public static String AliyunSMS_agencySiteSizeRecharge_TemplateCode = "";	//向代理商帐户转移站币，通知接收站币的乙方
-	public static String AliyunSMS_siteYanQi_templateCode = "";	//网站使用期限延期(续费)后提醒对方的短信模板代码
+//	public static String AliyunSMS_siteYanQi_templateCode = "";	//网站使用期限延期(续费)后提醒对方的短信模板代码
 	
 	public static List<String> wangMarketDomainServerList = new ArrayList<String>();
 	
@@ -103,7 +103,7 @@ public class G {
 				AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
 				AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
 				AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
-				AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
+//				AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
 			}else{
 				Log.info("已开启Aliyun短信发送服务");
 			}
