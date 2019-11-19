@@ -51,6 +51,8 @@ public class SystemUtil {
 			} else if (classesPath.endsWith("WEB-INF/classes/")) {
 				// java web
 				rootPath = classesPath.replace("WEB-INF/classes/", "");
+			}else{
+				rootPath = classesPath;
 			}
 		}
 		return rootPath;

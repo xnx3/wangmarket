@@ -108,9 +108,14 @@ public class Uploader {
 						uploadFile.delete();
 					}
 				}
-
-				state.putInfo("url", OSSClientProperties.ossEndPoint + stateJson.getString("url"));
-				Log.debug("doExec--上传OSS： "+OSSClientProperties.ossEndPoint + stateJson.getString("url"));
+				
+				String uploadPath = stateJson.getString("url"); //上传的路径，如  /site/219/news/20191119/2234234.png
+				if(uploadPath.indexOf("/") == 0){
+					//如果最开始是 / ，那么吧这个去掉
+					uploadPath = uploadPath.substring(1, uploadPath.length());
+				}
+				state.putInfo("url", OSSClientProperties.ossEndPoint + uploadPath);
+				Log.debug("doExec--上传到对象存储： "+OSSClientProperties.ossEndPoint + uploadPath);
 			} else {
 				//绝对路径，而非原本的相对路径
 				String stateStr = stateJson.getString("state");

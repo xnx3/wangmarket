@@ -50,10 +50,9 @@ public class SynUploader extends Thread {
 	public boolean upload(JSONObject stateJson, HttpServletRequest request) {
 		String key = stateJson.getString("url").replaceFirst("/", "");
 		try {
+			Log.debug("upload--fileInputStream file path: "+SystemUtil.getProjectRootPath() + key);			
 			FileInputStream fileInputStream = new FileInputStream(new File(
 					SystemUtil.getProjectRootPath() + key));
-			Log.debug("upload--fileInputStream file path: "+SystemUtil.getProjectRootPath() + key);
-//			PutObjectResult result = ObjectService.putObject(client, OSSClientProperties.bucketName, key, fileInputStream);
 			ObjectService.putObject(key, fileInputStream);
 			
 			return true;
