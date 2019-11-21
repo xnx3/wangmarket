@@ -70,7 +70,7 @@
 Java 1.8、Maven 3.3.9<br/>
 #### IDE开发工具
 Eclipse、MyEclipse <br/>
-[请注意，intellij idea 直接导入运行不起来，报错！点此查看解决方式](http://iw.wscso.com/5877.html)
+请注意，intellij idea 不支持！想二次开发，请用Eclipse、MyEclipse
 #### 步骤
 1. 直接导入maven项目
 2. 运行 com.xnx3.Application 即可运行项目 (SpringBoot 框架，不懂的请先自行补充此框架相关基础知识)
