@@ -111,8 +111,10 @@ public class Uploader {
 				
 				String uploadPath = stateJson.getString("url"); //上传的路径，如  /site/219/news/20191119/2234234.png
 				if(uploadPath.indexOf("/") == 0){
-					//如果最开始是 / ，那么吧这个去掉
-					uploadPath = uploadPath.substring(1, uploadPath.length());
+					//如果最开始是 / ，那么判断一下 OSSClientProperties.ossEndPoint 中，域名最后是否加 / 了，如果加了，那么uploadPath 最开头的的这个/去掉
+					if(OSSClientProperties.ossEndPoint.lastIndexOf("/")+1 == OSSClientProperties.ossEndPoint.length()){
+						uploadPath = uploadPath.substring(1, uploadPath.length());
+					}
 				}
 				state.putInfo("url", OSSClientProperties.ossEndPoint + uploadPath);
 				Log.debug("doExec--上传到对象存储： "+OSSClientProperties.ossEndPoint + uploadPath);
