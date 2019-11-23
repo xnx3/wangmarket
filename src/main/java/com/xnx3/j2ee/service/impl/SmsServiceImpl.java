@@ -5,28 +5,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Safety;
-import com.xnx3.j2ee.service.SmsLogService;
+import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.net.SMSUtil;
 
+/**
+ * 短信
+ * @author 管雷鸣
+ *
+ */
 @Service
-public class SmsLogServiceImpl implements SmsLogService {
+public class SmsServiceImpl implements SmsService {
 	
 	@Resource
 	private SqlDAO sqlDAO;

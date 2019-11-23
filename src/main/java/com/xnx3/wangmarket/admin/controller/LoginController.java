@@ -2,10 +2,8 @@ package com.xnx3.wangmarket.admin.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +18,7 @@ import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.ApiService;
-import com.xnx3.j2ee.service.SmsLogService;
+import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -46,7 +44,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	@Resource
 	private UserService userService;
 	@Resource
-	private SmsLogService smsLogService;
+	private SmsService SmsService;
 	@Resource
 	private SqlService sqlService;
 	@Resource
@@ -124,7 +122,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				return error("此手机号已注册过了！请更换一个手机号吧");
 			}
 			
-			vo = smsLogService.sendByAliyunSMS(request, G.aliyunSMSUtil, G.AliyunSMS_SignName, G.AliyunSMS_Login_TemplateCode,  filter(request.getParameter("phone")), SmsLog.TYPE_REG);
+			vo = SmsService.sendByAliyunSMS(request, G.aliyunSMSUtil, G.AliyunSMS_SignName, G.AliyunSMS_Login_TemplateCode,  filter(request.getParameter("phone")), SmsLog.TYPE_REG);
 			AliyunLog.addActionLog(getSiteId(), "获取手机号验证码"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，用户获取验证码的手机号："+request.getParameter("phone"));
 			if(vo.getResult() - BaseVO.SUCCESS == 0){
 				//如果成功，将info的验证码去掉
@@ -166,7 +164,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		code = filter(code);
 		
 		//判断用户的短信验证码
-//		BaseVO verifyVO = smsLogService.verifyPhoneAndCode(phone, code, SmsLog.TYPE_REG, 300);
+//		BaseVO verifyVO = SmsService.verifyPhoneAndCode(phone, code, SmsLog.TYPE_REG, 300);
 //		if(verifyVO.getResult() - BaseVO.FAILURE == 0){
 //			return verifyVO;
 //		}

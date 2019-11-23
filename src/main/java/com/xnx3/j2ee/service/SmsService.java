@@ -1,14 +1,16 @@
 package com.xnx3.j2ee.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
 
-public interface SmsLogService {
+/**
+ * 手机短信
+ * @author 管雷鸣
+ *
+ */
+public interface SmsService {
 	
 	/**
 	 * 获取当前条件下的这个手机号，当天信息记录有多少
