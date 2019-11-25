@@ -119,6 +119,11 @@ public class Global {
 				systemForInteger.put(systemName, i);
 			}
 		}
+		if(i == null){
+			i = 0;
+		}
+		systemForInteger.put(systemName, i);
+		
 		return i==null? 0:i;
 	}
 	
