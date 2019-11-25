@@ -77,7 +77,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		userService.regInit(request);	//注册记录下线
 		
 		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册");
-		return redirect("plugin/phoneCreateSite/reg.do?inviteid=123");
+		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
 	
 
