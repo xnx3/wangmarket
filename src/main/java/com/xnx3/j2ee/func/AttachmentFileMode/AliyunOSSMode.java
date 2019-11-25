@@ -34,7 +34,12 @@ public class AliyunOSSMode implements StorageModeInterface{
 
 	@Override
 	public String getTextByPath(String path) {
-		OSSObject ossObject = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, path);
+		OSSObject ossObject = null;
+		try {
+			ossObject = OSSUtil.getOSSClient().getObject(OSSUtil.bucketName, path);
+		} catch (com.aliyun.oss.OSSException e) {
+			//path不存在
+		}
 		
 		if(ossObject == null){
 			return null;
