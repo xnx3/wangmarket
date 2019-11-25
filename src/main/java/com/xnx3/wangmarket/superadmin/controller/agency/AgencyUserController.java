@@ -975,18 +975,6 @@ public class AgencyUserController extends BaseController {
 		return success();
 	}
 	
-	
-	/**
-	 * 用户自助创建网站。这里是获取自助创建网站的链接
-	 */
-	@RequiresPermissions("agencyIndex")
-	@RequestMapping("autoCreateSite${url.suffix}")
-	public String autoCreateSite(HttpServletRequest request, Model model){
-		
-		model.addAttribute("useSMS", G.aliyunSMSUtil == null? "1":"0");	//若是使用SMS短信，开启了，则为1，否则没有开通短信的花则为0
-		model.addAttribute("user", getUser());
-		return "agency/autoCreateSite";
-	}
-	
+
 	
 }

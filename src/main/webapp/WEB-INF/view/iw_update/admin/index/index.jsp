@@ -209,19 +209,6 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		
-		<shiro:hasPermission name="agencyIndex">
-			<li class="layui-nav-item" id="useSMS" style="display:none;">
-				<a href="javascript:loadUrl('/agency/autoCreateSite.do');">
-					<i class="layui-icon firstMenuIcon">&#xe857;</i>
-					<span class="firstMenuFont">自助建站</span>
-				</a>
-			</li>
-			<script>
-				if('${useSMS}' == '0'){
-					document.getElementById("useSMS").style.display='';
-				}
-			</script>
-		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="agencyUserList">
 			<li class="layui-nav-item">
