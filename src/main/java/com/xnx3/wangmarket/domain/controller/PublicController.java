@@ -278,7 +278,7 @@ public class PublicController extends BaseController {
 			Log.requestLog(request, requestInfo, simpleSiteVO);
 			
 			HttpResponse hr = http.get(AttachmentFile.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
-			if(hr.getCode() - 404 == 0){
+			if(hr == null || hr.getCode() - 404 == 0){
 				return error404();
 			}else{
 				model.addAttribute("html", hr.getContent());
