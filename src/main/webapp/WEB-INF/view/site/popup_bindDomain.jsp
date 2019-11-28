@@ -42,7 +42,7 @@ li{
 	<div style="color:gray;  padding-bottom: 5px; font-size:14px;">
 		提示：
 		<br/>&nbsp;1. 中文域名无法绑定
-		<br/>&nbsp;2. 如果您想解除域名绑定，可<a href="javascript:parent.bindDomain('');" style="padding:2px; cursor:pointer;">点击此处取消绑定</a>
+		<br/>&nbsp;2. 如果您想解除域名绑定，可<a href="javascript:parent.bindDomain('');" style="padding:2px; cursor:pointer; color: blue; text-decoration: underline;">点击此处取消绑定</a>
 	</div>
 </div>
 
