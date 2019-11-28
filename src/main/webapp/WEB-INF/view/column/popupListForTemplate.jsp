@@ -78,7 +78,7 @@
  */
 function editColumn(siteColumnId, isCopy){
 	var url = '/column/popupColumnForTemplate.do';
-	layer.open({
+	var index = layer.open({
 		type: 2, 
 		//title: false,
 		closeBtn: 1,
@@ -89,6 +89,9 @@ function editColumn(siteColumnId, isCopy){
 		title:false, 
 		closeBtn: 1
 	});
+	layer.style(index, {
+	  overflow: 'hidden'
+	}); 
 }
 
 /**
