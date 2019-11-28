@@ -33,7 +33,7 @@ $(function(){
 	})
 	//当点击时才会出现
 	$("#wangzhanshuxing").click(function(){  
-		layer.open({
+		var wangzhanshuxing_open = layer.open({
 			type: 2,
 			closeBtn: 1, //不显示关闭按钮
 			anim: 3, 
@@ -42,6 +42,9 @@ $(function(){
 			content: masterSiteUrl+'sites/popupInfo.do',
 			title: false
 		});
+		layer.style(wangzhanshuxing_open, {
+		  overflow: 'hidden'
+		}); 
 	})
 	
 	//基本信息

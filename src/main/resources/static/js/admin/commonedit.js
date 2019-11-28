@@ -201,7 +201,7 @@ function openTemplateVarList(){
 
 //打开网站基本信息弹出框
 function openJiBenXinXi(){
-	layer.open({
+	var jibenxinxi_open = layer.open({
 		type: 2,
 		closeBtn: 1, //不显示关闭按钮
 		anim: 3, area:['390px','260px'],
@@ -210,6 +210,9 @@ function openJiBenXinXi(){
 		title: false,
 		closeBtn: 1
 	});
+	layer.style(jibenxinxi_open, {
+	  overflow: 'hidden'
+	}); 
 }
 
 //打开问题反馈弹出框
