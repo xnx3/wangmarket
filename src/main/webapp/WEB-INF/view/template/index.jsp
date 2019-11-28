@@ -104,6 +104,9 @@ var autoAssignDomain = '${autoAssignDomain }';
 	background-color: #393D49;
 	z-index:99;
 }
+.subMenuItem{
+	font-size:13px;
+}
 </style>
 <div style="width:100%;height:100%;">
 
@@ -137,7 +140,7 @@ var autoAssignDomain = '${autoAssignDomain }';
 	<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" />
 	<script src="${STATIC_RESOURCE_PATH}module/editor/editormd.js"></script>
 
-	<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
+	<div id="content" style="width: 100%;height:100%;position: fixed;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
 		<div id="topNav" style="background-color: #2b2e37; color:#009688; height: 38px;line-height: 38px;padding-left: 12px; margin-left:-1px;position: absolute; z-index: 99999999999;width: 100%;">
 			<div style="padding-left: 50px;">

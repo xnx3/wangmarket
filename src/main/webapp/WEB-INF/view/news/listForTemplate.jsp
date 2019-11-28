@@ -17,7 +17,7 @@
 		</ul>
 	</div>
 	
-	<div style="width: 100%;height:100%;position: absolute;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
+	<div style="width: 100%;height:100%;position: fixed;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
 		
 		<jsp:include page="../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 			<jsp:include page="../iw/common/list/formSearch_input.jsp">
