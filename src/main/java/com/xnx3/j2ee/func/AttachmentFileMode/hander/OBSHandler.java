@@ -21,6 +21,7 @@ import com.obs.services.model.ObsObject;
 import com.obs.services.model.PutObjectResult;
 import com.obs.services.model.S3Bucket;
 import com.obs.services.model.StorageClassEnum;
+import com.xnx3.j2ee.vo.UploadFileVO;
 
 /**
  * 华为云OBS对象存储系统操作类
@@ -80,6 +81,19 @@ public class OBSHandler {
 	 * @param url 需要配置的访问OBS的CDN路径 传入的格式如 http://cdn.leimingyun.com/  
 	 */
 	public void setUrlForCDN(String url) {
+		if(url == null){
+			return;
+		}
+		url = url.trim();	//去前后空字符
+		if(url.length() < 2){
+			this.url = url;
+			return;
+		}
+		
+		if(!url.substring(url.length() - 1, url.length()).equals("/")){
+			//如果url末尾没有 / ，那么加上
+			url = url + "/";
+		}
 		this.url = url;
 	}
 	
@@ -196,12 +210,13 @@ public class OBSHandler {
 	 * @param fileName 上传的路径和文件名 例："site/2010/example.txt"
 	 * @param content 上传的String字符
 	 * @param encode 进行转换byte时使用的编码格式 例："UTF-8"
-	 * @return {@link com.obs.services.model.PutObjectResult} 返回上传的结果
+	 * @return {@link UploadFileVO} 返回上传的结果
 	 * @throws UnsupportedEncodingException 
 	 * @throws ObsException 
 	 */
-	public PutObjectResult putStringFile(String bucketName, String fileName, String content, String encode) throws ObsException, UnsupportedEncodingException {
-		return getObsClient().putObject(bucketName, fileName, new ByteArrayInputStream(content.getBytes(encode)));
+	public UploadFileVO putStringFile(String bucketName, String fileName, String content, String encode) throws ObsException, UnsupportedEncodingException {
+		PutObjectResult result = getObsClient().putObject(bucketName, fileName, new ByteArrayInputStream(content.getBytes(encode)));
+		return getUploadFileVO(result);
 	}
 	
 	/**
@@ -210,10 +225,11 @@ public class OBSHandler {
 	 * @param bucketName 操作的桶的名称 例："wangmarket1232311"
 	 * @param fileName 上传的路径和文件名 例："site/2010/example.txt"
 	 * @param localFile 需要上传的文件
-	 * @return {@link com.obs.services.model.PutObjectResult} 返回上传的结果
+	 * @return {@link UploadFileVO} 返回上传的结果
 	 */
-	public PutObjectResult putLocalFile(String bucketName, String fileName, File localFile) {
-		return getObsClient().putObject(bucketName, fileName, localFile);
+	public UploadFileVO putLocalFile(String bucketName, String fileName, File localFile) {
+		PutObjectResult result = getObsClient().putObject(bucketName, fileName, localFile);
+		return getUploadFileVO(result);
 	}
 	
 	/**
@@ -222,10 +238,11 @@ public class OBSHandler {
 	 * @param bucketName 操作的桶的名称 例："wangmarket1232311"
 	 * @param fileName 上传的路径和文件名 例："site/2010/example.txt"
 	 * @param inputStream 上传文件的输入流
-	 * @return {@link com.obs.services.model.PutObjectResult} 返回上传的结果
+	 * @return {@link UploadFileVO} 返回上传的结果
 	 */
-	public PutObjectResult putFileByStream(String bucketName, String fileName, InputStream inputStream) {
-		return getObsClient().putObject(bucketName, fileName, inputStream);
+	public UploadFileVO putFileByStream(String bucketName, String fileName, InputStream inputStream) {
+		PutObjectResult result = getObsClient().putObject(bucketName, fileName, inputStream);
+		return getUploadFileVO(result);
 	}
 	
 	/**
@@ -235,10 +252,11 @@ public class OBSHandler {
 	 * @param fileName 上传的路径和文件名 例："site/2010/example.txt"
 	 * @param inputStream 上传文件的输入流
 	 * @param metaData 上传文件的属性
-	 * @return {@link com.obs.services.model.PutObjectResult} 返回上传的结果
+	 * @return {@link UploadFileVO} 返回上传的结果
 	 */
-	public PutObjectResult putFilebyInstreamAndMeta(String bucketName, String fileName, InputStream inputStream, ObjectMetadata metaData) {
-		return getObsClient().putObject(bucketName, fileName, inputStream, metaData);
+	public UploadFileVO putFilebyInstreamAndMeta(String bucketName, String fileName, InputStream inputStream, ObjectMetadata metaData) {
+		PutObjectResult result = getObsClient().putObject(bucketName, fileName, inputStream, metaData);
+		return getUploadFileVO(result);
 	}
 	
 	/**
@@ -353,4 +371,34 @@ public class OBSHandler {
 		}
 		return url;
 	}
+	
+	/**
+	 * 将PutObjectResult封装为UploadFileVO但会返回
+	 * @author 管雷鸣修改
+	 * @param result 华为云文件上传返回的结果封装类
+	 * @return {@link com.xnx3.j2ee.vo.UploadFileVO} 经过封装的UploadFileVO类
+	 */
+	private UploadFileVO getUploadFileVO(PutObjectResult result) {
+		UploadFileVO vo = new UploadFileVO();
+		// 上传成功
+		if(result.getStatusCode() == 200) {
+			vo.setResult(UploadFileVO.SUCCESS);
+			vo.setInfo("success");
+			vo.setPath(result.getObjectKey());
+			if(getUrl() == null || getUrl().length() == 0){
+				//未配置cdn，那么使用华为自带的域名
+				vo.setUrl(result.getObjectUrl());
+			}else{
+				//配置了cdn，那么就用cdn域名
+				vo.setUrl(getUrl()+result.getObjectKey());
+			}
+			
+			return vo;
+		}
+		
+		// 上传失败
+		vo.setBaseVO(UploadFileVO.FAILURE, "上传失败!statusCode:"+result.getStatusCode()+",RequestId:"+result.getRequestId());
+		return vo;
+	}
+
 }

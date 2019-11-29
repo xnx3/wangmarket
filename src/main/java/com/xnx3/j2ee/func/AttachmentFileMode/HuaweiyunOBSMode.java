@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.obs.services.exception.ObsException;
-import com.obs.services.model.PutObjectResult;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFileMode.hander.OBSHandler;
 import com.xnx3.j2ee.vo.UploadFileVO;
@@ -68,10 +66,7 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 	 */
 	@Override
 	public UploadFileVO put(String filePath, File localFile) {
-		// 上传文件
-		PutObjectResult result = getObsHander().putLocalFile(obsBucketName, filePath, localFile);
-		// 获取封装类
-		return getUploadFileVO(result);
+		return getObsHander().putLocalFile(obsBucketName, filePath, localFile);
 	}
 	
 	/**
@@ -83,10 +78,7 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 	 */
 	@Override
 	public UploadFileVO put(String path, InputStream inputStream) {
-		// 上传文件
-		PutObjectResult result = getObsHander().putFileByStream(obsBucketName, path, inputStream);
-		// 获取封装类
-		return getUploadFileVO(result);
+		return getObsHander().putFileByStream(obsBucketName, path, inputStream);
 	}
 	
 	/**
@@ -144,25 +136,4 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 		getObsHander().copyObject(obsBucketName, originalFilePath, obsBucketName, newFilePath);
 	}
 	
-	/**
-	 * 将PutObjectResult封装为UploadFileVO但会返回
-	 * @author 李鑫
-	 * @param result 文件上传返回的结果封装类
-	 * @return {@link com.xnx3.j2ee.vo.UploadFileVO} 经过封装的UploadFileVO类
-	 */
-	private UploadFileVO getUploadFileVO(PutObjectResult result) {
-		UploadFileVO vo = new UploadFileVO();
-		// 上传成功
-		if(result.getStatusCode() == 200) {
-			vo.setResult(UploadFileVO.SUCCESS);
-			vo.setInfo("success");
-			vo.setPath(result.getObjectKey());
-			vo.setUrl(result.getObjectUrl());
-			return vo;
-		}
-		// 上传失败
-		vo.setBaseVO(UploadFileVO.FAILURE, "上传失败");
-		return vo;
-	}
-
 }
