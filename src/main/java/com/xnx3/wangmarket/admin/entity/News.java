@@ -27,6 +27,7 @@ public class News implements java.io.Serializable {
 	public final static Short TYPE_NEWS = 1;
 	/**
 	 * 类型：图文
+	 * @deprecated 已废弃，这种归入 TYPE_NEWS
 	 */
 	public final static Short TYPE_IMAGENEWS = 2;
 	/**
