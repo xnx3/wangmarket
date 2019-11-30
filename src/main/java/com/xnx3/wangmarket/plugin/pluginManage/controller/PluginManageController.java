@@ -999,6 +999,11 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@RequestMapping("/index${url.suffix}")
 	public String index(HttpServletRequest request ,Model model){
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
+		
 		return "/plugin/pluginManage/index";
 	}
 	
@@ -1008,6 +1013,11 @@ public class PluginManageController extends BasePluginController {
 	 */
 	@RequestMapping("/myList${url.suffix}")
 	public String myList(HttpServletRequest request ,Model model){
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
+				
 		Sql sql = new Sql(request);
 		//搜索的列
 		String[] searchColumnArray = new String[]{"menu_title"};
@@ -1036,6 +1046,11 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/installList${url.suffix}")
 	public String installList(HttpServletRequest request, Model model, 
 			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
+		
 		List<SitePluginBean> pluginList = new ArrayList<SitePluginBean>();
 		// 参数安全过滤
 		menuTitle = Safety.xssFilter(menuTitle.trim());		
@@ -1074,7 +1089,10 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/yunList${url.suffix}")
 	public String yunList(HttpServletRequest request ,Model model,
 			@RequestParam(value = "menu_title", required = false, defaultValue = "") String menuTitle){
-		
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
 		
 		List<Application> list = new LinkedList<Application>();
 		// 将云端插件保存
@@ -1144,6 +1162,11 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("queryYunPluginById${url.suffix}")
 	public String queryYunPluginById(Model model, 
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
+		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		// 传递插件信息到页面
@@ -1215,6 +1238,11 @@ public class PluginManageController extends BasePluginController {
 	@RequestMapping("/upload${url.suffix}")
 	public String uploadZipFile(Model model, 
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
+		// 判断用户身份
+		if(haveSuperAdminAuth() == false) {
+			return error(model, "您没有该功能操作权限");
+		}
+		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
