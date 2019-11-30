@@ -288,7 +288,7 @@ CREATE TABLE `news` (
   `userid` int(11) DEFAULT '0' COMMENT '对应user.id，是哪个用户发表的',
   `addtime` int(11) DEFAULT '0' COMMENT '发布时间',
   `title` char(60) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `titlepic` char(100) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '头图',
+  `titlepic` char(200) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '头图',
   `intro` char(160) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介,从内容正文里自动剪切出开始的160个汉字',
   `sharenum` int(11) NOT NULL DEFAULT '0' COMMENT '分享的总数量',
   `supportnum` int(11) NOT NULL DEFAULT '0' COMMENT '支持的总数量',
