@@ -676,7 +676,7 @@ public class PluginManageController extends BasePluginController {
 				} catch (MappingException e) {
 					// 设置为需要重启
 					restartApplication = true;
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		}
