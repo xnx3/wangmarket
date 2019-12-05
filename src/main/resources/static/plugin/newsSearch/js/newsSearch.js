@@ -95,9 +95,9 @@ function drawList(list){
 		var newsJson = list[i];
 		var newsContent = newsListItemTemplate;
 		newsContent = newsContent.replace(/news.id/g, newsJson.id);
+		newsContent = newsContent.replace(/news.titlepic/g, newsJson.titlepic);
 		newsContent = newsContent.replace(/news.title/g, newsJson.title);
 		newsContent = newsContent.replace(/news.addtime/g, timeLinuxToString(newsJson.addtime));
-		newsContent = newsContent.replace(/news.titlepic/g, newsJson.titlepic);
 		newsContent = newsContent.replace(/news.intro/g, newsJson.intro);
 		newsContent = newsContent.replace(/news.cid/g, newsJson.cid);
 		content = content + newsContent;
