@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.admin.controller;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,8 +25,6 @@ import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
-import com.xnx3.ZipUtil;
-import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.AttachmentFile;
@@ -53,9 +50,6 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
-import com.xnx3.wangmarket.admin.init.TemplateTemporaryFolder;
-import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
-import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
@@ -63,7 +57,6 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
-import com.xnx3.wangmarket.admin.util.interfaces.TemplateUtilFileMove;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
 import com.xnx3.wangmarket.admin.vo.TemplateCompareVO;
 import com.xnx3.wangmarket.admin.vo.TemplateListVO;
@@ -76,7 +69,9 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.InputModelComp
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.SiteColumnCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplatePageCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCompare;
-import com.xnx3.wangmarket.superadmin.entity.AgencyData;
+import com.xnx3.wangmarket.pluginManage.PluginManage;
+import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**
  * 模版相关操作
@@ -116,9 +111,9 @@ public class TemplateController extends BaseController {
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
 		if(PluginManage.cmsSiteClassManage.size() > 0){
-			for (Map.Entry<String, SitePluginBean> entry : PluginManage.cmsSiteClassManage.entrySet()) {
-				SitePluginBean bean = entry.getValue();
-				pluginMenu += "<dd class=\"twoMenu\"><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+			for (Map.Entry<String, PluginRegister> entry : PluginManage.cmsSiteClassManage.entrySet()) {
+				PluginRegister plugin = entry.getValue();
+				pluginMenu += "<dd class=\"twoMenu\"><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
 			}
 		}
 		model.addAttribute("pluginMenu", pluginMenu);
@@ -723,7 +718,7 @@ public class TemplateController extends BaseController {
 	/**
 	 * 用户自行上传一个模版文件，将当前网站应用此模版。
 	 * <br/>模版文件包含模版页面，模版变量、栏目
-	 * @param templateFile input上传的模版文件的name
+	 * @param templateFile input上传的模版文件的name，这里只限上传后缀是 .wscso 格式的模版文件
 	 */
 	@RequestMapping(value="uploadImportTemplate${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
@@ -765,75 +760,77 @@ public class TemplateController extends BaseController {
 				responseJson(response, BaseVO.FAILURE, "所获取到所导入的模版未发现模版内容");
 				return;
 			}
-		}else if (fileSuffix.equals("zip")) {
-			//v4.9增加，禁止zip模版通过此处上传。统一通过总管理后台-功能插件-模版库进行导入
-			if(true){
-				responseJson(response, BaseVO.FAILURE, "已禁止上传zip格式模版！您可通过总管理后台-功能插件-模版库进行导入");
-				return;
-			}
-			
-			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
-			//zip的限制在50MB以内
-			if(lengthKB > 50*1025){
-				//超过50MB
-				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
-				return;
-			}
-			
-			String fileName = DateUtil.timeForUnix13()+"_"+StringUtil.getRandom09AZ(20);
-			File file = new File(TemplateTemporaryFolder.folderPath+fileName+".zip");
-			try {
-				multipartFile.transferTo(file);
-			} catch (IllegalStateException | IOException e1) {
-				e1.printStackTrace();
-				responseJson(response, BaseVO.FAILURE, e1.getMessage());
-				return;
-			}
-			
-			//将其解压到同文件夹中
-			try {
-				ZipUtil.unzip(TemplateTemporaryFolder.folderPath+fileName+".zip",TemplateTemporaryFolder.folderPath+fileName+"/");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			//既然已经解压出来了，那么删除掉zip文件
-			file.delete();
-			//判断一下解压出来的文件中，是否存在 template.wscso 这个模版文件
-			File wscsoFile = new File(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso");
-			if(wscsoFile.exists()){
-				wscsoTemplateText = FileUtil.read(wscsoFile, FileUtil.UTF8);
-			}else{
-				//不存在，那就报错吧
-				responseJson(response, BaseVO.FAILURE, "template.wscso模版文件未发现！");
-				return;
-			}
-				
-			TemplateVO tvo = new TemplateVO();
-			//导入JSON，生成对象
-			tvo.importText(FileUtil.read(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso", FileUtil.UTF8));
-			//v4.7版本以后，导出的都会有 tvo.template 对象
-			String templateName = tvo.getTemplate().getName();
-			//判断数据库中，是否已经有这个模版了
-			com.xnx3.wangmarket.admin.entity.Template template = sqlService.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", templateName);
-			if(template == null){
-				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
-				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
-				new TemplateUtil(templateName, new TemplateUtilFileMove() {
-					public void move(String path, InputStream inputStream) {
-						AttachmentFile.put(path, inputStream);
-					}
-				}).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
-				//将这个模版模版信息记录入数据库
-				template = tvo.getTemplate();
-				template.setIscommon(com.xnx3.wangmarket.admin.entity.Template.ISCOMMON_NO); 	//用户自己导入的，默认是私有的，不加入公共模版库。除非通过模版中心来指定（模版中心属于授权版本）
-				template.setUserid(getUserId());
-				sqlService.save(template);
-				
-			}else{
-				//不为空，已经有这个模版了，那么就不可以导入资源文件，只导入 wscso 文件就可以了
-				System.out.println("已经有这个模版的资源文件了，忽略:"+template.getName());
-			}
 		}
+		//v4.12注释掉下面zip的方式上传，上传zip打包的模版，只能通过总管理后台-功能插件-上传模版 进行上传
+//		else if (fileSuffix.equals("zip")) {
+//			//v4.9增加，禁止zip模版通过此处上传。统一通过总管理后台-功能插件-模版库进行导入
+//			if(true){
+//				responseJson(response, BaseVO.FAILURE, "已禁止上传zip格式模版！您可通过总管理后台-功能插件-模版库进行导入");
+//				return;
+//			}
+//			
+//			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
+//			//zip的限制在50MB以内
+//			if(lengthKB > 50*1025){
+//				//超过50MB
+//				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
+//				return;
+//			}
+//			
+//			String fileName = DateUtil.timeForUnix13()+"_"+StringUtil.getRandom09AZ(20);
+//			File file = new File(TemplateTemporaryFolder.folderPath+fileName+".zip");
+//			try {
+//				multipartFile.transferTo(file);
+//			} catch (IllegalStateException | IOException e1) {
+//				e1.printStackTrace();
+//				responseJson(response, BaseVO.FAILURE, e1.getMessage());
+//				return;
+//			}
+//			
+//			//将其解压到同文件夹中
+//			try {
+//				ZipUtil.unzip(TemplateTemporaryFolder.folderPath+fileName+".zip",TemplateTemporaryFolder.folderPath+fileName+"/");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			//既然已经解压出来了，那么删除掉zip文件
+//			file.delete();
+//			//判断一下解压出来的文件中，是否存在 template.wscso 这个模版文件
+//			File wscsoFile = new File(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso");
+//			if(wscsoFile.exists()){
+//				wscsoTemplateText = FileUtil.read(wscsoFile, FileUtil.UTF8);
+//			}else{
+//				//不存在，那就报错吧
+//				responseJson(response, BaseVO.FAILURE, "template.wscso模版文件未发现！");
+//				return;
+//			}
+//				
+//			TemplateVO tvo = new TemplateVO();
+//			//导入JSON，生成对象
+//			tvo.importText(FileUtil.read(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso", FileUtil.UTF8));
+//			//v4.7版本以后，导出的都会有 tvo.template 对象
+//			String templateName = tvo.getTemplate().getName();
+//			//判断数据库中，是否已经有这个模版了
+//			com.xnx3.wangmarket.admin.entity.Template template = sqlService.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", templateName);
+//			if(template == null){
+//				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
+//				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
+//				new TemplateUtil(templateName, new TemplateUtilFileMove() {
+//					public void move(String path, InputStream inputStream) {
+//						AttachmentFile.put(path, inputStream);
+//					}
+//				}).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
+//				//将这个模版模版信息记录入数据库
+//				template = tvo.getTemplate();
+//				template.setIscommon(com.xnx3.wangmarket.admin.entity.Template.ISCOMMON_NO); 	//用户自己导入的，默认是私有的，不加入公共模版库。除非通过模版中心来指定（模版中心属于授权版本）
+//				template.setUserid(getUserId());
+//				sqlService.save(template);
+//				
+//			}else{
+//				//不为空，已经有这个模版了，那么就不可以导入资源文件，只导入 wscso 文件就可以了
+//				System.out.println("已经有这个模版的资源文件了，忽略:"+template.getName());
+//			}
+//		}
 		
 		//将 wscso 模版文件导入
 		BaseVO vo = templateService.importTemplate(wscsoTemplateText, true, request);

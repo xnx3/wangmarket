@@ -16,8 +16,8 @@ import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
-import com.xnx3.wangmarket.superadmin.service.TransactionalService;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.service.TransactionalService;
 
 /**
  * Api接口相关

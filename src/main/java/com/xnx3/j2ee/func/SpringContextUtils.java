@@ -5,9 +5,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.service.impl.SqlServiceImpl;
-
 /**
  * Author：Mr.X
  * Date：2017/11/8 10:00

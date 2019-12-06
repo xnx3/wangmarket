@@ -8,6 +8,7 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 /**
  * 所有插件的 Controller 都继承此
  * @author 管雷鸣
+ * @deprecated 网市场 v5.0版本以后，请使用 {@link com.xnx3.wangmarket.pluginManage.controller.BasePluginController}
  */
 public class BasePluginController extends com.xnx3.wangmarket.admin.controller.BaseController {
 

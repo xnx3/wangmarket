@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
@@ -21,8 +20,8 @@ import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
-import com.xnx3.wangmarket.superadmin.entity.AgencyData;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**
  * Api接口相关

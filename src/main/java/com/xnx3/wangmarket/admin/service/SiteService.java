@@ -10,7 +10,7 @@ import com.xnx3.wangmarket.admin.vo.SiteRemainHintVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.bean.TemplateCommon;
 import com.xnx3.wangmarket.domain.bean.MQBean;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 
 /**
  * 站点相关

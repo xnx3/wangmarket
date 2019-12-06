@@ -15,7 +15,7 @@ import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 
 @Service("KeyManageService")
 public class KeyManageServiceImpl implements KeyManageService {

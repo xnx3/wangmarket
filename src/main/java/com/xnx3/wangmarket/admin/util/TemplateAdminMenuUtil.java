@@ -3,11 +3,11 @@ package com.xnx3.wangmarket.admin.util;
 import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.wangmarket.admin.Func;
-import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
-import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.FirstMenu;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.MenuBean;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
+import com.xnx3.wangmarket.pluginManage.PluginManage;
+import com.xnx3.wangmarket.pluginManage.PluginRegister;
 
 /**
  * 网站管理后台，左侧菜单相关的工具类，也可以理解为权限相关，控制左侧菜单的显示、隐藏，控制某个用户哪个菜单可见，哪个不可见
@@ -148,9 +148,9 @@ public class TemplateAdminMenuUtil {
 			
 			//将加载的插件拿出来
 			if(PluginManage.cmsSiteClassManage.size() > 0){
-				for (Map.Entry<String, SitePluginBean> entry : PluginManage.cmsSiteClassManage.entrySet()) {
-					SitePluginBean bean = entry.getValue();
-					Menu.addTwoMenu("dd_"+entry.getKey(), entry.getKey(), "javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();", bean.getMenuTitle());
+				for (Map.Entry<String, PluginRegister> entry : PluginManage.cmsSiteClassManage.entrySet()) {
+					PluginRegister plugin = entry.getValue();
+					Menu.addTwoMenu("dd_"+entry.getKey(), entry.getKey(), "javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();", plugin.menuTitle());
 				}
 			}
 			

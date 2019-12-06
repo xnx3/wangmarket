@@ -1,16 +1,13 @@
 package com.xnx3.wangmarket.domain.controller;
 
 import java.lang.reflect.InvocationTargetException;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
@@ -19,7 +16,6 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
-import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
@@ -28,8 +24,8 @@ import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.Log;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
-import com.xnx3.wangmarket.domain.pluginManage.DomainPluginManage;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.DomainPluginManage;
 
 /**
  * @author 管雷鸣

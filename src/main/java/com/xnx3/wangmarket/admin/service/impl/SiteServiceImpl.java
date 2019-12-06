@@ -49,7 +49,7 @@ import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.admin.vo.bean.TemplateCommon;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.mq.DomainMQ;

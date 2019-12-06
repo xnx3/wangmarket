@@ -1,14 +1,18 @@
 package com.xnx3.wangmarket.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
-import com.xnx3.wangmarket.superadmin.entity.AgencyData;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
+/**
+ * 网站管理后台，也就是 com.xnx3.wangmarket.admin 下的所有controller都要继承这个
+ * @author 管雷鸣
+ *
+ */
 public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	
 	/**
@@ -40,7 +44,7 @@ public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	 * @return {@link Agency} 或 null
 	 */
 	public Agency getParentAgency(){
-		return com.xnx3.wangmarket.superadmin.Func.getParentAgency();
+		return com.xnx3.wangmarket.agencyadmin.Func.getParentAgency();
 	}
 	
 	/**
@@ -48,7 +52,7 @@ public class BaseController extends com.xnx3.j2ee.controller.BaseController {
 	 * @return {@link Agency} 或 null
 	 */
 	public AgencyData getParentAgencyData(){
-		return com.xnx3.wangmarket.superadmin.Func.getParentAgencyData();
+		return com.xnx3.wangmarket.agencyadmin.Func.getParentAgencyData();
 	}
 	
 	/**

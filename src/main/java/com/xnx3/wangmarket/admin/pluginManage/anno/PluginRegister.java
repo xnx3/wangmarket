@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
 /**
  * 网站后台插件
  * @author 管雷鸣
- *
+ * @deprecated 已废弃，请使用{@link com.xnx3.wangmarket.pluginManage.PluginRegister}
  */
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

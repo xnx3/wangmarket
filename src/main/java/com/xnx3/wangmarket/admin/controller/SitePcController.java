@@ -2,14 +2,11 @@ package com.xnx3.wangmarket.admin.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.xnx3.DateUtil;
 import com.xnx3.MD5Util;
 import com.xnx3.j2ee.Global;
@@ -21,8 +18,6 @@ import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
-import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 
@@ -48,12 +43,13 @@ public class SitePcController extends BaseController {
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
-		if(PluginManage.pcSiteClassManage.size() > 0){
-			for (Map.Entry<String, SitePluginBean> entry : PluginManage.pcSiteClassManage.entrySet()) {
-				SitePluginBean bean = entry.getValue();
-				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
-			}
-		}
+		//v4.12更改，已废弃
+//		if(PluginManage.pcSiteClassManage.size() > 0){
+//			for (Map.Entry<String, SitePluginBean> entry : PluginManage.pcSiteClassManage.entrySet()) {
+//				SitePluginBean bean = entry.getValue();
+//				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+//			}
+//		}
 		model.addAttribute("pluginMenu", pluginMenu);
 		
 		

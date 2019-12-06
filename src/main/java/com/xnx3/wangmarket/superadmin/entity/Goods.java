@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 /**
  * 积分兑换（user.money）的商品
+ * @deprecated
  */
 @Entity
 @Table(name = "goods")

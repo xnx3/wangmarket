@@ -6,10 +6,9 @@ import com.xnx3.wangmarket.im.entity.Im;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
-import com.xnx3.wangmarket.superadmin.entity.Agency;
-import com.xnx3.wangmarket.superadmin.entity.AgencyData;
+import com.xnx3.wangmarket.agencyadmin.entity.Agency;
+import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**
  * 用户登录后，即跟随用户Session一块的缓存，其在Shiro中
@@ -27,7 +26,7 @@ public class UserBean {
 	private Map<Integer, InputModel> inputModelMap;	//当前CMS网站的输入模型，由 inputModelService 初始化赋予值。在用户进入内容管理，编辑时才会判断，如果此为null，才会从数据库加载数据
 	private Im im;		//网站客服，进行缓存到这里
 	private Map<String, String> siteMenuRole;	//网站管理后台的左侧菜单使用权限，只限网站用户有效，v4.9版本增加。 key: id，也就是左侧菜单的唯一id标示，比如模版管理是template，生成整站是 shengchengzhengzhan， 至于value，无意义，1即可 
-	
+	private Map<String, Object> pluginDataMap;	// 缓存 功能插件 的一些信息。比如关键词插件，用户登录成功后，当编辑过一篇文章时，将关键词缓存到这里，在编辑其他文章时直接从这里取数据即可 。 key: 插件的id,如 keyword   value：插件存储的数据
 	
 	public Agency getMyAgency() {
 		return myAgency;
@@ -102,6 +101,14 @@ public class UserBean {
 	public void setSiteMenuRole(Map<String, String> siteMenuRole) {
 		this.siteMenuRole = siteMenuRole;
 	}
-	
+	public Map<String, Object> getPluginDataMap() {
+		if(pluginDataMap == null){
+			pluginDataMap = new HashMap<String, Object>();
+		}
+		return pluginDataMap;
+	}
+	public void setPluginDataMap(Map<String, Object> pluginDataMap) {
+		this.pluginDataMap = pluginDataMap;
+	}
 	
 }

@@ -23,6 +23,7 @@ import com.xnx3.wangmarket.superadmin.entity.Goods;
 /**
  * 金钱、积分
  * @author 管雷鸣
+ * @deprecated
  */
 @Controller
 @RequestMapping("/currency")

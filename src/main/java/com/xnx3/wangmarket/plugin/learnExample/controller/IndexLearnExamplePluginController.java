@@ -1,10 +1,10 @@
 package com.xnx3.wangmarket.plugin.learnExample.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
+import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
 
 /**
- * CMS模式下，输入模型相关操作
+ * 功能插件开发入门示例
  * @author 管雷鸣
  */
 @Controller

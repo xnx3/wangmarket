@@ -30,7 +30,6 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.pluginManage.newSave.NewsSavePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -41,6 +40,7 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.NewsSavePluginManage;
 
 import net.sf.json.JSONObject;
 
@@ -170,7 +170,7 @@ public class NewsController extends BaseController {
 		String titlepic = StringUtil.filterXss(s.getTitlepic());
 		news.setTitlepic(titlepic == null ? "":titlepic);
 		
-		//插件拦截
+		//插件拦截处理
 		try {
 			NewsSavePluginManage.interceptNews(request, response, news);
 		} catch (InstantiationException | IllegalAccessException

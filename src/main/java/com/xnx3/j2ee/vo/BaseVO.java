@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.vo;
 
+
 /**
  * <b>result</b>：执行成功{@link #SUCCESS}/失败{@link #FAILURE}
  * <br/><b>info</b>：执行结果，若成功，此项可忽略，若失败，返回失败原因

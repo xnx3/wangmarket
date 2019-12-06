@@ -1,24 +1,20 @@
 package com.xnx3.j2ee.controller.admin;
 
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.xnx3.MD5Util;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.admin.pluginManage.PluginManage;
-import com.xnx3.wangmarket.admin.pluginManage.SitePluginBean;
+import com.xnx3.wangmarket.pluginManage.PluginManage;
+import com.xnx3.wangmarket.pluginManage.PluginRegister;
 
 /**
  * 管理后台首页
@@ -60,10 +56,16 @@ public class AdminIndexController_ extends BaseController{
 				//没有加入 pluginManage 总管理后台的插件管理 功能
 			}
 			
+//			if(PluginManage.superAdminClassManage.size() > 0){
+//				for (Map.Entry<String, SitePluginBean> entry : PluginManage.superAdminClassManage.entrySet()) {
+//					SitePluginBean bean = entry.getValue();
+//					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+//				}
+//			}
 			if(PluginManage.superAdminClassManage.size() > 0){
-				for (Map.Entry<String, SitePluginBean> entry : PluginManage.superAdminClassManage.entrySet()) {
-					SitePluginBean bean = entry.getValue();
-					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+				for (Map.Entry<String, PluginRegister> entry : PluginManage.superAdminClassManage.entrySet()) {
+					PluginRegister plugin = entry.getValue();
+					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
 				}
 			}
 			model.addAttribute("pluginMenu", pluginMenu);
@@ -73,9 +75,9 @@ public class AdminIndexController_ extends BaseController{
 			
 			String pluginMenu = "";
 			if(PluginManage.agencyClassManage.size() > 0){
-				for (Map.Entry<String, SitePluginBean> entry : PluginManage.agencyClassManage.entrySet()) {
-					SitePluginBean bean = entry.getValue();
-					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
+				for (Map.Entry<String, PluginRegister> entry : PluginManage.agencyClassManage.entrySet()) {
+					PluginRegister plugin = entry.getValue();
+					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+ plugin.menuHref()+"'), notUseTopTools();\">"+ plugin.menuTitle()+"</a></dd>";
 				}
 			}
 			model.addAttribute("pluginMenu", pluginMenu);

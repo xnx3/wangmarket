@@ -93,7 +93,7 @@ function versionFormat(version){
 				   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
 				   				</c:if>
 				   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-				   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;"><i class="layui-icon" style="font-size:15px;text-align: center;">已安装</i>
+				   					<botton class="layui-btn layui-btn-disabled" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;"><i class="layui-icon" style="font-size:15px;text-align: center;">已安装</i>
 				   				</c:if>
 				   			</c:otherwise>
 			   			</c:choose>
@@ -112,7 +112,7 @@ function versionFormat(version){
 				   					<botton class="layui-btn layui-btn-sm" onclick="installPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;width: 80px;"><i class="layui-icon">&#xe61f;安装</i></botton>
 				   				</c:if>
 				   				<c:if test="${fn:contains(pluginIds, plugin.id) == true }">
-				   					<botton class="layui-btn layui-btn-primary" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;width: 80px"><i class="layui-icon"  style="font-size:15px;text-align: center;">已安装</i>
+				   					<botton class="layui-btn layui-btn-primary layui-btn-disabled" onclick="javascript:;" style="width: 80px;line-height: 30px;height: 30px;width: 80px"><i class="layui-icon"  style="font-size:15px;text-align: center;">已安装</i>
 				   				</c:if>
 				   			</c:otherwise>
 				   		</c:choose>
