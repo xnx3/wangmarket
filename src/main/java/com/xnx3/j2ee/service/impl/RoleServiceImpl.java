@@ -41,6 +41,10 @@ public class RoleServiceImpl implements RoleService{
 			return BaseVO.failure("传入的编号不正确！");
 		}
 		
+		if(permission == null || permission.trim().length() == 0){
+			//避免出现空指针
+			permission = "";
+		}
 		List<RolePermission> myRolePermissionList = sqlDAO.findBySqlQuery("SELECT * FROM role_permission WHERE roleid = " + roleId, RolePermission.class);		//此角色原先的权限
 		
 		/***增加资源***/

@@ -260,7 +260,7 @@ public class RoleAdminController_ extends BaseController {
 	 * @param permission 多选框的资源列表，如 1,2,3,4
 	 */
 	@RequiresPermissions("adminRoleEditRolePermission")
-	@RequestMapping("saveRolePermission${url.suffix}")
+	@RequestMapping(value="saveRolePermission${url.suffix}", method = RequestMethod.POST)
 	public String saveRolePermission(
 			@RequestParam(value = "roleId", required = true) int roleId,
 			@RequestParam(value = "permission", required = false) String permission,
