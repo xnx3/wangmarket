@@ -12,6 +12,7 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
@@ -35,6 +36,8 @@ public class AdminIndexController_ extends BaseController{
 		//登录成功后，管理后台的主题页面，默认首页的url
 		String url = "admin/index/welcome.do"; 
 		
+		ActionLogCache.insert(request, "进入管理后台首页");
+		
 		//这里可以根据不同的管理级别，来指定显示默认是什么页面
 		if(Func.isAuthorityBySpecific(getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 			//有超级管理员权限
@@ -56,12 +59,6 @@ public class AdminIndexController_ extends BaseController{
 				//没有加入 pluginManage 总管理后台的插件管理 功能
 			}
 			
-//			if(PluginManage.superAdminClassManage.size() > 0){
-//				for (Map.Entry<String, SitePluginBean> entry : PluginManage.superAdminClassManage.entrySet()) {
-//					SitePluginBean bean = entry.getValue();
-//					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+bean.getMenuHref()+"'), notUseTopTools();\">"+bean.getMenuTitle()+"</a></dd>";
-//				}
-//			}
 			if(PluginManage.superAdminClassManage.size() > 0){
 				for (Map.Entry<String, PluginRegister> entry : PluginManage.superAdminClassManage.entrySet()) {
 					PluginRegister plugin = entry.getValue();

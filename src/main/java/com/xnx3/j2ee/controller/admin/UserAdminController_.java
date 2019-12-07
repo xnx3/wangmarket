@@ -1,32 +1,20 @@
 package com.xnx3.j2ee.controller.admin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -51,11 +39,13 @@ public class UserAdminController_ extends BaseController {
 	@RequiresPermissions("adminUserDelete")
 	@RequestMapping(value="deleteUser${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO deleteUser(@RequestParam(value = "id", required = true) int id){
+	public BaseVO deleteUser(HttpServletRequest request,
+			@RequestParam(value = "id", required = true) int id){
 		if(id>0){
 			User u = sqlService.findById(User.class, id);
 			if(u!=null){
 				sqlService.delete(u);
+				ActionLogCache.insertUpdateDatabase(request,u.getId(), "总管理后台,删除用户",u.toString());
 				return success();
 			}
 		}
@@ -78,6 +68,8 @@ public class UserAdminController_ extends BaseController {
 		sql.setOrderByField(new String[]{"id","lasttime","money","currency"});
 		List<User> list = sqlService.findBySql(sql, User.class);
 		
+		ActionLogCache.insert(request, "总管理后台-用户列表", "第"+page.getCurrentPageNumber()+"页");
+		
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);
 		return "/iw_update/admin/user/list";
@@ -89,7 +81,8 @@ public class UserAdminController_ extends BaseController {
 	 */
 	@RequiresPermissions("adminUserView")
 	@RequestMapping("view${url.suffix}")
-	public String view(@RequestParam(value = "id", required = true) int id,Model model){
+	public String view(HttpServletRequest request,
+			@RequestParam(value = "id", required = true) int id,Model model){
 		User user = sqlService.findById(User.class, id);
 		if(user == null){
 			return error(model, "要查看的用户不存在");
@@ -102,6 +95,8 @@ public class UserAdminController_ extends BaseController {
 			model.addAttribute("referrer", "<a href='view.do?id="+user.getReferrerid()+"'>id:"+user.getReferrerid()+","+parentUser.getUsername()+"</a>");
 		}
 		
+		ActionLogCache.insert(request, user.getId(), "总管理后台-用户详情", user.toString());
+		
 		model.addAttribute("u", user);
 		return "/iw_update/admin/user/view";
 	}
@@ -113,16 +108,20 @@ public class UserAdminController_ extends BaseController {
 	 */
 	@RequiresPermissions("adminUserUpdateFreeze")
 	@RequestMapping("updateFreeze${url.suffix}")
-	public String updateFreeze(@RequestParam(value = "id", required = true) int id,
+	public String updateFreeze(HttpServletRequest request,
+			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "isfreeze", required = true) int isfreeze,
 			Model model){
 		BaseVO baseVO = new BaseVO();
 		if(isfreeze==User.ISFREEZE_FREEZE){
 			baseVO = userService.freezeUser(id);
+			ActionLogCache.insertUpdateDatabase(request, id, "总管理后台-冻结用户", baseVO.getInfo());
 		}else if (isfreeze==User.ISFREEZE_NORMAL) {
 			baseVO = userService.unfreezeUser(id);
+			ActionLogCache.insertUpdateDatabase(request, id, "总管理后台-解除冻结用户", baseVO.getInfo());
 		}else{
 			baseVO.setBaseVO(BaseVO.FAILURE, "未知参数！");
+			ActionLogCache.insertError(request, "此接口要么冻结，要么解冻，出现了非正常情况！");
 		}
 		
 		if(baseVO.getResult() == BaseVO.SUCCESS){

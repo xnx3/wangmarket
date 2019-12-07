@@ -422,6 +422,15 @@ public class User extends BaseEntity {
 	public void setVersion(Integer version) {
 	    this.version = version;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", head="
+				+ head + ", nickname=" + nickname + ", authority=" + authority + ", regtime=" + regtime + ", lasttime="
+				+ lasttime + ", regip=" + regip + ", lastip=" + lastip + ", salt=" + salt + ", phone=" + phone
+				+ ", currency=" + currency + ", referrerid=" + referrerid + ", money=" + money + ", freezemoney="
+				+ freezemoney + ", isfreeze=" + isfreeze + ", idcardauth=" + idcardauth + ", sign=" + sign + ", sex="
+				+ sex + ", ossUpdateDate=" + ossUpdateDate + ", ossSize=" + ossSize + ", ossSizeHave=" + ossSizeHave
+				+ ", version=" + version + ", siteid=" + siteid + "]";
+	}
 	
 }

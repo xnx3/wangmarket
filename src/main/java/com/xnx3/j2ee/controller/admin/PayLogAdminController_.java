@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.controller.BaseController;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 
@@ -38,6 +39,8 @@ public class PayLogAdminController_ extends BaseController{
 		sql.setSelectFromAndPage("SELECT pay_log.*,(SELECT user.nickname FROM user WHERE user.id=pay_log.userid) AS nickname FROM pay_log ", page);
 		sql.setDefaultOrderBy("pay_log.id DESC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
+		
+		ActionLogCache.insert(request, "总管理后台-在线支付日志管理列表","第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);

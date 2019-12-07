@@ -21,9 +21,7 @@ import com.xnx3.j2ee.util.Page;
 import com.xnx3.net.AliyunLogPageUtil;
 import com.xnx3.wangmarket.admin.controller.BaseController;
 import com.xnx3.wangmarket.admin.service.SiteService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.RequestLogDayLineVO;
-import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.Log;
 
 /**
@@ -54,7 +52,7 @@ public class AdminRequestLogController extends BaseController {
 		if(Log.aliyunLogUtil == null){
 			return error(model, "您未开启网站访问相关的日志服务！无法查看网站访问日志");
 		}
-		AliyunLog.addActionLog(0, "进入总管理后台－日志访问-访问统计页面");
+		ActionLogCache.insert(request, "进入总管理后台－日志访问-访问统计页面");
 		return "admin/requestLog/fangwentongji";
 	}
 	
@@ -98,7 +96,7 @@ public class AdminRequestLogController extends BaseController {
 		JSONArray jsonArrayDate = JSONArray.fromObject("[\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\"]");	//小时，比如1、2、3、4h等
 		vo.setJsonArrayDate(jsonArrayDate);
 		
-		AliyunLog.addActionLog(0, "总管理后台，获取当天、昨天的按小时访问数据统计记录");
+		ActionLogCache.insert(request, "总管理后台，获取当天、昨天的按小时访问数据统计记录");
 		
 		return vo;
 	}
@@ -134,7 +132,7 @@ public class AdminRequestLogController extends BaseController {
 		vo.setJsonArrayFangWen(jsonArrayFangWen);
 		vo.setJsonArrayDate(jsonArrayDate);
 		
-		AliyunLog.addActionLog(0, "总管理后台，获取最近30天的访问数据统计记录");
+		ActionLogCache.insert(request, "总管理后台，获取最近30天的访问数据统计记录");
 		
 		return vo;
 	}

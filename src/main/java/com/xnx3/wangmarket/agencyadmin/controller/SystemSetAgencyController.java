@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
@@ -68,17 +68,18 @@ public class SystemSetAgencyController extends BaseController {
 		agency = sqlService.findById(Agency.class, agency.getId());
 		if(name.equals("name")){
 			agency.setName(value);
-			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的公司名字", agency.getName());	//记录操作日志
+			ActionLogCache.insertUpdateDatabase(request, agency.getId(), "更改自己代理信息的公司名字", agency.getName());
 		}else if (name.equals("phone")) {
 			agency.setPhone(value);
-			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的电话", agency.getPhone());	//记录操作日志
+			ActionLogCache.insertUpdateDatabase(request, agency.getId(), "更改自己代理信息的公司电话", agency.getPhone());
 		}else if (name.equals("address")) {
 			agency.setAddress(value);
-			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的地址", agency.getAddress());	//记录操作日志
+			ActionLogCache.insertUpdateDatabase(request, agency.getId(), "更改自己代理信息的公司地址", agency.getAddress());
 		}else if (name.equals("qq")) {
 			agency.setQq(value);
-			AliyunLog.addActionLog(agency.getId(), "更改自己代理信息的QQ", agency.getName());	//记录操作日志
+			ActionLogCache.insertUpdateDatabase(request, agency.getId(), "更改自己代理信息的公司QQ", agency.getQq());
 		}else{
+			ActionLogCache.insertError(request, "name无效,name:"+name);
 			return error("name无效");
 		}
 		sqlService.save(agency);
@@ -118,7 +119,7 @@ public class SystemSetAgencyController extends BaseController {
 		com.xnx3.wangmarket.admin.Func.getUserBeanForShiroSession().setMyAgencyData(agencyData);
 				
 		//记录操作日志
-		AliyunLog.addActionLog(agencyData.getId(), "代理更改公告");
+		ActionLogCache.insertUpdateDatabase(request, agencyData.getId(), "代理更改公告");
 		
 		return success();
 	}

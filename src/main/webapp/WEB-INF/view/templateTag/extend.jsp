@@ -7,11 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>输入模型之字段无限扩展_其他功能_网市场模版标签</title>
 	<link href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" rel="stylesheet">
-	<link href="${STATIC_RESOURCE_PATH}template/doc1/css/style.css" rel="stylesheet">
 </head>
 <body style="">
 	<div class="layui-main site-inline doc1dakuang" style="">
-		<div class="site-content markdown-body editormd-html-preview" id="content" style="">
+		<div class="site-content markdown-body editormd-html-preview" id="content" style="box-sizing: border-box;">
 			<h1 id="iw_title" style="">输入模型之字段无限扩展</h1>
 			<h2 id="h2-u7B80u4ECB"><a name="简介" class="reference-link"></a><span class="header-link octicon octicon-link"></span>简介</h2><p>可以在内容管理中，将内容输入项（字段）无限扩展！</p>
 			<h2 id="h2-u8F93u5165u6A21u578Bu4E2Du7684u4F7Fu7528"><a name="输入模型中的使用" class="reference-link"></a><span class="header-link octicon octicon-link"></span>输入模型中的使用</h2><h4 id="h4--"><a name="首先，来看下现有的，文章标题的调用" class="reference-link"></a><span class="header-link octicon octicon-link"></span>首先，来看下现有的，文章标题的调用</h4><pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text"</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">"title"</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">"{news.title}"</span><span class="tag">&gt;</span></code></li></ol></pre><p>上面这是系统中，已经使用的一个字段，也就是文章的标题。其 input 标签的name为 “title”, 其value为 “{news.title}”,这个 {news.title} 便是调取某篇文章当前的内容显示。当然，如果是没有值，则是空字符串。</p>

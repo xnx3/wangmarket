@@ -3,17 +3,14 @@ package com.xnx3.wangmarket.admin.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -39,7 +36,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogCache;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
@@ -88,7 +85,7 @@ public class ColumnController extends BaseController {
 	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
 	    List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
 	    
-	    AliyunLog.addActionLog(getSiteId(), "查看栏目列表");
+	    ActionLogCache.insert(request, "查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
 	    
 	    //将数据记录传到页面以供显示
 	    model.addAttribute("list", list);
@@ -122,7 +119,7 @@ public class ColumnController extends BaseController {
 	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
 	    List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
 	    
-	    AliyunLog.addActionLog(getSiteId(), "针对PC端通用模版模式下，查看栏目列表");
+	    ActionLogCache.insert(request, "针对PC端通用模版模式下，查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
 	    
 	    //将数据记录传到页面以供显示
 	    model.addAttribute("list", list);
@@ -142,7 +139,7 @@ public class ColumnController extends BaseController {
 	public String popupListForTemplate(HttpServletRequest request,Model model){
 		List<SiteColumnTreeVO> list = siteColumnService.getSiteColumnTreeVOByCache();
 	    
-		AliyunLog.addActionLog(getSiteId(), "CMS模式下，获取网站下的栏目列表");
+		ActionLogCache.insert(request, "CMS模式下，获取网站下的栏目列表");
 		
 	    //将数据记录传到页面以供显示
 	    model.addAttribute("list", list);
@@ -186,7 +183,7 @@ public class ColumnController extends BaseController {
 		}
 		model.addAttribute("iconImage", iconImage);
 		
-		AliyunLog.addActionLog(getSiteId(), "进入添加、编辑导航栏目页面");
+		ActionLogCache.insert(request, "进入添加、编辑导航栏目页面");
 		
 		siteService.getTemplateCommonHtml(site, title, model);
 		return "column/column";
@@ -212,7 +209,7 @@ public class ColumnController extends BaseController {
 		
 		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
-		AliyunLog.addActionLog(getSiteId(), "通用电脑网站模式下，弹出更该栏目名字的弹出框");
+		ActionLogCache.insert(request, siteColumn.getId(), "通用电脑网站模式下，弹出更该栏目名字的弹出框", siteColumn.getName());
 		
 		model.addAttribute("icon", icon);
 		model.addAttribute("siteColumn", siteColumn);
@@ -248,7 +245,7 @@ public class ColumnController extends BaseController {
 		
 		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
-		AliyunLog.addActionLog(getSiteId(), "通用电脑网站模式下，打开更该栏目属性的页面");
+		ActionLogCache.insert(request, siteColumn.getId(), "通用电脑网站模式下，打开更该栏目属性的页面", siteColumn.getName());
 		
 		model.addAttribute("icon", icon);
 		model.addAttribute("siteColumn", siteColumn);
@@ -422,7 +419,7 @@ public class ColumnController extends BaseController {
 			inputModelOptions = "<option value=\"0\">系统内置模型</option>" + inputModelOptions;
 		}
 		
-		AliyunLog.addActionLog(getSiteId(), "CMS模式下，添加、修改栏目");
+		ActionLogCache.insert(request, siteColumn.getId(), "CMS模式下，添加、修改栏目", siteColumn.getName());
 		
 		/*
 		 * 设置标题图片上传相关,v4.7增加
@@ -466,7 +463,7 @@ public class ColumnController extends BaseController {
 		siteColumn.setName(filter(sc.getName()));
 		sqlService.save(siteColumn);
 		
-		AliyunLog.addActionLog(siteColumn.getId(), "保存栏目："+siteColumn.getName());
+		ActionLogCache.insertUpdateDatabase(request, siteColumn.getId(), "保存栏目", siteColumn.getName());
 		
 		//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 		if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
@@ -555,7 +552,6 @@ public class ColumnController extends BaseController {
 		}
 		
 		sc.setName(name);
-//		sc.setRank(siteColumn.getRank());
 		sc.setUrl(filter(siteColumn.getUrl()));	//没用了的，废弃的
 		sc.setUsed(siteColumn.getUsed() == null? 1:siteColumn.getUsed());
 		sc.setType(siteColumn.getType());
@@ -573,7 +569,6 @@ public class ColumnController extends BaseController {
 		sc.setIcon(siteColumn.getIcon());
 		//v4.10
 		sc.setTemplateCodeColumnUsed(siteColumn.getTemplateCodeColumnUsed() == null? SiteColumn.USED_ENABLE:siteColumn.getTemplateCodeColumnUsed());//默认是启用，也就是显示
-//		sc.setTemplateCodeNewsUsed(siteColumn.getTemplateCodeNewsUsed() == null? SiteColumn.USED_ENABLE:siteColumn.getTemplateCodeNewsUsed());
 		sc.setAdminNewsUsed(siteColumn.getAdminNewsUsed() == null ? SiteColumn.USED_ENABLE:siteColumn.getAdminNewsUsed());
 		
 		
@@ -747,12 +742,7 @@ public class ColumnController extends BaseController {
 				}
 			}
 			
-			//保存日志
-			if(addColumn){
-				AliyunLog.addActionLog(sc.getId(), "添加栏目："+sc.getName());
-			}else{
-				AliyunLog.addActionLog(sc.getId(), "修改栏目："+sc.getName());
-			}
+			ActionLogCache.insertUpdateDatabase(request, sc.getId(), (addColumn? "添加":"修改")+"栏目", sc.getName());
 			
 			return vo;
 		}else{
@@ -789,7 +779,7 @@ public class ColumnController extends BaseController {
 		//这个栏目改动完毕后，要重新将此栏目加入Session缓存中去
 		siteColumnService.updateSiteColumnByCache(siteColumn);
 		//记录日志
-		AliyunLog.insert(request, siteColumn.getId(), "更改栏目排序");
+		ActionLogCache.insertUpdateDatabase(request, siteColumn.getId(), "更改栏目排序", rank+"");
 		
 		return success();
 	}
@@ -817,7 +807,7 @@ public class ColumnController extends BaseController {
 			sc = sqlService.findById(SiteColumn.class, siteColumn.getId());
 			//修改，则需要判断一下，修改的栏目是否是自己的网站的
 			if(sc.getSiteid() - site.getId() != 0){
-				AliyunLog.insert(request, sc.getId(), "warn", "修改的栏目不是自己的，要修改的栏目名为："+sc.getName());
+				ActionLogCache.insertError(request, "修改的栏目不是自己的，要修改的栏目为："+sc.toString());
 				return error("栏目不属于您，修改失败！您的操作系统已记录");
 			}
 			if(!sc.getName().equals(name)){
@@ -856,11 +846,7 @@ public class ColumnController extends BaseController {
 			}
 			
 			//保存日志
-			if(addSite){
-				AliyunLog.addActionLog(sc.getId(), "添加栏目："+sc.getName());
-			}else{
-				AliyunLog.addActionLog(sc.getId(), "修改栏目："+sc.getName());
-			}
+			ActionLogCache.insertUpdateDatabase(request, sc.getId(), (addSite? "添加":"修改")+"栏目", sc.getName());
 			
 			//如果这个栏目是独立页面，那么判断是否有了这个独立页面，若没有，自动建立一个
 			if(sc.getType() - SiteColumn.TYPE_PAGE == 0){
@@ -952,8 +938,7 @@ public class ColumnController extends BaseController {
 			return baseVO;
 		}
 		
-		
-		AliyunLog.addActionLog(site.getId(), "保存栏目排序");
+		ActionLogCache.insertUpdateDatabase(request, "保存栏目排序",rankString);
 		
 		new com.xnx3.wangmarket.admin.cache.Site().siteColumnRank(site, Sql.filter(rankString));
 		return new BaseVO();
@@ -969,7 +954,7 @@ public class ColumnController extends BaseController {
 		Site site = getSite();
 		siteColumnService.resetColumnRankAndJs(site);
 		
-		AliyunLog.addActionLog(site.getId(), "重置栏目排序");
+		ActionLogCache.insertUpdateDatabase(request, "重置栏目排序");
 		
 		return success(model, "重置栏目排序成功", Func.getConsoleRedirectUrl());
 	}
@@ -981,7 +966,8 @@ public class ColumnController extends BaseController {
 	 */
 	@RequestMapping(value="delete${url.suffix}")
 	@ResponseBody
-	public BaseVO delete(@RequestParam(value = "id", required = false , defaultValue="0") int id){
+	public BaseVO delete(HttpServletRequest request,
+			@RequestParam(value = "id", required = false , defaultValue="0") int id){
 		Site site = getSite();
 		SiteColumn siteColumn =sqlService.findById(SiteColumn.class , id);
 		if(siteColumn == null){
@@ -1014,7 +1000,7 @@ public class ColumnController extends BaseController {
 			}
 		}
 		
-		AliyunLog.addActionLog(siteColumn.getId(), "删除栏目："+siteColumn.getName());
+		ActionLogCache.insertUpdateDatabase(request, siteColumn.getId(), "删除栏目", siteColumn.getName());
 		
 		return success();
 	}

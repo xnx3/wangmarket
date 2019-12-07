@@ -9,7 +9,7 @@ import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**
- * 网站管理后台，也就是 com.xnx3.wangmarket.admin 下的所有controller都要继承这个
+ * 网站管理后台，也就是 com.xnx3.wangmarket.admin 下的所有controller都要继承这个。其实现在所有 com.xnx3.wangmarket 下都是继承的这个
  * @author 管雷鸣
  *
  */

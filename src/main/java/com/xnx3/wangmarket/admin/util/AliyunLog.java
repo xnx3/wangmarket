@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.admin.util;
 
 import java.util.Date;
-
 import com.aliyun.openservices.log.common.LogItem;
 import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.wangmarket.admin.Func;
@@ -10,6 +9,8 @@ import com.xnx3.wangmarket.admin.entity.Site;
 /**
  * 用户操作日志统计
  * @author 管雷鸣
+ * @deprecated 请使用 {@link com.xnx3.wangmarket.admin.util.ActionLogCache}
+ * 
  */
 public class AliyunLog extends ActionLogCache {
 	
@@ -99,5 +100,7 @@ public class AliyunLog extends ActionLogCache {
 		logItem.PushBack("siteid", siteid+"");
 		insert(logItem, null, 0, action, remark);
 	}
+	
+	
 	
 }

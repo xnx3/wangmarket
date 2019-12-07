@@ -5,7 +5,7 @@ import com.xnx3.j2ee.Global;
 /**
  * 插件扩展功能
  * @author 管雷鸣
- *
+ * @since 5.0
  */
 public abstract class PluginExtend {
 	

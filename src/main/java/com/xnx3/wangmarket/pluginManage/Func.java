@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
 /**
  * 插件的一些常用方法
  * @author 管雷鸣
- *
+ * @since 5.0
  */
 public class Func {
 	

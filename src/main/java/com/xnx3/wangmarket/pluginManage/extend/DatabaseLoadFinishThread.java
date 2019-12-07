@@ -14,7 +14,7 @@ import com.xnx3.wangmarket.pluginManage.PluginExtend;
 /**
  * 当数据库加载完成后执行某某方法。 关联 {@link PluginExtend#databaseLoadFinish()}
  * @author 管雷鸣
- *
+ * @since 5.0
  */
 public class DatabaseLoadFinishThread extends Thread{
 	private Class c;

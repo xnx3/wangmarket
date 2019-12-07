@@ -122,7 +122,7 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 				if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 					//如果是超级管理员，那么跳转到管理后台
 					vo.setInfo("admin/index/index.do");
-					ActionLogCache.insert(request, "用户名密码模式登录成功","进入管理后台admin/index/");
+					ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入管理后台admin/index/");
 				}else{
 					/* 自己扩展的 */
 					
@@ -230,7 +230,7 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 						//计算其网站所使用的资源，比如OSS已占用了多少资源
 						loginSuccessComputeUsedResource();
 						
-						ActionLogCache.insert(request, "用户名密码模式登录成功","进入网站管理后台");
+						ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入网站管理后台");
 					}else{
 						//代理
 						
@@ -262,7 +262,7 @@ public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseC
 							return vo;
 						}
 						
-						ActionLogCache.insert(request, "用户名密码模式登录成功","进入代理后台");
+						ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入代理后台");
 					}
 					
 					//设置登录成功后，是跳转到总管理后台、代理后台，还是跳转到wap、pc、cms

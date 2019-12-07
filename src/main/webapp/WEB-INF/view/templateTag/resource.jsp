@@ -7,11 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>静态资源_模板页面_网市场模版标签</title>
 	<link href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" rel="stylesheet">
-	<link href="${STATIC_RESOURCE_PATH}template/doc1/css/style.css" rel="stylesheet">
 </head>
 <body style="">
 	<div class="layui-main site-inline doc1dakuang" style="">
-		<div class="site-content markdown-body editormd-html-preview" id="content" style="">
+		<div class="site-content markdown-body editormd-html-preview" id="content" style="box-sizing: border-box;">
 			<h1 id="iw_title" style="">模版中js、css的存放</h1>
 			<div style="display: none;">
 				## 存放方式一(推荐)： 注意，此方式近v4.7及以上版本才可以使用。v4.7以前的版本，请使用第二种方式。

@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
 /**
  * 插件注册的注解，将插件注册进管理后台中
  * @author 管雷鸣
- *
+ * @since 5.0
  */
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

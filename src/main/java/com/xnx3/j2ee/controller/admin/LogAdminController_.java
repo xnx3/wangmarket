@@ -24,7 +24,7 @@ import com.xnx3.j2ee.vo.LogLineGraphVO;
 import com.xnx3.net.AliyunLogPageUtil;
 
 /**
- * 日志管理
+ * 日志管理，使用的是阿里云日志服务
  * @author 管雷鸣
  */
 @Controller
@@ -54,7 +54,7 @@ public class LogAdminController_ extends BaseController{
 		//设置分页，出现得上几页、下几页跳转按钮的个数
 		page.setListNumber(2);
 		
-//		ActionLogCache.insert(request, "查看总管理后台日志列表", "第"+page.getCurrentPageNumber()+"页");
+		ActionLogCache.insert(request, "查看总管理后台日志列表", "第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("list", jsonArray);
 		model.addAttribute("page", page);
@@ -83,6 +83,8 @@ public class LogAdminController_ extends BaseController{
 	@ResponseBody
 	public LogLineGraphVO dayLineForCurrentDay(HttpServletRequest request) throws LogException{
 		LogLineGraphVO vo = new LogLineGraphVO();
+		
+		ActionLogCache.insert(request, "管理后台操作日志-折线图，当天、昨天，24小时，每小时的访问情况");
 		
 		//当前10位时间戳
 		int currentTime = DateUtil.timeForUnix10();
@@ -128,6 +130,7 @@ public class LogAdminController_ extends BaseController{
 	@ResponseBody
 	public LogLineGraphVO dayLineForCurrentMonth(HttpServletRequest request) throws LogException{
 		LogLineGraphVO vo = new LogLineGraphVO();
+		ActionLogCache.insert(request, "管理后台操作日志-折线图，当月(最近30天)，每天的访问情况");
 		
 		//当前10位时间戳
 		int currentTime = DateUtil.timeForUnix10();

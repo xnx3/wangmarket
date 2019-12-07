@@ -7,11 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>模板变量_模板页面_网市场模版标签</title>
 	<link href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" rel="stylesheet">
-	<link href="${STATIC_RESOURCE_PATH}template/doc1/css/style.css" rel="stylesheet">
 </head>
 <body style="">
 	<div class="layui-main site-inline doc1dakuang" style="">
-		<div class="site-content markdown-body editormd-html-preview" id="content" style="">
+		<div class="site-content markdown-body editormd-html-preview" id="content" style="box-sizing: border-box;">
 			<h1 id="iw_title" style="">使用说明</h1>
 
 			<h2 id="h2-u8BF4u660E">

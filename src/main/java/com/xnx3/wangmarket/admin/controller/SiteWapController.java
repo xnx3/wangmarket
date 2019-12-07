@@ -1,7 +1,5 @@
 package com.xnx3.wangmarket.admin.controller;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -9,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.MD5Util;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -16,7 +15,6 @@ import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 
 /**
  * 通用网站－手机端电脑网站，site.client 为wap网站的
@@ -36,7 +34,7 @@ public class SiteWapController extends BaseController {
 	 */
 	@RequestMapping("index${url.suffix}")
 	public String index(HttpServletRequest request, Model model){
-		AliyunLog.addActionLog(getSiteId(), "进入通用手机网站控制台首页");
+		ActionLogCache.insert(request, "进入通用手机网站控制台首页");
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
@@ -75,7 +73,7 @@ public class SiteWapController extends BaseController {
 		String html = gh.wapIndex();
 		model.addAttribute("html", html);
 		
-		AliyunLog.addActionLog(getSiteId(), "打开通用手机网站，首页可视化编辑模式");
+		ActionLogCache.insert(request, "打开通用手机网站，首页可视化编辑模式");
 		
 		return "siteWap/editIndex";
 	}

@@ -17,7 +17,7 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.MailUtil;
 import com.xnx3.wangmarket.admin.entity.Exchange;
 import com.xnx3.wangmarket.admin.service.SiteService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogCache;
 import com.xnx3.wangmarket.superadmin.entity.Goods;
 
 /**
@@ -43,7 +43,7 @@ public class CurrencyController extends BaseController {
 		userService.regInit(request);	//注册记录下线
 		model.addAttribute("user", getUser());
 		
-		AliyunLog.addActionLog(getSiteId(), "打开积分兑换首页");
+		ActionLogCache.insert(request, "打开积分兑换首页");
 		return "money/index";
 	}
 	
@@ -55,7 +55,7 @@ public class CurrencyController extends BaseController {
 	 */
 	@RequestMapping("gainChannel${url.suffix}")
 	public String gainChannel(HttpServletRequest request,Model model){
-		AliyunLog.addActionLog(getSiteId(), "进入查看积分获取途径页面");
+		ActionLogCache.insert(request, "进入查看积分获取途径页面");
 		return "money/gainChannel";
 	}
 	
@@ -70,7 +70,7 @@ public class CurrencyController extends BaseController {
 	public String exchangeList(HttpServletRequest request,Model model){
 		List<User> list = sqlService.findBySqlQuery("SELECT * FROM user WHERE referrerid = "+getUserId()+" ORDER BY id DESC", User.class);
 		
-		AliyunLog.addActionLog(getSiteId(), "进入查看我邀请的用户下线的页面，当前我的下线人数："+list.size()+"人");
+		ActionLogCache.insert(request, "进入查看我邀请的用户下线的页面", "当前我的下线人数："+list.size()+"人");
 		model.addAttribute("userList", list);
 		model.addAttribute("size", list.size());
 		return "money/inviteList";
@@ -117,11 +117,11 @@ public class CurrencyController extends BaseController {
 				//发送邮件提醒
 				MailUtil.sendMail(Global.get("SERVICE_MAIL"), "有人在"+Global.get("SITE_NAME")+"用积分兑换商品了", getUser().getUsername()+"兑换"+goods.getType()+","+goods.getExplain());
 				
-				AliyunLog.addActionLog(exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，申请已提交");
+				ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，申请已提交");
 				return success();
 			} catch (Exception e) {
 			    sqlService.delete(exchange);
-			    AliyunLog.addActionLog(exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
+			    ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
 			    return error("您的积分校验异常，请重新尝试！");
 			}
 		}else{

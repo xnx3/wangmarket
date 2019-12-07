@@ -54,7 +54,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		
 		userService.regInit(request);
-		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册");
+		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
 		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
 	
@@ -76,7 +76,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		userService.regInit(request);	//注册记录下线
 		
-		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册");
+		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
 		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
 	

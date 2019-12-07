@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -35,7 +36,7 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "common${url.suffix}")
-	public String common(Model model){
+	public String common(HttpServletRequest request,Model model){
 		//当前使用的站点
 		Site site = getSite();
 		//调用主站的域名
@@ -45,6 +46,7 @@ public class TemplateTagController extends BaseController {
 		//当前时间的时间戳
 		Integer linuxTime = DateUtil.dateToInt10(new Date());
 		
+		ActionLogCache.insert(request, "通用标签说明页面");
 		model.addAttribute("site", site);
 		model.addAttribute("masterSiteUrl", masterSiteUrl);
 		model.addAttribute("templatePath", templatePath);
@@ -57,8 +59,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "dynamic${url.suffix}")
-	public String dynamic(Model model){
-		
+	public String dynamic(HttpServletRequest request,Model model){
+		ActionLogCache.insert(request, "动态栏目调用标签说明页面");
 		return "templateTag/dynamic";
 	}
 	
@@ -67,7 +69,7 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "column${url.suffix}")
-	public String column(Model model){
+	public String column(HttpServletRequest request,Model model){
 		//当前站点
 		Site site = getSite();
 		//站点下的栏目
@@ -89,6 +91,7 @@ public class TemplateTagController extends BaseController {
 			siteColumn.setIcon("http://cdn.weiunity.com/res/glyph-icons/world.png");
 		}
 		
+		ActionLogCache.insert(request, "栏目标签说明页面");
 		model.addAttribute("siteColumn", siteColumn);
 		return "templateTag/column";
 	}
@@ -98,7 +101,7 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "news${url.suffix}")
-	public String news(Model model){
+	public String news(HttpServletRequest request,Model model){
 		//当前站点
 		Site site = getSite();
 		//站点下的栏目
@@ -121,8 +124,9 @@ public class TemplateTagController extends BaseController {
 			news.setAddtime(1568008570);
 		}else {
 			news = newsList.get(0);
-			
 		}
+		
+		ActionLogCache.insert(request, "文章信息标签说明页面");
 		model.addAttribute("news", news);
 		return "templateTag/news";
 	}
@@ -132,8 +136,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "details${url.suffix}")
-	public String details(){
-		
+	public String details(HttpServletRequest request){
+		ActionLogCache.insert(request, "详情页独有标签说明页面");
 		return "templateTag/details";
 	}
 	
@@ -142,8 +146,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "list${url.suffix}")
-	public String list(){
-		
+	public String list(HttpServletRequest request){
+		ActionLogCache.insert(request, "列表页独有标签说明页面");
 		return "templateTag/list";
 	}
 	
@@ -152,8 +156,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "page${url.suffix}")
-	public String page(){
-		
+	public String page(HttpServletRequest request){
+		ActionLogCache.insert(request, "分页标签说明页面");
 		return "templateTag/page";
 	}
 	
@@ -162,8 +166,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "home${url.suffix}")
-	public String home(){
-		
+	public String home(HttpServletRequest request){
+		ActionLogCache.insert(request, "首页模板说明页面");
 		return "templateTag/home";
 	}
 	
@@ -172,8 +176,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "resource${url.suffix}")
-	public String resource(){
-		
+	public String resource(HttpServletRequest request){
+		ActionLogCache.insert(request, "静态资源引用方式说明页面");
 		return "templateTag/resource";
 	}
 	
@@ -182,8 +186,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "extend${url.suffix}")
-	public String extend(){
-		
+	public String extend(HttpServletRequest request){
+		ActionLogCache.insert(request, "扩展字段说明页面");
 		return "templateTag/extend";
 	}
 	
@@ -192,8 +196,8 @@ public class TemplateTagController extends BaseController {
 	 * @author 张洪岩
 	 */
 	@RequestMapping(value = "var${url.suffix}")
-	public String var(){
-		
+	public String var(HttpServletRequest request){
+		ActionLogCache.insert(request, "模板变量说明页面");
 		return "templateTag/varForUsed";
 	}
 	

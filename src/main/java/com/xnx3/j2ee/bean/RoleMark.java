@@ -2,7 +2,7 @@ package com.xnx3.j2ee.bean;
 
 import com.xnx3.j2ee.entity.Role;
 /**
- * 资源标示
+ * 角色权限体系-角色标示
  * @author 管雷鸣
  *
  */

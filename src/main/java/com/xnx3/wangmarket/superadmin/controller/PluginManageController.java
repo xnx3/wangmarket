@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -47,9 +46,9 @@ import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
 import com.xnx3.wangmarket.superadmin.bean.PluginRegisterBean;
 import com.xnx3.wangmarket.superadmin.cache.YunPluginMessageCache;
 import com.xnx3.wangmarket.superadmin.entity.Application;
@@ -57,7 +56,6 @@ import com.xnx3.wangmarket.superadmin.util.pluginManage.ComponentUtils;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ScanClassesUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.TomcatUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ZipUtils;
-
 import net.sf.json.JSONObject;
 
 /**
@@ -71,11 +69,6 @@ public class PluginManageController extends BasePluginController {
 	SqlService sqlService;
 	@Autowired
 	private ApplicationContext applicationContext;
-	
-	/**
-	 * 当前已经安装的插件
-	 */
-	//private static Map<String, PluginRegister> installedPluginMap;
 	
 	/**
 	 * 筛选出与插件相关的文件夹
@@ -115,7 +108,6 @@ public class PluginManageController extends BasePluginController {
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId, 
 			@RequestParam(value = "version", required = false, defaultValue = "") String version) 
 					throws ClassNotFoundException, IOException {
-		
 		// 判断用户身份
 		if(haveSuperAdminAuth() == false) {
 			return error("您没有该功能操作权限");
@@ -223,12 +215,8 @@ public class PluginManageController extends BasePluginController {
 		 */
 		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
 		Class<?> forName = Class.forName(className);
-//		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-		
-		
-//		installedPluginMap.put(pluginId, sitePluginBean);
 		//添加动作日志
-		ActionLogCache.insert(request, "升级插件", "升级ID为" + pluginId + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理，升级插件", "升级ID为" + pluginId + "的插件");
 		
 		return success();
 	}
@@ -319,15 +307,9 @@ public class PluginManageController extends BasePluginController {
 		 *  在已安装插件的缓存中去除掉次插件,并且在页面功能插件菜单中删除
 		 */
 		// 删除功能插件菜单栏中的菜单
-//		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
-//		Class<?> forName = Class.forName(className);
 		removePagePluginMenu(pluginId);
-//		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-//		setPagePluginMenu(pluginId, sitePluginBean, 0);
-		// 在缓存插件中移除
-//		installedPluginMap.remove(pluginId);
 		//添加动作日志
-		ActionLogCache.insert(request, "卸载插件", "卸载ID为" + pluginId + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理-卸载插件", "卸载ID为" + pluginId + "的插件");
 		return success();
 	}
 	
@@ -412,7 +394,6 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 * 判断插件是否已经安装
 		 */
-//		if(installedPluginMap.get(pluginId) != null) {
 		if(PluginManage.getAllInstallPlugin().get(pluginId) != null) {
 			return error("该插件您已安装或者与本地插件ID发生冲突。");
 		}
@@ -490,12 +471,8 @@ public class PluginManageController extends BasePluginController {
 			e.printStackTrace();
 			return error(e.getMessage());
 		}
-//		SitePluginBean sitePluginBean = new SitePluginBean(forName);
-//		installedPluginMap.put(pluginId, sitePluginBean);
-		// 添加功能插件菜单
-//		setPagePluginMenu(pluginId, sitePluginBean, 1);
 		//添加动作日志
-		ActionLogCache.insert(request, "安装插件", "安装ID为" + pluginId + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理-安装插件", "安装ID为" + pluginId + "的插件");
 		// 重启容器
 		if(restartApplication) {
 			return success("restart");
@@ -716,19 +693,14 @@ public class PluginManageController extends BasePluginController {
 			e.printStackTrace();
 			return error(e.getMessage());
 		}
-//		installedPluginMap.put(pluginId, sitePluginBean);
-		// 添加功能插件菜单
-//		setPagePluginMenu(pluginId, sitePluginBean, 1);
 		//添加动作日志
-		ActionLogCache.insert(request, "安装插件", "安装ID为" + pluginId + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理，安装插件", "安装ID为" + pluginId + "的插件");
 		// 重启容器
 		if(restartApplication) {
 			return success("restart");
 		}
 		return success();
 	}
-	
-	
 	
 	/**
 	 * 重新加载容器
@@ -737,14 +709,13 @@ public class PluginManageController extends BasePluginController {
 	@ResponseBody
 	@RequestMapping("/restart${url.suffix}")
 	public BaseVO restartApplication(HttpServletRequest request) {
-		
 		// 判断用户身份
 		if(haveSuperAdminAuth() == false) {
 			return error("您没有该功能操作权限");
 		}
 		
 		//添加动作日志
-		ActionLogCache.insert(request, "启动服务", "因为安装新插件二重启服务器");
+		ActionLogCache.insert(request, "总管理后台-插件管理-重启Tomcat", "因为安装新插件二重启服务器");
 		// 检查当前的运行的环境决定重启的方式
 		if(getPluginPath(request, "").get("environment").equals("tomcat")) {
 			// 创建存放数据信息的Map
@@ -803,42 +774,6 @@ public class PluginManageController extends BasePluginController {
 		
 	}
 	
-		
-	/**
-	 * 设置首页功能插件的列表信息
-	 * @author 李鑫
-	 * @param pluginId 操作插件的id
-	 * @param sitePluginBean 插件的信息
-	 * @param action 进行的操作 0：删除操作 1：添加操作
-	 * @return 该返回参数无意义，任何情况下都为true。
-	 */
-//	private boolean setPagePluginMenu(String pluginId, SitePluginBean sitePluginBean, int action) {
-//		// 添加插件菜单操作
-//		if(action == 1){
-//			if(sitePluginBean.isApplyToCMS()) {
-//				PluginManage.cmsSiteClassManage.put(pluginId, sitePluginBean);
-//			}
-//			if(sitePluginBean.isApplyToAgency()) {
-//				PluginManage.agencyClassManage.put(pluginId, sitePluginBean);
-//			}
-//			if(sitePluginBean.isApplyToSuperAdmin()) {
-//				PluginManage.superAdminClassManage.put(pluginId, sitePluginBean);
-//			}
-//			return true;
-//		}
-//		// 删除插件菜单操作
-//		if(sitePluginBean.isApplyToCMS()) {
-//			PluginManage.cmsSiteClassManage.remove(pluginId);
-//		}
-//		if(sitePluginBean.isApplyToAgency()) {
-//			PluginManage.agencyClassManage.remove(pluginId);
-//		}
-//		if(sitePluginBean.isApplyToSuperAdmin()) {
-//			PluginManage.superAdminClassManage.remove(pluginId);
-//		}
-//		return true;
-//	}
-	
 	
 	/**
 	 * 删除插件菜单操作。
@@ -857,7 +792,7 @@ public class PluginManageController extends BasePluginController {
 			PluginManage.superAdminClassManage.remove(pluginId);
 		}
 	}
-		
+	
 	/**
 	 * 扫描与插件有关的IOC组件
 	 * @author 李鑫
@@ -943,7 +878,7 @@ public class PluginManageController extends BasePluginController {
 		//更新插件信息
 		sqlService.save(application);
 		//添加动作日志
-		ActionLogCache.insert(request, "上传插件", "上传ID为" + pluginId + "的插件压缩包");
+		ActionLogCache.insert(request, "总管理后台-功能插件-上传插件", "上传ID为" + pluginId + "的插件压缩包");
 		return success();
 	}
 	
@@ -1038,7 +973,7 @@ public class PluginManageController extends BasePluginController {
 		sqlService.save(application);
 		
 		//添加动作日志
-		ActionLogCache.insert(request, "添加插件", "添加ID为" + pluginId + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理-添加插件", "添加ID为" + pluginId + "的插件");
 		return success();
 	}
 	
@@ -1052,7 +987,7 @@ public class PluginManageController extends BasePluginController {
 		if(haveSuperAdminAuth() == false) {
 			return error(model, "您没有该功能操作权限");
 		}
-		
+		ActionLogCache.insert(request, "进入总管理后台-功能插件 首页");
 		return "/plugin/pluginManage/index";
 	}
 	
@@ -1084,7 +1019,7 @@ public class PluginManageController extends BasePluginController {
 		model.addAttribute("page", page);
 		
 		//添加阿里云日志服务
-		ActionLogCache.insert(request, "查看插件列表", "查看插件列表");
+		ActionLogCache.insert(request, "总管理后台-插件管理，查看自己二次开发的插件", "查看插件列表");
 		return "/plugin/pluginManage/myList/list";
 	}
 	
@@ -1110,26 +1045,15 @@ public class PluginManageController extends BasePluginController {
 				pluginList.add(new PluginRegisterBean(entry.getValue()));
 			}
 		}
-		// 获取本地插件的id列表
-//		List<String> idList = new LinkedList<String>();
-//		// 遍历结果
-//		Iterator<Application> iterator = YunPluginMessageCache.applicationList.iterator();
-//		while (iterator.hasNext()) {
-//			Application application = iterator.next();
-//			// 将遍历结果放于list中
-//			idList.add(application.getId());
-//		}
-		// 将云插件库的ID信息放到页面中
-//		model.addAttribute("ids", idList.toString());
+		ActionLogCache.insert(request, "总管理后台-插件管理，查看当前网市场已经安装的插件列表");
 		model.addAttribute("pluginList", pluginList);
 		return "/plugin/pluginManage/installList/list";
 	}
 	
 	/**
-	 * 查看网市场插件列表
+	 * 查看网市场云端插件列表
 	 * @author 李鑫
 	 * @param menuTitle 用户查询插件的筛选条件
-	 * @return
 	 */
 	@RequestMapping("/yunList${url.suffix}")
 	public String yunList(HttpServletRequest request ,Model model,
@@ -1184,6 +1108,8 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		
+		ActionLogCache.insert(request, "总管理后台-插件管理，查看网市场云端插件列表");
+		
 		// 将已经安装的插件id放入缓存中
 		model.addAttribute("list", list);
 		model.addAttribute("page", YunPluginMessageCache.page);
@@ -1205,12 +1131,14 @@ public class PluginManageController extends BasePluginController {
 	 * @param pluginId 查询的插件id
 	 */
 	@RequestMapping("queryYunPluginById${url.suffix}")
-	public String queryYunPluginById(Model model, 
+	public String queryYunPluginById(Model model, HttpServletRequest request,
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
 		// 判断用户身份
 		if(haveSuperAdminAuth() == false) {
 			return error(model, "您没有该功能操作权限");
 		}
+		
+		ActionLogCache.insert(request, "总管理后台-插件管理，查询云插件插件详情");
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
@@ -1245,7 +1173,7 @@ public class PluginManageController extends BasePluginController {
 		// 删除插件信息
 		sqlService.delete(plugin);
 		//添加动作日志
-		ActionLogCache.insert(request, "删除插件", "删除ID为" + plugin.getMenuTitle() + "的插件");
+		ActionLogCache.insert(request, "总管理后台-插件管理，删除插件", "删除ID为" + plugin.getMenuTitle() + "的插件");
 		return success();
 	}
 	
@@ -1284,13 +1212,14 @@ public class PluginManageController extends BasePluginController {
 	 * @param pluginId 上传文件的插件id
 	 */
 	@RequestMapping("/upload${url.suffix}")
-	public String uploadZipFile(Model model, 
+	public String uploadZipFile(Model model, HttpServletRequest request,
 			@RequestParam(value = "plugin_id", required = false, defaultValue = "") String pluginId) {
 		// 判断用户身份
 		if(haveSuperAdminAuth() == false) {
 			return error(model, "您没有该功能操作权限");
 		}
 		
+		ActionLogCache.insert(request, "总管理后台-插件管理，跳转上传插件压缩包页面");
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
@@ -1375,8 +1304,6 @@ public class PluginManageController extends BasePluginController {
 			return error("未发现这个类: "+className);
 		}
 		
-//		Class<?> forName = Class.forName(className);
-//		SitePluginBean sitePluginBean = new SitePluginBean(forName);
 		// 获取文件
 		File systemFile = new File(realPath + "export" + File.separator + "ROOT" + File.separator + "system.txt");
 		if(!systemFile.exists()) {
@@ -1404,7 +1331,7 @@ public class PluginManageController extends BasePluginController {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(10 * 1000);
+					Thread.sleep(5 * 60 * 1000);
 					// 删除导出临时文件夹
 					deleteDirectory(new File(realPath + "pluginZip"), false);
 				} catch (InterruptedException e) {
@@ -1412,6 +1339,8 @@ public class PluginManageController extends BasePluginController {
 				}
 			}
 		}.start();
+		
+		ActionLogCache.insert(request, "总管理后台-插件管理，导出插件");
 		
 		// 返回需要访问的路径
 		return success("/pluginZip/" + pluginId + ".zip");

@@ -62,7 +62,7 @@ public class ActionLogCache {
 			if(keyId.length() > 10){
 				aliyunLogUtil = new AliyunLogUtil(endpoint,  keyId, keySecret, project, logstore);
 				//开启触发日志的，其来源类及函数的记录
-				aliyunLogUtil.setStackTraceDeep(5);
+				aliyunLogUtil.setStackTraceDeep(4);
 				aliyunLogUtil.setCacheAutoSubmit(log_cache_max_number, log_cache_max_time);
 				Log.info("开启日志服务进行操作记录");
 			}else{
@@ -74,9 +74,9 @@ public class ActionLogCache {
 	
 	/**
 	 * 插入一条日志。
-	 * 这个额外多增加了这个private的，是因为上面设置了 aliyunLogUtil.setStackTraceDeep(5);
+	 * <b>注意，不能直接使用此方法此写日志</b>，是因为上面设置了 aliyunLogUtil.setStackTraceDeep(4); 如果直接使用此方法写日志，那么执行的类、方法 是记录不到的。这个方法是给 insert....方法 提供服务的
 	 * @param logItem 传入要保存的logItem，若为空，则会创建一个新的。此项主要为扩展使用，可自行增加其他信息记录入日志
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
@@ -87,7 +87,7 @@ public class ActionLogCache {
 	 * 				<li> {@link #TYPE_UPDATE_DATABASE} : 操作数据库相关的。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此种类型<br/>使用 insertUpdateDatabase(...) 这种方法名的，就是记录这种类型的日志 </li>
 	 * 			</ul>
 	 */
-	private static synchronized void insertLog(LogItem logItem, HttpServletRequest request, int goalid, String action, String remark, String type){
+	public static synchronized void logExtend(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark, String type){
 		if(aliyunLogUtil == null){
 			//不使用日志服务，终止即可
 			return;
@@ -104,7 +104,7 @@ public class ActionLogCache {
 		}
 		
 		/* 动作相关 */
-		logItem.PushBack("goalid", goalid+"");
+		logItem.PushBack("goalid", goalid != null? goalid+"":"0");
 		logItem.PushBack("action", action);
 		logItem.PushBack("remark", remark);
 		
@@ -133,7 +133,7 @@ public class ActionLogCache {
 	/**
 	 * 插入一条日志。
 	 * @param logItem 传入要保存的logItem，若为空，则会创建一个新的。此项主要为扩展使用，可自行增加其他信息记录入日志
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
@@ -144,21 +144,21 @@ public class ActionLogCache {
 	 * 				<li> {@link #TYPE_UPDATE_DATABASE} : 操作数据库相关的。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此种类型<br/>使用 insertUpdateDatabase(...) 这种方法名的，就是记录这种类型的日志 </li>
 	 * 			</ul>
 	 */
-	public static synchronized void insert(LogItem logItem, HttpServletRequest request, int goalid, String action, String remark, String type){
-		insertLog(logItem, request, goalid, action, remark, type);
+	public static synchronized void insert(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark, String type){
+		logExtend(logItem, request, goalid, action, remark, type);
 	}
 	
 	/**
 	 * 插入一条日志。
 	 * <br/>这里插入的日志类型是 {@link #TYPE_NORMAL} 正常类型，比如用户进入某个页面、查看什么详情、查看什么列表等，只是记录用户普通的动作。如果是对数据库有更改、新增、删除操作的，需要使用 insertUpdateDatabase(...)
 	 * @param logItem 传入要保存的logItem，若为空，则会创建一个新的。此项主要为扩展使用，可自行增加其他信息记录入日志
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
-	public static synchronized void insert(LogItem logItem, HttpServletRequest request, int goalid, String action, String remark){
-		insertLog(logItem, request, goalid, action, remark, TYPE_NORMAL);
+	public static synchronized void insert(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark){
+		logExtend(logItem, request, goalid, action, remark, TYPE_NORMAL);
 	}
 	
 
@@ -166,110 +166,110 @@ public class ActionLogCache {
 	/**
 	 * 插入一条日志
 	 * <br/>这里插入的日志类型是 {@link #TYPE_NORMAL} 正常类型，比如用户进入某个页面、查看什么详情、查看什么列表等，只是记录用户普通的动作。如果是对数据库有更改、新增、删除操作的，需要使用 insertUpdateDatabase(...)
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
-	public static synchronized void insert(HttpServletRequest request, int goalid, String action, String remark){
-		insert(null, request, goalid, action, remark);
+	public static synchronized void insert(HttpServletRequest request, Integer goalid, String action, String remark){
+		logExtend(null, request, goalid, action, remark, TYPE_NORMAL);
 	}
 	
 	/**
 	 * 插入一条日志。
 	 * <br/>这里插入的日志类型是 {@link #TYPE_NORMAL} 正常类型，比如用户进入某个页面、查看什么详情、查看什么列表等，只是记录用户普通的动作。如果是对数据库有更改、新增、删除操作的，需要使用 insertUpdateDatabase(...)
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
 	public static void insert(HttpServletRequest request, String action, String remark){
-		insert(null, request, 0, action, remark);
+		logExtend(null, request, 0, action, remark, TYPE_NORMAL);
 	}
 	
 	/**
 	 * 插入一条日志
 	 * <br/>这里插入的日志类型是 {@link #TYPE_NORMAL} 正常类型，比如用户进入某个页面、查看什么详情、查看什么列表等，只是记录用户普通的动作。如果是对数据库有更改、新增、删除操作的，需要使用 insertUpdateDatabase(...)
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
-	public static void insert(HttpServletRequest request, int goalid, String action){
-		insert(null, request, goalid, action, "");
+	public static void insert(HttpServletRequest request, Integer goalid, String action){
+		logExtend(null, request, goalid, action, "", TYPE_NORMAL);
 	}
 	
 	/**
 	 * 插入一条日志
 	 * <br/>这里插入的日志类型是 {@link #TYPE_NORMAL} 正常类型，比如用户进入某个页面、查看什么详情、查看什么列表等，只是记录用户普通的动作。如果是对数据库有更改、新增、删除操作的，需要使用 insertUpdateDatabase(...)
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
 	public static void insert(HttpServletRequest request, String action){
-		insert(null, request, 0, action, "");
+		logExtend(null, request, 0, action, "", TYPE_NORMAL);
 	}
 	
 	
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
 	 * @param logItem 传入要保存的logItem，若为空，则会创建一个新的。此项主要为扩展使用，可自行增加其他信息记录入日志
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
-	public static synchronized void insertUpdateDatabase(LogItem logItem, HttpServletRequest request, int goalid, String action, String remark){
-		insertLog(logItem, request, goalid, action, remark, TYPE_UPDATE_DATABASE);
+	public static synchronized void insertUpdateDatabase(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark){
+		logExtend(logItem, request, goalid, action, remark, TYPE_UPDATE_DATABASE);
 	}
 
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
-	public static synchronized void insertUpdateDatabase(HttpServletRequest request, int goalid, String action, String remark){
-		insertUpdateDatabase(null, request, goalid, action, remark);
+	public static synchronized void insertUpdateDatabase(HttpServletRequest request, Integer goalid, String action, String remark){
+		logExtend(null, request, goalid, action, remark, TYPE_UPDATE_DATABASE);
 	}
 	
 
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
 	public static void insertUpdateDatabase(HttpServletRequest request, String action, String remark){
-		insertUpdateDatabase(null, request, 0, action, remark);
+		logExtend(null, request, 0, action, remark, TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param goalid 操作的目标的id，若无，可为0，也可为空
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
-	public static void insertUpdateDatabase(HttpServletRequest request, int goalid, String action){
-		insertUpdateDatabase(null, request, goalid, action, "");
+	public static void insertUpdateDatabase(HttpServletRequest request, Integer goalid, String action){
+		logExtend(null, request, goalid, action, "", TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
 	public static void insertUpdateDatabase(HttpServletRequest request, String action){
-		insertUpdateDatabase(null, request, 0, action, "");
+		logExtend(null, request, 0, action, "", TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
 	 * 插入一条错误日志。
 	 * <br/>记录理论上不会出现的错误，但实际用户使用时，真的出现了。出现这种记录，技术人员看到这种类型记录后，一定是程序中数据、逻辑出现问题了，需要排查的，这种记录的日志不能看完就忽略，一定是要经过技术排查。
 	 * <br/>比如有一个订单，根据订单中的用户编号(userid)取用户表(User)的记录时，用户表中没有这个人，那这个就是程序在哪个地方出现问题了，就要技术人员进行排查了。这种信息就可以用 TYPE_ERROR 来进行记录
-	 * @param request HttpServletRequest
+	 * @param request HttpServletRequest 若为空，则不日志中不记录请求的信息，比如浏览器信息、请求网址等
 	 * @param remark 详细描述，如： 有一个订单，订单号是xxx,根据订单中的用户编号userid:xxxx取用户表(User)的记录时，用户表中没有这个人，
 	 */
 	public static void insertError(HttpServletRequest request, String remark){
-		insertUpdateDatabase(null, request, 0, "", remark);
+		logExtend(null, request, 0, "ERROR LOG", remark, TYPE_ERROR);
 	}
 	
 }

@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.DateUtil;
-import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.System;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.generateCache.Message;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.util.Page;
@@ -114,7 +111,7 @@ public class SystemAdminController_ extends BaseController {
 		/***更新内存数据****/
 		systemService.refreshSystemCache();
 		
-		ActionLogCache.insert(request, system.getId(), "保存系统变量", system.getName()+"="+system.getValue());
+		ActionLogCache.insertUpdateDatabase(request, system.getId(), "保存系统变量", system.getName()+"="+system.getValue());
 		return success();
 	}
 	
@@ -134,7 +131,7 @@ public class SystemAdminController_ extends BaseController {
 		/***更新内存数据****/
 		systemService.refreshSystemCache();
 		
-		ActionLogCache.insert(request, system.getId(), "删除系统变量", system.getName()+"="+system.getValue());
+		ActionLogCache.insertUpdateDatabase(request, system.getId(), "删除系统变量", system.getName()+"="+system.getValue());
 		return success();
 	}
 }

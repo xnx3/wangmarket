@@ -8,11 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>通用标签_动态标签_网市场模版标签</title>
 	<link href="${STATIC_RESOURCE_PATH}module/editor/css/editormd.css" rel="stylesheet">
-	<link href="${STATIC_RESOURCE_PATH}template/doc1/css/style.css" rel="stylesheet">
 </head>
 <body style="">
 	<div class="layui-main site-inline doc1dakuang" style="">
-		<div class="site-content markdown-body editormd-html-preview" id="content" style="">
+		<div class="site-content markdown-body editormd-html-preview" id="content" style="box-sizing: border-box;">
 			<h1 id="iw_title" style="">通用标签</h1>
 			<h2 id="h2-u9002u7528u8303u56F4">
 				<a name="适用范围" class="reference-link"></a>

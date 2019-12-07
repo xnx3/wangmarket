@@ -71,10 +71,10 @@ public class MessageAdminController_ extends BaseController {
 	public String delete(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = messageService.delete(id);
 		if(baseVO.getResult() == BaseVO.SUCCESS){
-			ActionLogCache.insert(request, "总管理后台删除站内信息");
+			ActionLogCache.insertUpdateDatabase(request, "总管理后台删除站内信息");
 			return success(model, "删除成功！");
 		}else{
-			ActionLogCache.insert(request, "总管理后台删除站内信息", "失败："+baseVO.getInfo());
+			ActionLogCache.insertUpdateDatabase(request, "总管理后台删除站内信息", "失败："+baseVO.getInfo());
 			return error(model, baseVO.getInfo());
 		}
 	}

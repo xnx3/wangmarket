@@ -1,19 +1,17 @@
 package com.xnx3.wangmarket.superadmin.controller.admin;
 
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.controller.BaseController;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
@@ -49,6 +47,7 @@ public class AdminNewsController extends BaseController {
 		sql.setOrderBy("news.id DESC");
 		List<News> list = sqlService.findBySql(sql, News.class);
 		
+		ActionLogCache.insert(request, "总管理后台，News 文章管理，查看文章列表");
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
 		return "admin/news/list";
@@ -57,12 +56,11 @@ public class AdminNewsController extends BaseController {
 	/**
 	 * 信息详情
 	 * @param id News.id
-	 * @param model
-	 * @return
 	 */
 	@RequiresPermissions("adminNewsView")
 	@RequestMapping("view${url.suffix}")
-	public String view(@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
+	public String view(HttpServletRequest request,
+			@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
 		News news = sqlService.findById(News.class, id);
 		if(news == null){
 			return error(model, "信息不存在");
@@ -74,6 +72,7 @@ public class AdminNewsController extends BaseController {
 			return error(model, "信息所属网站不存在");
 		}
 		
+		ActionLogCache.insert(request, news.getId(), "总管理后台，News 文章管理，查看文章文章详情", news.getTitle());
 		model.addAttribute("text", StringUtil.filterXss(newsData.getText()));
 		model.addAttribute("news", news);
 		model.addAttribute("site", site);
@@ -84,17 +83,17 @@ public class AdminNewsController extends BaseController {
 	/**
 	 * 删除文章
 	 * @param id News.id
-	 * @param model
-	 * @return
 	 */
 	@RequiresPermissions("adminNewsDelete")
 	@RequestMapping("delete${url.suffix}")
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
+	public String delete(HttpServletRequest request,
+			@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
 		News news = sqlService.findById(News.class, id);
 		if(news == null){
 			return "信息不存在";
 		}
+		ActionLogCache.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，删除文章", news.getTitle());
 		sqlService.delete(news);
 		return success(model, "删除成功");
 	}
@@ -102,18 +101,18 @@ public class AdminNewsController extends BaseController {
 	/**
 	 * 取消违规标示，将其改为合法状态
 	 * @param id News.id
-	 * @param model
-	 * @return
 	 */
 	@RequiresPermissions("adminNewsCancelLegitimate")
 	@RequestMapping("cancelLegitimate${url.suffix}")
-	public String cancelLegitimate(@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
+	public String cancelLegitimate(HttpServletRequest request,
+			@RequestParam(value = "id", required = true , defaultValue="") int id, Model model){
 		News news = sqlService.findById(News.class, id);
 		if(news == null){
 			return "信息不存在";
 		}
 		news.setLegitimate(News.LEGITIMATE_OK);
 		sqlService.save(news);
+		ActionLogCache.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，取消违规标示，将其改为合法状态", news.getTitle());
 		return success(model, "操作成功","admin/news/view.do?id="+id);
 	}
 	
@@ -125,7 +124,8 @@ public class AdminNewsController extends BaseController {
 	 */
 	@RequiresPermissions("adminNewsView")
 	@RequestMapping("perview${url.suffix}")
-	public String perview(@RequestParam(value = "id", required = true , defaultValue="0") int id, Model model){
+	public String perview(HttpServletRequest request,
+			@RequestParam(value = "id", required = true , defaultValue="0") int id, Model model){
 		News news = sqlService.findById(News.class, id);
 		if(news == null){
 			return error(model, "信息不存在");
@@ -135,7 +135,7 @@ public class AdminNewsController extends BaseController {
 		if(site == null){
 			return error(model, "信息所属网站不存在");
 		}
-		
+		ActionLogCache.insert(request, news.getId(), "查看此条文章的网站前端，对外的网站文章页面", news.getTitle());
 		return redirect("http://"+Func.getDomain(site)+"/"+id+".html");
 	}
 }

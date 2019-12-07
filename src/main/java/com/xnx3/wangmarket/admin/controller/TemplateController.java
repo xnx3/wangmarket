@@ -27,6 +27,7 @@ import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
@@ -54,7 +55,6 @@ import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
@@ -106,7 +106,7 @@ public class TemplateController extends BaseController {
 			model.addAttribute("templatePage", vo.getTemplatePage());
 		}
 		
-		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台首页-iframe main");
+		ActionLogCache.insert(request, "进入CMS模式网站后台首页-iframe main");
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
@@ -140,7 +140,7 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping("/welcome${url.suffix}")
 	public String welcome(HttpServletRequest request,Model model){
-		AliyunLog.addActionLog(getSiteId(), "进入CMS模式网站后台欢迎页面");
+		ActionLogCache.insert(request, "进入CMS模式网站后台欢迎页面");
 		
 		TemplatePageVO vo = templateService.getTemplatePageIndexByCache(request);
 		if(vo == null || vo.getResult() - TemplatePageVO.FAILURE == 0){
@@ -165,7 +165,7 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping("/templateVarList${url.suffix}")
 	public String templateVarList(HttpServletRequest request,Model model){
-		AliyunLog.addActionLog(getSiteId(), "进入模版变量列表");
+		ActionLogCache.insert(request, "进入模版变量列表");
 		
 	    model.addAttribute("list", templateService.getTemplateVarList());
 	    return "template/templateVarList";
@@ -195,7 +195,7 @@ public class TemplateController extends BaseController {
 	    sql.setDefaultOrderBy("id DESC");
 	    List<TemplatePage> list = sqlService.findBySql(sql, TemplatePage.class);
 	    
-	    AliyunLog.addActionLog(getSiteId(), "进入模版页列表");
+	    ActionLogCache.insert(request, "进入模版页列表", "第"+page.getCurrentPageNumber()+"页");
 	    
 	    
 	    if(templatePageName.length() > 0){
@@ -247,14 +247,14 @@ public class TemplateController extends BaseController {
 				return error(model, "没有发现属于您的、名字为"+templateVarName+"的模版变量");
 			}
 			
-			AliyunLog.addActionLog(getSiteId(), "编辑模式打开模版变量："+templateVarName);
+			ActionLogCache.insert(request, "编辑模式打开模版变量", templateVarName);
 			model.addAttribute("templateVar", templateVar);
 		}else{
 			if(templateName.length()<0){
 				return error(model, "您要给哪个模版添加模版变量呢");
 			}
 			
-			AliyunLog.addActionLog(getSiteId(), "打开新建模版变量页面，准备为模版："+templateName+"新建模版变量");
+			ActionLogCache.insert(request, "打开新建模版变量页面，准备为模版："+templateName+"新建模版变量");
 			model.addAttribute("templateName", templateName);
 		}
 		
@@ -306,7 +306,7 @@ public class TemplateController extends BaseController {
 			//刷新缓存
 			templateService.updateTemplateVarForCache(templateVar, templateVarData);
 			
-			AliyunLog.addActionLog(templateVar.getId(), "保存模版变量："+templateVar.getVarName());
+			ActionLogCache.insertUpdateDatabase(request, templateVar.getId(), "保存模版变量", templateVar.getVarName());
 		}
 		
 		return success(templateVar.getId()+"");
@@ -331,11 +331,11 @@ public class TemplateController extends BaseController {
 			}
 			String text = templateService.getTemplatePageTextByCache(templatePage.getId(), request);	//模版页面的内容
 			
-			AliyunLog.addActionLog(templatePage.getId(), "进入编辑模版页面："+templatePage.getName());
+			ActionLogCache.insert(request, templatePage.getId(), "编辑模版页面", templatePage.getName());
 			
 			model.addAttribute("text", text);
 		}else{
-			AliyunLog.addActionLog(0, "进入新建模版页面");
+			ActionLogCache.insert(request, "进入新建模版页面");
 			
 			templatePage = new TemplatePage();
 			templatePage.setEditMode(TemplatePage.EDIT_MODE_CODE);
@@ -345,56 +345,6 @@ public class TemplateController extends BaseController {
 		return "template/templatePage";
 	}
 	
-
-	/**
-	 * 保存模版页面
-	 */
-//	@Deprecated
-//	@RequestMapping(value="saveTemplatePageOld", method = RequestMethod.POST)
-//	@ResponseBody
-//	public BaseVO saveTemplatePageOld(TemplatePage templatePageInput, 
-//			@RequestParam(value = "text", required = false , defaultValue="") String text,
-//			HttpServletRequest request,Model model){
-//		
-//		TemplatePage templatePage;
-//		TemplatePageData templatePageData = null;
-//		if(templatePageInput.getId() == null || templatePageInput.getId() == 0){
-//			//添加
-//			templatePage = new TemplatePage();
-//			templatePage.setUserid(getUserId());
-//			templatePage.setSiteid(getSiteId());
-//			
-//			templatePageData = new TemplatePageData();
-//		}else{
-//			//修改
-//			templatePage = sqlService.findById(TemplatePage.class, templatePageInput.getId());
-//			if(templatePage.getUserid() - getUserId() != 0){
-//				return error("不属于您，无法修改");
-//			}
-//			
-//			templatePageData = sqlService.findById(TemplatePageData.class, templatePage.getId());
-//		}
-//		
-//		templatePage.setName(filter(templatePageInput.getName()));
-//		sqlService.save(templatePage);
-//		if(templatePage.getId() != null && templatePage.getId() > 0){
-//			//保存成功，再判断templateVarData是否是添加，若是添加的话，得赋予其id
-//			if(templatePageData.getId() == null || templatePageData.getId() == 0){
-//				templatePageData.setId(templatePage.getId());
-//			}
-//			templatePageData.setText(text);
-//			sqlService.save(templatePageData);
-//			
-//			//刷新当前用户的模版页面缓存
-//			templateService.updateTemplatePageForCache(templatePage, templatePageData, request);
-//			
-//			AliyunLog.addActionLog(getSiteId(), "保存模版页成功（已废弃接口）");
-//		}
-//		
-//		return success(templatePage.getId()+"");
-//	}
-	
-
 	/**
 	 * 保存模版页面，只保存{@link TemplatePage}，不保存模版页面的内容，内容单独保存
 	 * @param templatePageInput 要保存的{@link TemplatePage}信息
@@ -474,14 +424,14 @@ public class TemplateController extends BaseController {
 			}
 			
 			//日志
-			AliyunLog.addActionLog(templatePage.getId(), "保存模版页成功，模版页："+templatePage.getName());
+			ActionLogCache.insertUpdateDatabase(request, templatePage.getId(), "保存模版页成功", templatePage.getName());
 			
 			//刷新Session缓存
 			templateService.updateTemplatePageForCache(templatePage, null, request);
 			
 			return success(templatePage.getId()+"");
 		}else{
-			AliyunLog.addActionLog(templatePage.getId(), "保存模版页失败，模版页："+templatePage.getName());
+			ActionLogCache.insertUpdateDatabase(request, templatePage.getId(), "保存模版页失败", templatePage.getName());
 			return error("保存失败");
 		}
 	}
@@ -510,6 +460,7 @@ public class TemplateController extends BaseController {
 			}
 		}
 		
+		ActionLogCache.insert(request, "获取指定模版变量的内容", varName);
 		model.addAttribute("text", text);
 		return "template/getTemplateVarText";
 	}
@@ -535,23 +486,16 @@ public class TemplateController extends BaseController {
 		
 		//判断一下，是否这个模版页面是刚建立的，还没有模版页内容
 		if(vo.getTemplatePageData() == null){
-			//没有模版页的内容。
-//			if(vo.getTemplatePage().getEditMode() != null || vo.getTemplatePage().getEditMode() - TemplatePage.EDIT_MODE_VISUAL == 0){
-				//判断一下，如果是可视化模式，需要增加默认的html模版页面
-				vo.setTemplatePageData(new TemplatePageData());
-				vo.getTemplatePageData().setText(Template.newHtml);
-//			}else{
-//				//如果是代码模式，那么就是空字符串就行了
-//				vo.setTemplatePageData(new TemplatePageData());
-//				vo.getTemplatePageData().setText("");
-//			}
+			//判断一下，如果是可视化模式，需要增加默认的html模版页面
+			vo.setTemplatePageData(new TemplatePageData());
+			vo.getTemplatePageData().setText(Template.newHtml);
 		}
 		
 		//判断是代码模式，还是智能模式
 		if(vo.getTemplatePage().getEditMode() != null && vo.getTemplatePage().getEditMode() - TemplatePage.EDIT_MODE_CODE == 0){
 			//代码模式，那么直接赋予 templatePageData.text 即可
 			html = vo.getTemplatePageData().getText();
-			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "代码编辑获取指定模版页内容", pageName);
+			ActionLogCache.insert(request, vo.getTemplatePageData().getId(), "代码编辑获取指定模版页内容", pageName);
 		}else{
 			//如果是智能模式，那么要装载模版变量、可视化编辑等
 			//装载模版变量
@@ -571,7 +515,7 @@ public class TemplateController extends BaseController {
 			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
 			
-			AliyunLog.addActionLog(vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
+			ActionLogCache.insert(request, vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
 		
 		model.addAttribute("pageName", pageName);
@@ -592,7 +536,7 @@ public class TemplateController extends BaseController {
 		pageName = filter(pageName);
 		TemplatePageVO vo = templateService.saveTemplatePageText(pageName, html, request);
 		
-		AliyunLog.addActionLog(0, "获取指定模版页"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+pageName);
+		ActionLogCache.insertUpdateDatabase(request, "保存模版页面的模版内容"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+pageName);
 		
 		BaseVO baseVO = new BaseVO();
 		baseVO.setBaseVO(vo.getResult(), vo.getInfo());
@@ -621,7 +565,7 @@ public class TemplateController extends BaseController {
 	    sql.setDefaultOrderBy("id DESC");
 	    List<TemplateVar> list = sqlService.findBySql(sql, TemplateVar.class);
 	    
-	    AliyunLog.addActionLog(getSiteId(), "获取当前网站的模版变量列表，供编辑模版页使用");
+	    ActionLogCache.insert(request, "获取当前网站的模版变量列表，供编辑模版页使用");
 	    
 	    model.addAttribute("list", list);
 	    return "template/templateVarListForUsed";
@@ -633,7 +577,8 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping(value="deleteTemplateVar${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO deleteTemplateVar(@RequestParam(value = "id", required = true) int id){
+	public BaseVO deleteTemplateVar(HttpServletRequest request,
+			@RequestParam(value = "id", required = true) int id){
 		TemplateVar templateVar = (TemplateVar) sqlService.findById(TemplateVar.class , id);
 		if(templateVar == null){
 			return error("要删除的模版变量不存在！");
@@ -648,7 +593,7 @@ public class TemplateController extends BaseController {
 		//删除 template_var_data 中的数据。 v4.5 更新，盖亚科技-罗浪提醒。
 		sqlService.executeSql("DELETE FROM template_var_data WHERE id="+id);	
 		
-		AliyunLog.addActionLog(templateVar.getId(), "删除模版变量："+templateVar.getTemplateName());
+		ActionLogCache.insertUpdateDatabase(request, "删除模版变量", templateVar.getTemplateName());
 		
 		return success();
 	}
@@ -678,8 +623,7 @@ public class TemplateController extends BaseController {
 		//Session缓存中，要将其删除
 		templateService.deleteTemplatePageForCache(templatePage.getId(), request);
 		
-		AliyunLog.addActionLog(templatePage.getId(), "删除模版页："+templatePage.getName());
-		
+		ActionLogCache.insertUpdateDatabase(request, templatePage.getId(), "删除模版页", templatePage.getName());
 		return success();
 	}
 	
@@ -696,7 +640,7 @@ public class TemplateController extends BaseController {
 		//读到流中
 		InputStream inStream = new ByteArrayInputStream(vo.getInfo().getBytes("UTF-8"));  
 		
-		AliyunLog.addActionLog(getSiteId(), "导出当前网站当前的模版文件");
+		ActionLogCache.insert(request, "导出当前网站当前的模版文件");
 		
 		// 设置输出的格式
 		response.reset();
@@ -761,84 +705,10 @@ public class TemplateController extends BaseController {
 				return;
 			}
 		}
-		//v4.12注释掉下面zip的方式上传，上传zip打包的模版，只能通过总管理后台-功能插件-上传模版 进行上传
-//		else if (fileSuffix.equals("zip")) {
-//			//v4.9增加，禁止zip模版通过此处上传。统一通过总管理后台-功能插件-模版库进行导入
-//			if(true){
-//				responseJson(response, BaseVO.FAILURE, "已禁止上传zip格式模版！您可通过总管理后台-功能插件-模版库进行导入");
-//				return;
-//			}
-//			
-//			//上传的是模版文件，包含素材，将其上传到服务器本地 ， v4.7 增加
-//			//zip的限制在50MB以内
-//			if(lengthKB > 50*1025){
-//				//超过50MB
-//				responseJson(response, BaseVO.FAILURE, "最大限制50MB以内");
-//				return;
-//			}
-//			
-//			String fileName = DateUtil.timeForUnix13()+"_"+StringUtil.getRandom09AZ(20);
-//			File file = new File(TemplateTemporaryFolder.folderPath+fileName+".zip");
-//			try {
-//				multipartFile.transferTo(file);
-//			} catch (IllegalStateException | IOException e1) {
-//				e1.printStackTrace();
-//				responseJson(response, BaseVO.FAILURE, e1.getMessage());
-//				return;
-//			}
-//			
-//			//将其解压到同文件夹中
-//			try {
-//				ZipUtil.unzip(TemplateTemporaryFolder.folderPath+fileName+".zip",TemplateTemporaryFolder.folderPath+fileName+"/");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			//既然已经解压出来了，那么删除掉zip文件
-//			file.delete();
-//			//判断一下解压出来的文件中，是否存在 template.wscso 这个模版文件
-//			File wscsoFile = new File(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso");
-//			if(wscsoFile.exists()){
-//				wscsoTemplateText = FileUtil.read(wscsoFile, FileUtil.UTF8);
-//			}else{
-//				//不存在，那就报错吧
-//				responseJson(response, BaseVO.FAILURE, "template.wscso模版文件未发现！");
-//				return;
-//			}
-//				
-//			TemplateVO tvo = new TemplateVO();
-//			//导入JSON，生成对象
-//			tvo.importText(FileUtil.read(TemplateTemporaryFolder.folderPath+fileName+"/template.wscso", FileUtil.UTF8));
-//			//v4.7版本以后，导出的都会有 tvo.template 对象
-//			String templateName = tvo.getTemplate().getName();
-//			//判断数据库中，是否已经有这个模版了
-//			com.xnx3.wangmarket.admin.entity.Template template = sqlService.findAloneByProperty(com.xnx3.wangmarket.admin.entity.Template.class, "name", templateName);
-//			if(template == null){
-//				//为空，没有这个模版，这个是正常的，可以将模版资源文件导入
-//				//将zip解压出来的文件，进行过滤，过滤掉不合法的后缀文件，将合法的文件后缀转移到新建立的模版文件夹中去
-//				new TemplateUtil(templateName, new TemplateUtilFileMove() {
-//					public void move(String path, InputStream inputStream) {
-//						AttachmentFile.put(path, inputStream);
-//					}
-//				}).filterTemplateFile(new File(TemplateTemporaryFolder.folderPath+fileName+"/"));
-//				//将这个模版模版信息记录入数据库
-//				template = tvo.getTemplate();
-//				template.setIscommon(com.xnx3.wangmarket.admin.entity.Template.ISCOMMON_NO); 	//用户自己导入的，默认是私有的，不加入公共模版库。除非通过模版中心来指定（模版中心属于授权版本）
-//				template.setUserid(getUserId());
-//				sqlService.save(template);
-//				
-//			}else{
-//				//不为空，已经有这个模版了，那么就不可以导入资源文件，只导入 wscso 文件就可以了
-//				System.out.println("已经有这个模版的资源文件了，忽略:"+template.getName());
-//			}
-//		}
 		
 		//将 wscso 模版文件导入
 		BaseVO vo = templateService.importTemplate(wscsoTemplateText, true, request);
-		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			AliyunLog.addActionLog(getSiteId(), "本地导入模版文件成功！");
-		}else{
-			AliyunLog.addActionLog(getSiteId(), "本地导入模版文件失败！");
-		}
+		ActionLogCache.insertUpdateDatabase(request, "本地导入模版文件"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败"+vo.getInfo()));
 		
 		responseJson(response, vo.getResult(), vo.getInfo());
 	}
@@ -868,7 +738,7 @@ public class TemplateController extends BaseController {
 		
 		BaseVO vo = templateService.importTemplate(wscvo.getInfo(), true, request);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			AliyunLog.addActionLog(getSiteId(), "模版导入成功！");
+			ActionLogCache.insertUpdateDatabase(request, "模版导入成功");
 		}
 		return vo;
 	}
@@ -880,7 +750,7 @@ public class TemplateController extends BaseController {
 	public String selectTemplate(HttpServletRequest request,Model model){
 		TemplatePageVO vo = templateService.getTemplatePageIndexByCache(request);
 		
-		AliyunLog.addActionLog(getSiteId(), "打开CMS模式下的模版选择界面");
+		ActionLogCache.insert(request, "打开CMS模式下的模版选择界面");
 		if(vo.getResult() - TemplatePageVO.SUCCESS == 0){
 			//如果有模版了，会进入模板还原页面
 			return redirect("template/restoreTemplate.do");
@@ -910,7 +780,7 @@ public class TemplateController extends BaseController {
 		uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image", 0);
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
-			AliyunLog.addActionLog(getSiteId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
+			ActionLogCache.insert(request, "CMS模式下，模版页自由上传图片成功", uploadFileVO.getFileName());
 		}
 		
 		return uploadFileVO;
@@ -923,7 +793,7 @@ public class TemplateController extends BaseController {
 	@RequestMapping(value="refreshForTemplate${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO refreshForTemplate(Model model,HttpServletRequest request){
-		AliyunLog.addActionLog(getSiteId(), "CMS模式下，刷新生成整站");
+		ActionLogCache.insert(request, "CMS模式下，刷新生成整站");
 		
 		//提前判断一下，是否使用的是阿里云OSS存储，并且没有配置OSS
 		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
@@ -940,7 +810,7 @@ public class TemplateController extends BaseController {
 	@RequestMapping("restoreTemplate${url.suffix}")
 	public String restoreTemplate(Model model,HttpServletRequest request){
 		Site site = getSite();
-		AliyunLog.addActionLog(site.getId(), "打开还原模板选择页面");
+		ActionLogCache.insert(request, "打开还原模板选择页面");
 		
 		//判断当前用户的模板是使用的云端的，还是本地导入的
 		boolean usedYunTemplate = false;	//若是云端模板，则为true
@@ -986,7 +856,7 @@ public class TemplateController extends BaseController {
 				json.put("result", BaseVO.FAILURE);
 				json.put("info", tcv.getInfo());
 			}else{
-				AliyunLog.addActionLog(getSiteId(), "本地还原模版进行比对预览");
+				ActionLogCache.insert(request, "本地还原模版进行比对预览");
 				
 				//将比对好的存入Session，方便在其他页面直接显示
 				request.getSession().setAttribute("comparePreviewTCV", tcv);
@@ -1045,7 +915,7 @@ public class TemplateController extends BaseController {
 			return error(tcv.getInfo());
 		}
 		
-		AliyunLog.addActionLog(getSiteId(), "云端还原模版进行比对预览");
+		ActionLogCache.insert(request, "云端还原模版进行比对预览");
 		
 		//将比对好的存入Session，方便在其他页面直接显示
 		request.getSession().setAttribute("comparePreviewTCV", tcv);
@@ -1062,6 +932,7 @@ public class TemplateController extends BaseController {
 		model.addAttribute("tcv", request.getSession().getAttribute("comparePreviewTCV"));
 		model.addAttribute("templateVO", request.getSession().getAttribute("comparePreviewTemplateVO"));
 		
+		ActionLogCache.insert(request, "还原模版进行比对预览，显示对比的弹窗");
 		return "template/restoreTemplateComparePreview";
 	}
 	
@@ -1288,6 +1159,7 @@ public class TemplateController extends BaseController {
 		
 		//设置还原的模板
 		templateCompareVO.setBuckupsTemplateVO(tvo);
+		ActionLogCache.insert(request, "diff对比模版");
 		
 		return templateCompareVO;
 	}
@@ -1298,7 +1170,7 @@ public class TemplateController extends BaseController {
 	@RequestMapping(value="restoreTemplateSubmit${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO restoreTemplateSubmit(Model model,HttpServletRequest request){
-		AliyunLog.addActionLog(getSiteId(), "还原模板，执行还原操作");
+		ActionLogCache.insertUpdateDatabase(request, "还原模板，执行还原操作");
 		
 		Site site = getSite();
 		
@@ -1620,14 +1492,13 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping("/templatePlugin${url.suffix}")
 	public String templatePlugin(HttpServletRequest request,Model model){
-		AliyunLog.addActionLog(getSiteId(), "打开CMS模式下的模版插件选择界面");
+		ActionLogCache.insertUpdateDatabase(request, "打开CMS模式下的模版插件选择界面");
 		return "template/templatePlugin";
 	}
 	
 
 	/**
-	 * 导入模版插件，弹出对比窗口
-	 * <br/>模版文件包含模版页面，模版变量、栏目、输入模型
+	 * 远程云端模版插件
 	 */
 	@RequestMapping(value="restoreTemplatePluginByRemote${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
@@ -1657,7 +1528,7 @@ public class TemplateController extends BaseController {
 			return error(tcv.getInfo());
 		}
 		
-		AliyunLog.addActionLog(getSiteId(), "云端模版插件进行比对预览");
+		ActionLogCache.insert(request, "远程云端模版插件");
 		
 		//将比对好的存入Session，方便在其他页面直接显示
 		request.getSession().setAttribute("comparePreviewTCV", tcv);
@@ -1681,7 +1552,7 @@ public class TemplateController extends BaseController {
 			list.add(entry.getValue());
 		}
 		
-		
+		ActionLogCache.insert(request, "获取可用模版列表接口");
 		TemplateListVO vo = new TemplateListVO();
 		vo.setList(list);
 		vo.setResult(BaseVO.SUCCESS);
