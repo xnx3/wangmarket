@@ -107,8 +107,9 @@ public class UserAdminController_ extends BaseController {
 	 * @param isfreeze 要更改的值
 	 */
 	@RequiresPermissions("adminUserUpdateFreeze")
-	@RequestMapping("updateFreeze${url.suffix}")
-	public String updateFreeze(HttpServletRequest request,
+	@RequestMapping(value="updateFreeze${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO updateFreeze(HttpServletRequest request,
 			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "isfreeze", required = true) int isfreeze,
 			Model model){
@@ -125,9 +126,9 @@ public class UserAdminController_ extends BaseController {
 		}
 		
 		if(baseVO.getResult() == BaseVO.SUCCESS){
-			return success(model, "操作成功！","admin/user/view.do?id="+id);
+			return success("操作成功！");
 		}else{
-			return error(model, "操作失败！");
+			return error("操作失败！");
 		}
 	}
 	

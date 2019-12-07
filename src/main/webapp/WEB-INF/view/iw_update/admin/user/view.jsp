@@ -65,10 +65,10 @@
 				&nbsp;&nbsp;
 				<c:choose>
 					<c:when test="${u.isfreeze == 0}">
-						<a class="layui-btn layui-btn-sm" href="/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_FREEZE %>" style="margin-left: 3px;">冻结账户</a>
+						<a class="layui-btn layui-btn-sm" href="javascript:updateFreezeState(${u.id },<%=User.ISFREEZE_FREEZE %>);" style="margin-left: 3px;">冻结账户</a>
 					</c:when>
 					<c:otherwise>
-						<a class="layui-btn layui-btn-sm" href="/admin/user/updateFreeze.do?id=${u.id }&isfreeze=<%=User.ISFREEZE_NORMAL %>" style="margin-left: 3px;">解除冻结</a>
+						<a class="layui-btn layui-btn-sm" href="javascript:updateFreezeState(${u.id },<%=User.ISFREEZE_NORMAL %>);" style="margin-left: 3px;">解除冻结</a>
 					</c:otherwise>
 				</c:choose>
 			</td>
@@ -101,6 +101,22 @@ function editRole(){
 		area: ['auto', 'auto'],
 		shadeClose: true, //开启遮罩关闭
 		content: '/admin/role/editUserRole.do?userid=${u.id}'
+	});
+}
+
+//更改用户的冻结状态。  userid 要冻结的用户的user.id   ，freezeState是否是冻结的状态,取值如 <%=User.ISFREEZE_FREEZE %>
+function updateFreezeState(userid, freezeState){
+	parent.iw.loading("修改中");    //显示“操作中”的等待提示
+	$.post("/admin/user/updateFreeze.do?id="+userid+"&isfreeze="+freezeState, function(data){
+	    parent.iw.loadClose();    //关闭“操作中”的等待提示
+	    if(data.result == '1'){
+			parent.iw.msgSuccess('操作成功');
+			location.reload();
+	     }else if(data.result == '0'){
+			iw.msgFailure(data.info);
+	     }else{
+			iw.msgFailure();
+	     }
 	});
 }
 </script>
