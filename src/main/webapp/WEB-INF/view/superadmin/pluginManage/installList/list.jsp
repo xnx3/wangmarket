@@ -26,25 +26,27 @@
 		<th style="text-align:center;">插件ID</th>
         <th style="text-align:center;">插件名称</th>
         <th style="text-align:center;">简介</th>
+        <th style="text-align:center;">当前版本</th>
         <th style="text-align:center;">操作</th>
     </tr> 
   </thead>
   <tbody id="tbody">
   	<c:forEach var = "plugin" items="${pluginList }">
   		<tr>
-	     	<td style="text-align:center;cursor: pointer;">${plugin.id }</td>
-	         <td style="text-align:center;cursor: pointer;width:150px;">${plugin.menuTitle }</td>
-	         <td style="text-align:center;cursor: pointer;">${plugin.intro }</td>
-	         <td style="text-align:center; width:200px;">
-         		<a class="layui-btn layui-btn-sm" onclick="unIntallPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe640;卸载</i></a>
+	     	<td style="text-align:center;cursor: pointer;">${plugin.pluginRegisterBean.id }</td>
+	         <td style="text-align:center;cursor: pointer;width:150px;">${plugin.pluginRegisterBean.menuTitle }</td>
+	         <td style="text-align:center;cursor: pointer; text-align:left;">${plugin.pluginRegisterBean.intro }</td>
+	         <td style="text-align:center;cursor: pointer; text-align:left; width:80px;">${plugin.pluginRegisterBean.version }</td>
+	         <td style="text-align:center; width:160px;">
+         		<a class="layui-btn layui-btn-sm" onclick="unIntallPlugin('${plugin.pluginRegisterBean.id }', '${plugin.pluginRegisterBean.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe640;卸载</i></a>
 				<!-- 如果是自己开发的插件可以导出 -->
 				<!-- 云端模板库的只能升级了 -->
          		<c:choose>
-         			<c:when test="${fn:contains(ids, plugin.id) == false }">
-         				<a class="layui-btn layui-btn-sm" onclick="exportPlugin('${plugin.id }', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe601;导出</i></a>
+         			<c:when test="${plugin.findNewVersion == false }">
+         				 
          			</c:when>
          			<c:otherwise>
-         				<a class="layui-btn layui-btn-sm" onclick="upgradePlugin('${plugin.id }', '${plugin.version}', '${plugin.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe857;升级</i></a>
+         				<a class="layui-btn layui-btn-sm" onclick="upgradePlugin('${plugin.pluginRegisterBean.id }', '${plugin.pluginRegisterBean.version}', '${plugin.pluginRegisterBean.menuTitle }')" style="margin-left: 3px;"><i class="layui-icon">&#xe857;升级</i></a>
          			</c:otherwise>
          		</c:choose>
 	         </td>
@@ -110,30 +112,6 @@
 				        parent.iw.msgSuccess('卸载成功');
 				        parent.parent.window.location.href = '/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
 				     }else if(data.result == '0'){
-				         parent.iw.msgFailure(data.info);
-				     }else{
-				         parent.iw.msgFailure();
-				     }
-				});
-			}, function(){
-		});		
-	}
-	// 导出插件
-	function exportPlugin(plugin_id, plugin_name) {
-		var dtp_confirm = layer.confirm('确定要导出插件“' + plugin_name + '”？', {
-			  btn: ['导出','取消'] //按钮
-			}, function(){
-				layer.close(dtp_confirm);
-				parent.iw.loading("导出中");    //显示“操作中”的等待提示
-				$.post('/plugin/pluginManage/exportPlugin.do?plugin_id=' + plugin_id, function(data){
-				    parent.iw.loadClose();    //关闭“操作中”的等待提示
-				    if(data.result == 1){
-				        parent.iw.msgSuccess('导出成功');
-				        //设置下载文件的返回路径
-				        $("#downPlugin").attr("href" , data.info);
-				        //下载文件
-				        $("#downPlugin")[0].click();
-				     }else if(data.result == 0){
 				         parent.iw.msgFailure(data.info);
 				     }else{
 				         parent.iw.msgFailure();

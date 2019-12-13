@@ -1,18 +1,11 @@
-package com.xnx3.wangmarket.superadmin.entity;
+package com.xnx3.wangmarket.superadmin.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * 应用插件
  * @author 管雷鸣
  *
  */
-@Entity
-@Table(name = "application")
 public class Application {
 	/**
 	 * 该插件的唯一标识。如自定义表单插件，唯一标识便是 formManage 。注意不能与其他插件重名
@@ -101,171 +94,129 @@ public class Application {
 	/**
 	 * 插件是否被安装 0：未安装  1：已安装
 	 */
-	@Transient
 	private Short installState;
 	
 	
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	@Column(name = "menu_title")
 	public String getMenuTitle() {
 		return menuTitle;
 	}
 	public void setMenuTitle(String menuTitle) {
 		this.menuTitle = menuTitle;
 	}
-	
-	@Column(name = "apply_to_cms")
 	public Short getApplyToCMS() {
 		return applyToCMS;
 	}
 	public void setApplyToCMS(Short applyToCMS) {
 		this.applyToCMS = applyToCMS;
 	}
-	
-	@Column(name = "apply_to_pc")
 	public Short getApplyToPC() {
 		return applyToPC;
 	}
 	public void setApplyToPC(Short applyToPC) {
 		this.applyToPC = applyToPC;
 	}
-	
-	@Column(name = "apply_to_wap")
 	public Short getApplyToWAP() {
 		return applyToWAP;
 	}
 	public void setApplyToWAP(Short applyToWAP) {
 		this.applyToWAP = applyToWAP;
 	}
-	
-	@Column(name = "apply_to_agency")
 	public Short getApplyToAgency() {
 		return applyToAgency;
 	}
 	public void setApplyToAgency(Short applyToAgency) {
 		this.applyToAgency = applyToAgency;
 	}
-	
-	@Column(name = "apply_to_superadmin")
 	public Short getApplyToSuperAdmin() {
 		return applyToSuperAdmin;
 	}
 	public void setApplyToSuperAdmin(Short applyToSuperAdmin) {
 		this.applyToSuperAdmin = applyToSuperAdmin;
 	}
-	
-	@Column(name = "intro")
 	public String getIntro() {
 		return intro;
 	}
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
-	
-	@Column(name = "version")
 	public Integer getVersion() {
 		return version;
 	}
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
-	
-	@Column(name = "wangmarket_version_min")
 	public Integer getWangmarketVersionMin() {
 		return wangmarketVersionMin;
 	}
 	public void setWangmarketVersionMin(Integer wangmarketVersionMin) {
 		this.wangmarketVersionMin = wangmarketVersionMin;
 	}
-	
-	@Column(name = "addtime")
 	public Integer getAddtime() {
 		return addtime;
 	}
 	public void setAddtime(Integer addtime) {
 		this.addtime = addtime;
 	}
-	
-	@Column(name = "updatetime")
 	public Integer getUpdatetime() {
 		return updatetime;
 	}
 	public void setUpdatetime(Integer updatetime) {
 		this.updatetime = updatetime;
 	}
-	
-	@Column(name = "author_name")
 	public String getAuthorName() {
 		return authorName;
 	}
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-	
-	@Column(name = "support_oss_storage")
 	public Short getSupportOssStorage() {
 		return supportOssStorage;
 	}
 	public void setSupportOssStorage(Short supportOssStorage) {
 		this.supportOssStorage = supportOssStorage;
 	}
-	
-	@Column(name = "support_local_storage")
 	public Short getSupportLocalStorage() {
 		return supportLocalStorage;
 	}
 	public void setSupportLocalStorage(Short supportLocalStorage) {
 		this.supportLocalStorage = supportLocalStorage;
 	}
-	
-	@Column(name = "support_sls")
 	public Short getSupportSls() {
 		return supportSls;
 	}
 	public void setSupportSls(Short supportSls) {
 		this.supportSls = supportSls;
 	}
-	
-	@Column(name = "support_mysql")
 	public Short getSupportMysql() {
 		return supportMysql;
 	}
 	public void setSupportMysql(Short supportMysql) {
 		this.supportMysql = supportMysql;
 	}
-	
-	@Column(name = "support_sqlite")
 	public Short getSupportSqlite() {
 		return supportSqlite;
 	}
 	public void setSupportSqlite(Short supportSqlite) {
 		this.supportSqlite = supportSqlite;
 	}
-	
-	@Column(name = "support_free_version")
 	public Short getSupportFreeVersion() {
 		return supportFreeVersion;
 	}
 	public void setSupportFreeVersion(Short supportFreeVersion) {
 		this.supportFreeVersion = supportFreeVersion;
 	}
-	
-	@Column(name = "support_authorize_version")
 	public Short getSupportAuthorizeVersion() {
 		return supportAuthorizeVersion;
 	}
 	public void setSupportAuthorizeVersion(Short supportAuthorizeVersion) {
 		this.supportAuthorizeVersion = supportAuthorizeVersion;
 	}
-	
-	@Column(name = "down_url")
 	public String getDownUrl() {
 		return downUrl;
 	}
@@ -278,20 +229,6 @@ public class Application {
 	public void setInstallState(Short installState) {
 		this.installState = installState;
 	}
-
-	@Override
-	public String toString() {
-		return "Application [id=" + id + ", menuTitle=" + menuTitle + ", applyToCMS=" + applyToCMS + ", applyToPC="
-				+ applyToPC + ", applyToWAP=" + applyToWAP + ", applyToAgency=" + applyToAgency + ", applyToSuperAdmin="
-				+ applyToSuperAdmin + ", intro=" + intro + ", version=" + version + ", wangmarketVersionMin="
-				+ wangmarketVersionMin + ", addtime=" + addtime + ", updatetime=" + updatetime + ", authorName="
-				+ authorName + ", supportOssStorage=" + supportOssStorage + ", supportLocalStorage="
-				+ supportLocalStorage + ", supportSls=" + supportSls + ", supportMysql=" + supportMysql
-				+ ", supportSqlite=" + supportSqlite + ", supportFreeVersion=" + supportFreeVersion
-				+ ", supportAuthorizeVersion=" + supportAuthorizeVersion + ", downUrl=" + downUrl
-				+ "]";
-	}
-	
 	
 	
 }

@@ -3,7 +3,7 @@ package com.xnx3.wangmarket.superadmin.vo;
 import java.util.List;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.superadmin.entity.Application;
+import com.xnx3.wangmarket.superadmin.bean.Application;
 
 /**
  * 应用插件列表，网市场总管理后台获取所有可用插件时，获取到的插件列表

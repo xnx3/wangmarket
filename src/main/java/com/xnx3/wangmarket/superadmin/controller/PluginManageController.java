@@ -33,12 +33,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.BaseVO;
+import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.SystemUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.func.VersionUtil;
+import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -49,13 +53,15 @@ import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
 import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
+import com.xnx3.wangmarket.superadmin.bean.Application;
 import com.xnx3.wangmarket.superadmin.bean.PluginRegisterBean;
 import com.xnx3.wangmarket.superadmin.cache.YunPluginMessageCache;
-import com.xnx3.wangmarket.superadmin.entity.Application;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ComponentUtils;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ScanClassesUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.TomcatUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ZipUtils;
+import com.xnx3.wangmarket.superadmin.vo.InstallApplicationVO;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -127,28 +133,11 @@ public class PluginManageController extends BasePluginController {
 		 * 判断当前网市场版本是否满足插件所支持的网市场最小版本
 		 */
 		int minVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getWangmarketVersionMin();
-		String minVersion = VersionUtil.intToStr(minVersionInt);
-		String[] minVersionSplit = minVersion.split("\\.");
-		// 将版本格式化为三位数进行比较
-		String nowVersion = G.VERSION;
-		String[] nowVersionSplit = nowVersion.split("\\.");
-		Integer nowInteger;
-		Integer minInteger;
-		boolean isOk = true;
-		for (int i = 0; i < nowVersionSplit.length; i++) {
-			// 当前版本为两位数，最小版本为三位数说明没问题
-			if(i == 2 && minVersionSplit.length == 2) {
-				continue;
-			}
-			nowInteger = Integer.parseInt(nowVersionSplit[i]);
-			minInteger = Integer.parseInt(minVersionSplit[i]);
-			// 如果版本过低
-			if(nowInteger - minInteger < 0) {
-				isOk = false;
-			}
-		}
-		if(isOk == false) {
-			return error("当前网市场版较低，请更新后重试。");
+		//当前网市场的版本
+		int currentVersionInt = VersionUtil.strToInt(G.VERSION);
+		// 版本过低不能安装
+		if(currentVersionInt < minVersionInt) {
+			return error("当前网市场版较低，该插件支持网市场v"+VersionUtil.intToStr(minVersionInt)+" 及更高版本");
 		}
 		
 		/*
@@ -162,41 +151,19 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		// 如果授权并且该插件授权用户不可用，向客户提示信息
-		if(!Authorization.copyright) {
-			if(application.getSupportAuthorizeVersion() - 1 != 0) {
-				return error("该插件经授权用户不可用");
-			}
-		}
-		
+//		if(!Authorization.copyright) {
+//			if(application.getSupportAuthorizeVersion() - 1 != 0) {
+//				return error("该插件经授权用户不可用");
+//			}
+//		}
+//		
 		/*
 		 *  比较当前安装和云插件库的插件版本
 		 */
 		// 获取云插件库最新版本号
 		int newVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getVersion();
-		// 格式话最新版本号
-		String newVersion = VersionUtil.intToStr(newVersionInt);
-		String[] newVersionSplit = newVersion.split("\\.");
-		// 将版本格式化为三位数进行比较
-		nowVersion = version;
-		nowVersionSplit = nowVersion.split("\\.");
-		Integer newInteger;
-		isOk = true;
-		for (int i = 0; i < nowVersionSplit.length; i++) {
-			// 当前的安装版本是三位数，云插件是两位数则跳过比较
-			if(i == 2 && newVersionSplit.length == 2) {
-				continue;
-			}
-			// 现在的版本
-			nowInteger = Integer.parseInt(nowVersionSplit[i]);
-			// 云插件库最新的版本
-			newInteger = Integer.parseInt(newVersionSplit[i]);
-			// 如果版本过低
-			if(nowInteger - newInteger < 0) {
-				isOk = false;
-			}
-		}
-		// 比较版本大小
-		if(isOk) {
+		// 版本过低不能安装
+		if(currentVersionInt - minVersionInt == 0) {
 			return error("您目前安装已是最新版本，无需更新");
 		}
 		
@@ -306,8 +273,9 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 *  在已安装插件的缓存中去除掉次插件,并且在页面功能插件菜单中删除
 		 */
+		
 		// 删除功能插件菜单栏中的菜单
-		removePagePluginMenu(pluginId);
+		PluginManage.removePluginCache(pluginId);
 		//添加动作日志
 		ActionLogCache.insert(request, "总管理后台-插件管理-卸载插件", "卸载ID为" + pluginId + "的插件");
 		return success();
@@ -347,6 +315,9 @@ public class PluginManageController extends BasePluginController {
 	 * @param keepFile 是否当前文件夹，true：保留,false：不保留
 	 */
 	private void deleteDirectory(File file, boolean keepFile) {
+		if(!file.exists()){
+			return;
+		}
 		// 删除子文件夹
 		File[] childFile = file.listFiles();
 		File nowfile;
@@ -525,30 +496,11 @@ public class PluginManageController extends BasePluginController {
 		 * 判断当前网市场版本是否满足插件所支持的网市场最小版本
 		 */
 		int minVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getWangmarketVersionMin();
-		// 将版本号中的.替换掉
-		String minVersion = VersionUtil.intToStr(minVersionInt);
-		String[] minVersionSplit = minVersion.split("\\.");
-		// 将版本格式化为三位数进行比较
-		String nowVersion = G.VERSION;
-		String[] nowVersionSplit = nowVersion.split("\\.");
-		Integer nowInteger;
-		Integer minInteger;
-		boolean isOk = true;
-		for (int i = 0; i < nowVersionSplit.length; i++) {
-			// 当前版本为两位数，最小版本为三位数说明没问题
-			if(i == 2 && minVersionSplit.length == 2) {
-				continue;
-			}
-			nowInteger = Integer.parseInt(nowVersionSplit[i]);
-			minInteger = Integer.parseInt(minVersionSplit[i]);
-			// 如果版本过低
-			if(nowInteger - minInteger < 0) {
-				isOk = false;
-			}
-		}
+		//当前网市场的版本
+		int currentVersionInt = VersionUtil.strToInt(G.VERSION);
 		// 版本过低不能安装
-		if(!isOk) {
-			return error("当前网市场版较低，请更新后重试。");
+		if(currentVersionInt < minVersionInt) {
+			return error("当前网市场版较低，该插件支持网市场v"+VersionUtil.intToStr(minVersionInt)+" 及更高版本");
 		}
 		
 		/*
@@ -569,18 +521,18 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		// 如果授权并且该插件授权用户不可用，向客户提示信息
-		if(!Authorization.copyright) {
-			if(application.getSupportAuthorizeVersion() - 1 != 0) {
-				return error("该插件经授权用户不可用");
-			}
-		}
+//		if(!Authorization.copyright) {
+//			if(application.getSupportAuthorizeVersion() - 1 != 0) {
+//				return error("该插件经授权用户不可用");
+//			}
+//		}
 		
 		// 下载文件名称
 		String fileName = pluginId + ".zip";
 		// 获取插件压缩包的下载url
 		HttpUtil httpUtil = new HttpUtil();
 		// 验证授权身份获取下载地址
-		HttpResponse httpResponse = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/getPluginDownUrl.do?plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + Global.get("AUTO_ASSIGN_DOMAIN"));
+		HttpResponse httpResponse = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API + "?action=down&plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + Global.get("AUTO_ASSIGN_DOMAIN"));
 		// 请求异常
 		if(httpResponse.getCode() - 200 != 0) {
 			return error("云端插件库异常，轻稍后重试");
@@ -669,7 +621,7 @@ public class PluginManageController extends BasePluginController {
 		Class<?> forName = Class.forName(className);
 //		SitePluginBean sitePluginBean = new SitePluginBean(forName);
 		//删除原本的插件
-		removePagePluginMenu(pluginId);
+		PluginManage.removePluginCache(pluginId);
 		
 		//注册安装最新的插件
 		try {
@@ -774,24 +726,6 @@ public class PluginManageController extends BasePluginController {
 		
 	}
 	
-	
-	/**
-	 * 删除插件菜单操作。
-	 * @author 管雷鸣
-	 * @param pluginId 操作插件的id
-	 * @param pluginRegister 插件的信息
-	 */
-	private void removePagePluginMenu(String pluginId) {
-		if(PluginManage.cmsSiteClassManage.get(pluginId) != null){
-			PluginManage.cmsSiteClassManage.remove(pluginId);
-		}
-		if(PluginManage.agencyClassManage.get(pluginId) != null){
-			PluginManage.agencyClassManage.remove(pluginId);
-		}
-		if(PluginManage.superAdminClassManage.get(pluginId) != null){
-			PluginManage.superAdminClassManage.remove(pluginId);
-		}
-	}
 	
 	/**
 	 * 扫描与插件有关的IOC组件
@@ -988,7 +922,7 @@ public class PluginManageController extends BasePluginController {
 			return error(model, "您没有该功能操作权限");
 		}
 		ActionLogCache.insert(request, "进入总管理后台-功能插件 首页");
-		return "/plugin/pluginManage/index";
+		return "/superadmin/pluginManage/index";
 	}
 	
 	/**
@@ -1002,26 +936,45 @@ public class PluginManageController extends BasePluginController {
 			return error(model, "您没有该功能操作权限");
 		}
 				
-		Sql sql = new Sql(request);
-		//搜索的列
-		String[] searchColumnArray = new String[]{"menu_title"};
-		sql.setSearchColumn(searchColumnArray);
+//		Sql sql = new Sql(request);
+//		//搜索的列
+//		String[] searchColumnArray = new String[]{"menu_title"};
+//		sql.setSearchColumn(searchColumnArray);
+//		
+//		int count = sqlService.count("application", sql.getWhere());
+//		Page page = new Page(count, 1000, request);
+//		sql.setSelectFromAndPage("SELECT * FROM application", page);
+//		List<Application> list = sqlService.findBySql(sql, Application.class);
 		
-		int count = sqlService.count("application", sql.getWhere());
-		Page page = new Page(count, 1000, request);
-		sql.setSelectFromAndPage("SELECT * FROM application", page);
-		List<Application> list = sqlService.findBySql(sql, Application.class);
+		//获取当前所安装的插件列表
+		Map<String,PluginRegister> installedPluginMap = PluginManage.getAllInstallPlugin();
 		
-		//检验插件是否已经被安装
-		list = setPluginInstallState(list);
+		//自己本地的插件，自己开发的，或者自己本地方式安装的插件，这里不包含云端插件。
+		Map<String,PluginRegisterBean> localPluginMap = new HashMap<String, PluginRegisterBean>();
 		
-		model.addAttribute("list", list);
-		model.addAttribute("page", page);
+		//云端的插件列表
+		Map<String, Application> yunPluginMap = YunPluginMessageCache.applicationMap;
+		
+		//遍历本地已安装的插件
+		for(Map.Entry<String, PluginRegister> entry : installedPluginMap.entrySet()){
+			if(yunPluginMap.get(entry.getKey()) == null){
+				//将本地有的，云端没有的，记录下来，这些就是自己可以导出的插件
+				localPluginMap.put(entry.getKey(), new PluginRegisterBean(entry.getValue()));
+			}
+		}
+		
+		//传递到view界面的
+		List<PluginRegisterBean> localList = new ArrayList<PluginRegisterBean>();
+		for(Map.Entry<String, PluginRegisterBean> entry : localPluginMap.entrySet()){
+			localList.add(entry.getValue());
+		}
 		
 		//添加阿里云日志服务
 		ActionLogCache.insert(request, "总管理后台-插件管理，查看自己二次开发的插件", "查看插件列表");
-		return "/plugin/pluginManage/myList/list";
+		model.addAttribute("list", localList);
+		return "/superadmin/pluginManage/myList/list";
 	}
+	
 	
 	/**
 	 * 当前网市场已经安装的插件列表
@@ -1036,18 +989,30 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		//传到jsp页面的list
-		List<PluginRegisterBean> pluginList = new ArrayList<PluginRegisterBean>();
+		List<InstallApplicationVO> pluginList = new ArrayList<InstallApplicationVO>();
 		// 循环遍历安装的map
 		Map<String, PluginRegister> installPluginMap = PluginManage.getAllInstallPlugin();
 		for (Map.Entry<String, PluginRegister> entry : installPluginMap.entrySet()) {
 			// 根据插件名称搜索插件
 			if(entry.getValue() != null && entry.getValue().menuTitle() != null && entry.getValue().menuTitle().indexOf(menuTitle) != -1) {
-				pluginList.add(new PluginRegisterBean(entry.getValue()));
+				Application app = YunPluginMessageCache.applicationMap.get(entry.getKey());
+				InstallApplicationVO vo = new InstallApplicationVO();
+				
+				//判断一下这个插件是否有最新版本，也就是判断一下云端跟本地的是否有差别，云端版本是否高了
+				if(app != null && app.getVersion() > VersionUtil.strToInt(entry.getValue().version())){
+					vo.setFindNewVersion(true);
+				}else{
+					vo.setFindNewVersion(false);
+				}
+				vo.setPluginRegisterBean(new PluginRegisterBean(entry.getValue()));
+				
+				pluginList.add(vo);
 			}
 		}
+		
 		ActionLogCache.insert(request, "总管理后台-插件管理，查看当前网市场已经安装的插件列表");
 		model.addAttribute("pluginList", pluginList);
-		return "/plugin/pluginManage/installList/list";
+		return "/superadmin/pluginManage/installList/list";
 	}
 	
 	/**
@@ -1122,7 +1087,7 @@ public class PluginManageController extends BasePluginController {
 		model.addAttribute("pluginIds", PluginManage.getAllInstallPlugin().toString());
 		// 将当前环境不支持的插件Id转到前端页面啊
 		model.addAttribute("unSupportPluginId", noSupportPluginIdList);
-		return "/plugin/pluginManage/yunList/list";
+		return "/superadmin/pluginManage/yunList/list";
 	}
 	
 	/**
@@ -1144,7 +1109,7 @@ public class PluginManageController extends BasePluginController {
 		pluginId = Safety.xssFilter(pluginId.trim());
 		// 传递插件信息到页面
 		model.addAttribute("plugin", YunPluginMessageCache.applicationMap.get(pluginId));
-		return "/plugin/pluginManage/yunList/view";
+		return "/superadmin/pluginManage/yunList/view";
 	}
 	
 	/**
@@ -1223,7 +1188,7 @@ public class PluginManageController extends BasePluginController {
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
-		return "/plugin/pluginManage/myList/upload";
+		return "/superadmin/pluginManage/myList/upload";
 	}
 	
 	/**
@@ -1270,18 +1235,35 @@ public class PluginManageController extends BasePluginController {
 		if(!classFile.exists()) {
 			return error("您未使用该插件或者插件信息错误");
 		}
-		String realPath = request.getServletContext().getRealPath("/");
-		String newClassPath = realPath + "export" + File.separator + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com" + File.separator + "xnx3" + File.separator + "wangmarket" + File.separator + "plugin" + File.separator + pluginId;
-		String newStaticPath = realPath + "export" + File.separator + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "static" + File.separator + "plugin" + File.separator + pluginId;
-		String newJspPath = realPath + "export" + File.separator + "ROOT" + File.separator + "WEB-INF" + File.separator + "view" + File.separator + "plugin" + File.separator + pluginId;
+
+		//导出的目录，相对路径。生成的格式如： plugin/pluginManage/export/kefu_1576068279/
+		String currentPath = new Global().getClass().getResource("/").getPath();
+		String exportRelativePath = "";
+		if(currentPath.indexOf("/target/classes/") > -1){
+			//开发模式中，在eclipse中运行的
+			exportRelativePath = "static"+ File.separator +"plugin"+File.separator+"exportPlugin"+File.separator;
+		}else{
+			exportRelativePath = "plugin"+File.separator+"exportPlugin"+File.separator;
+		}
+		String exportAbsolutePath = SystemUtil.getCurrentDir() +File.separator+ exportRelativePath;	//组合绝对路径
+		//初始化创建文件夹
+		LocalServerMode.directoryInit(exportRelativePath+DateUtil.timeForUnix10()+File.separator);
+		
+		String newClassPath = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com" + File.separator + "xnx3" + File.separator + "wangmarket" + File.separator + "plugin" + File.separator + pluginId;
+		String newStaticPath = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "static" + File.separator + "plugin" + File.separator + pluginId;
+		String newJspPath = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "view" + File.separator + "plugin" + File.separator + pluginId;
 		/*管雷鸣增加 domain 项目的路径*/
-		String newClassPath_domain = realPath + "export" + File.separator + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com" + File.separator + "xnx3" + File.separator + "wangmarket" + File.separator + "plugin" + File.separator + pluginId+"_domain";
-		String newJspPath_domain = realPath + "export" + File.separator + "ROOT" + File.separator + "WEB-INF" + File.separator + "view" + File.separator + "plugin" + File.separator + pluginId+"_domain";
+		String newClassPath_domain = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com" + File.separator + "xnx3" + File.separator + "wangmarket" + File.separator + "plugin" + File.separator + pluginId+"_domain";
+		String newJspPath_domain = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "view" + File.separator + "plugin" + File.separator + pluginId+"_domain";
 		
 		//进行class文件的复制
-		copyDir(classPath, newClassPath);
+		if(new File(classPath).exists()){
+			copyDir(classPath, newClassPath);
+		}
 		//进行jsp文件的复制
-		copyDir(jspPath, newJspPath);
+		if(new File(jspPath).exists()){
+			copyDir(jspPath, newJspPath);
+		}
 		//如果插件有静态文件的话进行复制
 		if(new File(staticPath).exists()) {
 			copyDir(staticPath, newStaticPath);
@@ -1290,8 +1272,8 @@ public class PluginManageController extends BasePluginController {
 		if(new File(classPath_domain).exists()){
 			copyDir(classPath_domain, newClassPath_domain);
 		}
-		if(new File(newJspPath_domain).exists()){
-			copyDir(newJspPath_domain, newJspPath_domain);
+		if(new File(jspPath_domain).exists()){
+			copyDir(jspPath_domain, newJspPath_domain);
 		}
 		
 		/*
@@ -1305,7 +1287,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		// 获取文件
-		File systemFile = new File(realPath + "export" + File.separator + "ROOT" + File.separator + "system.txt");
+		File systemFile = new File(exportAbsolutePath + "ROOT" + File.separator + "system.txt");
 		if(!systemFile.exists()) {
 			systemFile.createNewFile();
 		}
@@ -1321,9 +1303,10 @@ public class PluginManageController extends BasePluginController {
 		outputStream.write(bytes, 0, bytes.length);
 		outputStream.close();
 		//对文件进行压缩,该文件每次进入首页时进行删除
-		ZipUtils.dozip(realPath + "export" + File.separator + "ROOT", realPath + "pluginZip" + File.separator + pluginId + ".zip");
+		final String exportZipRelativePath = exportRelativePath + pluginId + ".zip";	//生成的zip文件相对路径
+		ZipUtils.dozip(exportAbsolutePath + "ROOT", Global.getProjectPath() + exportZipRelativePath);
 		// 删除临时创建的文件
-		deleteDirectory(new File(realPath + "export" + File.separator), false);
+		deleteDirectory(new File(exportAbsolutePath), false);
 		//添加动作日志
 		ActionLogCache.insert(request, "导出插件", "导出ID为" + pluginId + "的插件");
 		// 开启线程删除导出的文件
@@ -1333,7 +1316,7 @@ public class PluginManageController extends BasePluginController {
 				try {
 					Thread.sleep(5 * 60 * 1000);
 					// 删除导出临时文件夹
-					deleteDirectory(new File(realPath + "pluginZip"), false);
+					deleteDirectory(new File(Global.getProjectPath() + exportZipRelativePath), false);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -1342,8 +1325,12 @@ public class PluginManageController extends BasePluginController {
 		
 		ActionLogCache.insert(request, "总管理后台-插件管理，导出插件");
 		
+		if(exportRelativePath.indexOf("static/") == 0){
+			//eclipse开发调试状态时，要将 static/去掉
+			exportRelativePath = exportRelativePath.replace("static/plugin", "plugin");
+		}
 		// 返回需要访问的路径
-		return success("/pluginZip/" + pluginId + ".zip");
+		return success("/"+exportRelativePath + pluginId + ".zip");
 	}
 	
 	
@@ -1357,8 +1344,10 @@ public class PluginManageController extends BasePluginController {
 	@SuppressWarnings("static-access")
 	private void copyDir(String oldPath, String newPath) throws IOException {
 		// 如果新文件夹不存在，创建新的文件夹
-		if(!new File(newPath).exists()) {
-			new File(newPath).mkdirs();
+		File newFile = new File(newPath);
+		if(!newFile.exists()) {
+//			newFile.mkdirs();
+			System.out.println(newFile.mkdirs()+"  "+newPath);
 		}
 		//得到需要复制的文件
 		File file = new File(oldPath);

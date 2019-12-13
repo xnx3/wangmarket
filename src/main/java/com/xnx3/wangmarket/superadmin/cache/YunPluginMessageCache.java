@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 import com.xnx3.StringUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
-import com.xnx3.wangmarket.superadmin.entity.Application;
-
+import com.xnx3.wangmarket.superadmin.bean.Application;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -72,7 +71,7 @@ public class YunPluginMessageCache {
 		String shortTimePage = "";
 		HttpUtil httpUtil = new HttpUtil("UTF-8");
 		// 查询云端插件库获取插件信息
-		HttpResponse response = httpUtil.get("http://plugin.wangmarket.leimingyun.com/application/list.do");
+		HttpResponse response = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API+"?action=list");
 		// 请求失败返回false
 		if(response.getCode() - 200 != 0) {
 			return false;

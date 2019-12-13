@@ -52,6 +52,24 @@ public class PluginManage {
 	}
 	
 	/**
+	 * 移除某个插件在缓存中的信息。注意，这个只是吧注解注册进缓存中的信息移除了，正常浏览时 功能插件 中也是没有这个插件了，但是class文件还是有的。这个并不是移除class文件
+	 */
+	public static void removePluginCache(String pluginId){
+		if(pluginId == null || pluginId.length() == 0){
+			return;
+		}
+		if(cmsSiteClassManage.get(pluginId) != null){
+			cmsSiteClassManage.remove(pluginId);
+		}
+		if(agencyClassManage.get(pluginId) != null){
+			agencyClassManage.remove(pluginId);
+		}
+		if(superAdminClassManage.get(pluginId) != null){
+			superAdminClassManage.remove(pluginId);
+		}
+	}
+	
+	/**
 	 * 注册插件
 	 * @param c 要注册的插件的class， 如 com.xnx3.wangmarket.plugin.learnExample.Plugin
 	 */
@@ -64,6 +82,8 @@ public class PluginManage {
 			if(pluginId == null || pluginId.length() == 0){
 				return;
 			}
+			
+			//自动获取id，并赋予注解中
 			InvocationHandler invocationHandler = Proxy.getInvocationHandler(plugin);
 			try {
 				Field value = invocationHandler.getClass().getDeclaredField("memberValues");
@@ -73,6 +93,7 @@ public class PluginManage {
 			} catch (NoSuchFieldException e) {
 				e.printStackTrace();
 			}
+			
 			if(plugin != null){
 				if(plugin.applyToCMS()){
 	        		cmsSiteClassManage.put(plugin.id(), plugin);
