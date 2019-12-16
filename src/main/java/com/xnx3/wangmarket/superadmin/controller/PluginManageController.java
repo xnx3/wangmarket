@@ -160,8 +160,6 @@ public class PluginManageController extends BasePluginController {
 		/*
 		 *  比较当前安装和云插件库的插件版本
 		 */
-		// 获取云插件库最新版本号
-		int newVersionInt = YunPluginMessageCache.applicationMap.get(pluginId).getVersion();
 		// 版本过低不能安装
 		if(currentVersionInt - minVersionInt == 0) {
 			return error("您目前安装已是最新版本，无需更新");

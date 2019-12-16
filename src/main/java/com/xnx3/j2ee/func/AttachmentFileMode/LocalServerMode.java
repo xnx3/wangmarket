@@ -110,8 +110,12 @@ public class LocalServerMode implements StorageModeInterface{
 	
 	
 	/**
-	 * 目录检测，检测是否存在。若不存在，则自动创建目录。适用于使用本地磁盘进行存储
-	 * @param path 要检测的目录，相对路径，如 jar/file/  创建到file文件，末尾一定加/     或者jar/file/a.jar创建懂啊file文件
+	 * 目录检测，检测是否存在。若不存在，则自动创建目录。适用于使用本地磁盘进行存储，在本身tomcat中创建目录.有一下两种情况:
+	 * <ul>
+	 * 		<li>在线上的tomcat项目中，创建的目录是在 tomcat/webapps/ROOT/ 目录下</li>
+	 * 		<li>在开发环境Eclipse中，创建的目录是在 target/classes/ 目录下</li>
+	 * </ul>
+	 * @param path 要检测的目录，相对路径，如 jar/file/  创建到file文件，末尾一定加/     或者jar/file/a.jar创建到file文件夹
 	 */
 	public static void directoryInit(String path){
 		if(path == null){

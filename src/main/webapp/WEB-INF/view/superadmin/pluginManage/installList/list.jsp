@@ -88,7 +88,33 @@
 				    parent.iw.loadClose();    //关闭“操作中”的等待提示
 				    if(data.result == 1){
 				        parent.iw.msgSuccess('升级成功');
-				        window.location.reload();	//刷新当前页
+				        
+				        var aler = layer.alert('升级成功。重新Tomcat服务后生效，请稍后重试。<span style="color:red;">注：windows系统tomcat环境下需要手动启动tomcat。</span>', {
+						  skin: 'layui-layer-molv' //样式类名
+						  ,closeBtn: 0
+						}, function(){
+							// 关闭弹窗
+							layer.close(aler);
+							// 重启服务器
+							parent.iw.loading("重启中,此过程大约1分钟左右");
+							$.ajax({
+								url:'/plugin/pluginManage/restart.do',
+						        type:'POST',
+						        cache: false,
+						        contentType: false,
+						        processData: false,
+						        success:function(data){
+						        	if(data.result == '1'){
+						        		//定时器 持续访问后台 直到服务器重启完毕
+						        		window.setInterval("revisit()", 3000);
+								    }
+						        },
+						        error:function(){
+						        }
+							});
+						});
+				        
+				        //window.location.reload();	//刷新当前页
 				     }else if(data.result == '0'){
 				         parent.iw.msgFailure(data.info);
 				     }else{
