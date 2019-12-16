@@ -33,7 +33,7 @@ public class ShiroFunc {
 			
 			for (int j = 0; j < myList.size(); j++) {
 				Permission mp = myList.get(j);
-				if(mp.getId()==ap.getId()){
+				if(mp.getId() != null && ap.getId() != null && mp.getId() - ap.getId() == 0){
 					pm.setSelected(true);
 					break;
 				}
@@ -46,13 +46,13 @@ public class ShiroFunc {
 		List<PermissionTree> permissionTreeList = new ArrayList<PermissionTree>();
 		for (int i = 0; i < listMark.size(); i++) {
 			PermissionMark pm = listMark.get(i);
-			if(pm.getPermission().getParentId()==0){
+			if(pm.getPermission().getParentId() != null && pm.getPermission().getParentId() - 0 == 0){
 				PermissionTree permissionTree = new PermissionTree();
 				permissionTree.setPermissionMark(pm);
 				List<PermissionMark> markTreeList = new ArrayList<PermissionMark>();
 				for (int j = 0; j < listMark.size(); j++) {
 					PermissionMark permissionMarkSub = listMark.get(j);
-					if(permissionMarkSub.getPermission().getParentId()==pm.getPermission().getId()){
+					if(permissionMarkSub.getPermission().getParentId() != null && pm.getPermission().getId() != null && permissionMarkSub.getPermission().getParentId() - pm.getPermission().getId() == 0){
 						markTreeList.add(permissionMarkSub);
 					}
 				}
