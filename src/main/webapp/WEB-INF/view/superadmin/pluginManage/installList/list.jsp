@@ -146,6 +146,25 @@
 			}, function(){
 		});		
 	}
+	
+	
+//服务器重启后重新访问后台
+function revisit(){
+	$.ajax({
+		url:'/login.do',
+        type:'POST',
+        contentType: false,    //不可缺
+        processData: false,    //不可缺
+        success:function(data){
+        	if(data != null && data != '' && data != undefined){
+        		parent.iw.loadClose();
+        		parent.parent.window.location.reload();
+		    }
+        },
+        error:function(){
+        }
+	});
+}
 </script>
 
 <jsp:include page="../../../iw/common/foot.jsp"></jsp:include>
