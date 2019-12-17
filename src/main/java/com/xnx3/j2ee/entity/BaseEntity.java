@@ -1,5 +1,10 @@
 package com.xnx3.j2ee.entity;
 
+/**
+ * Entity 实体类的父类
+ * @author 管雷鸣
+ *
+ */
 public class BaseEntity implements java.io.Serializable {
 	/**
 	 * 信息状态，是否已删除：未删除，正常状态

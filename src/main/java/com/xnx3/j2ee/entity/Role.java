@@ -9,16 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * User entity. @author MyEclipse Persistence Tools
+ * 总管理后台-权限管理-角色。如普通用户、超级管理员
  */
 @Entity
 @Table(name = "role")
 public class Role implements java.io.Serializable {
 
-
-	private Integer id;
-	private String name;
-	private String description;
+	private Integer id;		//自动编号
+	private String name;	//角色名
+	private String description;	//角色说明，也就是备注
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -41,6 +40,8 @@ public class Role implements java.io.Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
 }

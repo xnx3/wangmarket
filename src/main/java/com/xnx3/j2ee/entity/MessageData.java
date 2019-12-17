@@ -6,18 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * MessageData entity. @author MyEclipse Persistence Tools
+ * 消息-消息内容分表，存储消息的主体内容
+ * @author 管雷鸣
  */
 @Entity
 @Table(name = "message_data")
 public class MessageData implements java.io.Serializable {
-
-	// Fields
-
 	private Integer id;
 	private String content;
-
-	// Constructors
 
 	/** default constructor */
 	public MessageData() {
@@ -40,13 +36,18 @@ public class MessageData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "content", nullable = false, length = 400)
+	@Column(name = "content", nullable = false)
 	public String getContent() {
 		return this.content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "MessageData [id=" + id + ", content=" + content + "]";
 	}
 
 }

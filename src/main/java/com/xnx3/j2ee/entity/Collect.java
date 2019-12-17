@@ -8,18 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Collect entity. @author MyEclipse Persistence Tools
+ * 用户关注表，用户可互相关注
+ * @author 管雷鸣
  */
 @Entity
 @Table(name = "collect")
 public class Collect implements java.io.Serializable {
 
-	// Fields
-
-	private Integer id;
-	private Integer userid;
-	private Integer othersid;
-	private Integer addtime;
+	private Integer id;		//自增id
+	private Integer userid;		//用户id，发起方的user.id，发起关注的人
+	private Integer othersid;	//userid这个人关注的其他用户，被关注人
+	private Integer addtime; 	//增加时间，也就是关注的时间
 
 	// Constructors
 
@@ -71,6 +70,11 @@ public class Collect implements java.io.Serializable {
 
 	public void setAddtime(Integer addtime) {
 		this.addtime = addtime;
+	}
+
+	@Override
+	public String toString() {
+		return "Collect [id=" + id + ", userid=" + userid + ", othersid=" + othersid + ", addtime=" + addtime + "]";
 	}
 
 }

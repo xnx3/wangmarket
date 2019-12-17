@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.xnx3.DateUtil;
+import com.xnx3.StringUtil;
+
 /**
- * PayLog entity. @author MyEclipse Persistence Tools
+ * 支付日志
  */
 @Entity
 @Table(name="pay_log")
@@ -98,18 +101,19 @@ public class PayLog  implements java.io.Serializable {
 	public final static String CHANNEL_QGBC_WAP="qgbc_wap";	
 	
 
-     private Integer id;
-     private String channel;
-     private Integer addtime;
-     private Float money;
-     private String orderno;
-     private Integer userid;
+	private Integer id;	//自动编号
+	private String channel;	//支付方式
+	private Integer addtime;	//支付时间
+	private Float money;		//支付金额，单位：元（待确定）
+	private String orderno;		//支付订单号，8位数字+英文的混合字符串
+	private Integer userid;		//支付的人的用户id，user.id ，是谁支付的
 
 
     // Constructors
 
     /** default constructor */
     public PayLog() {
+    	this.orderno = StringUtil.intTo36(DateUtil.timeForUnix10())+StringUtil.getRandom09AZ(2);
     }
 
 	/** minimal constructor */

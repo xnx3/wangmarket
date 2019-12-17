@@ -1,11 +1,8 @@
 package com.xnx3.j2ee.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
-
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 
+ * 日志
  * @author 管雷鸣
- * 
+ * @deprecated 已使用阿里云日志服务
  */
 @Entity
 @Table(name = "log")
@@ -104,6 +101,10 @@ public class Log implements java.io.Serializable {
 		this.type = type;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Log [id=" + id + ", userid=" + userid + ", type=" + type + ", goalid=" + goalid + ", value=" + value
+				+ ", addtime=" + addtime + ", isdelete=" + isdelete + "]";
+	}
+
 }

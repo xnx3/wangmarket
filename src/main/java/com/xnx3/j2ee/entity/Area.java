@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Post entity. @author MyEclipse Persistence Tools
+ * 地区，省、市、区、经纬度
  */
 @Entity
 @Table(name = "area")
@@ -102,6 +102,10 @@ public class Area implements java.io.Serializable {
 	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
-	
+	@Override
+	public String toString() {
+		return "Area [id=" + id + ", province=" + province + ", city=" + city + ", district=" + district
+				+ ", longitude=" + longitude + ", latitude=" + latitude + "]";
+	}
 	
 }

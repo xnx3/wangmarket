@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * User entity. @author MyEclipse Persistence Tools
+ * 用户表。用户信息、登录信息等都是在这里
  */
 @Entity
 @Table(name = "user")

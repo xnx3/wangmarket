@@ -11,7 +11,8 @@ import javax.persistence.Table;
 import com.xnx3.j2ee.Global;
 
 /**
- * Friend entity. @author MyEclipse Persistence Tools
+ * 系统管理-系统变量的参数，key-value的形态，tomcat在启动时，系统会首先自动加载这个数据表中的数据到Java的Map中进行长久缓存。取这个数据表中的数值时，会从map中取
+ * @author 管雷鸣
  */
 @Entity
 @Table(name = "system")
@@ -25,10 +26,10 @@ public class System implements java.io.Serializable {
 	 */
 	public final static Short LISTSHOW_UNSHOW=0;
 
-	private Integer id;
-	private String description;
-	private String name;
-	private String value;
+	private Integer id;			//自动编号
+	private String description;	//说明描述，备注的作用
+	private String name;		//参数名,程序内调用，相当于map的key
+	private String value;		//参数值,程序内调用，相当于map的value
 	private Integer lasttime;	//最后修改时间
 	
 	@Id
@@ -90,6 +91,11 @@ public class System implements java.io.Serializable {
 	}
 	public void setLasttime(Integer lasttime) {
 		this.lasttime = lasttime;
+	}
+	@Override
+	public String toString() {
+		return "System [id=" + id + ", description=" + description + ", name=" + name + ", value=" + value
+				+ ", lasttime=" + lasttime + "]";
 	}
 	
 }

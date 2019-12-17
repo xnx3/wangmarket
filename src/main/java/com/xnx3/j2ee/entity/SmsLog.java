@@ -224,6 +224,11 @@ public class SmsLog implements java.io.Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SmsLog [id=" + id + ", code=" + code + ", userid=" + userid + ", used=" + used + ", type=" + type
+				+ ", addtime=" + addtime + ", phone=" + phone + ", ip=" + ip + "]";
+	}
 
 }
