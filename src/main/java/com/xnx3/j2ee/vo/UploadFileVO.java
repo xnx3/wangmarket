@@ -1,7 +1,7 @@
 package com.xnx3.j2ee.vo;
 
 /**
- * aliyun OSS文件上传
+ * 文件上传相关（最初为aliyun oss所写）
  * @author 管雷鸣
  */
 public class UploadFileVO extends BaseVO {

@@ -18,7 +18,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
@@ -34,7 +33,6 @@ import com.xnx3.j2ee.entity.*;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
-import com.xnx3.j2ee.func.OSS;
 import com.xnx3.j2ee.func.Safety;
 
 @Service
@@ -649,7 +647,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		User user = ShiroFunc.getUser();
-		uploadFileVO = OSS.uploadImageByMultipartFile(Global.get("USER_HEAD_PATH"), multipartFile, maxWidth);
+		uploadFileVO = AttachmentFile.uploadFileByMultipartFile(Global.get("USER_HEAD_PATH"), multipartFile);
 		if(uploadFileVO.getResult() - UploadFileVO.FAILURE == 0){
 			return uploadFileVO;
 		}

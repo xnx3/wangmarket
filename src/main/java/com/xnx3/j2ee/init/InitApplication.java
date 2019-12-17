@@ -6,14 +6,10 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.CreateBucketRequest;
 import com.xnx3.ConfigManagerUtil;
-import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
-import com.xnx3.j2ee.func.OSS;
 import com.xnx3.j2ee.generateCache.Message;
 import com.xnx3.j2ee.generateCache.PayLog;
 import com.xnx3.j2ee.generateCache.Role;
@@ -130,24 +126,6 @@ public class InitApplication implements CommandLineRunner{
 		}
 	}
 	
-
-	/**
-	 * 生成缓存数据,v4.3更新，转移到 插件 bbs 中
-	 */
-//	public void generateCache_postClass(){
-//		try {
-//			final List<Map<String,Object>> list = sqlService.findMapBySqlQuery("SELECT id,name FROM post_class WHERE isdelete = 0");
-//			new Thread(new Runnable() {
-//				public void run() {
-//					new Bbs().postClassByListMap(list);
-//				}
-//			}).start();
-//		} catch (Throwable e) {
-//			Log.debug("自动创建论坛板块缓存时出现异常："+e.getMessage()+"，若用不到论坛功能，此项忽略即可");
-//		}
-//	}
-	
-
 	/**
 	 * 读system表数据
 	 */

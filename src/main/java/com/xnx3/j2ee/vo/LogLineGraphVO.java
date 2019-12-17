@@ -11,6 +11,7 @@ public class LogLineGraphVO extends BaseVO{
 	JSONArray nameArray;
 	JSONArray dataArray;
 	JSONArray dataArray2;
+	
 	public JSONArray getNameArray() {
 		return nameArray;
 	}

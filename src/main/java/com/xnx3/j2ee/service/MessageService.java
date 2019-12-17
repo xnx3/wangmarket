@@ -1,6 +1,5 @@
 package com.xnx3.j2ee.service;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import com.xnx3.j2ee.entity.Message;
 import com.xnx3.j2ee.vo.BaseVO;

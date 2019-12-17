@@ -26,8 +26,8 @@ import com.xnx3.media.ImageUtil;
 import com.xnx3.net.ossbean.PutResult;
 
 /**
- * 附件的操作，如OSS、或服务器本地文件
- * 如果时localFile ，则需要设置 AttachmentFile.netUrl
+ * 文件上传，附件的操作，如OSS、或服务器本地文件
+ * 如果是localFile ，则需要设置 AttachmentFile.netUrl
  * @author 管雷鸣
  */
 public class AttachmentFile {

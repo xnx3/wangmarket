@@ -21,6 +21,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import com.xnx3.j2ee.shiro.CustomRealm;
 
+/**
+ * Shiro 配置
+ * @author 管雷鸣
+ *
+ */
 @Configuration
 public class ShiroConfiguration {
 

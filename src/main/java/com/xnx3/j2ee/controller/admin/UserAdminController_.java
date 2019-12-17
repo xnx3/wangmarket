@@ -102,9 +102,10 @@ public class UserAdminController_ extends BaseController {
 	}
 	
 	/**
-	 * 冻结／解除冻结用户
-	 * @param id {@link User}.id
-	 * @param isfreeze 要更改的值
+	 * 冻结／解除冻结用户。
+	 * 冻结的用户，在登录时(也就是使用 {@link UserService#loginByUsernameAndPassword(HttpServletRequest)} 这种账号密码登录、手机号+验证码方式登录的 )登录不上，会提示账号已被冻结
+	 * @param id {@link User}.id 要冻结的用户的编号
+	 * @param isfreeze 要更改的值，取值如： {@link User}.ISFREEZE_FREEZE
 	 */
 	@RequiresPermissions("adminUserUpdateFreeze")
 	@RequestMapping(value="updateFreeze${url.suffix}", method = RequestMethod.POST)

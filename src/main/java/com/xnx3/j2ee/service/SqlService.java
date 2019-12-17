@@ -6,7 +6,7 @@ import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.util.Sql;
 
 /**
- * 公共查询，直接执行SQL
+ * 根据数据库操作相关的，都使用此
  * @author 管雷鸣
  *
  */

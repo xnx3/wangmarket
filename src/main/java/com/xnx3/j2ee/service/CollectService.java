@@ -1,10 +1,13 @@
 package com.xnx3.j2ee.service;
 
-import java.util.List;
-
 import com.xnx3.j2ee.entity.Collect;
 import com.xnx3.j2ee.vo.BaseVO;
 
+/**
+ * 关注
+ * @author 管雷鸣
+ *
+ */
 public interface CollectService {
 
 	/**

@@ -33,7 +33,7 @@ public class ApplicationProperties {
 	/**
 	 * 获取 application.properties 的配置属性
 	 * @param key 要获取的配置的名字，如 database.name
-	 * @return 获取的配置的值
+	 * @return 获取的配置的值。需要判断是否为null
 	 */
     public static String getProperty(String key){
     	if(properties == null){

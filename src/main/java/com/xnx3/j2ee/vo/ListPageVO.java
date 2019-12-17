@@ -14,6 +14,7 @@ public class ListPageVO extends BaseVO{
 	
 	private List<Map<String,Object>> list;
 	private Page page;
+	
 	public List<Map<String, Object>> getList() {
 		return list;
 	}

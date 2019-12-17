@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 /**
  * 将mysql的sql文件，转化为 Sqlite可用的sql文件
  * @author 管雷鸣
- *
+ * @deprecated
  */
 public class MysqlToSqlite {
 	 public static void main(String[] args) {  

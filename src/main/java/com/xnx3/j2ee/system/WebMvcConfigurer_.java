@@ -11,7 +11,7 @@ import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.system.interceptor.AllInterceptor;
 
 /**
- * 拦截器
+ * WebMvcConfigurer
  * @author 管雷鸣
  *
  */

@@ -29,10 +29,6 @@ import com.xnx3.j2ee.bean.PermissionTree;
  * 
  */
 public class CustomRealm extends AuthorizingRealm {
-//	@Resource
-//	private RoleService roleService;
-
-
 	@Override
 	public void setName(String name) {
 		super.setName("CustomRealm");

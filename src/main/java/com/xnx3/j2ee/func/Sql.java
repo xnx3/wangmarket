@@ -1,9 +1,7 @@
 package com.xnx3.j2ee.func;
 
-
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.impl.SqlServiceImpl;
-
 
 /**
  * Java JDBC 操作Mysql， 连接是从spring中取的
