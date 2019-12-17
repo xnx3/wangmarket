@@ -1,18 +1,14 @@
 package com.xnx3.j2ee.controller;
 
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.configuration.ConfigurationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.CreateBucketRequest;
-import com.xnx3.ConfigManagerUtil;
-import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
@@ -21,7 +17,6 @@ import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.OSSUtil;
 
 /**
  * IW 快速开发底层架构的安装，比如，阿里云各种产品如OSS、日志服务等的创建等
@@ -135,131 +130,6 @@ public class InstallController_ extends BaseController {
 	
 
 	/**
-	 * 第二步，提交，验证AccessKey的id、screct的有效性，并初始化创建OSS
-	 */
-	@RequestMapping("/systemSetSave${url.suffix}")
-	@ResponseBody
-	public BaseVO systemSetSave(HttpServletRequest request,
-			@RequestParam(value = "MASTER_SITE_URL", required = false, defaultValue="") String MASTER_SITE_URL,
-			@RequestParam(value = "ATTACHMENT_FILE_URL", required = false, defaultValue="") String ATTACHMENT_FILE_URL,
-			@RequestParam(value = "AUTO_ASSIGN_DOMAIN", required = false, defaultValue="") String AUTO_ASSIGN_DOMAIN,
-			@RequestParam(value = "SERVICE_MAIL", required = false, defaultValue="") String SERVICE_MAIL
-			){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(jinzhianzhuang);
-		}
-		
-		//将其存入system数据表
-		sqlService.executeSql("update system set value = '"+MASTER_SITE_URL+"' WHERE name = 'MASTER_SITE_URL'");
-		sqlService.executeSql("update system set value = '"+ATTACHMENT_FILE_URL+"' WHERE name = 'ATTACHMENT_FILE_URL'");
-		sqlService.executeSql("update system set value = '"+AUTO_ASSIGN_DOMAIN+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
-		sqlService.executeSql("update system set value = '"+SERVICE_MAIL+"' WHERE name = 'SERVICE_MAIL'");
-		
-		if(Global.get("ATTACHMENT_FILE_MODE").equals(AttachmentFile.MODE_ALIYUN_OSS)){
-			//阿里云oss，还要继续配置阿里云参数
-		}else{
-			//如果是服务器存储，那到这一步就结束了，在此禁用install安装
-			sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
-		}
-		
-		//如果 附件url域名设置了，那么更新内存缓存
-		if(ATTACHMENT_FILE_URL.length() > 5){
-			AttachmentFile.netUrl = ATTACHMENT_FILE_URL;
-		}
-		
-		//更新缓存
-		systemService.refreshSystemCache();
-		
-		ActionLogCache.insertUpdateDatabase(request, "进入install安装-提交，验证AccessKey的id、screct的有效性，并初始化创建OSS");
-		
-		return success();
-	}
-	
-	/**
-	 * 第三步，设置AccessKey的id、screct的页面
-	 * @throws ConfigurationException 
-	 */
-	@RequestMapping("/accessKey${url.suffix}")
-	public String accessKey(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(model, jinzhianzhuang, "login.do");
-		}
-		ActionLogCache.insert(request, "进入install安装-设置AccessKey的id、screct的页面");
-		return "iw_update/install/accessKey";
-	}
-	
-	/**
-	 * 第三步，验证AccessKey的id、screct的有效性，并初始化创建OSS
-	 */
-	@RequestMapping("/accessKeySave${url.suffix}")
-	@ResponseBody
-	public BaseVO accessKeySave(HttpServletRequest request,
-			@RequestParam(value = "id", required = false, defaultValue="") String id,
-			@RequestParam(value = "secret", required = false, defaultValue="") String secret
-			){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
-			return error(jinzhianzhuang);
-		}
-		if(id.length() == 0){
-			return error("请输入 Access Key ID");
-		}
-		if(secret.length() == 0){
-			return error("请输入 Access Key Secret");
-		}
-		
-		//进行自动创建OSS测试
-		String bucketName = Global.get("ALIYUN_OSS_BUCKETNAME");
-		if(bucketName == null){
-			return error("数据表system中没有ALIYUN_OSS_BUCKETNAME，数据表有缺，初始化OSS失败！");
-		}else{
-			if(bucketName.equals("auto")){
-				//若是为auto，则是第一次刚开始用，自动创建
-				bucketName = "wangmarket"+DateUtil.timeForUnix10();
-			}
-		}
-		
-		OSSUtil.accessKeyId = id;
-		OSSUtil.accessKeySecret = secret;
-		OSSUtil.bucketName = bucketName;
-		OSSUtil.endpoint = ConfigManagerUtil.getSingleton("xnx3Config.xml").getValue("aliyunOSS.endpoint");
-		OSSUtil.refreshUrl();
-		
-		try {
-			//判断这个bucketName是否存在
-			boolean have = OSSUtil.getOSSClient().doesBucketExist(bucketName);
-			if(!have){
-				//如果不存在这个bucketName，则自动创建一个
-				CreateBucketRequest createBucketRequest= new CreateBucketRequest(bucketName);
-				createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);	// 设置bucket权限为公共读，默认是私有读写
-				OSSUtil.getOSSClient().createBucket(createBucketRequest);
-				System.out.println("自动创建buckname: "+bucketName);
-			}else{
-				System.out.println("OSS未自动创建！因为检测到BucketName已存在！若不是您手动创建的，则建议您按照以下两点进行操作，然后再来创建。");
-				System.out.println("1.将/src/xnx3Config.xml文件中，aliyunOSS节点下的bucketName设置为空，即将其中配置的数据删除掉");
-				System.out.println("2.将数据表system中，name为ALIYUN_OSS_BUCKETNAME的这一列，将其值改为auto");
-				return error("OSS未自动创建！因为检测到BucketName已存在！若不是您手动创建的，则建议您按照以下两点进行操作，然后再来创建。");
-			}
-		} catch (Exception e) {
-			return error("操作失败！错误代码:"+e.getMessage().toString());
-		}
-		
-		//将其存入system数据表
-		sqlService.executeSql("update system set value = '"+id+"' WHERE name = 'ALIYUN_ACCESSKEYID'");
-		sqlService.executeSql("update system set value = '"+secret+"' WHERE name = 'ALIYUN_ACCESSKEYSECRET'");
-		sqlService.executeSql("update system set value = '"+bucketName+"' WHERE name = 'ALIYUN_OSS_BUCKETNAME'");
-		
-		//设置为禁止安装
-		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
-		
-		//更新缓存
-		systemService.refreshSystemCache();
-		ActionLogCache.insertUpdateDatabase(request, "进入install安装-验证AccessKey的id、screct的有效性，并初始化创建OSS");
-		
-		return success();
-	}
-	
-	
-	/**
 	 * 安装成功页面
 	 */
 	@RequestMapping("/installSuccess${url.suffix}")
@@ -309,7 +179,7 @@ public class InstallController_ extends BaseController {
 	/**
 	 * 域名更改保存 v4.11增加
 	 */
-	@RequestMapping("/domainSetSave${url.suffix}")
+	@RequestMapping(value="/domainSetSave${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO domainSetSave(HttpServletRequest request,
 			@RequestParam(value = "autoAssignDomain", required = false, defaultValue="") String autoAssignDomain
