@@ -15,12 +15,9 @@ public class IndexLearnExamplePluginController extends BasePluginController {
 	 */
 	@RequestMapping("index${url.suffix}")
 	public String index(){
-		
 		/*
 		 * 这里可进行逻辑控制等
 		 */
-		
-		//这里定位到 src/main/webapp/WEB-INF/view/plugin/learnExample/index.jsp
 		return "plugin/learnExample/index";
 	}
 }
