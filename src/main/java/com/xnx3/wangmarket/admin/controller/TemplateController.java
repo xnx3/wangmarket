@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.xnx3.ClassUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -73,6 +73,8 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplatePageCo
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCompare;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.DomainPluginManage;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**
@@ -122,6 +124,16 @@ public class TemplateController extends BaseController {
 		
 		//左侧菜单
 		model.addAttribute("menuHTML", TemplateAdminMenuUtil.getLeftMenuHtml());
+		
+		/**** 针对html源码处理插件 ****/
+		try {
+			String pluginAppendHtml = SiteAdminIndexPluginManage.manage();
+			model.addAttribute("pluginAppendHtml", pluginAppendHtml);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		
 		UserBean userBean = getUserBean();
 		User user = getUser();

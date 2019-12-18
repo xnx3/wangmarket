@@ -42,7 +42,7 @@ public class Func {
 	 * @return
 	 */
 	public static Site getCurrentSite(){
-		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
+		UserBean userBean = SessionUtil.getUserBeanForSession();
 		if(userBean == null){
 			return null;
 		}
@@ -101,7 +101,7 @@ public class Func {
 	 * 		</ul>
 	 */
 	public static String getConsoleRedirectUrl(){
-		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
+		UserBean userBean = SessionUtil.getUserBeanForSession();
 		if(userBean == null){
 			return "";	//未登录
 		}

@@ -14,7 +14,7 @@ import com.xnx3.wangmarket.domain.bean.SimpleSite;
  * @author 管雷鸣
  *
  */
-@Component(value="PluginManageForNews")
+@Component(value="PluginManageForDomain")
 public class DomainPluginManage {
 	//处理html源代码的插件，这里开启项目时，便将有关此的插件加入此处
 	public static List<Class<?>> domainClassList;

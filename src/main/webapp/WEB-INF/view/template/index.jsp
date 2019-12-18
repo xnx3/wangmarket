@@ -809,17 +809,5 @@ if('${user.username}'.indexOf('ceshi') > -1){
 }
 </script>
 
-<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-<!-- IM start -->
-<script>
-var id = ${user.id};	//用户的id，用户唯一
-var password = "${password }";	//加密后密码
-var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的名字
-var sign = '${siteUrl},${site.name}';	//当前用户签名
-var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
-</script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/im/site.js"></script>
-<!-- IM end -->
-<% } %>
-
 </body></html>
+${pluginAppendHtml}

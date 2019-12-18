@@ -16,7 +16,7 @@ import com.xnx3.wangmarket.admin.entity.NewsData;
  * @author 管雷鸣
  *
  */
-@Component
+@Component(value="PluginManageForNewsSave")
 public class NewsSavePluginManage {
 	//自动回复的插件，这里开启项目时，便将有关此的插件加入此处
 	public static List<Class<?>> classList;
