@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.controller.admin;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -16,6 +17,9 @@ import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.AgencyAdminIndexPluginManage;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
+import com.xnx3.wangmarket.pluginManage.interfaces.manage.SuperAdminIndexPluginManage;
 
 /**
  * 管理后台首页
@@ -61,6 +65,16 @@ public class AdminIndexController_ extends BaseController{
 				}
 			}
 			model.addAttribute("pluginMenu", pluginMenu);
+			
+			/**** 针对html追加的插件 ****/
+			try {
+				String pluginAppendHtml = SuperAdminIndexPluginManage.manage();
+				model.addAttribute("pluginAppendHtml", pluginAppendHtml);
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}else{
 			//代理
 			url = "agency/index.do";
@@ -73,6 +87,16 @@ public class AdminIndexController_ extends BaseController{
 				}
 			}
 			model.addAttribute("pluginMenu", pluginMenu);
+			
+			/**** 针对html追加的插件 ****/
+			try {
+				String pluginAppendHtml = AgencyAdminIndexPluginManage.manage();
+				model.addAttribute("pluginAppendHtml", pluginAppendHtml);
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		User user = getUser();

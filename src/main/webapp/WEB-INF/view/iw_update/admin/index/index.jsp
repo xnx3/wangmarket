@@ -239,20 +239,6 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		<% } %>
 		<!-- agency end -->
 		
-		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-		<li class="layui-nav-item">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
-				<span class="firstMenuFont">客服管理</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
-				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadUrl('/im/hostoryChatList.do');">历史咨询</a></dd>
-			</dl>
-		</li>
-		<% } %>
-		
-		
 		<li class="layui-nav-item">
 			<a href="javascript:updatePassword();" id="xiugaimima">
 				<i class="layui-icon firstMenuIcon">&#xe642;</i>
@@ -343,20 +329,7 @@ if('${user.username}'.indexOf('ceshi') > -1){
 }
 </script>
 
-<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-<!-- IM start -->
-<script src="${STATIC_RESOURCE_PATH}module/layui/layui.js"></script>
-<script>
-var id = ${user.id};	//用户的id，用户唯一
-var password = "${password }";	//加密后密码
-var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的名字
-var sign = '';	//当前用户签名
-var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
-</script>
-<script src="<%=Global.get("ATTACHMENT_FILE_URL") %>js/im/admin.js"></script>
-<!-- IM end -->
-<% } %>
-
 
 </body>
 </html>
+${pluginAppendHtml}

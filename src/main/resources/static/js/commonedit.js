@@ -614,21 +614,6 @@ function removeDomainBind(){
 	});
 }
 
-//v3.3
-//在线客服设置
-function openKefuSet(){
-	layer.open({
-		type: 2,
-		closeBtn: 1, //不显示关闭按钮
-		area:['430px','470px'],
-		shadeClose: false, //开启遮罩关闭
-		content: '/im/set.do',
-		scrollbar: false,
-		title: '网站在线客服设置',
-		closeBtn: 1
-	});
-}
-
 //v3.4
 //修改密码
 function updatePassword(){

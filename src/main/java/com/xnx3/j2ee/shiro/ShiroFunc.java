@@ -203,7 +203,7 @@ public class ShiroFunc {
 	 * @return 如果获取到，返回。如果获取不到，如用户未登录、插件信息不存在，则返回null
 	 */
 	public static <T> T getPluginDataBySession(String pluginId){
-		Object obj = getPluginDataBySession(pluginId);
+		Object obj = getPluginDataObjectBySession(pluginId);
 		if(obj == null){
 			return null;
 		}
