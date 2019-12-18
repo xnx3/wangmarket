@@ -55,7 +55,8 @@ public class SiteWapController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
-		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
+		//pc、wap 已废弃
+//		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());	//自动分配的域名，如 wang.market
 		return "siteWap/index";
 	}

@@ -14,6 +14,7 @@ import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
@@ -196,7 +197,7 @@ public class NewsServiceImpl implements NewsService {
 
 	public NewsInit news(HttpServletRequest request, int id, int cid, Model model) {
 		NewsInit n = new NewsInit();
-		Site site = Func.getUserBeanForShiroSession().getSite();
+		Site site = SessionUtil.getUserBeanForSession().getSite();
 		
 		News news = null;
 		NewsData newsData = null;
@@ -314,7 +315,7 @@ public class NewsServiceImpl implements NewsService {
 			return baseVO;
 		}
 		
-		Site site = Func.getUserBeanForShiroSession().getSite();
+		Site site = SessionUtil.getUserBeanForSession().getSite();
 		//需要验证此信息是本人发布
 		if(authCheck){
 			if(news.getSiteid() - site.getId() != 0){

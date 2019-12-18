@@ -3,14 +3,12 @@ package com.xnx3.wangmarket.admin.cache;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import com.xnx3.StringUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Carousel;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.im.entity.Im;
 import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
@@ -18,40 +16,6 @@ import com.xnx3.j2ee.func.AttachmentFile;
  * @author 管雷鸣
  */
 public class Site extends BaseCache{
-	
-	/**
-	 * 创建站点的系统信息缓存
-	 * @param site
-	 */
-	public void site(com.xnx3.wangmarket.admin.entity.Site site, Im im){
-		if(site == null){
-			return;
-		}
-		createCacheObject("site");
-		cacheAdd("name", StringUtil.StringToUtf8(site.getName()));
-		cacheAdd("id", site.getId());
-		cacheAdd("mShowBanner", site.getmShowBanner());
-		cacheAdd("phone", site.getPhone());
-		cacheAdd("qq", site.getQq());
-		cacheAdd("templateId", site.getTemplateId());
-		cacheAdd("aboutUsCid",site.getAboutUsCid());
-		cacheAdd("logo",site.getLogo());
-		cacheAdd("domain",site.getDomain());
-		cacheAdd("keywords",StringUtil.StringToUtf8(site.getKeywords()));
-		cacheAdd("address",StringUtil.StringToUtf8(site.getAddress()));
-		cacheAdd("username", StringUtil.StringToUtf8(site.getUsername()));
-		cacheAdd("companyName",StringUtil.StringToUtf8(site.getCompanyName()));
-		cacheAdd("bindDomain", site.getBindDomain());
-		cacheAdd("templateName", StringUtil.StringToUtf8(site.getTemplateName()));
-		cacheAdd("client", site.getClient());
-		cacheAdd("userid",site.getUserid());
-		if(im == null){
-			cacheAdd("useKefu",Im.USE_FALSE);
-		}else{
-			cacheAdd("useKefu",im.getUseKefu());
-		}
-		generateCacheFile(site);
-	}
 	
 	/**
 	 * 创建站点的栏目导航数据缓存

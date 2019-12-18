@@ -4,6 +4,7 @@
 	
 	<!-- websocket im 的socket url访问地址，注意，前面没有http，后面网址不要加 / -->
 	<!-- <websocketUrl>ws://wangzhanecs.wangshichang.com:81/websocket</websocketUrl> -->
+	<!-- 已转移到 system PLUGIN_IM_WEBSOCKET_URL -->
 	<websocketUrl>localhost:8081</websocketUrl>
 	
 	<!-- 主程序，主应用，也就是管理后台的网址。根据socketUuid进行查看会话内容的网址，注意最后要加上/ -->

@@ -20,6 +20,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -369,19 +370,19 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public void updateTemplateVarForCache(com.xnx3.wangmarket.admin.entity.TemplateVar templateVar,TemplateVarData templateVarData) {
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null || Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap() == null){
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null || SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap() == null){
 			loadDatabaseTemplateVarToCache();
 		}
-		Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
+		SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
 		
 		TemplateVarVO templateVarVO = new TemplateVarVO();
 		templateVarVO.setTemplateVar(templateVar);
 		templateVarVO.setTemplateVarData(templateVarData);
-		Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().put(templateVar.getVarName(), templateVarVO);
+		SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().put(templateVar.getVarName(), templateVarVO);
 	}
 
 	public void loadDatabaseTemplateVarToCache() {
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
 			Site site = Func.getCurrentSite();
 			
 			//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
@@ -412,8 +413,8 @@ public class TemplateServiceImpl implements TemplateService {
 				templateVarMapForOriginal.put(templateVar.getVarName(), tvvo);
 			}
 			
-			Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(compileMap);
-			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(templateVarMapForOriginal);
+			SessionUtil.getUserBeanForSession().setTemplateVarCompileDataMap(compileMap);
+			SessionUtil.getUserBeanForSession().setTemplateVarMapForOriginal(templateVarMapForOriginal);
 		}
 	}
 	
@@ -601,13 +602,13 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public TemplateVarVO getTemplateVarByCache(String templateVarName) {
 		TemplateVarVO vo = new TemplateVarVO();
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
 			loadDatabaseTemplateVarToCache();
 		}
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName) == null){
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().get(templateVarName) == null){
 			vo.setBaseVO(TemplateVarVO.FAILURE, "模版变量不存在");
 		}else{
-			vo = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName);
+			vo = SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().get(templateVarName);
 		}
 		return vo;
 	}
@@ -842,7 +843,7 @@ public class TemplateServiceImpl implements TemplateService {
 			s.setTemplateName(tvo.getTemplateName());
 			sqlDAO.save(s);
 			//更新站点的Session缓存
-			Func.getUserBeanForShiroSession().setSite(s);
+			SessionUtil.getUserBeanForSession().setSite(s);
 		}else{
 			//导入的是模版插件
 			
@@ -873,8 +874,8 @@ public class TemplateServiceImpl implements TemplateService {
 	 */
 	public void reloadTemplateVarCache(HttpServletRequest request){
 		//先清空掉
-		Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
-		Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
+		SessionUtil.getUserBeanForSession().setTemplateVarMapForOriginal(null);
+		SessionUtil.getUserBeanForSession().setTemplateVarCompileDataMap(null);
 		//再加载入缓存
 		getTemplateVarAndDateListByCache();
 	}
@@ -936,14 +937,14 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public TemplateVarListVO getTemplateVarListByCache() {
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
 			loadDatabaseTemplateVarToCache();
 		}
 		
 		TemplateVarListVO listVO = new TemplateVarListVO();
 		
 		List<TemplateVarVO> list = new ArrayList<TemplateVarVO>();
-		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {
+		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().entrySet()) {
 			list.add(entry.getValue());
 		}
 		listVO.setList(list);
@@ -1040,15 +1041,15 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public BaseVO deleteTemplateVarForCache(int templateVarId) {
 		String deleteVarName = null;	//要删除的模版变量
-		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {
+		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().entrySet()) {
 			if(entry.getValue().getTemplateVar().getId() - templateVarId == 0){
 				deleteVarName = entry.getValue().getTemplateVar().getVarName();
 			}
 		}
 		
-		Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().remove(deleteVarName);
-		if(Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap() != null && Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().get(deleteVarName) != null){
-			Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().remove(deleteVarName);
+		SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().remove(deleteVarName);
+		if(SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap() != null && SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().get(deleteVarName) != null){
+			SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().remove(deleteVarName);
 		}
 		return new BaseVO();
 	}

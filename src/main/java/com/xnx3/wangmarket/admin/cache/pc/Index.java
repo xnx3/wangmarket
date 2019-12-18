@@ -6,6 +6,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
 /**
  * PC首页的一些处理
  * @author 管雷鸣
+ * @deprecated 已在v4.0版本就已废弃PC模式
  */
 public class Index {
 	

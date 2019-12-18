@@ -12,14 +12,12 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.xnx3.DateUtil;
-import com.xnx3.file.FileUtil;
-import com.xnx3.wangmarket.im.service.ImService;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.Safety;
-import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -64,8 +62,6 @@ public class SiteServiceImpl implements SiteService {
 	private SiteColumnService siteColumnService;
 	@Resource
 	private TemplateService templateService;
-	@Resource
-	private ImService imService;
 
 	public void generateSiteIndex(Site site) {
 		GenerateHTML gh = new GenerateHTML(site);
@@ -515,15 +511,15 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		//v4.7加入，避免没有模版变量时，生成整站报错
-		if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
-			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(new HashMap<String, TemplateVarVO>());
+		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
+			SessionUtil.getUserBeanForSession().setTemplateVarMapForOriginal(new HashMap<String, TemplateVarVO>());
 		}
-		for (Map.Entry<String, TemplateVarVO> entry : Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().entrySet()) {  
+		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().entrySet()) {  
 			//替换公共标签
 			String v = template.replacePublicTag(entry.getValue().getTemplateVarData().getText());
 			//替换栏目的动态调用标签
 			v = template.replaceSiteColumnBlock(v, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);	
-			Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().put(entry.getKey(), v);
+			SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().put(entry.getKey(), v);
 		}
 		
 		/*
@@ -714,7 +710,7 @@ public class SiteServiceImpl implements SiteService {
 		if(s.getId() != null && s.getId() > 0){
 			//编辑
 			//取出当前登陆的站点的信息
-			Site currentLoginSite = Func.getUserBeanForShiroSession().getSite();
+			Site currentLoginSite = SessionUtil.getUserBeanForSession().getSite();
 			
 			site = sqlDAO.findById(Site.class, s.getId());
 			if(site == null){
@@ -1007,7 +1003,7 @@ public class SiteServiceImpl implements SiteService {
 					}
 					
 					//更新当前Session的缓存Site的信息
-					Func.getUserBeanForShiroSession().setSite(site);
+					SessionUtil.getUserBeanForSession().setSite(site);
 					
 					//新增需要刷新全站，生成所有页面
 					refreshSiteGenerateHtml(request);
@@ -1022,12 +1018,12 @@ public class SiteServiceImpl implements SiteService {
 			}
 			
 			//更新当前Session缓存。如果是api接口开通网站，session是空的。所以要加null判断
-			if(Func.getUserBeanForShiroSession() != null){
-				Func.getUserBeanForShiroSession().setSite(site);
+			if(SessionUtil.getUserBeanForSession() != null){
+				SessionUtil.getUserBeanForSession().setSite(site);
 			}
 			
-			//创建数据js缓存
-			new com.xnx3.wangmarket.admin.cache.Site().site(site, imService.getImByCache());				//site.js
+			//创建数据js缓存 ， pc、wap模式已废弃这种模式
+//			new com.xnx3.wangmarket.admin.cache.Site().site(site, imService.getImByCache());				//site.js
 			
 			baseVO.setBaseVO(BaseVO.SUCCESS, s.getId()>0? "保存网站成功！":"创建网站成功！");
 			baseVO.setSite(site);

@@ -15,6 +15,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
@@ -121,7 +122,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	public void updateSiteColumnByCache(SiteColumn siteColumn) {
 		Map<Integer, SiteColumn> siteColumnMap = getSiteColumnMapByCache();
 		siteColumnMap.put(siteColumn.getId(), siteColumn);
-		Func.getUserBeanForShiroSession().setSiteColumnMap(siteColumnMap);
+		SessionUtil.getUserBeanForSession().setSiteColumnMap(siteColumnMap);
 	}
 	
 	public SiteColumn getSiteColumnByCache(int siteColumnId){
@@ -129,12 +130,12 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	}
 	
 	public Map<Integer, SiteColumn> getSiteColumnMapByCache(){
-		Map<Integer, SiteColumn> siteColumnMap = Func.getUserBeanForShiroSession().getSiteColumnMap();
+		Map<Integer, SiteColumn> siteColumnMap = SessionUtil.getUserBeanForSession().getSiteColumnMap();
 		//若缓存中没有，那么重新加入
 		if(siteColumnMap == null){
 			siteColumnMap = new HashMap<Integer, SiteColumn>();
 			
-			Site site = Func.getUserBeanForShiroSession().getSite();
+			Site site = SessionUtil.getUserBeanForSession().getSite();
 			List<SiteColumn> siteColumnList = sqlDAO.findBySqlQuery("SELECT * FROM site_column WHERE siteid = "+site.getId()+" ORDER BY rank ASC", SiteColumn.class);
 			for (int i = 0; i < siteColumnList.size(); i++) {
 				SiteColumn sc = siteColumnList.get(i);
@@ -148,7 +149,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	public void deleteSiteColumnByCache(int siteColumnId) {
 		Map<Integer, SiteColumn> siteColumnMap = getSiteColumnMapByCache();
 		siteColumnMap.remove(siteColumnId);
-		Func.getUserBeanForShiroSession().setSiteColumnMap(siteColumnMap);
+		SessionUtil.getUserBeanForSession().setSiteColumnMap(siteColumnMap);
 	}
 
 	public List<SiteColumn> getSiteColumnListByCache() {
@@ -205,7 +206,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	 */
 	public void refreshCache(){
 		//清空掉原本的
-		Func.getUserBeanForShiroSession().setSiteColumnMap(null);
+		SessionUtil.getUserBeanForSession().setSiteColumnMap(null);
 		
 		//重新获取一次
 		getSiteColumnMapByCache();

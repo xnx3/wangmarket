@@ -4,6 +4,8 @@ import java.util.Map;
 
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.EntityUtil;
+import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.shiro.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.RabbitUtil;
 import com.xnx3.wangmarket.domain.bean.PluginMQ;
@@ -46,7 +48,7 @@ public class Func {
 	 * 发送信息到 domain 项目的中
 	 * @param pluginId 插件的id，如 kefu、formManage、learnExample、newsSearch 等
 	 * @param site 当前站点信息 {@link Site}
-	 * @param entityObj 实体类，要传递更新的实体类的信息
+	 * @param entityObj 实体类，要传递更新的实体类的信息。这里传递的实体类的key，是数据表中列的列名，而不是驼峰命名的。
 	 */
 	public static void sendMQMessage(String pluginId, Site site, Object entityObj){
 		Map<String, Object> map = EntityUtil.entityToMap(entityObj);

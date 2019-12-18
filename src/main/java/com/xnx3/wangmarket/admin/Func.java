@@ -1,16 +1,15 @@
 package com.xnx3.wangmarket.admin;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.func.VersionUtil;
 import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.shiro.UserBean;
 import com.xnx3.wangmarket.Authorization;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 
 /**
@@ -19,23 +18,6 @@ import com.xnx3.wangmarket.admin.entity.Site;
  */
 @Component
 public class Func {
-	
-	/**
-	 * 从Shrio的Session中获取当前用户的代理相关信息、站点信息、以及当前用户的上级的代理相关信息
-	 * @return {@link AgencyBean} 或 null
-	 */
-	public static UserBean getUserBeanForShiroSession(){
-		ActiveUser au = ShiroFunc.getCurrentActiveUser();
-		if(au == null){
-			return null;
-		}
-		UserBean userBean = (UserBean) au.getObj();
-		if(userBean == null){
-			return null;
-		}else{
-			return userBean;
-		}
-	}
 	
 	/**
 	 * 判断是wap模式还是pc模式。若没有传递 client=pc，其余的统一认为是wap模式
@@ -60,7 +42,7 @@ public class Func {
 	 * @return
 	 */
 	public static Site getCurrentSite(){
-		UserBean userBean = getUserBeanForShiroSession();
+		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
 		if(userBean == null){
 			return null;
 		}
@@ -119,7 +101,7 @@ public class Func {
 	 * 		</ul>
 	 */
 	public static String getConsoleRedirectUrl(){
-		UserBean userBean = Func.getUserBeanForShiroSession();
+		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
 		if(userBean == null){
 			return "";	//未登录
 		}
@@ -208,5 +190,28 @@ public class Func {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 获取当前登录用户的session缓存信息
+	 * @return
+	 * @deprecated 请使用 {@link SessionUtil#getUserBeanForSession()}
+	 */
+	public static com.xnx3.wangmarket.admin.bean.UserBean getUserBeanForShiroSession(){
+		UserBean newub = SessionUtil.getUserBeanForSession();
+		com.xnx3.wangmarket.admin.bean.UserBean oldub = new com.xnx3.wangmarket.admin.bean.UserBean();
+		oldub.setInputModelMap(newub.getInputModelMap());
+		oldub.setMyAgency(newub.getMyAgency());
+		oldub.setMyAgencyData(newub.getMyAgencyData());
+		oldub.setParentAgency(newub.getParentAgency());
+		oldub.setParentAgencyData(newub.getParentAgencyData());
+		oldub.setPluginDataMap(newub.getPluginDataMap());
+		oldub.setSite(newub.getSite());
+		oldub.setSiteColumnMap(newub.getSiteColumnMap());
+		oldub.setSiteMenuRole(newub.getSiteMenuRole());
+		oldub.setTemplateVarCompileDataMap(newub.getTemplateVarCompileDataMap());
+		oldub.setTemplateVarMapForOriginal(newub.getTemplateVarMapForOriginal());
+		
+		return oldub;
 	}
 }

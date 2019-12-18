@@ -8,19 +8,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
-import com.xnx3.wangmarket.im.service.ImService;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
@@ -68,8 +65,8 @@ public class SiteController extends BaseController {
 	private NewsService newsService;
 	@Resource
 	private UserService userService;
-	@Resource
-	private ImService imService;
+//	@Resource
+//	private ImService imService;
 	
 	/**
 	 * 站点信息提交保存
@@ -107,9 +104,8 @@ public class SiteController extends BaseController {
 		//更新当前Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
 		
-		//刷新site.js
-		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
-		
+		//刷新site.js ，pc、wap模式才有这个，已废弃
+//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		//如果是PC端网站，需要刷新一些东西
 		if(site.getClient() - Site.CLIENT_PC == 0){
 			//刷新首页
@@ -136,8 +132,8 @@ public class SiteController extends BaseController {
 		//刷新首页
 		Index.updateKeywords(site, keywords);
 		
-		//刷新site.js
-		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
+		//刷新site.js ， pc、wap用到，已废弃
+//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		
 		return vo;
 	}
@@ -211,8 +207,8 @@ public class SiteController extends BaseController {
 		//刷新Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
 		
-		//刷新site.js
-		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
+		//刷新site.js , pc、wap用到，已废弃
+//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		
 		ActionLogCache.insertUpdateDatabase(request, "修改站点绑定的域名", site.getBindDomain());
 		return vo;
@@ -342,8 +338,8 @@ public class SiteController extends BaseController {
 		//刷新Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
 		
-		//刷新site.js
-		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
+		//刷新site.js， pc、wap用到，已废弃
+//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		
 		ActionLogCache.insertUpdateDatabase(request, "更换站点二级域名", site.getDomain());
 		

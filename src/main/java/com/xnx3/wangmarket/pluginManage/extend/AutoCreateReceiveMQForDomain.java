@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.pluginManage.extend;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.xnx3.j2ee.func.Log;
@@ -32,6 +33,8 @@ public class AutoCreateReceiveMQForDomain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 }

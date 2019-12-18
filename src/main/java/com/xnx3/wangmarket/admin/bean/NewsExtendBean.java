@@ -9,11 +9,9 @@ import net.sf.json.JSONObject;
  *
  */
 public class NewsExtendBean {
-//	private String extend;			//news_data.extend 存储的数据
 	private JSONObject extendJson;	//将 extend 转化为的json字符串。如果里面没有内容，这里是null
 	
 	public NewsExtendBean(String extend) {
-//		this.extend = extend;
 		//判断一下，如果里面有内容，才会进行json转换
 		if(extend == null || extend.length() < 2){
 			return;

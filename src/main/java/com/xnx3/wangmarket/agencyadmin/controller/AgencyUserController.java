@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.aliyun.openservices.log.exception.LogException;
+import com.xnx3.ClassUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
@@ -82,13 +83,16 @@ public class AgencyUserController extends BaseController {
 		
 		ActionLogCache.insert(request, agency.getId(), "进入代理商后台首页");
 		User user = sqlService.findById(User.class, getUserId());
+		
+		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
+			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
+		}
 		model.addAttribute("user", user);
 		model.addAttribute("agency", agency);
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		//上级代理的公告内容，要显示出来的
 		model.addAttribute("parentAgencyNotice", parentAgencyData == null ? "":parentAgencyData.getNotice());
 		model.addAttribute("apiKey", apiService.getKey());
-		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		model.addAttribute("AGENCYUSER_FIRST_USE_EXPLAIN_URL", Global.get("AGENCYUSER_FIRST_USE_EXPLAIN_URL"));
 		return "agency/index";
 	}

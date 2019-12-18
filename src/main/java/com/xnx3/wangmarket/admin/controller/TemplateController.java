@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.xnx3.ClassUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
@@ -123,13 +125,16 @@ public class TemplateController extends BaseController {
 		
 		UserBean userBean = getUserBean();
 		User user = getUser();
+		
+		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
+			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
+		}
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));
 		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(userBean.getSite(), userBean.getParentAgency()));
 		model.addAttribute("siteUrl", Func.getDomain(getSite()));
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("user", user);
-		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
 		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());	//自动分配的域名，如 wang.market
 		model.addAttribute("SITEUSER_FIRST_USE_EXPLAIN_URL", Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
 		return "template/index";
