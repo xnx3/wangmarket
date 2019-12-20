@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.xnx3.Lang;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
@@ -189,7 +188,7 @@ public class TemplateUtil {
 		}else{
 			//未指定 wscso 下载地址，则是通过本地模版库进行加载 template.wscsos
 			
-			String text = AttachmentFile.getTextByPath("websiteTemplate/"+template.getName()+"/template.wscso");
+			String text = AttachmentUtil.getTextByPath("websiteTemplate/"+template.getName()+"/template.wscso");
 			vo.setInfo(text);
 		}
 		
@@ -260,11 +259,11 @@ public class TemplateUtil {
 					
 					try {
 						templateUtilFileMove.move("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
-						//AttachmentFile.put("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
+						//AttachmentUtil.put("websiteTemplate/"+name+"/"+jutiFile, new FileInputStream(subFile));
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
-					//AttachmentFile.put("websiteTemplate/"+name+"/"+mulu, subFile);
+					//AttachmentUtil.put("websiteTemplate/"+name+"/"+mulu, subFile);
 				}else{
 					//违规
 					//System.out.println("违规！受攻击了----"+subFile.getName()+"    --"+subFileSuffix);

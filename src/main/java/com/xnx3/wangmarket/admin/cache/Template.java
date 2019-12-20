@@ -3,8 +3,8 @@ package com.xnx3.wangmarket.admin.cache;
 import com.xnx3.Lang;
 import com.xnx3.file.FileUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 模版总控制
@@ -175,9 +175,9 @@ public class Template {
 	 * @param text
 	 */
 	public String replaceForEditModeTag(String text){
-		text = text.replaceAll("src=\"data", "src=\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/data");
-		text = text.replaceAll("\"news/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/news/");
-		text = text.replaceAll("\"images/", "\""+AttachmentFile.netUrl()+"site/"+site.getId()+"/images/");
+		text = text.replaceAll("src=\"data", "src=\""+AttachmentUtil.netUrl()+"site/"+site.getId()+"/data");
+		text = text.replaceAll("\"news/", "\""+AttachmentUtil.netUrl()+"site/"+site.getId()+"/news/");
+		text = text.replaceAll("\"images/", "\""+AttachmentUtil.netUrl()+"site/"+site.getId()+"/images/");
 		text = text.replaceAll("controllerRegEditMode", "edit");	//替换header中的js edit变量，设置其为编辑模式
 		text = text.replaceAll(regex("_masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		

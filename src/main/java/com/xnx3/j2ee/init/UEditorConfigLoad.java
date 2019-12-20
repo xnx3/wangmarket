@@ -3,8 +3,8 @@ package com.xnx3.j2ee.init;
 import com.qikemi.packages.alibaba.aliyun.oss.properties.OSSClientProperties;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.net.OSSUtil;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.AttachmentUtil;
 
 /**
  * 初始化UEditor编辑器的一些配置
@@ -23,7 +23,7 @@ public class UEditorConfigLoad {
 		OSSClientProperties.useCDN = false;		//默认为false，反正这几个point都一样，只要xnx3Config.xml 的 aliyunOSS.url 配置上CDN的请求域名，便是用cdn
 		
 		//首先判断一下当前使用的是那种附件存储模式,是本地存储，还是云存储
-		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS)){
+		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS)){
 			//使用的阿里云oss进行存储
 			new OSSUtil();
 			OSSClientProperties.bucketName = OSSUtil.bucketName;
@@ -54,16 +54,16 @@ public class UEditorConfigLoad {
 			
 			Log.info("UEditor 使用阿里云OSS作为文件、附件存储");
 			Log.info("load ueditor config , OSSClientProperties.astrictUpload : "+OSSClientProperties.astrictUpload);
-		}else if (AttachmentFile.isMode(AttachmentFile.MODE_HUAWEIYUN_OBS)) {
+		}else if (AttachmentUtil.isMode(AttachmentUtil.MODE_HUAWEIYUN_OBS)) {
 			//使用华为云存储
 			OSSClientProperties.useStatus = true;		//使用华为云存储，数据不存在本地服务器
-			OSSClientProperties.ossCliendEndPoint = AttachmentFile.netUrl();
-			OSSClientProperties.ossEndPoint = AttachmentFile.netUrl();
-			OSSClientProperties.cdnEndPoint = AttachmentFile.netUrl();
+			OSSClientProperties.ossCliendEndPoint = AttachmentUtil.netUrl();
+			OSSClientProperties.ossEndPoint = AttachmentUtil.netUrl();
+			OSSClientProperties.cdnEndPoint = AttachmentUtil.netUrl();
 			
 			Log.info("UEditor 使用华为云OBS作为文件、附件存储");
-		}else if (AttachmentFile.isMode(AttachmentFile.MODE_LOCAL_FILE)) {
-			//使用本服务器进行存储
+		}else{
+			//如果不是阿里云、华为云，那就认为是使用本服务器进行存储，免得什么也不使用，用户上传不上去，以为程序出问题了
 			
 			OSSClientProperties.useStatus = false;		//使用服务器存储，那此处设置为false，不使用阿里云
 			Log.info("UEditor 使用服务器本身磁盘作为文件、附件存储");

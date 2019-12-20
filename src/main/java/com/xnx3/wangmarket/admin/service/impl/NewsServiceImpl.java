@@ -10,9 +10,8 @@ import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
-import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -266,7 +265,7 @@ public class NewsServiceImpl implements NewsService {
 				if(news.getTitlepic().indexOf("http://") == 0 || news.getTitlepic().indexOf("https://") == 0 || news.getTitlepic().indexOf("//") == 0){
 					titlepicImage = news.getTitlepic();
 				}else{
-					titlepicImage = AttachmentFile.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
+					titlepicImage = AttachmentUtil.netUrl()+"site/"+site.getId()+"/news/"+news.getTitlepic();
 				}
 			}
 			n.setTitlepicImage(titlepicImage);
@@ -340,7 +339,7 @@ public class NewsServiceImpl implements NewsService {
 		
 		//删除titlepic文件
 		if(news.getTitlepic() != null && news.getTitlepic().indexOf("http://") == -1){
-			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 		}
 		
 		baseVO.setNews(news);

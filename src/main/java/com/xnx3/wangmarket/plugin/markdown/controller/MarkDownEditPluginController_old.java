@@ -8,7 +8,8 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.xnx3.j2ee.func.AttachmentFile;
+
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
@@ -32,7 +33,7 @@ public class MarkDownEditPluginController_old extends BasePluginController {
 			json.put("success", 0);
 			json.put("success", "请先登录");
 		}else{
-			uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/news/", request, "editormd-image-file", 0);
+			uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/news/", request, "editormd-image-file", 0);
 			if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 				json.put("success", 1);
 				json.put("message", "上传成功");

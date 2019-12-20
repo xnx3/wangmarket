@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.wangmarket.admin.Func;
@@ -76,7 +76,7 @@ public class AdminNewsController extends BaseController {
 		model.addAttribute("text", StringUtil.filterXss(newsData.getText()));
 		model.addAttribute("news", news);
 		model.addAttribute("site", site);
-		model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 		return "admin/news/view";
 	}
 	

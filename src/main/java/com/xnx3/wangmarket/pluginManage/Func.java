@@ -2,7 +2,7 @@ package com.xnx3.wangmarket.pluginManage;
 
 import java.util.Map;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.func.EntityUtil;
+import com.xnx3.j2ee.util.EntityUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.RabbitUtil;
 import com.xnx3.wangmarket.domain.bean.PluginMQ;

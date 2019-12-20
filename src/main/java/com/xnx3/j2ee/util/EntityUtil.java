@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.func;
+package com.xnx3.j2ee.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

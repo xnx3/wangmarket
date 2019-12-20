@@ -25,12 +25,12 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.j2ee.entity.*;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.Safety;
@@ -531,7 +531,7 @@ public class UserServiceImpl implements UserService{
 		fileSuffix = Lang.findFileSuffix(Safety.filter(head.getOriginalFilename()));
 		String newHead = Lang.uuid()+"."+fileSuffix;
 		try {
-			uploadFileVO = AttachmentFile.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
+			uploadFileVO = AttachmentUtil.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			uploadFileVO.setBaseVO(BaseVO.FAILURE, e.getMessage());
@@ -541,7 +541,7 @@ public class UserServiceImpl implements UserService{
 		User u = sqlDAO.findById(User.class, user.getId());
 		//删除之前的头像
 		if(u.getHead() != null && u.getHead().length() > 0 && !u.getHead().equals("default.png")){
-			AttachmentFile.deleteObject("image/head/"+u.getHead());
+			AttachmentUtil.deleteObject("image/head/"+u.getHead());
 		}
 		
 		u.setHead(newHead);
@@ -647,7 +647,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		User user = ShiroFunc.getUser();
-		uploadFileVO = AttachmentFile.uploadFileByMultipartFile(Global.get("USER_HEAD_PATH"), multipartFile);
+		uploadFileVO = AttachmentUtil.uploadFileByMultipartFile(Global.get("USER_HEAD_PATH"), multipartFile);
 		if(uploadFileVO.getResult() - UploadFileVO.FAILURE == 0){
 			return uploadFileVO;
 		}
@@ -655,7 +655,7 @@ public class UserServiceImpl implements UserService{
 		User u = sqlDAO.findById(User.class, user.getId());
 		//删除之前的头像
 		if(u.getHead() != null && u.getHead().length() > 0 && !u.getHead().equals("default.png")){
-			AttachmentFile.deleteObject(Global.get("USER_HEAD_PATH")+u.getHead());
+			AttachmentUtil.deleteObject(Global.get("USER_HEAD_PATH")+u.getHead());
 		}
 		
 		u.setHead(uploadFileVO.getFileName());
@@ -892,7 +892,7 @@ public class UserServiceImpl implements UserService{
 					if(user.getHead().equals("default.png")){
 						head = defaultHead;
 					}else{
-						head = AttachmentFile.netUrl() + Global.get("USER_HEAD_PATH") + user.getHead();
+						head = AttachmentUtil.netUrl() + Global.get("USER_HEAD_PATH") + user.getHead();
 					}
 				}
 			}else{

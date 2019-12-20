@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import com.xnx3.DateUtil;
-import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.util.AttachmentUtil;
 
 /**
  * 所有js缓存生成的父类
@@ -52,7 +52,7 @@ public class BaseCache {
 	public void generateCacheFile(com.xnx3.wangmarket.admin.entity.Site site){
 		try {
 			content = content + " var xnx3_r"+DateUtil.timeForUnix10()+" = '"+getRandomValue()+"';";
-			AttachmentFile.put("site/"+site.getId()+"/data/"+objName+".js", new ByteArrayInputStream(content.getBytes("UTF-8")));
+			AttachmentUtil.put("site/"+site.getId()+"/data/"+objName+".js", new ByteArrayInputStream(content.getBytes("UTF-8")));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

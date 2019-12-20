@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.util.AttachmentUtil;
 
 /**
  * 公共的一些
@@ -21,7 +21,7 @@ public class PublicFuncController extends BaseController {
 	@RequestMapping("template${url.suffix}")
 	public String templat(HttpServletRequest request,Model model){
 		ActionLogCache.insert(request, "模版列表");
-		model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 		return "template";
 	}
 	

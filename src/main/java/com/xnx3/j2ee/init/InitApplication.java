@@ -8,7 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.generateCache.Message;
 import com.xnx3.j2ee.generateCache.PayLog;
@@ -16,6 +15,7 @@ import com.xnx3.j2ee.generateCache.Role;
 import com.xnx3.j2ee.generateCache.SmsLog;
 import com.xnx3.j2ee.generateCache.User;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.net.OSSUtil;
 
 /**
@@ -51,26 +51,26 @@ public class InitApplication implements CommandLineRunner{
 		}
 		
 		//设置 附件存储 的位置，是阿里云，还是本地。参数来源于数据库
-		AttachmentFile.mode = Global.get("ATTACHMENT_FILE_MODE");
-		if(AttachmentFile.mode == null){
-			AttachmentFile.mode = AttachmentFile.MODE_LOCAL_FILE;
-			Log.info("AttachmentFile.mode = "+AttachmentFile.mode);
+		AttachmentUtil.mode = Global.get("ATTACHMENT_FILE_MODE");
+		if(AttachmentUtil.mode == null){
+			AttachmentUtil.mode = AttachmentUtil.MODE_LOCAL_FILE;
+			Log.info("AttachmentUtil.mode = "+AttachmentUtil.mode);
 		}
 		
 		//如果使用的是阿里云OSS，进行OSS初始化赋值。
-		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS)){
+		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS)){
 			initOssConfig();
 		}
 		
 		//附件、文件的请求网址(CDN会先查找数据库配置的此项，若此项没有配置，才会使用xnx3Config.xml中配置的oss的cdn)，本地服务器作为存储磁盘，必须使用数据库配置的此附件地址
-		if(AttachmentFile.netUrl() == null){
+		if(AttachmentUtil.netUrl() == null){
 			Log.debug("未发现当前上传图片、附件所使用的域名。");
 			Log.debug("    设置方式：");
 			Log.debug("    1. 本项目在开启后，取第一次访问时使用的url，作为当前的 ATTACHMENT_FILE_URL");
 			Log.debug("    2. 进入总管理后台－系统管理－系统变量，设置ATTACHMENT_FILE_URL变量，加上图片等附件的访问域名，格式如： http://res.weiunity.com/");
-			Log.debug("    3. 您在程序中自行进行设置AttachmentFile.setNetUrl(url);");
+			Log.debug("    3. 您在程序中自行进行设置AttachmentUtil.setNetUrl(url);");
 		}
-		Log.debug("AttachmentFile.url : "+AttachmentFile.netUrl());
+		Log.debug("AttachmentUtil.url : "+AttachmentUtil.netUrl());
 		
 
 		/*以下为生成相关数据缓存*/
@@ -153,7 +153,7 @@ public class InitApplication implements CommandLineRunner{
 		OSSUtil.accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
 		OSSUtil.bucketName = Global.get("ALIYUN_OSS_BUCKETNAME");
 		OSSUtil.endpoint = Global.get("ALIYUN_OSS_ENDPOINT");
-		OSSUtil.url = AttachmentFile.netUrl();
+		OSSUtil.url = AttachmentUtil.netUrl();
 		
 		boolean checkOss = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("startAutoCheck.oss").equals("true");
 		if(!checkOss){

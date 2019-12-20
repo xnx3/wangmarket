@@ -22,7 +22,6 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.ApiService;
@@ -30,6 +29,7 @@ import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.LoginVO;
 import com.xnx3.j2ee.vo.UserVO;
@@ -388,7 +388,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 					long sizeB = 0;
 					try {
 						for (int i = 0; i < list.size(); i++) {
-							sizeB += AttachmentFile.getDirectorySize("site/"+list.get(i).getId()+"/");
+							sizeB += AttachmentUtil.getDirectorySize("site/"+list.get(i).getId()+"/");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

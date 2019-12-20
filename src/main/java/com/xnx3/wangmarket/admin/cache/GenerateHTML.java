@@ -8,12 +8,12 @@ import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.SiteData;
-import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 生成 HTML 缓存页面
@@ -83,9 +83,9 @@ public class GenerateHTML {
 	 */
 	public String replacePublicTag(String text){
 		//OSSUrl以废弃，使用AttachmentFileUrl，表示附件等文件所在的资源访问url
-		text = text.replaceAll(regex("OSSUrl"), AttachmentFile.netUrl());	//已废弃
-		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentFile.netUrl());
-		text = text.replaceAll(regex("resUrl"), AttachmentFile.netUrl());
+		text = text.replaceAll(regex("OSSUrl"), AttachmentUtil.netUrl());	//已废弃
+		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentUtil.netUrl());
+		text = text.replaceAll(regex("resUrl"), AttachmentUtil.netUrl());
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
 		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
@@ -112,10 +112,10 @@ public class GenerateHTML {
 			//编辑模式
 			text = text.replaceAll(regex("basePath"), Global.get("MASTER_SITE_URL"));
 			text = text.replaceAll(regex("edit"), "edit");
-			text = text.replaceAll(regex("ossEditUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+			text = text.replaceAll(regex("ossEditUrl"), AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("editLinuxTime"), "?v="+DateUtil.timeForUnix10());
 		}else{
-			text = text.replaceAll(regex("basePath"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+			text = text.replaceAll(regex("basePath"), AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("edit"), "");
 			text = text.replaceAll(regex("ossEditUrl"), "");
 			text = text.replaceAll(regex("editLinuxTime"), "");
@@ -291,7 +291,7 @@ public class GenerateHTML {
 		if(editMode){
 			//编辑模式
 			if(titlePic.indexOf("http://") == -1){
-				titlePic = AttachmentFile.netUrl()+"site/"+news.getSiteid()+"/news/"+titlePic;
+				titlePic = AttachmentUtil.netUrl()+"site/"+news.getSiteid()+"/news/"+titlePic;
 			}
 			text = text.replaceAll(GenerateHTML.regex("news.titlepic"), titlePic);
 			text = text.replaceAll(GenerateHTML.regex("news.url"), "news.do?id="+news.getId()+"&editMode=edit");	//client=wap& 去掉，自动根据浏览器识别
@@ -320,7 +320,7 @@ public class GenerateHTML {
 			e.printStackTrace();
 		}
 		
-		return AttachmentFile.getTextByPath("site/"+site.getId()+"/index.html");
+		return AttachmentUtil.getTextByPath("site/"+site.getId()+"/index.html");
 	}
 	
 	/**
@@ -340,7 +340,7 @@ public class GenerateHTML {
 //			html = gh.pcIndex();
 			//刷新pc首页的时候，需要刷新pc首页中间的那些数据，还需要到数据库里将其查询出来
 			
-			htmlText = htmlText.replaceAll("<!--templateStyleCss-->", "<link href=\""+AttachmentFile.netUrl()+"template/"+site.getTemplateId()+"/style.css\" rel=\"stylesheet\" type=\"text/css\">");
+			htmlText = htmlText.replaceAll("<!--templateStyleCss-->", "<link href=\""+AttachmentUtil.netUrl()+"template/"+site.getTemplateId()+"/style.css\" rel=\"stylesheet\" type=\"text/css\">");
 		}else{
 			htmlText = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/index.html");
 			htmlText = assemblyCommon(htmlText);	//装载通用组件
@@ -368,7 +368,7 @@ public class GenerateHTML {
 		htmlText = htmlText.replaceAll(regex("keywords"), siteColumn.getName()+","+site.getKeywords());
 		htmlText = htmlText.replaceAll(regex("description"), siteColumn.getName());	//临时暂时这么放吧
 		
-		AttachmentFile.putStringFile("site/"+site.getId()+"/lc"+siteColumn.getId()+"_"+pageNumber+".html", htmlText);
+		AttachmentUtil.putStringFile("site/"+site.getId()+"/lc"+siteColumn.getId()+"_"+pageNumber+".html", htmlText);
 	}
 	
 	/**
@@ -399,7 +399,7 @@ public class GenerateHTML {
 		}else{
 			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
 		}
-		AttachmentFile.putStringFile(generateUrl, pageHtml);
+		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
 	
 	/**
@@ -411,7 +411,7 @@ public class GenerateHTML {
 		if(text == null){
 			return "";
 		}
-		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -424,7 +424,7 @@ public class GenerateHTML {
 		if(text == null){
 			return "";
 		}
-		text = text.replaceAll("\\{prefixUrl\\}", AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+		text = text.replaceAll("\\{prefixUrl\\}", AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -434,6 +434,6 @@ public class GenerateHTML {
 	 * @param htmlText
 	 */
 	public void generateIndexHtml(String htmlText){
-		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", htmlText);
+		AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", htmlText);
 	}
 }

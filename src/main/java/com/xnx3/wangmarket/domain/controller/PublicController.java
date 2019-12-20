@@ -12,8 +12,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ApplicationProperties;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.net.HttpResponse;
@@ -114,10 +114,10 @@ public class PublicController extends BaseController {
 				}
 			}
 			
-			String html = AttachmentFile.getTextByPath("site/"+simpleSite.getId()+"/"+htmlFile);
+			String html = AttachmentUtil.getTextByPath("site/"+simpleSite.getId()+"/"+htmlFile);
 			if(html == null){
 				//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
-				if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+				if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
 				}
 				if(htmlFile.equals("index.html")){
@@ -174,7 +174,7 @@ public class PublicController extends BaseController {
 				//如果是手机访问的，也是使用二级域名进行访问
 				boolean isMobile = TerminalDetection.checkMobileOrPc(request);
 				if(!isMobile){
-					model.addAttribute("url", AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/"+htmlFile);
+					model.addAttribute("url", AttachmentUtil.netUrl()+"site/"+simpleSite.getId()+"/"+htmlFile);
 					return "domain/pcPreview";
 				}
 			}
@@ -273,7 +273,7 @@ public class PublicController extends BaseController {
 //			requestLog(request, requestInfo);
 			Log.requestLog(request, requestInfo, simpleSiteVO);
 			
-			HttpResponse hr = http.get(AttachmentFile.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
+			HttpResponse hr = http.get(AttachmentUtil.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
 			if(hr == null || hr.getCode() - 404 == 0){
 				return error404();
 			}else{
@@ -362,9 +362,9 @@ public class PublicController extends BaseController {
 	 */
 	public String replaceHtmlTag(SimpleSite simpleSite, String html){
 		//替换掉 data目录下的缓存js文件
-		html = html.replaceAll("src=\"data/", "src=\""+AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/data/");	
+		html = html.replaceAll("src=\"data/", "src=\""+AttachmentUtil.netUrl()+"site/"+simpleSite.getId()+"/data/");	
 		//替换图片文件
-		html = html.replaceAll("src=\"news/", "src=\""+AttachmentFile.netUrl()+"site/"+simpleSite.getId()+"/news/");
+		html = html.replaceAll("src=\"news/", "src=\""+AttachmentUtil.netUrl()+"site/"+simpleSite.getId()+"/news/");
 		//替换掉HTML的注释 <!-- -->
 		//html = html.replaceAll("<!--(.*?)-->", "");
 		//替换掉JS的注释 /**/

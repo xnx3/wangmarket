@@ -15,8 +15,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -77,7 +77,7 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		if(html != null){
-			AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", html);
+			AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", html);
 		}
 	}
 	
@@ -565,7 +565,7 @@ public class SiteServiceImpl implements SiteService {
 		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
 		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		//生成首页保存到OSS或本地盘
-		AttachmentFile.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
+		AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
 		/*
 		 * 生成栏目、内容页面
@@ -655,7 +655,7 @@ public class SiteServiceImpl implements SiteService {
 		
 		//生成 sitemap.xml
 		xml = xml + "</urlset>";
-		AttachmentFile.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
+		AttachmentUtil.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
 		
 		return new BaseVO();
 	}
@@ -877,8 +877,8 @@ public class SiteServiceImpl implements SiteService {
 					List<Carousel> carouselList = new ArrayList<Carousel>();
 					Carousel carousel = new Carousel();
 					carousel.setAddtime(DateUtil.timeForUnix10());
-//					carousel.setImage(AttachmentFile.netUrl()+"res/default_carousel/car_1.jpg");
-					carousel.setImage(AttachmentFile.netUrl()+"default/banner.jpg");
+//					carousel.setImage(AttachmentUtil.netUrl()+"res/default_carousel/car_1.jpg");
+					carousel.setImage(AttachmentUtil.netUrl()+"default/banner.jpg");
 					carousel.setIsshow(Carousel.ISSHOW_SHOW);
 					carousel.setSiteid(site.getId());
 					carousel.setUserid(siteUserId);
@@ -901,7 +901,7 @@ public class SiteServiceImpl implements SiteService {
 						
 						//生成新闻栏目
 						SiteColumn newsSiteColumn = new SiteColumn();
-						newsSiteColumn.setIcon(AttachmentFile.netUrl()+"image/default_newsColumn.png");
+						newsSiteColumn.setIcon(AttachmentUtil.netUrl()+"image/default_newsColumn.png");
 						newsSiteColumn.setName("新闻咨询");
 						newsSiteColumn.setParentid(0);
 						newsSiteColumn.setRank(2);
@@ -919,7 +919,7 @@ public class SiteServiceImpl implements SiteService {
 						xwNews.setStatus(News.STATUS_NORMAL);
 						xwNews.setTitle("热烈庆祝"+site.getName()+"网站成立");
 						xwNews.setIntro(xwNews.getTitle()+",各族人民前来欢庆。");
-						xwNews.setTitlepic(AttachmentFile.netUrl()+"image/default_news_titlepic.png");
+						xwNews.setTitlepic(AttachmentUtil.netUrl()+"image/default_news_titlepic.png");
 						xwNews.setType(News.TYPE_NEWS);
 						xwNews.setUserid(siteUserId);
 						xwNews.setLegitimate(News.LEGITIMATE_OK);
@@ -932,7 +932,7 @@ public class SiteServiceImpl implements SiteService {
 						
 						//生成产品展示栏目
 						SiteColumn imageSiteColumn = new SiteColumn();
-						imageSiteColumn.setIcon(AttachmentFile.netUrl()+"image/default_project_column.png");
+						imageSiteColumn.setIcon(AttachmentUtil.netUrl()+"image/default_project_column.png");
 						imageSiteColumn.setName("产品展示");
 						imageSiteColumn.setParentid(0);
 						imageSiteColumn.setRank(3);
@@ -950,7 +950,7 @@ public class SiteServiceImpl implements SiteService {
 						productNews.setStatus(News.STATUS_NORMAL);
 						productNews.setTitle("热烈庆祝"+site.getName()+"网站成立");
 						productNews.setIntro(xwNews.getTitle()+",各族人民前来欢庆。");
-						productNews.setTitlepic(AttachmentFile.netUrl()+"image/default_news_titlepic.png");
+						productNews.setTitlepic(AttachmentUtil.netUrl()+"image/default_news_titlepic.png");
 						productNews.setType(News.TYPE_IMAGENEWS);
 						productNews.setUserid(siteUserId);
 						productNews.setLegitimate(News.LEGITIMATE_OK);
@@ -965,7 +965,7 @@ public class SiteServiceImpl implements SiteService {
 						
 						//生成联系我们
 						SiteColumn lxSC = new SiteColumn();
-						lxSC.setIcon(AttachmentFile.netUrl()+"image/lianxi.jpeg");
+						lxSC.setIcon(AttachmentUtil.netUrl()+"image/lianxi.jpeg");
 						lxSC.setName("联系我们");
 						lxSC.setParentid(0);
 						lxSC.setRank(4);
@@ -1140,7 +1140,7 @@ public class SiteServiceImpl implements SiteService {
 		xml = xml + "</urlset>";
 		
 		//生成 sitemap.xml
-		AttachmentFile.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
+		AttachmentUtil.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
 	}
 	
 	/**

@@ -15,6 +15,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
@@ -24,8 +26,6 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
-import com.xnx3.j2ee.func.AttachmentFile;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 
@@ -137,9 +137,9 @@ public class TemplateCMS {
 	 * @return 替换好的内容
 	 */
 	public String replacePublicTag(String text){
-		text = Template.replaceAll(text, regex("OSSUrl"), AttachmentFile.netUrl());	//以废弃，保留，适应以前版本
-		text = Template.replaceAll(text, regex("AttachmentFileUrl"), AttachmentFile.netUrl());
-		text = Template.replaceAll(text, regex("resUrl"), AttachmentFile.netUrl());
+		text = Template.replaceAll(text, regex("OSSUrl"), AttachmentUtil.netUrl());	//以废弃，保留，适应以前版本
+		text = Template.replaceAll(text, regex("AttachmentFileUrl"), AttachmentUtil.netUrl());
+		text = Template.replaceAll(text, regex("resUrl"), AttachmentUtil.netUrl());
 		text = Template.replaceAll(text, regex("linuxTime"), linuxTime+"");
 		text = Template.replaceAll(text, regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
 		
@@ -221,7 +221,7 @@ public class TemplateCMS {
 		if(text == null){
 			return "";
 		}
-		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentFile.netUrl()+"site/"+site.getId()+"/");
+		text = Template.replaceAll(text, regex("prefixUrl"), AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 		return text;
 	}
 	
@@ -340,7 +340,7 @@ public class TemplateCMS {
 		//v4.9版本增加，提高容错
 		if(newsDataBean == null){
 			//如果newsDataBean为空，则是文章在 news表中有，但是在 news_data 表中没有！正常情况下是不会存在的，除非出错！那么进行日志打印。
-			Log.error("文章在news中有，在news_data中没有！文章id:"+news.getId());
+			ConsoleUtil.error("文章在news中有，在news_data中没有！文章id:"+news.getId());
 			//因为已经没有 news_data 表的数据了，直接将替换了news表的数据返回就可以了
 			return text;
 		}
@@ -471,7 +471,7 @@ public class TemplateCMS {
 			}
 			
 			//写出列表页面的HTML文件
-			AttachmentFile.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
+			AttachmentUtil.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
 		}
 	}
 	
@@ -653,7 +653,7 @@ public class TemplateCMS {
 			
 			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
-		AttachmentFile.putStringFile(generateUrl, pageHtml);
+		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
 	
 	/**

@@ -12,7 +12,7 @@ import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.func.AttachmentFile;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
 /**
@@ -26,7 +26,7 @@ public class LocalServerMode implements StorageModeInterface{
 	public void putStringFile(String path, String text, String encode) {
 		directoryInit(path);
 		try {
-			FileUtil.write(AttachmentFile.localFilePath+path, text, encode);
+			FileUtil.write(AttachmentUtil.localFilePath+path, text, encode);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class LocalServerMode implements StorageModeInterface{
 		UploadFileVO vo = new UploadFileVO();
 		
 		directoryInit(path);
-		File file = new File(AttachmentFile.localFilePath+path);
+		File file = new File(AttachmentUtil.localFilePath+path);
 		OutputStream os;
 		try {
 			os = new FileOutputStream(file);
@@ -68,7 +68,7 @@ public class LocalServerMode implements StorageModeInterface{
 			vo.setFileName(file.getName());
 			vo.setInfo("success");
 			vo.setPath(path);
-			vo.setUrl(AttachmentFile.netUrl()+path);
+			vo.setUrl(AttachmentUtil.netUrl()+path);
 		} catch (IOException e) {
 			vo.setBaseVO(BaseVO.FAILURE, e.getMessage());
 			e.printStackTrace();
@@ -79,7 +79,7 @@ public class LocalServerMode implements StorageModeInterface{
 
 	@Override
 	public String getTextByPath(String path) {
-		String text = FileUtil.read(AttachmentFile.localFilePath+path, FileUtil.UTF8);
+		String text = FileUtil.read(AttachmentUtil.localFilePath+path, FileUtil.UTF8);
 		if(text != null && text.length() == 0){
 			text = null;
 		}
@@ -88,7 +88,7 @@ public class LocalServerMode implements StorageModeInterface{
 
 	@Override
 	public void deleteObject(String filePath) {
-		FileUtil.deleteFile(AttachmentFile.localFilePath+filePath);
+		FileUtil.deleteFile(AttachmentUtil.localFilePath+filePath);
 	}
 
 	@Override
@@ -99,13 +99,13 @@ public class LocalServerMode implements StorageModeInterface{
 	@Override
 	public long getDirectorySize(String path) {
 		directoryInit(path);
-		return FileUtils.sizeOfDirectory(new File(AttachmentFile.localFilePath+path));
+		return FileUtils.sizeOfDirectory(new File(AttachmentUtil.localFilePath+path));
 	}
 
 	@Override
 	public void copyObject(String originalFilePath, String newFilePath) {
 		directoryInit(newFilePath);
-		FileUtil.copyFile(AttachmentFile.localFilePath + originalFilePath, AttachmentFile.localFilePath + newFilePath);
+		FileUtil.copyFile(AttachmentUtil.localFilePath + originalFilePath, AttachmentUtil.localFilePath + newFilePath);
 	}
 	
 	
@@ -141,8 +141,8 @@ public class LocalServerMode implements StorageModeInterface{
 			for (int i = 0; i < ps.length; i++) {
 				if(ps[i].length() > 0){
 					xiangdui = xiangdui + ps[i]+"/";
-					if(!FileUtil.exists(AttachmentFile.localFilePath+xiangdui)){
-						File file = new File(AttachmentFile.localFilePath+xiangdui);
+					if(!FileUtil.exists(AttachmentUtil.localFilePath+xiangdui)){
+						File file = new File(AttachmentUtil.localFilePath+xiangdui);
 						file.mkdir();
 					}
 				}

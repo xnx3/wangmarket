@@ -39,7 +39,6 @@ import com.xnx3.StringUtil;
 import com.xnx3.SystemUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.func.VersionUtil;
 import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
@@ -61,7 +60,6 @@ import com.xnx3.wangmarket.superadmin.util.pluginManage.ScanClassesUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.TomcatUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ZipUtils;
 import com.xnx3.wangmarket.superadmin.vo.InstallApplicationVO;
-
 import net.sf.json.JSONObject;
 
 /**

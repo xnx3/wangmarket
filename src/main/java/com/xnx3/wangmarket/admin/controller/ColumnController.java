@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -40,7 +41,6 @@ import com.xnx3.wangmarket.admin.util.ActionLogCache;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 
@@ -93,7 +93,7 @@ public class ColumnController extends BaseController {
 	    //将分页信息传到页面以供显示
 	    model.addAttribute("page", page);
 	    model.addAttribute("siteid", getSiteId());
-	    model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 	    return "column/list";
 	}
 	
@@ -129,7 +129,7 @@ public class ColumnController extends BaseController {
 	    model.addAttribute("siteid", getSiteId());
 	    model.addAttribute("site", getSite());
 	    model.addAttribute("cursorStyle", (getSite().getTemplateName()!=null && getSite().getTemplateName().length()>0) ? "":"cursor: all-scroll;");
-	    model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 	    return "column/popup_list";
 	}
 	
@@ -179,7 +179,7 @@ public class ColumnController extends BaseController {
 		model.addAttribute("site", site);
 		
 		if(id > 0){
-			String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+			String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 			iconImage = "<img src=\""+icon+"\" height=\"30\" onclick=\"window.open('"+icon+"');\" alt=\"当前的图标\" style=\"cursor:pointer;\">";
 		}
 		model.addAttribute("iconImage", iconImage);
@@ -208,7 +208,7 @@ public class ColumnController extends BaseController {
 			return error(model, "栏目不属于你，无法修改");
 		}
 		
-		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
 		ActionLogCache.insert(request, siteColumn.getId(), "通用电脑网站模式下，弹出更该栏目名字的弹出框", siteColumn.getName());
 		
@@ -244,7 +244,7 @@ public class ColumnController extends BaseController {
 		}
 		
 		
-		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
+		String icon = siteColumn.getIcon().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+site.getId()+"/column_icon/"+siteColumn.getIcon():siteColumn.getIcon();
 		
 		ActionLogCache.insert(request, siteColumn.getId(), "通用电脑网站模式下，打开更该栏目属性的页面", siteColumn.getName());
 		
@@ -428,7 +428,7 @@ public class ColumnController extends BaseController {
 		//可上传的后缀列表
 		model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
 		//可上传的文件最大大小(KB)
-		model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
+		model.addAttribute("maxFileSizeKB", AttachmentUtil.getMaxFileSizeKB());
 		//设置上传后的图片、附件所在的个人路径
 		SessionUtil.setUeUploadParam1(site.getId()+"");
 		//实际上 sitecolumn.icon 图片的地址，替换掉动态标签的绝对路径 （原本数据库中存储的是可带有动态标签的，模版开发人员可以使用{templatePath}标签来填写icon的图片文件所在路径）
@@ -664,7 +664,7 @@ public class ColumnController extends BaseController {
 			if(sc.getIcon() != null){
 				String us[] = sc.getIcon().split("/site/"+site.getId()+"/news/");
 				if(us.length > 1 && us[0].equals(Global.get("ATTACHMENT_FILE_URL"))){
-					AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+us[1]);
+					AttachmentUtil.deleteObject("site/"+site.getId()+"/news/"+us[1]);
 				}
 			}
 			
@@ -834,7 +834,7 @@ public class ColumnController extends BaseController {
 		String oldIconName = null;
 		
 		//上传图标，并进行压缩处理
-		UploadFileVO upload= AttachmentFile.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
+		UploadFileVO upload= AttachmentUtil.uploadImage("site/"+site.getId()+"/column_icon/", request, "iconFile", G.SITECOLUMN_ICON_MAXWIDTH);
 		if(upload.getResult() == BaseVO.SUCCESS){
 			oldIconName = sc.getIcon();
 			sc.setIcon(upload.getFileName());
@@ -843,7 +843,7 @@ public class ColumnController extends BaseController {
 		if(sc.getId() > 0){
 			//删除之前传的那个icon文件
 			if(oldIconName != null && oldIconName.indexOf("/") == -1){
-				AttachmentFile.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
+				AttachmentUtil.deleteObject("site/"+site.getId()+"/column_icon/"+oldIconName);
 			}
 			
 			//保存日志

@@ -19,11 +19,11 @@ import com.xnx3.StringUtil;
 import com.xnx3.ZipUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -292,7 +292,7 @@ public class TemplateDevelopController extends BasePluginController {
 		Site site = getSite();
 		
 		//判断一下对方使用的是OSS还是本地存储，如果没用本地存储，提醒用户要使用本地存储的
-		if(!AttachmentFile.isMode(AttachmentFile.MODE_LOCAL_FILE)){
+		if(!AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)){
 			uploadFileVO.setBaseVO(UploadFileVO.FAILURE, "存储方式请使用服务器本地存储。请按照我们的说明，使用本地一键运行包进行模版开发！");
 			return uploadFileVO;
 		}
@@ -304,7 +304,7 @@ public class TemplateDevelopController extends BasePluginController {
 			if(imageList.size()>0 && !imageList.get(0).isEmpty()){
 				MultipartFile multi = imageList.get(0);
 				try {
-					uploadFileVO = AttachmentFile.put(getExportPath()+site.getTemplateName()+"/preview.jpg", multi.getInputStream());
+					uploadFileVO = AttachmentUtil.put(getExportPath()+site.getTemplateName()+"/preview.jpg", multi.getInputStream());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

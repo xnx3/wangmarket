@@ -20,6 +20,7 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.TextFilter;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.wangmarket.admin.Func;
@@ -37,7 +38,6 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
@@ -276,9 +276,9 @@ public class NewsController extends BaseController {
 			ActionLogCache.insertUpdateDatabase(request, news.getId(), "删除文章成功", news.getTitle());
 			
 			//删除OSS的html、头图文件
-			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			}
 			
 			//刷新sitemap
@@ -395,7 +395,7 @@ public class NewsController extends BaseController {
 	    model.addAttribute("page", page);
 	    model.addAttribute("siteDomain", Func.getDomain(site));	//访问域名
 	    model.addAttribute("site", site);
-	    model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 	    return "news/listForTemplate";
 	}
 	
@@ -457,7 +457,7 @@ public class NewsController extends BaseController {
 			//可上传的后缀列表
 			model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
 			//可上传的文件最大大小(KB)
-			model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
+			model.addAttribute("maxFileSizeKB", AttachmentUtil.getMaxFileSizeKB());
 			return "news/newsForTemplate";
 		}else{
 			return error(model, ni.getInfo());
@@ -480,9 +480,9 @@ public class NewsController extends BaseController {
 			ActionLogCache.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());
 			
 			//删除OSS的html、头图文件
-			AttachmentFile.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				AttachmentFile.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			}
 			
 			if(!Func.isCMS(getSite())){

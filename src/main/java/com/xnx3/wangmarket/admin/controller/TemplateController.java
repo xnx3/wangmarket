@@ -30,10 +30,10 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -706,9 +706,9 @@ public class TemplateController extends BaseController {
 		String fileSuffix = Lang.findFileSuffix(multipartFile.getOriginalFilename()).toLowerCase();
 		if(fileSuffix.equals("wscso")){
 			//wscso的限制在配置文件applilcation.properties的大小以内
-			if(lengthKB > AttachmentFile.getMaxFileSizeKB()){
+			if(lengthKB > AttachmentUtil.getMaxFileSizeKB()){
 				//超过
-				responseJson(response, BaseVO.FAILURE, "纯模版文件最大限制"+AttachmentFile.getMaxFileSizeKB()+"KB以内");
+				responseJson(response, BaseVO.FAILURE, "纯模版文件最大限制"+AttachmentUtil.getMaxFileSizeKB()+"KB以内");
 				return;
 			}
 			try {
@@ -773,8 +773,8 @@ public class TemplateController extends BaseController {
 			//若没有模版，才会出现选择模版的界面
 
 			//最大上传大小，单位 KB
-			model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
-			model.addAttribute("AttachmentFileUrl", AttachmentFile.netUrl());
+			model.addAttribute("maxFileSizeKB", AttachmentUtil.getMaxFileSizeKB());
+			model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
 			return "template/selectTemplate";
 		}
 	}
@@ -792,7 +792,7 @@ public class TemplateController extends BaseController {
 			return uploadFileVO;
 		}
 		
-		uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image", 0);
+		uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image", 0);
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
 			ActionLogCache.insert(request, "CMS模式下，模版页自由上传图片成功", uploadFileVO.getFileName());
@@ -811,7 +811,7 @@ public class TemplateController extends BaseController {
 		ActionLogCache.insert(request, "CMS模式下，刷新生成整站");
 		
 		//提前判断一下，是否使用的是阿里云OSS存储，并且没有配置OSS
-		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
 		}
 		

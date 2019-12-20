@@ -21,10 +21,10 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
@@ -249,7 +249,7 @@ public class SiteController extends BaseController {
 	@ResponseBody
 	public BaseVO getOSSSize(HttpServletRequest request){
 		//判断一下，如果是使用的阿里云OSS存储，但是没有配置，会拦截提示
-		if(AttachmentFile.isMode(AttachmentFile.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
 			return error("未开通阿里云OSS服务");
 		}
 		
@@ -259,7 +259,7 @@ public class SiteController extends BaseController {
 		//属于该用户的这些网站共占用了多少存储空间去
 		long sizeB = 0;
 		for (int i = 0; i < list.size(); i++) {
-			sizeB += AttachmentFile.getDirectorySize("site/"+list.get(i).getId()+"/");
+			sizeB += AttachmentUtil.getDirectorySize("site/"+list.get(i).getId()+"/");
 		}
 		
 		int kb = Math.round(sizeB/1024);
@@ -538,7 +538,7 @@ public class SiteController extends BaseController {
 	        BufferedImage tag1 = ImageUtil.proportionZoom(tag, 400);
 			
 			//上传
-	        AttachmentFile.put("site/"+site.getId()+"/images/qr.jpg", ImageUtil.bufferedImageToInputStream(tag1, "jpg"));
+	        AttachmentUtil.put("site/"+site.getId()+"/images/qr.jpg", ImageUtil.bufferedImageToInputStream(tag1, "jpg"));
 			
 	        ActionLogCache.insert(request, "通用电脑模式，更改底部的二维码，提交保存");
 			
@@ -575,7 +575,7 @@ public class SiteController extends BaseController {
 			return;
 		}
 		
-		UploadFileVO uploadFileVO = AttachmentFile.uploadImage("site/"+site.getId()+"/news/", request, "titlePicFile", G.NEWS_TITLEPIC_MAXWIDTH);
+		UploadFileVO uploadFileVO = AttachmentUtil.uploadImage("site/"+site.getId()+"/news/", request, "titlePicFile", G.NEWS_TITLEPIC_MAXWIDTH);
 		String oldTitlePic = "";	//旧的栏目导航图名字
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			oldTitlePic = (news.getTitlepic()==null||news.getTitlepic().length()==0)? "":news.getTitlepic();
@@ -585,7 +585,7 @@ public class SiteController extends BaseController {
 			
 			//如果有旧图，删除掉旧的图片
 			if(oldTitlePic.length() > 0 && (oldTitlePic.indexOf("http://") == -1 && oldTitlePic.indexOf("https://") == -1 && oldTitlePic.indexOf("//") == -1)){
-				AttachmentFile.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
+				AttachmentUtil.deleteObject("site/"+site.getId()+"/news/"+oldTitlePic);
 			}
 			
 			//更新首页
@@ -625,7 +625,7 @@ public class SiteController extends BaseController {
 	public void deleteOssData(Model model,HttpServletResponse response,HttpServletRequest request,
 			@RequestParam(value = "fileName", required = true) String fileName){
 		fileName = filter(fileName);
-		AttachmentFile.deleteObject("site/"+getSiteId()+"/"+fileName);
+		AttachmentUtil.deleteObject("site/"+getSiteId()+"/"+fileName);
 		
 		ActionLogCache.insert(request, "删除当前网站内存储的文件："+fileName);
 		
@@ -729,7 +729,7 @@ public class SiteController extends BaseController {
 	@RequestMapping(value="uploadImage${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public UploadFileVO uploadImage(Model model,HttpServletRequest request){
-		UploadFileVO uploadFileVO = AttachmentFile.uploadImage("site/"+getSiteId()+"/news/", request, "image", 0);
+		UploadFileVO uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/news/", request, "image", 0);
 		
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志

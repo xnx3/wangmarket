@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -28,7 +29,6 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.CarouselService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogCache;
-import com.xnx3.j2ee.func.AttachmentFile;
 
 /**
  * 轮播广告，轮播图
@@ -84,7 +84,7 @@ public class CarouselController extends BaseController {
 				return error(model, "此图所属的站点不属于您，无法操作！");
 			}
 			siteid = carousel.getSiteid();
-			String image = carousel.getImage().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
+			String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
 			title = "修改轮播图";
 			ActionLogCache.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
 			
@@ -147,9 +147,9 @@ public class CarouselController extends BaseController {
 			//判断，如果是PC端的话，不用进行压缩
 			UploadFileVO uploadFile;
 			if(site.getClient() - Site.CLIENT_PC == 0){
-				uploadFile = AttachmentFile.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
+				uploadFile = AttachmentUtil.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
 			}else{
-				uploadFile = AttachmentFile.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, G.CAROUSEL_MAXWIDTH);
+				uploadFile = AttachmentUtil.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, G.CAROUSEL_MAXWIDTH);
 			}
 			if(uploadFile.getResult() == UploadFileVO.FAILURE){
 				return error(model, uploadFile.getInfo());
@@ -172,7 +172,7 @@ public class CarouselController extends BaseController {
 				//删除之前传的那个图片文件
 				if(!(oldImage == null || oldImage.length() == 0)){
 					if(oldImage.indexOf("/") == -1){
-						AttachmentFile.deleteObject(G.getCarouselPath(site)+oldImage);
+						AttachmentUtil.deleteObject(G.getCarouselPath(site)+oldImage);
 					}
 				}
 			}
@@ -208,7 +208,7 @@ public class CarouselController extends BaseController {
 			//记录意外日志
 			ActionLogCache.insertError(request, "网站id("+site.getId()+")无默认轮播图");
 		}
-		String image = carousel.getImage().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+site.getId()+"/carousel/"+carousel.getImage():carousel.getImage();
+		String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+site.getId()+"/carousel/"+carousel.getImage():carousel.getImage();
 		
 		ActionLogCache.insert(request, carousel.getId() != null? carousel.getId():0, "进入修改站点公用的轮播图页面", carousel.getUrl());
 		
@@ -242,7 +242,7 @@ public class CarouselController extends BaseController {
 				carousel.setImage(defaultC.getImage());
 				if(defaultC.getImage() != null && defaultC.getImage().length() > 3 && defaultC.getImage().indexOf("http://") == -1){
 					//如果是单独上传的图，需要将此图也复制一份
-					AttachmentFile.copyObject("site/"+getSiteId()+"/carousel/"+defaultC.getImage(), "site/"+getSiteId()+"/carousel/"+"c"+defaultC.getImage());
+					AttachmentUtil.copyObject("site/"+getSiteId()+"/carousel/"+defaultC.getImage(), "site/"+getSiteId()+"/carousel/"+"c"+defaultC.getImage());
 					carousel.setImage("c"+defaultC.getImage());
 				}
 				carousel.setIsshow(Carousel.ISSHOW_SHOW);
@@ -265,7 +265,7 @@ public class CarouselController extends BaseController {
 		
 		ActionLogCache.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
 		
-		String image = carousel.getImage().indexOf("://")==-1? AttachmentFile.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
+		String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
 		model.addAttribute("carousel", carousel);
 		model.addAttribute("image", image);
 		return "/carousel/popup_carousel";
@@ -297,7 +297,7 @@ public class CarouselController extends BaseController {
 				if(!imageFile.isEmpty()){
 					
 					//判断，如果是PC端的话，不用进行压缩
-					UploadFileVO uploadFile = AttachmentFile.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
+					UploadFileVO uploadFile = AttachmentUtil.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
 					if(uploadFile.getResult() == UploadFileVO.FAILURE){
 						json.put("result", "0");
 						json.put("info", uploadFile.getInfo());
@@ -311,7 +311,7 @@ public class CarouselController extends BaseController {
 						//删除之前传的那个图片文件
 						if(!(oldImage == null || oldImage.length() == 0)){
 							if(oldImage.indexOf("/") == -1){
-								AttachmentFile.deleteObject(G.getCarouselPath(site)+oldImage);
+								AttachmentUtil.deleteObject(G.getCarouselPath(site)+oldImage);
 							}
 						}
 						
@@ -372,7 +372,7 @@ public class CarouselController extends BaseController {
 		String oldImage = null;
 		if(!imageFile.isEmpty()){
 			//上传了图片，进行判断
-			UploadFileVO uploadFile = AttachmentFile.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
+			UploadFileVO uploadFile = AttachmentUtil.uploadImageByMultipartFile(G.getCarouselPath(site), imageFile, 0);
 			if(uploadFile.getResult() == UploadFileVO.SUCCESS){
 				//上传成功
 				//记下旧图片的地址，以便删除
@@ -385,7 +385,7 @@ public class CarouselController extends BaseController {
 				//删除之前传的那个图片文件
 				if(!(oldImage == null || oldImage.length() == 0)){
 					if(oldImage.indexOf("/") == -1){
-						AttachmentFile.deleteObject(G.getCarouselPath(site)+oldImage);
+						AttachmentUtil.deleteObject(G.getCarouselPath(site)+oldImage);
 					}
 				}
 				

@@ -52,7 +52,7 @@ public class DomainMQ {
 		if(RabbitUtil.isUse){
 			//使用 rabbitMQ
 			try {
-				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitMQTopicUtil.getChannel()){
+				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
 					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 						String content = new String(body, "UTF-8");
 						receiveDomainMQ.receive(content);
@@ -84,7 +84,7 @@ public class DomainMQ {
 		if(RabbitUtil.isUse){
 			//使用 rabbitMQ
 			try {
-				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitMQTopicUtil.getChannel()){
+				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
 					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 						String content = new String(body, "UTF-8");
 						receiveContentDispose(pluginId, content);

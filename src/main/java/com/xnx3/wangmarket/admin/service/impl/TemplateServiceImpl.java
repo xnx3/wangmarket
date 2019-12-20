@@ -14,8 +14,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -362,7 +362,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}else{
 			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
 		}
-		AttachmentFile.putStringFile(generateUrl, pageHtml);
+		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
 
 	public void updateTemplateVarForCache(com.xnx3.wangmarket.admin.entity.TemplateVar templateVar,TemplateVarData templateVarData) {
