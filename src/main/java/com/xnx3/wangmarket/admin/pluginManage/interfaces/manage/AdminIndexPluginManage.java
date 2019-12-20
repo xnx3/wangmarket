@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage.interfaces.manage;
+package com.xnx3.wangmarket.admin.pluginManage.interfaces.manage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.func.Log;
-import com.xnx3.wangmarket.domain.bean.RequestInfo;
-import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
  * CMS网站管理后台首页的html源码处理

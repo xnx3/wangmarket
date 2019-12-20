@@ -30,6 +30,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsSavePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -40,7 +41,6 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.NewsSavePluginManage;
 import net.sf.json.JSONObject;
 
 /**

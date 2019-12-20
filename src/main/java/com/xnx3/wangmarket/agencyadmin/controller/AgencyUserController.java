@@ -66,37 +66,6 @@ public class AgencyUserController extends BaseController {
 	private ApiService apiService;
 	
 	
-	
-	/**
-	 * 代理商后台首页
-	 * @return
-	 */
-	@RequiresPermissions("agencyIndex")
-	@RequestMapping("index${url.suffix}")
-	public String index(HttpServletRequest request, Model model){
-		Agency agency = getMyAgency();
-		if(agency == null){
-			return error(model, "代理信息出错！");
-		}
-		//上级代理的变长表数据
-		AgencyData parentAgencyData = getParentAgencyData();
-		
-		ActionLogCache.insert(request, agency.getId(), "进入代理商后台首页");
-		User user = sqlService.findById(User.class, getUserId());
-		
-		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
-			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
-		}
-		model.addAttribute("user", user);
-		model.addAttribute("agency", agency);
-		model.addAttribute("parentAgency", getParentAgency());	//上级代理
-		//上级代理的公告内容，要显示出来的
-		model.addAttribute("parentAgencyNotice", parentAgencyData == null ? "":parentAgencyData.getNotice());
-		model.addAttribute("apiKey", apiService.getKey());
-		model.addAttribute("AGENCYUSER_FIRST_USE_EXPLAIN_URL", Global.get("AGENCYUSER_FIRST_USE_EXPLAIN_URL"));
-		return "agency/index";
-	}
-	
 	/**
 	 * 我的的下级代理商列表
 	 */

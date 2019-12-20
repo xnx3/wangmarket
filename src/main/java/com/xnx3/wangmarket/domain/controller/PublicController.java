@@ -24,8 +24,8 @@ import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.Log;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+import com.xnx3.wangmarket.domain.pluginManage.interfaces.manage.DomainPluginManage;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.DomainPluginManage;
 
 /**
  * @author 管雷鸣

@@ -13,7 +13,10 @@ import com.xnx3.j2ee.func.Log;
  */
 public class Global {
 	public static boolean isJarRun = true;	//是否是以jar包的形式运行。默认为是jar包方式运行。若为false，则为war方式，放到自行放tomcat中运行
-	
+	/**
+	 * 当前的版本号。1.x为通用模版时代； 2.x为cms时代, 3.x 整体架构及云模块使用升级， 4.x整体架构升级，由深度依赖阿里云抽离， 5.x 插件时代，将更多的功能以插件的形式来做
+	 */
+	public static final String VERSION = "5.0";	
 
 	/****站内信****/
 	public static boolean MESSAGE_USED = true;			//是否使用站内信息功能，若开启，则访问任何页面都会提前读数据库判断是否有新的未读信息 	systemConfig.xml

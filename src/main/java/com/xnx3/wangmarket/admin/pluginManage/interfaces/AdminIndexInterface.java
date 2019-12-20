@@ -1,12 +1,5 @@
-package com.xnx3.wangmarket.pluginManage.interfaces;
+package com.xnx3.wangmarket.admin.pluginManage.interfaces;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.xnx3.wangmarket.admin.entity.News;
-import com.xnx3.wangmarket.admin.entity.NewsData;
-import com.xnx3.wangmarket.domain.bean.RequestInfo;
-import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
  * 管理后台首页（网站管理后台、代理后台、超级管理后台） 相关接口

@@ -4,9 +4,8 @@ import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
- * 浏览相关
+ * 访客在浏览网页时，拦截更改访客看到的html页面
  * @author 管雷鸣
- * @deprecated 请使用 com.xnx3.wangmarket.pluginManage.domain.interfaces.DomainVisitInterface 替代
  */
 public interface DomainVisitInterface {
 	

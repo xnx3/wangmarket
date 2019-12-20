@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.admin.pluginManage.newSave;
+package com.xnx3.wangmarket.admin.pluginManage.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +9,6 @@ import com.xnx3.wangmarket.admin.entity.NewsData;
 /**
  * 文章保存时，针对news、news_date 的预处理
  * @author 管雷鸣
- * @deprecated 改用 {@link com.xnx3.wangmarket.pluginManage.interfaces.NewsSaveInterface}
  */
 public interface NewsSaveInterface {
 	

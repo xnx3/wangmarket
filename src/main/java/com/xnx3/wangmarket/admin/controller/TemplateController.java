@@ -34,6 +34,7 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.shiro.UserBean;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -43,7 +44,6 @@ import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.InputModel;
@@ -53,6 +53,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
@@ -73,8 +74,6 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplatePageCo
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCompare;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.DomainPluginManage;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**

@@ -8,18 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.xnx3.MD5Util;
-import com.xnx3.j2ee.Func;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.ActionLogCache;
-import com.xnx3.wangmarket.admin.G;
+import com.xnx3.j2ee.pluginManage.interfaces.manage.SuperAdminIndexPluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.AgencyAdminIndexPluginManage;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
-import com.xnx3.wangmarket.pluginManage.interfaces.manage.SuperAdminIndexPluginManage;
 
 /**
  * 管理后台首页
@@ -42,70 +36,37 @@ public class AdminIndexController_ extends BaseController{
 		
 		ActionLogCache.insert(request, "进入管理后台首页");
 		
-		//这里可以根据不同的管理级别，来指定显示默认是什么页面
-		if(Func.isAuthorityBySpecific(getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
-			//有超级管理员权限
-			url = "admin/index/welcome.do";
-			
-			//这里在应用插件里面，安装插件后要刷新页面，所以加入了jumpUrl，传入加载地址，如果有jumpUrl，那么默认页面就是访问这个。v4.11增加
-			if(jumpUrl.length() > 2){
-				url = jumpUrl;
+		//这里在应用插件里面，安装插件后要刷新页面，所以加入了jumpUrl，传入加载地址，如果有jumpUrl，那么默认页面就是访问这个。v4.11增加
+		if(jumpUrl.length() > 2){
+			url = jumpUrl;
+		}
+		
+		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
+		String pluginMenu = "";
+		
+		//pluginManage 插件管理 功能
+		pluginMenu += "<dd><a id=\"pluginManage\" class=\"subMenuItem\" href=\"javascript:loadUrl('/plugin/pluginManage/index.do'), notUseTopTools();\">插件管理</a></dd>";	//第一个，插件管理
+		
+		if(PluginManage.superAdminClassManage.size() > 0){
+			for (Map.Entry<String, PluginRegister> entry : PluginManage.superAdminClassManage.entrySet()) {
+				PluginRegister plugin = entry.getValue();
+				pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
 			}
-			
-			//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
-			String pluginMenu = "";
-			
-			//pluginManage 插件管理 功能
-			pluginMenu += "<dd><a id=\"pluginManage\" class=\"subMenuItem\" href=\"javascript:loadUrl('/plugin/pluginManage/index.do'), notUseTopTools();\">插件管理</a></dd>";	//第一个，插件管理
-			
-			if(PluginManage.superAdminClassManage.size() > 0){
-				for (Map.Entry<String, PluginRegister> entry : PluginManage.superAdminClassManage.entrySet()) {
-					PluginRegister plugin = entry.getValue();
-					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
-				}
-			}
-			model.addAttribute("pluginMenu", pluginMenu);
-			
-			/**** 针对html追加的插件 ****/
-			try {
-				String pluginAppendHtml = SuperAdminIndexPluginManage.manage();
-				model.addAttribute("pluginAppendHtml", pluginAppendHtml);
-			} catch (InstantiationException | IllegalAccessException
-					| NoSuchMethodException | SecurityException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}else{
-			//代理
-			url = "agency/index.do";
-			
-			String pluginMenu = "";
-			if(PluginManage.agencyClassManage.size() > 0){
-				for (Map.Entry<String, PluginRegister> entry : PluginManage.agencyClassManage.entrySet()) {
-					PluginRegister plugin = entry.getValue();
-					pluginMenu += "<dd><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadUrl('"+ plugin.menuHref()+"'), notUseTopTools();\">"+ plugin.menuTitle()+"</a></dd>";
-				}
-			}
-			model.addAttribute("pluginMenu", pluginMenu);
-			
-			/**** 针对html追加的插件 ****/
-			try {
-				String pluginAppendHtml = AgencyAdminIndexPluginManage.manage();
-				model.addAttribute("pluginAppendHtml", pluginAppendHtml);
-			} catch (InstantiationException | IllegalAccessException
-					| NoSuchMethodException | SecurityException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
+		}
+		model.addAttribute("pluginMenu", pluginMenu);
+		
+		/**** 针对html追加的插件 ****/
+		try {
+			String pluginAppendHtml = SuperAdminIndexPluginManage.manage();
+			model.addAttribute("pluginAppendHtml", pluginAppendHtml);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
 		
 		User user = getUser();
-		model.addAttribute("password", MD5Util.MD5(user.getPassword()));
 		model.addAttribute("user", user);
-		model.addAttribute("indexUrl", url);	//首页(欢迎页)url
-		model.addAttribute("useSMS", G.aliyunSMSUtil == null? "1":"0");	//若是使用SMS短信，开启了，则为1，否则没有开通短信的花则为0
-//		model.addAttribute("im_kefu_websocketUrl", com.xnx3.wangmarket.im.Global.websocketUrl);
-		model.addAttribute("useDomainLog", com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null);	//是否启用了阿里云日志服务，若未启用，则是false
 		
 		return "/iw_update/admin/index/index";
 	}

@@ -109,7 +109,7 @@ public class Func {
 		//先判断此用户是超级管理员或者代理商
 		if(userBean.getMyAgency() != null){
 			//有代理信息，跳转到代理后台
-			return "admin/index/index.do";
+			return "agency/index.do";
 		}else if (com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))) {
 			//超级管理员
 			return "admin/index/index.do";

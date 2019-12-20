@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage.interfaces.manage;
+package com.xnx3.wangmarket.domain.pluginManage.interfaces.manage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

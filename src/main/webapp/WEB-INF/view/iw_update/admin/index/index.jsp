@@ -1,5 +1,4 @@
 <%@page import="com.xnx3.wangmarket.Authorization"%>
-<%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.entity.User"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -13,7 +12,7 @@
 <script>
 var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
 </script>
-<script src="/js/admin/commonedit.js?v=<%=G.VERSION %>"></script>
+<script src="/js/admin/commonedit.js?v=<%=Global.VERSION %>"></script>
 
 <style>
 body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
@@ -300,7 +299,7 @@ function loadUrl(url){
 }
 
 //加载登录后的默认页面
-loadUrl('/${indexUrl}');
+loadUrl('welcome.do');
 
 
 //右侧弹出提示

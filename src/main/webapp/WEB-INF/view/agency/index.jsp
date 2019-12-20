@@ -1,201 +1,186 @@
-<%@page import="com.xnx3.wangmarket.admin.G"%>
-<%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
+<%@page import="com.xnx3.wangmarket.Authorization"%>
+<%@page import="com.xnx3.j2ee.entity.User"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
-	<jsp:param name="title" value="代理首页"/>
+	<jsp:param name="title" value="代理后台"/>
 </jsp:include>
-<script src="/<%=Global.CACHE_FILE %>Role_role.js"></script>
 <script src="${STATIC_RESOURCE_PATH}js/fun.js"></script>
-<script src="${STATIC_RESOURCE_PATH}js/admin/commonedit.js?v=<%=G.VERSION %>" type="text/javascript"></script>
-
+<script>
+var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>'; 
+</script>
+<script src="/js/admin/commonedit.js?v=<%=Global.VERSION %>"></script>
 
 <style>
-.iw_table tbody tr .iw_table_td_view_name{
-	width:50%;
-	padding-left:25%;
+body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
+#editPanel{
+	position: absolute;
+    top: 0px;
+    width:150px;
+}
+#editPanel span{
+	width:100%;
+}
+
+.menu{
+	width:150px;
+	height:100%;
+	background-color: #393D49;
+	position: absolute;
+}
+.menu ul li{
+	cursor: pointer;
+}
+
+/*左侧的一级菜单的图标*/
+.firstMenuIcon{
+	font-size:16px;
+	padding-right:8px;
+	font-weight: 700;
+}
+/*左侧的一级菜单的文字描述*/
+.firstMenuFont{
+	
+}
+
+/* 二级菜单 */
+.menu .layui-nav-item .layui-nav-child .subMenuItem{
+	padding-left:48px;
+	font-size: 13px;
 }
 </style>
 
-<div style="text-align:center; font-size:29px; padding-top:35px; padding-bottom: 10px;">
-	欢迎登录 <%=Global.get("SITE_NAME") %>云建站系统
+<div id="leftMenu" class="layui-nav layui-nav-tree layui-nav-side menu">
+	<ul class="">
+		
+		<li class="layui-nav-item" id="agencyNotice">
+			<a href="javascript:loadUrl('/agency/systemSet.do');">
+				<i class="layui-icon firstMenuIcon">&#xe620;</i>
+				<span class="firstMenuFont">系统设置</span>
+			</a>
+		</li>
+		<li class="layui-nav-item">
+			<a href="javascript:loadUrl('/agency/userList.do');">
+				<i class="layui-icon firstMenuIcon">&#xe857;</i>
+				<span class="firstMenuFont">网站管理</span>
+			</a>
+		</li>
+		
+		<li class="layui-nav-item">
+			<a href="javascript:loadUrl('/agency/subAgencyList.do?orderBy=expiretime_ASC');">
+				<i class="layui-icon firstMenuIcon">&#xe612;</i>
+				<span class="firstMenuFont">下级代理</span>
+			</a>
+		</li>
+		
+		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
+			<li class="layui-nav-item">
+				<a href="javascript:loadUrl('/agency/actionLogList.do');">
+					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
+					<span class="firstMenuFont">操作日志</span>
+				</a>
+			</li>
+			<li class="layui-nav-item">
+				<a href="javascript:loadUrl('/agency/siteSizeLogList.do');">
+					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
+					<span class="firstMenuFont">站币日志</span>
+				</a>
+			</li>
+		<% } %>
+		<!-- agency end -->
+		
+		<li class="layui-nav-item">
+			<a href="javascript:updatePassword();" id="xiugaimima">
+				<i class="layui-icon firstMenuIcon">&#xe642;</i>
+				<span class="firstMenuFont">更改密码</span>
+			</a>
+		</li>
+
+
+		<li class="layui-nav-item" id="plugin" style="display:none;">
+			<a href="javascript:;">
+				<i class="layui-icon firstMenuIcon">&#xe857;</i>
+				<span class="firstMenuFont">功能插件</span>
+			</a>
+			<dl class="layui-nav-child" id="plugin_submenu">${pluginMenu }</dl>
+		</li>
+		<script>
+			if(document.getElementById('plugin_submenu').innerHTML.length > 5){
+				document.getElementById('plugin').style.display = '';
+			}
+		</script>
+		
+
+		<li class="layui-nav-item">
+			<a href="/user/logout.do">
+				<i class="layui-icon firstMenuIcon">&#xe633;</i>
+				<span class="firstMenuFont">退出登陆</span>
+			</a>
+		</li>
+		
+		
+		<!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html -->
+		<% if(Authorization.copyright){ %>
+		<li class="layui-nav-item" style="position: absolute;bottom: 0px; text-align:center;">
+			<a href="http://www.wang.market" target="_black">
+				<span class="firstMenuFont">power by 网市场</span>
+			</a>
+		</li>
+		<% } %>
+		
+	</ul>
 </div>
 
 
-<div class="layui-tab" id="gonggao" style="display:none; margin-left: 30px; margin-right: 30px;">
-  <ul class="layui-tab-title">
-    <li class="layui-this">公告信息</li>
-    <li>联系</li>
-  </ul>
-  <div class="layui-tab-content" style="font-size:14px;">
-    <div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
-    <div class="layui-tab-item">
-    	名称：${parentAgency.name }<br/>
-    	电话：${parentAgency.phone }<br/>
-    	QQ：${parentAgency.qq }<br/>
-    	地址：${parentAgency.address }
-    </div>
-  </div>
+<div id="content" style="width: 100%;height:100%;position: absolute;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
+	<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;box-sizing: border-box;"></iframe>
 </div>
+
 <script>
-//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;
 });
-try{
-	document.getElementById('parentAgencyNotice').innerHTML = document.getElementById('parentAgencyNotice').innerHTML.replace(/\n/g,"<br/>");
-}catch(e){}
-try{
-	if(document.getElementById('parentAgencyNotice').innerHTML.length > 1){
-		document.getElementById('gonggao').style.display='';
-	}
-}catch(e){}
-</script>
 
-<table class="layui-table iw_table" lay-even lay-skin="nob" style="margin:3%; width:94%;">
-	<tbody>
-		<tr>
-			<td class="iw_table_td_view_name">公司名称</td>
-			<td>${agency.name }</td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">到期时间</td>
-			<td>
-				<x:time linuxTime="${agency.expiretime }"></x:time>
-				<a href="javascript:jumpParentAgency();" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
-			</td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">权限</td>
-			<td><script type="text/javascript">writeName('${user.authority }');</script></td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">最后登陆</td>
-			<td><x:time linuxTime="${user.lasttime }"></x:time></td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">最后登陆ip</td>
-			<td>${user.lastip }</td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">我的上级</td>
-			<td onclick="jumpParentAgency();" style="cursor:pointer;">${parentAgency.name }</td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">账户余额</td>
-			<td>${agency.siteSize }<%=Global.get("CURRENCY_NAME") %>
-				<a href="javascript:jumpParentAgency();" id="chongzhianniu" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">充值</a>
-            	<div style="margin-top: -23px;margin-left: 145px;">
-            		1<%=Global.get("CURRENCY_NAME") %> = 开通一个网站/年<br/>
-            		1<%=Global.get("CURRENCY_NAME") %> = 续费一个网站/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 开通一个下级代理/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 续费一个下级代理/年<br/>
-            	</div>
-            </td>
-		</tr>
-		<tr>
-			<td class="iw_table_td_view_name">网站限制</td>
-			<td>
-            	为保障网站不被非法利用，做如下限制：使用1站币开通或续费的网站：
-            	<br/>1.限制存储空间&nbsp;<b>1GB</b>（一般正常使用大约占用不足 百MB）
-            	<div style="padding-left:30px; padding-bottom:10px;">用满可续费，再原本的基础上增加，价格为&nbsp;1站币/1GB/年</div>
-            	2.限制月流量&nbsp;<b>10GB/月</b>（一般正常使用每月大约消耗 5MB~200MB）
-            	<div style="padding-left:30px; padding-bottom:10px;">不做非法用途，不用担心用超！</div>
-            	3.限制文章条数&nbsp;<b>1000条</b>（一般正常使用，企业网站也就用个几十条，做SEO优化一周四篇文章，也足够用五年！）
-            	<div style="padding-left:30px; padding-bottom:10px;">用满可续费，在原本的基础上增加，价格为&nbsp;1站币/500条/年</div>
-            </td>
-		</tr>
-    </tbody>
-</table>
-
-
-<script type="text/javascript">
-
-
-//Jquery layer 提示
-$(function(){
-	//延长期限按钮
-	//延长期限按钮
-	var yanchangriqi_tipindex = 0;
-	$("#yanchangriqi").hover(function(){
-		yanchangriqi_tipindex = layer.tips('点击按钮联系我们，为您延长使用期限', '#yanchangriqi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['200px' , 'auto']
-		});
-	},function(){
-		layer.close(yanchangriqi_tipindex);
-	})
-	
-	//站币的充值按钮
-	var chongzhianniu_tipindex = 0;
-	$("#chongzhianniu").hover(function(){
-		chongzhianniu_tipindex = layer.tips('联系您的上级，向其购买站币', '#chongzhianniu', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(chongzhianniu_tipindex);
-	})
-})
-
-
-//服务于上级代理显示的窗口
-function getTr(name, value){
-	if(typeof(value) == 'undefined' || value == null || value.length == 0){
-		//忽略
-		return "";
-	}else{
-		return '<tr><td style="width:45px;">'+name+'</td><td>'+value+'</td></tr>';
-	}
+/**
+ * 在主体内容区域iframe中加载制定的页面
+ * url 要加载的页面的url
+ */
+function loadUrl(url){
+	document.getElementById("iframe").src=url;
 }
-//弹出其上级代理的信息
-function jumpParentAgency(){
-	content = '<table class="layui-table" style="margin:0px;"><tbody>'
-			+getTr('名称', '${parentAgency.name}')
-			+getTr('QQ', '${parentAgency.qq}')
-			+getTr('手机', '${parentAgency.phone}')
-			+getTr('地址', '${parentAgency.address}')
-			+'</tbody></table>';
-	
+
+//加载登录后的默认页面
+loadUrl('welcome.do');
+
+//右侧弹出提示
+function rightTip(){
 	layer.open({
-    type: 1
-    ,title: '我的上级信息'
-    ,content: content
-    ,shade: false
-    ,resize: false
-  });
+	  title: '演示站点提示文字',offset: 'rb', shadeClose:true, shade:0
+	  ,area: ['500px', 'auto']
+	  ,btn: ['我知道了'] //可以无限个按钮
+	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
+	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
+	   			'<div style="text-align:center;"><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
+	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
+	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
+	   			'我的微信：xnx3com &nbsp;&nbsp;&nbsp;QQ：921153866 <br/>'+
+	   			'本程序已在GitHub开源：<a href="https://github.com/xnx3/wangmarket" target="_black" style="text-decoration: underline;color: blue;">github.com/xnx3/wangmarket</a><br/>'+
+	   			'<div style="padding-top:35px;color: lightcoral; padding-left: 35px;">以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。<br/>网·市场，让每个人都有自己的网站，让价格不再是阻碍的门槛！</div>'
+	  
+	});
 }
-
-
-//代理开通15日内，登录会弹出网站快速开通的视频说明
-try {
-	var currentTime = Date.parse( new Date() ).toString();
-	currentTime = currentTime.substr(0,10);
-	if(currentTime - ${user.regtime } < 1296000){
-		//多窗口模式，层叠置顶
-		layer.open({
-		  type: 2 //此处以iframe举例
-		  ,title: '90秒学会，快速开通网站视频教程'
-		  ,area: ['390px', '100%']
-		  ,shade: 0
-		  ,offset: 'rb'
-		  ,maxmin: true
-		  ,content: '${AGENCYUSER_FIRST_USE_EXPLAIN_URL}'
-		  ,zIndex: layer.zIndex //重点1
-		});
-	}
-} catch(error) {}
+//只有用户名带有ceshi的才会弹出合作联系的提示。当然，如果是已授权的用户，是不弹出这个带有版权的说明的
+if('${user.username}'.indexOf('ceshi') > -1){
+	<% if(Authorization.copyright){ %>
+		setTimeout("rightTip()",2000);
+	<% } %>
+}
 </script>
 
-<script type="text/javascript">
-//得到当前版本号，用于版本更新后提醒更新内容
-versionUpdateRemind('<%=G.VERSION %>');
-</script>
-<!-- 版本提示结束 -->
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>  
+</body>
+</html>
+${pluginAppendHtml}

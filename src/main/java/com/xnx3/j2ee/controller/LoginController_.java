@@ -25,7 +25,7 @@ import com.xnx3.media.CaptchaUtil;
  */
 @Controller
 @RequestMapping("/")
-public class LoginController_ extends com.xnx3.wangmarket.admin.controller.BaseController {
+public class LoginController_ extends BaseController {
 	@Resource
 	private UserService userService;
 	@Resource
