@@ -6,21 +6,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.News;
+import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.InputModelService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
 
 @Service("InputModelService")
@@ -53,7 +53,7 @@ public class InputModelServiceImpl implements InputModelService {
 	}
 	
 	public Map<Integer, InputModel> getInputModelBySession(int siteid){
-		Map<Integer, InputModel> map = SessionUtil.getUserBeanForSession().getInputModelMap();
+		Map<Integer, InputModel> map = SessionUtil.getInputModel();
 		
 		//若是第一次使用，需要从数据库加载输入模型数据
 		if(map == null){
@@ -66,7 +66,7 @@ public class InputModelServiceImpl implements InputModelService {
 					InputModel model = inputModelList.get(i);
 					map.put(model.getId(), model);
 				}
-				SessionUtil.getUserBeanForSession().setInputModelMap(map);
+				SessionUtil.setInputModel(map);
 			}
 		}
 		
@@ -77,7 +77,11 @@ public class InputModelServiceImpl implements InputModelService {
 	 * 获取当前session中的输入模型。若没有，则从数据库中加载当前网站的输入模型数据到Session中。
 	 */
 	public Map<Integer, InputModel> getInputModelBySession(){
-		int siteid = SessionUtil.getUserBeanForSession().getSite().getId();
+		Site site = SessionUtil.getSite();
+		int siteid = 0;
+		if(site != null){
+			siteid = site.getId();
+		}
 		return getInputModelBySession(siteid);
 	}
 
@@ -93,7 +97,7 @@ public class InputModelServiceImpl implements InputModelService {
 			//数据库的保存成功，那么更新Session缓存的
 			Map<Integer, InputModel> map = getInputModelBySession();
 			map.put(inputModel.getId(), inputModel);
-			SessionUtil.getUserBeanForSession().setInputModelMap(map);
+			SessionUtil.setInputModel(map);
 			
 			vo.setInfo(inputModel.getId()+"");
 			return vo;
@@ -105,14 +109,18 @@ public class InputModelServiceImpl implements InputModelService {
 
 	public BaseVO removeInputModel(int inputModelId) {
 		BaseVO vo = new BaseVO();
-		
+		Site site = SessionUtil.getSite();
+		if(site == null){
+			vo.setBaseVO(BaseVO.FAILURE, "您无权操作此条输入模型");
+			return vo;
+		}
 		//判断要删除的这个输入模型是否是该用户的
 		InputModel inputModel = sqlDAO.findById(InputModel.class, inputModelId);
 		if(inputModel == null){
 			vo.setBaseVO(BaseVO.FAILURE, "要删除的输入模型不存在");
 			return vo;
 		}
-		if(inputModel.getSiteid() - Func.getCurrentSite().getId() != 0){
+		if(inputModel.getSiteid() - site.getId() != 0){
 			vo.setBaseVO(BaseVO.FAILURE, "要删除的输入模型不属于您，删除失败");
 			return vo;
 		}
@@ -122,9 +130,9 @@ public class InputModelServiceImpl implements InputModelService {
 		//数据库的删除了，那么也要删除掉Session缓存中的
 		Map<Integer, InputModel> map = getInputModelBySession();
 		map.remove(inputModelId);
-		SessionUtil.getUserBeanForSession().setInputModelMap(map);
+		SessionUtil.setInputModel(map);
 		
-		AliyunLog.addActionLog(inputModel.getSiteid(), "删除输入模型:" + inputModel.getRemark());
+		ActionLogCache.insertUpdateDatabase(null, inputModel.getSiteid(), "删除输入模型", inputModel.getRemark());
 		
 		return vo;
 	}

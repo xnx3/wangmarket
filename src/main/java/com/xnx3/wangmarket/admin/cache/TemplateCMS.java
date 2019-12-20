@@ -22,6 +22,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
@@ -414,7 +415,7 @@ public class TemplateCMS {
 	 * @param columnMapForId 栏目map，以栏目id为key，用id来取栏目
 	 */
 	public void generateListHtmlForWholeSite(String listTemplateHtml, SiteColumn siteColumn, List<News> newList, Map<Integer, NewsDataBean> newsDataMap, Map<Integer, SiteColumn> columnMapForId){
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		int count = newList.size();	//当前列表的总条数
 				
 		//拿到列表模版中的 列表项 模版

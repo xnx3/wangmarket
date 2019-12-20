@@ -18,7 +18,6 @@ import com.xnx3.net.MailUtil;
 import com.xnx3.wangmarket.admin.entity.Exchange;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogCache;
-import com.xnx3.wangmarket.superadmin.entity.Goods;
 
 /**
  * 金钱、积分
@@ -80,52 +79,52 @@ public class CurrencyController extends BaseController {
 	 * 用户申请兑换商品
 	 * @param inputExchange 用到了用户传入的goodsNo、userRemark
 	 */
-	@RequestMapping("apply${url.suffix}")
-	@ResponseBody
-	public BaseVO apply(Exchange inputExchange, HttpServletRequest request,Model model){
-		//判断
-		if(inputExchange.getGoodsid() == null || inputExchange.getGoodsid() == 0){
-			return error("要兑换的商品为空");
-		}
-		Goods goods = sqlService.findById(Goods.class, inputExchange.getGoodsid());
-		if(goods == null){
-			return error("要兑换的商品不存在");
-		}
-		if(getUser().getCurrency() - goods.getMoney() < 0){
-			return error("您当前的"+Global.get("CURRENCY_NAME")+"只有"+getUser().getCurrency()+"，<br/>兑换"+goods.getType()+"需要"+goods.getMoney()+"！");
-		}
-		
-		Exchange exchange = new Exchange();
-		exchange.setAddtime(DateUtil.timeForUnix10());
-		exchange.setGoodsid(inputExchange.getGoodsid());
-		exchange.setSiteid(getSiteId());
-		exchange.setStatus(Exchange.STATUS_APPLY_ING);
-		exchange.setType(goods.getType());
-		exchange.setUserid(getUserId());
-		exchange.setUserRemark(filter(inputExchange.getUserRemark()));
-		
-		sqlService.save(exchange);
-		if(exchange.getId() != null && exchange.getId() > 0){
-			//减去积分
-			try {
-				User user = sqlService.findById(User.class, getUserId());
-				user.setCurrency(user.getCurrency()-goods.getMoney());
-				sqlService.save(user);
-				//更新缓存
-				ShiroFunc.getCurrentActiveUser().setUser(user);
-				
-				//发送邮件提醒
-				MailUtil.sendMail(Global.get("SERVICE_MAIL"), "有人在"+Global.get("SITE_NAME")+"用积分兑换商品了", getUser().getUsername()+"兑换"+goods.getType()+","+goods.getExplain());
-				
-				ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，申请已提交");
-				return success();
-			} catch (Exception e) {
-			    sqlService.delete(exchange);
-			    ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
-			    return error("您的积分校验异常，请重新尝试！");
-			}
-		}else{
-			return error("兑换失败，请再次尝试。若多次仍失败，请联系管理员");
-		}
-	}
+//	@RequestMapping("apply${url.suffix}")
+//	@ResponseBody
+//	public BaseVO apply(Exchange inputExchange, HttpServletRequest request,Model model){
+//		//判断
+//		if(inputExchange.getGoodsid() == null || inputExchange.getGoodsid() == 0){
+//			return error("要兑换的商品为空");
+//		}
+//		Goods goods = sqlService.findById(Goods.class, inputExchange.getGoodsid());
+//		if(goods == null){
+//			return error("要兑换的商品不存在");
+//		}
+//		if(getUser().getCurrency() - goods.getMoney() < 0){
+//			return error("您当前的"+Global.get("CURRENCY_NAME")+"只有"+getUser().getCurrency()+"，<br/>兑换"+goods.getType()+"需要"+goods.getMoney()+"！");
+//		}
+//		
+//		Exchange exchange = new Exchange();
+//		exchange.setAddtime(DateUtil.timeForUnix10());
+//		exchange.setGoodsid(inputExchange.getGoodsid());
+//		exchange.setSiteid(getSiteId());
+//		exchange.setStatus(Exchange.STATUS_APPLY_ING);
+//		exchange.setType(goods.getType());
+//		exchange.setUserid(getUserId());
+//		exchange.setUserRemark(filter(inputExchange.getUserRemark()));
+//		
+//		sqlService.save(exchange);
+//		if(exchange.getId() != null && exchange.getId() > 0){
+//			//减去积分
+//			try {
+//				User user = sqlService.findById(User.class, getUserId());
+//				user.setCurrency(user.getCurrency()-goods.getMoney());
+//				sqlService.save(user);
+//				//更新缓存
+//				ShiroFunc.getCurrentActiveUser().setUser(user);
+//				
+//				//发送邮件提醒
+//				MailUtil.sendMail(Global.get("SERVICE_MAIL"), "有人在"+Global.get("SITE_NAME")+"用积分兑换商品了", getUser().getUsername()+"兑换"+goods.getType()+","+goods.getExplain());
+//				
+//				ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，申请已提交");
+//				return success();
+//			} catch (Exception e) {
+//			    sqlService.delete(exchange);
+//			    ActionLogCache.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
+//			    return error("您的积分校验异常，请重新尝试！");
+//			}
+//		}else{
+//			return error("兑换失败，请再次尝试。若多次仍失败，请联系管理员");
+//		}
+//	}
 }

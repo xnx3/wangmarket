@@ -17,11 +17,11 @@ import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UserVO;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
+import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 
 /**
  * Api接口相关
@@ -76,25 +76,25 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 		
 		
 		//用于缓存入Session，用户的一些基本信息，比如用户的站点信息、用户的上级代理信息、如果当前用户是代理，还包含当前用户的代理信息等
-		UserBean userBean = new UserBean();
+//		UserBean userBean = new UserBean();
 		
 		//得到上级的代理信息
 		Agency parentAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + vo.getUser().getReferrerid(), Agency.class);
-		userBean.setParentAgency(parentAgency);
+		SessionUtil.setParentAgency(parentAgency);
 		if(parentAgency != null){
 			//得到上级代理的变长表信息
 			AgencyData parentAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + parentAgency.getId(), AgencyData.class);
-			userBean.setParentAgencyData(parentAgencyData);
+			SessionUtil.setParentAgencyData(parentAgencyData);
 		}
 		//当前时间
 		int currentTime = DateUtil.timeForUnix10();	
 
 		//得到当前用户站点的相关信息，加入userBean，以存入Session缓存起来
-		userBean.setSite(vo.getSite());
-		userBean.setMyAgency(vo.getAgency());
+		SessionUtil.setSite(vo.getSite());
+		SessionUtil.setAgency(vo.getAgency());
 		
 		//判断网站用户是否是已过期，使用期满，将无法使用
-		if(userBean.getSite() != null && userBean.getSite().getExpiretime() != null && userBean.getSite().getExpiretime() < currentTime){
+		if(vo.getSite() != null && vo.getSite().getExpiretime() != null && vo.getSite().getExpiretime() < currentTime){
 			return error(model, "您的网站已到期。若要继续使用，请续费");
 		}
 		
@@ -106,13 +106,9 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 			return error(model, lvo.getInfo());
 		}
 		
-		//赋予登陆后的信息
-		ShiroFunc.getCurrentActiveUser().setObj(userBean);
-		
 		String redirect = com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl();
 		System.out.println("redirect:"+redirect);
 		return redirect(redirect);
 	}
-	
 
 }

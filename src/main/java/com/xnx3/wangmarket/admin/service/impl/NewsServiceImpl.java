@@ -2,19 +2,16 @@ package com.xnx3.wangmarket.admin.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import com.xnx3.BaseVO;
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
-import com.xnx3.j2ee.func.SessionUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.wangmarket.admin.Func;
@@ -33,7 +30,6 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
-
 import net.sf.json.JSONObject;
 
 @Service("newsService")
@@ -173,7 +169,7 @@ public class NewsServiceImpl implements NewsService {
 		//获取到当前页面使用的模版
 		String templateHtml = templateService.getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		//template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
 		
@@ -197,7 +193,7 @@ public class NewsServiceImpl implements NewsService {
 
 	public NewsInit news(HttpServletRequest request, int id, int cid, Model model) {
 		NewsInit n = new NewsInit();
-		Site site = SessionUtil.getUserBeanForSession().getSite();
+		Site site = SessionUtil.getSite();
 		
 		News news = null;
 		NewsData newsData = null;
@@ -297,7 +293,7 @@ public class NewsServiceImpl implements NewsService {
 		model.addAttribute("news", news);
 		
 		//设置上传后的图片、附件所在的个人路径
-		ShiroFunc.getCurrentActiveUser().setUeUploadParam1(site.getId()+"");
+		SessionUtil.setUeUploadParam1(site.getId()+"");
 		
 		return n;
 	}
@@ -315,7 +311,7 @@ public class NewsServiceImpl implements NewsService {
 			return baseVO;
 		}
 		
-		Site site = SessionUtil.getUserBeanForSession().getSite();
+		Site site = SessionUtil.getSite();
 		//需要验证此信息是本人发布
 		if(authCheck){
 			if(news.getSiteid() - site.getId() != 0){

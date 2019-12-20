@@ -53,7 +53,7 @@ public class CustomRealm extends AuthorizingRealm {
 		}
     	
         if (user != null) {  
-	    	ActiveUser activeUser = new ActiveUser();
+        	com.xnx3.j2ee.bean.ActiveUser activeUser = new com.xnx3.j2ee.bean.ActiveUser();
 	    	activeUser.setUser(user);
    
             //根据用户id查询权限url
@@ -80,7 +80,7 @@ public class CustomRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		ActiveUser activeUser =  (ActiveUser) principals.getPrimaryPrincipal();
+		com.xnx3.j2ee.bean.ActiveUser activeUser = (com.xnx3.j2ee.bean.ActiveUser) principals.getPrimaryPrincipal();
 		List<Permission> permissionList = null;
 		try {
 			permissionList = activeUser.getPermissions();

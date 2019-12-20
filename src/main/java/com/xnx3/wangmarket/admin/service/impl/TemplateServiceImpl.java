@@ -6,21 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Safety;
-import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -39,6 +34,7 @@ import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
@@ -70,7 +66,7 @@ public class TemplateServiceImpl implements TemplateService {
 	
 
 	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request) {
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		TemplatePageListVO vo = (TemplatePageListVO) request.getSession().getAttribute(sessionTemplatePageListVO);
 		if(vo == null){
 			//登陆后第一次取，缓存中还尚未存储，那么读数据表，取出后存入缓存
@@ -174,7 +170,7 @@ public class TemplateServiceImpl implements TemplateService {
 			return vo;
 		}
 		
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		
 		TemplatePage templatePage = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId()+" AND name = '"+fileName+"'", TemplatePage.class);
@@ -346,7 +342,7 @@ public class TemplateServiceImpl implements TemplateService {
 			//出错，没有获取到该栏目的模版页
 			return;
 		}
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
@@ -370,20 +366,20 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public void updateTemplateVarForCache(com.xnx3.wangmarket.admin.entity.TemplateVar templateVar,TemplateVarData templateVarData) {
-		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null || SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap() == null){
+		if(SessionUtil.getTemplateVarMapForOriginal() == null || SessionUtil.getTemplateVarCompileDataMap() == null){
 			loadDatabaseTemplateVarToCache();
 		}
-		SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
+		SessionUtil.getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
 		
 		TemplateVarVO templateVarVO = new TemplateVarVO();
 		templateVarVO.setTemplateVar(templateVar);
 		templateVarVO.setTemplateVarData(templateVarData);
-		SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().put(templateVar.getVarName(), templateVarVO);
+		SessionUtil.getTemplateVarMapForOriginal().put(templateVar.getVarName(), templateVarVO);
 	}
 
 	public void loadDatabaseTemplateVarToCache() {
-		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
-			Site site = Func.getCurrentSite();
+		if(SessionUtil.getTemplateVarMapForOriginal() == null){
+			Site site = SessionUtil.getSite();
 			
 			//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 		    String templateNameWhere = "";
@@ -413,8 +409,8 @@ public class TemplateServiceImpl implements TemplateService {
 				templateVarMapForOriginal.put(templateVar.getVarName(), tvvo);
 			}
 			
-			SessionUtil.getUserBeanForSession().setTemplateVarCompileDataMap(compileMap);
-			SessionUtil.getUserBeanForSession().setTemplateVarMapForOriginal(templateVarMapForOriginal);
+			SessionUtil.setTemplateVarCompileDataMap(compileMap);
+			SessionUtil.setTemplateVarMapForOriginal(templateVarMapForOriginal);
 		}
 	}
 	
@@ -602,13 +598,13 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public TemplateVarVO getTemplateVarByCache(String templateVarName) {
 		TemplateVarVO vo = new TemplateVarVO();
-		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
+		if(SessionUtil.getTemplateVarMapForOriginal() == null){
 			loadDatabaseTemplateVarToCache();
 		}
-		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().get(templateVarName) == null){
+		if(SessionUtil.getTemplateVarMapForOriginal().get(templateVarName) == null){
 			vo.setBaseVO(TemplateVarVO.FAILURE, "模版变量不存在");
 		}else{
-			vo = SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().get(templateVarName);
+			vo = SessionUtil.getTemplateVarMapForOriginal().get(templateVarName);
 		}
 		return vo;
 	}
@@ -617,7 +613,7 @@ public class TemplateServiceImpl implements TemplateService {
 		BaseVO vo = new BaseVO();
 		
 		//我当前登录的站点信息
-		Site site = Func.getCurrentSite();	
+		Site site = SessionUtil.getSite();
 		
 		//获得TemplatePage模版页
 		TemplatePageListVO tplVO = getTemplatePageAndDateListByCache(request);
@@ -843,7 +839,7 @@ public class TemplateServiceImpl implements TemplateService {
 			s.setTemplateName(tvo.getTemplateName());
 			sqlDAO.save(s);
 			//更新站点的Session缓存
-			SessionUtil.getUserBeanForSession().setSite(s);
+			SessionUtil.setSite(s);
 		}else{
 			//导入的是模版插件
 			
@@ -874,14 +870,14 @@ public class TemplateServiceImpl implements TemplateService {
 	 */
 	public void reloadTemplateVarCache(HttpServletRequest request){
 		//先清空掉
-		SessionUtil.getUserBeanForSession().setTemplateVarMapForOriginal(null);
-		SessionUtil.getUserBeanForSession().setTemplateVarCompileDataMap(null);
+		SessionUtil.setTemplateVarMapForOriginal(null);
+		SessionUtil.setTemplateVarCompileDataMap(null);
 		//再加载入缓存
 		getTemplateVarAndDateListByCache();
 	}
 	
 	public List<com.xnx3.wangmarket.admin.entity.TemplateVar> getTemplateVarList(){
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 
 	    //模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 	    String templateNameWhere = "";
@@ -937,14 +933,14 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	public TemplateVarListVO getTemplateVarListByCache() {
-		if(SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal() == null){
+		if(SessionUtil.getTemplateVarMapForOriginal() == null){
 			loadDatabaseTemplateVarToCache();
 		}
 		
 		TemplateVarListVO listVO = new TemplateVarListVO();
 		
 		List<TemplateVarVO> list = new ArrayList<TemplateVarVO>();
-		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().entrySet()) {
+		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getTemplateVarMapForOriginal().entrySet()) {
 			list.add(entry.getValue());
 		}
 		listVO.setList(list);
@@ -966,7 +962,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		if(usedSqlQuery){
-			Site site = Func.getCurrentSite();
+			Site site = SessionUtil.getSite();
 			
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 		    String templateNameWhere = "";
@@ -1010,7 +1006,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		if(usedSqlQuery){
-			Site site = Func.getCurrentSite();
+			Site site = SessionUtil.getSite();
 			
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 		    String templateNameWhere = "";
@@ -1041,15 +1037,15 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public BaseVO deleteTemplateVarForCache(int templateVarId) {
 		String deleteVarName = null;	//要删除的模版变量
-		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().entrySet()) {
+		for (Map.Entry<String, TemplateVarVO> entry : SessionUtil.getTemplateVarMapForOriginal().entrySet()) {
 			if(entry.getValue().getTemplateVar().getId() - templateVarId == 0){
 				deleteVarName = entry.getValue().getTemplateVar().getVarName();
 			}
 		}
 		
-		SessionUtil.getUserBeanForSession().getTemplateVarMapForOriginal().remove(deleteVarName);
-		if(SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap() != null && SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().get(deleteVarName) != null){
-			SessionUtil.getUserBeanForSession().getTemplateVarCompileDataMap().remove(deleteVarName);
+		SessionUtil.getTemplateVarMapForOriginal().remove(deleteVarName);
+		if(SessionUtil.getTemplateVarCompileDataMap() != null && SessionUtil.getTemplateVarCompileDataMap().get(deleteVarName) != null){
+			SessionUtil.getTemplateVarCompileDataMap().remove(deleteVarName);
 		}
 		return new BaseVO();
 	}

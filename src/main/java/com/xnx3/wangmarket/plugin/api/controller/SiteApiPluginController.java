@@ -16,9 +16,9 @@ import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
 
@@ -58,11 +58,9 @@ public class SiteApiPluginController extends com.xnx3.wangmarket.admin.controlle
 			return error("请选择要远程获取的模版");
 		}
 		
-		ShiroFunc.getCurrentActiveUser().setUser(vo.getUser());
-		UserBean userBean = new UserBean();
-		userBean.setSite(vo.getSite());
-		userBean.setMyAgency(vo.getAgency());
-		ShiroFunc.getCurrentActiveUser().setObj(userBean);
+		SessionUtil.setUser(vo.getUser());
+		SessionUtil.setSite(vo.getSite());
+		SessionUtil.setAgency(vo.getAgency());
 		
 		HttpUtil http = new HttpUtil(HttpUtil.UTF8);
 		HttpResponse hr = http.get(G.RES_CDN_DOMAIN+"template/"+templateName+"/template.wscso");
@@ -74,10 +72,10 @@ public class SiteApiPluginController extends com.xnx3.wangmarket.admin.controlle
 		if(beanVO.getResult() - BaseVO.SUCCESS == 0){
 			//导入完毕后，还要刷新当前的模版页面、模版变量缓存。这里清空缓存，下次使用时从新从数据库加载最新的
 			request.getSession().setAttribute("templatePageListVO", null);
-			Func.getUserBeanForShiroSession().setTemplateVarCompileDataMap(null);
-			Func.getUserBeanForShiroSession().setTemplateVarMapForOriginal(null);
+			SessionUtil.setTemplateVarCompileDataMap(null);
+			SessionUtil.setTemplateVarMapForOriginal(null);
 			
-			AliyunLog.addActionLog(getSiteId(), "云端导入模版文件成功！");
+			ActionLogCache.insertUpdateDatabase(request, "云端导入模版文件成功！");
 		}
 		return beanVO;
 	}

@@ -2,13 +2,12 @@ package com.xnx3.j2ee.shiro;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import com.xnx3.j2ee.entity.Permission;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.SessionUtil;
+import com.xnx3.j2ee.util.SessionUtil;
+import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.bean.PermissionMark;
 import com.xnx3.j2ee.bean.PermissionTree;
 
@@ -71,21 +70,22 @@ public class ShiroFunc {
 	 * Session中获取用户登录之后的用户相关信息
 	 * @return	<li>登陆了，则返回ActiveUser对象
 	 * 			<li>未登陆，返回null
+	 * @deprecated 请使用 {@link SessionUtil#getActionUser()}
 	 */
-	public static ActiveUser getCurrentActiveUser(){
-		//从shiro的session中取activeUser
-		if(SecurityUtils.getSubject() == null){
+	public static com.xnx3.j2ee.shiro.ActiveUser getCurrentActiveUser(){
+		com.xnx3.j2ee.bean.ActiveUser activeUserBean = SessionUtil.getActiveUser();
+		if(activeUserBean == null){
 			return null;
-		}else{
-			Subject subject = SecurityUtils.getSubject();
-			//取身份信息
-			ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-			if(activeUser != null){
-				return activeUser;
-			}else{
-				return null;
-			}
 		}
+		com.xnx3.j2ee.shiro.ActiveUser activeUser = new com.xnx3.j2ee.shiro.ActiveUser();
+		activeUser.setAllowUploadForUEditor(SessionUtil.isAllowUploadForUEditor());
+		activeUser.setLanguagePackageName(SessionUtil.getLanguagePackageName());
+//		activeUser.setObj(obj);
+		activeUser.setPermissions(activeUserBean.getPermissions());
+		activeUser.setPermissionTreeList(activeUserBean.getPermissionTreeList());
+		activeUser.setUeUploadParam1(SessionUtil.getUeUploadParam1());
+		activeUser.setUser(getUser());
+		return activeUser;
 	}
 	
 	/**
@@ -94,18 +94,14 @@ public class ShiroFunc {
 	 * 			<li>未登陆，返回null
 	 */
 	public static User getUser(){
-		if(getCurrentActiveUser() == null){
-			return null;
+		ActiveUser activeUser = SessionUtil.getActiveUser();
+		if(activeUser != null){
+			return activeUser.getUser();
 		}else{
-			ActiveUser activeUser = getCurrentActiveUser();
-			if(activeUser!=null){
-				return activeUser.getUser();
-			}else{
-				return null;
-			}
+			return null;
 		}
 	}
-
+	
 	/**
 	 * Session中获取当前登录用户的id
 	 * @return 	<li>登陆了，则返回其id
@@ -123,39 +119,22 @@ public class ShiroFunc {
 	/**
 	 * 设置当前用户是否能使用UEditor编辑器进行图片、文件、视频等上传。若为false，则不能用其进行上传
 	 * @param allow 当前用户是否能使用UEditor编辑器进行图片、文件、视频等上传。若为false，则不能用其进行上传
-	 * @return true:设置成功，false:设置失败
+	 * @return 这里全是true
+	 * @deprecated 请使用 {@link SessionUtil#setAllowUploadForUEditor(boolean)}
 	 */
 	public static boolean setUEditorAllowUpload(boolean allow){
-		//从shiro的session中取activeUser
-		if(SecurityUtils.getSubject() == null){
-			//肯定是设施失败了
-			return false;
-		}else{
-			Subject subject = SecurityUtils.getSubject();
-			//取身份信息
-			ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-			if(activeUser != null){
-				activeUser.setAllowUploadForUEditor(allow);
-				return true;
-			}else{
-				return false;
-			}
-		}
-		
+		SessionUtil.setAllowUploadForUEditor(allow);
+		return true;
 	}
 	
 	/**
 	 * 获取当前用户是否能使用UEditor编辑器进行图片、文件、视频等上传。若为false，则不能用其进行上传
 	 * <br/>
 	 * @param allow 若用户没有登陆，同样返回false
+	 * @deprecated 请使用 {@link SessionUtil#isAllowUploadForUEditor()}
 	 */
 	public static boolean getUEditorAllowUpload(){
-		ActiveUser au = getCurrentActiveUser();
-		if(au == null){
-			return false;
-		}else{
-			return au.isAllowUploadForUEditor();
-		}
+		return SessionUtil.isAllowUploadForUEditor();
 	}
 	
 
@@ -163,18 +142,18 @@ public class ShiroFunc {
 	 * 从Shrio的Session中获取当前用户的代理相关信息、站点信息、以及当前用户的上级的代理相关信息
 	 * @deprecated 使用 {@link SessionUtil#getUserBeanForSession()}
 	 */
-	public static UserBean getUserBeanForShiroSession(){
-		ActiveUser au = ShiroFunc.getCurrentActiveUser();
-		if(au == null){
-			return null;
-		}
-		UserBean userBean = (UserBean) au.getObj();
-		if(userBean == null){
-			return null;
-		}else{
-			return userBean;
-		}
-	}
+//	public static UserBean getUserBeanForShiroSession(){
+//		ActiveUser au = ShiroFunc.getCurrentActiveUser();
+//		if(au == null){
+//			return null;
+//		}
+//		UserBean userBean = (UserBean) au.getObj();
+//		if(userBean == null){
+//			return null;
+//		}else{
+//			return userBean;
+//		}
+//	}
 	
 
 	
@@ -185,47 +164,47 @@ public class ShiroFunc {
 	 * @param pluginId 插件id，如 kefu 、 cnzz 等
 	 * @return 如果获取到，返回插件的Object对象，自行进行类型转换。如果获取不到，如用户未登录、插件信息不存在，则返回null
 	 */
-	public static Object getPluginDataObjectBySession(String pluginId){
-		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
-		if(userBean == null){
-			//未登录，没有userBean
-			return null;
-		}
-		Object obj = userBean.getPluginDataMap().get(pluginId);
-		return obj;
-	}
-	
-	/**
-	 * 获取插件信息，从session中。这里取到的直接就是具体的类，不再需要object强制类型转换
-	 * 可以从session中获取该用户某个插件的缓存信息，避免频繁查数据库。
-	 * 前提是已经将该用户的插件的信息缓存进去了
-	 * @param pluginId 插件id，如 kefu 、 cnzz 等
-	 * @return 如果获取到，返回。如果获取不到，如用户未登录、插件信息不存在，则返回null
-	 */
-	public static <T> T getPluginDataBySession(String pluginId){
-		Object obj = getPluginDataObjectBySession(pluginId);
-		if(obj == null){
-			return null;
-		}
-		return (T)obj;
-	}
-	
-	/**
-	 * 设置插件信息，加入到session中。也就是将某个用户的某个插件的信息加入到session中缓存
-	 * @param pluginId 插件id，如 kefu 、 cnzz 等
-	 * @param obj 插件要缓存的信息
-	 * @return 成功：true；  若用户未登录导致缓存失败，返回false
-	 */
-	public static boolean setPluginDataBySession(String pluginId, Object obj){
-		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
-		if(userBean == null){
-			//未登录，没有userBean
-			return false;
-		}
-		Map<String, Object> map = userBean.getPluginDataMap();
-		map.put(pluginId, obj);
-		userBean.setPluginDataMap(map);
-		return true;
-	}
+//	public static Object getPluginDataObjectBySession(String pluginId){
+//		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
+//		if(userBean == null){
+//			//未登录，没有userBean
+//			return null;
+//		}
+//		Object obj = userBean.getPluginDataMap().get(pluginId);
+//		return obj;
+//	}
+//	
+//	/**
+//	 * 获取插件信息，从session中。这里取到的直接就是具体的类，不再需要object强制类型转换
+//	 * 可以从session中获取该用户某个插件的缓存信息，避免频繁查数据库。
+//	 * 前提是已经将该用户的插件的信息缓存进去了
+//	 * @param pluginId 插件id，如 kefu 、 cnzz 等
+//	 * @return 如果获取到，返回。如果获取不到，如用户未登录、插件信息不存在，则返回null
+//	 */
+//	public static <T> T getPluginDataBySession(String pluginId){
+//		Object obj = getPluginDataObjectBySession(pluginId);
+//		if(obj == null){
+//			return null;
+//		}
+//		return (T)obj;
+//	}
+//	
+//	/**
+//	 * 设置插件信息，加入到session中。也就是将某个用户的某个插件的信息加入到session中缓存
+//	 * @param pluginId 插件id，如 kefu 、 cnzz 等
+//	 * @param obj 插件要缓存的信息
+//	 * @return 成功：true；  若用户未登录导致缓存失败，返回false
+//	 */
+//	public static boolean setPluginDataBySession(String pluginId, Object obj){
+//		UserBean userBean = ShiroFunc.getUserBeanForShiroSession();
+//		if(userBean == null){
+//			//未登录，没有userBean
+//			return false;
+//		}
+//		Map<String, Object> map = userBean.getPluginDataMap();
+//		map.put(pluginId, obj);
+//		userBean.setPluginDataMap(map);
+//		return true;
+//	}
 	
 }

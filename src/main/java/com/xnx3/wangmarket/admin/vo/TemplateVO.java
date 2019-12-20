@@ -7,12 +7,14 @@ import net.sf.json.JSONObject;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.Template;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplatePage;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateVar;
 
@@ -108,7 +110,7 @@ public class TemplateVO extends BaseVO {
 	 */
 	public boolean importText(String text) {
 		//当前登录用户的站点信息
-		currentSite = Func.getCurrentSite();	
+		currentSite = SessionUtil.getSite();	
 		if(currentSite == null){
 			//如果这里没有值，那么就是非正常网站用户在使用，可能是总管理后台在使用
 			currentSite = new Site();

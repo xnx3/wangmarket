@@ -2,8 +2,6 @@ package com.xnx3.wangmarket.admin.util;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.FirstMenu;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.MenuBean;
@@ -50,7 +48,7 @@ public class TemplateAdminMenuUtil {
 	 * 获取网站管理后台登陆成功后，显示的菜单列表的html。这个是根据当前用户所拥有哪些权限来显示哪些内容的
 	 */
 	public static String getLeftMenuHtml(){
-		Map<String, String> map = SessionUtil.getUserBeanForSession().getSiteMenuRole();
+		Map<String, String> map = SessionUtil.getSiteMenuRole();
 		StringBuffer sb = new StringBuffer();
 		
 		//取出所有的权限菜单-一级菜单
@@ -196,7 +194,7 @@ public class TemplateAdminMenuUtil {
 	 * @param id
 	 */
 	public static boolean haveRole(String id){
-		Map<String, String> map = SessionUtil.getUserBeanForSession().getSiteMenuRole();
+		Map<String, String> map = SessionUtil.getSiteMenuRole();
 		if(map.get(id) != null){
 			return true;
 		}else{

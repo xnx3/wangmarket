@@ -1,9 +1,6 @@
 package com.xnx3.j2ee.func;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import com.xnx3.j2ee.shiro.ActiveUser;
-import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.SessionUtil;
 
 /**
  * 语言相关，比如当前系统的语言包、显示文字调用等
@@ -37,20 +34,13 @@ public class Language {
 	 * 			<li>未登陆，返回null
 	 */
 	public static String getCurrentLanguagePackageName(){
-		//从shiro的session中取activeUser
-		if(SecurityUtils.getSubject() == null){
+		String language = SessionUtil.getLanguagePackageName();
+		if(language == null){
+			//如果没有制定，那么使用默认的语言包
+			return com.xnx3.Language.language_default;
 		}else{
-			Subject subject = SecurityUtils.getSubject();
-			//取身份信息
-			ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-			if(activeUser != null){
-				return activeUser.getLanguagePackageName();
-			}else{
-			}
+			return language;
 		}
-		
-		//如果没有制定，那么使用默认的语言包
-		return com.xnx3.Language.language_default;
 	}
 	
 	/**
@@ -60,7 +50,7 @@ public class Language {
 	 */
 	public static boolean setCurrentLanguagePackageName(String languagePackageName){
 		if(com.xnx3.Language.isHaveLanguagePackageName(languagePackageName)){
-			ShiroFunc.getCurrentActiveUser().setLanguagePackageName(languagePackageName);
+			SessionUtil.setLanguagePackageName(languagePackageName);
 			return true;
 		}else{
 			return false;

@@ -3,14 +3,14 @@ package com.xnx3.wangmarket.admin;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.SessionUtil;
 import com.xnx3.j2ee.func.VersionUtil;
-import com.xnx3.j2ee.shiro.ActiveUser;
 import com.xnx3.j2ee.shiro.ShiroFunc;
-import com.xnx3.j2ee.shiro.UserBean;
 import com.xnx3.wangmarket.Authorization;
+import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 
 /**
  * 常用的一些函数
@@ -37,21 +37,6 @@ public class Func {
 		}
 	}
 	
-	/**
-	 * 获取当前用户登陆的站点信息。若是不存在，则返回null
-	 * @return
-	 */
-	public static Site getCurrentSite(){
-		UserBean userBean = SessionUtil.getUserBeanForSession();
-		if(userBean == null){
-			return null;
-		}
-		if(userBean.getSite() == null){
-			return null;
-		}else{
-			return userBean.getSite();
-		}
-	}
 	
 	/**
 	 * 判断是否是CMS类型的建站
@@ -101,13 +86,13 @@ public class Func {
 	 * 		</ul>
 	 */
 	public static String getConsoleRedirectUrl(){
-		UserBean userBean = SessionUtil.getUserBeanForSession();
-		if(userBean == null){
+//		UserBean userBean = SessionUtil.getUserBeanForSession();
+		if(!SessionUtil.isLogin()){
 			return "";	//未登录
 		}
 		
 		//先判断此用户是超级管理员或者代理商
-		if(userBean.getMyAgency() != null){
+		if(com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getAgency() != null){
 			//有代理信息，跳转到代理后台
 			return "agency/index.do";
 		}else if (com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))) {
@@ -117,7 +102,7 @@ public class Func {
 		
 		//如果网站为空，那么可能是此用户还没有网站
 		//跳转到创建网站界面
-		Site site = userBean.getSite();
+		Site site = SessionUtil.getSite();
 		if(site == null){
 			//既不是代理，也不是超级管理员，那肯定就是用户权限了。用户权限没有网站，那就跳转到网站创建页面
 			//v3.9以后，这种情况是不存在的。账号跟网站是一块创建的
@@ -198,19 +183,21 @@ public class Func {
 	 * @deprecated 请使用 {@link SessionUtil#getUserBeanForSession()}
 	 */
 	public static com.xnx3.wangmarket.admin.bean.UserBean getUserBeanForShiroSession(){
-		UserBean newub = SessionUtil.getUserBeanForSession();
+		ActiveUser activeUser = SessionUtil.getActiveUser();
 		com.xnx3.wangmarket.admin.bean.UserBean oldub = new com.xnx3.wangmarket.admin.bean.UserBean();
-		oldub.setInputModelMap(newub.getInputModelMap());
-		oldub.setMyAgency(newub.getMyAgency());
-		oldub.setMyAgencyData(newub.getMyAgencyData());
-		oldub.setParentAgency(newub.getParentAgency());
-		oldub.setParentAgencyData(newub.getParentAgencyData());
-		oldub.setPluginDataMap(newub.getPluginDataMap());
-		oldub.setSite(newub.getSite());
-		oldub.setSiteColumnMap(newub.getSiteColumnMap());
-		oldub.setSiteMenuRole(newub.getSiteMenuRole());
-		oldub.setTemplateVarCompileDataMap(newub.getTemplateVarCompileDataMap());
-		oldub.setTemplateVarMapForOriginal(newub.getTemplateVarMapForOriginal());
+		oldub.setInputModelMap(SessionUtil.getInputModel());
+		oldub.setMyAgency(com.xnx3.wangmarket.agencyadmin.Func.getMyAgency());
+		oldub.setMyAgencyData(com.xnx3.wangmarket.agencyadmin.Func.getMyAgencyData());
+		oldub.setParentAgency(SessionUtil.getParentAgency());
+		oldub.setParentAgencyData(SessionUtil.getParentAgencyData());
+		oldub.setSite(SessionUtil.getSite());
+		oldub.setSiteColumnMap(SessionUtil.getSiteColumnMap());
+		oldub.setSiteMenuRole(SessionUtil.getSiteMenuRole());
+		oldub.setTemplateVarCompileDataMap(SessionUtil.getTemplateVarCompileDataMap());
+		oldub.setTemplateVarMapForOriginal(SessionUtil.getTemplateVarMapForOriginal());
+		if(activeUser != null){
+			oldub.setPluginDataMap(activeUser.getPluginMap());
+		}
 		
 		return oldub;
 	}

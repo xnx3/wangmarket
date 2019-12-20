@@ -25,7 +25,7 @@ public class AliyunLog extends ActionLogCache {
 			//不使用日志服务，终止即可
 			return;
 		}
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		String siteName = "";
 		String siteDomain = "";
@@ -55,7 +55,7 @@ public class AliyunLog extends ActionLogCache {
 			//不使用日志服务，终止即可
 			return;
 		}
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		String siteName = "";
 		String siteDomain = "";
@@ -83,7 +83,7 @@ public class AliyunLog extends ActionLogCache {
 			//不使用日志服务，终止即可
 			return;
 		}
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		String siteName = "";
 		String siteDomain = "";

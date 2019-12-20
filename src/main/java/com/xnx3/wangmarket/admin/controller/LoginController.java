@@ -35,6 +35,7 @@ import com.xnx3.j2ee.vo.LoginVO;
 import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
+import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
@@ -148,8 +149,6 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 //		loginSuccessComputeUsedResource();
 		
 		ActionLogCache.insert(request, "api模式登录成功","进入网站管理后台");
-		//将用户相关信息加入Shiro缓存
-		ShiroFunc.getCurrentActiveUser().setObj(userBean);
 		
 		return redirect(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());
 	}
@@ -199,7 +198,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				//登录成功,BaseVO.info字段将赋予成功后跳转的地址，所以这里要再进行判断
 				
 				//用于缓存入Session，用户的一些基本信息，比如用户的站点信息、用户的上级代理信息、如果当前用户是代理，还包含当前用户的代理信息等
-				UserBean userBean = new UserBean();
+//				UserBean userBean = new UserBean();
 				
 				//得到当前登录的用户的信息
 				User user = getUser();
@@ -238,12 +237,12 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							parentAgencyUserid = user.getReferrerid();
 						}
 						Agency parentAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + parentAgencyUserid, Agency.class);
-						userBean.setParentAgency(parentAgency);
+						SessionUtil.setParentAgency(parentAgency);
 						
 						if(parentAgency != null){
 							//得到上级代理的变长表信息
 							AgencyData parentAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + parentAgency.getId(), AgencyData.class);
-							userBean.setParentAgencyData(parentAgencyData);
+							SessionUtil.setParentAgencyData(parentAgencyData);
 						}
 					}
 					
@@ -270,7 +269,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 									menuMap.put(m, "1");
 								}
 							}
-							userBean.setSiteMenuRole(menuMap);
+							SessionUtil.setSiteMenuRole(menuMap);
 							
 						}else{
 							//是网站管理者，拥有所有权限的
@@ -283,8 +282,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							for (TemplateMenuEnum e : TemplateMenuEnum.values()) {
 								menuMap.put(e.id, "1");
 							}
-							userBean.setSiteMenuRole(menuMap);
-							
+							SessionUtil.setSiteMenuRole(menuMap);
 						}
 						if(site == null){
 							vo.setResult(BaseVO.FAILURE);
@@ -292,7 +290,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							return vo;
 						}
 						//将所管理的网站加入session缓存
-						userBean.setSite(site);
+						SessionUtil.setSite(site);
 						
 						//判断网站用户是否是已过期，使用期满，将无法使用
 						if(site != null && site.getExpiretime() != null && site.getExpiretime() < currentTime){
@@ -301,14 +299,14 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							try {
 								info = "您的网站已于 "+DateUtil.dateFormat(site.getExpiretime(), "yyyy-MM-dd")+" 到期！"
 										+ "<br/>若要继续使用，请联系："
-										+ "<br/>姓名："+userBean.getParentAgency().getName()
-										+ "<br/>QQ："+userBean.getParentAgency().getQq()
-										+ "<br/>电话："+userBean.getParentAgency().getPhone();
+										+ "<br/>姓名："+SessionUtil.getParentAgency().getName()
+										+ "<br/>QQ："+SessionUtil.getParentAgency().getQq()
+										+ "<br/>电话："+SessionUtil.getParentAgency().getPhone();
 							} catch (NotReturnValueException e) {
 								e.printStackTrace();
 							}
 							vo.setBaseVO(11, info);
-							ShiroFunc.getCurrentActiveUser().setObj(null);  	//清空 Session信息
+							SessionUtil.logout();	//退出登录，销毁session
 							return vo;
 						}
 						
@@ -321,11 +319,11 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						
 						//得到当前用户代理的相关信息，加入userBean，以存入Session缓存起来
 						Agency myAgency = sqlService.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = " + getUserId(), Agency.class);
-						userBean.setMyAgency(myAgency);
+						SessionUtil.setAgency(myAgency);
 						if(myAgency != null){
 							//得到当前代理用户的变长表信息
 							AgencyData myAgencyData = sqlService.findAloneBySqlQuery("SELECT * FROM agency_data WHERE id = " + myAgency.getId(), AgencyData.class);
-							userBean.setMyAgencyData(myAgencyData);
+							SessionUtil.setAgencyData(myAgencyData);
 						}
 						
 						//判断当前代理是否是已过期，使用期满，将无法登录
@@ -336,14 +334,14 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							try {
 								info = "您的代理资格已于 "+DateUtil.dateFormat(myAgency.getExpiretime(), "yyyy-MM-dd")+" 到期！"
 										+ "<br/>若要继续使用，请联系："
-										+ "<br/>姓名："+userBean.getParentAgency().getName()
-										+ "<br/>QQ："+userBean.getParentAgency().getQq()
-										+ "<br/>电话："+userBean.getParentAgency().getPhone();
+										+ "<br/>姓名："+SessionUtil.getParentAgency().getName()
+										+ "<br/>QQ："+SessionUtil.getParentAgency().getQq()
+										+ "<br/>电话："+SessionUtil.getParentAgency().getPhone();
 							} catch (NotReturnValueException e) {
 								e.printStackTrace();
 							}
 							vo.setBaseVO(11, info);
-							ShiroFunc.getCurrentActiveUser().setObj(null);  	//清空 Session信息
+							SessionUtil.logout();
 							return vo;
 						}
 						
@@ -353,9 +351,6 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 					//设置登录成功后，是跳转到总管理后台、代理后台，还是跳转到wap、pc、cms
 					vo.setInfo(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());	
 				}
-				
-				//将用户相关信息加入Shiro缓存
-				ShiroFunc.getCurrentActiveUser().setObj(userBean);
 				
 				//将iwSID加入vo返回
 				HttpSession session = request.getSession();

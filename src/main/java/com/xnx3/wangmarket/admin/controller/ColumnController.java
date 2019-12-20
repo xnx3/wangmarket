@@ -37,6 +37,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.AttachmentFile;
@@ -429,7 +430,7 @@ public class ColumnController extends BaseController {
 		//可上传的文件最大大小(KB)
 		model.addAttribute("maxFileSizeKB", AttachmentFile.getMaxFileSizeKB());
 		//设置上传后的图片、附件所在的个人路径
-		ShiroFunc.getCurrentActiveUser().setUeUploadParam1(site.getId()+"");
+		SessionUtil.setUeUploadParam1(site.getId()+"");
 		//实际上 sitecolumn.icon 图片的地址，替换掉动态标签的绝对路径 （原本数据库中存储的是可带有动态标签的，模版开发人员可以使用{templatePath}标签来填写icon的图片文件所在路径）
 		TemplateCMS templateCMS = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		String icon = (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", templateCMS.getTemplatePath() + site.getTemplateName() + "/");

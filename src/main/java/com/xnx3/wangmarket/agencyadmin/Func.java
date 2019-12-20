@@ -1,7 +1,7 @@
 package com.xnx3.wangmarket.agencyadmin;
 
-import com.xnx3.j2ee.func.SessionUtil;
-import com.xnx3.j2ee.shiro.UserBean;
+import com.xnx3.wangmarket.admin.bean.UserBean;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
@@ -16,12 +16,7 @@ public class Func {
 	 * @return {@link Agency} 或 null
 	 */
 	public static Agency getParentAgency(){
-		UserBean agencyBean = SessionUtil.getUserBeanForSession();
-		if(agencyBean == null){
-			return null;
-		}else{
-			return agencyBean.getParentAgency();
-		}
+		return com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getParentAgency();
 	}
 	
 	/**
@@ -29,12 +24,7 @@ public class Func {
 	 * @return {@link AgencyData} 或 null
 	 */
 	public static AgencyData getParentAgencyData(){
-		UserBean agencyBean = SessionUtil.getUserBeanForSession();
-		if(agencyBean == null){
-			return null;
-		}else{
-			return agencyBean.getParentAgencyData();
-		}
+		return com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getParentAgencyData();
 	}
 	
 	
@@ -43,12 +33,7 @@ public class Func {
 	 * @return {@link Agency} 或 null
 	 */
 	public static Agency getMyAgency(){
-		UserBean agencyBean = SessionUtil.getUserBeanForSession();
-		if(agencyBean == null){
-			return null;
-		}else{
-			return agencyBean.getMyAgency();
-		}
+		return com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getAgency();
 	}
 	
 
@@ -57,11 +42,6 @@ public class Func {
 	 * @return {@link AgencyData} 或 null
 	 */
 	public static AgencyData getMyAgencyData(){
-		UserBean agencyBean = SessionUtil.getUserBeanForSession();
-		if(agencyBean == null){
-			return null;
-		}else{
-			return agencyBean.getMyAgencyData();
-		}
+		return com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getAgencyData();
 	}
 }

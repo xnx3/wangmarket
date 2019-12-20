@@ -34,7 +34,6 @@ import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.service.SqlService;
-import com.xnx3.j2ee.shiro.UserBean;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -58,6 +57,7 @@ import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
@@ -134,14 +134,13 @@ public class TemplateController extends BaseController {
 			e.printStackTrace();
 		}
 		
-		UserBean userBean = getUserBean();
 		User user = getUser();
 		
 		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
 			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
 		}
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));
-		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(userBean.getSite(), userBean.getParentAgency()));
+		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(SessionUtil.getSite(), com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getParentAgency()));
 		model.addAttribute("siteUrl", Func.getDomain(getSite()));
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
@@ -962,7 +961,7 @@ public class TemplateController extends BaseController {
 		//将用户导入的模板存入Session，以便用户选中要还原的内容后，准备还原时直接取
 		request.getSession().setAttribute("tvo", tvo);
 		
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		//首先，判断当前模板是否可以还原到当前网站中
 		if(tvo.getPlugin() != null && tvo.getPlugin().length() > 1){

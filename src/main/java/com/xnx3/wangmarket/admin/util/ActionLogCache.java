@@ -17,7 +17,7 @@ public class ActionLogCache extends com.xnx3.j2ee.func.ActionLogCache {
 	 * 生成带有站点信息的logItem
 	 */
 	private static LogItem generateLogItem(){
-		Site site = Func.getCurrentSite();
+		Site site = SessionUtil.getSite();
 		
 		String siteName = "";
 		String siteDomain = "";
