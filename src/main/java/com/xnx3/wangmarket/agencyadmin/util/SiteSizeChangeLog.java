@@ -6,6 +6,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MailUtil;
 
@@ -18,15 +19,15 @@ public class SiteSizeChangeLog {
 	
 	static{
 		//判断是否使用日志服务进行日志记录，条件便是 accessKeyId 是否为空。若为空，则不使用
-		String use = Global.get("ALIYUN_SLS_USE");
+		String use = SystemUtil.get("ALIYUN_SLS_USE");
 		if(use != null && use.equals("1")){
 			//使用日志服务
 			
-			String keyId = Global.get("ALIYUN_ACCESSKEYID");
-			String keySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			String endpoint = Global.get("ALIYUN_SLS_ENDPOINT");
-			String project = Global.get("ALIYUN_SLS_PROJECT");
-			String logstore = Global.get("ALIYUN_LOG_SITESIZECHANGE");
+			String keyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
+			String keySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
+			String endpoint = SystemUtil.get("ALIYUN_SLS_ENDPOINT");
+			String project = SystemUtil.get("ALIYUN_SLS_PROJECT");
+			String logstore = SystemUtil.get("ALIYUN_LOG_SITESIZECHANGE");
 			
 			
 			if(keyId.length() > 10){
@@ -79,7 +80,7 @@ public class SiteSizeChangeLog {
 		try {
 			aliyunLogUtil.save(topic, ip, logItem);
 		} catch (LogException e) {
-			MailUtil.sendMail(Global.get("SERVICE_MAIL"), "站币消费出错", e.getMessage()+"，"+logItem.ToJsonString());
+			MailUtil.sendMail(SystemUtil.get("SERVICE_MAIL"), "站币消费出错", e.getMessage()+"，"+logItem.ToJsonString());
 			e.printStackTrace();
 		}
 	}

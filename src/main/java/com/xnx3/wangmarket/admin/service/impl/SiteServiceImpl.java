@@ -17,6 +17,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -674,17 +675,17 @@ public class SiteServiceImpl implements SiteService {
 		Template temp = new Template(site);
 		gh.setEditMode(true);
 		
-		String headHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+gh.templateId+"/common/head.html");
+		String headHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+gh.templateId+"/common/head.html");
 		headHtml = gh.replacePublicTag(headHtml);
 		headHtml = headHtml.replaceAll(GenerateHTML.regex("title"), title);
 		headHtml = temp.replaceForEditModeTag(headHtml);
 		
-		String topHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+gh.templateId+"/common/top.html");
+		String topHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+gh.templateId+"/common/top.html");
 		topHtml = gh.replacePublicTag(topHtml);
 		topHtml = topHtml.replaceAll(GenerateHTML.regex("title"), title);
 		topHtml = temp.replaceForEditModeTag(topHtml);
 		
-		String footHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+gh.templateId+"/common/foot.html");
+		String footHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+gh.templateId+"/common/foot.html");
 		footHtml = gh.replacePublicTag(footHtml);
 		footHtml = temp.replaceForEditModeTag(footHtml);
 		
@@ -845,7 +846,7 @@ public class SiteServiceImpl implements SiteService {
 					//站点创建完毕后，默认给站点添加一个导航栏目：关于我们
 					SiteColumn sc = new SiteColumn();
 //					sc.setIcon(G.RES_CDN_DOMAIN+"default_image/aboutUs.jpg");
-					sc.setIcon(Global.get("MASTER_SITE_URL")+"default/aboutUs.jpg");
+					sc.setIcon(SystemUtil.get("MASTER_SITE_URL")+"default/aboutUs.jpg");
 					sc.setName("关于我们");
 					sc.setParentid(0);
 					sc.setRank(1);
@@ -864,7 +865,7 @@ public class SiteServiceImpl implements SiteService {
 					news.setStatus(News.STATUS_NORMAL);
 					news.setTitle(sc.getName());
 //					news.setTitlepic(G.RES_CDN_DOMAIN+"default_image/aboutUs.jpg");
-					news.setTitlepic(Global.get("MASTER_SITE_URL")+"default/aboutUs.jpg");
+					news.setTitlepic(SystemUtil.get("MASTER_SITE_URL")+"default/aboutUs.jpg");
 					
 					news.setType(News.TYPE_PAGE);
 					news.setUserid(siteUserId);

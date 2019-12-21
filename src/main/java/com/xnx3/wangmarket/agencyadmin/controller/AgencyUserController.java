@@ -29,6 +29,7 @@ import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunLogPageUtil;
 import com.xnx3.wangmarket.admin.Func;
@@ -480,7 +481,7 @@ public class AgencyUserController extends BaseController {
 		user.setRegtime(DateUtil.timeForUnix10());
 		user.setLasttime(DateUtil.timeForUnix10());
 		user.setNickname(user.getUsername());
-		user.setAuthority(isAgency? Global.get("AGENCY_ROLE")+"":Global.get("USER_REG_ROLE"));	//设定是普通代理，还是会员权限
+		user.setAuthority(isAgency? SystemUtil.get("AGENCY_ROLE")+"":SystemUtil.get("USER_REG_ROLE"));	//设定是普通代理，还是会员权限
 		user.setCurrency(0);
 		user.setFreezemoney(0F);
 		user.setMoney(0F);
@@ -503,9 +504,9 @@ public class AgencyUserController extends BaseController {
 			UserRole userRole = new UserRole();
 			int roleid = 0;
 			if(isAgency){
-				roleid = Global.getInt("AGENCY_ROLE");
+				roleid = SystemUtil.getInt("AGENCY_ROLE");
 			}else{
-				roleid = Global.getInt("USER_REG_ROLE");
+				roleid = SystemUtil.getInt("USER_REG_ROLE");
 			}
 			userRole.setRoleid(roleid);
 			userRole.setUserid(user.getId());
@@ -598,7 +599,7 @@ public class AgencyUserController extends BaseController {
 	public String userList(HttpServletRequest request, Model model){
 		Sql sql = new Sql(request);
 		sql.setSearchTable("user");
-		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+Global.getInt("USER_REG_ROLE"));
+		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+SystemUtil.getInt("USER_REG_ROLE"));
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);

@@ -4,14 +4,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 运行入口
@@ -57,7 +55,7 @@ public class Application {
 		new Thread(new Runnable() {
 			public void run() {
 				System.out.println(" start thread monitor for application run finish");
-				while(Global.get("USER_REG_ROLE") == null){
+				while(SystemUtil.get("USER_REG_ROLE") == null){
 					//循环，一直到数据库加载完毕
 					try {
 						Thread.sleep(500);

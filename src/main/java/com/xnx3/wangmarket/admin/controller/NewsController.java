@@ -23,6 +23,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
@@ -200,7 +201,7 @@ public class NewsController extends BaseController {
 			newsData.setExtend(extend);
 			
 			
-			boolean have = TextFilter.filter(request, "文章信息发现涉嫌违规："+news.getTitle(), Global.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml+StringUtil.filterEnglishSpecialSymbol(StringUtil.filterHtmlTag(extend)));
+			boolean have = TextFilter.filter(request, "文章信息发现涉嫌违规："+news.getTitle(), SystemUtil.get("MASTER_SITE_URL")+"admin/news/view.do?id="+news.getId(), news.getTitle()+textFilterHtml+StringUtil.filterEnglishSpecialSymbol(StringUtil.filterHtmlTag(extend)));
 			if(have){
 				//写入news的合法性字段
 				news.setLegitimate(News.LEGITIMATE_NO);
@@ -332,7 +333,7 @@ public class NewsController extends BaseController {
 	    sql.setSearchColumn(new String[]{"type=","title","cid="});
 	    sql.appendWhere("siteid = "+getSiteId());
 	    int count = sqlService.count("news", sql.getWhere());
-	    Page page = new Page(count, Global.getInt("LIST_EVERYPAGE_NUMBER"), request);
+	    Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
 	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
 	    sql.setSelectFromAndPage("SELECT * FROM news", page);
 	    
@@ -528,7 +529,7 @@ public class NewsController extends BaseController {
 		}
 		if(site.getClient() - Site.CLIENT_CMS == 0){
 			//如果是CMS模式网站，则需要判断
-			if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
+			if(SystemUtil.get("MASTER_SITE_URL") != null && SystemUtil.get("MASTER_SITE_URL").equals("http://wang.market/")){
 				if(site.getId() - 255 > 0){
 					//site.id < 255 的站点，是code模式
 					generateUrlRule = "code";

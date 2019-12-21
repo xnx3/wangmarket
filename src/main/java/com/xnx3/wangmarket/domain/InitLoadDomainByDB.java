@@ -11,6 +11,7 @@ import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SpringUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 项目启动初始化，从数据库加载域名列表缓存到内存
@@ -31,7 +32,7 @@ public class InitLoadDomainByDB {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if(Global.get("ATTACHMENT_FILE_MODE") == null || Global.get("ATTACHMENT_FILE_MODE").length() == 0){
+					if(SystemUtil.get("ATTACHMENT_FILE_MODE") == null || SystemUtil.get("ATTACHMENT_FILE_MODE").length() == 0){
 						//项目还未启动，system数据都还没有加载，继续等待
 					}else{
 						//system数据表数据已加载入内存，可以进行初始化域名数据了，退出等待

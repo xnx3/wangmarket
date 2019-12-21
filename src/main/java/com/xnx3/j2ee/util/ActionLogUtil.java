@@ -3,7 +3,6 @@ package com.xnx3.j2ee.util;
 import javax.servlet.http.HttpServletRequest;
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.IpUtil;
@@ -37,23 +36,23 @@ public class ActionLogUtil {
 	public static AliyunLogUtil aliyunLogUtil = null;
 	static{
 		//判断是否使用日志服务进行日志记录，条件便是 accessKeyId 是否为空。若为空，则不使用
-		String use = Global.get("ALIYUN_SLS_USE");
+		String use = SystemUtil.get("ALIYUN_SLS_USE");
 		if(use != null && use.equals("1")){
 			//使用日志服务
 			
-			String keyId = Global.get("ALIYUN_ACCESSKEYID");
-			String keySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			String endpoint = Global.get("ALIYUN_SLS_ENDPOINT");
-			String project = Global.get("ALIYUN_SLS_PROJECT");
-			String logstore = Global.get("ALIYUN_SLS_USERACTION_LOGSTORE");
+			String keyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
+			String keySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
+			String endpoint = SystemUtil.get("ALIYUN_SLS_ENDPOINT");
+			String project = SystemUtil.get("ALIYUN_SLS_PROJECT");
+			String logstore = SystemUtil.get("ALIYUN_SLS_USERACTION_LOGSTORE");
 			
 			//最大超时时间
-			int log_cache_max_time = Global.getInt("ALIYUN_SLS_CACHE_MAX_TIME");
+			int log_cache_max_time = SystemUtil.getInt("ALIYUN_SLS_CACHE_MAX_TIME");
 			if(log_cache_max_time == 0){
 				log_cache_max_time = 120;
 			}
 			//最大条数
-			int log_cache_max_number = Global.getInt("ALIYUN_SLS_CACHE_MAX_NUMBER");
+			int log_cache_max_number = SystemUtil.getInt("ALIYUN_SLS_CACHE_MAX_NUMBER");
 			if(log_cache_max_number == 0){
 				log_cache_max_number = 100;
 			}

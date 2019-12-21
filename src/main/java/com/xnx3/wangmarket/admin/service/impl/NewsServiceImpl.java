@@ -13,6 +13,7 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
@@ -47,8 +48,8 @@ public class NewsServiceImpl implements NewsService {
 		page.setUrlByStringUrl("");
 		
 		//如果是之前的通用模版，装载通用模版的配套方案
-		String listHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
-		String listItem = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
+		String listHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
+		String listItem = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
 		GenerateHTML gh = new GenerateHTML(site);
 		listHtml = gh.assemblyCommon(listHtml);	//装载通用组件
 		listHtml = gh.replacePublicTag(listHtml);		//替换通用标签
@@ -70,8 +71,8 @@ public class NewsServiceImpl implements NewsService {
 		Page page = new Page(count, G.PAGE_WAP_NUM);
 		page.setUrlByStringUrl("");
 		
-		String listHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
-		String listItem = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
+		String listHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
+		String listItem = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
 		GenerateHTML gh = new GenerateHTML(site);
 		listHtml = gh.assemblyCommon(listHtml);	//装载通用组件
 		listHtml = gh.replacePublicTag(listHtml);		//替换通用标签
@@ -90,8 +91,8 @@ public class NewsServiceImpl implements NewsService {
 	 * 编辑模式下的列表页面html生成
 	 */
 	public String generateListHtml(Page page, SiteColumn siteColumn, int count, List<News> list, Site site){
-		String listHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
-		String listItem = FileUtil.read(Global.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
+		String listHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
+		String listItem = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/module/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list_item.html");
 		GenerateHTML gh = new GenerateHTML(site);
 		gh.setEditMode(true);
 		listHtml = gh.assemblyCommon(listHtml);	//装载通用组件

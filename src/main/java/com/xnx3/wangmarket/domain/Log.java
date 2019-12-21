@@ -5,6 +5,7 @@ import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
@@ -21,13 +22,13 @@ public class Log {
 	
 	static{
 		//加载日志服务
-		String useLog = Global.get("ALIYUN_SLS_USE");
+		String useLog = SystemUtil.get("ALIYUN_SLS_USE");
 		if(useLog != null && useLog.equals("1")){
-			String log_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
-			String log_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-			String endpoint = Global.get("ALIYUN_SLS_ENDPOINT");
-			String project = Global.get("ALIYUN_SLS_PROJECT");
-			String logstore = Global.get("ALIYUN_SLS_FANGWEN_LOGSTORE");
+			String log_accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
+			String log_accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
+			String endpoint = SystemUtil.get("ALIYUN_SLS_ENDPOINT");
+			String project = SystemUtil.get("ALIYUN_SLS_PROJECT");
+			String logstore = SystemUtil.get("ALIYUN_SLS_FANGWEN_LOGSTORE");
 			
 			if(log_accessKeyId.length() < 10){
 				System.out.println("未开启网站访问日志记录。授权版本有此功能，详情可参考 http://www.wang.market/price.html");

@@ -24,6 +24,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
@@ -302,7 +303,7 @@ public class SiteController extends BaseController {
 		domain = filter(domain);
 		//是否是不可使用的域名列表中的
 		//system表中，保留不给用户申请的二级域名。v4.11增加，多个用|分割，且填写字符必须小写，如 m|wap|www  如果留空不填则无保留域名
-		String forbidDomain = Global.get("FORBID_DOMAIN");	
+		String forbidDomain = SystemUtil.get("FORBID_DOMAIN");	
 		if(forbidDomain != null && forbidDomain.length() > 0){
 			String[] fs = forbidDomain.split("\\|");
 			for (int i = 0; i < fs.length; i++) {
@@ -672,7 +673,7 @@ public class SiteController extends BaseController {
 			ActionLogUtil.insertUpdateDatabase(request, "提交问题反馈", jianjie);
 			
 			//发送邮件
-			MailUtil.sendMail(Global.get("SERVICE_MAIL"), "有新的问题反馈", fb.toString());
+			MailUtil.sendMail(SystemUtil.get("SERVICE_MAIL"), "有新的问题反馈", fb.toString());
 			
 			return success();
 		}else{

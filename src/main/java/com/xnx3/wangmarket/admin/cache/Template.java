@@ -1,9 +1,10 @@
 package com.xnx3.wangmarket.admin.cache;
 
 import com.xnx3.Lang;
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.G;
 
 /**
@@ -50,7 +51,7 @@ public class Template {
 	 * @return 模版的HTML代码
 	 */
 	public String getIndexTemplateHtml_Only(){
-		return FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/index.html");
+		return FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/index.html");
 	}
 	
 	/**
@@ -179,7 +180,7 @@ public class Template {
 		text = text.replaceAll("\"news/", "\""+AttachmentUtil.netUrl()+"site/"+site.getId()+"/news/");
 		text = text.replaceAll("\"images/", "\""+AttachmentUtil.netUrl()+"site/"+site.getId()+"/images/");
 		text = text.replaceAll("controllerRegEditMode", "edit");	//替换header中的js edit变量，设置其为编辑模式
-		text = text.replaceAll(regex("_masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = text.replaceAll(regex("_masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		
 		return text;
 	}

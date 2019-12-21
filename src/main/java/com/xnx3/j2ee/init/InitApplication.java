@@ -16,6 +16,7 @@ import com.xnx3.j2ee.generateCache.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.OSSUtil;
 
 /**
@@ -51,7 +52,7 @@ public class InitApplication implements CommandLineRunner{
 		}
 		
 		//设置 附件存储 的位置，是阿里云，还是本地。参数来源于数据库
-		AttachmentUtil.mode = Global.get("ATTACHMENT_FILE_MODE");
+		AttachmentUtil.mode = SystemUtil.get("ATTACHMENT_FILE_MODE");
 		if(AttachmentUtil.mode == null){
 			AttachmentUtil.mode = AttachmentUtil.MODE_LOCAL_FILE;
 			ConsoleUtil.info("AttachmentUtil.mode = "+AttachmentUtil.mode);
@@ -149,10 +150,10 @@ public class InitApplication implements CommandLineRunner{
 	 * 检测OSS配置信息，服务于 {@link OSS}，保证其能正常使用的配置是否正常
 	 */
 	public void initOssConfig(){
-		OSSUtil.accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
-		OSSUtil.accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
-		OSSUtil.bucketName = Global.get("ALIYUN_OSS_BUCKETNAME");
-		OSSUtil.endpoint = Global.get("ALIYUN_OSS_ENDPOINT");
+		OSSUtil.accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
+		OSSUtil.accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
+		OSSUtil.bucketName = SystemUtil.get("ALIYUN_OSS_BUCKETNAME");
+		OSSUtil.endpoint = SystemUtil.get("ALIYUN_OSS_ENDPOINT");
 		OSSUtil.url = AttachmentUtil.netUrl();
 		
 		boolean checkOss = ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("startAutoCheck.oss").equals("true");

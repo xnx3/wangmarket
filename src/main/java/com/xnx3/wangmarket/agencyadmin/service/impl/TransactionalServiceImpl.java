@@ -19,6 +19,7 @@ import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.wangmarket.admin.Func;
@@ -325,7 +326,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		user.setRegtime(DateUtil.timeForUnix10());
 		user.setLasttime(DateUtil.timeForUnix10());
 		user.setNickname(user.getUsername());
-		user.setAuthority(isAgency? Global.get("AGENCY_ROLE")+"":Global.get("USER_REG_ROLE"));	//设定是普通代理，还是会员权限
+		user.setAuthority(isAgency? SystemUtil.get("AGENCY_ROLE")+"":SystemUtil.get("USER_REG_ROLE"));	//设定是普通代理，还是会员权限
 		user.setCurrency(0);
 		user.setFreezemoney(0F);
 		user.setMoney(0F);
@@ -344,9 +345,9 @@ public class TransactionalServiceImpl implements TransactionalService {
 			UserRole userRole = new UserRole();
 			int roleid = 0;
 			if(isAgency){
-				roleid = Global.getInt("AGENCY_ROLE");
+				roleid = SystemUtil.getInt("AGENCY_ROLE");
 			}else{
-				roleid = Global.getInt("USER_REG_ROLE");
+				roleid = SystemUtil.getInt("USER_REG_ROLE");
 			}
 			userRole.setRoleid(roleid);
 			userRole.setUserid(user.getId());

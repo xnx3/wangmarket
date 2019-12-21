@@ -31,6 +31,7 @@ import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.j2ee.entity.*;
@@ -531,7 +532,7 @@ public class UserServiceImpl implements UserService{
 		fileSuffix = Lang.findFileSuffix(SafetyUtil.filter(head.getOriginalFilename()));
 		String newHead = Lang.uuid()+"."+fileSuffix;
 		try {
-			uploadFileVO = AttachmentUtil.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
+			uploadFileVO = AttachmentUtil.put(SystemUtil.get("USER_HEAD_PATH")+newHead, head.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			uploadFileVO.setBaseVO(BaseVO.FAILURE, e.getMessage());
@@ -647,7 +648,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		User user = ShiroFunc.getUser();
-		uploadFileVO = AttachmentUtil.uploadFileByMultipartFile(Global.get("USER_HEAD_PATH"), multipartFile);
+		uploadFileVO = AttachmentUtil.uploadFileByMultipartFile(SystemUtil.get("USER_HEAD_PATH"), multipartFile);
 		if(uploadFileVO.getResult() - UploadFileVO.FAILURE == 0){
 			return uploadFileVO;
 		}
@@ -655,7 +656,7 @@ public class UserServiceImpl implements UserService{
 		User u = sqlDAO.findById(User.class, user.getId());
 		//删除之前的头像
 		if(u.getHead() != null && u.getHead().length() > 0 && !u.getHead().equals("default.png")){
-			AttachmentUtil.deleteObject(Global.get("USER_HEAD_PATH")+u.getHead());
+			AttachmentUtil.deleteObject(SystemUtil.get("USER_HEAD_PATH")+u.getHead());
 		}
 		
 		u.setHead(uploadFileVO.getFileName());
@@ -830,7 +831,7 @@ public class UserServiceImpl implements UserService{
 			user.setNickname(StringUtil.filterXss(Sql.filter(user.getNickname())));
 		}
 		if(user.getAuthority() == null){
-			user.setAuthority(Global.get("USER_REG_ROLE"));
+			user.setAuthority(SystemUtil.get("USER_REG_ROLE"));
 		}
 		if(user.getCurrency() == null){
 			user.setCurrency(0);
@@ -863,7 +864,7 @@ public class UserServiceImpl implements UserService{
 			
 			//赋予该用户系统设置的默认角色
 			UserRole userRole = new UserRole();
-			userRole.setRoleid(Lang.stringToInt(user.getAuthority(), Global.getInt("USER_REG_ROLE")));
+			userRole.setRoleid(Lang.stringToInt(user.getAuthority(), SystemUtil.getInt("USER_REG_ROLE")));
 			userRole.setUserid(user.getId());
 			sqlDAO.save(userRole);
 			
@@ -892,7 +893,7 @@ public class UserServiceImpl implements UserService{
 					if(user.getHead().equals("default.png")){
 						head = defaultHead;
 					}else{
-						head = AttachmentUtil.netUrl() + Global.get("USER_HEAD_PATH") + user.getHead();
+						head = AttachmentUtil.netUrl() + SystemUtil.get("USER_HEAD_PATH") + user.getHead();
 					}
 				}
 			}else{

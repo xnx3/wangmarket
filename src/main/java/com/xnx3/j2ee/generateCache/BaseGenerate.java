@@ -7,6 +7,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 所有js缓存生成的父类
@@ -48,7 +49,7 @@ public class BaseGenerate {
 	public void generateCacheFile(){
 		addCommonJsFunction();
 		initCacheFolder();
-		String filePath = Global.getProjectPath()+Global.CACHE_FILE+getClass().getSimpleName()+"_"+objName+".js"; 
+		String filePath = SystemUtil.getProjectPath()+Global.CACHE_FILE+getClass().getSimpleName()+"_"+objName+".js"; 
 		try {
 			content = content + " var xnx3_r"+DateUtil.timeForUnix10()+" = '"+getRandomValue()+"';";
 			FileUtil.write(filePath, content,FileUtil.UTF8);
@@ -77,10 +78,10 @@ public class BaseGenerate {
 	 * 初始化缓存文件夹，若根目录下没有缓存文件夹，自动创建
 	 */
 	private void initCacheFolder(){
-		if(!FileUtil.exists(Global.getProjectPath()+Global.CACHE_FILE)){
-			ConsoleUtil.info("create cache folder : "+ Global.getProjectPath()+Global.CACHE_FILE);
+		if(!FileUtil.exists(SystemUtil.getProjectPath()+Global.CACHE_FILE)){
+			ConsoleUtil.info("create cache folder : "+ SystemUtil.getProjectPath()+Global.CACHE_FILE);
 			String[] folders = Global.CACHE_FILE.split("/");
-			String path = Global.getProjectPath();
+			String path = SystemUtil.getProjectPath();
 			for (int i = 0; i < folders.length; i++) {
 				if(folders[i].length()>0&&!FileUtil.exists(path+folders[i])){
 					File file = new File(path+folders[i]);

@@ -6,6 +6,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.VersionUtil;
 import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.bean.UserBean;
@@ -95,7 +96,7 @@ public class Func {
 		if(com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getAgency() != null){
 			//有代理信息，跳转到代理后台
 			return "agency/index.do";
-		}else if (com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))) {
+		}else if (com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))) {
 			//超级管理员
 			return "admin/index/index.do";
 		}
@@ -133,7 +134,7 @@ public class Func {
 			return false;
 		}
 		
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))){
 			return true;
 		}
 		return false;
@@ -142,21 +143,21 @@ public class Func {
 	public Func() {
 		new Thread(new Runnable() {
 			public void run() {
-				while(Global.get("AUTO_ASSIGN_DOMAIN") == null){
+				while(SystemUtil.get("AUTO_ASSIGN_DOMAIN") == null){
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 					}
 				}
-				Authorization.setDomain(Global.get("AUTO_ASSIGN_DOMAIN"));
+				Authorization.setDomain(SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
 				try {
-					Authorization.setVersion(VersionUtil.strToInt(G.VERSION));
+					Authorization.setVersion(VersionUtil.strToInt(Global.VERSION));
 				} catch (Exception e) {
 				}
 				new Authorization();
 				
 				while(true){
-					Authorization.setDomain(Global.get("AUTO_ASSIGN_DOMAIN"));
+					Authorization.setDomain(SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
 					try {
 						Thread.sleep(1000 * 60 * 10);
 					} catch (InterruptedException e) {
@@ -171,7 +172,7 @@ public class Func {
 	 * @return true:有代理后台的权限；  false：没有
 	 */
 	public static boolean haveAgencyAuth(){
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(ShiroFunc.getUser().getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))){
 			return true;
 		}
 		return false;

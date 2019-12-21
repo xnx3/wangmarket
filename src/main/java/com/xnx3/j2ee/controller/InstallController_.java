@@ -14,6 +14,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -63,7 +64,7 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/selectAttachment${url.suffix}")
 	public String selectAttachment(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		ActionLogUtil.insert(request, "进入install安装-选择存储方式");
@@ -80,7 +81,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/setAttachmentMode${url.suffix}")
 	public String setLocalAttachmentFile(HttpServletRequest request, Model model,
 			@RequestParam(value = "mode", required = false, defaultValue="") String mode){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		
@@ -105,18 +106,18 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/systemSet${url.suffix}")
 	public String systemSet(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		//系统访问域名
-		String fangwenyuming = Global.get("MASTER_SITE_URL");
+		String fangwenyuming = SystemUtil.get("MASTER_SITE_URL");
 		if(fangwenyuming == null || fangwenyuming.length() < 6){
 			fangwenyuming = request.getRequestURL().toString().replace("install/systemSet.do", "");
 		}
 		
 		//附件访问域名
-		String fujianyuming = Global.get("ATTACHMENT_FILE_URL");
+		String fujianyuming = SystemUtil.get("ATTACHMENT_FILE_URL");
 		if(fujianyuming == null || fujianyuming.length() < 6){
 			fujianyuming = fangwenyuming;
 		}
@@ -160,12 +161,12 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/domainSet${url.suffix}")
 	public String domainSet(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		//系统访问域名
-		String autoAssignDomain = Global.get("AUTO_ASSIGN_DOMAIN");
+		String autoAssignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");
 		if(autoAssignDomain == null || autoAssignDomain.length() < 4){
 			autoAssignDomain = "";
 		}
@@ -184,7 +185,7 @@ public class InstallController_ extends BaseController {
 	public BaseVO domainSetSave(HttpServletRequest request,
 			@RequestParam(value = "autoAssignDomain", required = false, defaultValue="") String autoAssignDomain
 			){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(jinzhianzhuang);
 		}
 		
@@ -214,7 +215,7 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/setLocalDomain${url.suffix}")
 	public String setLocalDomain(HttpServletRequest request, Model model){
-		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		

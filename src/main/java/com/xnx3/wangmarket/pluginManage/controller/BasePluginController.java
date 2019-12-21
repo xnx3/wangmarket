@@ -4,6 +4,7 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 所有插件的 Controller 都继承此
@@ -62,7 +63,7 @@ public class BasePluginController extends com.xnx3.wangmarket.admin.controller.B
 			return false;
 		}
 		
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))){
 			return true;
 		}
 		return false;
@@ -80,7 +81,7 @@ public class BasePluginController extends com.xnx3.wangmarket.admin.controller.B
 			return false;
 		}
 		
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_USER_ID"))){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_USER_ID"))){
 			return true;
 		}
 		return false;
@@ -98,7 +99,7 @@ public class BasePluginController extends com.xnx3.wangmarket.admin.controller.B
 			return false;
 		}
 		
-		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), Global.get("AGENCY_ROLE"))){
+		if(com.xnx3.j2ee.Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("AGENCY_ROLE"))){
 			return true;
 		}
 		return false;

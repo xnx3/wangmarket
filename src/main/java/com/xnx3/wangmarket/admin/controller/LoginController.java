@@ -26,6 +26,7 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.CaptchaUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.LoginVO;
 import com.xnx3.j2ee.vo.UserVO;
@@ -61,7 +62,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	 */
 	@RequestMapping("/reg${url.suffix}")
 	public String reg(HttpServletRequest request ,Model model){
-		if(Global.getInt("ALLOW_USER_REG") == 0){
+		if(SystemUtil.getInt("ALLOW_USER_REG") == 0){
 			return error(model, "系统已禁止用户自行注册");
 		}
 		//判断用户是否已注册，已注册的用户将出现提示，已登录，无需注册
@@ -82,7 +83,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	 */
 	@RequestMapping("regByPhone${url.suffix}")
 	public String regByPhone(HttpServletRequest request, Model model){
-		if(Global.getInt("ALLOW_USER_REG") == 0){
+		if(SystemUtil.getInt("ALLOW_USER_REG") == 0){
 			return error(model, "系统已禁止用户自行注册");
 		}
 		
@@ -196,7 +197,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				//得到当前登录的用户的信息
 				User user = getUser();
 				//可以根据用户的不同权限，来判断用户登录成功后要跳转到哪个页面
-				if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
+				if(Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))){
 					//如果是超级管理员，那么跳转到管理后台
 					vo.setInfo("admin/index/index.do");
 					ActionLogUtil.insertUpdateDatabase(request, "用户名密码模式登录成功","进入管理后台admin/index/");
@@ -243,7 +244,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 					int currentTime = DateUtil.timeForUnix10();	
 					
 					//判断当前用户的权限，是代理还是网站使用者
-					if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_USER_ID"))){
+					if(Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_USER_ID"))){
 						//普通用户，建站用户，网站使用者
 						Site site = null;
 						
@@ -372,7 +373,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		final String currentDate = DateUtil.currentDate("yyyyMMdd");
 	
 		
-		if((getUser().getOssUpdateDate() == null) || (getUser().getAuthority().equals(Global.get("USER_REG_ROLE")) && !getUser().getOssUpdateDate().equals(currentDate))){
+		if((getUser().getOssUpdateDate() == null) || (getUser().getAuthority().equals(SystemUtil.get("USER_REG_ROLE")) && !getUser().getOssUpdateDate().equals(currentDate))){
 			//计算当前用户下面有多少站点，每个站点的OSS的news文件夹下用了多少存储空间了
 			new Thread(new Runnable() {
 				public void run() {

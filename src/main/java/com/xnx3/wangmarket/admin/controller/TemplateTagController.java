@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
@@ -40,9 +41,9 @@ public class TemplateTagController extends BaseController {
 		//当前使用的站点
 		Site site = getSite();
 		//调用主站的域名
-		String masterSiteUrl = Global.get("MASTER_SITE_URL");
+		String masterSiteUrl = SystemUtil.get("MASTER_SITE_URL");
 		//静态资源的域名
-		String templatePath = Global.get("ATTACHMENT_FILE_URL");
+		String templatePath = SystemUtil.get("ATTACHMENT_FILE_URL");
 		//当前时间的时间戳
 		Integer linuxTime = DateUtil.dateToInt10(new Date());
 		

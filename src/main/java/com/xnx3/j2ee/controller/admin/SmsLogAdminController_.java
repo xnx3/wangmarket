@@ -14,6 +14,7 @@ import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 验证码管理，手机验证码相关，比如手机登陆时的验证码
@@ -35,7 +36,7 @@ public class SmsLogAdminController_ extends BaseController {
 		Sql sql = new Sql(request);
 		sql.setSearchColumn(new String[]{"phone","used=","userid="});
 		int count = sqlService.count("sms_log", sql.getWhere());
-		Page page = new Page(count, Global.getInt("LIST_EVERYPAGE_NUMBER"), request);
+		Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
 		sql.setSelectFromAndPage("SELECT * FROM sms_log", page);
 		sql.setDefaultOrderBy("sms_log.id DESC");
 		List<SmsLog> list = sqlService.findBySql(sql, SmsLog.class);

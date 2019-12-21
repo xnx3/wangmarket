@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
@@ -33,7 +34,7 @@ public class CloudTemplateUpdateThread {
 				
 				boolean waitLoadDBFinish = true;	//等待数据库加载
 				while(waitLoadDBFinish){
-					if(Global.get("USER_REG_ROLE") != null){
+					if(SystemUtil.get("USER_REG_ROLE") != null){
 						//有值了，已经加载完数据库信息了
 						waitLoadDBFinish = false;
 						ConsoleUtil.info("监测到已经加载数据库信息，2秒后同步云端模版");

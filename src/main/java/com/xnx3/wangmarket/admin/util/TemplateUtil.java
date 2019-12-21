@@ -8,6 +8,7 @@ import java.util.Map;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
@@ -106,7 +107,7 @@ public class TemplateUtil {
 		//List<Template> list = null;
 		
 		//判断是否使用云端模版库。默认没有的话是使用。如果值0，则是不使用，否则都是使用
-		String useCloudTemplate = Global.get("PLUGIN_TEMPLATECENTER_USE_ClOUDTEMPLATE");
+		String useCloudTemplate = SystemUtil.get("PLUGIN_TEMPLATECENTER_USE_ClOUDTEMPLATE");
 		if(useCloudTemplate != null && useCloudTemplate.equals("0")){
 			//不使用云端模版库
 		}else{

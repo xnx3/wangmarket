@@ -48,7 +48,7 @@ public class AttachmentUtil {
 	static{
 		//4.7版本废弃，由数据库加载配置参数，在 initApplication 中初始化
 		
-		localFilePath = Global.getProjectPath();
+		localFilePath = SystemUtil.getProjectPath();
 	}
 	
 	/**
@@ -57,8 +57,8 @@ public class AttachmentUtil {
 	 */
 	public static StorageModeInterface getStorageMode(){
 		// 如果数据库的信息已经被更新，上传使用的对象也需要更新
-		if(!mode.equals(Global.get("ATTACHMENT_FILE_MODE"))) {
-			mode = Global.get("ATTACHMENT_FILE_MODE");
+		if(!mode.equals(SystemUtil.get("ATTACHMENT_FILE_MODE"))) {
+			mode = SystemUtil.get("ATTACHMENT_FILE_MODE");
 			storageMode = null;
 		}
 		
@@ -169,7 +169,7 @@ public class AttachmentUtil {
 	 */
 	public static String netUrl(){
 		if(netUrl == null){
-			netUrl = Global.get("ATTACHMENT_FILE_URL");
+			netUrl = SystemUtil.get("ATTACHMENT_FILE_URL");
 		}
 		return netUrl;
 	}

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 
@@ -42,7 +43,7 @@ public class LoadTemplateByDataBase {
 	
 	public void load(){
 		//等待数据库加载完毕
-		while(Global.get("ALLOW_USER_REG") == null){
+		while(SystemUtil.get("ALLOW_USER_REG") == null){
 			try {
 				Thread.sleep(1000);	//延迟1秒
 			} catch (InterruptedException e) {

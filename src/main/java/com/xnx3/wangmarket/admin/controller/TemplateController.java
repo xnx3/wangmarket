@@ -35,6 +35,7 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.net.HttpResponse;
@@ -136,9 +137,6 @@ public class TemplateController extends BaseController {
 		
 		User user = getUser();
 		
-		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
-			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
-		}
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));
 		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(SessionUtil.getSite(), com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getParentAgency()));
 		model.addAttribute("siteUrl", Func.getDomain(getSite()));
@@ -146,7 +144,7 @@ public class TemplateController extends BaseController {
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("user", user);
 		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());	//自动分配的域名，如 wang.market
-		model.addAttribute("SITEUSER_FIRST_USE_EXPLAIN_URL", Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
+		model.addAttribute("SITEUSER_FIRST_USE_EXPLAIN_URL", SystemUtil.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
 		return "template/index";
 	}
 	
@@ -528,7 +526,7 @@ public class TemplateController extends BaseController {
 			
 			//自动在</head>之前，加入htmledit.js
 			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+Global.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
+			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+SystemUtil.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
 			
 			ActionLogUtil.insert(request, vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}

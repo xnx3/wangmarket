@@ -10,6 +10,7 @@ import com.xnx3.MD5Util;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.UserBean;
@@ -92,7 +93,7 @@ public class SitePcController extends BaseController {
 		
 		//检查是否存再indexedit.js，如果用户自定义首页将其删除了，再将其加入
 		if(previewHtml.indexOf("indexedit.js") == -1){
-			previewHtml = previewHtml + "<script src=\""+Global.get("ATTACHMENT_FILE_URL")+"js/admin/indexedit.js\"></script>";
+			previewHtml = previewHtml + "<script src=\""+SystemUtil.get("ATTACHMENT_FILE_URL")+"js/admin/indexedit.js\"></script>";
 		}
 		
 		//v3.0调试使用

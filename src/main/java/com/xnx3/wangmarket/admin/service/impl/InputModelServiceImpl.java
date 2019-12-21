@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.Template;
@@ -232,7 +233,7 @@ public class InputModelServiceImpl implements InputModelService {
 
 	public String getDefaultInputModelText() {
 		if(defaultInputModelText == null){	
-			defaultInputModelText = FileUtil.read(Global.getProjectPath()+"static/inputModel/default.html");
+			defaultInputModelText = FileUtil.read(SystemUtil.getProjectPath()+"static/inputModel/default.html");
 		}
 		return defaultInputModelText;
 	}

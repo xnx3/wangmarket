@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 初始化模版文件夹，自动创建模版包上传的临时文件
@@ -53,12 +54,12 @@ public class TemplateTemporaryFolder {
 	}
 	
 	public TemplateTemporaryFolder() {
-		if(Global.getProjectPath().indexOf("/target/classes") > 0){
+		if(SystemUtil.getProjectPath().indexOf("/target/classes") > 0){
 			//包含这个路径，那么认为是在开发环境中
-			folderPath = Global.getProjectPath()+"templateTemporaryFile/";
+			folderPath = SystemUtil.getProjectPath()+"templateTemporaryFile/";
 		}else{
 			//正式运行环境
-			folderPath = Global.getProjectPath()+"WEB-INF/classes/templateTemporaryFile/";
+			folderPath = SystemUtil.getProjectPath()+"WEB-INF/classes/templateTemporaryFile/";
 		}
 		
 		File templateTemporaryFile = new File(folderPath);

@@ -36,7 +36,6 @@ import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.SystemUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
@@ -44,6 +43,7 @@ import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.VersionUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
@@ -528,7 +528,7 @@ public class PluginManageController extends BasePluginController {
 		// 获取插件压缩包的下载url
 		HttpUtil httpUtil = new HttpUtil();
 		// 验证授权身份获取下载地址
-		HttpResponse httpResponse = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API + "?action=down&plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + Global.get("AUTO_ASSIGN_DOMAIN"));
+		HttpResponse httpResponse = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API + "?action=down&plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
 		// 请求异常
 		if(httpResponse.getCode() - 200 != 0) {
 			return error("云端插件库异常，轻稍后重试");
@@ -1300,7 +1300,7 @@ public class PluginManageController extends BasePluginController {
 		outputStream.close();
 		//对文件进行压缩,该文件每次进入首页时进行删除
 		final String exportZipRelativePath = exportRelativePath + pluginId + ".zip";	//生成的zip文件相对路径
-		ZipUtils.dozip(exportAbsolutePath + "ROOT", Global.getProjectPath() + exportZipRelativePath);
+		ZipUtils.dozip(exportAbsolutePath + "ROOT", SystemUtil.getProjectPath() + exportZipRelativePath);
 		// 删除临时创建的文件
 		deleteDirectory(new File(exportAbsolutePath), false);
 		//添加动作日志
@@ -1312,7 +1312,7 @@ public class PluginManageController extends BasePluginController {
 				try {
 					Thread.sleep(5 * 60 * 1000);
 					// 删除导出临时文件夹
-					deleteDirectory(new File(Global.getProjectPath() + exportZipRelativePath), false);
+					deleteDirectory(new File(SystemUtil.getProjectPath() + exportZipRelativePath), false);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

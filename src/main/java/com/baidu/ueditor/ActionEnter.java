@@ -10,6 +10,7 @@ import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 
 public class ActionEnter {
 	private HttpServletRequest request = null;
@@ -30,7 +31,7 @@ public class ActionEnter {
 			//初步判定是在开发环境
 			
 			//获取当前路径，进而确认是否真的是开发模式
-			String path = Global.getProjectPath();
+			String path = SystemUtil.getProjectPath();
 			if(path.indexOf("/target/classes/") + 16 == path.length()){
 				rootPath = path;
 			}

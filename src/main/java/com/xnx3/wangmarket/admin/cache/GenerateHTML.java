@@ -10,6 +10,7 @@ import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
@@ -52,7 +53,7 @@ public class GenerateHTML {
 	 * @return
 	 */
 	public String wapIndex(){
-		String pageHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/index.html");
+		String pageHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/index.html");
 		pageHtml = assemblyCommon(pageHtml);	//装载通用组件
 		pageHtml = replacePublicTag(pageHtml);		//替换通用标签
 		
@@ -67,7 +68,7 @@ public class GenerateHTML {
 	 * @return
 	 */
 	public String pcIndex(){
-		String pageHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/index.html");
+		String pageHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/index.html");
 		pageHtml = assemblyCommon(pageHtml);	//装载通用组件
 		pageHtml = replacePublicTag(pageHtml);		//替换通用标签
 		
@@ -87,7 +88,7 @@ public class GenerateHTML {
 		text = text.replaceAll(regex("AttachmentFileUrl"), AttachmentUtil.netUrl());
 		text = text.replaceAll(regex("resUrl"), AttachmentUtil.netUrl());
 		text = text.replaceAll(regex("linuxTime"), linuxTime+"");
-		text = text.replaceAll(regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = text.replaceAll(regex("masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		
 		text = text.replaceAll(regex("siteId"), site.getId()+"");
 		text = text.replaceAll(regex("siteDomain"), site.getDomain());
@@ -110,7 +111,7 @@ public class GenerateHTML {
 		
 		if(editMode){
 			//编辑模式
-			text = text.replaceAll(regex("basePath"), Global.get("MASTER_SITE_URL"));
+			text = text.replaceAll(regex("basePath"), SystemUtil.get("MASTER_SITE_URL"));
 			text = text.replaceAll(regex("edit"), "edit");
 			text = text.replaceAll(regex("ossEditUrl"), AttachmentUtil.netUrl()+"site/"+site.getId()+"/");
 			text = text.replaceAll(regex("editLinuxTime"), "?v="+DateUtil.timeForUnix10());
@@ -158,7 +159,7 @@ public class GenerateHTML {
         	String templateVarText = commonMap.get(key);
 //            if(templateVarText == null){
             if(true){
-            	templateVarText = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/common/"+templateVarName+".html");
+            	templateVarText = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/common/"+templateVarName+".html");
             	commonMap.put(key,templateVarText);
             }
             
@@ -281,7 +282,7 @@ public class GenerateHTML {
 		String titlePic = news.getTitlepic();
 		if(titlePic == null){
 //			titlePic = G.DEFAULT_PC_ABOUT_US_TITLEPIC;
-			titlePic = Global.get("MASTER_SITE_URL")+"default/aboutUs.jpg";
+			titlePic = SystemUtil.get("MASTER_SITE_URL")+"default/aboutUs.jpg";
 		}
 		String text = itemText.replaceAll(GenerateHTML.regex("news.id"), news.getId()+"");
 		text = text.replaceAll(GenerateHTML.regex("news.addtime"), DateUtil.intToString(news.getAddtime(), "yyyy-MM-dd"));
@@ -342,7 +343,7 @@ public class GenerateHTML {
 			
 			htmlText = htmlText.replaceAll("<!--templateStyleCss-->", "<link href=\""+AttachmentUtil.netUrl()+"template/"+site.getTemplateId()+"/style.css\" rel=\"stylesheet\" type=\"text/css\">");
 		}else{
-			htmlText = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/index.html");
+			htmlText = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/index.html");
 			htmlText = assemblyCommon(htmlText);	//装载通用组件
 			htmlText = replacePublicTag(htmlText);		//替换通用标签
 		}
@@ -379,7 +380,7 @@ public class GenerateHTML {
 	 * @param text 内容，NewsData.text
 	 */
 	public void generateViewHtml(Site site, News news, SiteColumn siteColumn, String text) {
-		String pageHtml = FileUtil.read(Global.getProjectPath()+"/static/template/"+templateId+"/page.html");
+		String pageHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/page.html");
 		pageHtml = assemblyCommon(pageHtml);	//装载通用组件
 		pageHtml = replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = replacePublicTag(pageHtml);		//替换通用标签

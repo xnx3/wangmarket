@@ -16,6 +16,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -662,7 +663,7 @@ public class ColumnController extends BaseController {
 			//如果是已经上传了新的，那么删除之前传的那个icon文件
 			if(sc.getIcon() != null){
 				String us[] = sc.getIcon().split("/site/"+site.getId()+"/news/");
-				if(us.length > 1 && us[0].equals(Global.get("ATTACHMENT_FILE_URL"))){
+				if(us.length > 1 && us[0].equals(SystemUtil.get("ATTACHMENT_FILE_URL"))){
 					AttachmentUtil.deleteObject("site/"+site.getId()+"/news/"+us[1]);
 				}
 			}

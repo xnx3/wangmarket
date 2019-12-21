@@ -24,6 +24,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -57,11 +58,11 @@ public class TemplateDevelopController extends BasePluginController {
 	private static String exportPath = null;
 	private static String getExportPath(){
 		if(exportPath == null){
-			if(Global.getProjectPath().indexOf("/target/classes") > -1){
+			if(SystemUtil.getProjectPath().indexOf("/target/classes") > -1){
 				//在开发环境
 				exportPath = "websiteTemplate/";
 				//开发环境下，自动创建 target/classes/ 下的 websiteTemplate 文件夹
-				File file = new File(Global.getProjectPath()+"websiteTemplate/");
+				File file = new File(SystemUtil.getProjectPath()+"websiteTemplate/");
 				if(!file.exists()){
 					//如果不存在，那么创建
 					file.mkdir();
@@ -98,7 +99,7 @@ public class TemplateDevelopController extends BasePluginController {
 		model.addAttribute("haveTemplate", (tpvo.getList() == null || tpvo.getList().size() == 0)? "0":"1");	//1已经有模版了， 0还没有模版，可以进行导入
 		
 		//取得当前项目的路径，定位到 ROOT/ 下
-		String projectPath = Global.getProjectPath();
+		String projectPath = SystemUtil.getProjectPath();
 		//判断一下，如果是Windows的，需要将最开始第一个字符的/给去掉
 		if(System.getProperties().getProperty("os.name").trim().toLowerCase().indexOf("window") > -1){
 			if(projectPath.indexOf("/") == 0){
@@ -145,26 +146,26 @@ public class TemplateDevelopController extends BasePluginController {
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
 			//return error("当前已有模版编码，不可再次设置！");
 			//当前已有模版编码，判断是否是这个人的，也就是判断一下是否有原本模版编码的模版资源文件
-			System.out.println(Global.getProjectPath()+getExportPath()+site.getTemplateName());
-			if(!FileUtil.exists(Global.getProjectPath()+getExportPath()+site.getTemplateName())){
+			System.out.println(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
+			if(!FileUtil.exists(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName())){
 				return error("没有发现模版资源文件！模版是你做的吗？");
 			}
-			System.out.println("old----- "+Global.getProjectPath()+getExportPath()+site.getTemplateName());
-			File file = new File(Global.getProjectPath()+getExportPath()+site.getTemplateName());
-			file.renameTo(new File(Global.getProjectPath()+getExportPath()+templateName));
-			System.out.println("new------ "+Global.getProjectPath()+getExportPath()+templateName);
+			System.out.println("old----- "+SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
+			File file = new File(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
+			file.renameTo(new File(SystemUtil.getProjectPath()+getExportPath()+templateName));
+			System.out.println("new------ "+SystemUtil.getProjectPath()+getExportPath()+templateName);
 			
 		}else{
 			//当前还没有模版编码
 			//创建模版编码的文件夹
-			File file = new File(Global.getProjectPath()+getExportPath()+templateName);
+			File file = new File(SystemUtil.getProjectPath()+getExportPath()+templateName);
 			file.mkdir();	//创建这个文件夹
 			//创建 css 文件夹
-			new File(Global.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
+			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
 			//创建 js 文件夹
-			new File(Global.getProjectPath()+getExportPath()+templateName+"/js").mkdir();
+			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/js").mkdir();
 			//创建 images 文件夹
-			new File(Global.getProjectPath()+getExportPath()+templateName+"/images").mkdir();
+			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/images").mkdir();
 			
 		}
 		
@@ -245,9 +246,9 @@ public class TemplateDevelopController extends BasePluginController {
 		LocalServerMode.directoryInit("plugin_data/templateDevelop/");
 		
 		//判断一下是否已经有这个 zip 模版文件了，如果已经有了，那么删除掉
-		if(FileUtil.exists(Global.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip")){
+		if(FileUtil.exists(SystemUtil.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip")){
 			//如果文件存在，那么删除掉
-			FileUtil.deleteFile(Global.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip");
+			FileUtil.deleteFile(SystemUtil.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip");
 		}
 		
 		//导出 template.wscso ，放入 模版资源文件中，以便统一打包
@@ -257,12 +258,12 @@ public class TemplateDevelopController extends BasePluginController {
 			return vo;
 		}
 		//写出 template.wscso
-		FileUtil.write(Global.getProjectPath()+exportPath+"template.wscso", vo.getInfo(), FileUtil.UTF8);
+		FileUtil.write(SystemUtil.getProjectPath()+exportPath+"template.wscso", vo.getInfo(), FileUtil.UTF8);
 		
 		//将这些文件打包，变为 zip文件
-		String downUrl = Global.get("MASTER_SITE_URL")+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip";
+		String downUrl = SystemUtil.get("MASTER_SITE_URL")+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip";
 		try {
-			ZipUtil.zip(Global.getProjectPath()+exportPath, Global.getProjectPath()+"plugin_data/templateDevelop/", "template_"+site.getTemplateName()+".zip");
+			ZipUtil.zip(SystemUtil.getProjectPath()+exportPath, SystemUtil.getProjectPath()+"plugin_data/templateDevelop/", "template_"+site.getTemplateName()+".zip");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return error(e.getMessage());

@@ -18,6 +18,7 @@ import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 
 /**
@@ -62,7 +63,7 @@ public class UserAdminController_ extends BaseController {
 		Sql sql = new Sql(request);
 		sql.setSearchColumn(new String[]{"username","email","nickname","phone","id=","regtime(date:yyyy-MM-dd hh:mm:ss)>"});
 		int count = sqlService.count("user", sql.getWhere());
-		Page page = new Page(count, Global.getInt("LIST_EVERYPAGE_NUMBER"), request);
+		Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
 		sql.setSelectFromAndPage("SELECT * FROM user", page);
 		sql.setDefaultOrderBy("user.id DESC");
 		sql.setOrderByField(new String[]{"id","lasttime","money","currency"});

@@ -4,6 +4,7 @@ import java.io.File;
 import org.springframework.stereotype.Component;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.G;
 
 /**
@@ -15,8 +16,8 @@ public class AutoCreateDataFolder {
 	
 	public AutoCreateDataFolder() {
 		//初始化缓存文件夹，若根目录下没有缓存文件夹，自动创建
-		if(!FileUtil.exists(Global.getProjectPath()+G.CACHE_FILE)){
-			String path = Global.getProjectPath();
+		if(!FileUtil.exists(SystemUtil.getProjectPath()+G.CACHE_FILE)){
+			String path = SystemUtil.getProjectPath();
 			System.out.println("create -- data --"+new File(path+G.CACHE_FILE).mkdir());
 		}
 	}

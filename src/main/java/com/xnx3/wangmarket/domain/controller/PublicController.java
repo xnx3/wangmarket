@@ -15,6 +15,7 @@ import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
@@ -72,7 +73,7 @@ public class PublicController extends BaseController {
 				 * 判断一下，到底是1，还是2
 				 */
 				//如果访问的是首页，且访问的是masterSiteUrl，那么直接到 login.do
-				if(Global.get("MASTER_SITE_URL").indexOf("://"+request.getServerName()) > 0){
+				if(SystemUtil.get("MASTER_SITE_URL").indexOf("://"+request.getServerName()) > 0){
 					// 访问的是 直接跳转到登陆页面
 					return redirect("login.do");
 				}
@@ -193,7 +194,7 @@ public class PublicController extends BaseController {
 			return "/";
 		}else{
 			//多服务器分布式部署，用绝对路径
-			return Global.get("MASTER_SITE_URL");
+			return SystemUtil.get("MASTER_SITE_URL");
 		}
 	}
 	
@@ -207,7 +208,7 @@ public class PublicController extends BaseController {
 	 */
 	private boolean isUnInstallRequest(){
 		//可能是第一次安装好后访问,判断一下是不是安装install/index.do 还是开启的， true：开启的，允许进行安装
-		if(Global.get("IW_AUTO_INSTALL_USE") != null && Global.get("IW_AUTO_INSTALL_USE").equals("true")){
+		if(SystemUtil.get("IW_AUTO_INSTALL_USE") != null && SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			//install/index.do 还是开启的,那几乎可以肯定，还未安装过，这也就是刚运行来后访问的
 			return false;
 		}

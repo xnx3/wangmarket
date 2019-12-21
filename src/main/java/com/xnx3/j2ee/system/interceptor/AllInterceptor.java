@@ -8,6 +8,7 @@ import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class AllInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     	
     	//第一次访问时，先判断system数据表中，ATTACHMENT_FILE_URL有没有设置，若没有设置，第一次访问的同时，会设置此参数。
-    	if(Global.get("ATTACHMENT_FILE_URL") == null || Global.get("ATTACHMENT_FILE_URL").length() == 0){
+    	if(SystemUtil.get("ATTACHMENT_FILE_URL") == null || SystemUtil.get("ATTACHMENT_FILE_URL").length() == 0){
     		String url="http://" + request.getServerName() //服务器地址    
         	        + ":"     
         	        + request.getServerPort()           //端口号    

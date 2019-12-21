@@ -1,6 +1,7 @@
 package com.xnx3.j2ee.func;
 
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 资源方面，如css、js资源引用
@@ -18,7 +19,7 @@ public class StaticResource {
 	 * @return 返回字符串如  //res.weiunity.com/   
 	 */
 	public static String getPath(){
-		String path = Global.get(SYSTEM_NAME_PATH);
+		String path = SystemUtil.get(SYSTEM_NAME_PATH);
 		if(path == null || path.length() == 0){
 			return "//res.weiunity.com/";
 		}else{

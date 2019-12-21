@@ -7,6 +7,7 @@ import java.util.Map;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -95,11 +96,11 @@ public class G {
 			String sms_accessKeySecret = c.getValue("AliyunSMSUtil.accessKeySecret");
 			if(sms_accessKeyId == null || sms_accessKeyId.length() == 0){
 				//取数据库的
-				sms_accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+				sms_accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
 			}
 			if(sms_accessKeySecret == null || sms_accessKeySecret.length() == 0){
 				//取数据库的
-				sms_accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+				sms_accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
 			}
 			if(sms_accessKeyId != null && sms_accessKeyId.length() > 10){
 				aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
@@ -142,13 +143,13 @@ public class G {
 //			}
 //		}
 		
-		if(Global.get("AUTO_ASSIGN_DOMAIN") != null){
-			if(Global.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
+		if(SystemUtil.get("AUTO_ASSIGN_DOMAIN") != null){
+			if(SystemUtil.get("AUTO_ASSIGN_DOMAIN").indexOf(",") > 0){
 				//如果有多个，那么只取第一个
-				String[] s = Global.get("AUTO_ASSIGN_DOMAIN").split(",");
+				String[] s = SystemUtil.get("AUTO_ASSIGN_DOMAIN").split(",");
 				return s[0];
 			}else{
-				return Global.get("AUTO_ASSIGN_DOMAIN");
+				return SystemUtil.get("AUTO_ASSIGN_DOMAIN");
 			}
 		}
 		

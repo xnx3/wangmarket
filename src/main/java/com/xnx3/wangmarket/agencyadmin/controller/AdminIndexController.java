@@ -13,6 +13,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.ActionLogUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.pluginManage.interfaces.manage.AgencyAdminIndexPluginManage;
@@ -78,15 +79,12 @@ public class AdminIndexController extends BaseController{
 		ActionLogUtil.insert(request, agency.getId(), "进入代理商后台首页");
 		User user = sqlService.findById(User.class, getUserId());
 		
-		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){
-			model.addAttribute("im_kefu_websocketUrl", Global.get("PLUGIN_IM_WEBSOCKET_URL"));
-		}
 		model.addAttribute("user", user);
 		model.addAttribute("agency", agency);
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		//上级代理的公告内容，要显示出来的
 		model.addAttribute("parentAgencyNotice", parentAgencyData == null ? "":parentAgencyData.getNotice());
-		model.addAttribute("AGENCYUSER_FIRST_USE_EXPLAIN_URL", Global.get("AGENCYUSER_FIRST_USE_EXPLAIN_URL"));
+		model.addAttribute("AGENCYUSER_FIRST_USE_EXPLAIN_URL", SystemUtil.get("AGENCYUSER_FIRST_USE_EXPLAIN_URL"));
 		return "agency/welcome";
 	}
 	

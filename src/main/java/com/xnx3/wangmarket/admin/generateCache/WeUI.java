@@ -8,6 +8,7 @@ import java.util.Map;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * WeUI的选择使用，创建js，方便一件调用
@@ -61,7 +62,7 @@ public class WeUI {
 	 */
 	public void generateCacheFile(){
 		String fileName = getClass().getSimpleName()+"_"+objName;
-		String filePath = Global.getProjectPath()+Global.CACHE_FILE+fileName+".js"; 
+		String filePath = SystemUtil.getProjectPath()+Global.CACHE_FILE+fileName+".js"; 
 		String data = "";
 		for (int i = 0; i < dataList.size(); i++) {
 			Map<String, String> map = dataList.get(i);

@@ -11,6 +11,7 @@ import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
@@ -82,7 +83,7 @@ public class KeyManageServiceImpl implements KeyManageService {
 		/*
 		 * 根据 用户的权限，判断取用户的哪方面信息
 		 */
-		if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_USER_ID"))){
+		if(Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_USER_ID"))){
 			//是建站用户，那么取 Site 信息
 			Site site = sqlDAO.findAloneBySqlQuery("SELECT * FROM site WHERE userid = "+user.getId(), Site.class);
 			if(site == null){
@@ -90,7 +91,7 @@ public class KeyManageServiceImpl implements KeyManageService {
 				return vo;	
 			}
 			vo.setSite(site);
-		}else if (Func.isAuthorityBySpecific(user.getAuthority(), Global.get("AGENCY_ROLE"))) {
+		}else if (Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("AGENCY_ROLE"))) {
 			//用户是代理商
 			Agency agency = sqlDAO.findAloneBySqlQuery("SELECT * FROM agency WHERE userid = "+user.getId(), Agency.class);
 			if(agency == null){

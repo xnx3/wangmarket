@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.MailUtil;
 import com.xnx3.wangmarket.weixin.autoReplyPluginManage.Reply;
 import com.xnx3.wangmarket.weixin.interfaces.AutoReply;
@@ -29,7 +30,7 @@ public class WangShiChangPlugin implements AutoReply{
 	public static List<String> getNoticeEmailList(){
 		if(noticeEmailList == null){
 			noticeEmailList = new ArrayList<String>();
-			String[] s = Global.get("WEIXIN_SENDMAILS").split(",");
+			String[] s = SystemUtil.get("WEIXIN_SENDMAILS").split(",");
 			for (int i = 0; i < s.length; i++) {
 				if(s[i].length() > 0){
 					noticeEmailList.add(s[i]);

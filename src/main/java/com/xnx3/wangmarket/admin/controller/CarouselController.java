@@ -21,6 +21,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.G;
@@ -54,7 +55,7 @@ public class CarouselController extends BaseController {
 		sql.setSearchColumn(new String[]{"value","isshow=","siteid="});
 		sql.appendWhere("userid = "+getUserId());
 		int count = sqlService.count("carousel", sql.getWhere());
-		Page page = new Page(count, Global.getInt("LIST_EVERYPAGE_NUMBER"), request);
+		Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
 		sql.setSelectFromAndPage("SELECT * FROM carousel", page);
 		sql.setDefaultOrderBy("id DESC");
 		List<Carousel> list = sqlService.findBySql(sql, Carousel.class);

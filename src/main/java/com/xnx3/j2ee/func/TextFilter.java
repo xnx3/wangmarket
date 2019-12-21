@@ -8,6 +8,7 @@ import com.aliyuncs.green.model.v20160621.TextKeywordFilterResponse;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.MailUtil;
 import com.xnx3.net.TxtFilterUtil;
 
@@ -29,11 +30,11 @@ public class TextFilter {
 		if(use != null && use.equals("true")){
 			if(accessKeyId == null || accessKeyId.length() == 0){
 				//取数据库的
-				accessKeyId = Global.get("ALIYUN_ACCESSKEYID");
+				accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
 			}
 			if(accessKeySecret == null || accessKeySecret.length() == 0){
 				//取数据库的
-				accessKeySecret = Global.get("ALIYUN_ACCESSKEYSECRET");
+				accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
 			}
 			
 			if(accessKeyId.length() > 10){

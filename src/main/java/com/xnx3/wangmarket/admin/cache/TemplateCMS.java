@@ -18,6 +18,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
@@ -43,7 +44,7 @@ public class TemplateCMS {
 	//模版引用路径。v4.7增加，值如 http://wang.market/template/
 	public final static String TEMPLATE_PRIVATE_PATH;
 	static{
-		TEMPLATE_PRIVATE_PATH = Global.get("ATTACHMENT_FILE_URL")+"websiteTemplate/";
+		TEMPLATE_PRIVATE_PATH = SystemUtil.get("ATTACHMENT_FILE_URL")+"websiteTemplate/";
 		TEMPLATE_CLOUD_PATH = "//cloudtemplate.weiunity.com/websiteTemplate/";
 	}
 	
@@ -100,7 +101,7 @@ public class TemplateCMS {
 		
 		this.template = template;
 		
-		if(Global.get("MASTER_SITE_URL") != null && Global.get("MASTER_SITE_URL").equals("http://wang.market/")){
+		if(SystemUtil.get("MASTER_SITE_URL") != null && SystemUtil.get("MASTER_SITE_URL").equals("http://wang.market/")){
 			if(site.getId() - 255 > 0){
 				//site.id < 255 的站点，是code模式
 				generateUrlRule = "code";
@@ -141,7 +142,7 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("AttachmentFileUrl"), AttachmentUtil.netUrl());
 		text = Template.replaceAll(text, regex("resUrl"), AttachmentUtil.netUrl());
 		text = Template.replaceAll(text, regex("linuxTime"), linuxTime+"");
-		text = Template.replaceAll(text, regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = Template.replaceAll(text, regex("masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		
 		text = Template.replaceAll(text, regex("siteId"), site.getId()+"");
 		text = Template.replaceAll(text, regex("siteDomain"), site.getDomain());
@@ -159,7 +160,7 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("site.address"), site.getAddress());
 		text = Template.replaceAll(text, regex("site.companyName"), site.getCompanyName());
 		
-		text = Template.replaceAll(text, regex("masterSiteUrl"), Global.get("MASTER_SITE_URL"));
+		text = Template.replaceAll(text, regex("masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		//v4.7增加
 		text = Template.replaceAll(text, regex("templatePath"), getTemplatePath());
 		
@@ -278,7 +279,7 @@ public class TemplateCMS {
 		String titlePic = news.getTitlepic();
 		if(titlePic == null){
 //			titlePic = G.DEFAULT_PC_ABOUT_US_TITLEPIC;
-			titlePic = Global.get("MASTER_SITE_URL")+"default/aboutUs.jpg";
+			titlePic = SystemUtil.get("MASTER_SITE_URL")+"default/aboutUs.jpg";
 		}
 		String text = Template.replaceAll(newsText, regex("news.id"), news.getId()+"");
 		text = Template.replaceAll(text, regex("news.addtime"), DateUtil.intToString(news.getAddtime(), "yyyy-MM-dd"));

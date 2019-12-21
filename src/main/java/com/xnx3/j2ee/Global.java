@@ -5,6 +5,7 @@ import java.util.Map;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * 基础配置、集中管理
@@ -31,7 +32,7 @@ public class Global {
 	/*
 	 * 当前项目再硬盘的路径，绝对路径。动态参数，会在项目启动时加载。取此参数，可以使用 {@link #getProjectPath()} 取
 	 */
-	private static String projectPath=null;
+	public static String projectPath=null;
 	
 	/***** system表的参数,name-value ******/
 	public static Map<String, String> system = new HashMap<String, String>();	//value：String字符串，此数据会在应用启动起来后，自动从数据库中将system表的全部数据取出来放到这里。
@@ -101,44 +102,28 @@ public class Global {
 	 * 返回 system 表的值
 	 * @param systemName
 	 * @return
+	 * @deprecated 已废弃，请使用 {@link SystemUtil#get(String)}
 	 */
 	public static String get(String systemName){
-		return system.get(systemName);
+		return SystemUtil.get(systemName);
 	}
 	
 	/**
 	 * 返回 system 表的值（int型的，此取的数据源来源于 {@link #get(String)}，只不过针对Integer进行了二次缓存 ）
 	 * @param systemName 要获取的值的变量名
 	 * @return 变量的值。注意，若没有，会返回0
+	 * @deprecated 已废弃，请使用 {@link SystemUtil#getInt(String)}
 	 */
 	public static int getInt(String systemName){
-		Integer i = systemForInteger.get(systemName);
-		if(i == null){
-			//没有这个值，那么从system这个原始map中找找
-			String s = system.get(systemName);
-			if(s != null){
-				i = Lang.stringToInt(s, 0);
-				systemForInteger.put(systemName, i);
-			}
-		}
-		if(i == null){
-			i = 0;
-		}
-		systemForInteger.put(systemName, i);
-		
-		return i==null? 0:i;
+		return SystemUtil.getInt(systemName);
 	}
 	
 	/**
 	 * 当前项目再硬盘的路径，绝对路径 返回格式如 /aaa/bb/ccc/WEB-INF/classes/  最后会加上 /
+	 * @deprecated 已废弃，请使用 {@link SystemUtil#getProjectPath()}
 	 */
 	public static String getProjectPath(){
-		if(projectPath == null){
-			String path = new Global().getClass().getResource("/").getPath();
-			projectPath = path.replace("WEB-INF/classes/", "");
-			ConsoleUtil.info("projectPath : "+projectPath);
-		}
-		return projectPath;
+		return SystemUtil.getProjectPath();
 	}
 	
 	public static void main(String[] args) {

@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.obs.services.exception.ObsException;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.AttachmentMode.hander.OBSHandler;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
@@ -28,11 +29,11 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 	 */
 	public static OBSHandler getObsHander() {
 		if(obsHandler == null) {
-			obsHandler = new OBSHandler(Global.get("HUAWEIYUN_ACCESSKEYID"),Global.get("HUAWEIYUN_ACCESSKEYSECRET"),Global.get("HUAWEIYUN_OBS_ENDPOINT"));
+			obsHandler = new OBSHandler(SystemUtil.get("HUAWEIYUN_ACCESSKEYID"),SystemUtil.get("HUAWEIYUN_ACCESSKEYSECRET"),SystemUtil.get("HUAWEIYUN_OBS_ENDPOINT"));
 			// 如果设置过CDN的路径测设置为CDN路径，没有设置则为桶原生的访问路径
-			obsHandler.setUrlForCDN(Global.get("ATTACHMENT_FILE_URL"));
+			obsHandler.setUrlForCDN(SystemUtil.get("ATTACHMENT_FILE_URL"));
 			// 在数据库中读取进行操作的桶的明恒
-			obsHandler.setObsBucketName(Global.get("HUAWEIYUN_OBS_BUCKETNAME"));
+			obsHandler.setObsBucketName(SystemUtil.get("HUAWEIYUN_OBS_BUCKETNAME"));
 			// 对桶名称进行当前类内缓存
 			obsBucketName = obsHandler.getObsBucketName();
 		}
