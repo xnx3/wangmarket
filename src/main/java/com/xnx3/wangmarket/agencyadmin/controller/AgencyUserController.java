@@ -21,12 +21,12 @@ import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
-import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -445,14 +445,14 @@ public class AgencyUserController extends BaseController {
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_userNameToLong"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_userNameToLong"));
 		}
 		
 		//判断用户名、邮箱、手机号是否有其中已经注册了，唯一性
 		//判断用户名唯一性
 		
 		if(sqlService.findByProperty(User.class, "username", user.getUsername()).size() > 0){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regFailureForUsernameAlreadyExist"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_regFailureForUsernameAlreadyExist"));
 			return baseVO;
 		}
 		
@@ -466,7 +466,7 @@ public class AgencyUserController extends BaseController {
 			if(sqlService.findByProperty(User.class, "phone", user.getPhone()).size() > 0){
 				if(isAgency){
 					//如果是创建代理，手机号必须的，并且唯一
-					baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regFailureForPhoneAlreadyExist"));
+					baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_regFailureForPhoneAlreadyExist"));
 					return baseVO;
 				}else{
 					//如果只是建站，则可以允许手机号为空
@@ -511,10 +511,10 @@ public class AgencyUserController extends BaseController {
 			userRole.setUserid(user.getId());
 			sqlService.save(userRole);
 			
-			baseVO.setBaseVO(BaseVO.SUCCESS, Language.show("user_regSuccess"));
+			baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("user_regSuccess"));
 			baseVO.setUser(user);
 		}else{
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_regFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_regFailure"));
 		}
 		
 		return baseVO;

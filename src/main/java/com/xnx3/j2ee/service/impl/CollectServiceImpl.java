@@ -1,18 +1,15 @@
 package com.xnx3.j2ee.service.impl;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.Collect;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.CollectService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 
 @Service
@@ -38,19 +35,19 @@ public class CollectServiceImpl implements CollectService {
 		BaseVO baseVO = new BaseVO();
 		
 		if(ShiroFunc.getUser().getId() == userid){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("collect_notCollectOneself"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("collect_notCollectOneself"));
 			return baseVO;
 		}
 		
 		User user = sqlDAO.findById(User.class, userid);
 		if(user == null){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("collect_null"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("collect_null"));
 			return baseVO;
 		}
 		
 		Collect collect = sqlDAO.findAloneBySqlQuery("SELECT * FROM collect WHERE othersid = " + userid + " AND userid = " + ShiroFunc.getUser().getId(), Collect.class);
 		if(collect != null){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("collect_already"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("collect_already"));
 			return baseVO;
 		}
 		
@@ -63,7 +60,7 @@ public class CollectServiceImpl implements CollectService {
 			baseVO.setBaseVO(BaseVO.SUCCESS, collect.getId()+"");
 			return baseVO;
 		}else{
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("collect_saveFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("collect_saveFailure"));
 			return baseVO;
 		}
 	}
@@ -77,7 +74,7 @@ public class CollectServiceImpl implements CollectService {
 		Collect collect = sqlDAO.findAloneBySqlQuery("SELECT * FROM collect WHERE othersid = " + userid + " AND userid = " + ShiroFunc.getUser().getId(), Collect.class);
 //		List<Collect> list = sqlDAO.findByExample(collect);
 		if(collect == null){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("collect_notCollectSoNotCancel"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("collect_notCollectSoNotCancel"));
 			return baseVO;
 		}
 		sqlDAO.delete(collect);

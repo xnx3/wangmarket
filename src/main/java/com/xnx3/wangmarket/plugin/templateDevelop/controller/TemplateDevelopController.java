@@ -19,11 +19,11 @@ import com.xnx3.StringUtil;
 import com.xnx3.ZipUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -310,11 +310,11 @@ public class TemplateDevelopController extends BasePluginController {
 				}
 			}else{
 				uploadFileVO.setResult(UploadFileVO.NOTFILE);
-				uploadFileVO.setInfo(Language.show("oss_uploadNotFile"));
+				uploadFileVO.setInfo(LanguageUtil.show("oss_uploadNotFile"));
 			}
 	    }else{
 	    	uploadFileVO.setResult(UploadFileVO.NOTFILE);
-			uploadFileVO.setInfo(Language.show("oss_uploadNotFile"));
+			uploadFileVO.setInfo(LanguageUtil.show("oss_uploadNotFile"));
 	    }
 		
 		

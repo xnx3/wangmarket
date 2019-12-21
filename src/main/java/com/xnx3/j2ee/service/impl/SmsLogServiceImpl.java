@@ -6,17 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.SmsLog;
-import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.SmsLogService;
-import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -64,11 +62,11 @@ public class SmsLogServiceImpl implements SmsLogService {
 		BaseVO baseVO = sendSMS(request, phone, SmsLog.TYPE_LOGIN);
 		if(baseVO.getResult() - BaseVO.SUCCESS == 0){
 			//发送短信
-			String result = SMSUtil.send(phone, Language.show("sms_loginSendCodeText").replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
+			String result = SMSUtil.send(phone, LanguageUtil.show("sms_loginSendCodeText").replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
 			if(result == null){
-				baseVO.setBaseVO(BaseVO.SUCCESS, Language.show("sms_codeSendYourPhoneSuccess"));
+				baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("sms_codeSendYourPhoneSuccess"));
 			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_saveFailure")+"-"+result);
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure")+"-"+result);
 			}
 		}
 		return baseVO;
@@ -80,9 +78,9 @@ public class SmsLogServiceImpl implements SmsLogService {
 			//发送短信
 			String result = SMSUtil.send(phone, content.replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
 			if(result == null){
-				baseVO.setBaseVO(BaseVO.SUCCESS, Language.show("sms_codeSendYourPhoneSuccess"));
+				baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("sms_codeSendYourPhoneSuccess"));
 			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_saveFailure")+"-"+result);
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure")+"-"+result);
 			}
 		}
 		return baseVO;
@@ -104,11 +102,11 @@ public class SmsLogServiceImpl implements SmsLogService {
 	public BaseVO verifyPhoneAndCode(String phone, String code, Short type, int overdue) {
 		BaseVO baseVO = new BaseVO();
 		if(phone==null || phone.length() != 11){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_sendSmsPhoneNumberFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_sendSmsPhoneNumberFailure"));
 			return baseVO;
 		}
 		if(code==null || code.length() != 6){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneAndCodeCodeFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_loginByPhoneAndCodeCodeFailure"));
 			return baseVO;
 		}
 		
@@ -133,7 +131,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 			baseVO.setResult(BaseVO.SUCCESS);
 			return baseVO;
     	}else{
-    		baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneAndCodeCodeNotFind"));
+    		baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_loginByPhoneAndCodeCodeNotFind"));
     		return baseVO;
     	}
 	}
@@ -178,7 +176,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 	private BaseVO sendSMS(HttpServletRequest request, String phone, Short type){
 		BaseVO baseVO = new BaseVO();
 		if(phone==null || phone.length() != 11){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_sendSmsPhoneNumberFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_sendSmsPhoneNumberFailure"));
 			return baseVO;
 		}else{
 			//查询当前手机号是否达到当天发送短信的限额
@@ -186,7 +184,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 				int phoneNum = findByPhoneNum(phone, type);
 				if(phoneNum<SmsLog.everyDayPhoneNum){
 				}else{
-					baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_thisPhoneNumberDayUpperLimit"));
+					baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_thisPhoneNumberDayUpperLimit"));
 					return baseVO;
 				}
 			}
@@ -196,7 +194,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 				int ipNum = findByIpNum(IpUtil.getIpAddress(request), type);
 				if(ipNum<SmsLog.everyDayIpNum){
 				}else{
-					baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_thisIpDayUpperLimit"));
+					baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_thisIpDayUpperLimit"));
 					return baseVO;
 				}
 			}
@@ -220,12 +218,12 @@ public class SmsLogServiceImpl implements SmsLogService {
 				return baseVO;
 //					String result = SMSUtil.send(phone, content.replaceAll("\\$\\{code\\}", code+""));
 //					if(result == null){
-//						baseVO.setBaseVO(BaseVO.SUCCESS, Language.show("sms_codeSendYourPhoneSuccess"));
+//						baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("sms_codeSendYourPhoneSuccess"));
 //					}else{
-//						baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_saveFailure")+"-"+result);
+//						baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure")+"-"+result);
 //					}
 			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("sms_saveFailure"));
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure"));
 				return baseVO;
 			}
 		}

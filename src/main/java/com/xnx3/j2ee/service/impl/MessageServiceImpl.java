@@ -2,9 +2,7 @@ package com.xnx3.j2ee.service.impl;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
-
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
@@ -13,9 +11,9 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.Message;
 import com.xnx3.j2ee.entity.MessageData;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.MessageService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.MessageVO;
@@ -52,10 +50,10 @@ public class MessageServiceImpl implements MessageService {
 				sqlDAO.save(m);
 //				logDao.insert(m.getId(), "MESSAGE_DELETE");
 			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_notFind"));
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_notFind"));
 			}
 		}else{
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_idFailure"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_idFailure"));
 		}
 		return baseVO;
 	}
@@ -78,7 +76,7 @@ public class MessageServiceImpl implements MessageService {
 				if(userId - message.getRecipientid() == 0 || userId - message.getSenderid() == 0){
 					//检测此信息是否已被删除
 					if(message.getIsdelete() - Message.ISDELETE_DELETE == 0){
-						messageVO.setBaseVO(MessageVO.FAILURE, Language.show("message_alreadyDelete"));
+						messageVO.setBaseVO(MessageVO.FAILURE, LanguageUtil.show("message_alreadyDelete"));
 					}else{
 						//拿到信息的内容
 						MessageData messageData = sqlDAO.findById(MessageData.class, id);
@@ -97,7 +95,7 @@ public class MessageServiceImpl implements MessageService {
 						
 						//检验目标用户状态是否正常，是否被冻结
 						if(senderUser.getIsfreeze() - User.ISFREEZE_FREEZE == 0){
-							messageVO.setBaseVO(BaseVO.FAILURE, Language.show("message_senderUserFreeze"));
+							messageVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_senderUserFreeze"));
 							return messageVO;
 						}
 						messageVO.setSenderUser(senderUser);
@@ -107,13 +105,13 @@ public class MessageServiceImpl implements MessageService {
 						messageVO.setRecipientUser(recipientUser);
 					}
 				}else{
-					messageVO.setBaseVO(MessageVO.FAILURE, Language.show("message_notRoleRead"));
+					messageVO.setBaseVO(MessageVO.FAILURE, LanguageUtil.show("message_notRoleRead"));
 				}
 			}else{
-				messageVO.setBaseVO(BaseVO.FAILURE, Language.show("message_notFind"));
+				messageVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_notFind"));
 			}
 		}else{
-			messageVO.setBaseVO(BaseVO.FAILURE, Language.show("message_idFailure"));
+			messageVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_idFailure"));
 		}
 		
 		return messageVO;
@@ -132,29 +130,29 @@ public class MessageServiceImpl implements MessageService {
 	public BaseVO sendMessage(int userid, int recipientid, String content){
 		BaseVO baseVO = new BaseVO();
 		if(recipientid<1){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_unknowRecipient"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_unknowRecipient"));
 			return baseVO;
 		}
 		
 		if(recipientid == ShiroFunc.getUser().getId()){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_notSendOneself"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_notSendOneself"));
 			return baseVO;
 		}
 		
 		if(content == null){
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_pleaseInputText"));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_pleaseInputText"));
 		}else if(content.length()>Global.MESSAGE_CONTENT_MINLENGTH&&content.length()<Global.MESSAGE_CONTENT_MAXLENGTH) {
 			//正常
 			
 			//拿到收信人信息
 			User recipiendUser = sqlDAO.findById(User.class, recipientid);
 			if(recipiendUser == null){
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_sendRecipientNotFind"));
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_sendRecipientNotFind"));
 				return baseVO;
 			}
 			//检验目标用户状态是否正常，是否被冻结
 			if(recipiendUser.getIsfreeze() == User.ISFREEZE_FREEZE){
-				baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_sendRecipientUserFreeze"));
+				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_sendRecipientUserFreeze"));
 				return baseVO;
 			}
 			
@@ -173,13 +171,13 @@ public class MessageServiceImpl implements MessageService {
 			sqlDAO.save(messageData);
 			
 			if(messageData.getId()==0){
-				baseVO.setBaseVO(BaseVO.FAILURE,Language.show("message_saveFailure"));
+				baseVO.setBaseVO(BaseVO.FAILURE,LanguageUtil.show("message_saveFailure"));
 			}else{
 				//日志记录， MESSAGE_SEND
 //				logDao.insert(message.getId(), "MESSAGE_SEND",content);
 			}
 		}else{
-			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("message_sizeFailure").replaceAll("\\$\\{min\\}", Global.MESSAGE_CONTENT_MINLENGTH+"").replaceAll("\\$\\{max\\}", Global.MESSAGE_CONTENT_MAXLENGTH+""));
+			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("message_sizeFailure").replaceAll("\\$\\{min\\}", Global.MESSAGE_CONTENT_MINLENGTH+"").replaceAll("\\$\\{max\\}", Global.MESSAGE_CONTENT_MAXLENGTH+""));
 		}
 		
 		return baseVO;
