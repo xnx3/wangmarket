@@ -10,7 +10,7 @@ import com.xnx3.j2ee.service.impl.SqlServiceImpl;
 /**
  * Spring相关，如获取spring中的bean
  */
-//@Component
+@Component
 public class SpringUtil implements ApplicationContextAware {
 
     /**
