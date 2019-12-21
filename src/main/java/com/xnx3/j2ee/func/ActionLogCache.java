@@ -1,14 +1,6 @@
 package com.xnx3.j2ee.func;
 
-import javax.servlet.http.HttpServletRequest;
-import com.aliyun.openservices.log.common.LogItem;
-import com.aliyun.openservices.log.exception.LogException;
-import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.ActionLogUtil;
-import com.xnx3.j2ee.util.IpUtil;
-import com.xnx3.net.AliyunLogUtil;
 
 /**
  * 会员动作日志的缓存及使用。

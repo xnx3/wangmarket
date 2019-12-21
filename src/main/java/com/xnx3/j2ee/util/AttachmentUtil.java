@@ -5,22 +5,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFileMode.AliyunOSSMode;
-import com.xnx3.j2ee.func.AttachmentFileMode.HuaweiyunOBSMode;
-import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
-import com.xnx3.j2ee.func.AttachmentFileMode.StorageModeInterface;
+import com.xnx3.j2ee.util.AttachmentMode.AliyunOSSMode;
+import com.xnx3.j2ee.util.AttachmentMode.HuaweiyunOBSMode;
+import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
+import com.xnx3.j2ee.util.AttachmentMode.StorageModeInterface;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
 import com.xnx3.net.ossbean.PutResult;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.entity.System;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.util.Page;
@@ -48,7 +48,7 @@ public class SystemAdminController_ extends BaseController {
 		sql.setOrderByField(new String[]{"id","lasttime","name"});
 		List<System> systemList = sqlService.findBySql(sql, System.class);
 		
-		ActionLogCache.insert(request, "系统变量列表");
+		ActionLogUtil.insert(request, "系统变量列表");
 		
 		model.addAttribute("page", page);
 		model.addAttribute("systemList", systemList);
@@ -69,16 +69,16 @@ public class SystemAdminController_ extends BaseController {
 		if(name.length() == 0){
 			//新增
 			system = new System();
-			ActionLogCache.insert(request, "进入新增系统变量页面");
+			ActionLogUtil.insert(request, "进入新增系统变量页面");
 		}else{
 			//修改
 			system = sqlService.findAloneByProperty(System.class, "name", name);
 			if(system == null){
 				system = new System();
 				system.setName(name);
-				ActionLogCache.insert(request, "进入修改系统变量页面,新增变量", system.getName());
+				ActionLogUtil.insert(request, "进入修改系统变量页面,新增变量", system.getName());
 			}else{
-				ActionLogCache.insert(request, "进入修改系统变量页面,修改变量", system.getName());
+				ActionLogUtil.insert(request, "进入修改系统变量页面,修改变量", system.getName());
 			}
 		}
 		
@@ -111,7 +111,7 @@ public class SystemAdminController_ extends BaseController {
 		/***更新内存数据****/
 		systemService.refreshSystemCache();
 		
-		ActionLogCache.insertUpdateDatabase(request, system.getId(), "保存系统变量", system.getName()+"="+system.getValue());
+		ActionLogUtil.insertUpdateDatabase(request, system.getId(), "保存系统变量", system.getName()+"="+system.getValue());
 		return success();
 	}
 	
@@ -131,7 +131,7 @@ public class SystemAdminController_ extends BaseController {
 		/***更新内存数据****/
 		systemService.refreshSystemCache();
 		
-		ActionLogCache.insertUpdateDatabase(request, system.getId(), "删除系统变量", system.getName()+"="+system.getValue());
+		ActionLogUtil.insertUpdateDatabase(request, system.getId(), "删除系统变量", system.getName()+"="+system.getValue());
 		return success();
 	}
 }

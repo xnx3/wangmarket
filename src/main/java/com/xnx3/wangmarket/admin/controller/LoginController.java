@@ -21,7 +21,6 @@ import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.ApiService;
@@ -39,6 +38,7 @@ import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
 
 /**
@@ -74,7 +74,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		
 		userService.regInit(request);
-		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
+		ActionLogUtil.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
 		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
 	
@@ -96,7 +96,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		userService.regInit(request);	//注册记录下线
 		
-		ActionLogCache.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
+		ActionLogUtil.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
 		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
 	
@@ -148,7 +148,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		//计算其网站所使用的资源，比如OSS已占用了多少资源。下个版本修改
 //		loginSuccessComputeUsedResource();
 		
-		ActionLogCache.insert(request, "api模式登录成功","进入网站管理后台");
+		ActionLogUtil.insert(request, "api模式登录成功","进入网站管理后台");
 		
 		return redirect(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());
 	}
@@ -159,11 +159,11 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	@RequestMapping("login${url.suffix}")
 	public String login(HttpServletRequest request,Model model){
 		if(getUser() != null){
-			ActionLogCache.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
+			ActionLogUtil.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
 			return redirect(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());
 		}
 		
-		ActionLogCache.insert(request, "进入登录页面");
+		ActionLogUtil.insert(request, "进入登录页面");
 		return "iw_update/login/login";
 	}
 	
@@ -186,7 +186,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		//验证码校验
 		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
-			ActionLogCache.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
+			ActionLogUtil.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
 			vo.setBaseVO(capVO);
 			return vo;
 		}else{
@@ -206,7 +206,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				if(Func.isAuthorityBySpecific(user.getAuthority(), Global.get("ROLE_SUPERADMIN_ID"))){
 					//如果是超级管理员，那么跳转到管理后台
 					vo.setInfo("admin/index/index.do");
-					ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入管理后台admin/index/");
+					ActionLogUtil.insertUpdateDatabase(request, "用户名密码模式登录成功","进入管理后台admin/index/");
 				}else{
 					/* 自己扩展的 */
 					
@@ -313,7 +313,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						//计算其网站所使用的资源，比如OSS已占用了多少资源
 						loginSuccessComputeUsedResource();
 						
-						ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入网站管理后台");
+						ActionLogUtil.insertUpdateDatabase(request, "用户名密码模式登录成功","进入网站管理后台");
 					}else{
 						//代理
 						
@@ -345,7 +345,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 							return vo;
 						}
 						
-						ActionLogCache.insertUpdateDatabase(request, "用户名密码模式登录成功","进入代理后台");
+						ActionLogUtil.insertUpdateDatabase(request, "用户名密码模式登录成功","进入代理后台");
 					}
 					
 					//设置登录成功后，是跳转到总管理后台、代理后台，还是跳转到wap、pc、cms
@@ -358,7 +358,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				//加入user信息
 				vo.setUser(getUser());
 			}else{
-				ActionLogCache.insert(request, "用户名密码模式登录失败",baseVO.getInfo());
+				ActionLogUtil.insert(request, "用户名密码模式登录失败",baseVO.getInfo());
 			}
 			
 			return vo;

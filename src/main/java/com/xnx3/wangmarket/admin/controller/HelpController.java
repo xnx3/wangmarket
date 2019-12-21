@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.j2ee.Global;
-import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
 /**
  * 帮助说明
@@ -20,7 +20,7 @@ public class HelpController extends com.xnx3.wangmarket.admin.controller.BaseCon
 	 */
 	@RequestMapping("/shiyongrumen${url.suffix}")
 	public String shiyongrumen(HttpServletRequest request ,Model model){
-		ActionLogCache.insert(request, "网站帮助说明-使用入门");
+		ActionLogUtil.insert(request, "网站帮助说明-使用入门");
 		return redirect(Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL"));
 	}
 	
@@ -29,7 +29,7 @@ public class HelpController extends com.xnx3.wangmarket.admin.controller.BaseCon
 	 */
 	@RequestMapping("/mobankaifa${url.suffix}")
 	public String mobankaifa(HttpServletRequest request ,Model model){
-		ActionLogCache.insert(request, "网站帮助说明-模版开发");
+		ActionLogUtil.insert(request, "网站帮助说明-模版开发");
 		return redirect(Global.get("SITE_TEMPLATE_DEVELOP_URL"));
 	}
 	

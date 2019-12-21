@@ -6,12 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
 /**
  * 公共的
@@ -36,7 +35,7 @@ public class PageController extends BaseController {
 	@RequestMapping("page${url.suffix}")
 	public String page(HttpServletRequest request,
 			@RequestParam(value = "cid", required = false , defaultValue="0") int cid,Model model){
-		ActionLogCache.insert(request, cid, "修改独立页面，已废弃的接口，不应在用");
+		ActionLogUtil.insert(request, cid, "修改独立页面，已废弃的接口，不应在用");
 		return redirect("news/updateNewsByCid.do?cid="+cid);
 	}
 

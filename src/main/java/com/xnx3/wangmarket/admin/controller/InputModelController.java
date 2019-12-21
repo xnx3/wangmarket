@@ -17,7 +17,7 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.InputModelService;
-import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.AliyunLog;
 
 /**
@@ -38,7 +38,7 @@ public class InputModelController extends BaseController {
 	 */
 	@RequestMapping("list${url.suffix}")
 	public String list(HttpServletRequest request, Model model){
-		ActionLogCache.insert(request, "进入CMS模式下自定义输入模型列表");
+		ActionLogUtil.insert(request, "进入CMS模式下自定义输入模型列表");
 		model.addAttribute("list", inputModelService.getInputModelListForSession());
 		return "inputModel/list";
 	}
@@ -52,7 +52,7 @@ public class InputModelController extends BaseController {
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
 		InputModel inputModel = inputModelService.getInputModelById(id);
 		
-		ActionLogCache.insert(request, inputModel.getId(), "进入输入模型编辑页面", inputModel.getCodeName());
+		ActionLogUtil.insert(request, inputModel.getId(), "进入输入模型编辑页面", inputModel.getCodeName());
 		model.addAttribute("inputModel", inputModel);
 		return "inputModel/edit";
 	}
@@ -72,7 +72,7 @@ public class InputModelController extends BaseController {
 			vo.setBaseVO(3, inputModelService.getDefaultInputModelText());
 			return vo;
 		}else{
-			ActionLogCache.insert(request, inputModel.getId(), "获取输入模型的内容", inputModel.getCodeName());
+			ActionLogUtil.insert(request, inputModel.getId(), "获取输入模型的内容", inputModel.getCodeName());
 			return success(inputModel.getText());
 		}
 	}
@@ -121,7 +121,7 @@ public class InputModelController extends BaseController {
 		
 		BaseVO vo = inputModelService.saveInputModel(inputModel);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			ActionLogCache.insertUpdateDatabase(request, inputModel.getId(), "输入模型保存成功", inputModel.getCodeName());
+			ActionLogUtil.insertUpdateDatabase(request, inputModel.getId(), "输入模型保存成功", inputModel.getCodeName());
 		}
 		
 		return vo;
@@ -136,7 +136,7 @@ public class InputModelController extends BaseController {
 	@ResponseBody
 	public BaseVO delete(HttpServletRequest request, Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
-		ActionLogCache.insertUpdateDatabase(request, id, "输入模型删除");
+		ActionLogUtil.insertUpdateDatabase(request, id, "输入模型删除");
 		return inputModelService.removeInputModel(id);
 	}
 	

@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.func.AttachmentFileMode;
+package com.xnx3.j2ee.util.AttachmentMode;
 
 import java.io.File;
 import java.io.InputStream;

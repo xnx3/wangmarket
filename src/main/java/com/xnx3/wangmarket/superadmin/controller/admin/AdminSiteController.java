@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.j2ee.controller.BaseController;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.wangmarket.admin.G;
@@ -48,7 +48,7 @@ public class AdminSiteController extends BaseController {
 		sql.setOrderBy("site.id DESC");
 		List<Site> list = sqlService.findBySql(sql, Site.class);
 		
-		ActionLogCache.insert(request, "总管理后台，网站管理,网站列表");
+		ActionLogUtil.insert(request, "总管理后台，网站管理,网站列表");
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
 		return "admin/site/list";
@@ -64,7 +64,7 @@ public class AdminSiteController extends BaseController {
 	public String view(HttpServletRequest request, Model model,
 			@RequestParam(value = "id", required = true , defaultValue="") int id){
 		Site site = sqlService.findById(Site.class, id);
-		ActionLogCache.insert(request, site.getId(), "总管理后台，网站管理,网站详情", site.getName());
+		ActionLogUtil.insert(request, site.getId(), "总管理后台，网站管理,网站详情", site.getName());
 		model.addAttribute("site", site);
 		return "admin/site/view";
 	}

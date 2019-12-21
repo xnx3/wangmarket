@@ -17,7 +17,7 @@ import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
@@ -75,7 +75,7 @@ public class SiteApiPluginController extends com.xnx3.wangmarket.admin.controlle
 			SessionUtil.setTemplateVarCompileDataMap(null);
 			SessionUtil.setTemplateVarMapForOriginal(null);
 			
-			ActionLogCache.insertUpdateDatabase(request, "云端导入模版文件成功！");
+			ActionLogUtil.insertUpdateDatabase(request, "云端导入模版文件成功！");
 		}
 		return beanVO;
 	}

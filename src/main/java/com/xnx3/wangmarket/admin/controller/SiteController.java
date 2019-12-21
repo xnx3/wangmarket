@@ -20,7 +20,6 @@ import com.xnx3.Lang;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -43,6 +42,7 @@ import com.xnx3.wangmarket.admin.entity.SiteData;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.vo.SiteDataVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.domain.bean.MQBean;
@@ -75,7 +75,7 @@ public class SiteController extends BaseController {
 	public String saveSite(Site s,Model model,HttpServletRequest request){
 		SiteVO siteVO = siteService.saveSite(s, getUserId(), request);
 		if(siteVO.getResult() == SiteVO.SUCCESS){
-			ActionLogCache.insert(request, "保存网站信息",s.toString());
+			ActionLogUtil.insert(request, "保存网站信息",s.toString());
 			return success(model, s.getId()>0? "保存网站成功！":"创建网站成功！", Func.getConsoleRedirectUrl());
 		}else{
 			return error(model, "保存失败！");
@@ -99,7 +99,7 @@ public class SiteController extends BaseController {
 		site.setName(filter(name));
 		sqlService.save(site);
 		
-		ActionLogCache.insertUpdateDatabase(request, "修改站点名字", site.getName());
+		ActionLogUtil.insertUpdateDatabase(request, "修改站点名字", site.getName());
 		
 		//更新当前Session缓存
 		Func.getUserBeanForShiroSession().setSite(site);
@@ -127,7 +127,7 @@ public class SiteController extends BaseController {
 		site.setKeywords(filter(keywords));
 		sqlService.save(site);
 		
-		ActionLogCache.insertUpdateDatabase(request, "修改站点Keywords", site.getKeywords());
+		ActionLogUtil.insertUpdateDatabase(request, "修改站点Keywords", site.getKeywords());
 		
 		//刷新首页
 		Index.updateKeywords(site, keywords);
@@ -160,7 +160,7 @@ public class SiteController extends BaseController {
 		siteData.setIndexDescription(filter(description));
 		sqlService.save(siteData);
 		
-		ActionLogCache.insertUpdateDatabase(request, "修改站点Description", siteData.getIndexDescription());
+		ActionLogUtil.insertUpdateDatabase(request, "修改站点Description", siteData.getIndexDescription());
 		
 		//刷新首页
 		Index.updateDescription(site, siteData.getIndexDescription());
@@ -210,7 +210,7 @@ public class SiteController extends BaseController {
 		//刷新site.js , pc、wap用到，已废弃
 //		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		
-		ActionLogCache.insertUpdateDatabase(request, "修改站点绑定的域名", site.getBindDomain());
+		ActionLogUtil.insertUpdateDatabase(request, "修改站点绑定的域名", site.getBindDomain());
 		return vo;
 	}
 	
@@ -222,7 +222,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("user", getUser());
 		model.addAttribute("site", getSite());
 		
-		ActionLogCache.insert(request, "查看我的站点属性信息");
+		ActionLogUtil.insert(request, "查看我的站点属性信息");
 		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
 		return "site/baseInfo";
 	}
@@ -235,7 +235,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("user", getUser());
 		model.addAttribute("site", getSite());
 		
-		ActionLogCache.insert(request, "弹出框口查看我的站点属性信息");
+		ActionLogUtil.insert(request, "弹出框口查看我的站点属性信息");
 		
 		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
 		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());
@@ -267,7 +267,7 @@ public class SiteController extends BaseController {
 		sqlService.executeSql("UPDATE user SET oss_update_date = '"+currentDate+"' , oss_size = "+kb+" WHERE id = "+getUserId());
 		vo.setBaseVO(BaseVO.SUCCESS, kb+"");
 		
-		ActionLogCache.insertUpdateDatabase(request, "计算我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(sizeB));
+		ActionLogUtil.insertUpdateDatabase(request, "计算我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(sizeB));
 		
 		ShiroFunc.setUEditorAllowUpload(kb<ShiroFunc.getUser().getOssSizeHave()*1000);
 		return vo;
@@ -284,7 +284,7 @@ public class SiteController extends BaseController {
 		vo.setSite(getSite());
 		vo.setSiteData(siteData);
 		
-		ActionLogCache.insert(request, "获取当前站点信息", siteData != null? siteData.toString():"");
+		ActionLogUtil.insert(request, "获取当前站点信息", siteData != null? siteData.toString():"");
 		return vo;
 	}
 	
@@ -341,7 +341,7 @@ public class SiteController extends BaseController {
 		//刷新site.js， pc、wap用到，已废弃
 //		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
 		
-		ActionLogCache.insertUpdateDatabase(request, "更换站点二级域名", site.getDomain());
+		ActionLogUtil.insertUpdateDatabase(request, "更换站点二级域名", site.getDomain());
 		
 		return vo;
 	}
@@ -357,7 +357,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("site", site);
 		model.addAttribute("client", site.getClient());
 		
-		ActionLogCache.insert(request, "打开通用模式下选择模版页面");
+		ActionLogUtil.insert(request, "打开通用模式下选择模版页面");
 		
 		return "site/templateList";
 	}
@@ -375,7 +375,7 @@ public class SiteController extends BaseController {
 			return error("请传入要使用的模版编号");
 		}
 		
-		ActionLogCache.insertUpdateDatabase(request, templateId, "保存通用模式下选择的模版");
+		ActionLogUtil.insertUpdateDatabase(request, templateId, "保存通用模式下选择的模版");
 		
 		//模版跟之前的模版不一样，才有修改的必要
 		if(site.getTemplateId() != templateId){
@@ -451,7 +451,7 @@ public class SiteController extends BaseController {
 			}
 		}
 		
-		ActionLogCache.insert(request, "HTML后缀捕获转发，主要用于电脑模式网站，可视化状态");
+		ActionLogUtil.insert(request, "HTML后缀捕获转发，主要用于电脑模式网站，可视化状态");
 		return redirect(redirectUrl);
 	}
 	
@@ -466,7 +466,7 @@ public class SiteController extends BaseController {
 		Site site = sqlService.findAloneBySqlQuery("SELECT * FROM site WHERE id = "+siteid, Site.class);
 		siteService.refreshSiteMap(site);
 		
-		ActionLogCache.insert(request, "刷新，重新生成sitemap.xml文件");
+		ActionLogUtil.insert(request, "刷新，重新生成sitemap.xml文件");
 		
 		return success(model, "成功");
 	}
@@ -479,7 +479,7 @@ public class SiteController extends BaseController {
 	public String refreshIndex(Model model, HttpServletRequest request){
 		BaseVO vo = siteService.refreshIndex(getSite()); 
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			ActionLogCache.insert(request, "通用电脑模式下，刷新，重新生成首页");
+			ActionLogUtil.insert(request, "通用电脑模式下，刷新，重新生成首页");
 			return success(model, "刷新成功，若首页不是最新的，可按住CTRL＋F5 强制刷新后在看");
 		}else{
 			return error(model, vo.getInfo());
@@ -492,7 +492,7 @@ public class SiteController extends BaseController {
 	 */
 	@RequestMapping("popupSiteUpdate${url.suffix}")
 	public String popupSiteUpdate(Model model, HttpServletRequest request){
-		ActionLogCache.insert(request, "弹出弹出框，显示站点信息修改");
+		ActionLogUtil.insert(request, "弹出弹出框，显示站点信息修改");
 		
 		model.addAttribute("site", getSite());
 		return "site/popup_site";
@@ -512,7 +512,7 @@ public class SiteController extends BaseController {
 		site.setAddress(filter(s.getAddress()));
 		SiteVO siteVO = siteService.saveSite(site, getUserId(), request);
 		if(siteVO.getResult() == SiteVO.SUCCESS){
-			ActionLogCache.insert(request, "保存弹出框修改的站点信息成功");
+			ActionLogUtil.insert(request, "保存弹出框修改的站点信息成功");
 			return success();
 		}else{
 			return error(siteVO.getInfo());
@@ -540,7 +540,7 @@ public class SiteController extends BaseController {
 			//上传
 	        AttachmentUtil.put("site/"+site.getId()+"/images/qr.jpg", ImageUtil.bufferedImageToInputStream(tag1, "jpg"));
 			
-	        ActionLogCache.insert(request, "通用电脑模式，更改底部的二维码，提交保存");
+	        ActionLogUtil.insert(request, "通用电脑模式，更改底部的二维码，提交保存");
 			
 			json.put("result", "1");
 		}
@@ -593,7 +593,7 @@ public class SiteController extends BaseController {
 			NewsData newsData = (NewsData) sqlService.findById(NewsData.class, news.getId());
 			IndexAboutUs.refreshIndexData(site, siteColumn, news, newsData == null ? "":newsData.getText());
 			
-			ActionLogCache.insertUpdateDatabase(request, "通用电脑模式，关于我们图片更改成功");
+			ActionLogUtil.insertUpdateDatabase(request, "通用电脑模式，关于我们图片更改成功");
 			
 			json.put("result", "1");
 		}else{
@@ -627,7 +627,7 @@ public class SiteController extends BaseController {
 		fileName = filter(fileName);
 		AttachmentUtil.deleteObject("site/"+getSiteId()+"/"+fileName);
 		
-		ActionLogCache.insert(request, "删除当前网站内存储的文件："+fileName);
+		ActionLogUtil.insert(request, "删除当前网站内存储的文件："+fileName);
 		
 		JSONObject json = new JSONObject();
 		json.put("result", "1");
@@ -669,7 +669,7 @@ public class SiteController extends BaseController {
 			if(jianjie.length() > 30){
 				jianjie = jianjie.substring(0, 30);
 			}
-			ActionLogCache.insertUpdateDatabase(request, "提交问题反馈", jianjie);
+			ActionLogUtil.insertUpdateDatabase(request, "提交问题反馈", jianjie);
 			
 			//发送邮件
 			MailUtil.sendMail(Global.get("SERVICE_MAIL"), "有新的问题反馈", fb.toString());
@@ -701,7 +701,7 @@ public class SiteController extends BaseController {
 				
 			}
 		}
-		ActionLogCache.insert(request, "刷新，重新生成所有wap、pc模式网站。不过此接口只能是用户id为1的超级管理员使用");
+		ActionLogUtil.insert(request, "刷新，重新生成所有wap、pc模式网站。不过此接口只能是用户id为1的超级管理员使用");
 		return "asd";
 	}
 	
@@ -718,7 +718,7 @@ public class SiteController extends BaseController {
 		if(user.getUsername().indexOf("ceshi") == 0){
 			return error("测试体验的网站无法修改密码！");
 		}
-		ActionLogCache.insertUpdateDatabase(request, "网站更改密码", newPassword);
+		ActionLogUtil.insertUpdateDatabase(request, "网站更改密码", newPassword);
 		return userService.updatePassword(getUserId(), newPassword);
 	}
 	
@@ -733,7 +733,7 @@ public class SiteController extends BaseController {
 		
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
-			ActionLogCache.insert(request, "网站上传图片", uploadFileVO.getPath());
+			ActionLogUtil.insert(request, "网站上传图片", uploadFileVO.getPath());
 		}
 		
 		return uploadFileVO;
@@ -745,7 +745,7 @@ public class SiteController extends BaseController {
 	 */
 	@RequestMapping("popupUpdateEmailSave${url.suffix}")
 	public String popupUpdateEmailSave(HttpServletRequest request, Model model){
-		ActionLogCache.insert(request, "弹出弹出框，修改邮箱");
+		ActionLogUtil.insert(request, "弹出弹出框，修改邮箱");
 		model.addAttribute("user", getUser());
 		return "site/popup_updateEmail";
 	}
@@ -757,7 +757,7 @@ public class SiteController extends BaseController {
 	public String popupBindDomain(Model model,HttpServletRequest request){
 		model.addAttribute("user", getUser());
 		model.addAttribute("site", getSite());
-		ActionLogCache.insert(request, "弹出框口，绑定自己的域名");
+		ActionLogUtil.insert(request, "弹出框口，绑定自己的域名");
 		
 		return "site/popup_bindDomain";
 	}
@@ -768,7 +768,7 @@ public class SiteController extends BaseController {
 	 */
 	@RequestMapping("sitePreview${url.suffix}")
 	public String sitePreview(Model model,HttpServletRequest request){
-		ActionLogCache.insert(request, "系统管理-预览网站", getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
+		ActionLogUtil.insert(request, "系统管理-预览网站", getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
 		return redirect("index.html?domain="+getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
 	}
 	

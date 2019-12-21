@@ -28,7 +28,7 @@ import com.xnx3.wangmarket.admin.entity.Carousel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.CarouselService;
 import com.xnx3.wangmarket.admin.service.SiteService;
-import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
 /**
  * 轮播广告，轮播图
@@ -59,7 +59,7 @@ public class CarouselController extends BaseController {
 		sql.setDefaultOrderBy("id DESC");
 		List<Carousel> list = sqlService.findBySql(sql, Carousel.class);
 		
-		ActionLogCache.insert(request, "查看轮播图列表", "第"+page.getCurrentPageNumber()+"页");
+		ActionLogUtil.insert(request, "查看轮播图列表", "第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);
@@ -86,7 +86,7 @@ public class CarouselController extends BaseController {
 			siteid = carousel.getSiteid();
 			String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
 			title = "修改轮播图";
-			ActionLogCache.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
+			ActionLogUtil.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
 			
 			model.addAttribute("carousel", carousel);
 			model.addAttribute("imageImage", "<img src=\""+image+"\" height=\"30\">");
@@ -96,7 +96,7 @@ public class CarouselController extends BaseController {
 				return error(model, "如果是新增图，请传入要新增到哪个站点");
 			}
 			title = "添加轮播图";
-			ActionLogCache.insert(request, 0, "进入添加轮播图页面");
+			ActionLogUtil.insert(request, 0, "进入添加轮播图页面");
 			
 			model.addAttribute("imageImage", "");
 		}
@@ -165,9 +165,9 @@ public class CarouselController extends BaseController {
 		sqlService.save(c);
 		if(c.getId() > 0){
 			if(add){
-				ActionLogCache.insertUpdateDatabase(request, c.getId(),"添加轮播图", c.getUrl());
+				ActionLogUtil.insertUpdateDatabase(request, c.getId(),"添加轮播图", c.getUrl());
 			}else{
-				ActionLogCache.insertUpdateDatabase(request, c.getId(),"修改轮播图", c.getUrl());
+				ActionLogUtil.insertUpdateDatabase(request, c.getId(),"修改轮播图", c.getUrl());
 				
 				//删除之前传的那个图片文件
 				if(!(oldImage == null || oldImage.length() == 0)){
@@ -176,7 +176,7 @@ public class CarouselController extends BaseController {
 					}
 				}
 			}
-			ActionLogCache.insertUpdateDatabase(request, c.getId(), (add?"添加":"修改")+"轮播图页面", c.getUrl());
+			ActionLogUtil.insertUpdateDatabase(request, c.getId(), (add?"添加":"修改")+"轮播图页面", c.getUrl());
 			//更新数据缓存
 			new com.xnx3.wangmarket.admin.cache.Site().carousel(carouselService.findBySiteid(c.getSiteid()),site);
 		}
@@ -206,11 +206,11 @@ public class CarouselController extends BaseController {
 			carousel.setImage("");
 			
 			//记录意外日志
-			ActionLogCache.insertError(request, "网站id("+site.getId()+")无默认轮播图");
+			ActionLogUtil.insertError(request, "网站id("+site.getId()+")无默认轮播图");
 		}
 		String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+site.getId()+"/carousel/"+carousel.getImage():carousel.getImage();
 		
-		ActionLogCache.insert(request, carousel.getId() != null? carousel.getId():0, "进入修改站点公用的轮播图页面", carousel.getUrl());
+		ActionLogUtil.insert(request, carousel.getId() != null? carousel.getId():0, "进入修改站点公用的轮播图页面", carousel.getUrl());
 		
 		model.addAttribute("carousel", carousel);
 		model.addAttribute("imageImage", "<img src=\""+image+"\" height=\"30\">");
@@ -263,7 +263,7 @@ public class CarouselController extends BaseController {
 //			return error(model, "当前站点无"+(type == 1 ? "内页/通用":"首页")+"轮播图");
 		}
 		
-		ActionLogCache.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
+		ActionLogUtil.insert(request, carousel.getId(), "进入修改轮播图页面", carousel.getUrl());
 		
 		String image = carousel.getImage().indexOf("://")==-1? AttachmentUtil.netUrl()+"site/"+getSiteId()+"/carousel/"+carousel.getImage():carousel.getImage();
 		model.addAttribute("carousel", carousel);
@@ -306,7 +306,7 @@ public class CarouselController extends BaseController {
 						carousel.setImage(uploadFile.getFileName());
 						
 						sqlService.save(carousel);
-						ActionLogCache.insertUpdateDatabase(request, carousel.getId(), "修改轮播图", carousel.getUrl());
+						ActionLogUtil.insertUpdateDatabase(request, carousel.getId(), "修改轮播图", carousel.getUrl());
 						
 						//删除之前传的那个图片文件
 						if(!(oldImage == null || oldImage.length() == 0)){
@@ -365,7 +365,7 @@ public class CarouselController extends BaseController {
 			carousel.setImage("");
 			
 			//记录意外日志
-			ActionLogCache.insertError(request, "网站id("+site.getId()+")无默认轮播图");
+			ActionLogUtil.insertError(request, "网站id("+site.getId()+")无默认轮播图");
 		}
 	
 		//轮播图上传/更新
@@ -380,7 +380,7 @@ public class CarouselController extends BaseController {
 				carousel.setImage(uploadFile.getFileName());
 				sqlService.save(carousel);
 				
-				ActionLogCache.insertUpdateDatabase(request, carousel.getId(), "修改Banner", carousel.getUrl());
+				ActionLogUtil.insertUpdateDatabase(request, carousel.getId(), "修改Banner", carousel.getUrl());
 				
 				//删除之前传的那个图片文件
 				if(!(oldImage == null || oldImage.length() == 0)){

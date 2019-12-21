@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
 /**
  * 模版标签，编辑模版页面时，顶部的标签使用提示
@@ -46,7 +46,7 @@ public class TemplateTagController extends BaseController {
 		//当前时间的时间戳
 		Integer linuxTime = DateUtil.dateToInt10(new Date());
 		
-		ActionLogCache.insert(request, "通用标签说明页面");
+		ActionLogUtil.insert(request, "通用标签说明页面");
 		model.addAttribute("site", site);
 		model.addAttribute("masterSiteUrl", masterSiteUrl);
 		model.addAttribute("templatePath", templatePath);
@@ -60,7 +60,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "dynamic${url.suffix}")
 	public String dynamic(HttpServletRequest request,Model model){
-		ActionLogCache.insert(request, "动态栏目调用标签说明页面");
+		ActionLogUtil.insert(request, "动态栏目调用标签说明页面");
 		return "templateTag/dynamic";
 	}
 	
@@ -91,7 +91,7 @@ public class TemplateTagController extends BaseController {
 			siteColumn.setIcon("http://cdn.weiunity.com/res/glyph-icons/world.png");
 		}
 		
-		ActionLogCache.insert(request, "栏目标签说明页面");
+		ActionLogUtil.insert(request, "栏目标签说明页面");
 		model.addAttribute("siteColumn", siteColumn);
 		return "templateTag/column";
 	}
@@ -126,7 +126,7 @@ public class TemplateTagController extends BaseController {
 			news = newsList.get(0);
 		}
 		
-		ActionLogCache.insert(request, "文章信息标签说明页面");
+		ActionLogUtil.insert(request, "文章信息标签说明页面");
 		model.addAttribute("news", news);
 		return "templateTag/news";
 	}
@@ -137,7 +137,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "details${url.suffix}")
 	public String details(HttpServletRequest request){
-		ActionLogCache.insert(request, "详情页独有标签说明页面");
+		ActionLogUtil.insert(request, "详情页独有标签说明页面");
 		return "templateTag/details";
 	}
 	
@@ -147,7 +147,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "list${url.suffix}")
 	public String list(HttpServletRequest request){
-		ActionLogCache.insert(request, "列表页独有标签说明页面");
+		ActionLogUtil.insert(request, "列表页独有标签说明页面");
 		return "templateTag/list";
 	}
 	
@@ -157,7 +157,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "page${url.suffix}")
 	public String page(HttpServletRequest request){
-		ActionLogCache.insert(request, "分页标签说明页面");
+		ActionLogUtil.insert(request, "分页标签说明页面");
 		return "templateTag/page";
 	}
 	
@@ -167,7 +167,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "home${url.suffix}")
 	public String home(HttpServletRequest request){
-		ActionLogCache.insert(request, "首页模板说明页面");
+		ActionLogUtil.insert(request, "首页模板说明页面");
 		return "templateTag/home";
 	}
 	
@@ -177,7 +177,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "resource${url.suffix}")
 	public String resource(HttpServletRequest request){
-		ActionLogCache.insert(request, "静态资源引用方式说明页面");
+		ActionLogUtil.insert(request, "静态资源引用方式说明页面");
 		return "templateTag/resource";
 	}
 	
@@ -187,7 +187,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "extend${url.suffix}")
 	public String extend(HttpServletRequest request){
-		ActionLogCache.insert(request, "扩展字段说明页面");
+		ActionLogUtil.insert(request, "扩展字段说明页面");
 		return "templateTag/extend";
 	}
 	
@@ -197,7 +197,7 @@ public class TemplateTagController extends BaseController {
 	 */
 	@RequestMapping(value = "var${url.suffix}")
 	public String var(HttpServletRequest request){
-		ActionLogCache.insert(request, "模板变量说明页面");
+		ActionLogUtil.insert(request, "模板变量说明页面");
 		return "templateTag/varForUsed";
 	}
 	

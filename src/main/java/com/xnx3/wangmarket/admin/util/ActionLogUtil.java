@@ -11,7 +11,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * @author 管雷鸣
  * @since 5.0
  */
-public class ActionLogCache extends com.xnx3.j2ee.func.ActionLogCache {
+public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	
 	/**
 	 * 生成带有站点信息的logItem

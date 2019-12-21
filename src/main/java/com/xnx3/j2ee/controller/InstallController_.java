@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.func.AttachmentFile;
 import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
@@ -51,7 +51,7 @@ public class InstallController_ extends BaseController {
 //		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
 //			return error(model, "系统已禁止使用此！");
 //		}
-		ActionLogCache.insert(request, "进入install安装首页");
+		ActionLogUtil.insert(request, "进入install安装首页");
 		return "domain/welcome";
 	}
 	
@@ -66,7 +66,7 @@ public class InstallController_ extends BaseController {
 		if(!Global.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
-		ActionLogCache.insert(request, "进入install安装-选择存储方式");
+		ActionLogUtil.insert(request, "进入install安装-选择存储方式");
 		
 		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentFile.MODE_LOCAL_FILE);
 		model.addAttribute("AttachmentFile_MODE_ALIYUN_OSS", AttachmentFile.MODE_ALIYUN_OSS);
@@ -94,7 +94,7 @@ public class InstallController_ extends BaseController {
 		//更新缓存
 		systemService.refreshSystemCache();
 		
-		ActionLogCache.insertUpdateDatabase(request, "进入install安装-设置当前存储方式（保存）");
+		ActionLogUtil.insertUpdateDatabase(request, "进入install安装-设置当前存储方式（保存）");
 		
 		return redirect("install/systemSet.do");
 	}
@@ -121,7 +121,7 @@ public class InstallController_ extends BaseController {
 			fujianyuming = fangwenyuming;
 		}
 		
-		ActionLogCache.insert(request, "进入install安装-设置项目的系统参数，system中的系统参数，比如网站泛解析的域名，自己的邮箱、访问域名");
+		ActionLogUtil.insert(request, "进入install安装-设置项目的系统参数，system中的系统参数，比如网站泛解析的域名，自己的邮箱、访问域名");
 		
 		model.addAttribute("fangwenyuming", fangwenyuming);
 		model.addAttribute("fujianyuming", fujianyuming);
@@ -134,7 +134,7 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/installSuccess${url.suffix}")
 	public String installSuccess(HttpServletRequest request, Model model){
-		ActionLogCache.insert(request, "进入install安装-安装成功页面");
+		ActionLogUtil.insert(request, "进入install安装-安装成功页面");
 		return "iw_update/install/installSuccess";
 	}
 	
@@ -146,7 +146,7 @@ public class InstallController_ extends BaseController {
 		String thisClassPath = this.getClass().getResource("/com/xnx3/j2ee/controller/InstallController_.class").getPath();
 		boolean d = FileUtil.deleteFile(thisClassPath);
 		if(d){
-			ActionLogCache.insert(request, "进入install安装-自删除,将此installController.class删除掉");
+			ActionLogUtil.insert(request, "进入install安装-自删除,将此installController.class删除掉");
 			return success(model, "安装文件已删除！登录后台 /login.do 使用吧", "/login.do");
 		}else{
 			return error(model, "删除失败，可能文件已删除了");
@@ -170,7 +170,7 @@ public class InstallController_ extends BaseController {
 			autoAssignDomain = "";
 		}
 		
-		ActionLogCache.insert(request, "进入install安装-设置域名");
+		ActionLogUtil.insert(request, "进入install安装-设置域名");
 		model.addAttribute("autoAssignDomain", autoAssignDomain);
 		return "iw_update/install/domainSet";
 	}
@@ -205,7 +205,7 @@ public class InstallController_ extends BaseController {
 		
 		//更新缓存
 		systemService.refreshSystemCache();
-		ActionLogCache.insertUpdateDatabase(request, "进入install安装-域名更改保存", autoAssignDomain);
+		ActionLogUtil.insertUpdateDatabase(request, "进入install安装-域名更改保存", autoAssignDomain);
 		return success();
 	}
 	
@@ -236,7 +236,7 @@ public class InstallController_ extends BaseController {
 		
 		//更新缓存
 		systemService.refreshSystemCache();
-		ActionLogCache.insertUpdateDatabase(request, "进入install安装-设置域名为测试使用的，只为快速测试体验而设置的域名");
+		ActionLogUtil.insertUpdateDatabase(request, "进入install安装-设置域名为测试使用的，只为快速测试体验而设置的域名");
 		return redirect("install/installSuccess.do");
 	}
 	

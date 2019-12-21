@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.Message;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.MessageService;
 import com.xnx3.j2ee.controller.BaseController;
@@ -55,7 +55,7 @@ public class MessageAdminController_ extends BaseController {
 		sql.setDefaultOrderBy("message.id DESC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
 		
-		ActionLogCache.insert(request, "总管理后台站内信息列表", "第"+page.getCurrentPageNumber()+"页");
+		ActionLogUtil.insert(request, "总管理后台站内信息列表", "第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
@@ -71,10 +71,10 @@ public class MessageAdminController_ extends BaseController {
 	public String delete(@RequestParam(value = "id", required = true) int id, Model model, HttpServletRequest request){
 		BaseVO baseVO = messageService.delete(id);
 		if(baseVO.getResult() == BaseVO.SUCCESS){
-			ActionLogCache.insertUpdateDatabase(request, "总管理后台删除站内信息");
+			ActionLogUtil.insertUpdateDatabase(request, "总管理后台删除站内信息");
 			return success(model, "删除成功！");
 		}else{
-			ActionLogCache.insertUpdateDatabase(request, "总管理后台删除站内信息", "失败："+baseVO.getInfo());
+			ActionLogUtil.insertUpdateDatabase(request, "总管理后台删除站内信息", "失败："+baseVO.getInfo());
 			return error(model, baseVO.getInfo());
 		}
 	}

@@ -19,7 +19,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.InputModelService;
-import com.xnx3.wangmarket.admin.util.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
 
@@ -132,7 +132,7 @@ public class InputModelServiceImpl implements InputModelService {
 		map.remove(inputModelId);
 		SessionUtil.setInputModel(map);
 		
-		ActionLogCache.insertUpdateDatabase(null, inputModel.getSiteid(), "删除输入模型", inputModel.getRemark());
+		ActionLogUtil.insertUpdateDatabase(null, inputModel.getSiteid(), "删除输入模型", inputModel.getRemark());
 		
 		return vo;
 	}

@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
@@ -37,7 +37,7 @@ public class LoginController_ extends BaseController {
 	 */
 	@RequestMapping("/captcha${url.suffix}")
 	public void captcha(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		ActionLogCache.insert(request, "获取验证码显示");
+		ActionLogUtil.insert(request, "获取验证码显示");
 		
 		CaptchaUtil captchaUtil = new CaptchaUtil();
 	    captchaUtil.setCodeCount(5);                   //验证码的数量，若不增加图宽度的话，只能是1～5个之间
@@ -54,11 +54,11 @@ public class LoginController_ extends BaseController {
 //	@RequestMapping("login${url.suffix}")
 	public String login(HttpServletRequest request,Model model){
 		if(getUser() != null){
-			ActionLogCache.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
+			ActionLogUtil.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
 			return redirect("");
 		}
 		
-		ActionLogCache.insert(request, "进入登录页面");
+		ActionLogUtil.insert(request, "进入登录页面");
 		return "iw_update/login/login";
 	}
 
@@ -80,7 +80,7 @@ public class LoginController_ extends BaseController {
 		//验证码校验
 		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
-			ActionLogCache.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
+			ActionLogUtil.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
 			vo.setBaseVO(capVO);
 			return vo;
 		}else{
@@ -89,7 +89,7 @@ public class LoginController_ extends BaseController {
 			BaseVO baseVO =  userService.loginByUsernameAndPassword(request);
 			vo.setBaseVO(baseVO);
 			if(baseVO.getResult() == BaseVO.SUCCESS){
-				ActionLogCache.insert(request, "用户名密码模式登录成功");
+				ActionLogUtil.insert(request, "用户名密码模式登录成功");
 				
 				//登录成功,BaseVO.info字段将赋予成功后跳转的地址，所以这里要再进行判断
 				vo.setInfo("admin/index/index.do");
@@ -101,7 +101,7 @@ public class LoginController_ extends BaseController {
 				//加入user信息
 				vo.setUser(getUser());
 			}else{
-				ActionLogCache.insert(request, "用户名密码模式登录失败",baseVO.getInfo());
+				ActionLogUtil.insert(request, "用户名密码模式登录失败",baseVO.getInfo());
 			}
 			
 			return vo;

@@ -18,7 +18,7 @@ import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.controller.BaseController;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.vo.LogLineGraphVO;
 import com.xnx3.net.AliyunLogPageUtil;
@@ -40,11 +40,11 @@ public class LogAdminController_ extends BaseController{
 	@RequiresPermissions("adminLogList")
 	@RequestMapping("list${url.suffix}")
 	public String list(HttpServletRequest request,Model model) throws LogException{
-		if(ActionLogCache.aliyunLogUtil == null){
+		if(ActionLogUtil.aliyunLogUtil == null){
 			return error(model, "您未开启日志服务！无法查看操作日志");
 		}
 		
-		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogCache.aliyunLogUtil);
+		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogUtil.aliyunLogUtil);
 		
 		//得到当前页面的列表数据
 		JSONArray jsonArray = log.list("", "", true, Global.getInt("LIST_EVERYPAGE_NUMBER"), request);
@@ -54,7 +54,7 @@ public class LogAdminController_ extends BaseController{
 		//设置分页，出现得上几页、下几页跳转按钮的个数
 		page.setListNumber(2);
 		
-		ActionLogCache.insert(request, "查看总管理后台日志列表", "第"+page.getCurrentPageNumber()+"页");
+		ActionLogUtil.insert(request, "查看总管理后台日志列表", "第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("list", jsonArray);
 		model.addAttribute("page", page);
@@ -67,10 +67,10 @@ public class LogAdminController_ extends BaseController{
 	@RequiresPermissions("adminLogCartogram")
 	@RequestMapping("cartogram${url.suffix}")
 	public String cartogram(HttpServletRequest request, Model model){
-		if(ActionLogCache.aliyunLogUtil == null){
+		if(ActionLogUtil.aliyunLogUtil == null){
 			return error(model, "您未开启日志服务！无法查看操作日志");
 		}
-		ActionLogCache.insert(request, "查看总管理后台操作的统计图表");
+		ActionLogUtil.insert(request, "查看总管理后台操作的统计图表");
 		return "/iw/admin/log/cartogram";
 	}
 	
@@ -84,14 +84,14 @@ public class LogAdminController_ extends BaseController{
 	public LogLineGraphVO dayLineForCurrentDay(HttpServletRequest request) throws LogException{
 		LogLineGraphVO vo = new LogLineGraphVO();
 		
-		ActionLogCache.insert(request, "管理后台操作日志-折线图，当天、昨天，24小时，每小时的访问情况");
+		ActionLogUtil.insert(request, "管理后台操作日志-折线图，当天、昨天，24小时，每小时的访问情况");
 		
 		//当前10位时间戳
 		int currentTime = DateUtil.timeForUnix10();
 		String query = "Mozilla | timeslice 1h | count as c";
 		
 		//今日访问量统计
-		ArrayList<QueriedLog> jinriQlList = ActionLogCache.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = ActionLogUtil.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayFangWen = new JSONArray();	//今日访问量，pv
 		String countString = null;
@@ -107,7 +107,7 @@ public class LogAdminController_ extends BaseController{
 		//1天前的时间戳
 		int startTime = DateUtil.getDateZeroTime(currentTime - 86400);
 		
-		ArrayList<QueriedLog> zuoriQlList = ActionLogCache.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
+		ArrayList<QueriedLog> zuoriQlList = ActionLogUtil.aliyunLogUtil.queryList(query, "", startTime, DateUtil.getDateZeroTime(currentTime), 0, 100, true);
 		JSONArray jsonArrayFangWenZuoRi = new JSONArray();	//昨日访问量，pv
 		for (int i = 0; i < zuoriQlList.size(); i++) {
 			LogItem li = zuoriQlList.get(i).GetLogItem();
@@ -130,14 +130,14 @@ public class LogAdminController_ extends BaseController{
 	@ResponseBody
 	public LogLineGraphVO dayLineForCurrentMonth(HttpServletRequest request) throws LogException{
 		LogLineGraphVO vo = new LogLineGraphVO();
-		ActionLogCache.insert(request, "管理后台操作日志-折线图，当月(最近30天)，每天的访问情况");
+		ActionLogUtil.insert(request, "管理后台操作日志-折线图，当月(最近30天)，每天的访问情况");
 		
 		//当前10位时间戳
 		int currentTime = DateUtil.timeForUnix10();
 		String query = "Mozilla | timeslice 24h | count as c";
 		
 		//当月访问量统计
-		ArrayList<QueriedLog> jinriQlList = ActionLogCache.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
+		ArrayList<QueriedLog> jinriQlList = ActionLogUtil.aliyunLogUtil.queryList(query, "", DateUtil.getDateZeroTime(currentTime - 2592000), currentTime, 0, 100, true);
 		
 		JSONArray jsonArrayDate = new JSONArray();	//天数
 		JSONArray jsonArrayFangWen = new JSONArray();	//某天访问量，pv

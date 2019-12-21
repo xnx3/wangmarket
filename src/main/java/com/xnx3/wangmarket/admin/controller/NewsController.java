@@ -37,7 +37,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
@@ -222,9 +222,9 @@ public class NewsController extends BaseController {
 			sqlService.save(newsData);
 			
 			if(s.getId() == null || s.getId() == 0){
-				ActionLogCache.insertUpdateDatabase(request, news.getId(), "新增文章成功", news.getTitle());
+				ActionLogUtil.insertUpdateDatabase(request, news.getId(), "新增文章成功", news.getTitle());
 			}else{
-				ActionLogCache.insertUpdateDatabase(request, news.getId(), "修改文章成功", news.getTitle());
+				ActionLogUtil.insertUpdateDatabase(request, news.getId(), "修改文章成功", news.getTitle());
 			}
 			
 			/**
@@ -273,7 +273,7 @@ public class NewsController extends BaseController {
 			IndexNews.refreshIndexData(site, siteColumn, newsList);
 			
 			//日志
-			ActionLogCache.insertUpdateDatabase(request, news.getId(), "删除文章成功", news.getTitle());
+			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章成功", news.getTitle());
 			
 			//删除OSS的html、头图文件
 			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
@@ -312,7 +312,7 @@ public class NewsController extends BaseController {
 	    			return error(model, "该栏目不属于您，无法查看");
 	    		}
 	    		model.addAttribute("siteColumn", siteColumn);
-	    		ActionLogCache.insert(request, siteColumn.getId(), "查看指定栏目下的文章列表", siteColumn.getName());
+	    		ActionLogUtil.insert(request, siteColumn.getId(), "查看指定栏目下的文章列表", siteColumn.getName());
 	    	}
 	    }
 	    if(siteColumn != null){
@@ -324,7 +324,7 @@ public class NewsController extends BaseController {
 	    }
 	    
 	    if(cid == 0){
-	    	ActionLogCache.insert(request, "查看网站内所有文章的列表");
+	    	ActionLogUtil.insert(request, "查看网站内所有文章的列表");
 	    }
 		
 	    Sql sql = new Sql(request);
@@ -452,7 +452,7 @@ public class NewsController extends BaseController {
 			String inputModelText = inputModelService.getInputModelTextByIdForNews(ni);
 			model.addAttribute("inputModelText", inputModelText);
 			
-			ActionLogCache.insert(request, "打开创建、修改文章页面");
+			ActionLogUtil.insert(request, "打开创建、修改文章页面");
 			
 			//可上传的后缀列表
 			model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
@@ -477,7 +477,7 @@ public class NewsController extends BaseController {
 			News news = vo.getNews();
 			
 			//日志
-			ActionLogCache.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());
+			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());
 			
 			//删除OSS的html、头图文件
 			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
@@ -562,7 +562,7 @@ public class NewsController extends BaseController {
 			url = url + newsId + ".html";
 		}
 		
-		ActionLogCache.insert(request, newsId, "网站管理后台查看文章页面", url);
+		ActionLogUtil.insert(request, newsId, "网站管理后台查看文章页面", url);
 		return redirect(fileName+".html?domain="+site.getDomain()+"."+G.getFirstAutoAssignDomain());
 	}
 	
@@ -583,17 +583,17 @@ public class NewsController extends BaseController {
 		//数据库取这个栏目的信息
 		SiteColumn column = sqlService.findById(SiteColumn.class, cid);
 		if(column == null){
-			ActionLogCache.insertError(request, "要修改的栏目不存在,cid:"+cid);
+			ActionLogUtil.insertError(request, "要修改的栏目不存在,cid:"+cid);
 			return error(model, "要修改的栏目不存在");
 		}
 		if(column.getSiteid() - site.getId() != 0 ){
-			ActionLogCache.insertError(request, "此栏目不属于您，无法修改！cid:"+cid+", column:"+column.toString());
+			ActionLogUtil.insertError(request, "此栏目不属于您，无法修改！cid:"+cid+", column:"+column.toString());
 			return error(model, "此栏目不属于您，无法修改！");
 		}
 		//取这个news的id
 		News news = sqlService.findAloneBySqlQuery("SELECT * FROM news WHERE cid = "+cid, News.class);
 		if(news == null){
-			ActionLogCache.insertError(request, "要修改的文章不存在！规则里，在建立栏目类型为独立页面的栏目时，就会自动创建一篇文章，所以，此处既然栏目已经存在了，文章也应该是存在的！很可能在创建独立页面的时候，自动创建文章出错了，或者在哪删除了文章");
+			ActionLogUtil.insertError(request, "要修改的文章不存在！规则里，在建立栏目类型为独立页面的栏目时，就会自动创建一篇文章，所以，此处既然栏目已经存在了，文章也应该是存在的！很可能在创建独立页面的时候，自动创建文章出错了，或者在哪删除了文章");
 			return error(model, "要修改的文章不存在！");
 		}
 		return redirect("news/news.do?id="+news.getId());
@@ -639,7 +639,7 @@ public class NewsController extends BaseController {
 	    	return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧");
 	    }
 	    
-	    ActionLogCache.insert(request, newsid, "打开文章可转移的栏目选择页面");
+	    ActionLogUtil.insert(request, newsid, "打开文章可转移的栏目选择页面");
 	    model.addAttribute("newsid", newsid);
 		return "news/newsChangeColumnForSelectColumn";
 	}
@@ -709,7 +709,7 @@ public class NewsController extends BaseController {
 		news.setCid(targetColumnId);
 		sqlService.save(news);
 		
-		ActionLogCache.insertUpdateDatabase(request, news.getId(), "将文章转移栏目", "将文章"+news.getTitle()+"转移到栏目["+column.getName()+"]中");
+		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "将文章转移栏目", "将文章"+news.getTitle()+"转移到栏目["+column.getName()+"]中");
 		return success();
 	}
 	
@@ -745,7 +745,7 @@ public class NewsController extends BaseController {
 		sqlService.save(news);
 		
 		//记录日志
-		ActionLogCache.insertUpdateDatabase(request, news.getId(), "更改文章发布时间", time+"");
+		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "更改文章发布时间", time+"");
 		
 		return success();
 	}

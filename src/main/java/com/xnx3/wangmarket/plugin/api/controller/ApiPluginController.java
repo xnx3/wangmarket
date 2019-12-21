@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
@@ -19,6 +18,7 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UserVO;
 import com.xnx3.wangmarket.plugin.api.service.KeyManageService;
 import com.xnx3.wangmarket.plugin.api.vo.UserBeanVO;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
@@ -50,7 +50,7 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 			return error(model, "请先登录", "login.do");
 		}
 		
-		ActionLogCache.insert(request, "进入我的api首页");
+		ActionLogUtil.insert(request, "进入我的api首页");
 		model.addAttribute("key", apiService.getKey());
 		return "plugin/api/index";
 	}
@@ -98,7 +98,7 @@ public class ApiPluginController extends com.xnx3.wangmarket.admin.controller.Ba
 			return error(model, "您的网站已到期。若要继续使用，请续费");
 		}
 		
-		ActionLogCache.insert(request, vo.getUser().getId(), "api模式登录成功");
+		ActionLogUtil.insert(request, vo.getUser().getId(), "api模式登录成功");
 		
 		//设置当前用户状态为登陆状态
 		BaseVO lvo = userService.loginForUserId(request, vo.getUser().getId());

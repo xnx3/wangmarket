@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.wangmarket.weixin.autoReplyPluginManage.AutoReplyPluginManage;
 import com.xnx3.j2ee.controller.BaseController;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.weixin.bean.MessageReceive;
 
 /**
@@ -29,7 +29,7 @@ public class WeiXinController extends BaseController{
 	public void weixin(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException{
 		MessageReceive message = com.xnx3.wangmarket.weixin.Global.getWeiXinUtil().receiveMessage(request);
 		
-		ActionLogCache.insert(request, "weixinMessage", message.getReceiveBody());
+		ActionLogUtil.insert(request, "weixinMessage", message.getReceiveBody());
 		
 		if(request.getQueryString() == null){
 			//return "<html><head><meta charset=\"utf-8\"></head><body>浏览器中直接输入网址访问是不行的！这个接口是接收微信服务器返回数据的，得通过微信服务器返回得数据测试才行</body></html>";

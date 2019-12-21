@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.ClassUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.pluginManage.interfaces.manage.AgencyAdminIndexPluginManage;
@@ -36,7 +36,7 @@ public class AdminIndexController extends BaseController{
 	@RequestMapping("index${url.suffix}")
 	public String index(HttpServletRequest request, Model model,
 			@RequestParam(value = "jumpUrl", required = false , defaultValue="") String jumpUrl){
-		ActionLogCache.insert(request, "进入代理后台首页");
+		ActionLogUtil.insert(request, "进入代理后台首页");
 		
 		String pluginMenu = "";
 		if(PluginManage.agencyClassManage.size() > 0){
@@ -75,7 +75,7 @@ public class AdminIndexController extends BaseController{
 		//上级代理的变长表数据
 		AgencyData parentAgencyData = getParentAgencyData();
 		
-		ActionLogCache.insert(request, agency.getId(), "进入代理商后台首页");
+		ActionLogUtil.insert(request, agency.getId(), "进入代理商后台首页");
 		User user = sqlService.findById(User.class, getUserId());
 		
 		if(ClassUtil.classExist("com.xnx3.wangmarket.plugin.im")){

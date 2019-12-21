@@ -21,7 +21,7 @@ import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.func.Log;
-import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
+import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;

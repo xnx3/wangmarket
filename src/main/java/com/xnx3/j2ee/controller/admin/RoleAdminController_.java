@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.j2ee.entity.Permission;
 import com.xnx3.j2ee.entity.Role;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.RoleService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
@@ -54,12 +54,12 @@ public class RoleAdminController_ extends BaseController {
 			//修改
 			Role role = sqlService.findById(Role.class, id);
 			if(role!=null){
-				ActionLogCache.insert(request, role.getId(), "进入编辑角色页面", role.getName()+"，"+role.getDescription());
+				ActionLogUtil.insert(request, role.getId(), "进入编辑角色页面", role.getName()+"，"+role.getDescription());
 				model.addAttribute("role", role);
 			}
 		}else{
 			//新增
-			ActionLogCache.insert(request, "进入添加角色页面");
+			ActionLogUtil.insert(request, "进入添加角色页面");
 		}
 		return "iw/admin/role/role";
 	}
@@ -73,7 +73,7 @@ public class RoleAdminController_ extends BaseController {
 	@ResponseBody
 	public BaseVO saveRole(Role role,Model model, HttpServletRequest request){
 		sqlService.save(role);
-		ActionLogCache.insertUpdateDatabase(request, role.getId(), "角色保存", role.getName()+"，"+role.getDescription());
+		ActionLogUtil.insertUpdateDatabase(request, role.getId(), "角色保存", role.getName()+"，"+role.getDescription());
 		return success();
 	}
 	
@@ -90,7 +90,7 @@ public class RoleAdminController_ extends BaseController {
 			Role role = sqlService.findById(Role.class, id);
 			if(role!=null){
 				sqlService.delete(role);
-				ActionLogCache.insertUpdateDatabase(request, role.getId(), "删除角色", role.getName()+"，"+role.getDescription());
+				ActionLogUtil.insertUpdateDatabase(request, role.getId(), "删除角色", role.getName()+"，"+role.getDescription());
 				return success();
 			}
 		}
@@ -105,7 +105,7 @@ public class RoleAdminController_ extends BaseController {
 	public String roleList(Model model, HttpServletRequest request){
 		List<Role> list = sqlService.findAll(Role.class);
 		
-		ActionLogCache.insert(request, "角色列表");
+		ActionLogUtil.insert(request, "角色列表");
 		model.addAttribute("list", list);
 		return "iw/admin/role/roleList";
 	}
@@ -128,7 +128,7 @@ public class RoleAdminController_ extends BaseController {
 		Permission permission = new Permission();
 		permission.setParentId(parentId);
 		
-		ActionLogCache.insert(request, parentId, "进入添加资源Permission页面", "所属上级："+parentPermissionDescription);
+		ActionLogUtil.insert(request, parentId, "进入添加资源Permission页面", "所属上级："+parentPermissionDescription);
 		model.addAttribute("permission", permission);
 		model.addAttribute("parentPermissionDescription", parentPermissionDescription);
 		return "iw/admin/role/permission";
@@ -150,7 +150,7 @@ public class RoleAdminController_ extends BaseController {
 					parentPermissionDescription = parentPermission.getName() +","+ parentPermission.getDescription();
 				}
 				
-				ActionLogCache.insert(request, permission.getId(), "进入修改资源Permission页面", "所属上级："+parentPermissionDescription);
+				ActionLogUtil.insert(request, permission.getId(), "进入修改资源Permission页面", "所属上级："+parentPermissionDescription);
 				
 				model.addAttribute("permission", permission);
 				model.addAttribute("parentPermissionDescription", parentPermissionDescription);
@@ -185,7 +185,7 @@ public class RoleAdminController_ extends BaseController {
 		permission.setPercode(permissionInput.getPercode());
 		permission.setUrl(permissionInput.getUrl());
 		sqlService.save(permission);
-		ActionLogCache.insertUpdateDatabase(request, permission.getId(), "资源Permission保存", permission.getName()+"，"+permission.getDescription());
+		ActionLogUtil.insertUpdateDatabase(request, permission.getId(), "资源Permission保存", permission.getName()+"，"+permission.getDescription());
 		return success();
 	}
 
@@ -201,7 +201,7 @@ public class RoleAdminController_ extends BaseController {
 			Permission permission = sqlService.findById(Permission.class, id);
 			if(permission!=null){
 				sqlService.delete(permission);
-				ActionLogCache.insertUpdateDatabase(request, permission.getId(), "删除资源Permission", permission.getName()+"，"+permission.getDescription());
+				ActionLogUtil.insertUpdateDatabase(request, permission.getId(), "删除资源Permission", permission.getName()+"，"+permission.getDescription());
 				return success();
 			}
 		}
@@ -224,7 +224,7 @@ public class RoleAdminController_ extends BaseController {
 		List<Permission> list = sqlService.findBySql(sql, Permission.class);
 		List<PermissionTree> permissionTreeList = new ShiroFunc().PermissionToTree(new ArrayList<Permission>(), list);
 		
-		ActionLogCache.insert(request, "资源Permission列表","第"+page.getCurrentPageNumber()+"页");
+		ActionLogUtil.insert(request, "资源Permission列表","第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", permissionTreeList);
@@ -246,7 +246,7 @@ public class RoleAdminController_ extends BaseController {
 			
 			Role role = sqlService.findById(Role.class, roleId);
 			
-			ActionLogCache.insert(request, role.getId(), "编辑某个权限下拥有的资源",role.getName());
+			ActionLogUtil.insert(request, role.getId(), "编辑某个权限下拥有的资源",role.getName());
 			model.addAttribute("role", role);
 			model.addAttribute("list", list);
 			return "iw/admin/role/rolePermission";
@@ -267,7 +267,7 @@ public class RoleAdminController_ extends BaseController {
 			Model model, HttpServletRequest request){
 		BaseVO vo = roleService.saveRolePermission(roleId, permission);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			ActionLogCache.insertUpdateDatabase(request, roleId, "保存角色所管理的资源");
+			ActionLogUtil.insertUpdateDatabase(request, roleId, "保存角色所管理的资源");
 			return success(model, "保存成功","admin/role/roleList.do");
 		}else{
 			return error(model, "保存失败："+vo.getInfo());
@@ -285,7 +285,7 @@ public class RoleAdminController_ extends BaseController {
 		User user = sqlService.findById(User.class, userid);
 		List<RoleMark> list = roleService.getUserRoleMarkList(userid);
 		
-		ActionLogCache.insert(request, "管理后台，编辑用户－权限关系");
+		ActionLogUtil.insert(request, "管理后台，编辑用户－权限关系");
 			
 		model.addAttribute("currentUser", user);
 		model.addAttribute("list", list);
@@ -306,7 +306,7 @@ public class RoleAdminController_ extends BaseController {
 			Model model, HttpServletRequest request){
 		BaseVO vo = roleService.saveUserRole(userid, role);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
-			ActionLogCache.insertUpdateDatabase(request, "修改用户的角色权限");
+			ActionLogUtil.insertUpdateDatabase(request, "修改用户的角色权限");
 			return success();
 		}else{
 			return error(vo.getInfo());

@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.func.AttachmentFileMode;
+package com.xnx3.j2ee.util.AttachmentMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.obs.services.exception.ObsException;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.AttachmentFileMode.hander.OBSHandler;
+import com.xnx3.j2ee.util.AttachmentMode.hander.OBSHandler;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
 /**

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.controller.BaseController;
@@ -45,7 +45,7 @@ public class UserAdminController_ extends BaseController {
 			User u = sqlService.findById(User.class, id);
 			if(u!=null){
 				sqlService.delete(u);
-				ActionLogCache.insertUpdateDatabase(request,u.getId(), "总管理后台,删除用户",u.toString());
+				ActionLogUtil.insertUpdateDatabase(request,u.getId(), "总管理后台,删除用户",u.toString());
 				return success();
 			}
 		}
@@ -68,7 +68,7 @@ public class UserAdminController_ extends BaseController {
 		sql.setOrderByField(new String[]{"id","lasttime","money","currency"});
 		List<User> list = sqlService.findBySql(sql, User.class);
 		
-		ActionLogCache.insert(request, "总管理后台-用户列表", "第"+page.getCurrentPageNumber()+"页");
+		ActionLogUtil.insert(request, "总管理后台-用户列表", "第"+page.getCurrentPageNumber()+"页");
 		
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);
@@ -95,7 +95,7 @@ public class UserAdminController_ extends BaseController {
 			model.addAttribute("referrer", "<a href='view.do?id="+user.getReferrerid()+"'>id:"+user.getReferrerid()+","+parentUser.getUsername()+"</a>");
 		}
 		
-		ActionLogCache.insert(request, user.getId(), "总管理后台-用户详情", user.toString());
+		ActionLogUtil.insert(request, user.getId(), "总管理后台-用户详情", user.toString());
 		
 		model.addAttribute("u", user);
 		return "/iw_update/admin/user/view";
@@ -117,13 +117,13 @@ public class UserAdminController_ extends BaseController {
 		BaseVO baseVO = new BaseVO();
 		if(isfreeze==User.ISFREEZE_FREEZE){
 			baseVO = userService.freezeUser(id);
-			ActionLogCache.insertUpdateDatabase(request, id, "总管理后台-冻结用户", baseVO.getInfo());
+			ActionLogUtil.insertUpdateDatabase(request, id, "总管理后台-冻结用户", baseVO.getInfo());
 		}else if (isfreeze==User.ISFREEZE_NORMAL) {
 			baseVO = userService.unfreezeUser(id);
-			ActionLogCache.insertUpdateDatabase(request, id, "总管理后台-解除冻结用户", baseVO.getInfo());
+			ActionLogUtil.insertUpdateDatabase(request, id, "总管理后台-解除冻结用户", baseVO.getInfo());
 		}else{
 			baseVO.setBaseVO(BaseVO.FAILURE, "未知参数！");
-			ActionLogCache.insertError(request, "此接口要么冻结，要么解冻，出现了非正常情况！");
+			ActionLogUtil.insertError(request, "此接口要么冻结，要么解冻，出现了非正常情况！");
 		}
 		
 		if(baseVO.getResult() == BaseVO.SUCCESS){

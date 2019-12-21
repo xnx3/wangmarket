@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -39,7 +39,7 @@ public class UserController_ extends BaseController {
 	 */
 	@RequestMapping("logout${url.suffix}")
 	public String logout(Model model, HttpServletRequest request){
-		ActionLogCache.insert(request, "注销登录");
+		ActionLogUtil.insert(request, "注销登录");
 		userService.logout();
 		return success(model, "注销登录成功", "login.do");
 	}
@@ -54,7 +54,7 @@ public class UserController_ extends BaseController {
 	@RequestMapping(value="updatePassword", method = RequestMethod.POST)
 	public String updatePassword(HttpServletRequest request, String oldPassword,String newPassword,Model model){
 		if(oldPassword==null){
-			ActionLogCache.insert(request, "修改密码", "失败：未输入密码");
+			ActionLogUtil.insert(request, "修改密码", "失败：未输入密码");
 			return error(model, "请输入旧密码");
 		}else{
 			User uu=sqlService.findById(User.class, getUser().getId());
@@ -63,14 +63,14 @@ public class UserController_ extends BaseController {
 			if(new Md5Hash(oldPassword, uu.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString().equals(uu.getPassword())){
 				BaseVO vo = userService.updatePassword(getUserId(), newPassword);
 				if(vo.getResult() - BaseVO.SUCCESS == 0){
-					ActionLogCache.insertUpdateDatabase(request, "修改密码", "成功");
+					ActionLogUtil.insertUpdateDatabase(request, "修改密码", "成功");
 					return success(model, "修改成功");
 				}else{
-					ActionLogCache.insert(request, "修改密码", "失败："+vo.getInfo());
+					ActionLogUtil.insert(request, "修改密码", "失败："+vo.getInfo());
 					return error(model, vo.getInfo());
 				}
 			}else{
-				ActionLogCache.insert(request, "修改密码", "失败：原密码错误");
+				ActionLogUtil.insert(request, "修改密码", "失败：原密码错误");
 				return error(model, "原密码错误！");
 			}
 		}
@@ -82,7 +82,7 @@ public class UserController_ extends BaseController {
 	@RequiresPermissions("userInvite${url.suffix}")
 	@RequestMapping("invite")
 	public String invite(HttpServletRequest request, Model model){
-		ActionLogCache.insert(request, "获取邀请码注册网址");
+		ActionLogUtil.insert(request, "获取邀请码注册网址");
 		List<User> list = sqlService.findBySqlQuery("SELECT * FROM user WHERE referrerid = "+getUserId()+" ORDER BY id DESC", User.class);
 		
 		model.addAttribute("list", list);
@@ -109,10 +109,10 @@ public class UserController_ extends BaseController {
 		if(matcher.matches()){
 			//MailUtil.sendMail(email, "邀请", "内容");
 			
-			ActionLogCache.insert(request, "邮件邀请用户注册",email);
+			ActionLogUtil.insert(request, "邮件邀请用户注册",email);
 			return success(model, "邀请邮件发送完毕", "user/info.do");
 		}else{
-			ActionLogCache.insert(request, "邮件邀请用户注册","出错：不是合法邮箱："+email);
+			ActionLogUtil.insert(request, "邮件邀请用户注册","出错：不是合法邮箱："+email);
 			return error(model, "请填写合法邮箱");
 		}
 	}
@@ -124,7 +124,7 @@ public class UserController_ extends BaseController {
 	public String inviteList(HttpServletRequest request,Model model){
 		List<User> list = sqlService.findBySqlQuery("SELECT * FROM user WHERE referrerid = "+getUserId()+" ORDER BY id DESC", User.class);
 		
-		ActionLogCache.insert(request, "查看我邀请的用户，当前1级下线人数："+list.size()+"人");
+		ActionLogUtil.insert(request, "查看我邀请的用户，当前1级下线人数："+list.size()+"人");
 		model.addAttribute("userList", list);
 		model.addAttribute("size", list.size());
 		return "iw/user/inviteList";

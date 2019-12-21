@@ -38,11 +38,11 @@ import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.SystemUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.func.VersionUtil;
-import com.xnx3.j2ee.func.AttachmentFileMode.LocalServerMode;
+import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.net.HttpResponse;
@@ -179,7 +179,7 @@ public class PluginManageController extends BasePluginController {
 		String className = "com.xnx3.wangmarket.plugin." + pluginId + ".Plugin";
 		Class<?> forName = Class.forName(className);
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理，升级插件", "升级ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，升级插件", "升级ID为" + pluginId + "的插件");
 		
 		return success();
 	}
@@ -273,7 +273,7 @@ public class PluginManageController extends BasePluginController {
 		// 删除功能插件菜单栏中的菜单
 		PluginManage.removePluginCache(pluginId);
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理-卸载插件", "卸载ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理-卸载插件", "卸载ID为" + pluginId + "的插件");
 		return success();
 	}
 	
@@ -439,7 +439,7 @@ public class PluginManageController extends BasePluginController {
 			return error(e.getMessage());
 		}
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理-安装插件", "安装ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理-安装插件", "安装ID为" + pluginId + "的插件");
 		// 重启容器
 		if(restartApplication) {
 			return success("restart");
@@ -642,7 +642,7 @@ public class PluginManageController extends BasePluginController {
 			return error(e.getMessage());
 		}
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理，安装插件", "安装ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，安装插件", "安装ID为" + pluginId + "的插件");
 		// 重启容器
 		if(restartApplication) {
 			return success("restart");
@@ -663,7 +663,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理-重启Tomcat", "因为安装新插件二重启服务器");
+		ActionLogUtil.insert(request, "总管理后台-插件管理-重启Tomcat", "因为安装新插件二重启服务器");
 		// 检查当前的运行的环境决定重启的方式
 		if(getPluginPath(request, "").get("environment").equals("tomcat")) {
 			// 创建存放数据信息的Map
@@ -808,7 +808,7 @@ public class PluginManageController extends BasePluginController {
 		//更新插件信息
 		sqlService.save(application);
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-功能插件-上传插件", "上传ID为" + pluginId + "的插件压缩包");
+		ActionLogUtil.insert(request, "总管理后台-功能插件-上传插件", "上传ID为" + pluginId + "的插件压缩包");
 		return success();
 	}
 	
@@ -903,7 +903,7 @@ public class PluginManageController extends BasePluginController {
 		sqlService.save(application);
 		
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理-添加插件", "添加ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理-添加插件", "添加ID为" + pluginId + "的插件");
 		return success();
 	}
 	
@@ -917,7 +917,7 @@ public class PluginManageController extends BasePluginController {
 		if(haveSuperAdminAuth() == false) {
 			return error(model, "您没有该功能操作权限");
 		}
-		ActionLogCache.insert(request, "进入总管理后台-功能插件 首页");
+		ActionLogUtil.insert(request, "进入总管理后台-功能插件 首页");
 		return "/superadmin/pluginManage/index";
 	}
 	
@@ -966,7 +966,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		//添加阿里云日志服务
-		ActionLogCache.insert(request, "总管理后台-插件管理，查看自己二次开发的插件", "查看插件列表");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，查看自己二次开发的插件", "查看插件列表");
 		model.addAttribute("list", localList);
 		return "/superadmin/pluginManage/myList/list";
 	}
@@ -1006,7 +1006,7 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		
-		ActionLogCache.insert(request, "总管理后台-插件管理，查看当前网市场已经安装的插件列表");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，查看当前网市场已经安装的插件列表");
 		model.addAttribute("pluginList", pluginList);
 		return "/superadmin/pluginManage/installList/list";
 	}
@@ -1069,7 +1069,7 @@ public class PluginManageController extends BasePluginController {
 			}
 		}
 		
-		ActionLogCache.insert(request, "总管理后台-插件管理，查看网市场云端插件列表");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，查看网市场云端插件列表");
 		
 		// 将已经安装的插件id放入缓存中
 		model.addAttribute("list", list);
@@ -1099,7 +1099,7 @@ public class PluginManageController extends BasePluginController {
 			return error(model, "您没有该功能操作权限");
 		}
 		
-		ActionLogCache.insert(request, "总管理后台-插件管理，查询云插件插件详情");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，查询云插件插件详情");
 		
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
@@ -1134,7 +1134,7 @@ public class PluginManageController extends BasePluginController {
 		// 删除插件信息
 		sqlService.delete(plugin);
 		//添加动作日志
-		ActionLogCache.insert(request, "总管理后台-插件管理，删除插件", "删除ID为" + plugin.getMenuTitle() + "的插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，删除插件", "删除ID为" + plugin.getMenuTitle() + "的插件");
 		return success();
 	}
 	
@@ -1180,7 +1180,7 @@ public class PluginManageController extends BasePluginController {
 			return error(model, "您没有该功能操作权限");
 		}
 		
-		ActionLogCache.insert(request, "总管理后台-插件管理，跳转上传插件压缩包页面");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，跳转上传插件压缩包页面");
 		// 参数安全过滤
 		pluginId = Safety.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
@@ -1304,7 +1304,7 @@ public class PluginManageController extends BasePluginController {
 		// 删除临时创建的文件
 		deleteDirectory(new File(exportAbsolutePath), false);
 		//添加动作日志
-		ActionLogCache.insert(request, "导出插件", "导出ID为" + pluginId + "的插件");
+		ActionLogUtil.insert(request, "导出插件", "导出ID为" + pluginId + "的插件");
 		// 开启线程删除导出的文件
 		new Thread() {
 			@Override
@@ -1319,7 +1319,7 @@ public class PluginManageController extends BasePluginController {
 			}
 		}.start();
 		
-		ActionLogCache.insert(request, "总管理后台-插件管理，导出插件");
+		ActionLogUtil.insert(request, "总管理后台-插件管理，导出插件");
 		
 		if(exportRelativePath.indexOf("static/") == 0){
 			//eclipse开发调试状态时，要将 static/去掉

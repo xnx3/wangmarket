@@ -2,7 +2,6 @@ package com.xnx3.wangmarket.admin.util;
 
 import java.util.Date;
 import com.aliyun.openservices.log.common.LogItem;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -12,7 +11,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * @deprecated 请使用 {@link com.xnx3.wangmarket.admin.util.ActionLogCache}
  * 
  */
-public class AliyunLog extends ActionLogCache {
+public class AliyunLog extends ActionLogUtil {
 	
 	/**
 	 * 增加动作日志

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.pluginManage.interfaces.manage.SuperAdminIndexPluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginManage;
 import com.xnx3.wangmarket.pluginManage.PluginRegister;
@@ -34,7 +34,7 @@ public class AdminIndexController_ extends BaseController{
 		//登录成功后，管理后台的主题页面，默认首页的url
 		String url = "admin/index/welcome.do"; 
 		
-		ActionLogCache.insert(request, "进入管理后台首页");
+		ActionLogUtil.insert(request, "进入管理后台首页");
 		
 		//这里在应用插件里面，安装插件后要刷新页面，所以加入了jumpUrl，传入加载地址，如果有jumpUrl，那么默认页面就是访问这个。v4.11增加
 		if(jumpUrl.length() > 2){

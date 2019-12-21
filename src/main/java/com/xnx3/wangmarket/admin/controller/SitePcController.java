@@ -9,7 +9,6 @@ import com.xnx3.DateUtil;
 import com.xnx3.MD5Util;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -18,6 +17,7 @@ import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
 /**
  * 通用网站－PC端电脑网站，site.client 为pc网站的
@@ -37,7 +37,7 @@ public class SitePcController extends BaseController {
 	 */
 	@RequestMapping("index${url.suffix}")
 	public String index(HttpServletRequest request, Model model){
-		ActionLogCache.insert(request, "进入通用电脑网站控制台首页");
+		ActionLogUtil.insert(request, "进入通用电脑网站控制台首页");
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
 		String pluginMenu = "";
@@ -73,7 +73,7 @@ public class SitePcController extends BaseController {
 	public String editIndex(HttpServletRequest request,Model model){
 		Site site = getSite();
 		
-		ActionLogCache.insert(request, "进入通用电脑网站预览PC站点首页，并进行修改操作");
+		ActionLogUtil.insert(request, "进入通用电脑网站预览PC站点首页，并进行修改操作");
 		
 		GenerateHTML gh = new GenerateHTML(site);
 		gh.setEditMode(true);
@@ -119,7 +119,7 @@ public class SitePcController extends BaseController {
 	 */
 	@RequestMapping("popupGaoJiSet${url.suffix}")
 	public String popupGaoJiSet(HttpServletRequest request,Model model){
-		ActionLogCache.insert(request, "通用电脑网站模式下，点击左侧菜单打开高级模式页面");
+		ActionLogUtil.insert(request, "通用电脑网站模式下，点击左侧菜单打开高级模式页面");
 		return "sitePc/popup_gaoJiSet";
 	}
 	
@@ -129,7 +129,7 @@ public class SitePcController extends BaseController {
 	 */
 	@RequestMapping("seo${url.suffix}")
 	public String seo(HttpServletRequest request,Model model){
-		ActionLogCache.insert(request, "通用电脑网站模式下，点击左侧菜单打开SEO优化页面");
+		ActionLogUtil.insert(request, "通用电脑网站模式下，点击左侧菜单打开SEO优化页面");
 		return "sitePc/popup_seo";
 	}
 	
@@ -145,7 +145,7 @@ public class SitePcController extends BaseController {
 		String[] fns = fileName.split("\\.");
 		String htmlFile = fns[0];
 		
-		ActionLogCache.insert(request, "*.html", "htmlFile="+htmlFile);
+		ActionLogUtil.insert(request, "*.html", "htmlFile="+htmlFile);
 		return redirect("sites/html.do?htmlFile="+htmlFile);
 	}
 	

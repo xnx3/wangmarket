@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.func.AttachmentFileMode.hander;
+package com.xnx3.j2ee.util.AttachmentMode.hander;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

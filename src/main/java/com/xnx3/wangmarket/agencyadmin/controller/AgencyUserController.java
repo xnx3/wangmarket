@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.aliyun.openservices.log.exception.LogException;
-import com.xnx3.ClassUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
@@ -22,11 +21,11 @@ import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.func.Language;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -41,7 +40,6 @@ import com.xnx3.wangmarket.admin.vo.UserVO;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
-import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.entity.SiteSizeChange;
 import com.xnx3.wangmarket.agencyadmin.service.TransactionalService;
 import com.xnx3.wangmarket.agencyadmin.util.SiteSizeChangeLog;
@@ -84,7 +82,7 @@ public class AgencyUserController extends BaseController {
 		sql.appendWhere("user.id = agency.userid");
 		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
-		ActionLogCache.insert(request, agency.getId(), "查看我的下级代理列表");
+		ActionLogUtil.insert(request, agency.getId(), "查看我的下级代理列表");
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
@@ -106,7 +104,7 @@ public class AgencyUserController extends BaseController {
 			return error(model, "您的账户余额还剩 "+agency.getSiteSize()+" 站，不足以再开通网站！请联系相关人员充值");
 		}
 		
-		ActionLogCache.insert(request, agency.getId(), "进入添加站点的页面");
+		ActionLogUtil.insert(request, agency.getId(), "进入添加站点的页面");
 		
 		return "agency/add";
 	}
@@ -124,7 +122,7 @@ public class AgencyUserController extends BaseController {
 		}
 		
 		userService.regInit(request);
-		ActionLogCache.insert(request,"进入添加下级代理的页面");
+		ActionLogUtil.insert(request,"进入添加下级代理的页面");
 		return "agency/addAgency";
 	}
 	
@@ -183,7 +181,7 @@ public class AgencyUserController extends BaseController {
 		site.setCompanyName(filter(companyName));
 		site.setTemplateName(filter(templateName));
 		
-		ActionLogCache.insertUpdateDatabase(request, agency.getId(), "代理后台创建网站", site.getName());
+		ActionLogUtil.insertUpdateDatabase(request, agency.getId(), "代理后台创建网站", site.getName());
 		return createSite(request, agency, user, site, email);
 	}
 	
@@ -252,7 +250,7 @@ public class AgencyUserController extends BaseController {
 				SiteSizeChangeLog.xiaofei(agency.getName(), "代理开通网站："+site.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
 				
 				//记录动作日志
-				ActionLogCache.insertUpdateDatabase(request, site.getId(), "代理后台创建网站", site.getName());
+				ActionLogUtil.insertUpdateDatabase(request, site.getId(), "代理后台创建网站", site.getName());
 				
 				return success(vo.getUser().getId()+"_"+passwordMD5(vo.getUser().getPassword()));
 			}else{
@@ -419,7 +417,7 @@ public class AgencyUserController extends BaseController {
 				SiteSizeChangeLog.xiaofei(myAgency.getName(), "开通下级代理："+agency.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
 				
 				//动作日志
-				ActionLogCache.insertUpdateDatabase(request, agency.getId(), "开通下级代理成功", agency.getName());
+				ActionLogUtil.insertUpdateDatabase(request, agency.getId(), "开通下级代理成功", agency.getName());
 				
 				return success();
 			}else{
@@ -528,7 +526,7 @@ public class AgencyUserController extends BaseController {
 	 */
 	@RequestMapping("zengzhifuwu${url.suffix}")
 	public String zengzhifuwu(HttpServletRequest request,Model model){
-		ActionLogCache.insert(request, "进入增值服务页面");
+		ActionLogUtil.insert(request, "进入增值服务页面");
 		
 		return "agency/zengzhifuwu";
 	}
@@ -542,10 +540,10 @@ public class AgencyUserController extends BaseController {
 	@RequiresPermissions("agencyActionLogList")
 	@RequestMapping("actionLogList${url.suffix}")
 	public String actionLogList(HttpServletRequest request, Model model) throws LogException{
-		if(ActionLogCache.aliyunLogUtil == null){
+		if(ActionLogUtil.aliyunLogUtil == null){
 			return error(model, "未开启日志服务");
 		}
-		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogCache.aliyunLogUtil);
+		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogUtil.aliyunLogUtil);
 		
 		//得到当前页面的列表数据
 		JSONArray jsonArray = log.list("userid="+getUserId(), "", false, 15, request);
@@ -553,7 +551,7 @@ public class AgencyUserController extends BaseController {
 		//得到当前页面的分页相关数据（必须在执行了list方法获取列表数据之后，才能调用此处获取到分页）
 		Page page = log.getPage();
 		
-		ActionLogCache.insert(request, "获取代理操作记录");
+		ActionLogUtil.insert(request, "获取代理操作记录");
 		
 		model.addAttribute("list", jsonArray);
 		model.addAttribute("page", page);
@@ -582,7 +580,7 @@ public class AgencyUserController extends BaseController {
 		//设置分页，出现得上几页、下几页跳转按钮的个数
 		page.setListNumber(2);
 		
-		ActionLogCache.insert(request, "查看资金变动日志");
+		ActionLogUtil.insert(request, "查看资金变动日志");
 		model.addAttribute("list", jsonArray);
 		model.addAttribute("page", page);
 		return "agency/siteSizeLogList";
@@ -609,7 +607,7 @@ public class AgencyUserController extends BaseController {
 		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		sql.setDefaultOrderBy("site.expiretime ASC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
-		ActionLogCache.insert(request, "代理商后台，查看属于我的站点列表");
+		ActionLogUtil.insert(request, "代理商后台，查看属于我的站点列表");
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
@@ -629,7 +627,7 @@ public class AgencyUserController extends BaseController {
 			@RequestParam(value = "targetAgencyId", required = true) int targetAgencyId,
 			@RequestParam(value = "transferSiteSize", required = false, defaultValue = "0") int transferSiteSize){
 		BaseVO vo = transactionalService.transferSiteSizeToSubAgency(request, targetAgencyId, transferSiteSize);
-		ActionLogCache.insertUpdateDatabase(request, "转移站币到子代理账户，向自己的下级代理转账（站币），为其充值站币", vo.toString());
+		ActionLogUtil.insertUpdateDatabase(request, "转移站币到子代理账户，向自己的下级代理转账（站币），为其充值站币", vo.toString());
 		return vo;
 	}
 	
@@ -646,7 +644,7 @@ public class AgencyUserController extends BaseController {
 			@RequestParam(value = "siteid", required = true) int siteid,
 			@RequestParam(value = "year", required = false, defaultValue = "0") int year){
 		BaseVO vo = transactionalService.siteXuFei(request, siteid, year);
-		ActionLogCache.insertUpdateDatabase(request, "站点续费，给自己开通的站点续费时长", vo.toString());
+		ActionLogUtil.insertUpdateDatabase(request, "站点续费，给自己开通的站点续费时长", vo.toString());
 		return vo;
 	}
 	
@@ -679,7 +677,7 @@ public class AgencyUserController extends BaseController {
 		userService.freezeUser(site.getUserid());
 		
 		//记录操作日志
-		ActionLogCache.insertUpdateDatabase(request, site.getId(), getMyAgency().getName()+"将网站"+site.getName()+"暂停");
+		ActionLogUtil.insertUpdateDatabase(request, site.getId(), getMyAgency().getName()+"将网站"+site.getName()+"暂停");
 		
 		//更新域名服务器
 		MQBean mqBean = new MQBean();
@@ -718,7 +716,7 @@ public class AgencyUserController extends BaseController {
 		userService.unfreezeUser(site.getUserid());
 		
 		//记录操作日志
-		ActionLogCache.insertUpdateDatabase(request, site.getId(), getMyAgency().getName()+"将暂停的网站"+site.getName()+"恢复正常");
+		ActionLogUtil.insertUpdateDatabase(request, site.getId(), getMyAgency().getName()+"将暂停的网站"+site.getName()+"恢复正常");
 		
 		//更新域名服务器
 		MQBean mqBean = new MQBean();
@@ -750,7 +748,7 @@ public class AgencyUserController extends BaseController {
 			return error("要更改密码的网站不是您的直属下级，操作失败");
 		}
 		
-		ActionLogCache.insertUpdateDatabase(request, userid, "代理商给其下的某个站点更改密码", newPassword);
+		ActionLogUtil.insertUpdateDatabase(request, userid, "代理商给其下的某个站点更改密码", newPassword);
 		return userService.updatePassword(userid, newPassword);
 	}
 	
@@ -831,7 +829,7 @@ public class AgencyUserController extends BaseController {
 		}
 		
 		//记录操作日志
-		ActionLogCache.insertUpdateDatabase(request, ssc.getId(), "给代理"+subAgency.getName()+"延长使用期限"+year+"年。代理资格延期后，日期到"+daoqishijian);
+		ActionLogUtil.insertUpdateDatabase(request, ssc.getId(), "给代理"+subAgency.getName()+"延长使用期限"+year+"年。代理资格延期后，日期到"+daoqishijian);
 		
 		//发送短信通知对方
 		//这里等转为公司模式后，用公司资格申请短信发送资格
@@ -874,7 +872,7 @@ public class AgencyUserController extends BaseController {
 		userService.freezeUser(subAgency.getUserid());
 		
 		//记录操作日志
-		ActionLogCache.insertUpdateDatabase(request, subAgency.getId(), getMyAgency().getName()+"将代理"+subAgency.getName()+"暂停、冻结");
+		ActionLogUtil.insertUpdateDatabase(request, subAgency.getId(), getMyAgency().getName()+"将代理"+subAgency.getName()+"暂停、冻结");
 		
 		//要给对方发送右键提醒
 		//待加入，要先加入邮箱改动／绑定体系
@@ -910,7 +908,7 @@ public class AgencyUserController extends BaseController {
 		userService.unfreezeUser(subAgency.getUserid());
 		
 		//记录操作日志
-		ActionLogCache.insertUpdateDatabase(request, subAgency.getId(), getMyAgency().getName()+"将冻结的代理"+subAgency.getName()+"恢复正常");
+		ActionLogUtil.insertUpdateDatabase(request, subAgency.getId(), getMyAgency().getName()+"将冻结的代理"+subAgency.getName()+"恢复正常");
 		
 		return success();
 	}

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.controller.BaseController;
-import com.xnx3.j2ee.func.ActionLogCache;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
@@ -47,7 +47,7 @@ public class AdminNewsController extends BaseController {
 		sql.setOrderBy("news.id DESC");
 		List<News> list = sqlService.findBySql(sql, News.class);
 		
-		ActionLogCache.insert(request, "总管理后台，News 文章管理，查看文章列表");
+		ActionLogUtil.insert(request, "总管理后台，News 文章管理，查看文章列表");
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
 		return "admin/news/list";
@@ -72,7 +72,7 @@ public class AdminNewsController extends BaseController {
 			return error(model, "信息所属网站不存在");
 		}
 		
-		ActionLogCache.insert(request, news.getId(), "总管理后台，News 文章管理，查看文章文章详情", news.getTitle());
+		ActionLogUtil.insert(request, news.getId(), "总管理后台，News 文章管理，查看文章文章详情", news.getTitle());
 		model.addAttribute("text", StringUtil.filterXss(newsData.getText()));
 		model.addAttribute("news", news);
 		model.addAttribute("site", site);
@@ -93,7 +93,7 @@ public class AdminNewsController extends BaseController {
 		if(news == null){
 			return "信息不存在";
 		}
-		ActionLogCache.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，删除文章", news.getTitle());
+		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，删除文章", news.getTitle());
 		sqlService.delete(news);
 		return success(model, "删除成功");
 	}
@@ -112,7 +112,7 @@ public class AdminNewsController extends BaseController {
 		}
 		news.setLegitimate(News.LEGITIMATE_OK);
 		sqlService.save(news);
-		ActionLogCache.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，取消违规标示，将其改为合法状态", news.getTitle());
+		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，取消违规标示，将其改为合法状态", news.getTitle());
 		return success(model, "操作成功","admin/news/view.do?id="+id);
 	}
 	
@@ -135,7 +135,7 @@ public class AdminNewsController extends BaseController {
 		if(site == null){
 			return error(model, "信息所属网站不存在");
 		}
-		ActionLogCache.insert(request, news.getId(), "查看此条文章的网站前端，对外的网站文章页面", news.getTitle());
+		ActionLogUtil.insert(request, news.getId(), "查看此条文章的网站前端，对外的网站文章页面", news.getTitle());
 		return redirect("http://"+Func.getDomain(site)+"/"+id+".html");
 	}
 }
