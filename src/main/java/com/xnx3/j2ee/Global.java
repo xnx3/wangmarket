@@ -2,10 +2,9 @@ package com.xnx3.j2ee;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.Lang;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 基础配置、集中管理
@@ -137,7 +136,7 @@ public class Global {
 		if(projectPath == null){
 			String path = new Global().getClass().getResource("/").getPath();
 			projectPath = path.replace("WEB-INF/classes/", "");
-			Log.info("projectPath : "+projectPath);
+			ConsoleUtil.info("projectPath : "+projectPath);
 		}
 		return projectPath;
 	}

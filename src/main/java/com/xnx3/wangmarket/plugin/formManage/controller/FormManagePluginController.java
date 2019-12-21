@@ -18,11 +18,12 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.controller.BaseController;
 import com.xnx3.wangmarket.admin.entity.InputModel;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.plugin.formManage.bean.Frequency;
 import com.xnx3.wangmarket.plugin.formManage.entity.Form;
 import com.xnx3.wangmarket.plugin.formManage.entity.FormData;
@@ -65,7 +66,7 @@ public class FormManagePluginController extends BaseController {
 	 */
 	@RequestMapping("/form/list${url.suffix}")
 	public String list(HttpServletRequest request, Model model){
-		AliyunLog.addActionLog(getSiteId(), "查看反馈信息列表");
+		ActionLogUtil.insert(request, "查看 plugin formManage 反馈信息列表");
 		
 		Sql sql = new Sql(request);
 		sql.setSearchColumn(new String[]{"state="});
@@ -93,7 +94,7 @@ public class FormManagePluginController extends BaseController {
 	@RequestMapping("/form/view${url.suffix}")
 	public String view(HttpServletRequest request, Model model,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
-		AliyunLog.addActionLog(getSiteId(), "查看反馈信息详情");
+		ActionLogUtil.insert(request, "查看 plugin formManage 反馈信息详情");
 		
 		Form form = sqlService.findById(Form.class, id);
 		if(form == null){
@@ -200,7 +201,7 @@ public class FormManagePluginController extends BaseController {
 			sqlService.save(formData);
 			
 			//记录日志
-			AliyunLog.addActionLog(form.getId(), "提交表单反馈", form.getTitle());
+			ActionLogUtil.insert(request, form.getId(), "plugin formManage 提交表单反馈", SafetyUtil.xssFilter(form.getTitle()));
 			
 			return success();
 		}else{

@@ -1,15 +1,13 @@
 package com.xnx3.j2ee.system.interceptor;
 
-
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +35,7 @@ public class AllInterceptor implements HandlerInterceptor {
         	        + ":"     
         	        + request.getServerPort()           //端口号    
         	        + "/";    
-        	Log.info("project request url : " + url);
+        	ConsoleUtil.info("project request url : " + url);
         	Global.system.put("ATTACHMENT_FILE_URL", url);
     	}
     	

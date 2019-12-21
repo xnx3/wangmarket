@@ -20,10 +20,10 @@ import com.xnx3.ZipUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -31,10 +31,10 @@ import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.service.TemplateService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
-import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
+import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
 
 /**
  * 模版相关操作
@@ -65,14 +65,14 @@ public class TemplateDevelopController extends BasePluginController {
 				if(!file.exists()){
 					//如果不存在，那么创建
 					file.mkdir();
-					Log.info("开发环境下，自动创建 websiteTemplate 文件夹，在 target/classes/ 下");
+					ConsoleUtil.info("开发环境下，自动创建 websiteTemplate 文件夹，在 target/classes/ 下");
 				}
 			}else{
 				//在实际使用环境
 				exportPath = "websiteTemplate/";
 			}
 		}
-		Log.info("exportPath:"+exportPath);
+		ConsoleUtil.info("exportPath:"+exportPath);
 		return exportPath;
 	}
 	
@@ -192,7 +192,7 @@ public class TemplateDevelopController extends BasePluginController {
 		//更新本地模版库
 		TemplateUtil.updateDatabaseTemplateMap(template);
 		
-		AliyunLog.addActionLog(site.getId(), "模版开发-保存模版编码");
+		ActionLogUtil.insertUpdateDatabase(request, site.getId(), "模版开发-保存模版编码");
 		
 		return success();
 	}
@@ -320,7 +320,7 @@ public class TemplateDevelopController extends BasePluginController {
 		
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
-			AliyunLog.addActionLog(getSiteId(), "模版开发，上传preview.jpg："+uploadFileVO.getUrl());
+			ActionLogUtil.insert(request, "模版开发，上传preview.jpg：", uploadFileVO.getUrl());
 		}
 		
 		return uploadFileVO;

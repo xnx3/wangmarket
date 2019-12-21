@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 
@@ -30,7 +30,7 @@ public class NewsSavePluginManage {
 		}
 		
 		for (int i = 0; i < classList.size(); i++) {
-			Log.info("装载 newsSave 插件："+classList.get(i).getName());
+			ConsoleUtil.info("装载 newsSave 插件："+classList.get(i).getName());
 		}
 	}
 	

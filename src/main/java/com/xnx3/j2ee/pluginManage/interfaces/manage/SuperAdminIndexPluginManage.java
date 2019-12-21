@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 超级管理后台首页的html源码处理
@@ -20,7 +20,7 @@ public class SuperAdminIndexPluginManage {
 		List<Class<?>> allClassList = ScanClassUtil.getClasses("com.xnx3.wangmarket");
 		classList = ScanClassUtil.searchByInterfaceName(allClassList, "com.xnx3.j2ee.pluginManage.interfaces.SuperAdminIndexInterface");
 		for (int i = 0; i < classList.size(); i++) {
-			Log.info("装载 SuperAdminIndex 插件："+classList.get(i).getName());
+			ConsoleUtil.info("装载 SuperAdminIndex 插件："+classList.get(i).getName());
 		}
 	}
 	

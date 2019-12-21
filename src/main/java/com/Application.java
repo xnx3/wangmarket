@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 运行入口
@@ -27,9 +28,9 @@ public class Application {
 	public static ConfigurableApplicationContext context;
 	
 	public static void main(String[] args) {
-		com.xnx3.j2ee.func.Log.debug = true;
-		com.xnx3.j2ee.func.Log.info = true;
-		com.xnx3.j2ee.func.Log.error = true;
+		ConsoleUtil.debug = true;
+		ConsoleUtil.info = true;
+		ConsoleUtil.error = true;
 		startFinish();
 		
 		context = SpringApplication.run(Application.class, args);

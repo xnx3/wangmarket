@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import com.xnx3.DateUtil;
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 所有js缓存生成的父类
@@ -51,7 +52,7 @@ public class BaseGenerate {
 		try {
 			content = content + " var xnx3_r"+DateUtil.timeForUnix10()+" = '"+getRandomValue()+"';";
 			FileUtil.write(filePath, content,FileUtil.UTF8);
-			com.xnx3.j2ee.func.Log.info("create cache js file success ! file path : "+filePath);
+			ConsoleUtil.info("create cache js file success ! file path : "+filePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +78,7 @@ public class BaseGenerate {
 	 */
 	private void initCacheFolder(){
 		if(!FileUtil.exists(Global.getProjectPath()+Global.CACHE_FILE)){
-			com.xnx3.j2ee.func.Log.info("create cache folder : "+ Global.getProjectPath()+Global.CACHE_FILE);
+			ConsoleUtil.info("create cache folder : "+ Global.getProjectPath()+Global.CACHE_FILE);
 			String[] folders = Global.CACHE_FILE.split("/");
 			String path = Global.getProjectPath();
 			for (int i = 0; i < folders.length; i++) {

@@ -1,11 +1,9 @@
 package com.qikemi.packages.baidu.ueditor.upload;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.json.JSONObject;
 
-import com.xnx3.j2ee.func.Log;
-//import com.aliyun.openservices.oss.OSSClient;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 异步上传文件到阿里云OSS
@@ -40,7 +38,7 @@ public class AsynUploaderThreader extends Thread {
 		SynUploader synUploader = new SynUploader();
 //		synUploader.upload(stateJson, client, request);
 		synUploader.upload(stateJson, request);
-		Log.debug("asynchronous upload image to aliyun oss success.");
+		ConsoleUtil.debug("asynchronous upload image to aliyun oss success.");
 	}
 
 }

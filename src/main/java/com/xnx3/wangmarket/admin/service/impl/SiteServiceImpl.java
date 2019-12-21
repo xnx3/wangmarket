@@ -15,8 +15,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -699,7 +699,7 @@ public class SiteServiceImpl implements SiteService {
 		SiteVO baseVO = new SiteVO();
 		String name = "";
 		if(s.getName() != null && s.getName().length()>0){
-			name = Safety.filter(s.getName());
+			name = SafetyUtil.filter(s.getName());
 		}
 		if(name.length() == 0){
 			baseVO.setBaseVO(BaseVO.FAILURE, "您的站点叫什么名字呢?");
@@ -730,12 +730,12 @@ public class SiteServiceImpl implements SiteService {
 		
 		site.setAddress(s.getAddress());
 		site.setCompanyName(s.getCompanyName());
-		site.setUsername(Safety.filter(s.getUsername()));
+		site.setUsername(SafetyUtil.filter(s.getUsername()));
 		site.setName(name);
 		site.setmShowBanner(s.getmShowBanner());
 		site.setPhone(s.getPhone());
-		site.setQq(Safety.filter(s.getQq()));
-		site.setBindDomain(s.getBindDomain()==null? "":Safety.filter(s.getBindDomain()));
+		site.setQq(SafetyUtil.filter(s.getQq()));
+		site.setBindDomain(s.getBindDomain()==null? "":SafetyUtil.filter(s.getBindDomain()));
 		site.setExpiretime(s.getExpiretime());
 		
 		if(s.getClient() - Site.CLIENT_PC == 0){
@@ -743,7 +743,7 @@ public class SiteServiceImpl implements SiteService {
 			site.setClient(s.getClient());
 		}else if(s.getClient() - Site.CLIENT_CMS == 0){
 			//高级自定义模版CMS
-			site.setTemplateName(Safety.filter(s.getTemplateName()));
+			site.setTemplateName(SafetyUtil.filter(s.getTemplateName()));
 			site.setClient(s.getClient());
 		}else{
 			//剩下的都是通用模版，手机站
@@ -780,7 +780,7 @@ public class SiteServiceImpl implements SiteService {
 				keywords = keywords + "," + site.getUsername();
 			}
 		}
-		site.setKeywords(Safety.filter(keywords));		
+		site.setKeywords(SafetyUtil.filter(keywords));		
 		
 		//填充默认数据
 		if(site.getLogo() == null){

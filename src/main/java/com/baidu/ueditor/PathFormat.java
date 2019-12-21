@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SessionUtil;
 
 public class PathFormat {
 	private static final String TIME = "time";
@@ -27,16 +27,7 @@ public class PathFormat {
 			userid = ShiroFunc.getUser().getId();
 		}
 		input = input.replaceAll("\\{userid\\}", userid+"");
-		if(ShiroFunc.getCurrentActiveUser() != null && ShiroFunc.getCurrentActiveUser().getUeUploadParam1() != null){
-			String uploadParam1 = (String)ShiroFunc.getCurrentActiveUser().getUeUploadParam1();
-			if(uploadParam1 != null){
-				input = input.replaceAll("\\{uploadParam1\\}", uploadParam1);
-			}else{
-				Log.debug("u111ploadParam1 == null");
-			}
-		}else{
-			Log.debug("Sh111iroFunc.getCurrentActiveUser() == null || ShiroFunc.getCurrentActiveUser().getUeUploadParam1() == null");
-		}
+		input = input.replaceAll("\\{uploadParam1\\}", SessionUtil.getUeUploadParam1());
 		
 		
 		Pattern pattern = Pattern.compile( "\\{([^\\}]+)\\}", Pattern.CASE_INSENSITIVE  );
@@ -75,18 +66,9 @@ public class PathFormat {
 		}
 //		System.out.println("-------parse------->>"+input);
 		input = input.replaceAll("\\{userid\\}", userid+"");
-		Log.debug("input---user--:"+input);
-		if(ShiroFunc.getCurrentActiveUser() != null && ShiroFunc.getCurrentActiveUser().getUeUploadParam1() != null){
-			String uploadParam1 = (String)ShiroFunc.getCurrentActiveUser().getUeUploadParam1();
-			if(uploadParam1 != null){
-				input = input.replaceAll("\\{uploadParam1\\}", uploadParam1);
-			}else{
-				Log.debug("uploadParam1 == null");
-			}
-		}else{
-			Log.debug("ShiroFunc.getCurrentActiveUser() == null || ShiroFunc.getCurrentActiveUser().getUeUploadParam1() == null");
-		}
-		Log.debug("input---uploadP---:"+input);
+		ConsoleUtil.debug("input---user--:"+input);
+		input = input.replaceAll("\\{uploadParam1\\}", SessionUtil.getUeUploadParam1());
+		ConsoleUtil.debug("input---uploadP---:"+input);
 		
 		Pattern pattern = Pattern.compile( "\\{([^\\}]+)\\}", Pattern.CASE_INSENSITIVE  );
 		Matcher matcher = pattern.matcher(input);

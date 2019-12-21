@@ -14,8 +14,8 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -164,7 +164,7 @@ public class TemplateServiceImpl implements TemplateService {
 	public TemplatePageVO saveTemplatePageText(String fileName, String html, HttpServletRequest request) {
 		TemplatePageVO vo = new TemplatePageVO();
 		
-		fileName = Safety.filter(fileName);
+		fileName = SafetyUtil.filter(fileName);
 		if(fileName == null || fileName.length() == 0){
 			vo.setBaseVO(BaseVO.FAILURE, "出错，你要修改的是哪个模版呢？");
 			return vo;
@@ -288,7 +288,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 	public String getTemplatePageTextByCache(String templatePageName,
 			HttpServletRequest request) {
-		templatePageName = Safety.filter(templatePageName);
+		templatePageName = SafetyUtil.filter(templatePageName);
 		TemplatePageListVO vo = (TemplatePageListVO) request.getSession().getAttribute(sessionTemplatePageListVO);
 		//判断一下，当然，这个应该不会为空，避免空指针
 		if(vo == null){
@@ -428,7 +428,7 @@ public class TemplateServiceImpl implements TemplateService {
 	 */
 	public BaseVO changeTemplate(Site mysite, String templateName, boolean copySiteColumn){
 		BaseVO vo = new BaseVO();
-		templateName = Safety.filter(templateName);
+		templateName = SafetyUtil.filter(templateName);
 		if(templateName.length() == 0){
 			vo.setBaseVO(BaseVO.FAILURE, "请选择更改为的模版");
 			return vo;

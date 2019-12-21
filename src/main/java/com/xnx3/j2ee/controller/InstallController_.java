@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ActionLogUtil;
-import com.xnx3.j2ee.func.AttachmentFile;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -68,8 +68,8 @@ public class InstallController_ extends BaseController {
 		}
 		ActionLogUtil.insert(request, "进入install安装-选择存储方式");
 		
-		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentFile.MODE_LOCAL_FILE);
-		model.addAttribute("AttachmentFile_MODE_ALIYUN_OSS", AttachmentFile.MODE_ALIYUN_OSS);
+		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentUtil.MODE_LOCAL_FILE);
+		model.addAttribute("AttachmentFile_MODE_ALIYUN_OSS", AttachmentUtil.MODE_ALIYUN_OSS);
 		return "iw_update/install/selectAttachment";
 	}
 	
@@ -84,10 +84,10 @@ public class InstallController_ extends BaseController {
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		
-		String m = AttachmentFile.MODE_LOCAL_FILE;	//默认使用服务器进行存储
-		if(mode.equals(AttachmentFile.MODE_ALIYUN_OSS)){
+		String m = AttachmentUtil.MODE_LOCAL_FILE;	//默认使用服务器进行存储
+		if(mode.equals(AttachmentUtil.MODE_ALIYUN_OSS)){
 			//使用阿里云OSS
-			m = AttachmentFile.MODE_ALIYUN_OSS;
+			m = AttachmentUtil.MODE_ALIYUN_OSS;
 		}
 		sqlService.executeSql("update system set value = '"+m+"' WHERE name = 'ATTACHMENT_FILE_MODE'");
 		
@@ -193,7 +193,7 @@ public class InstallController_ extends BaseController {
 		}
 		
 		//更新附件域名的内存缓存
-		AttachmentFile.netUrl = "http://cdn."+autoAssignDomain+"/";
+		AttachmentUtil.netUrl = "http://cdn."+autoAssignDomain+"/";
 		
 		//将其存入system数据表
 		sqlService.executeSql("update system set value = 'http://admin."+autoAssignDomain+"/' WHERE name = 'MASTER_SITE_URL'");
@@ -222,9 +222,9 @@ public class InstallController_ extends BaseController {
 		String domain = request.getRequestURL().toString().replace("install/setLocalDomain.do", "");
 		
 		//更新附件域名的内存缓存
-		AttachmentFile.netUrl = domain;
+		AttachmentUtil.netUrl = domain;
 		
-		Log.info("快速测试体验，域名自动获取："+domain);
+		ConsoleUtil.info("快速测试体验，域名自动获取："+domain);
 		
 		//将其存入system数据表
 		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'MASTER_SITE_URL'");

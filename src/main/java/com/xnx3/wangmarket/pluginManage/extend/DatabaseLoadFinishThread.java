@@ -2,13 +2,7 @@ package com.xnx3.wangmarket.pluginManage.extend;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import com.xnx3.Lang;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.wangmarket.domain.G;
-import com.xnx3.wangmarket.domain.util.PluginCache;
-import com.xnx3.wangmarket.pluginManage.Func;
 import com.xnx3.wangmarket.pluginManage.PluginExtend;
 
 /**

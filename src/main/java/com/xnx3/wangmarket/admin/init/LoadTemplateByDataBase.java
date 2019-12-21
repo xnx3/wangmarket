@@ -2,14 +2,11 @@ package com.xnx3.wangmarket.admin.init;
 
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 
@@ -27,7 +24,7 @@ public class LoadTemplateByDataBase {
 	public LoadTemplateByDataBase() {
 		new Thread(new Runnable() {
 			public void run() {
-				Log.info("start database template refresh thread.");
+				ConsoleUtil.info("start database template refresh thread.");
 				while(true){
 					try {
 						//避免出问题中断
@@ -71,9 +68,9 @@ public class LoadTemplateByDataBase {
 			if(TemplateUtil.databaseTemplateMapForType.get(template.getType()) == null){
 				TemplateUtil.databaseTemplateMapForType.put(template.getType(), new HashMap<String, Template>());
 			}
-			Log.info("load local template : "+template.getName());
+			ConsoleUtil.info("load local template : "+template.getName());
 			TemplateUtil.databaseTemplateMapForType.get(template.getType()).put(template.getName(), template);
 		}
-		Log.info("LoadTemplateByDataBase Finish ! local all "+list.size()+" number template");
+		ConsoleUtil.info("LoadTemplateByDataBase Finish ! local all "+list.size()+" number template");
 	}
 }

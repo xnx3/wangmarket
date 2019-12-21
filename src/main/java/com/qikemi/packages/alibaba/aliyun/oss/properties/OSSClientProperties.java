@@ -5,12 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
 import com.qikemi.packages.utils.SystemUtil;
 import com.xnx3.ConfigManagerUtil;
-import com.xnx3.file.FileUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.init.UEditorConfigLoad;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 public class OSSClientProperties {
 	private static Properties OSSKeyProperties = new Properties();
@@ -40,9 +39,9 @@ public class OSSClientProperties {
 		FileInputStream inpf = null;
 		
 		if(ConfigManagerUtil.getSingleton("systemConfig.xml").getValue("UEditor.aliyunOSS.useOSSKeyProperties").equals("true")){
-			Log.debug("UEditor used OSSKey.properties");
+			ConsoleUtil.debug("UEditor used OSSKey.properties");
 			if(!FileUtil.exists(OSSKeyPath)){
-				Log.error("UEditor used OSSKey.properties , but OSSKey.properties not find ! please set UEditor.aliyunOSS.useOSSKeyProperties to false");
+				ConsoleUtil.error("UEditor used OSSKey.properties , but OSSKey.properties not find ! please set UEditor.aliyunOSS.useOSSKeyProperties to false");
 			}
 			try {
 				inpf = new FileInputStream(new File(OSSKeyPath));
@@ -70,7 +69,7 @@ public class OSSClientProperties {
 			uploadBasePath = (String) OSSKeyProperties.get("uploadBasePath");
 			useAsynUploader = "true".equalsIgnoreCase((String) OSSKeyProperties.get("useAsynUploader")) ? true : false;
 		}else{
-			Log.debug("UEditor used systemConfig.xml");
+			ConsoleUtil.debug("UEditor used systemConfig.xml");
 			new UEditorConfigLoad();
 		}
 	}

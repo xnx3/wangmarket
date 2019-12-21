@@ -1,9 +1,9 @@
 package com.xnx3.wangmarket.domain;
 
 import java.util.Map;
-
 import org.springframework.stereotype.Component;
-import com.xnx3.j2ee.func.Log;
+
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
@@ -19,7 +19,7 @@ import net.sf.json.JSONObject;
 @Component
 public class DomainMQListener {
 	public DomainMQListener() {
-		Log.info("domain load binddomain MQListener");
+		ConsoleUtil.info("domain load binddomain MQListener");
 		DomainMQ.receive("domain", new ReceiveDomainMQ() {
 			public void receive(String content) {
 				JSONObject json = JSONObject.fromObject(content);
@@ -52,7 +52,7 @@ public class DomainMQListener {
 							ss = G.bindDomainSiteMap.get(mqBean.getOldValue());
 							if(ss == null){
 								//如果为空，那么重新创建一个。理论上这个是只有在系统启动时，数据库的数据尚未加载过来才会找不到，可以约等于是不存在的！应警报！
-								Log.error("如果为空，那么重新创建一个。理论上这个是只有在系统启动时，数据库的数据尚未加载过来才会找不到，可以约等于是不存在的！应警报！--"+mqBean);
+								ConsoleUtil.error("如果为空，那么重新创建一个。理论上这个是只有在系统启动时，数据库的数据尚未加载过来才会找不到，可以约等于是不存在的！应警报！--"+mqBean);
 							}
 							//吧旧的域名删除掉，让旧域名无效
 							G.bindDomainSiteMap.remove(mqBean.getOldValue());

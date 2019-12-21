@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import com.xnx3.Lang;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.util.PluginCache;
 import com.xnx3.wangmarket.pluginManage.Func;
@@ -89,7 +89,7 @@ public class AutoLoadSimplePluginTableDateThread extends Thread{
 				PluginCache.setPluginMap(siteid, this.pluginId, map);
 			}
 		}
-		Log.info("PluginExtend AutoLoadSimplePluginTableDate , plugin_"+this.pluginId+" load "+list.size()+" number data");
+		ConsoleUtil.info("PluginExtend AutoLoadSimplePluginTableDate , plugin_"+this.pluginId+" load "+list.size()+" number data");
 		
 		this.cache = true;
 	}

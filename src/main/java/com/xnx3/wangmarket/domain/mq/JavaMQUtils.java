@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.xnx3.DateUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * Java map 模拟的 MQ 功能
@@ -38,7 +38,7 @@ public class JavaMQUtils {
 		new Thread(new Runnable() {
 			public void run() {
 				System.out.println("start domain update thread -- javamq");
-				Log.info("start domain update thread -- javamq");
+				ConsoleUtil.info("start domain update thread -- javamq");
 				
 				while(true){
 					try {

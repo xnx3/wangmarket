@@ -10,7 +10,6 @@ import com.baidu.ueditor.hunter.FileManager;
 import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
 
 public class ActionEnter {
 	private HttpServletRequest request = null;

@@ -29,10 +29,10 @@ import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -714,7 +714,7 @@ public class TemplateController extends BaseController {
 			try {
 				wscsoTemplateText = StringUtil.inputStreamToString(multipartFile.getInputStream(), "UTF-8");
 			} catch (IOException e) {
-				Log.error("获取到的，导入模版没有内容");
+				ConsoleUtil.error("获取到的，导入模版没有内容");
 				e.printStackTrace();
 				responseJson(response, BaseVO.FAILURE, "所获取到所导入的模版未发现模版内容");
 				return;

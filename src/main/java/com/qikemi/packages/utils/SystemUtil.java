@@ -2,7 +2,7 @@ package com.qikemi.packages.utils;
 
 import java.util.Properties;
 
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * System Utils
@@ -82,11 +82,11 @@ public class SystemUtil {
 				return "";
 			}
 			projectName = rootPath.substring(index + 3);
-			Log.debug("ueditor projectName : "+ projectName);
+			ConsoleUtil.debug("ueditor projectName : "+ projectName);
 			if(projectName.equals("ROOT")){
 				//如果是ROOT，那么就为空，ROOT是tomcat默认的,是无需带路径的
 				projectName = "";
-				Log.debug("Tomcat Ignore the ROOT path ");
+				ConsoleUtil.debug("Tomcat Ignore the ROOT path ");
 			}
 		}
 		return projectName;

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.pluginManage.extend.AutoCreateReceiveMQForDomain;
 import com.xnx3.wangmarket.pluginManage.extend.AutoLoadSimplePluginTableDateThread;
 import com.xnx3.wangmarket.pluginManage.extend.DatabaseLoadFinishThread;
@@ -47,7 +47,7 @@ public class PluginManage {
         for (Class<?> clazz : classList) {
         	//找到插件注册类了，进行注册插件
 			registerPlugin(clazz);
-			Log.info("注册插件："+clazz.getName());
+			ConsoleUtil.info("注册插件："+clazz.getName());
         }
 	}
 	

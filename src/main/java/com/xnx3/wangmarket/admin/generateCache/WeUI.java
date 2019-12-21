@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.xnx3.file.FileUtil;
+import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * WeUI的选择使用，创建js，方便一件调用
@@ -73,7 +72,7 @@ public class WeUI {
 		}
 		String content = "var "+fileName+" = ["+data+"];";
 		try {
-			Log.info("create cache js file success ! file path : "+filePath);
+			ConsoleUtil.info("create cache js file success ! file path : "+filePath);
 			FileUtil.write(filePath, content,FileUtil.UTF8);
 		} catch (IOException e) {
 			e.printStackTrace();

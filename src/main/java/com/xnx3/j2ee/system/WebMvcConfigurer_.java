@@ -6,9 +6,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.system.interceptor.AllInterceptor;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * WebMvcConfigurer
@@ -32,7 +31,7 @@ public class WebMvcConfigurer_ implements WebMvcConfigurer {
 			registry.addResourceHandler("/plugin_data/**").addResourceLocations("classpath:/plugin_data/");
 			registry.addResourceHandler("/head/**").addResourceLocations("classpath:/head/");
 			registry.addResourceHandler("/websiteTemplate/**").addResourceLocations("classpath:/websiteTemplate/");	//v4.7增加
-			Log.info("jar包方式运行，配置虚拟路径 /site、   /cache 、 /head");
+			ConsoleUtil.info("jar包方式运行，配置虚拟路径 /site、   /cache 、 /head");
 		}
 		
 	}

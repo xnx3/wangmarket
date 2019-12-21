@@ -3,8 +3,8 @@ package com.xnx3.j2ee.init;
 import com.qikemi.packages.alibaba.aliyun.oss.properties.OSSClientProperties;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.net.OSSUtil;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 初始化UEditor编辑器的一些配置
@@ -52,8 +52,8 @@ public class UEditorConfigLoad {
 			OSSClientProperties.cdnEndPoint = url;
 			OSSClientProperties.useStatus = true;		//使用阿里云存储，数据不存在本地服务器
 			
-			Log.info("UEditor 使用阿里云OSS作为文件、附件存储");
-			Log.info("load ueditor config , OSSClientProperties.astrictUpload : "+OSSClientProperties.astrictUpload);
+			ConsoleUtil.info("UEditor 使用阿里云OSS作为文件、附件存储");
+			ConsoleUtil.info("load ueditor config , OSSClientProperties.astrictUpload : "+OSSClientProperties.astrictUpload);
 		}else if (AttachmentUtil.isMode(AttachmentUtil.MODE_HUAWEIYUN_OBS)) {
 			//使用华为云存储
 			OSSClientProperties.useStatus = true;		//使用华为云存储，数据不存在本地服务器
@@ -61,12 +61,12 @@ public class UEditorConfigLoad {
 			OSSClientProperties.ossEndPoint = AttachmentUtil.netUrl();
 			OSSClientProperties.cdnEndPoint = AttachmentUtil.netUrl();
 			
-			Log.info("UEditor 使用华为云OBS作为文件、附件存储");
+			ConsoleUtil.info("UEditor 使用华为云OBS作为文件、附件存储");
 		}else{
 			//如果不是阿里云、华为云，那就认为是使用本服务器进行存储，免得什么也不使用，用户上传不上去，以为程序出问题了
 			
 			OSSClientProperties.useStatus = false;		//使用服务器存储，那此处设置为false，不使用阿里云
-			Log.info("UEditor 使用服务器本身磁盘作为文件、附件存储");
+			ConsoleUtil.info("UEditor 使用服务器本身磁盘作为文件、附件存储");
 		}
 	}
 	

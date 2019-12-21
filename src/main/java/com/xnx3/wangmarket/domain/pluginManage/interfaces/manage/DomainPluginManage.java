@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
@@ -22,13 +22,13 @@ public class DomainPluginManage {
 		List<Class<?>> classList = ScanClassUtil.getClasses("com.xnx3.wangmarket");
 		domainClassList = ScanClassUtil.searchByInterfaceName(classList, "com.xnx3.wangmarket.domain.pluginManage.interfaces.DomainVisitInterface");
 		for (int i = 0; i < domainClassList.size(); i++) {
-			Log.info("装载 domain 插件："+domainClassList.get(i).getName());
+			ConsoleUtil.info("装载 domain 插件："+domainClassList.get(i).getName());
 		}
 		
 		//v5.0，开始使用新的插件机制
 		List<Class<?>> newDomainClassList = ScanClassUtil.searchByInterfaceName(classList, "com.xnx3.wangmarket.pluginManage.interfaces.DomainVisitInterface");
 		for (int i = 0; i < newDomainClassList.size(); i++) {
-			Log.info("装载 domain 插件："+newDomainClassList.get(i).getName());
+			ConsoleUtil.info("装载 domain 插件："+newDomainClassList.get(i).getName());
 			domainClassList.add(newDomainClassList.get(i));
 		}
 	}

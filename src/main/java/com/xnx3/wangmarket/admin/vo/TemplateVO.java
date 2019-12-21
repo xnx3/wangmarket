@@ -6,8 +6,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.InputModel;
@@ -403,7 +403,7 @@ public class TemplateVO extends BaseVO {
 			return "";
 		}
 		
-		return Safety.filter(getJsonString(text));
+		return SafetyUtil.filter(getJsonString(text));
 	}
 	
 	

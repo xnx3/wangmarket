@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
-import com.xnx3.j2ee.func.Safety;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.entity.News;
@@ -167,7 +167,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 			news.setAddtime(DateUtil.timeForUnix10());
 			news.setCid(siteColumn.getId());
 			news.setCommentnum(0);
-			news.setIntro(Safety.filter(siteColumn.getName()));
+			news.setIntro(SafetyUtil.filter(siteColumn.getName()));
 			news.setOpposenum(0);
 			news.setReadnum(0);
 			news.setSiteid(siteColumn.getSiteid());
@@ -188,7 +188,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 			}
 		}else{
 			if(updateName){
-				news.setTitle(Safety.filter(siteColumn.getName()));
+				news.setTitle(SafetyUtil.filter(siteColumn.getName()));
 				sqlDAO.save(news);
 				
 				NewsData newsData = sqlDAO.findById(NewsData.class, news.getId());

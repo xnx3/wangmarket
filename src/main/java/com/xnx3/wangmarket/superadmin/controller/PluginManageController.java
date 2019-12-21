@@ -38,13 +38,13 @@ import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.SystemUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Safety;
-import com.xnx3.j2ee.func.VersionUtil;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.j2ee.util.VersionUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
@@ -118,8 +118,8 @@ public class PluginManageController extends BasePluginController {
 		}
 		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
-		version = Safety.xssFilter(version);
+		pluginId = SafetyUtil.xssFilter(pluginId);
+		version = SafetyUtil.xssFilter(version);
 		// 校验参数
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
@@ -202,7 +202,7 @@ public class PluginManageController extends BasePluginController {
 			return error("您没有该功能操作权限");
 		}		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = SafetyUtil.xssFilter(pluginId);
 		//校验插件id
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件信息错误");
@@ -352,7 +352,7 @@ public class PluginManageController extends BasePluginController {
 			return error("您没有该功能操作权限");
 		}		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = SafetyUtil.xssFilter(pluginId);
 		// 校验信息
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件ID错误");
@@ -466,7 +466,7 @@ public class PluginManageController extends BasePluginController {
 			return error("您没有该功能操作权限");
 		}		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = SafetyUtil.xssFilter(pluginId);
 		
 		// 校验信息
 		if(pluginId == null || pluginId.trim().equals("")) {
@@ -779,7 +779,7 @@ public class PluginManageController extends BasePluginController {
 			return error("您没有该功能操作权限");
 		}		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);
+		pluginId = SafetyUtil.xssFilter(pluginId);
 		// 校验插件id是否合法
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插件信息错误");
@@ -1102,7 +1102,7 @@ public class PluginManageController extends BasePluginController {
 		ActionLogUtil.insert(request, "总管理后台-插件管理，查询云插件插件详情");
 		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId.trim());
+		pluginId = SafetyUtil.xssFilter(pluginId.trim());
 		// 传递插件信息到页面
 		model.addAttribute("plugin", YunPluginMessageCache.applicationMap.get(pluginId));
 		return "/superadmin/pluginManage/yunList/view";
@@ -1124,7 +1124,7 @@ public class PluginManageController extends BasePluginController {
 			return error("您没有该功能操作权限");
 		}		
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId);		
+		pluginId = SafetyUtil.xssFilter(pluginId);		
 		//校验插件id是否合法
 		if(pluginId == null || pluginId.trim().equals("")) {
 			return error("插ID错误");
@@ -1182,7 +1182,7 @@ public class PluginManageController extends BasePluginController {
 		
 		ActionLogUtil.insert(request, "总管理后台-插件管理，跳转上传插件压缩包页面");
 		// 参数安全过滤
-		pluginId = Safety.xssFilter(pluginId.trim());
+		pluginId = SafetyUtil.xssFilter(pluginId.trim());
 		model.addAttribute("plugin_id", pluginId);
 		return "/superadmin/pluginManage/myList/upload";
 	}

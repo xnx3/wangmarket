@@ -4,8 +4,8 @@ import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Log;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.net.MailUtil;
 
@@ -32,7 +32,7 @@ public class SiteSizeChangeLog {
 			if(keyId.length() > 10){
 				aliyunLogUtil = new AliyunLogUtil(endpoint,  keyId, keySecret, project, logstore);
 				aliyunLogUtil.setCacheAutoSubmit(0, 60);
-				Log.info("开启日志服务进行操作记录");
+				ConsoleUtil.info("开启日志服务进行操作记录");
 			}else{
 				//此处可能是还没执行install安装
 			}

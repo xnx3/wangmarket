@@ -12,10 +12,8 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import com.baidu.ueditor.define.ActionMap;
 import com.qikemi.packages.utils.SystemUtil;
-import com.xnx3.j2ee.func.Log;
 
 /**
  * 配置管理器

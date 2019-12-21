@@ -3,7 +3,7 @@ package com.xnx3.wangmarket.pluginManage.extend;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.domain.mq.DomainMQ;
 import com.xnx3.wangmarket.pluginManage.Func;
 import com.xnx3.wangmarket.pluginManage.PluginExtend;
@@ -29,7 +29,7 @@ public class AutoCreateReceiveMQForDomain {
 		
 		try {
 			DomainMQ.receive(pluginId);
-			Log.info("PluginExtend AutoCreateReceiveMQForDomain "+pluginId+" Finish");
+			ConsoleUtil.info("PluginExtend AutoCreateReceiveMQForDomain "+pluginId+" Finish");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

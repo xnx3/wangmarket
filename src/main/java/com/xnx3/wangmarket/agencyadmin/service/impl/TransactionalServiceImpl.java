@@ -15,19 +15,21 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.entity.UserRole;
 import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.func.Safety;
+import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.UserVO;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.SiteSizeChange;
 import com.xnx3.wangmarket.agencyadmin.service.TransactionalService;
+import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.agencyadmin.util.SiteSizeChangeLog;
 
 @Service("transactionalService")
@@ -53,7 +55,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		
 		if(myAgency.getSiteSize() - transferSiteSize <= 0){
 			vo.setBaseVO(BaseVO.FAILURE, "您当前只拥有"+myAgency.getSiteSize()+"站币！给下级充值金额超出，充值失败！");
-			AliyunLog.insert(request, myAgency.getId(), "warn", "给下级代理充值站币："+vo.getInfo());
+			ActionLogUtil.insertUpdateDatabase(request, myAgency.getId(), "warn", "给下级代理充值站币："+vo.getInfo());
 			return vo;
 		}
 		
@@ -62,7 +64,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		
 		if(agency.getParentId() - myAgency.getId() != 0){
 			vo.setBaseVO(BaseVO.FAILURE, "要充值的代理不是您的直属下级，无法充值");
-			AliyunLog.insert(request, myAgency.getId(), "warn", "给下级代理充值站币："+vo.getInfo());
+			ActionLogUtil.insertUpdateDatabase(request, myAgency.getId(), "warn", "给下级代理充值站币："+vo.getInfo());
 			return vo;
 		}
 		
@@ -105,13 +107,13 @@ public class TransactionalServiceImpl implements TransactionalService {
 		SiteSizeChangeLog.chongzhi(user.getId(), user.getUsername(), agency.getName(), "直属上级给充值站币", transferSiteSize, agency.getSiteSize()-transferSiteSize, agency.getSiteSize(), myAgency.getId(), ip);
 		
 		//记录操作日志
-		AliyunLog.addActionLog(agency.getId(), "给下级代理"+agency.getName()+"充值站币："+transferSiteSize);
+		ActionLogUtil.insertUpdateDatabase(request, agency.getId(), "给下级代理"+agency.getName()+"充值站币："+transferSiteSize);
 		
 		//发送短信通知对方，待短信模板通过审核
 		//G.aliyunSMSUtil.send(G.AliyunSMS_SignName, G.AliyunSMS_agencySiteSizeRecharge_TemplateCode, "{\"chongzhi\":\""+transferSiteSize+"\", \"username\":\""+agency.getName()+"\", \"siteSize\":\""+agency.getSiteSize()+"\"}", agency.getPhone());
 		
 		//刷新Session中我的代理信息缓存
-		Func.getUserBeanForShiroSession().setMyAgency(myAgency);
+		SessionUtil.setAgency(myAgency);
 		
 		return vo;
 	}
@@ -144,7 +146,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		User user = sqlDAO.findById(User.class, site.getUserid());
 		if(user.getReferrerid() - myAgency.getUserid() != 0){
 			vo.setBaseVO(BaseVO.FAILURE, "要续费的网站不是您的直属下级，无法续费");
-			AliyunLog.insert(request, myAgency.getId(), "warn", "给我开通的站点续费："+vo.getInfo());
+			ActionLogUtil.insertError(request, "myAgency.id:"+myAgency.getId()+",给我开通的站点续费："+vo.getInfo());
 			return vo;
 		}
 		
@@ -198,13 +200,13 @@ public class TransactionalServiceImpl implements TransactionalService {
 		}
 		
 		//记录操作日志
-		AliyunLog.addActionLog(site.getId(), "给网站"+site.getName()+"续费"+year+"年。网站续费后，日期到"+daoqishijian);
+		ActionLogUtil.insertUpdateDatabase(request, site.getId(), "给网站"+site.getName()+"续费"+year+"年。网站续费后，日期到"+daoqishijian);
 		
 		//发送短信通知对方
 //		G.aliyunSMSUtil.send(G.AliyunSMS_SignName, G.AliyunSMS_siteYanQi_templateCode, "{\"siteName\":\""+site.getName()+"\", \"year\":\""+year+"\", \"time\":\""+daoqishijian+"\"}", site.getPhone());
 		
 		//刷新Session中我的代理信息缓存
-		Func.getUserBeanForShiroSession().setMyAgency(myAgency);
+		SessionUtil.setAgency(myAgency);
 		return vo;
 	}
 
@@ -265,7 +267,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 				SiteSizeChangeLog.xiaofei(agency.getName(), "代理开通网站："+site.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
 				
 				//记录动作日志
-				AliyunLog.addActionLog(site.getId(), "开通网站："+site.getName());
+				ActionLogUtil.insertUpdateDatabase(request, site.getId(), "开通网站："+site.getName());
 				
 				vo.setInfo(userVO.getUser().getId()+"_"+passwordMD5(userVO.getUser().getPassword()));
 			}else{
@@ -283,8 +285,8 @@ public class TransactionalServiceImpl implements TransactionalService {
 			boolean isAgency) {
 		UserVO baseVO = new UserVO();
 		user.setUsername(StringUtil.filterXss(user.getUsername()));
-		user.setEmail(Safety.filter(user.getEmail()));
-		user.setPhone(Safety.filter(user.getPhone()));
+		user.setEmail(SafetyUtil.filter(user.getEmail()));
+		user.setPhone(SafetyUtil.filter(user.getPhone()));
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){

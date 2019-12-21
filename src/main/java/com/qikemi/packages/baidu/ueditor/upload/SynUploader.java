@@ -6,11 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
-//import com.aliyun.openservices.oss.OSSClient;
 import com.qikemi.packages.alibaba.aliyun.oss.ObjectService;
-//import com.qikemi.packages.alibaba.aliyun.oss.properties.OSSClientProperties;
 import com.qikemi.packages.utils.SystemUtil;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 同步上传文件到阿里云OSS<br>
@@ -50,18 +48,18 @@ public class SynUploader extends Thread {
 	public boolean upload(JSONObject stateJson, HttpServletRequest request) {
 		String key = stateJson.getString("url").replaceFirst("/", "");
 		try {
-			Log.debug("upload--fileInputStream file path: "+SystemUtil.getProjectRootPath() + key);			
+			ConsoleUtil.debug("upload--fileInputStream file path: "+SystemUtil.getProjectRootPath() + key);			
 			FileInputStream fileInputStream = new FileInputStream(new File(
 					SystemUtil.getProjectRootPath() + key));
 			ObjectService.putObject(key, fileInputStream);
 			
 			return true;
 		} catch (FileNotFoundException e) {
-			Log.error("upload file to aliyun OSS object server occur FileNotFoundException.");
+			ConsoleUtil.error("upload file to aliyun OSS object server occur FileNotFoundException.");
 		} catch (NumberFormatException e) {
-			Log.error("upload file to aliyun OSS object server occur NumberFormatException.");
+			ConsoleUtil.error("upload file to aliyun OSS object server occur NumberFormatException.");
 		} catch (IOException e) {
-			Log.error("upload file to aliyun OSS object server occur IOException.");
+			ConsoleUtil.error("upload file to aliyun OSS object server occur IOException.");
 		}
 		return false;
 	}

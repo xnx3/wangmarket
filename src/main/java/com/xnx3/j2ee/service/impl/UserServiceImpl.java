@@ -26,14 +26,14 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.j2ee.entity.*;
 import com.xnx3.j2ee.func.Language;
-import com.xnx3.j2ee.func.Log;
-import com.xnx3.j2ee.func.Safety;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public BaseVO loginByUsernameAndPassword(HttpServletRequest request, String username, String password){
-		username = Safety.filter(username);
+		username = SafetyUtil.filter(username);
 		
 		BaseVO baseVO = new BaseVO();
 		if(username==null || username.length() == 0 ){
@@ -139,10 +139,10 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO reg(User user, HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		user.setEmail(Safety.filter(user.getEmail()));
-		user.setNickname(Safety.filter(user.getNickname()));
-		user.setPhone(Safety.filter(user.getPhone()));
-		user.setUsername(Safety.filter(user.getUsername()));
+		user.setEmail(SafetyUtil.filter(user.getEmail()));
+		user.setNickname(SafetyUtil.filter(user.getNickname()));
+		user.setPhone(SafetyUtil.filter(user.getPhone()));
+		user.setUsername(SafetyUtil.filter(user.getUsername()));
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")||user.getPassword()==null||user.getPassword().equals("")){
@@ -309,8 +309,8 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhoneAndCode(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = Safety.filter(request.getParameter("phone"));
-		String code = Safety.filter(request.getParameter("code"));
+		String phone = SafetyUtil.filter(request.getParameter("phone"));
+		String code = SafetyUtil.filter(request.getParameter("code"));
 		if(phone==null || phone.length() != 11){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneAndCodePhoneFailure"));
 			return baseVO;
@@ -416,7 +416,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhone(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = Safety.filter(request.getParameter("phone"));
+		String phone = SafetyUtil.filter(request.getParameter("phone"));
 		if(phone==null){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhonePhoneFailure"));
 			return baseVO;
@@ -446,13 +446,13 @@ public class UserServiceImpl implements UserService{
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginUserFreeze"));
 			return baseVO;
 		}
-		Log.debug("检验此用户状态是否正常，是否被冻结，未冻结，正常");
+		ConsoleUtil.debug("检验此用户状态是否正常，是否被冻结，未冻结，正常");
 		
 		/*******更改User状态******/
 		user.setLasttime(DateUtil.timeForUnix10());
 		user.setLastip(IpUtil.getIpAddress(request));
 		sqlDAO.save(user);
-		Log.debug("更新User状态，更新后的User为："+user);
+		ConsoleUtil.debug("更新User状态，更新后的User为："+user);
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);
@@ -528,7 +528,7 @@ public class UserServiceImpl implements UserService{
 		
 		User user = ShiroFunc.getUser();
 		String fileSuffix = "png";
-		fileSuffix = Lang.findFileSuffix(Safety.filter(head.getOriginalFilename()));
+		fileSuffix = Lang.findFileSuffix(SafetyUtil.filter(head.getOriginalFilename()));
 		String newHead = Lang.uuid()+"."+fileSuffix;
 		try {
 			uploadFileVO = AttachmentUtil.put(Global.get("USER_HEAD_PATH")+newHead, head.getInputStream());
@@ -555,7 +555,7 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO updateSex(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String sex = Safety.filter(request.getParameter("sex"));
+		String sex = SafetyUtil.filter(request.getParameter("sex"));
 		if(sex == null || sex.length()<0){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_updateSexSexNotIsNull"));
 			return baseVO;
@@ -604,7 +604,7 @@ public class UserServiceImpl implements UserService{
 			sign = "";
 		}
 		//过滤html标签、sql注入、xss
-		sign = Safety.filter(StringUtil.filterHtmlTag(sign));
+		sign = SafetyUtil.filter(StringUtil.filterHtmlTag(sign));
 		if(sign.length()>40){
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_updateSignSizeFailure"));
 			return baseVO;
@@ -630,19 +630,19 @@ public class UserServiceImpl implements UserService{
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
 			List<MultipartFile> imageList = multipartRequest.getFiles(formFileName);  
 			if(imageList.size() == 0){
-				Log.debug("上传头像时，未发现头像 ------"+Language.show("user_uploadHeadImageNotFind"));
+				ConsoleUtil.debug("上传头像时，未发现头像 ------"+Language.show("user_uploadHeadImageNotFind"));
 				uploadFileVO.setResult(UploadFileVO.NOTFILE);
 				uploadFileVO.setInfo(Language.show("user_uploadHeadImageNotFind"));
 				return uploadFileVO;
 			}else{
-				Log.debug("上传头像，已发现头像的multipartFile");
+				ConsoleUtil.debug("上传头像，已发现头像的multipartFile");
 				multipartFile = imageList.get(0);
 			}
 	    }
 		
 		if(multipartFile == null || multipartFile.isEmpty()){
 			uploadFileVO.setBaseVO(BaseVO.FAILURE, Language.show("user_uploadHeadImageNotFind"));
-			Log.debug("上传头像的multipartFile为空，不存在上传的头像 ------"+Language.show("user_uploadHeadImageNotFind"));
+			ConsoleUtil.debug("上传头像的multipartFile为空，不存在上传的头像 ------"+Language.show("user_uploadHeadImageNotFind"));
 			return uploadFileVO;
 		}
 		
@@ -719,14 +719,14 @@ public class UserServiceImpl implements UserService{
 		BaseVO baseVO = new BaseVO();
 		User user = sqlDAO.findById(User.class, userId);
 		if(user == null){
-			Log.debug("用户不存在");
+			ConsoleUtil.debug("用户不存在");
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginByPhoneUserNotFind"));
 			return baseVO;
 		}
 		
 		//检验此用户状态是否正常，是否被冻结
 		if(user.getIsfreeze() == User.ISFREEZE_FREEZE){
-			Log.debug("此用户被冻结，无法设置为登陆用户");
+			ConsoleUtil.debug("此用户被冻结，无法设置为登陆用户");
 			baseVO.setBaseVO(BaseVO.FAILURE, Language.show("user_loginUserFreeze"));
 			return baseVO;
 		}
@@ -735,7 +735,7 @@ public class UserServiceImpl implements UserService{
 		user.setLasttime(DateUtil.timeForUnix10());
 		user.setLastip(IpUtil.getIpAddress(request));
 		sqlDAO.save(user);
-		Log.debug("设置指定userId为登陆用户，设置后得User："+user);
+		ConsoleUtil.debug("设置指定userId为登陆用户，设置后得User："+user);
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);
@@ -779,8 +779,8 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO createUser(User user, HttpServletRequest request) {
 		//用户名、密码进行xss、sql防注入
-		user.setUsername(Safety.filter(user.getUsername()));
-		user.setPassword(Safety.filter(user.getPassword()));
+		user.setUsername(SafetyUtil.filter(user.getUsername()));
+		user.setPassword(SafetyUtil.filter(user.getPassword()));
 		
 		//既然是注册新用户，那么用户名、密码一定是不能为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){
@@ -845,7 +845,7 @@ public class UserServiceImpl implements UserService{
 		if(user.getHead() == null){
 			user.setHead("default.png");
 		}else{
-			user.setHead(Safety.filter(user.getHead()));
+			user.setHead(SafetyUtil.filter(user.getHead()));
 		}
 		if(user.getId() != null){
 			user.setId(null);

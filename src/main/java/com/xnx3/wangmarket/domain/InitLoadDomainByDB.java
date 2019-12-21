@@ -4,14 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 项目启动初始化，从数据库加载域名列表缓存到内存
@@ -112,7 +110,7 @@ public class InitLoadDomainByDB {
 //			e.printStackTrace();
 //		}
 		
-		Log.info("共缓存二级域名："+G.getDomainSize()+"个， 绑定域名："+G.getBindDomainSize()+"个");
+		ConsoleUtil.info("共缓存二级域名："+G.getDomainSize()+"个， 绑定域名："+G.getBindDomainSize()+"个");
 	}
 	
 }

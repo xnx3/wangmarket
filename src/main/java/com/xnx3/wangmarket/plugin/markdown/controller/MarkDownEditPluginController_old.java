@@ -8,11 +8,10 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
-import com.xnx3.wangmarket.plugin.base.controller.BasePluginController;
+import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
 
 /**
  * markdown上传，v4.3以前版本预留
@@ -39,7 +38,7 @@ public class MarkDownEditPluginController_old extends BasePluginController {
 				json.put("message", "上传成功");
 				json.put("url", uploadFileVO.getUrl());
 				//上传成功，写日志
-				AliyunLog.addActionLog(getSiteId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
+				ActionLogUtil.insert(request, getSiteId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
 			}else{
 				json.put("success", 0);
 				json.put("message", uploadFileVO.getInfo());

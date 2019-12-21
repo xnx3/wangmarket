@@ -5,6 +5,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import com.xnx3.j2ee.util.ConsoleUtil;
+
 /**
  * 放到Tomcat中时用
  * @author 管雷鸣
@@ -14,9 +16,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class ServletInitializer extends SpringBootServletInitializer {
     
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    	com.xnx3.j2ee.func.Log.debug = true;
-    	com.xnx3.j2ee.func.Log.info = true;
-    	com.xnx3.j2ee.func.Log.error = true;
+    	ConsoleUtil.debug = true;
+    	ConsoleUtil.info = true;
+    	ConsoleUtil.error = true;
     	com.xnx3.j2ee.Global.isJarRun = false;	//自行放到tomcat中运行
     	
     	Application.startFinish();//当项目启动完毕后，控制台打印启动成功的说明指引

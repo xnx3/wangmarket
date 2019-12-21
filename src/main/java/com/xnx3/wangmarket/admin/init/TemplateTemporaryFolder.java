@@ -1,12 +1,10 @@
 package com.xnx3.wangmarket.admin.init;
 
 import java.io.File;
-
 import org.springframework.stereotype.Component;
-
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
  * 初始化模版文件夹，自动创建模版包上传的临时文件
@@ -24,7 +22,7 @@ public class TemplateTemporaryFolder {
 		//定时巡检，删除过时文件
 		new Thread(new Runnable() {
 			public void run() {
-				Log.info("start template temporary folder timing check thread.");
+				ConsoleUtil.info("start template temporary folder timing check thread.");
 				while (true) {
 					try {
 						Thread.sleep(TIMEOUT*1000);
@@ -34,7 +32,7 @@ public class TemplateTemporaryFolder {
 					
 					File file = new File(folderPath);
 					if(file == null){
-						Log.error("folderPath --- null");
+						ConsoleUtil.error("folderPath --- null");
 					}
 					File subFiles[] = file.listFiles();
 					if(subFiles != null){
@@ -67,7 +65,7 @@ public class TemplateTemporaryFolder {
 		if(!templateTemporaryFile.exists()){
 			//如果文件夹不存在，那么自动创建
 			templateTemporaryFile.mkdir();
-			Log.info("auto create template temporary floder : "+folderPath);
+			ConsoleUtil.info("auto create template temporary floder : "+folderPath);
 		}
 	}
 	

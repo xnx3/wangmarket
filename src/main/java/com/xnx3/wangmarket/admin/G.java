@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import com.xnx3.ConfigManagerUtil;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.net.AliyunSMSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -85,7 +85,7 @@ public class G {
 	static{
 		ConfigManagerUtil c = ConfigManagerUtil.getSingleton("wangMarketConfig.xml");
 		
-		Log.info("The current version : "+VERSION);
+		ConsoleUtil.info("The current version : "+VERSION);
 		
 		
 		//加载日志服务
@@ -108,7 +108,7 @@ public class G {
 				AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
 //				AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
 			}else{
-				Log.info("已开启Aliyun短信发送服务");
+				ConsoleUtil.info("已开启Aliyun短信发送服务");
 			}
 		}
 		

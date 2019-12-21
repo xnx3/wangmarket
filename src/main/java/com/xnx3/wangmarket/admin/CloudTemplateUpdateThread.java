@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.func.Log;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
@@ -28,7 +27,7 @@ public class CloudTemplateUpdateThread {
 	public CloudTemplateUpdateThread() {
 		new Thread(new Runnable() {
 			public void run() {
-				Log.info("Start the cloud template thread synchronization");
+				ConsoleUtil.info("Start the cloud template thread synchronization");
 				HttpUtil http = new HttpUtil(HttpUtil.UTF8);
 				http.setTimeout(5);//超时时间5秒
 				
@@ -37,7 +36,7 @@ public class CloudTemplateUpdateThread {
 					if(Global.get("USER_REG_ROLE") != null){
 						//有值了，已经加载完数据库信息了
 						waitLoadDBFinish = false;
-						Log.info("监测到已经加载数据库信息，2秒后同步云端模版");
+						ConsoleUtil.info("监测到已经加载数据库信息，2秒后同步云端模版");
 					}
 					try {
 						//延迟2秒
@@ -61,7 +60,7 @@ public class CloudTemplateUpdateThread {
 								//使用try，避免cdn出现问题，终止此模版更新线程
 								json = JSONObject.fromObject(hr.getContent());
 							} catch (Exception e) {
-								Log.error(e.getMessage());
+								ConsoleUtil.error(e.getMessage());
 								e.printStackTrace();
 							}
 							
@@ -109,7 +108,7 @@ public class CloudTemplateUpdateThread {
 											
 											//G.cloudTemplateMap.put(temp.getString("name"), temp.getString("intro"));
 										}
-										Log.info("同步云模版库完成，共同步"+jsonArray.size()+"个CMS模板");
+										ConsoleUtil.info("同步云模版库完成，共同步"+jsonArray.size()+"个CMS模板");
 										
 										//同步完cloudTemplateMapForType后，继续同步 cloudTemplateMapForName
 										TemplateUtil.cloudTemplateMapForName.clear();
@@ -123,10 +122,10 @@ public class CloudTemplateUpdateThread {
 										result = true;
 									}
 								}else{
-									Log.error("非正常现象。同步云端模版库失败，接收json.result为null");
+									ConsoleUtil.error("非正常现象。同步云端模版库失败，接收json.result为null");
 								}
 							}else{
-								Log.error("非正常现象。同步云端模版库失败，接收json为null");
+								ConsoleUtil.error("非正常现象。同步云端模版库失败，接收json为null");
 							}
 						}
 					}
@@ -137,7 +136,7 @@ public class CloudTemplateUpdateThread {
 							//同步成功，则向后间隔1小时后再同步  1000 * 60 * 60 ＝ 3600000
 							Thread.sleep(3600000);
 						}else{
-							Log.info("template cloud 同步失败，等待重试");
+							ConsoleUtil.info("template cloud 同步失败，等待重试");
 							//同步失败，则间隔3秒后再同步
 							Thread.sleep(3000);
 						}

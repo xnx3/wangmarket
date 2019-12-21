@@ -18,7 +18,6 @@ import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
-import com.xnx3.wangmarket.admin.util.AliyunLog;
 
 /**
  * CMS模式下，输入模型相关操作
