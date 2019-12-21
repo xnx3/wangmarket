@@ -4,12 +4,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.service.impl.SqlServiceImpl;
 
 /**
- * SpringContext相关，如获取spring中的bean
- * Author：Mr.X
+ * Spring相关，如获取spring中的bean
  */
-@Component
+//@Component
 public class SpringUtil implements ApplicationContextAware {
 
     /**
@@ -65,4 +66,13 @@ public class SpringUtil implements ApplicationContextAware {
     public static <T> T getBean(String name, Class<T> clazz) {
         return getApplicationContext().getBean(name, clazz);
     }
+    
+
+	/**
+	 * 获取数据库的操作 {@link SqlService}
+	 */
+	public static SqlService getSqlService(){
+		return getBean(SqlServiceImpl.class);
+	}
+	
 }

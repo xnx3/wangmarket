@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.util.PluginCache;
 import com.xnx3.wangmarket.pluginManage.Func;
@@ -80,7 +81,7 @@ public class AutoLoadSimplePluginTableDateThread extends Thread{
 			return;
 		}
 		
-		List<Map<String, Object>> list = com.xnx3.j2ee.func.Sql.getSqlService().findMapBySqlQuery(this.querySql);
+		List<Map<String, Object>> list = SpringUtil.getSqlService().findMapBySqlQuery(this.querySql);
 		//将数据库查询到的结果，以 key ： siteid，  value ：查询到的结果 ， 的方式，存入map，以便根据siteid来取信息
 		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> map = list.get(i);

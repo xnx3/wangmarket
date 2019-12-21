@@ -10,6 +10,7 @@ import com.xnx3.Lang;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.SpringUtil;
 
 /**
  * 项目启动初始化，从数据库加载域名列表缓存到内存
@@ -54,7 +55,7 @@ public class InitLoadDomainByDB {
 		}
 		InitLoadDomainByDB.cache = true;
 		
-		List<Map<String, Object>> list = com.xnx3.j2ee.func.Sql.getSqlService().findMapBySqlQuery("SELECT id,client,domain,bind_domain,state,template_id FROM site");
+		List<Map<String, Object>> list = SpringUtil.getSqlService().findMapBySqlQuery("SELECT id,client,domain,bind_domain,state,template_id FROM site");
 		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> map = list.get(i);
 			

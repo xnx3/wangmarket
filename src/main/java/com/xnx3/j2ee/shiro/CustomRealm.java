@@ -15,11 +15,11 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import com.xnx3.j2ee.entity.Permission;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.SpringContextUtils;
 import com.xnx3.j2ee.service.RoleService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.impl.RoleServiceImpl;
 import com.xnx3.j2ee.service.impl.SqlServiceImpl;
+import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.bean.PermissionTree;
 
@@ -42,8 +42,8 @@ public class CustomRealm extends AuthorizingRealm {
 		// 第一步从token中取出用户名
 		String username = (String) token.getPrincipal();
     	
-    	SqlService sqlService = SpringContextUtils.getBean(SqlServiceImpl.class);
-    	RoleService roleService = SpringContextUtils.getBean(RoleServiceImpl.class);
+    	SqlService sqlService = SpringUtil.getSqlService();
+    	RoleService roleService = SpringUtil.getBean(RoleServiceImpl.class);
     	
     	User user = sqlService.findAloneBySqlQuery("SELECT * FROM user WHERE username = '"+username+"'", User.class);
 		
