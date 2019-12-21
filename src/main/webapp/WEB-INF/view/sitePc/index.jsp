@@ -141,20 +141,6 @@ var autoAssignDomain = '${autoAssignDomain }';
 			</dl>
 		</li>
 		<% } %>
-		
-		<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-		<li class="layui-nav-item">
-			<a href="javascript:;">
-				<i class="layui-icon firstMenuIcon">&#xe63a;</i>
-				<span class="firstMenuFont">客服管理</span>
-			</a>
-			<dl class="layui-nav-child">
-				<dd><a id="im_menu" class="subMenuItem" href="javascript:openKefuSet();">基本设置</a></dd>
-				<dd><a id="im_hostory" class="subMenuItem" href="javascript:loadIframeByUrl('/im/hostoryChatList.do'), notUseTopTools();">历史咨询</a></dd>
-			</dl>
-		</li>
-		<% } %>
-		
 		<li class="layui-nav-item" id="plugin" style="display:none;">
 			<a href="javascript:;">
 				<i class="layui-icon firstMenuIcon">&#xe857;</i>
@@ -381,18 +367,5 @@ setTimeout("versionUpdateRemind('<%=G.VERSION %>');",3000);//延时3秒
 
 ${siteRemainHintJavaScript }
 
-<% if(com.xnx3.wangmarket.im.Global.kefuMNSUtil != null){ %>
-<!-- IM start -->
-<script src="//res.weiunity.com/layui217/layui.js"></script>
-<script>
-var id = ${user.id};	//用户的id，用户唯一
-var password = "${password }";	//加密后密码
-var username = "${user.nickname }";	//用户昵称，用户在聊天框显示的名字
-var sign = '${siteUrl},${site.name}';	//当前用户签名
-var socketUrl = '${im_kefu_websocketUrl}'; //socket的url请求地址
-setTimeout("dynamicLoading.js('/js/im/site.js')",1500);//延时1.5秒 
-</script>
-<!-- IM end -->
-<% } %>
-
-</body></html>
+</body>
+</html>

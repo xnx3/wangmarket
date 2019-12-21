@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.ActionLogUtil;
-import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -45,7 +44,7 @@ public class LoginController_ extends BaseController {
 	    captchaUtil.setHeight(18);  //验证码图片的高度
 	    captchaUtil.setWidth(110);      //验证码图片的宽度
 //	    captchaUtil.setCode(new String[]{"我","是","验","证","码"});   //如果对于数字＋英文不满意，可以自定义验证码的文字！
-	    Captcha.showImage(captchaUtil, request, response);
+	    com.xnx3.j2ee.util.CaptchaUtil.showImage(captchaUtil, request, response);
 	}
 	
 	/**
@@ -78,7 +77,7 @@ public class LoginController_ extends BaseController {
 		LoginVO vo = new LoginVO();
 		
 		//验证码校验
-		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
+		BaseVO capVO = com.xnx3.j2ee.util.CaptchaUtil.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
 			ActionLogUtil.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
 			vo.setBaseVO(capVO);

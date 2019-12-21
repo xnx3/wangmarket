@@ -18,13 +18,13 @@ import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
-import com.xnx3.j2ee.func.Captcha;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.CaptchaUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.LoginVO;
@@ -177,7 +177,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		LoginVO vo = new LoginVO();
 		
 		//验证码校验
-		BaseVO capVO = Captcha.compare(request.getParameter("code"), request);
+		BaseVO capVO = CaptchaUtil.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
 			ActionLogUtil.insert(request, "用户名密码模式登录失败", "验证码出错，提交的验证码："+StringUtil.filterXss(request.getParameter("code")));
 			vo.setBaseVO(capVO);
