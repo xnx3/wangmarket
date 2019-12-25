@@ -6,7 +6,7 @@ package com.xnx3.j2ee.util;
  */
 public class ConsoleUtil {
 	public static boolean debug = false;	//默认为false，不开启
-	public static boolean error = false;	//默认为false，不开启
+	public static boolean error = true;	//默认为true，开启
 	public static boolean info = false;	//默认为false，不开启
 	
 	/**

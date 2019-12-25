@@ -1,7 +1,8 @@
 package com.xnx3.wangmarket.plugin.learnExample.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.xnx3.wangmarket.pluginManage.controller.BasePluginController;
+
+import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
 
 /**
  * 功能插件开发入门示例

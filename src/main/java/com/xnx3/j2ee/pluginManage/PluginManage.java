@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage;
+package com.xnx3.j2ee.pluginManage;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -11,24 +11,18 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
+import com.xnx3.j2ee.pluginManage.extend.AutoCreateReceiveMQForDomain;
+import com.xnx3.j2ee.pluginManage.extend.AutoLoadSimplePluginTableDateThread;
+import com.xnx3.j2ee.pluginManage.extend.DatabaseLoadFinishThread;
 import com.xnx3.j2ee.util.ConsoleUtil;
-import com.xnx3.wangmarket.pluginManage.extend.AutoCreateReceiveMQForDomain;
-import com.xnx3.wangmarket.pluginManage.extend.AutoLoadSimplePluginTableDateThread;
-import com.xnx3.wangmarket.pluginManage.extend.DatabaseLoadFinishThread;
+import com.xnx3.j2ee.util.PluginUtil;
 
 /**
  * 注册的插件管理
  * @author 管雷鸣
  *
  */
-@Component
 public class PluginManage {
-	public PluginManage() throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
-		scanPluginClass();
-		
-		scanPluginExtend();
-	}
-	
 	//网站管理后台相关的插件，key：插件名字，如自定义表单插件，便是 formManage
 	public static Map<String, PluginRegister> cmsSiteClassManage;
 	public static Map<String, PluginRegister> agencyClassManage;
@@ -78,7 +72,7 @@ public class PluginManage {
 		if(c.getAnnotation(PluginRegister.class) != null){
 			//v4.12 及之后的版本，使用 com.xnx3.wangmarket.pluginManage.PluginRegister 注解
 			PluginRegister plugin = (PluginRegister) c.getAnnotation(PluginRegister.class);
-			String pluginId = Func.getPluginId(c.getName());
+			String pluginId = PluginUtil.getPluginId(c.getName());
 			if(pluginId == null || pluginId.length() == 0){
 				return;
 			}
@@ -230,7 +224,7 @@ public class PluginManage {
 	 * 扫描插件扩展，也就是扫描继承了 com.xnx3.wangmarket.pluginManage.PluginExtend 的类
 	 */
 	public static void scanPluginExtend(){
-		List<Class<?>> list = ScanClassUtil.getClasses("com.xnx3.wangmarket.plugin");
+		List<Class<?>> list = ScanClassUtil.getClasses("com.xnx3.wangmarket");
 		for (int i = 0; i < list.size(); i++) {
 			Class c = list.get(i);
 			
@@ -261,4 +255,18 @@ public class PluginManage {
 		}
 	}
 	
+}
+
+/**
+ * 项目启动后，自动开启插件扫描
+ * @author 管雷鸣
+ *
+ */
+@Component
+class PluginScan{
+	public PluginScan() throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
+		PluginManage.scanPluginClass();
+		
+		PluginManage.scanPluginExtend();
+	}
 }

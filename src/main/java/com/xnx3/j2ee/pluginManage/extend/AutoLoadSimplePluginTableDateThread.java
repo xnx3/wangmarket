@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage.extend;
+package com.xnx3.j2ee.pluginManage.extend;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.PluginUtil;
 import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.util.PluginCache;
-import com.xnx3.wangmarket.pluginManage.Func;
-import com.xnx3.wangmarket.pluginManage.PluginExtend;
 
 /**
  * 自动加载插件表的数据。 关联 {@link PluginExtend#autoLoadPluginTableDate()}
@@ -28,7 +27,7 @@ public class AutoLoadSimplePluginTableDateThread extends Thread{
 	 * @param method 扫描到的{@link PluginExtend#autoLoadPluginTableDate()}
 	 */
 	public static void execute(Class c, Method method){
-		String pluginId = Func.getPluginId(c.getName());
+		String pluginId = PluginUtil.getPluginId(c.getName());
 		if(pluginId == null || pluginId.length() == 0){
 			return;
 		}

@@ -1,9 +1,8 @@
-package com.xnx3.wangmarket.pluginManage.extend;
+package com.xnx3.j2ee.pluginManage.extend;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.xnx3.wangmarket.domain.G;
-import com.xnx3.wangmarket.pluginManage.PluginExtend;
 
 /**
  * 当数据库加载完成后执行某某方法。 关联 {@link PluginExtend#databaseLoadFinish()}

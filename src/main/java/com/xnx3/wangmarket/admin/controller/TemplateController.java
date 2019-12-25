@@ -30,6 +30,8 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.StaticResource;
+import com.xnx3.j2ee.pluginManage.PluginManage;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
@@ -73,8 +75,6 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.InputModelComp
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.SiteColumnCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplatePageCompare;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCompare;
-import com.xnx3.wangmarket.pluginManage.PluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 
 /**

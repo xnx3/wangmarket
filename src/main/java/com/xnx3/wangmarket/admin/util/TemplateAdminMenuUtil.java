@@ -2,12 +2,13 @@ package com.xnx3.wangmarket.admin.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.xnx3.j2ee.pluginManage.PluginManage;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.FirstMenu;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.MenuBean;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
-import com.xnx3.wangmarket.pluginManage.PluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
 
 /**
  * 网站管理后台，左侧菜单相关的工具类，也可以理解为权限相关，控制左侧菜单的显示、隐藏，控制某个用户哪个菜单可见，哪个不可见

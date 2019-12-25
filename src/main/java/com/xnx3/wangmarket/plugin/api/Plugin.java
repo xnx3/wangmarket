@@ -1,6 +1,6 @@
 package com.xnx3.wangmarket.plugin.api;
 
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 
 /**
  * 将API接口插件注册到网市场中的代理后台、总管理后台中

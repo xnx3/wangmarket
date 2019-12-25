@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.util.ActionLogUtil;
+import com.xnx3.j2ee.pluginManage.PluginManage;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.j2ee.pluginManage.interfaces.manage.SuperAdminIndexPluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
 
 /**
  * 管理后台首页

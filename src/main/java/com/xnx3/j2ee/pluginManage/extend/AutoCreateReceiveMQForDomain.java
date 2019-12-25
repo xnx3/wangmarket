@@ -1,12 +1,11 @@
-package com.xnx3.wangmarket.pluginManage.extend;
+package com.xnx3.j2ee.pluginManage.extend;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.PluginUtil;
 import com.xnx3.wangmarket.domain.mq.DomainMQ;
-import com.xnx3.wangmarket.pluginManage.Func;
-import com.xnx3.wangmarket.pluginManage.PluginExtend;
 
 /**
  * 自动创建 domain 项目中，mq接收的监听
@@ -22,7 +21,7 @@ public class AutoCreateReceiveMQForDomain {
 	 * @param method 扫描到的{@link PluginExtend#autoLoadPluginTableDate()}
 	 */
 	public static void execute(Class c, Method method){
-		String pluginId = Func.getPluginId(c.getName());
+		String pluginId = PluginUtil.getPluginId(c.getName());
 		if(pluginId == null || pluginId.length() == 0){
 			return;
 		}

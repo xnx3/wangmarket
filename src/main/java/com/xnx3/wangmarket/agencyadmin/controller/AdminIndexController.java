@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.xnx3.ClassUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
+import com.xnx3.j2ee.pluginManage.PluginManage;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.pluginManage.interfaces.manage.AgencyAdminIndexPluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginManage;
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
 
 /**
  * 代理后台管理首页

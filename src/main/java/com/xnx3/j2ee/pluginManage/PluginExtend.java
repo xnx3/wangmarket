@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage;
+package com.xnx3.j2ee.pluginManage;
 
 import com.xnx3.j2ee.Global;
 

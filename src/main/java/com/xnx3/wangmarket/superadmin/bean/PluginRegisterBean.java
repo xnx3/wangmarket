@@ -1,6 +1,6 @@
 package com.xnx3.wangmarket.superadmin.bean;
 
-import com.xnx3.wangmarket.pluginManage.PluginRegister;
+import com.xnx3.j2ee.pluginManage.PluginRegister;
 
 /**
  * {@link PluginRegister} 的 bean，方便 springmvc 向 view 传递数据

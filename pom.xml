@@ -345,20 +345,26 @@
 		    <version>2.2.2</version>
 		</dependency>
 		
-		
+		<!-- http请求 https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+		<dependency>
+		    <groupId>commons-httpclient</groupId>
+		    <artifactId>commons-httpclient</artifactId>
+		    <version>3.1</version>
+		</dependency>
 		
 		<!-- RabbitMQ -->
 		<dependency>
 		     <groupId>org.springframework.boot</groupId>
 		     <artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
-
+		
+		<!-- xnx3-util -->
 		<dependency>
-		  <groupId>com.xnx3.weixin</groupId>
-		  <artifactId>xnx3-weixin</artifactId>
-		  <version>1.0</version>
+		 	<groupId>com.xnx3.util</groupId>
+			<artifactId>xnx3-util</artifactId>
+			<version>1.0.0</version>
 		</dependency>
-	    
+
 	    <!-- 本地的 -->
 	    <dependency> 
 	        <groupId>com.xnx3</groupId>  
@@ -366,6 +372,13 @@
 	        <version>2.2</version>  
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-2.2.jar</systemPath>
+	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.weixin</groupId>  
+	        <artifactId>xnx3-weixin</artifactId>  
+	        <version>1.1</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-weixin-1.1.jar</systemPath>
 	    </dependency>
 	  	<dependency> 
 	        <groupId>com.xnx3.tld</groupId>  

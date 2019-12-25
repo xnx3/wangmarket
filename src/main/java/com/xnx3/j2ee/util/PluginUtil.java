@@ -1,8 +1,9 @@
-package com.xnx3.wangmarket.pluginManage;
+package com.xnx3.j2ee.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.util.EntityUtil;
+import com.xnx3.j2ee.pluginManage.PluginManage;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.RabbitUtil;
 import com.xnx3.wangmarket.domain.bean.PluginMQ;
@@ -10,12 +11,13 @@ import com.xnx3.wangmarket.domain.mq.JavaMQUtil;
 import net.sf.json.JSONObject;
 
 /**
- * 插件的一些常用方法
+ * 插件相关的工具类
  * @author 管雷鸣
- * @since 5.0
+ *
  */
-public class Func {
-	
+public class PluginUtil extends PluginManage{
+
+
 	/**
 	 * 传入插件某个类的包路径，返回插件的id
 	 * @param packageStr 某个插件某个类的包路径，如 com.xnx3.wangmarket.plugin.cnzz.Plugin
@@ -57,9 +59,5 @@ public class Func {
 			//不使用 RabbitMQ
 			JavaMQUtil.sendMessage(pluginId, content);
 		}
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(getPluginId("com.xnx3.wangmarket.plugin.baidushangqiao_domain.Plugin"));
 	}
 }

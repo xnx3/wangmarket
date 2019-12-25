@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.util;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -284,6 +285,26 @@ public class AttachmentUtil {
 		modeVO.setSize(vo.getSize());
 		return modeVO;
 	}
+	
+	/**
+	 * 上传图片，将网上的图片复制到OSS里 如果获取不到后缀，默认用 jpg
+	 * @param filePath 上传图片的OSS地址，如 image/124  后面会自动拼接上图片的后缀名，上传成功后为image/124.png
+	 * @param imageUrl 网上图片的地址
+	 * @return {@link UploadFileVO}
+	 */
+	public static UploadFileVO putImageByUrl(String filePath, String imageUrl){
+		if(imageUrl == null){
+			return null;
+		}
+		String suffix = Lang.findFileSuffix(imageUrl);	//取图片后缀名
+		BufferedImage bufferedImage = ImageUtil.getBufferedImageByUrl(imageUrl);
+		if(suffix == null){
+			suffix = "jpg";
+		}
+		
+		return put(filePath, ImageUtil.bufferedImageToInputStream(bufferedImage, suffix));
+	}
+	
 	
 	/**
 	 * 传入一个路径，得到其源代码(文本)

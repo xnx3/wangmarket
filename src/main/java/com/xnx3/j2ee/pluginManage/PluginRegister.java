@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.pluginManage;
+package com.xnx3.j2ee.pluginManage;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
