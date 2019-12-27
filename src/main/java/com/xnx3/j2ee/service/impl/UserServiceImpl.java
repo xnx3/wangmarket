@@ -185,7 +185,6 @@ public class UserServiceImpl implements UserService{
 		user.setMoney(0F);
 		user.setIsfreeze(User.ISFREEZE_NORMAL);
 		user.setHead("default.png");
-		user.setIdcardauth(User.IDCARDAUTH_NO);
 		
 		String inviteid = null;
 		if(request.getSession().getAttribute("inviteid")!=null){

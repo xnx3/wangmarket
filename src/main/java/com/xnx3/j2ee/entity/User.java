@@ -42,21 +42,11 @@ public class User extends BaseEntity {
 	private Integer referrerid;	//推荐人的用户id。若没有推荐人则默认为0。推荐人可在system表中设置四级下线是否开启以及奖励
 	private float money;		//账户可用余额，金钱,RMB，单位：元
 	private float freezemoney;	//账户冻结余额，金钱,RMB，单位：元
-	private Short isfreeze;	//是否已冻结，1已冻结（拉入黑名单），0正常
-	private Short idcardauth;	//是否已经经过真实身份认证了（身份证、银行卡绑定等）。默认为没有认证。预留字段
-	private String sign;		//用户签名,限制50个汉字或100个英文字符
-	private String sex;		//性别，三个值：男、女、未知
+	private Short isfreeze;		//是否已冻结，1已冻结（拉入黑名单），0正常
+	private String sex;			//性别，三个值：男、女、未知
+	private String sign;		//用户签名,限制100个字符
 	
-	/** 增加的 **/
-	private String ossUpdateDate;
-	private Integer ossSize;
-	private Integer ossSizeHave;
 	private Integer version;
-	
-	//v4.9增加,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了
-	private Integer siteid;
-	
-	// Constructors
 
 	/** default constructor */
 	public User() {
@@ -155,20 +145,7 @@ public class User extends BaseEntity {
 	public void setHead(String head) {
 		this.head = head;
 	}
-	/**
-	 * 是否已经经过真实身份认证了（身份证、银行卡绑定等）。默认为没有认证。预留字段
-	 * @return
-	 */
-	public Short getIdcardauth() {
-		return idcardauth;
-	}
-	/**
-	 * 是否已经经过真实身份认证了（身份证、银行卡绑定等）。默认为没有认证。预留字段
-	 * @param idcardauth
-	 */
-	public void setIdcardauth(Short idcardauth) {
-		this.idcardauth = idcardauth;
-	}
+	
 	/**
 	 * 昵称
 	 * @return
@@ -344,20 +321,7 @@ public class User extends BaseEntity {
 	public void setIsfreeze(Short isfreeze) {
 		this.isfreeze = isfreeze;
 	}
-	/**
-	 * 用户签名,限制50个汉字或100个英文字符
-	 * @return
-	 */
-	public String getSign() {
-		return sign;
-	}
-	/**
-	 * 用户签名,限制50个汉字或100个英文字符
-	 * @param sign
-	 */
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
+	
 	/**
 	 * 性别，三个值：男、女、未知
 	 * @return 三个值：
@@ -382,37 +346,20 @@ public class User extends BaseEntity {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	@Column(name = "oss_update_date")
-	public String getOssUpdateDate() {
-		return ossUpdateDate;
-	}
-	public void setOssUpdateDate(String ossUpdateDate) {
-		this.ossUpdateDate = ossUpdateDate;
-	}
-	@Column(name = "oss_size")
-	public Integer getOssSize() {
-		if(ossSize == null){
-			return 0;
-		}
-		return ossSize;
-	}
-	public void setOssSize(Integer ossSize) {
-		this.ossSize = ossSize;
-	}
 	
-	@Column(name = "siteid")
-	public Integer getSiteid() {
-		return siteid;
+	/**
+	 * 用户签名,限制50个汉字或100个英文字符
+	 * @return
+	 */
+	public String getSign() {
+		return sign;
 	}
-	public void setSiteid(Integer siteid) {
-		this.siteid = siteid;
-	}
-	public void setOssSizeHave(Integer ossSizeHave) {
-		this.ossSizeHave = ossSizeHave;
-	}
-	@Column(name = "oss_size_have")
-	public Integer getOssSizeHave() {
-		return ossSizeHave;
+	/**
+	 * 用户签名,限制50个汉字或100个英文字符
+	 * @param sign
+	 */
+	public void setSign(String sign) {
+		this.sign = sign;
 	}
 	
 	@Version
@@ -422,15 +369,4 @@ public class User extends BaseEntity {
 	public void setVersion(Integer version) {
 	    this.version = version;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", head="
-				+ head + ", nickname=" + nickname + ", authority=" + authority + ", regtime=" + regtime + ", lasttime="
-				+ lasttime + ", regip=" + regip + ", lastip=" + lastip + ", salt=" + salt + ", phone=" + phone
-				+ ", currency=" + currency + ", referrerid=" + referrerid + ", money=" + money + ", freezemoney="
-				+ freezemoney + ", isfreeze=" + isfreeze + ", idcardauth=" + idcardauth + ", sign=" + sign + ", sex="
-				+ sex + ", ossUpdateDate=" + ossUpdateDate + ", ossSize=" + ossSize + ", ossSizeHave=" + ossSizeHave
-				+ ", version=" + version + ", siteid=" + siteid + "]";
-	}
-	
 }

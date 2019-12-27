@@ -4,6 +4,7 @@ import java.util.Map;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.entity.SiteUser;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 
 /**
@@ -24,24 +25,8 @@ public class SessionUtil extends com.xnx3.j2ee.util.SessionUtil{
 	public static final String PLUGIN_NAME_INPUTMODEL_MAP = "wangmarket_inputModelMap";
 	//网站管理后台的左侧菜单使用权限，只限网站用户有效。key: id，也就是左侧菜单的唯一id标示，比如模版管理是template，生成整站是 shengchengzhengzhan， 至于value，无意义，1即可
 	public static final String PLUGIN_NAME_SITE_MENU_ROLE = "wangmarket_siteMenuRole";
-	
-	
-	/**
-	 * 设置当前网市场云建站系统缓存的用户登录信息
-	 * @param activeUser 包含用户信息、站点信息、代理信息等
-	 */
-//	public static void setActiveUser(com.xnx3.wangmarket.admin.bean.ActiveUser activeUser){
-//		setPlugin(SESSION_NAME_PLUGIN_SITE, activeUser);
-//	}
-//	
-//	/**
-//	 * 获取当前网市场云建站系统缓存的用户登录信息
-//	 * @return {@link com.xnx3.wangmarket.admin.bean.ActiveUser} 包含用户信息、站点信息、代理信息等
-//	 */
-//	public static com.xnx3.wangmarket.admin.bean.ActiveUser getActiveUser(){
-//		return getPlugin(SESSION_NAME_PLUGIN_SITE);
-//	}
-	
+	//site_user 表的信息
+	public static final String PLUGIN_NAME_SITE_USER = "wangmarket_site_user";
 	
 	/**
 	 * 获取当前用户登陆的站点信息。若是不存在，则返回null
@@ -144,5 +129,24 @@ public class SessionUtil extends com.xnx3.j2ee.util.SessionUtil{
 	public static void setSiteMenuRole(Map<String, String> map){
 		setPlugin(PLUGIN_NAME_SITE_MENU_ROLE, map);
 	}
+	
+	
+	
+	/**
+	 * 获取当前用户登陆的站点信息。若是不存在，则返回null
+	 * @return
+	 */
+	public static SiteUser getSiteUser(){
+		return getPlugin(PLUGIN_NAME_SITE_USER);
+	}
+	
+	/**
+	 * 设置当前登录的站点信息
+	 * @param site {@link Site}当前登录用户所管理的站点信息
+	 */
+	public static void setSiteUser(SiteUser siteUser){
+		setPlugin(PLUGIN_NAME_SITE_USER, siteUser);
+	}
+	
 }
 

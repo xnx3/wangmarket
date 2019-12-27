@@ -100,6 +100,7 @@ public class SqlDAO {
         return list;
 	}
 	
+	
 	/**
 	 * 传入原生SQL语句，查询返回一个实体类。 会自动在原生SQL语句末尾添加 LIMIT 0,1 进行组合查询语句
 	 * @param sqlQuery 查询语句，如 SELECT * FROM user WHERE username = 'xnx3'

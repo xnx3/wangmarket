@@ -7,9 +7,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import com.xnx3.j2ee.util.Sql;
+import com.xnx3.wangmarket.admin.G;
 
 /**
- * site entitiy
+ * 网站站点信息表
  * @author 管雷鸣
  */
 @Entity
@@ -47,33 +48,44 @@ public class Site implements java.io.Serializable {
 	 */
 	public static final Short STATE_FREEZE = 2;
 	
-	private Integer id;
-	private String name;
-	private Integer userid;
-	private Integer addtime;
-	private Short mShowBanner;
-	private String phone;
-	private String qq;
-	private Integer templateId;
-	private String domain;
-	private Integer aboutUsCid;
-	private String logo;
-	private Short client;
-	private String keywords;
-	private String address;
-	
+	private Integer id;			//自动编号
+	private String name;		//站点名字
+	private Integer userid;		//站点所属用户，是哪个用户创建的，对应 User.id
+	private Integer addtime;	//站点添加时间，10位linux时间戳
+	private Short mShowBanner;	//pc、wap模式使用的，已废弃！
+	private String phone;		//联系手机，可以在模版中，通过 {site.phone} 调用
+	private String qq;			//联系QQ，可以在模版中，通过 {site.qq} 调用
+	private String domain;		//站点自动分配的二级域名
+	private Short client;		//客户端类型，现在都是 CMS模式，之前的pc、wap已经没有了
+	private String keywords;	//站点的关键字，可以在模版中，通过 {site.keywords} 调用
+	private String address;		//站点公司地址，可以在模版中，通过 {site.address} 调用
 	private String username;	//联系人姓名
-	private String companyName;		//公司名、工作室名字、团体名字
+	private String companyName;	//公司名、工作室名字、团体名字, 可以在模版中，通过 {site.companyName} 调用
 	private String bindDomain;	//用户自己绑定的域名
 	private String columnId;	//栏目id，这里暂时只记录栏目类型的ID，方便生成页面时，生成Nav标签的填充，方便搜索引擎抓取
-	private Short state;	//站点状态，1正常；2冻结
+	private Short state;		//站点状态，1正常；2冻结
 	private String templateName;	//自定义模版的模版名字，位于 /template/模版名字，这里的模版单纯修改HTML，没有动态后台
-	private Integer expiretime;
+	private Integer expiretime;		//网站过期时间，linux时间戳
+	private String attachmentUpdateDate;	//当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次 
+	private Integer attachmentSize;			//当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/$siteid/ 下的空间占用大小，单位是KB  
+	private Integer attachmentSizeHave;		//当前用户网站所拥有的空间大小，单位是MB	
 	
-	private Short useKefu;	//是否开启在线客服功能。0不开启，默认；  1开启
+	/**
+	 * @deprecated
+	 */
+	private Integer templateId;	//pc、wap模式使用的，已废弃！
+	/**
+	 * @deprecated
+	 */
+	private Integer aboutUsCid;	//pc、wap模式使用的，已废弃！
+	/**
+	 * @deprecated
+	 */
+	private String logo;		//pc、wap模式使用的，已废弃！
 	
 	public Site() {
 		this.state = STATE_NORMAL;
+		this.attachmentSizeHave = G.REG_GENERAL_OSS_HAVE;
 	}
 
 	@Id
@@ -261,13 +273,36 @@ public class Site implements java.io.Serializable {
 	public void setExpiretime(Integer expiretime) {
 		this.expiretime = expiretime;
 	}
-
-	public Short getUseKefu() {
-		return useKefu;
+	
+	
+	@Column(name = "attachment_update_date", columnDefinition="int(11) comment '当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次'")
+	public String getAttachmentUpdateDate() {
+		return attachmentUpdateDate;
 	}
 
-	public void setUseKefu(Short useKefu) {
-		this.useKefu = useKefu;
+	public void setAttachmentUpdateDate(String attachmentUpdateDate) {
+		this.attachmentUpdateDate = attachmentUpdateDate;
+	}
+
+	@Column(name = "attachment_size", columnDefinition="int(11) comment '当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/siteid/ 下的空间占用大小，单位是KB'")
+	public Integer getAttachmentSize() {
+		return attachmentSize;
+	}
+
+	public void setAttachmentSize(Integer attachmentSize) {
+		this.attachmentSize = attachmentSize;
+	}
+	
+	@Column(name = "attachment_size_have", columnDefinition="int(11) comment '当前用户网站所拥有的空间大小，单位是MB'")
+	public Integer getAttachmentSizeHave() {
+		if(attachmentSizeHave == null){
+			this.attachmentSizeHave = 0;
+		}
+		return attachmentSizeHave;
+	}
+
+	public void setAttachmentSizeHave(Integer attachmentSizeHave) {
+		this.attachmentSizeHave = attachmentSizeHave;
 	}
 
 	@Override

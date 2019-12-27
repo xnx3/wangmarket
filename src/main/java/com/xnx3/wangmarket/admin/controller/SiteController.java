@@ -44,6 +44,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.SiteDataVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.domain.bean.MQBean;
@@ -270,7 +271,7 @@ public class SiteController extends BaseController {
 		
 		ActionLogUtil.insertUpdateDatabase(request, "计算我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(sizeB));
 		
-		ShiroFunc.setUEditorAllowUpload(kb<ShiroFunc.getUser().getOssSizeHave()*1000);
+		SessionUtil.setAllowUploadForUEditor(kb < SessionUtil.getSite().getAttachmentSizeHave()*1000);
 		return vo;
 	}
 

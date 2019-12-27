@@ -790,9 +790,6 @@ public class SiteServiceImpl implements SiteService {
 		if(site.getColumnId() == null){
 			site.setColumnId("");
 		}
-		if(site.getUseKefu() == null){
-			site.setUseKefu((short) 0);
-		}
 		if(site.getAboutUsCid() == null){
 			site.setAboutUsCid(0);
 		}

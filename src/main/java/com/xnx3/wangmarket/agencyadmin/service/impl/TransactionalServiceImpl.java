@@ -233,7 +233,6 @@ public class TransactionalServiceImpl implements TransactionalService {
 		//创建用户
 		user.setPhone(StringUtil.filterXss(Sql.filter(site.getPhone())));
 		user.setEmail(StringUtil.filterXss(Sql.filter((email))));
-		user.setOssSizeHave(agency.getRegOssHave());
 		user.setReferrerid(agency.getUserid());	//设定用户的上级是当前代理商本人
 		UserVO userVO = regUser(user, request, false);
 		if(userVO.getResult() == BaseVO.SUCCESS){
@@ -332,7 +331,6 @@ public class TransactionalServiceImpl implements TransactionalService {
 		user.setMoney(0F);
 		user.setIsfreeze(User.ISFREEZE_NORMAL);
 		user.setHead("default.png");
-		user.setIdcardauth(User.IDCARDAUTH_NO);
 		
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");

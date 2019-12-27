@@ -216,7 +216,7 @@ public class AgencyUserController extends BaseController {
 		//创建用户 
 		user.setPhone(filter(site.getPhone()));
 		user.setEmail(filter(email));
-		user.setOssSizeHave(agency.getRegOssHave());
+//		user.setOssSizeHave(agency.getRegOssHave());
 		UserVO vo = transactionalService.regUser(user, request, false);
 //		UserVO vo = regUser(user, request, false);
 		if(vo.getResult() == BaseVO.SUCCESS){
@@ -373,7 +373,7 @@ public class AgencyUserController extends BaseController {
 		}
 
 		//创建用户
-		user.setOssSizeHave(myAgency.getRegOssHave());
+//		user.setOssSizeHave(myAgency.getRegOssHave());
 		user.setPhone(filter(phone));
 		user.setEmail(filter(email));
 		user.setReferrerid(myAgency.getUserid());
@@ -487,7 +487,6 @@ public class AgencyUserController extends BaseController {
 		user.setMoney(0F);
 		user.setIsfreeze(User.ISFREEZE_NORMAL);
 		user.setHead("default.png");
-		user.setIdcardauth(User.IDCARDAUTH_NO);
 		
 		if(getUserId() > 0){
 			user.setReferrerid(getUserId());		//设定用户的上级是当前代理商本人

@@ -34,6 +34,7 @@ import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.entity.SiteUser;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
@@ -196,6 +197,14 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 				
 				//得到当前登录的用户的信息
 				User user = getUser();
+				//得到当前用户，在网市场中，user的扩展表 site_user 的信息
+				SiteUser siteUser = sqlService.findById(SiteUser.class, user.getId());
+				if(siteUser == null){
+					siteUser = new SiteUser();
+				}
+				//缓存进session
+				com.xnx3.wangmarket.admin.util.SessionUtil.setSiteUser(siteUser);
+				
 				//可以根据用户的不同权限，来判断用户登录成功后要跳转到哪个页面
 				if(Func.isAuthorityBySpecific(user.getAuthority(), SystemUtil.get("ROLE_SUPERADMIN_ID"))){
 					//如果是超级管理员，那么跳转到管理后台
@@ -209,7 +218,6 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						//网站用户没有发现上级代理，理论上这是不成立的，网站必须是有代理平台开通，这里暂时先忽略
 					}else{
 						//得到上级的代理信息
-						
 						/*
 						 * 如果当前用户是代理，那这里是他上级代理的user.id
 						 * 如果当前用户是网站管理元，那这里是给他开通网站的上级代理user.id
@@ -218,7 +226,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						int parentAgencyUserid = 0;
 						
 						//判断一下这个用户是否有user.siteid ，如果有，那肯定就是网站管理员开通的子用户了
-						if(user.getSiteid() != null && user.getSiteid() > 0){
+						if(siteUser.getSiteid() != null && siteUser.getSiteid() > 0){
 							//是网站管理员开通的子用户，那么需要查询 一下网站管理员的用户信息
 							User siteAdminUser = sqlService.findById(User.class, user.getReferrerid());
 							if(siteAdminUser == null){
@@ -249,9 +257,9 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						Site site = null;
 						
 						//判断是否哟siteid，也就是是否是网站管理的子用户。因为子用户是有user.siteid的
-						if(user.getSiteid() != null && user.getSiteid() > 0){
+						if(siteUser.getSiteid() != null && siteUser.getSiteid() > 0){
 							//是网站管理子用户.既然是有子账户了，那肯定子账户插件是使用了，也就可以进行一下操作了
-							site = sqlService.findById(Site.class, user.getSiteid());
+							site = sqlService.findById(Site.class, siteUser.getSiteid());
 							
 							//网站子用户，需要读取他拥有哪些权限，也缓存起来
 							List<Map<String, Object>> menuList = sqlService.findMapBySqlQuery("SELECT menu FROM plugin_sitesubaccount_user_role WHERE userid = "+user.getId());
@@ -366,37 +374,30 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	 * <br/>2.设定用户是否可进行上传附件、图片
 	 */
 	public void loginSuccessComputeUsedResource(){
-		//获取其下有多少网站
-		final List<Site> list = sqlService.findBySqlQuery("SELECT * FROM site WHERE userid = "+getUserId(), Site.class);
-		
 		//如果这个用户是单纯的网站用户，并且今天并没有过空间计算，那么就要计算其所有的空间了
 		final String currentDate = DateUtil.currentDate("yyyyMMdd");
-	
 		
-		if((getUser().getOssUpdateDate() == null) || (getUser().getAuthority().equals(SystemUtil.get("USER_REG_ROLE")) && !getUser().getOssUpdateDate().equals(currentDate))){
+		SiteUser siteUser = com.xnx3.wangmarket.admin.util.SessionUtil.getSiteUser();
+		Site site = com.xnx3.wangmarket.admin.util.SessionUtil.getSite();
+		if((site.getAttachmentUpdateDate() == null) || (getUser().getAuthority().equals(SystemUtil.get("USER_REG_ROLE")) && !site.getAttachmentUpdateDate().equals(currentDate))){
 			//计算当前用户下面有多少站点，每个站点的OSS的news文件夹下用了多少存储空间了
 			new Thread(new Runnable() {
 				public void run() {
 					
 					//属于该用户的这些网站共占用了多少存储空间去
-					long sizeB = 0;
-					try {
-						for (int i = 0; i < list.size(); i++) {
-							sizeB += AttachmentUtil.getDirectorySize("site/"+list.get(i).getId()+"/");
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println("你应该是还没配置开通OSS吧~~要想上传图片上传附件，还是老老实实，访问 /instal/index.do 进行安装吧");
-					}
-					int kb = Math.round(sizeB/1024);
-					sqlService.executeSql("UPDATE user SET oss_update_date = '"+currentDate+"' , oss_size = "+kb+" WHERE id = "+getUserId());
-					ShiroFunc.getUser().setOssSize(kb);
+					long sizeB = AttachmentUtil.getDirectorySize("site/"+site.getId()+"/");
 					
-					ShiroFunc.setUEditorAllowUpload(kb<ShiroFunc.getUser().getOssSizeHave()*1000);
+					int kb = Math.round(sizeB/1024);
+					sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+getUserId());
+					site.setAttachmentUpdateDate(currentDate);
+					site.setAttachmentSize(kb);
+					com.xnx3.wangmarket.admin.util.SessionUtil.setSite(site);
+					
+					com.xnx3.wangmarket.admin.util.SessionUtil.setAllowUploadForUEditor(kb<site.getAttachmentSizeHave()*1000);
 				}
 			}).start();
 		}else{
-			ShiroFunc.setUEditorAllowUpload(getUser().getOssSize()<ShiroFunc.getUser().getOssSizeHave()*1000);
+			com.xnx3.wangmarket.admin.util.SessionUtil.setAllowUploadForUEditor(site.getAttachmentSize() < site.getAttachmentSizeHave()*1000);
 		}
 	}
 	

@@ -1,7 +1,14 @@
 package com.xnx3.j2ee.util;
 
+import java.util.Collection;
+
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 
 import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
@@ -188,4 +195,38 @@ public class SessionUtil extends ShiroFunc{
 		}
 	}
 	
+	/**
+	 * 清理掉当前登录用户的session，也就是根据某个用户id，删除这个用户的session，让这个用户下线
+	 * @param userid 对应User.id 要删除哪个用户的登录状态，就传入哪个用户的id
+	 */
+	public static void removeSession(int userid){
+		//获取shiro的sessionManager
+		DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+	    DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
+	    // 4.获取所有已登录用户的session列表
+	    Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();
+	 
+	    if (sessions.size() > 0) {
+	        for(Session onlineSession:sessions){
+	            // 清除当前用户以前登录时保存的session会话
+	        	
+	        	SimplePrincipalCollection principalCollection = (SimplePrincipalCollection) onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+	        	if(principalCollection == null){
+	        		continue;
+	        	}
+                Object obj = principalCollection.getPrimaryPrincipal();
+                if(obj == null){
+                	continue;
+                }
+        		ActiveUser activeUser = (ActiveUser)obj;
+        		User user= activeUser.getUser();
+        		if(user == null){
+        			continue;
+        		}
+    			if(user.getId() - userid == 0){
+    				sessionManager.getSessionDAO().delete(onlineSession);
+    			}
+	        }
+	    }
+	}
 }
