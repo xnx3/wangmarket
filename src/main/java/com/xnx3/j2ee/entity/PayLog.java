@@ -103,34 +103,12 @@ public class PayLog  implements java.io.Serializable {
 
 	private Integer id;	//自动编号
 	private String channel;	//支付方式
-	private Integer addtime;	//支付时间
-	private Float money;		//支付金额，单位：元（待确定）
-	private String orderno;		//支付订单号，8位数字+英文的混合字符串
+	private Integer addtime;	//支付时间，10位时间戳
+	private Double money;		//支付金额，单位：元
+	private String orderno;		//支付订单号，可以关联到订单的订单号
 	private Integer userid;		//支付的人的用户id，user.id ，是谁支付的
 
 
-    // Constructors
-
-    /** default constructor */
-    public PayLog() {
-    	this.orderno = StringUtil.intTo36(DateUtil.timeForUnix10())+StringUtil.getRandom09AZ(2);
-    }
-
-	/** minimal constructor */
-    public PayLog(Integer id) {
-        this.id = id;
-    }
-    
-    /** full constructor */
-    public PayLog(Integer id, String channel, Integer addtime, Float money, String orderno) {
-        this.id = id;
-        this.channel = channel;
-        this.addtime = addtime;
-        this.money = money;
-        this.orderno = orderno;
-    }
-
-    // Property accessors
     @Id 
     @GeneratedValue(strategy = IDENTITY)
     @Column(name="id", unique=true, nullable=false)
@@ -160,12 +138,12 @@ public class PayLog  implements java.io.Serializable {
         this.addtime = addtime;
     }
     
-    @Column(name="money", precision=6)
-    public Float getMoney() {
+    @Column(name = "money", columnDefinition="double(8,2) comment '支付金额，单位是元'")
+    public Double getMoney() {
         return this.money;
     }
     
-    public void setMoney(Float money) {
+    public void setMoney(Double money) {
         this.money = money;
     }
     

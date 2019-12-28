@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.system;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -19,6 +20,8 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+
+import com.xnx3.j2ee.pluginManage.interfaces.manage.ShiroFilterPluginManage;
 import com.xnx3.j2ee.shiro.CustomRealm;
 
 /**
@@ -111,6 +114,14 @@ public class ShiroConfiguration {
         
         filterChainDefinitionMap.put("/sites/*.do", "authc");
         filterChainDefinitionMap.put("/**", "authc");
+        
+        //插件
+        try {
+			filterChainDefinitionMap = ShiroFilterPluginManage.manage(filterChainDefinitionMap);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
         
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

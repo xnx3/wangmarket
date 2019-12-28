@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
-import com.xnx3.j2ee.pluginManage.extend.AutoCreateReceiveMQForDomain;
-import com.xnx3.j2ee.pluginManage.extend.AutoLoadSimplePluginTableDateThread;
-import com.xnx3.j2ee.pluginManage.extend.DatabaseLoadFinishThread;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.PluginUtil;
 
@@ -220,53 +217,15 @@ public class PluginManage {
 		return pluginMap;
 	}
 	
-	/**
-	 * 扫描插件扩展，也就是扫描继承了 com.xnx3.wangmarket.pluginManage.PluginExtend 的类
-	 */
-	public static void scanPluginExtend(){
-		List<Class<?>> list = ScanClassUtil.getClasses("com.xnx3.wangmarket");
-		for (int i = 0; i < list.size(); i++) {
-			Class c = list.get(i);
-			
-			//找出继承了 com.xnx3.wangmarket.pluginManage.PluginExtend 的类
-			if(c.getSuperclass() != null && c.getSuperclass().equals(PluginExtend.class)){
-				//该class 继承了 PluginExtend
-				Method[] methods = c.getDeclaredMethods();
-				for (int j = 0; j < methods.length; j++) {
-					
-					Method method = methods[j];
-					switch (method.getName()) {
-					case "autoLoadSimplePluginTableDate":
-						AutoLoadSimplePluginTableDateThread.execute(c, method);
-						break;
-					case "autoCreateReceiveMQForDomain":
-						AutoCreateReceiveMQForDomain.execute(c, method);
-						break;
-					case "databaseLoadFinish":
-						DatabaseLoadFinishThread thread = new DatabaseLoadFinishThread(c, method);
-						thread.start();
-						break;
-					default:
-						break;
-					}
-				}
-			}
-			
-		}
-	}
-	
 }
 
 /**
  * 项目启动后，自动开启插件扫描
  * @author 管雷鸣
- *
  */
 @Component
 class PluginScan{
 	public PluginScan() throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		PluginManage.scanPluginClass();
-		
-		PluginManage.scanPluginExtend();
 	}
 }
