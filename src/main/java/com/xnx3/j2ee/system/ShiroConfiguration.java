@@ -113,7 +113,6 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/shop/**", "anon");
         
         filterChainDefinitionMap.put("/sites/*.do", "authc");
-        filterChainDefinitionMap.put("/**", "authc");
         
         //插件
         try {
@@ -123,6 +122,7 @@ public class ShiroConfiguration {
 			e.printStackTrace();
 		}
         
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
