@@ -1,7 +1,7 @@
 package com.xnx3.j2ee.pluginManage.controller;
 
 import com.xnx3.j2ee.Func;
-import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -10,7 +10,7 @@ import com.xnx3.j2ee.util.SystemUtil;
  * 所有插件的 Controller 都继承此
  * @author 管雷鸣
  */
-public class BasePluginController extends com.xnx3.wangmarket.admin.controller.BaseController {
+public class BasePluginController extends BaseController {
 
 	/**
 	 * 根据user表的authority字段的值，判断用户是否具有某个指定的角色(Role)

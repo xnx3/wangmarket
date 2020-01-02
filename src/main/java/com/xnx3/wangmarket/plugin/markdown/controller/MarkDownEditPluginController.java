@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.UploadFileVO;
+import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 
 /**
  * markdown上传，v4.3版本转移至plugin下
@@ -29,17 +31,18 @@ public class MarkDownEditPluginController extends BasePluginController {
 	public void uploadImage(Model model,HttpServletRequest request, HttpServletResponse response){
 		JSONObject json = new JSONObject();
 		UploadFileVO uploadFileVO = new UploadFileVO();
-		if(getSite() == null){
+		Site site = SessionUtil.getSite();
+		if(site == null){
 			json.put("success", 0);
 			json.put("success", "请先登录");
 		}else{
-			uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/news/", request, "editormd-image-file", 0);
+			uploadFileVO = AttachmentUtil.uploadImage("site/"+site.getId()+"/news/", request, "editormd-image-file", 0);
 			if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 				json.put("success", 1);
 				json.put("message", "上传成功");
 				json.put("url", uploadFileVO.getUrl());
 				//上传成功，写日志
-				ActionLogUtil.insertUpdateDatabase(request, getSiteId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
+				ActionLogUtil.insertUpdateDatabase(request, site.getId(), "CMS模式下，模版页自由上传图片成功："+uploadFileVO.getFileName());
 			}else{
 				json.put("success", 0);
 				json.put("message", uploadFileVO.getInfo());

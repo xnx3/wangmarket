@@ -34,6 +34,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 
@@ -91,7 +92,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return error(model, "模版开发仅限本地运行使用！仅限 localhost 访问时可用。");
 		}
 		
-		Site site = getSite();
+		Site site = SessionUtil.getSite();
 		model.addAttribute("site", site);
 		
 		//是否已经有模版了
@@ -134,7 +135,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return error("您还没填写模版编码呢");
 		}
 		
-		Site site = getSite();
+		Site site = SessionUtil.getSite();
 		
 		//在 template 数据表中判断是否存在这个模版，若不存在，则创建
 		Template template = sqlService.findAloneByProperty(Template.class, "name", templateName);
@@ -184,7 +185,7 @@ public class TemplateDevelopController extends BasePluginController {
 		sqlService.save(site);
 		
 		//更新当前站点的缓存
-		setSite(site);
+		SessionUtil.setSite(site);
 		
 		//将当前站点使用的模版变量、模版页面全部设置为绑定这个模版
 		sqlService.updateByHql(TemplatePage.class, "templateName", templateName, "siteid", site.getId());
@@ -213,7 +214,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return error("模版开发仅限本地运行使用！");
 		}
 		
-		Site site = getSite();
+		Site site = SessionUtil.getSite();
 		//判断模版名字是否存在
 		if(site.getTemplateName() == null || site.getTemplateName().length() == 0 || site.getTemplateName().equals("null")){
 			return error("请先设置第一步，设置模版名字");
@@ -290,7 +291,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return uploadFileVO;
 		}
 		
-		Site site = getSite();
+		Site site = SessionUtil.getSite();
 		
 		//判断一下对方使用的是OSS还是本地存储，如果没用本地存储，提醒用户要使用本地存储的
 		if(!AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)){

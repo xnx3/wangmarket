@@ -3,11 +3,10 @@ package com.xnx3.j2ee.pluginManage.interfaces.manage;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
-import com.xnx3.wangmarket.domain.G;
+import com.xnx3.j2ee.util.SystemUtil;
 
 /**
  * Shiro 权限，哪个url、目录需要登录，哪个不需要登录，在这里修改
@@ -41,7 +40,7 @@ class DatabaseLoadFinishThread extends Thread{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(G.getDomainSize() > 0){
+			if(SystemUtil.get("ALLOW_USER_REG") != null && SystemUtil.get("ALLOW_USER_REG").length() > 0){
 				b = false;
 			}else{
 				//项目中的二级域名个数是0，还没有加载域名，等待加载完域名数据后，在进行加载这里的数据
