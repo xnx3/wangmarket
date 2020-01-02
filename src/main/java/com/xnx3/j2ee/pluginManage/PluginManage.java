@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
+
+import com.xnx3.ClassUtil;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.PluginUtil;
@@ -37,9 +39,27 @@ public class PluginManage {
 		List<Class<?>> classList = ScanClassUtil.getClassSearchAnnotationsName(ScanClassUtil.getClasses("com.xnx3.wangmarket"), "PluginRegister");
         for (Class<?> clazz : classList) {
         	//找到插件注册类了，进行注册插件
-			registerPlugin(clazz);
-			ConsoleUtil.info("注册插件："+clazz.getName());
+        	if(clazz.getAnnotation(PluginRegister.class) != null){
+        		registerPlugin(clazz);
+    			ConsoleUtil.info("注册插件："+clazz.getName());
+        	}
         }
+        
+        //判断一下，如果有 com.xnx3.wangmarket.admin 包，那么就扫描这个5.0之前的插件
+        if(ClassUtil.classExist("com.xnx3.wangmarket.admin.pluginManage.PluginManage")){
+        	Class c;
+			try {
+				c = Class.forName("com.xnx3.wangmarket.admin.pluginManage.PluginManage");
+				Object invoke = c.newInstance();
+				//运用newInstance()来生成这个新获取方法的实例  
+				Method m = c.getMethod("scanPluginClass",new Class[]{});	//获取要调用的init方法  
+				//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
+				m.invoke(invoke, new Object[]{});
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	/**
@@ -65,128 +85,35 @@ public class PluginManage {
 	 * @param c 要注册的插件的class， 如 com.xnx3.wangmarket.plugin.learnExample.Plugin
 	 */
 	public static void registerPlugin(Class c) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
-		
-		if(c.getAnnotation(PluginRegister.class) != null){
-			//v4.12 及之后的版本，使用 com.xnx3.wangmarket.pluginManage.PluginRegister 注解
-			PluginRegister plugin = (PluginRegister) c.getAnnotation(PluginRegister.class);
-			String pluginId = PluginUtil.getPluginId(c.getName());
-			if(pluginId == null || pluginId.length() == 0){
-				return;
-			}
-			
-			//自动获取id，并赋予注解中
-			InvocationHandler invocationHandler = Proxy.getInvocationHandler(plugin);
-			try {
-				Field value = invocationHandler.getClass().getDeclaredField("memberValues");
-				value.setAccessible(true);
-		        Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
-		        memberValues.put("id", pluginId);
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-			
-			if(plugin != null){
-				if(plugin.applyToCMS()){
-	        		cmsSiteClassManage.put(plugin.id(), plugin);
-	        	}
-	        	if(plugin.applyToAgency()){
-	        		agencyClassManage.put(plugin.id(), plugin);
-	        	}
-	        	if(plugin.applyToSuperAdmin()){
-	        		superAdminClassManage.put(plugin.id(), plugin);
-	        	}
-			}
-		}else{
-			//v4.12之前的版本，插件使用 com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister 注解
-			com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister pluginOld = (com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister) c.getAnnotation(com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister.class);
-			if(pluginOld != null){
-				PluginRegister plugin = new PluginRegister() {
-					
-					@Override
-					public Class<? extends Annotation> annotationType() {
-						// TODO Auto-generated method stub
-						return null;
-					}
-					
-					@Override
-					public String versionMin() {
-						// TODO Auto-generated method stub
-						return pluginOld.versionMin();
-					}
-					
-					@Override
-					public String versionCheckUrl() {
-						// TODO Auto-generated method stub
-						return pluginOld.versionCheckUrl();
-					}
-					
-					@Override
-					public String version() {
-						// TODO Auto-generated method stub
-						return pluginOld.version();
-					}
-					
-					@Override
-					public String menuTitle() {
-						// TODO Auto-generated method stub
-						return pluginOld.menuTitle();
-					}
-					
-					@Override
-					public String menuHref() {
-						// TODO Auto-generated method stub
-						return pluginOld.menuHref();
-					}
-					
-					@Override
-					public String intro() {
-						// TODO Auto-generated method stub
-						return pluginOld.intro();
-					}
-					
-					@Override
-					public String detailUrl() {
-						// TODO Auto-generated method stub
-						return pluginOld.detailUrl();
-					}
-					
-					@Override
-					public boolean applyToSuperAdmin() {
-						// TODO Auto-generated method stub
-						return pluginOld.applyToSuperAdmin();
-					}
-					
-					
-					@Override
-					public boolean applyToCMS() {
-						// TODO Auto-generated method stub
-						return pluginOld.applyToCMS();
-					}
-					
-					@Override
-					public boolean applyToAgency() {
-						// TODO Auto-generated method stub
-						return pluginOld.applyToAgency();
-					}
-
-					@Override
-					public String id() {
-						return pluginOld.id();
-					}
-				};
-				
-				if(plugin.applyToCMS()){
-	        		cmsSiteClassManage.put(pluginOld.id(), plugin);
-	        	}
-	        	if(plugin.applyToAgency()){
-	        		agencyClassManage.put(pluginOld.id(), plugin);
-	        	}
-	        	if(plugin.applyToSuperAdmin()){
-	        		superAdminClassManage.put(pluginOld.id(), plugin);
-	        	}
-			}
+		PluginRegister plugin = (PluginRegister) c.getAnnotation(PluginRegister.class);
+		String pluginId = PluginUtil.getPluginId(c.getName());
+		if(pluginId == null || pluginId.length() == 0){
+			return;
 		}
 		
+		//自动获取id，并赋予注解中
+		InvocationHandler invocationHandler = Proxy.getInvocationHandler(plugin);
+		try {
+			Field value = invocationHandler.getClass().getDeclaredField("memberValues");
+			value.setAccessible(true);
+	        Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
+	        memberValues.put("id", pluginId);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		
+		if(plugin != null){
+			if(plugin.applyToCMS()){
+        		cmsSiteClassManage.put(plugin.id(), plugin);
+        	}
+        	if(plugin.applyToAgency()){
+        		agencyClassManage.put(plugin.id(), plugin);
+        	}
+        	if(plugin.applyToSuperAdmin()){
+        		superAdminClassManage.put(plugin.id(), plugin);
+        	}
+		}
+	
 	}
 	
 	/**
