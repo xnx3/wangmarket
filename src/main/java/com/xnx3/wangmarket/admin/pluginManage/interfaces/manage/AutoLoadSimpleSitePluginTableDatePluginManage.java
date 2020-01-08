@@ -25,8 +25,8 @@ public class AutoLoadSimpleSitePluginTableDatePluginManage {
 	//处理html源代码的插件，这里开启项目时，便将有关此的插件加入此处
 	public static List<Class<?>> classList;
 	static{
-		List<Class<?>> allClassList = ScanClassUtil.getClasses("com.xnx3");
-		classList = ScanClassUtil.searchByInterfaceName(allClassList, "com.xnx3.j2ee.pluginManage.interfaces.AutoLoadSimpleSitePluginTableDateInterface");
+		List<Class<?>> allClassList = ScanClassUtil.getClasses("com.xnx3.wangmarket");
+		classList = ScanClassUtil.searchByInterfaceName(allClassList, "com.xnx3.wangmarket.admin.pluginManage.interfaces.AutoLoadSimpleSitePluginTableDateInterface");
 		for (int i = 0; i < classList.size(); i++) {
 			ConsoleUtil.info("装载 AutoLoadSimpleSitePluginTableDate 插件："+classList.get(i).getName());
 		}

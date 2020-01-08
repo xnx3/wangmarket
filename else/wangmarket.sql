@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50623
  Source Host           : localhost
- Source Database       : wangmarket
+ Source Database       : wangmarket_ori
 
  Target Server Type    : MySQL
  Target Server Version : 50623
  File Encoding         : utf-8
 
- Date: 09/07/2019 19:08:27 PM
+ Date: 01/07/2020 15:58:17 PM
 */
 
 SET NAMES utf8;
@@ -662,14 +662,9 @@ CREATE TABLE `user` (
   `lastip` char(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '最后一次登陆的ip',
   `isfreeze` tinyint(2) DEFAULT '0' COMMENT '是否已冻结，1已冻结（拉入黑名单），0正常',
   `money` float(8,2) DEFAULT '0.00' COMMENT '账户可用余额，金钱,RMB，单位：元',
-  `idcardauth` tinyint(2) DEFAULT '0' COMMENT '是否已经经过真实身份认证了（身份证、银行卡绑定等）。默认为没有认证。预留字段。1已认证；0未认证',
   `sign` char(80) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '个人签名',
   `sex` char(4) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '男、女、未知',
-  `oss_update_date` char(8) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '当前用户的OSS存储，最后一次更新的时间，格式如  20160405  年月日',
-  `oss_size` int(11) DEFAULT '0' COMMENT 'OSS存储的site/userid/news 下面的图文附件等，当天的存储大小',
-  `oss_size_have` int(11) DEFAULT '30' COMMENT 'OSS所拥有的存储空间大小，单位MB，如免费用户是30MB，收费用户可能买了后是100MB',
   `version` int(11) DEFAULT '0',
-  `siteid` int(11) DEFAULT NULL COMMENT '此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`,`username`,`phone`) USING BTREE,
   KEY `username` (`username`,`email`,`phone`,`isfreeze`) USING BTREE
@@ -679,7 +674,7 @@ CREATE TABLE `user` (
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('1', 'admin', '', '94940b4491a87f15333ed68cc0cdf833', 'default.png', '总管理', '9', '1512818402', '1512818402', '127.0.0.1', '9738', '17000000002', '0', '0', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '0', null), ('243', 'wangzhan', '', '0c5a0883e40a2a6ad84a42eab27519e6', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1515402694', '218.56.88.231', '6922', '', '0', '392', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, '20180108', '0', '1000', '254', null), ('392', 'agency', '', '80c5df10de72fde1b346de758c70d337', 'default.png', '代理', '10', '1512818402', '1515402763', '127.0.0.1', '9738', '17000000001', '0', '1', '0.00', '127.0.0.1', '0', '0.00', '0', null, null, null, '0', '1024', '1', null);
+INSERT INTO `user` VALUES ('1', 'admin', '', '94940b4491a87f15333ed68cc0cdf833', 'default.png', '总管理', '9', '1512818402', '1512818402', '127.0.0.1', '9738', '17000000002', '0', '0', '0.00', '127.0.0.1', '0', '0.00', null, null, '0'), ('243', 'wangzhan', '', '0c5a0883e40a2a6ad84a42eab27519e6', '70877108e0684e1d9586f327eb5aafb5.png', '客服小红', '1', '1488446743', '1515402694', '218.56.88.231', '6922', '', '0', '392', '0.00', '127.0.0.1', '0', '0.00', null, null, '254'), ('392', 'agency', '', '80c5df10de72fde1b346de758c70d337', 'default.png', '代理', '10', '1512818402', '1515402763', '127.0.0.1', '9738', '17000000001', '0', '1', '0.00', '127.0.0.1', '0', '0.00', null, null, '1');
 COMMIT;
 
 -- ----------------------------

@@ -16,14 +16,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
-	/**
-	 * 此用户是否已经经过身份证／银行卡的实名认证：是，已经认证
-	 */
-	public final static Short IDCARDAUTH_YES = 1;
-	/**
-	 * 此用户是否已经经过身份证／银行卡的实名认证：否，未认证
-	 */
-	public final static Short IDCARDAUTH_NO = 0;
 	
 	private Integer id;		//用户id
 	private String username;	//用户名，限制40字符

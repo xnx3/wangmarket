@@ -87,10 +87,10 @@ public class PluginManage {
 	public static void registerPlugin(Class c) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		PluginRegister plugin = (PluginRegister) c.getAnnotation(PluginRegister.class);
 		String pluginId = PluginUtil.getPluginId(c.getName());
+		System.out.println("pluginId:"+pluginId);
 		if(pluginId == null || pluginId.length() == 0){
 			return;
 		}
-		
 		//自动获取id，并赋予注解中
 		InvocationHandler invocationHandler = Proxy.getInvocationHandler(plugin);
 		try {

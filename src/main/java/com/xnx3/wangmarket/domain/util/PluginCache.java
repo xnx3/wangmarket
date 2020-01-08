@@ -23,7 +23,7 @@ public class PluginCache {
 	 * 获取插件自定义设置
 	 * @param siteid 网站的id， site.id
 	 * @param pluginId 插件的id，例如 kefu 
-	 * @return 返回该插件自定义设置的一些key-value的参数
+	 * @return 返回该插件自定义设置的一些key-value的参数。 这一，这里获取到的map的key，对应的是数据表的字段名，而不是实体类中驼峰命名的字段！
 	 */
 	public static Map<String, Object> getPluginMap(Integer siteid, String pluginId){
 		if(siteid == null){
