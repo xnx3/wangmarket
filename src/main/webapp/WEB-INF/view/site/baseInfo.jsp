@@ -55,7 +55,7 @@
       <p>空间总量</p>
     </div>
     <div class="weui_cell_ft">
-    	${user.ossSizeHave}&nbsp;MB
+    	${site.attachmentSizeHave}&nbsp;MB
     	<!-- <a href="../productPrice.do" class="weui_btn weui_btn_mini weui_btn_primary" style="margin-left:10px;">升级</a> -->
     </div>
   </div>
@@ -103,7 +103,7 @@ $(function(){
 $.post("/sites/getOSSSize.do", function(data){
 	if(data.result == '1'){
 		document.getElementById('ossSize').innerHTML = (data.info/1000)+'&nbsp;MB';
-		document.getElementById('residueSize').innerHTML = (${user.ossSizeHave}-(data.info/1000))+'&nbsp;MB';
+		document.getElementById('residueSize').innerHTML = (${site.attachmentSizeHave}-(data.info/1000))+'&nbsp;MB';
 	}else{
 		parent.iw.msgFailure(data.info);
 	}

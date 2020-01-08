@@ -257,16 +257,13 @@ public class SiteController extends BaseController {
 		
 		BaseVO vo = new BaseVO();
 		//获取其下有多少网站
-		List<Site> list = sqlService.findBySqlQuery("SELECT * FROM site WHERE userid = "+getUserId(), Site.class);
-		//属于该用户的这些网站共占用了多少存储空间去
-		long sizeB = 0;
-		for (int i = 0; i < list.size(); i++) {
-			sizeB += AttachmentUtil.getDirectorySize("site/"+list.get(i).getId()+"/");
-		}
+		Site site = sqlService.findById(Site.class, SessionUtil.getSite().getId());
+		//网站共占用了多少存储空间
+		long sizeB = AttachmentUtil.getDirectorySize("site/"+site.getId()+"/");
 		
 		int kb = Math.round(sizeB/1024);
 		String currentDate = DateUtil.currentDate("yyyyMMdd");
-		sqlService.executeSql("UPDATE user SET oss_update_date = '"+currentDate+"' , oss_size = "+kb+" WHERE id = "+getUserId());
+		sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+site.getId());
 		vo.setBaseVO(BaseVO.SUCCESS, kb+"");
 		
 		ActionLogUtil.insertUpdateDatabase(request, "计算我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(sizeB));
