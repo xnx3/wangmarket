@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsPluginManage;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;

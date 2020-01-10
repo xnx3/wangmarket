@@ -16,21 +16,21 @@ import com.xnx3.wangmarket.admin.entity.NewsData;
  * @author 管雷鸣
  *
  */
-@Component(value="PluginManageForNewsSave")
-public class NewsSavePluginManage {
+@Component(value="PluginManageForNews")
+public class NewsPluginManage {
 	//自动回复的插件，这里开启项目时，便将有关此的插件加入此处
 	public static List<Class<?>> classList;
 	static{
 		List<Class<?>> cl = ScanClassUtil.getClasses("com.xnx3.wangmarket");
 		classList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.newSave.NewsSaveInterface");
 		
-		List<Class<?>> newClassList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.interfaces.NewsSaveInterface");
+		List<Class<?>> newClassList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.interfaces.NewsInterface");
 		for (int i = 0; i < newClassList.size(); i++) {
 			classList.add(newClassList.get(i));
 		}
 		
 		for (int i = 0; i < classList.size(); i++) {
-			ConsoleUtil.info("装载 newsSave 插件："+classList.get(i).getName());
+			ConsoleUtil.info("装载 news 插件："+classList.get(i).getName());
 		}
 	}
 	
@@ -78,5 +78,27 @@ public class NewsSavePluginManage {
 			m.invoke(invokeReply, new Object[]{request, response, newsData});
 		}
 		return newsData;
+	}
+	
+	/**
+	 * 删除文章
+	 * @param news {@link News} 对象,已删除的文章信息
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static void newsDelete(HttpServletRequest request, HttpServletResponse response, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+		for (int i = 0; i < classList.size(); i++) {
+			Class<?> c = classList.get(i);
+			Object invokeReply = null;
+			invokeReply = c.newInstance();
+			//运用newInstance()来生成这个新获取方法的实例  
+			Method m = c.getMethod("newsDelete",new Class[]{HttpServletRequest.class, HttpServletResponse.class,News.class});  
+			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
+			m.invoke(invokeReply, new Object[]{request, response, news});
+		}
 	}
 }

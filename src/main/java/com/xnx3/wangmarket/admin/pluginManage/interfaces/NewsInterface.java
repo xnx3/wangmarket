@@ -10,10 +10,16 @@ import com.xnx3.wangmarket.admin.entity.NewsData;
  * 文章保存时，针对news、news_date 的预处理
  * @author 管雷鸣
  */
-public interface NewsSaveInterface {
+public interface NewsInterface {
 	
 	/**
 	 * 拦截 News 进行预处理。这里是在保存入数据库之前拦截下来，进行处理，处理完后将其存入数据库
+	 * 当有以下动作时会进行拦截，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，点击保存时</li>
+	 * 		<li>内容管理中，编辑文章，点击保存时</li>
+	 * 		<li>内容管理中，修改文章的发布时间</li>
+	 * 	</ul>
 	 * @param news 要处理的 {@link News}
 	 * @return 已处理过的 news
 	 */
@@ -21,8 +27,23 @@ public interface NewsSaveInterface {
 	
 	/**
 	 * 拦截 NewsData 进行预处理。这里是在保存入数据库之前拦截下来，进行处理，处理完后将其存入数据库
+	 * 当有以下动作时会进行拦截，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，点击保存时</li>
+	 * 		<li>内容管理中，编辑文章，点击保存时</li>
+	 * 	</ul>
 	 * @param newsData 要处理的 {@link NewsData}
 	 * @return 已处理过的 newsData
 	 */
 	public NewsData interceptNewsData(HttpServletRequest request, HttpServletResponse response,NewsData newsData);
+	
+	/**
+	 * {@link News} 文章删除时会触发此方法。当文章点击删除后，在文章删除成功之后，会调用此方法
+	 * 当有以下动作时会进行拦截，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，文章列表，点击某篇文章进行删除时</li>
+	 * 	</ul>
+	 * @param news 被删除的文章
+	 */
+	public void newsDelete(HttpServletRequest request, HttpServletResponse response, News news);
 }
