@@ -1562,6 +1562,13 @@ public class TemplateController extends BaseController {
 		List<com.xnx3.wangmarket.admin.entity.Template> list = new ArrayList<com.xnx3.wangmarket.admin.entity.Template>();
 		
 		for (Map.Entry<String, com.xnx3.wangmarket.admin.entity.Template> entry : map.entrySet()) {
+			com.xnx3.wangmarket.admin.entity.Template template = entry.getValue();
+			if(template.getWscsoDownUrl() == null || template.getWscsoDownUrl().length() < 2){
+				//没有远程wscso文件下载url，那就是本地自己的模版库中的了
+				if(template.getPreviewPic() == null || template.getPreviewPic().length() < 5){
+					template.setPreviewPic(AttachmentUtil.netUrl()+"websiteTemplate/"+template.getName()+"/preview.jpg");
+				}
+			}
 			list.add(entry.getValue());
 		}
 		
