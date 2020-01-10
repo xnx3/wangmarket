@@ -137,7 +137,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</li>
 		</shiro:hasPermission>
 		<script>
-		if(${useDomainLog}){
+		if('${useSLS}' == 'true'){
 			try{
 				//代理后台是没有这个按钮id的
 				document.getElementById('rizhitongji').style.display='';

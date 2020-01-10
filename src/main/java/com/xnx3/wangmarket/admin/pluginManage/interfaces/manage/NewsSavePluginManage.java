@@ -24,7 +24,7 @@ public class NewsSavePluginManage {
 		List<Class<?>> cl = ScanClassUtil.getClasses("com.xnx3.wangmarket");
 		classList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.newSave.NewsSaveInterface");
 		
-		List<Class<?>> newClassList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.pluginManage.interfaces.NewsSaveInterface");
+		List<Class<?>> newClassList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.interfaces.NewsSaveInterface");
 		for (int i = 0; i < newClassList.size(); i++) {
 			classList.add(newClassList.get(i));
 		}
