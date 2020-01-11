@@ -153,7 +153,7 @@ public class NewsServiceImpl implements NewsService {
 	public void generateViewHtml(Site site, News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
 		if(Func.isCMS(site)){
 			//如果使用的是新一代自定义模版，那么用新的生成模式
-			generateViewHtmlForTemplate(news, siteColumn, newsDataBean, request);
+			generateViewHtmlForTemplate(site, news, siteColumn, newsDataBean, request);
 		}else{
 			//如果使用的是通用简单模版，直接使用原来的生成
 			GenerateHTML gh = new GenerateHTML(site);
@@ -162,16 +162,18 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	/**
-	 * 通过高级自定义模版，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情
+	 * CMS模式，生成内容详情页面，News的页面，包含独立页面、新闻详情、图文详情。
+	 * 这个可以其他网站调用别的网站生成，并非非得是当前登录网站
+	 * @param site 要生成内容详情页面的站点。
 	 * @param news 要生成的详情页的 {@link News}
 	 * @param siteColumn 要生成的详情页所属的栏目 {@link SiteColumn}
 	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
-	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
+	public void generateViewHtmlForTemplate(Site site, News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request) {
 		//获取到当前页面使用的模版
 		String templateHtml = templateService.getTemplatePageTextByCache(siteColumn.getTemplatePageViewName(), request);
 		
-		Site site = SessionUtil.getSite();
+//		Site site = SessionUtil.getSite();
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		//template.generateViewHtmlForTemplate(news, siteColumn, newsDataBean, templateHtml, null, null);
 		
@@ -180,7 +182,8 @@ public class NewsServiceImpl implements NewsService {
 			//出错，没有获取到该栏目的模版页
 			return;
 		}
-		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
+//		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
+		String pageHtml = template.assemblyTemplateVar(templateHtml, templateService.getTemplateVarAndDataByDatabase(site).getCompileMap());	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
 		pageHtml = template.replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签

@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.bean.TagA;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
@@ -29,6 +28,7 @@ import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
+import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 
 /**
  * CMS模版
@@ -185,29 +185,81 @@ public class TemplateCMS {
 	 * @param text 页面模版的内容，会替换{includeid=}标签，装载入自定义的模版变量
 	 * @param 返回装载了通用模版组件的模版内容
 	 */
-	public String assemblyTemplateVar(String text){
+//	public String assemblyTemplateVar(String text){
+//		Pattern p = Pattern.compile(regex("include=(.*?)"));
+//        Matcher m = p.matcher(text);
+//        while (m.find()) {
+//        	String templateVarName = m.group(1);	//模版变量的id
+//        	//从Session缓存中取模版变量内容
+//        	String content = null;
+//        	if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName) != null){
+//        		if(editMode){
+//            		//编辑模式
+//            		content = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName).getTemplateVarData().getText();
+//            	}else{
+//            		//生成模式
+//            		content = Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().get(templateVarName);
+//            	}
+//        	}else{
+//        		content = "模版变量"+templateVarName+"不存在";
+//        	}
+//            
+//            String reg = regex("include="+templateVarName);
+//            text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
+//        }
+//		
+//        return text;
+//	}
+	
+	/**
+	 * 编辑模式下，也就是在网站管理后台编辑时，装载模版变量
+	 * @param text 页面模版的内容，会替换{includeid=}标签，装载入自定义的模版变量
+	 * @param 返回装载了通用模版组件的模版内容
+	 */
+	public String assemblyTemplateVarByOriginal(String text, Map<String, TemplateVarVO> templateVarVOMap){
 		Pattern p = Pattern.compile(regex("include=(.*?)"));
         Matcher m = p.matcher(text);
         while (m.find()) {
         	String templateVarName = m.group(1);	//模版变量的id
         	//从Session缓存中取模版变量内容
         	String content = null;
-        	if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName) != null){
-        		if(editMode){
-            		//编辑模式
-            		content = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName).getTemplateVarData().getText();
-            	}else{
-            		//生成模式
-            		content = Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().get(templateVarName);
-            	}
+        	if(templateVarVOMap.get(templateVarName) != null){
+        		//编辑模式
+        		content = templateVarVOMap.get(templateVarName).getTemplateVarData().getText();
         	}else{
         		content = "模版变量"+templateVarName+"不存在";
         	}
-//        	String content = G.templateVarMap.get(site.getTemplateName()).get(templateVarName);
             
             String reg = regex("include="+templateVarName);
             text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
-//            text = text.replaceAll(reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
+        }
+		
+        return text;
+	}
+	
+
+	/**
+	 * 生成模式下，装载模版变量。也就是点击生成整站时，进行的调用
+	 * @param text 页面模版的内容，会替换{includeid=}标签，装载入自定义的模版变量
+	 * @param map TemplateVar_data.text 
+	 * @param 返回装载了通用模版组件的模版内容
+	 */
+	public String assemblyTemplateVar(String text, Map<String, String> map){
+		Pattern p = Pattern.compile(regex("include=(.*?)"));
+        Matcher m = p.matcher(text);
+        while (m.find()) {
+        	String templateVarName = m.group(1);	//模版变量的id
+        	//从Session缓存中取模版变量内容
+        	String content = null;
+        	if(map.get(templateVarName) != null){
+        		//生成模式
+        		content = map.get(templateVarName);
+        	}else{
+        		content = "模版变量"+templateVarName+"不存在";
+        	}
+            
+            String reg = regex("include="+templateVarName);
+            text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
         }
 		
         return text;
@@ -486,23 +538,23 @@ public class TemplateCMS {
 	 * @param upNews 上一篇文章的 {@link News} 可为空，表示没有上一篇。没有时会显示返回列表
 	 * @param nextNews 下一篇文章的 {@link News} 可为空，表示没有下一篇。没有时会显示返回列表
 	 */
-	public void generateViewHtmlForTemplatesss(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, String templateHtml, News upNews, News nextNews) {
-		if(templateHtml == null){
-			//出错，没有获取到该栏目的模版页
-			return;
-		}
-		String pageHtml = assemblyTemplateVar(templateHtml);	//装载模版变量
-		pageHtml = replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
-		pageHtml = replacePublicTag(pageHtml);		//替换通用标签
-		pageHtml = replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签
-		
-		//替换 SEO 相关
-		pageHtml = Template.replaceAll(pageHtml, Template.regex("title"), news.getTitle()+"_"+site.getName());
-		pageHtml = Template.replaceAll(pageHtml, Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
-		pageHtml = Template.replaceAll(pageHtml, Template.regex("description"), news.getIntro());
-		
-		generateNewsHtml(news, siteColumn, upNews, nextNews, pageHtml, newsDataBean);
-	}
+//	public void generateViewHtmlForTemplate(News news, SiteColumn siteColumn, NewsDataBean newsDataBean, String templateHtml, News upNews, News nextNews) {
+//		if(templateHtml == null){
+//			//出错，没有获取到该栏目的模版页
+//			return;
+//		}
+//		String pageHtml = assemblyTemplateVar(templateHtml);	//装载模版变量
+//		pageHtml = replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
+//		pageHtml = replacePublicTag(pageHtml);		//替换通用标签
+//		pageHtml = replaceNewsTag(pageHtml, news, siteColumn, newsDataBean);	//替换news相关标签
+//		
+//		//替换 SEO 相关
+//		pageHtml = Template.replaceAll(pageHtml, Template.regex("title"), news.getTitle()+"_"+site.getName());
+//		pageHtml = Template.replaceAll(pageHtml, Template.regex("keywords"), news.getTitle()+","+site.getKeywords());
+//		pageHtml = Template.replaceAll(pageHtml, Template.regex("description"), news.getIntro());
+//		
+//		generateNewsHtml(news, siteColumn, upNews, nextNews, pageHtml, newsDataBean);
+//	}
 
 	/**
 	 * 生成的siteColumn栏目列表页面的html页面名字。仅仅是名字，不包含.html，不包含其所属的路径

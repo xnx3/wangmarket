@@ -1,6 +1,8 @@
 package com.xnx3.wangmarket.admin.service;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -11,6 +13,7 @@ import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
+import com.xnx3.wangmarket.admin.vo.TemplateVarAndDataMapVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarListVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 
@@ -25,6 +28,13 @@ public interface TemplateService {
 	 * @return {@link TemplatePageListVO}
 	 */
 	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request);
+	
+	/**
+	 * 从数据库中，获取当前登陆用户当前网站所使用的模版页列表，这个列表仅是 {@link TemplatePage}的列表，不包含 {@link TemplatePageData}。每次执行此方法，都会查询一次数据库
+	 * @param site {@link Site} 要获取的是那个网站的模版页面
+	 * @return {@link TemplatePageListVO}
+	 */
+	public TemplatePageListVO getTemplatePageListByDatabase(Site site);
 	
 	/**
 	 * 获取当前登陆用户当前网站所使用的模版页列表，这个列表是 {@link TemplatePage} + {@link TemplatePageData} 的list列表
@@ -83,6 +93,11 @@ public interface TemplateService {
 	 */
 	public void updateTemplateVarForCache(TemplateVar templateVar, TemplateVarData templateVarData);
 	
+	/**
+	 * 从数据库中，获取模版变量信息，包含 {@link TemplateVar} 跟 {@link TemplateVarData} 组合好的信息
+	 * @param site 获取的是哪个网站的模版变量信息
+	 */
+	public TemplateVarAndDataMapVO getTemplateVarAndDataByDatabase(Site site);
 	
 	/**
 	 * 更新模版变量，从数据库更新到Session缓存
@@ -190,4 +205,16 @@ public interface TemplateService {
 	 * @return 如果 {@link TemplateVO#getResult()} 为 success，则可以获取到 {@link TemplateVO#getTemplate()} 。当然，获取到的也就只有 getTemplate() 了
 	 */
 //	public TemplateVO getTemplateForDatabase(String name);
+	
+	/**
+	 * 获取 TemplateVarVO 的map数据，从缓存中。若缓存中不存在，再从数据库中缓存，并获取。
+	 */
+	public Map<String, TemplateVarVO> getTemplateVarVoMapByCache();
+	
+	/**
+	 * 生成整站html
+	 * @param site 如果不传入，则是使用Session缓存的,， 如果传入，则是某个网站操作其他的网站生成，都是从数据库读取的
+	 */
+	public BaseVO generateSiteHTML(HttpServletRequest request, Site site);
+	
 }

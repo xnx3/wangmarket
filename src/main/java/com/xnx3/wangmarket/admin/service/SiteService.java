@@ -104,7 +104,7 @@ public interface SiteService {
 	 * @param request
 	 * @return
 	 */
-	public BaseVO refreshForTemplate(HttpServletRequest request);
+//	public BaseVO refreshForTemplate(HttpServletRequest request);
 	
 	/**
 	 * 根据 site.id 返回 {@link Site}，会读取数据库

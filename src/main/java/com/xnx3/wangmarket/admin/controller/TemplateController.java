@@ -54,6 +54,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -512,13 +513,22 @@ public class TemplateController extends BaseController {
 		}else{
 			//如果是智能模式，那么要装载模版变量、可视化编辑等
 			//装载模版变量
-			if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
-				//判断一下，缓存中是否有模版变量，若所没有，那么要缓存
-				templateService.getTemplateVarAndDateListByCache();
-			}
+//			if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal() == null){
+//				//判断一下，缓存中是否有模版变量，若所没有，那么要缓存
+//				templateService.getTemplateVarAndDateListByCache();
+//			}
+			//获取Session缓存中的模版变量数据
+//			Map<String, TemplateVarVO> templateVarVOMap = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal();
 			
 			com.xnx3.wangmarket.admin.cache.TemplateCMS temp = new com.xnx3.wangmarket.admin.cache.TemplateCMS(site, true);
-			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
+//			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText());
+			Map<String, String> templateVarDataMap = new HashMap<String, String>();
+			TemplateVarListVO templateVarListVO = templateService.getTemplateVarAndDateListByCache();
+			for (int i = 0; i < templateVarListVO.getList().size(); i++) {
+				TemplateVarVO tv = templateVarListVO.getList().get(i);
+				templateVarDataMap.put(tv.getTemplateVar().getVarName(), tv.getTemplateVarData().getText());
+			}
+			html = temp.assemblyTemplateVar(vo.getTemplatePageData().getText(), templateVarDataMap);
 			
 			// {templatePath} 替换
 			TemplateCMS templateCMS = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
@@ -813,7 +823,17 @@ public class TemplateController extends BaseController {
 			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
 		}
 		
-		return siteService.refreshForTemplate(request);
+		try {
+			BaseVO vo = GenerateSitePluginManage.before(request, getSite());
+			if(vo.getResult() - BaseVO.FAILURE == 0){
+				return vo;
+			}
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		return templateService.generateSiteHTML(request, getSite());
 	}
 	
 	/**

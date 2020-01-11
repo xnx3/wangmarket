@@ -273,12 +273,11 @@ public class PublicController extends BaseController {
 			//访问日志记录
 //			requestLog(request, requestInfo);
 			Log.requestLog(request, requestInfo, simpleSiteVO);
-			
-			HttpResponse hr = http.get(AttachmentUtil.netUrl()+"site/"+simpleSiteVO.getSimpleSite().getId()+"/sitemap.xml");
-			if(hr == null || hr.getCode() - 404 == 0){
+			String sitemapXml = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			if(sitemapXml == null || sitemapXml.length() == 0){
 				return error404();
 			}else{
-				model.addAttribute("html", hr.getContent());
+				model.addAttribute("html", sitemapXml);
 				return "domain/sitemap";
 			}
 		}
@@ -315,7 +314,8 @@ public class PublicController extends BaseController {
 				simpleSite.setBindDomain(serverName);
 				simpleSite.setClient(Site.CLIENT_CMS);
 				simpleSite.setDomain(serverName);
-				simpleSite.setId(219);
+				simpleSite.setSiteid(219);
+				simpleSite.setId(simpleSite.getSiteid());
 				simpleSite.setState(Site.STATE_NORMAL);
 				simpleSite.setTemplateId(1);
 			}else{
