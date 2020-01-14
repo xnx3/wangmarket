@@ -63,12 +63,12 @@ layui.use(['form', 'layedit', 'laydate'], function(){
       }
     },
     phone: function(value){
-      if(value.length == 0 || value.length > 14){
-        return '请输入14个数字以内的联系电话';
+      if(value.length > 14){
+        return '请输入14个字符以内的联系电话';
       }
     },
     qq: function(value){
-      if(value.length == 0 || value.length > 14){
+      if(value.length > 14){
         return '请输入12个数字或以内的QQ号';
       }
     },
