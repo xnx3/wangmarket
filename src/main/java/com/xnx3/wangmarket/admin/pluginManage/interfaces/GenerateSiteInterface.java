@@ -30,7 +30,7 @@ public interface GenerateSiteInterface {
 	 * 				<li>BaseVO.getResult() == BaseVO.FAILURE 则是不允许继续执行了。如果返回此，那么用户点击生成整站按钮会，不会触发生成整站的方法，同时用户看到弹出错误提示。这个错误提示的文字，便是 BaseVO.getInfo() </li>
 	 * 			</ul> 
 	 */
-	public BaseVO before(HttpServletRequest request, Site site);
+	public BaseVO generateSiteBefore(HttpServletRequest request, Site site);
 	
 	/**
 	 * 点击生成整站按钮后，已经生成完成整站，触发的接口
@@ -39,6 +39,6 @@ public interface GenerateSiteInterface {
 	 * @param newsMap 当前网站的文章数据， 以栏目codeName为key，将文章List加入进自己对应的栏目。同时，若传入父栏目代码，其栏目下有多个新闻子栏目，会调出所有子栏目的内容
 	 * @param newsDataMap 当前网站的文章详情的数据 key: {@link News}.id  value: {@link NewsDataBean}
 	 */
-	public void finish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap);
+	public void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap);
 	
 }

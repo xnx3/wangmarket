@@ -45,13 +45,13 @@ public class GenerateSitePluginManage {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static BaseVO before(HttpServletRequest request, Site site) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static BaseVO generateSiteBefore(HttpServletRequest request, Site site) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("before",new Class[]{HttpServletRequest.class,Site.class});	//获取要调用的init方法  
+			Method m = c.getMethod("generateSiteBefore",new Class[]{HttpServletRequest.class,Site.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			Object o = m.invoke(invokeReply, new Object[]{request, site});
 			if(o != null){
@@ -75,13 +75,13 @@ public class GenerateSitePluginManage {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static void finish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("finish",new Class[]{HttpServletRequest.class, Site.class, Map.class, Map.class, Map.class});	//获取要调用的init方法  
+			Method m = c.getMethod("generateSiteFinish",new Class[]{HttpServletRequest.class, Site.class, Map.class, Map.class, Map.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, site, siteColumnMap, newsMap, newsDataMap});
 		}

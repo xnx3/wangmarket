@@ -40,6 +40,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
@@ -1092,8 +1093,8 @@ public class TemplateServiceImpl implements TemplateService {
 	 * 生成整站html
 	 * @param site 如果不传入，则是使用Session缓存的,， 如果传入，则是某个网站操作其他的网站生成，都是从数据库读取的
 	 */
-	public BaseVO generateSiteHTML(HttpServletRequest request, Site site){
-		BaseVO vo = new BaseVO();
+	public GenerateSiteVO generateSiteHTML(HttpServletRequest request, Site site){
+		GenerateSiteVO vo = new GenerateSiteVO();
 		boolean useDatabase = false;	//是否是从数据库中取数据，false不从数据库取，从缓存取。 true从数据库中取。这种情况是操作别人的网站时 
 		if(site == null){
 			site = SessionUtil.getSite();
@@ -1273,23 +1274,6 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		
 		/*
-		 * sitemap.xml
-		 */
-		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-				+ "<urlset\n"
-				+ "\txmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"\n"
-				+ "\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-				+ "\txsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\n"
-				+ "\t\thttp://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\n";
-		
-		//加入首页
-		String indexUrl = "http://"+Func.getDomain(site);
-		/**
-		 * sss
-		 */
-//		xml = xml + getSitemapUrl(indexUrl, "1.00");
-		
-		/*
 		 * 模版替换生成页面的步骤
 		 * 1.替换模版变量的标签
 		 * 		1.1 通用标签
@@ -1427,9 +1411,6 @@ public class TemplateServiceImpl implements TemplateService {
 				//生成其列表页面
 				template.generateListHtmlForWholeSite(listTemplateHtml, siteColumn, columnNewsList, newsDataMap, columnMapForId);
 				
-				//XML加入栏目页面
-//				xml = xml + getSitemapUrl(indexUrl+"/"+template.generateSiteColumnListPageHtmlName(siteColumn, 1)+".html", "0.4");
-				
 				/*
 				 * 生成当前栏目的内容页面
 				 */
@@ -1451,8 +1432,6 @@ public class TemplateServiceImpl implements TemplateService {
 							}
 							//生成内容页面
 							template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, upNews, nextNews);
-							//XML加入内容页面
-//							xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.5");
 						}
 					}
 				}
@@ -1462,15 +1441,11 @@ public class TemplateServiceImpl implements TemplateService {
 				if(siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0){
 					//模版式编辑，无 news ， 则直接生成
 					template.generateViewHtmlForTemplateForWholeSite(null, siteColumn, new NewsDataBean(null), viewTemplateHtml, null, null);
-					//独立页面享有更大的权重，赋予其 0.8
-//					xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, null)+".html", "0.8");
 				}else{
 					//UEditor、输入模型编辑方式
 					for (int i = 0; i < columnNewsList.size(); i++) {
 						News news = columnNewsList.get(i);
 						template.generateViewHtmlForTemplateForWholeSite(news, siteColumn, newsDataMap.get(news.getId()), viewTemplateHtml, null, null);
-						//独立页面享有更大的权重，赋予其 0.8
-//						xml = xml + getSitemapUrl(indexUrl+"/"+template.generateNewsPageHtmlName(siteColumn, news)+".html", "0.8");
 					}
 				}
 			}else{
@@ -1478,19 +1453,10 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		} 
 		
-		//生成 sitemap.xml
-		xml = xml + "</urlset>";
-//		AttachmentUtil.putStringFile("site/"+site.getId()+"/sitemap.xml", xml);
-		
-		try {
-			GenerateSitePluginManage.finish(request, site, columnMap, columnNewsMap, newsDataMap);
-		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
-				| IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return BaseVO.failure("生成整站时，插件 finish 接口的实现失败，但当前网站已正常生成成功！插件异常："+e.getMessage());
-		}
-		
-		return new BaseVO();
+		vo.setNewsDataMap(newsDataMap);
+		vo.setNewsMap(columnNewsMap);
+		vo.setSiteColumnMap(columnMap);
+		return vo;
 	}
 
 	@Override

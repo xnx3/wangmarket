@@ -64,6 +64,7 @@ import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
 import com.xnx3.wangmarket.admin.vo.TemplateCompareVO;
 import com.xnx3.wangmarket.admin.vo.TemplateListVO;
@@ -824,7 +825,7 @@ public class TemplateController extends BaseController {
 		}
 		
 		try {
-			BaseVO vo = GenerateSitePluginManage.before(request, getSite());
+			BaseVO vo = GenerateSitePluginManage.generateSiteBefore(request, getSite());
 			if(vo.getResult() - BaseVO.FAILURE == 0){
 				return vo;
 			}
@@ -833,7 +834,20 @@ public class TemplateController extends BaseController {
 			e.printStackTrace();
 		}
 		
-		return templateService.generateSiteHTML(request, getSite());
+		GenerateSiteVO vo = templateService.generateSiteHTML(request, getSite());
+		if(vo.getResult() - GenerateSiteVO.FAILURE == 0){
+			return vo;
+		}
+		
+		//生成整站成功，那么执行成功的插件
+		try {
+			GenerateSitePluginManage.generateSiteFinish(request, getSite(), vo.getSiteColumnMap(), vo.getNewsMap(), vo.getNewsDataMap());
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+			return BaseVO.failure("生成整站时，插件 finish 接口的实现失败，但当前网站已正常生成成功！插件异常："+e.getMessage());
+		}
+		return vo;
 	}
 	
 	/**

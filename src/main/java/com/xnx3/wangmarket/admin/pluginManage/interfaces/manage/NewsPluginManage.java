@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
@@ -22,12 +21,7 @@ public class NewsPluginManage {
 	public static List<Class<?>> classList;
 	static{
 		List<Class<?>> cl = ScanClassUtil.getClasses("com.xnx3.wangmarket");
-		classList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.newSave.NewsSaveInterface");
-		
-		List<Class<?>> newClassList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.interfaces.NewsInterface");
-		for (int i = 0; i < newClassList.size(); i++) {
-			classList.add(newClassList.get(i));
-		}
+		classList = ScanClassUtil.searchByInterfaceName(cl, "com.xnx3.wangmarket.admin.pluginManage.interfaces.NewsInterface");
 		
 		for (int i = 0; i < classList.size(); i++) {
 			ConsoleUtil.info("装载 news 插件："+classList.get(i).getName());
@@ -35,70 +29,110 @@ public class NewsPluginManage {
 	}
 	
 	/**
-	 * 拦截 news 数据进行处理
-	 * @param news news对象，插件会对这里面的数据进行处理
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * 拦截 News 进行预处理。这里是在保存入数据库之前拦截下来，进行处理，处理完后将其存入数据库
+	 * 在以下情况，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，点击保存时</li>
+	 * 		<li>内容管理中，编辑文章，点击保存时</li>
+	 * 		<li>内容管理中，修改文章的发布时间</li>
+	 * 	</ul>
+	 * @param news 要处理的 {@link News}
+	 * @return 已处理过的 news，会将其进行保存进数据库
 	 */
-	public static News interceptNews(HttpServletRequest request, HttpServletResponse response, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static News newsSaveBefore(HttpServletRequest request, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("interceptNews",new Class[]{HttpServletRequest.class, HttpServletResponse.class, News.class});	//获取要调用的init方法  
+			Method m = c.getMethod("newsSaveBefore",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			m.invoke(invokeReply, new Object[]{request, response, news});
+			m.invoke(invokeReply, new Object[]{request, news});
 		}
 		return news;
 	}
 	
+
 	/**
-	 * 
-	 * @param newsData newsData对象，插件会对这里面的数据进行处理
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * 这里是已经保存入数据库之后，进行处理
+	 * 在以下情况，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，保存成功后</li>
+	 * 		<li>内容管理中，编辑文章，保存成功后</li>
+	 * 		<li>内容管理中，修改文章的发布时间，保存成功后</li>
+	 * 	</ul>
+	 * @param news 当前操作的{@link News}
 	 */
-	public static NewsData interceptNewsData(HttpServletRequest request, HttpServletResponse response, NewsData newsData) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static void newsSaveFinish(HttpServletRequest request, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("interceptNewsData",new Class[]{HttpServletRequest.class, HttpServletResponse.class,NewsData.class});	//获取要调用的init方法  
+			Method m = c.getMethod("newsSaveFinish",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			m.invoke(invokeReply, new Object[]{request, response, newsData});
+			m.invoke(invokeReply, new Object[]{request, news});
+		}
+	}
+	
+	/**
+	 * 拦截 NewsData 进行预处理。这里是在保存入数据库之前拦截下来，进行处理，处理完后将其存入数据库
+	 * 在以下情况，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，点击保存时</li>
+	 * 		<li>内容管理中，编辑文章，点击保存时</li>
+	 * 	</ul>
+	 * @param newsData 要处理的 {@link NewsData}
+	 * @return 已处理过的 newsData，会将其进行保存进数据库
+	 */
+	public static NewsData newsDataSaveBefore(HttpServletRequest request, NewsData newsData) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+		for (int i = 0; i < classList.size(); i++) {
+			Class<?> c = classList.get(i);
+			Object invokeReply = null;
+			invokeReply = c.newInstance();
+			//运用newInstance()来生成这个新获取方法的实例  
+			Method m = c.getMethod("newsDataSaveBefore",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法  
+			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
+			m.invoke(invokeReply, new Object[]{request, newsData});
 		}
 		return newsData;
 	}
 	
 	/**
-	 * 删除文章
-	 * @param news {@link News} 对象,已删除的文章信息
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * 拦截 NewsData 进行预处理。这里是在保存入数据库之前拦截下来，进行处理，处理完后将其存入数据库
+	 * 在以下情况，触发此方法：
+	 * 	<ul>
+	 * 		<li>内容管理中，新增文章，保存成功后</li>
+	 * 		<li>内容管理中，编辑文章，保存成功后</li>
+	 * 	</ul>
+	 * @param newsData 当前保存的 {@link NewsData}
 	 */
-	public static void newsDelete(HttpServletRequest request, HttpServletResponse response, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static void newsDataSaveFinish(HttpServletRequest request, NewsData newsData) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsDelete",new Class[]{HttpServletRequest.class, HttpServletResponse.class,News.class});  
+			Method m = c.getMethod("newsDataSaveFinish",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			m.invoke(invokeReply, new Object[]{request, response, news});
+			m.invoke(invokeReply, new Object[]{request, newsData});
+		}
+	}
+	
+	
+	/**
+	 * 删除文章
+	 * @param news {@link News} 对象,已删除的文章信息
+	 */
+	public static void newsDeleteFinish(HttpServletRequest request, News news) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+		for (int i = 0; i < classList.size(); i++) {
+			Class<?> c = classList.get(i);
+			Object invokeReply = null;
+			invokeReply = c.newInstance();
+			//运用newInstance()来生成这个新获取方法的实例  
+			Method m = c.getMethod("newsDeleteFinish",new Class[]{HttpServletRequest.class,News.class});  
+			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
+			m.invoke(invokeReply, new Object[]{request, news});
 		}
 	}
 }

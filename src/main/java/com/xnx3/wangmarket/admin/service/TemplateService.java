@@ -10,6 +10,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
@@ -215,6 +216,6 @@ public interface TemplateService {
 	 * 生成整站html
 	 * @param site 如果不传入，则是使用Session缓存的,， 如果传入，则是某个网站操作其他的网站生成，都是从数据库读取的
 	 */
-	public BaseVO generateSiteHTML(HttpServletRequest request, Site site);
+	public GenerateSiteVO generateSiteHTML(HttpServletRequest request, Site site);
 	
 }

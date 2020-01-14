@@ -468,7 +468,7 @@ public class TemplateCMS {
 	 * @param columnMapForId 栏目map，以栏目id为key，用id来取栏目
 	 */
 	public void generateListHtmlForWholeSite(String listTemplateHtml, SiteColumn siteColumn, List<News> newList, Map<Integer, NewsDataBean> newsDataMap, Map<Integer, SiteColumn> columnMapForId){
-		Site site = SessionUtil.getSite();
+//		Site site = SessionUtil.getSite();
 		int count = newList.size();	//当前列表的总条数
 				
 		//拿到列表模版中的 列表项 模版
@@ -656,7 +656,6 @@ public class TemplateCMS {
 		if(newsDataBean == null){
 			newsDataBean = new NewsDataBean(new NewsData());
 		}
-		
 		pageHtml = Template.replaceAll(pageHtml, Template.regex("text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情。新版本中这个标签已经废弃，改用了 {news.text}
 		
 		String generateUrl = "";
