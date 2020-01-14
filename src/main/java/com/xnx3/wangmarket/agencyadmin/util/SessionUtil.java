@@ -58,14 +58,14 @@ public class SessionUtil extends com.xnx3.wangmarket.admin.util.SessionUtil{
 	 * 获取我的上级代理信息
 	 */
 	public static Agency getParentAgency(){
-		return getPlugin(PLUGIN_NAME_AGENCY_DATA_PARENT);
+		return getPlugin(PLUGIN_NAME_AGENCY_PARENT);
 	}
 	
 	/**
 	 * 设置我的上级代理信息
 	 */
 	public static void setParentAgency(Agency agency){
-		setPlugin(PLUGIN_NAME_AGENCY_DATA_PARENT, agency);
+		setPlugin(PLUGIN_NAME_AGENCY_PARENT, agency);
 	}
 
 	/**
