@@ -270,6 +270,11 @@ public class TemplateDevelopController extends BasePluginController {
 			return error(e.getMessage());
 		}
 		
+		//开发模式下， 在eclipse中，SystemUtil.get("MASTER_SITE_URL")未设置，那么生成的下载路径是相对路径，这样需要前面加 / ，免得找不到路径
+		if(downUrl.indexOf("plugin_data") == 0){
+			//加上根路径标示
+			downUrl = "/"+downUrl;
+		}
 		
 		return success(downUrl);
 	}
