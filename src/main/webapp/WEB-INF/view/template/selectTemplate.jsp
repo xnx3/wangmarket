@@ -151,8 +151,13 @@ function typeClick(type){
 					var xiabiao = i%4;	//取余，得数组下表
 					try{
 						var to = obj.list[i];
+						var previewPic = ((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg');
+						if(previewPic.indexOf("websiteTemplate") == 0){
+							//这种情况是使用Eclipse开发状态，且没有设置主域名的情况下
+							previewPic = "/"+previewPic;
+						}
 						var temp = '<div>'+
-									'<img src="'+((to.previewPic != null && to.previewPic.length > 8)? to.previewPic:'${AttachmentFileUrl}websiteTemplate/'+to.name+'/preview.jpg') +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+									'<img src="'+ previewPic +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 									'<div class="terminal">访问支持：'+
