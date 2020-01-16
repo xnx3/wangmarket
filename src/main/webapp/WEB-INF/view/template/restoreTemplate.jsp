@@ -64,16 +64,26 @@
 			    <c:when test="${usedYunTemplate}">
 			        <div style="float:left; padding-right: 25px;">
 			        	<img src="" class="previewImg" style="height:150px; width:auto;" id="previewPic"/>
-			        	<script>
+						<div class="previewButton"><a href="#" id="previewUrl">预览模版</a></div>
+						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${template.name }</div>
+						<script>
+							//图片
 			        		var previewPic = '${template.previewPic}';
 			        		if(previewPic.indexOf("websiteTemplate") == 0){
 								//这种情况是使用Eclipse开发状态，且没有设置主域名的情况下
 								previewPic = "/"+previewPic;
 							}
 							document.getElementById('previewPic').src = previewPic;
+							
+							//预览模版
+							var previewUrl = '${template.previewUrl }';
+							if(previewUrl == null || previewUrl.length < 5){
+								previewUrl = 'javascript:alert("当前模版还没有可供预览的网站");';
+							}else{
+								document.getElementById('previewUrl').target = "_black";
+							}
+							document.getElementById('previewUrl').href = previewUrl;
 			        	</script>
-						<div class="previewButton"><a href="${template.previewUrl }" target="_black">预览模版</a></div>
-						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${template.name }</div>
 					</div>
 					<div style="padding-top:10px;">
 						<div>
