@@ -84,7 +84,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 			</c:if> 
 			<c:forEach items="${tcv.templatePageList}" var="v">
 				<span id="templatePage_${v.backupsTemplatePage.name }">
-					<input type="checkbox"  value="1" name="templatePage_${v.backupsTemplatePage.name }" title="${v.backupsTemplatePage.remark }" <c:if test="${v.result == 0}">disabled</c:if>>
+					<input type="checkbox"  value="1" name="templatePage_${v.backupsTemplatePage.name }" title="${v.backupsTemplatePage.remark }(${v.backupsTemplatePage.name })" <c:if test="${v.result == 0}">disabled</c:if>>
 				</span>
 				<script>
 				$(function(){
@@ -137,7 +137,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 			</c:if> 
 			<c:forEach items="${tcv.templateVarList}" var="v">
 				<span id="templateVar_${v.backupsTemplateVar.varName }">
-					<input type="checkbox" value="1" name="templateVar_${v.backupsTemplateVar.varName }" title="${v.backupsTemplateVar.remark }" <c:if test="${v.result == 0}">disabled</c:if>>
+					<input type="checkbox" value="1" name="templateVar_${v.backupsTemplateVar.varName }" title="${v.backupsTemplateVar.remark }(${v.backupsTemplateVar.varName })" <c:if test="${v.result == 0}">disabled</c:if>>
 				</span>
 				<script>
 				$(function(){
@@ -188,7 +188,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 			</c:if> 
 			<c:forEach items="${tcv.siteColumnList}" var="v">
 				<span id="siteColumn_${v.backupsSiteColumn.codeName }">
-					<input type="checkbox" value="1" name="siteColumn_${v.backupsSiteColumn.codeName }" title="${v.backupsSiteColumn.name }" <c:if test="${v.result == 0}">disabled</c:if>>
+					<input type="checkbox" value="1" name="siteColumn_${v.backupsSiteColumn.codeName }" title="${v.backupsSiteColumn.name }(${v.backupsSiteColumn.codeName })" <c:if test="${v.result == 0}">disabled</c:if>>
 				</span>
 				<script>
 				$(function(){
@@ -268,7 +268,7 @@ function generateTableTrTag(name, currentValue, backupsValue){
 			</c:if> 
 			<c:forEach items="${tcv.inputModelList}" var="v">
 				<span id="inputModel_${v.backupsInputModel.codeName }">
-					<input type="checkbox" value="1" name="inputModel_${v.backupsInputModel.codeName }" title="${v.backupsInputModel.remark }" <c:if test="${v.result == 0}">disabled</c:if>>
+					<input type="checkbox" value="1" name="inputModel_${v.backupsInputModel.codeName }" title="${v.backupsInputModel.remark }(${v.backupsInputModel.codeName })" <c:if test="${v.result == 0}">disabled</c:if>>
 				</span>
 				<script>
 				$(function(){

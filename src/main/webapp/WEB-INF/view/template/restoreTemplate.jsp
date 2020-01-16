@@ -63,7 +63,15 @@
 			<c:choose>
 			    <c:when test="${usedYunTemplate}">
 			        <div style="float:left; padding-right: 25px;">
-			        	<img src="${template.previewPic}" class="previewImg" style="height:150px; width:auto;"/>
+			        	<img src="" class="previewImg" style="height:150px; width:auto;" id="previewPic"/>
+			        	<script>
+			        		var previewPic = '${template.previewPic}';
+			        		if(previewPic.indexOf("websiteTemplate") == 0){
+								//这种情况是使用Eclipse开发状态，且没有设置主域名的情况下
+								previewPic = "/"+previewPic;
+							}
+							document.getElementById('previewPic').src = previewPic;
+			        	</script>
 						<div class="previewButton"><a href="${template.previewUrl }" target="_black">预览模版</a></div>
 						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${template.name }</div>
 					</div>

@@ -51,7 +51,7 @@ public class InputModelController extends BaseController {
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){
 		InputModel inputModel = inputModelService.getInputModelById(id);
 		
-		ActionLogUtil.insert(request, inputModel.getId(), "进入输入模型编辑页面", inputModel.getCodeName());
+		ActionLogUtil.insert(request, "进入输入模型编辑页面", inputModel == null? "添加页面":inputModel.toString());
 		model.addAttribute("inputModel", inputModel);
 		return "inputModel/edit";
 	}

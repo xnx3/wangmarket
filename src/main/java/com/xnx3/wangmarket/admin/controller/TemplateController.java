@@ -865,7 +865,7 @@ public class TemplateController extends BaseController {
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
 			//取出模版库（云端+本地）的模版
 			com.xnx3.wangmarket.admin.entity.Template template = TemplateUtil.getTemplateByName(site.getTemplateName());
-			if(template != null && template.getWscsoDownUrl() != null && template.getWscsoDownUrl().indexOf("//") > -1){
+			if(template != null){
 				usedYunTemplate = true;
 				model.addAttribute("template", template);
 			}
