@@ -83,12 +83,16 @@ public class PluginManage {
 	/**
 	 * 注册插件
 	 * @param c 要注册的插件的class， 如 com.xnx3.wangmarket.plugin.learnExample.Plugin
+	 * @return true:成功； false:失败
 	 */
-	public static void registerPlugin(Class c) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static boolean registerPlugin(Class c) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		PluginRegister plugin = (PluginRegister) c.getAnnotation(PluginRegister.class);
+		if(plugin == null){
+			return false;
+		}
 		String pluginId = PluginUtil.getPluginId(c.getName());
 		if(pluginId == null || pluginId.length() == 0){
-			return;
+			return false;
 		}
 		//自动获取id，并赋予注解中
 		InvocationHandler invocationHandler = Proxy.getInvocationHandler(plugin);
@@ -99,6 +103,7 @@ public class PluginManage {
 	        memberValues.put("id", pluginId);
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
+			return false;
 		}
 		
 		if(plugin != null){
@@ -112,7 +117,8 @@ public class PluginManage {
         		superAdminClassManage.put(plugin.id(), plugin);
         	}
 		}
-	
+		
+		return true;
 	}
 	
 	/**

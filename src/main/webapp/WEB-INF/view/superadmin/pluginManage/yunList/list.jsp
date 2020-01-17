@@ -170,7 +170,7 @@ function installPlugin(pluginId, pluginName) {
 						});
 						}else {
 							parent.iw.msgSuccess('安装成功');
-							parent.parent.window.location.href = '/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
+							parent.parent.loadUrl('/plugin/pluginManage/index.do')
 						}
 					}else if(data.result == 0){
 					     parent.iw.msgFailure(data.info);

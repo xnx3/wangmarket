@@ -136,7 +136,7 @@
 				    parent.iw.loadClose();    //关闭“操作中”的等待提示
 				    if(data.result == '1'){
 				        parent.iw.msgSuccess('卸载成功');
-				        parent.parent.window.location.href = '/admin/index/index.do?jumpUrl=plugin/pluginManage/index.do';
+				        parent.parent.loadUrl('/plugin/pluginManage/index.do')
 				     }else if(data.result == '0'){
 				         parent.iw.msgFailure(data.info);
 				     }else{
