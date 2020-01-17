@@ -316,6 +316,9 @@ public class PluginManageController extends BasePluginController {
 		}
 		// 删除子文件夹
 		File[] childFile = file.listFiles();
+		if(childFile == null){
+			return;
+		}
 		File nowfile;
 		for (int i = 0; i < childFile.length; i++) {
 			nowfile = childFile[i];
@@ -621,7 +624,9 @@ public class PluginManageController extends BasePluginController {
 		
 		//注册安装最新的插件
 		try {
-			PluginManage.registerPlugin(forName);
+			if(!PluginManage.registerPlugin(forName)){
+				return error("插件注册失败！");
+			}
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 			return error(e.getMessage());
