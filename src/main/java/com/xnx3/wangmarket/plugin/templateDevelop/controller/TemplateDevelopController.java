@@ -18,7 +18,6 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.ZipUtil;
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
