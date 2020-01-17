@@ -1,18 +1,19 @@
-package com.xnx3.wangmarket.plugin.formManage.entity;
+package com.xnx3.wangmarket.plugin.form.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
- * 问题反馈
+ * 表单反馈
  * @author 管雷鸣
  */
 @Entity
-@Table(name = "form")
+@Table(name = "plugin_form", indexes={@Index(name="suoyin_index",columnList="siteid,state")})
 public class Form implements java.io.Serializable {
 
 	private Integer id;			//自动编号

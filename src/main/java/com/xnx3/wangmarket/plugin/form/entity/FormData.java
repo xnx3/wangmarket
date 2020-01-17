@@ -1,9 +1,7 @@
-package com.xnx3.wangmarket.plugin.formManage.entity;
+package com.xnx3.wangmarket.plugin.form.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +10,7 @@ import javax.persistence.Table;
  * @author 管雷鸣
  */
 @Entity
-@Table(name = "form_data")
+@Table(name = "plugin_form_data")
 public class FormData implements java.io.Serializable {
 
 	private Integer id;			//对应form.id

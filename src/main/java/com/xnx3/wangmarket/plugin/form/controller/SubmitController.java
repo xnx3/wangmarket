@@ -1,7 +1,6 @@
-package com.xnx3.wangmarket.plugin.formManage.controller;
+package com.xnx3.wangmarket.plugin.form.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,26 +14,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.IpUtil;
-import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SafetyUtil;
-import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.controller.BaseController;
-import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
-import com.xnx3.wangmarket.plugin.formManage.bean.Frequency;
-import com.xnx3.wangmarket.plugin.formManage.entity.Form;
-import com.xnx3.wangmarket.plugin.formManage.entity.FormData;
+import com.xnx3.wangmarket.plugin.form.bean.Frequency;
+import com.xnx3.wangmarket.plugin.form.entity.Form;
+import com.xnx3.wangmarket.plugin.form.entity.FormData;
 
 /**
- * CMS模式下，输入模型相关操作
+ * Form插件,5.0以前的版本
  * @author 管雷鸣
  */
-@Controller
+@Controller(value="FormSubmitPluginController")
 @RequestMapping("/")
-public class FormManagePluginController extends BaseController {
+public class SubmitController extends BasePluginController {
 
 	@Resource
 	private SqlService sqlService;
@@ -62,79 +58,41 @@ public class FormManagePluginController extends BaseController {
 	
 	
 	/**
-	 * 当前表单反馈信息的列表
-	 */
-	@RequestMapping("/form/list${url.suffix}")
-	public String list(HttpServletRequest request, Model model){
-		ActionLogUtil.insert(request, "查看 plugin formManage 反馈信息列表");
-		
-		Sql sql = new Sql(request);
-		sql.setSearchColumn(new String[]{"state="});
-		sql.appendWhere("siteid = "+getSiteId());
-	    //查询user数据表的记录总条数。 传入的user：数据表的名字为user
-	    int count = sqlService.count("form", sql.getWhere());
-	    //创建分页，并设定每页显示15条
-	    Page page = new Page(count, 15, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM form", page);
-	    sql.setDefaultOrderBy("id DESC");
-	    //因只查询的一个表，所以可以将查询结果转化为实体类，用List接收。
-	    List<Form> list = sqlService.findBySql(sql, Form.class);
-	    //将展示的列表数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    //将分页信息传到页面以供显示底部分页
-	    model.addAttribute("page", page);
-		return "plugin/formManage/list";
-	}
-	
-
-	/**
-	 * 后台查看回馈信息详情
-	 */
-	@RequestMapping("/form/view${url.suffix}")
-	public String view(HttpServletRequest request, Model model,
-			@RequestParam(value = "id", required = false , defaultValue="0") int id){
-		ActionLogUtil.insert(request, "查看 plugin formManage 反馈信息详情");
-		
-		Form form = sqlService.findById(Form.class, id);
-		if(form == null){
-			return error(model,"查看的信息不存在");
-		}
-		if(form.getSiteid() - getSiteId() != 0){
-			return error(model, "信息不属于你，无法查看");
-		}
-		
-		//若是信息为未读状态，设置为已读
-		if(form.getState() == null || form.getState() - Form.STATE_UNREAD == 0){
-			form.setState(Form.STATE_READ);
-			sqlService.save(form);
-		}
-		
-		//取得分表的 data
-		FormData formData = sqlService.findById(FormData.class, id);
-		if(formData == null){
-			return error(model,"异常，该信息的内容不存在");
-		}
-		
-		JSONArray jsonArray = JSONArray.fromObject(formData.getText());
-		
-		model.addAttribute("form", form);
-	    model.addAttribute("jsonArray", jsonArray);
-		return "plugin/formManage/view";
-	}
-	
-	
-	
-	
-	/**
 	 * 提交反馈信息，只限 post 提交
-	 * @param id 要删除的输入模型的id，对应 {@link InputModel}.id
+	 * @param siteid 站点的id，这条反馈属于哪个站点， Site.id
+	 * @param 反馈信息的title字段，将会在网站管理后台-功能插件-表单反馈列表中显示的
+	 * @deprecated 请使用 /plugin/form/formAdd.do 此保留，只是为了兼容5.0以前的版本
 	 */
 	@RequestMapping(value="formAdd${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO formAdd(HttpServletRequest request, Model model,
 			@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
 			@RequestParam(value = "title", required = false , defaultValue="") String title){
+		return submit(request, siteid, title);
+	}
+	
+	/**
+	 * 提交反馈信息，只限 post 提交
+	 * 网市场5.0后的版本都用这个
+	 * @param siteid 站点的id，这条反馈属于哪个站点， Site.id
+	 * @param 反馈信息的title字段，将会在网站管理后台-功能插件-表单反馈列表中显示的
+	 * @deprecated 请使用 /plugin/form/formAdd.do
+	 */
+	@RequestMapping(value="/plugin/form/add${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO add(HttpServletRequest request, Model model,
+			@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
+			@RequestParam(value = "title", required = false , defaultValue="") String title){
+		return submit(request, siteid, title);
+	}
+	
+	/**
+	 * 提交反馈信息保存
+	 * @param siteid 站点的id，这条反馈属于哪个站点， Site.id
+	 * @param 反馈信息的title字段，将会在网站管理后台-功能插件-表单反馈列表中显示的
+	 * @return {@link BaseVO}
+	 */
+	private BaseVO submit(HttpServletRequest request,int siteid,String title){
 		String ip = IpUtil.getIpAddress(request);
 		Frequency frequency = frequencyMap.get(ip);
 		int currentTime = DateUtil.timeForUnix10();	//当前10位时间戳
@@ -207,7 +165,6 @@ public class FormManagePluginController extends BaseController {
 		}else{
 			return error("保存失败");
 		}
-		
 	}
 	
 }

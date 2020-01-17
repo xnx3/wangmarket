@@ -1,4 +1,4 @@
-package com.xnx3.wangmarket.plugin.formManage.bean;
+package com.xnx3.wangmarket.plugin.form.bean;
 
 /**
  * 反馈频率，控制其反馈的频率。每个ip都会对其有限制
