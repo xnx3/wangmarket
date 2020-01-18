@@ -190,53 +190,6 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 		</shiro:hasPermission>
 		
 		
-		<!-- agency start -->
-		<shiro:hasPermission name="agencyIndex">
-			<li class="layui-nav-item" id="agencyNotice">
-				<a href="javascript:loadUrl('/agency/systemSet.do');">
-					<i class="layui-icon firstMenuIcon">&#xe620;</i>
-					<span class="firstMenuFont">系统设置</span>
-				</a>
-			</li>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="agencyIndex">
-			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/userList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe857;</i>
-					<span class="firstMenuFont">网站管理</span>
-				</a>
-			</li>
-		</shiro:hasPermission>
-		
-		
-		<shiro:hasPermission name="agencyUserList">
-			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/subAgencyList.do?orderBy=expiretime_ASC');">
-					<i class="layui-icon firstMenuIcon">&#xe612;</i>
-					<span class="firstMenuFont">下级代理</span>
-				</a>
-			</li>
-		</shiro:hasPermission>
-		
-		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
-		<shiro:hasPermission name="AgencyNormalAdd">
-			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/actionLogList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
-					<span class="firstMenuFont">操作日志</span>
-				</a>
-			</li>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="AgencyNormalAdd">
-			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/siteSizeLogList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
-					<span class="firstMenuFont">站币日志</span>
-				</a>
-			</li>
-		</shiro:hasPermission>
-		<% } %>
-		<!-- agency end -->
 		
 		<li class="layui-nav-item">
 			<a href="javascript:updatePassword();" id="xiugaimima">
@@ -244,7 +197,8 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				<span class="firstMenuFont">更改密码</span>
 			</a>
 		</li>
-
+		
+		
 
 		<li class="layui-nav-item" id="plugin" style="display:none;">
 			<a href="javascript:;">
@@ -259,6 +213,16 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			}
 		</script>
 		
+		<div id="menuAppend">
+			<!-- 插件扩展菜单项。追加的值如： -->
+			<!-- <li class="layui-nav-item" >
+				<a href="/user/logout.do">
+					<i class="layui-icon firstMenuIcon">&#xe633;</i>
+					<span class="firstMenuFont">退出登陆</span>
+				</a>
+			</li>
+			 -->
+		</div>
 
 		<li class="layui-nav-item">
 			<a href="/user/logout.do">
@@ -320,6 +284,12 @@ function rightTip(){
 	  
 	});
 }
+
+//向扩展菜单的div中，加入html。也就是往里再增加别的菜单。 appendHtml要追加的html，这里一般都是追加li
+function menuAppend(appendHtml){
+	document.getElementById("menuAppend").innerHTML = document.getElementById("menuAppend").innerHTML + appendHtml; 
+}
+
 //只有用户名带有ceshi的才会弹出合作联系的提示。当然，如果是已授权的用户，是不弹出这个带有版权的说明的
 if('${user.username}'.indexOf('ceshi') > -1){
 	<% if(Authorization.copyright){ %>

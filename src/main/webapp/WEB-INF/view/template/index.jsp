@@ -115,6 +115,17 @@ var autoAssignDomain = '${autoAssignDomain }';
 			
 			${menuHTML }
 			
+			<div id="menuAppend">
+				<!-- 插件扩展菜单项。追加的值如： -->
+				<!-- <li class="layui-nav-item" >
+					<a href="/user/logout.do">
+						<i class="layui-icon firstMenuIcon">&#xe633;</i>
+						<span class="firstMenuFont">退出登陆</span>
+					</a>
+				</li>
+				 -->
+			</div>
+			
 			<li class="layui-nav-item" style="position: absolute;bottom: 46px;z-index: 2;">
 				<a id="tuichudenglu" href="../user/logout.do">
 					<i class="layui-icon firstMenuIcon">&#xe633;</i>
@@ -803,11 +814,20 @@ function rightTip(){
 	  
 	});
 }
+
+//向扩展菜单的div中，加入html。也就是往里再增加别的菜单。 appendHtml要追加的html，这里一般都是追加li
+function menuAppend(appendHtml){
+	document.getElementById("menuAppend").innerHTML = document.getElementById("menuAppend").innerHTML + appendHtml; 
+}
+
 //只有用户名带有ceshi的才会弹出合作联系的提示
 if('${user.username}'.indexOf('ceshi') > -1){
 	setTimeout("rightTip()",8000);
 }
+
+
 </script>
+
 
 </body></html>
 ${pluginAppendHtml}

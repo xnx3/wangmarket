@@ -67,6 +67,7 @@ public class AllInterceptor implements HandlerInterceptor {
     	if(modelAndView != null){
     		modelAndView.addObject("STATIC_RESOURCE_PATH", static_resource_path);
     	}
+    	response.addHeader("Author", "www.guanleiming.com");
     }
  
 
