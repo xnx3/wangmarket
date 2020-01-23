@@ -483,8 +483,8 @@ public class AgencyUserController extends BaseController {
 		user.setNickname(user.getUsername());
 		user.setAuthority(isAgency? SystemUtil.get("AGENCY_ROLE")+"":SystemUtil.get("USER_REG_ROLE"));	//设定是普通代理，还是会员权限
 		user.setCurrency(0);
-		user.setFreezemoney(0F);
-		user.setMoney(0F);
+		user.setFreezemoney(0);
+		user.setMoney(0);
 		user.setIsfreeze(User.ISFREEZE_NORMAL);
 		user.setHead("default.png");
 		

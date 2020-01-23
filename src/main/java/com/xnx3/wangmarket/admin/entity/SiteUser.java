@@ -22,7 +22,7 @@ public class SiteUser {
 	private Integer siteid;
 	
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "userid", unique = true, nullable = false)
 	public Integer getUserid() {
 		return userid;
 	}

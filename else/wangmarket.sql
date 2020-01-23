@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50623
  Source Host           : localhost
- Source Database       : wangmarket_ori
+ Source Database       : wangmarket
 
  Target Server Type    : MySQL
  Target Server Version : 50623
  File Encoding         : utf-8
 
- Date: 01/07/2020 15:58:17 PM
+ Date: 01/23/2020 21:04:46 PM
 */
 
 SET NAMES utf8;
@@ -129,30 +129,6 @@ CREATE TABLE `feedback` (
   `text` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '问题反馈的反馈内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='问题反馈（暂未用到，已废弃）';
-
--- ----------------------------
---  Table structure for `form`
--- ----------------------------
-DROP TABLE IF EXISTS `form`;
-CREATE TABLE `form` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自动编号',
-  `siteid` int(11) DEFAULT NULL COMMENT '当前反馈的信息是属于那个站点',
-  `addtime` int(11) DEFAULT NULL COMMENT '信息发布时间',
-  `state` tinyint(2) DEFAULT NULL COMMENT '状态。 1：已读； 0：未读，默认为0',
-  `title` char(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '在后台反馈列表显示的标题',
-  PRIMARY KEY (`id`),
-  KEY `siteid` (`siteid`,`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='万能表单（formManage）的信息反馈记录表';
-
--- ----------------------------
---  Table structure for `form_data`
--- ----------------------------
-DROP TABLE IF EXISTS `form_data`;
-CREATE TABLE `form_data` (
-  `id` int(11) NOT NULL COMMENT 'form的分表，对应 form.id',
-  `text` text COLLATE utf8_unicode_ci COMMENT '自定义表单的内容，格式为json字符串',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='form表的分表';
 
 -- ----------------------------
 --  Table structure for `friend`
@@ -370,6 +346,30 @@ INSERT INTO `permission` VALUES ('1', '用户前台用户的个人中心', '/use
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `plugin_form`
+-- ----------------------------
+DROP TABLE IF EXISTS `plugin_form`;
+CREATE TABLE `plugin_form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `addtime` int(11) DEFAULT NULL,
+  `siteid` int(11) DEFAULT NULL,
+  `state` smallint(6) DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `suoyin_index` (`siteid`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+--  Table structure for `plugin_form_data`
+-- ----------------------------
+DROP TABLE IF EXISTS `plugin_form_data`;
+CREATE TABLE `plugin_form_data` (
+  `id` int(11) NOT NULL,
+  `text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
 --  Table structure for `role`
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
@@ -436,6 +436,9 @@ CREATE TABLE `site` (
   `column_code_url` tinyint(2) DEFAULT '0' COMMENT '是否使用栏目代码。默认为0，不使用，url使用id进行编码。  1:使用栏目代码作为URL，以后都会用1',
   `expiretime` int(11) DEFAULT '0' COMMENT '过期时间',
   `use_kefu` tinyint(1) DEFAULT '0' COMMENT '是否开启在线客服功能。0不开启，默认；  1开启',
+  `attachment_size` int(11) DEFAULT NULL COMMENT '当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/siteid/ 下的空间占用大小，单位是KB',
+  `attachment_size_have` int(11) DEFAULT NULL COMMENT '当前用户网站所拥有的空间大小，单位是MB',
+  `attachment_update_date` int(11) DEFAULT NULL COMMENT '当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次',
   PRIMARY KEY (`id`),
   UNIQUE KEY `domain` (`domain`,`userid`,`state`,`expiretime`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='网站，每个站点都会存为一条记录';
@@ -444,7 +447,7 @@ CREATE TABLE `site` (
 --  Records of `site`
 -- ----------------------------
 BEGIN;
-INSERT INTO `site` VALUES ('219', '测试演示自定义模版站', '243', '1488446743', '1', '17753600820', '25689732', '1', 'cs', '591', null, '3', '测试演示的自定义模版站', '潍坊软件园', '雷爷', '', '', null, '1', '0', null, '', '0', '2000123200', '1');
+INSERT INTO `site` VALUES ('219', '测试演示自定义模版站', '243', '1488446743', '1', '17753600820', '25689732', '1', 'cs', '591', null, '3', '测试演示的自定义模版站', '潍坊软件园', '雷爷', '', '', null, '1', '0', null, '', '0', '2000123200', '1', null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -509,6 +512,16 @@ CREATE TABLE `site_size_change` (
   PRIMARY KEY (`id`),
   KEY `site_size_change` (`site_size_change`,`addtime`,`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='站币变动日志记录表。站币变动日志由阿里云日志服务跟此表共同记录';
+
+-- ----------------------------
+--  Table structure for `site_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `site_user`;
+CREATE TABLE `site_user` (
+  `userid` int(11) NOT NULL,
+  `siteid` int(11) DEFAULT NULL COMMENT 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Table structure for `sms_log`

@@ -181,8 +181,8 @@ public class UserServiceImpl implements UserService{
 		user.setAuthority(Global.system.get("USER_REG_ROLE"));
 		user.setCurrency(0);
 		user.setReferrerid(0);
-		user.setFreezemoney(0F);
-		user.setMoney(0F);
+		user.setFreezemoney(0);
+		user.setMoney(0);
 		user.setIsfreeze(User.ISFREEZE_NORMAL);
 		user.setHead("default.png");
 		
