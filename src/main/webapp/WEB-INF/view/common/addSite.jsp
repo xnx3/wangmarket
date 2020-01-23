@@ -10,7 +10,7 @@
 </style>
 <form class="layui-form" action="" style="padding-top:3%; padding-left:15%; padding-right:15%; padding-bottom: 3%;">
 	<input type="hidden" value="<%=ShiroFunc.getUser().getId() %>" name="inviteid" />
-	<div class="layui-form-item">
+	<div class="layui-form-item" style="display:none;">
 		<label class="layui-form-label">网站类型</label>
 		<div class="layui-input-inline xnx3_input">
 			<script type="text/javascript">writeSelectAllOptionForclient_('','请选择', true);</script>
