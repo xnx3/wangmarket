@@ -98,7 +98,7 @@ public class SiteController extends BaseController {
 		if(name.length() == 0){
 			name = "此人很懒，暂未起名";
 		}
-		site.setName(filter(name));
+		site.setName(StringUtil.filterXss(name));
 		sqlService.save(site);
 		
 		ActionLogUtil.insertUpdateDatabase(request, "修改站点名字", site.getName());

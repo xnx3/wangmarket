@@ -32,8 +32,8 @@ public class User extends BaseEntity {
 	private String phone;		//手机号
 	private Integer currency;	//资金，可以是积分、金币、等等站内虚拟货币。具体货币名字在system表，name=CURRENCY_NAME 通过后台－系统设置进行配置
 	private Integer referrerid;	//推荐人的用户id。若没有推荐人则默认为0。推荐人可在system表中设置四级下线是否开启以及奖励
-	private float money;		//账户可用余额，金钱,RMB，单位：元
-	private float freezemoney;	//账户冻结余额，金钱,RMB，单位：元
+	private Integer money;		//账户可用余额，金钱,RMB，单位：分
+	private Integer freezemoney;	//账户冻结余额，金钱,RMB，单位：分
 	private Short isfreeze;		//是否已冻结，1已冻结（拉入黑名单），0正常
 	private String sex;			//性别，三个值：男、女、未知
 	private String sign;		//用户签名,限制100个字符
@@ -268,28 +268,28 @@ public class User extends BaseEntity {
 	 * 账户可用余额，金钱,RMB，单位：元
 	 * @return
 	 */
-	public float getMoney() {
+	public Integer getMoney() {
 		return money;
 	}
 	/**
 	 * 账户可用余额，金钱,RMB，单位：元
 	 * @param money
 	 */
-	public void setMoney(float money) {
+	public void setMoney(Integer money) {
 		this.money = money;
 	}
 	/**
 	 * 账户冻结余额，金钱,RMB，单位：元
 	 * @return
 	 */
-	public float getFreezemoney() {
+	public Integer getFreezemoney() {
 		return freezemoney;
 	}
 	/**
 	 * 账户冻结余额，金钱,RMB，单位：元
 	 * @param freezemoney
 	 */
-	public void setFreezemoney(float freezemoney) {
+	public void setFreezemoney(Integer freezemoney) {
 		this.freezemoney = freezemoney;
 	}
 	/**
