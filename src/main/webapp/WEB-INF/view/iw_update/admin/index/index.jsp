@@ -213,7 +213,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			}
 		</script>
 		
-		<div id="menuAppend">
+		<div id="menuAppend" style="margin-left: 3px;">
 			<!-- 插件扩展菜单项。追加的值如： -->
 			<!-- <li class="layui-nav-item" >
 				<a href="/user/logout.do">

@@ -10,6 +10,7 @@ import com.xnx3.j2ee.util.ConsoleUtil;
 /**
  * CMS网站管理后台首页的html源码处理
  * @author 管雷鸣
+ * @deprecated 使用单独的网站后台、代理后台、总管理后台的
  *
  */
 @Component(value="PluginManageForAdminIndex")
