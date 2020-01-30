@@ -383,9 +383,7 @@ public class AgencyUserController extends BaseController {
 			//创建完用户了，再创建代理
 			Agency agency = new Agency();
 			agency.setName(filter(companyName));
-			agency.setOssPrice(120);//默认
 			agency.setPhone(filter(phone));
-			agency.setRegOssHave(G.AGENCY_SILVER_REG_OSSHAVE);
 			agency.setUserid(vo.getUser().getId());
 			agency.setQq(filter(qq));
 			agency.setAddress(filter(address));

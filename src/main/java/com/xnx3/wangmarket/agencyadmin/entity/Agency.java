@@ -31,15 +31,14 @@ public class Agency implements java.io.Serializable {
 	private String name;
 	private String phone;
 	private Integer userid;
-	private Integer regOssHave;
-	private Integer ossPrice;
 	private String qq;
 	private String address;
-	private Integer siteSize;
-	private Integer parentId;
+	private Integer siteSize;		//站点数量，站点余额。1个对应着一个网站/年
+	private Integer parentId;		//推荐人id，父级代理的agency.id。若父级代理是总管理，则为0
 	private Integer addtime;
 	private Integer expiretime;
-	private Short state;	//代理状态，1或null正常；2冻结
+	private Short state;		//代理状态，1或null正常；2冻结
+	private Integer money;		//金额，单位是分，网市场5.0后，上线云版本按量计费
 	
 	private Integer version;
 
@@ -47,6 +46,7 @@ public class Agency implements java.io.Serializable {
 
 	/** default constructor */
 	public Agency() {
+		this.money = 0;
 	}
 
 	@Id
@@ -89,22 +89,6 @@ public class Agency implements java.io.Serializable {
 	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
-	@Column(name = "reg_oss_have")
-	public Integer getRegOssHave() {
-		return regOssHave;
-	}
-
-	public void setRegOssHave(Integer regOssHave) {
-		this.regOssHave = regOssHave;
-	}
-	@Column(name = "oss_price")
-	public Integer getOssPrice() {
-		return ossPrice;
-	}
-
-	public void setOssPrice(Integer ossPrice) {
-		this.ossPrice = ossPrice;
-	}
 
 	public String getQq() {
 		return qq;
@@ -138,14 +122,6 @@ public class Agency implements java.io.Serializable {
 	    this.version = version;
 	}
 	
-	@Override
-	public String toString() {
-		return "Agency [id=" + id + ", name=" + name + ", phone=" + phone
-				+ ", userid=" + userid + ", regOssHave=" + regOssHave
-				+ ", ossPrice=" + ossPrice + ", qq=" + qq + ", address="
-				+ address + ", siteSize=" + siteSize + "]";
-	}
-
 	public Integer getParentId() {
 		return parentId;
 	}
@@ -177,5 +153,15 @@ public class Agency implements java.io.Serializable {
 	public void setState(Short state) {
 		this.state = state;
 	}
+	
+	@Column(name = "money", columnDefinition="int(11) comment '账户余额，单位是分' default '0'")
+	public Integer getMoney() {
+		return money;
+	}
 
+	public void setMoney(Integer money) {
+		this.money = money;
+	}
+	
+	
 }

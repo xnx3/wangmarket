@@ -61,14 +61,14 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				<span class="firstMenuFont">系统设置</span>
 			</a>
 		</li>
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="sitemanage">
 			<a href="javascript:loadUrl('/agency/userList.do');">
 				<i class="layui-icon firstMenuIcon">&#xe857;</i>
 				<span class="firstMenuFont">网站管理</span>
 			</a>
 		</li>
 		
-		<li class="layui-nav-item">
+		<li class="layui-nav-item" id="subagency">
 			<a href="javascript:loadUrl('/agency/subAgencyList.do?orderBy=expiretime_ASC');">
 				<i class="layui-icon firstMenuIcon">&#xe612;</i>
 				<span class="firstMenuFont">下级代理</span>
