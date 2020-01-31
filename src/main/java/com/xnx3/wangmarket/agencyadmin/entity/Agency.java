@@ -162,6 +162,12 @@ public class Agency implements java.io.Serializable {
 	public void setMoney(Integer money) {
 		this.money = money;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Agency [id=" + id + ", name=" + name + ", phone=" + phone + ", userid=" + userid + ", qq=" + qq
+				+ ", address=" + address + ", siteSize=" + siteSize + ", parentId=" + parentId + ", addtime=" + addtime
+				+ ", expiretime=" + expiretime + ", state=" + state + ", money=" + money + ", version=" + version + "]";
+	}
 	
 }

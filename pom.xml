@@ -364,6 +364,14 @@
 			<artifactId>xnx3-util</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<!-- 支付宝支付 -->
+		<dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>4.9.13.ALL</version>
+		</dependency>
+				
 
 	    <!-- 本地的 -->
 	    <dependency> 

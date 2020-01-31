@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 
@@ -16,6 +18,7 @@ import com.xnx3.j2ee.util.SystemUtil;
  * @author 管雷鸣
  *
  */
+@EnableTransactionManagement // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
 @SpringBootApplication
 @ServletComponentScan
 public class Application {

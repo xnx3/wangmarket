@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.AttachmentUtil;
@@ -700,7 +701,7 @@ public class SiteServiceImpl implements SiteService {
 		SiteVO baseVO = new SiteVO();
 		String name = "";
 		if(s.getName() != null && s.getName().length()>0){
-			name = SafetyUtil.filter(s.getName());
+			name = StringUtil.filterXss(s.getName());
 		}
 		if(name.length() == 0){
 			baseVO.setBaseVO(BaseVO.FAILURE, "您的站点叫什么名字呢?");
@@ -731,12 +732,12 @@ public class SiteServiceImpl implements SiteService {
 		
 		site.setAddress(s.getAddress());
 		site.setCompanyName(s.getCompanyName());
-		site.setUsername(SafetyUtil.filter(s.getUsername()));
+		site.setUsername(StringUtil.filterXss(s.getUsername()));
 		site.setName(name);
 		site.setmShowBanner(s.getmShowBanner());
 		site.setPhone(s.getPhone());
-		site.setQq(SafetyUtil.filter(s.getQq()));
-		site.setBindDomain(s.getBindDomain()==null? "":SafetyUtil.filter(s.getBindDomain()));
+		site.setQq(StringUtil.filterXss(s.getQq()));
+		site.setBindDomain(s.getBindDomain()==null? "":StringUtil.filterXss(s.getBindDomain()));
 		site.setExpiretime(s.getExpiretime());
 		
 		if(s.getClient() - Site.CLIENT_PC == 0){
@@ -744,7 +745,7 @@ public class SiteServiceImpl implements SiteService {
 			site.setClient(s.getClient());
 		}else if(s.getClient() - Site.CLIENT_CMS == 0){
 			//高级自定义模版CMS
-			site.setTemplateName(SafetyUtil.filter(s.getTemplateName()));
+			site.setTemplateName(StringUtil.filterXss(s.getTemplateName()));
 			site.setClient(s.getClient());
 		}else{
 			//剩下的都是通用模版，手机站
