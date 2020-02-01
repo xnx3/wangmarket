@@ -117,7 +117,7 @@ public class SystemSetAgencyController extends BaseController {
 		sqlService.save(agencyData);
 		
 		//更新session缓存
-		com.xnx3.wangmarket.admin.Func.getUserBeanForShiroSession().setMyAgencyData(agencyData);
+		SessionUtil.setAgencyData(agencyData);
 				
 		//记录操作日志
 		ActionLogUtil.insertUpdateDatabase(request, agencyData.getId(), "代理更改公告");
