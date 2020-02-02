@@ -1,10 +1,8 @@
 package com.xnx3.wangmarket.domain.pluginManage.interfaces;
 
-import com.xnx3.wangmarket.domain.bean.RequestInfo;
-import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
- * 访客在浏览网页时，拦截更改访客看到的html页面
+ * MQ通信相关
  * @author 管雷鸣
  */
 public interface CreateReceiveMQInterface {

@@ -10,6 +10,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.aliyun.openservices.log.exception.LogException;
@@ -757,7 +758,7 @@ public class AgencyUserController extends BaseController {
 	 * @param year 要续费的年数，支持1～10，最大续费10年
 	 */
 	@RequiresPermissions("agencyYanQi")
-	@RequestMapping("agencyYanQi${url.suffix}")
+	@RequestMapping(value="agencyYanQi${url.suffix}")
 	@ResponseBody
 	public BaseVO agencyYanQi(HttpServletRequest request, Model model,
 			@RequestParam(value = "agencyId", required = true) int agencyId,

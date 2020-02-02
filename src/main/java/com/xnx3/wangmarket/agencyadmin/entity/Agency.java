@@ -27,6 +27,15 @@ public class Agency implements java.io.Serializable {
 	 */
 	public static final Short STATE_FREEZE = 2;
 	
+	/**
+	 * 此代理是否允许开通下级代理，是否有开通下级代理的功能，1允许
+	 */
+	public static final Short ALLOW_CREATE_SUBAGENCY_YES = 1;
+	/**
+	 * 此代理是否允许开通下级代理，是否有开通下级代理的功能，0不允许
+	 */
+	public static final Short ALLOW_CREATE_SUBAGENCY_NO = 0;
+	
 	private Integer id;
 	private String name;
 	private String phone;
@@ -39,6 +48,8 @@ public class Agency implements java.io.Serializable {
 	private Integer expiretime;
 	private Short state;		//代理状态，1或null正常；2冻结
 	private Integer money;		//金额，单位是分，网市场5.0后，上线云版本按量计费
+	private Short allowCreateSubAgency;	//此代理是否允许开通下级代理，是否有开通下级代理的功能。0不允许，1允许
+	private Short allowSubAgencyCreateSub;	//若此代理允许开通下级代理，开通的下级代理是否允许继续开通其下级代理功能。0不允许，1允许
 	
 	private Integer version;
 
@@ -47,6 +58,8 @@ public class Agency implements java.io.Serializable {
 	/** default constructor */
 	public Agency() {
 		this.money = 0;
+		this.allowCreateSubAgency = 0;
+		this.allowSubAgencyCreateSub = 0;
 	}
 
 	@Id
@@ -161,6 +174,25 @@ public class Agency implements java.io.Serializable {
 
 	public void setMoney(Integer money) {
 		this.money = money;
+	}
+	
+	@Column(name = "allow_create_sub_agency", columnDefinition="tinyint(1) comment '此代理是否允许开通下级代理，是否有开通下级代理的功能。0不允许，1允许' default '0'")
+	public Short getAllowCreateSubAgency() {
+		return allowCreateSubAgency;
+	}
+
+	public void setAllowCreateSubAgency(Short allowCreateSubAgency) {
+		this.allowCreateSubAgency = allowCreateSubAgency;
+	}
+
+	
+	@Column(name = "allow_sub_agency_create_sub", columnDefinition="tinyint(1) comment '若此代理允许开通下级代理，开通的下级代理是否允许继续开通其下级代理功能。0不允许，1允许' default '0'")
+	public Short getAllowSubAgencyCreateSub() {
+		return allowSubAgencyCreateSub;
+	}
+
+	public void setAllowSubAgencyCreateSub(Short allowSubAgencyCreateSub) {
+		this.allowSubAgencyCreateSub = allowSubAgencyCreateSub;
 	}
 
 	@Override
