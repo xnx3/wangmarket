@@ -1,6 +1,7 @@
 package com.xnx3.wangmarket.plugin.form.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class SubmitController extends BasePluginController {
 	}
 	//两次提交表单的时间间隔。控制在一小时。1 * 60 * 60;
 	public final static int FeedbackTimeInterval = 5;
-	public final static int textMaxLength = 10000;	//表单提交的formData.text信息最大字数允许在1万以内
+	public final static int textMaxLength = 100000;	//表单提交的formData.text信息最大字数允许在10万以内
 	
 	
 	/**
@@ -121,6 +122,38 @@ public class SubmitController extends BasePluginController {
 			return error("请传入您的站点id（siteid），不然，怎么知道此反馈表单是属于哪个网站的呢？");
 		}
 		
+		
+		/** 便利出所有表单数据.这里是原始提交的结果，需要进行xss过滤 **/
+		Map<String, String[]> params = new HashMap<String, String[]>();
+		params.putAll(request.getParameterMap());
+		//删除掉siteid、title的参数
+		params.remove("siteid");
+		if(params.get("title") != null){
+			params.remove("title");
+		}
+		JSONArray jsonArray = new JSONArray();	//text文本框所存储的内容
+		for (Map.Entry<String, String[]> entry : params.entrySet()) { 
+			JSONObject json = new JSONObject();
+			JSONArray valueJsonArray = new JSONArray();
+			
+			for (int i = 0; i < entry.getValue().length; i++) {
+				valueJsonArray.add(StringUtil.filterXss(entry.getValue()[i]));
+			}
+			json.put(StringUtil.filterXss(entry.getKey()), valueJsonArray);
+			jsonArray.add(json);
+		}
+		String text = jsonArray.toString();
+		if(text.length() > textMaxLength){
+			return error("信息太长，非法提交！");
+		}
+		
+		//如果title没有值，那么从jsonarray中取第一个赋予title
+		if(title == null || title.length() == 0){
+			if(jsonArray.size() > 0){
+				title = getTitleForJsonArray(jsonArray);
+			}
+		}
+		
 		Form form = new Form();
 		form.setAddtime(DateUtil.timeForUnix10());
 		form.setSiteid(siteid);
@@ -128,38 +161,14 @@ public class SubmitController extends BasePluginController {
 		form.setTitle(title);
 		sqlService.save(form);
 		if(form.getId() != null && form.getId() > 0){
-			//成功，进而存储具体内容。存储内容时，首先要从提交的数据中，便利出所有表单数据.这里是原始提交的结果，需要进行xss过滤
-			Map<String, String[]> params = new HashMap<String, String[]>();
-			params.putAll(request.getParameterMap());
-			//删除掉siteid、title的参数
-			params.remove("siteid");
-			if(params.get("title") != null){
-				params.remove("title");
-			}
-			
-			JSONArray jsonArray = new JSONArray();	//text文本框所存储的内容
-			for (Map.Entry<String, String[]> entry : params.entrySet()) { 
-				JSONObject json = new JSONObject();
-				JSONArray valueJsonArray = new JSONArray();
-				
-				for (int i = 0; i < entry.getValue().length; i++) {
-					valueJsonArray.add(StringUtil.filterXss(entry.getValue()[i]));
-				}
-				json.put(StringUtil.filterXss(entry.getKey()), valueJsonArray);
-				jsonArray.add(json);
-			}
-			String text = jsonArray.toString();
-			if(text.length() > textMaxLength){
-				return error("信息太长，非法提交！");
-			}
-			
+			//成功
 			FormData formData = new FormData();
 			formData.setId(form.getId());
 			formData.setText(text);
 			sqlService.save(formData);
 			
 			//记录日志
-			ActionLogUtil.insert(request, form.getId(), "plugin formManage 提交表单反馈", SafetyUtil.xssFilter(form.getTitle()));
+			ActionLogUtil.insert(request, form.getId(), "提交表单反馈 plugin formManage", SafetyUtil.xssFilter(form.getTitle()));
 			
 			return success();
 		}else{
@@ -167,4 +176,33 @@ public class SubmitController extends BasePluginController {
 		}
 	}
 	
+	/**
+	 * 从用户提交的form表格所有的数据中，取出一条有数据的值，赋予title
+	 * @param jsonArray 用户提交的form表格的所有数据
+	 * @return 作为title的字符串
+	 */
+	private String getTitleForJsonArray(JSONArray jsonArray){
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JSONObject json = jsonArray.getJSONObject(i);
+			Iterator<String> male_Iterator = jsonArray.getJSONObject(i).keys();
+			while(male_Iterator.hasNext()){
+				// 获得key
+				String key = male_Iterator.next();
+				//根据key获得value
+				JSONArray jsonArrayValue = json.getJSONArray(key);
+				StringBuffer sb = new StringBuffer();
+				for (int j = 0; j < jsonArrayValue.size(); j++) {
+					if(sb.length() > 0){
+						sb.append(",");
+					}
+					sb.append(jsonArrayValue.getString(j));
+				}
+				String value = sb.toString();
+				if(value.length() != 0){
+					return key+":"+value;
+				}
+			}
+		}
+		return "";
+	}
 }
