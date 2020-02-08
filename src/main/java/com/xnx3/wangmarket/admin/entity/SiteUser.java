@@ -16,19 +16,19 @@ import com.xnx3.j2ee.entity.User;
 @Entity
 @Table(name = "site_user")
 public class SiteUser {
-	private Integer userid;		//用户id，对应 User.id
+	private Integer id;		//用户id，对应 User.id
 	
 	//v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id
 	private Integer siteid;
 	
 	@Id
-	@Column(name = "userid", unique = true, nullable = false)
-	public Integer getUserid() {
-		return userid;
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUserid(Integer userid) {
-		this.userid = userid;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	@Column(name = "siteid", columnDefinition="int(11) comment 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id'")
