@@ -67,7 +67,7 @@ public class CaptchaUtil {
 		HttpSession session = request.getSession();
 		Object codeObj = session.getAttribute("code");
 		if(codeObj == null){
-			vo.setBaseVO(BaseVO.FAILURE, "出错，系统中没有存储您的验证码！");
+			vo.setBaseVO(BaseVO.FAILURE, "出错，系统中没有存储您的验证码！请重试");
 			return vo;
 		}
 		String code = (String) codeObj;	//Session中存储的验证码
