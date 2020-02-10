@@ -1,5 +1,7 @@
 package com.xnx3.wangmarket.admin.vo;
 
+import java.io.Serializable;
+
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
@@ -8,7 +10,7 @@ import com.xnx3.wangmarket.admin.entity.TemplateVarData;
  * 模版变量
  * @author 管雷鸣
  */
-public class TemplateVarVO extends BaseVO {
+public class TemplateVarVO extends BaseVO implements Serializable{
 	private TemplateVar templateVar;
 	private TemplateVarData templateVarData;
 

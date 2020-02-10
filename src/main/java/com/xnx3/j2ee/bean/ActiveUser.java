@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.bean;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ import com.xnx3.j2ee.util.SessionUtil;
  * @author 管雷鸣
  *
  */
-public class ActiveUser {
+public class ActiveUser implements Serializable{
+	private Integer id;	//user.id
 	
 	private User user;	//用户信息
 	private List<Permission> permissions;// 拥有的权限
@@ -27,7 +29,7 @@ public class ActiveUser {
 	 * 取时，使用 
 	 * v5.0增加
 	 */
-	private Map<String, Object> pluginMap;
+	private HashMap<String, Object> pluginMap;
 	
 	/**
 	 * 入口列表菜单树
@@ -61,16 +63,26 @@ public class ActiveUser {
 	}
 	public void setUser(User user) {
 		this.user = user;
+		if(user != null){
+			this.id = user.getId();
+			System.out.println("-------setid:"+this.id);
+		}
 	}
 	
-	public Map<String, Object> getPluginMap() {
+	public HashMap<String, Object> getPluginMap() {
 		if(this.pluginMap == null){
 			this.pluginMap = new HashMap<String, Object>();
 		}
 		return pluginMap;
 	}
-	public void setPluginMap(Map<String, Object> pluginMap) {
+	public void setPluginMap(HashMap<String, Object> pluginMap) {
 		this.pluginMap = pluginMap;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }

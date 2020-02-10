@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.domain.bean;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * {@link Site} 的简化
  * @author 管雷鸣
  */
-public class SimpleSite {
+public class SimpleSite implements Serializable{
 	private int id;	//site.id ，废弃，用 siteid 代替
 	private String domain;
 	private String bindDomain;

@@ -19,13 +19,19 @@ import org.springframework.stereotype.Component;
 public class ApplicationPropertiesUtil {
 	private static Properties properties;	//application.properties
 	
+	static{
+		new ApplicationPropertiesUtil();
+	}
 	public ApplicationPropertiesUtil() {
-		try {
-            Resource resource = new ClassPathResource("/application.properties");//
-            properties = PropertiesLoaderUtils.loadProperties(resource);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		if(properties == null){
+			try {
+	            Resource resource = new ClassPathResource("/application.properties");//
+	            properties = PropertiesLoaderUtils.loadProperties(resource);
+	            System.out.println("---"+properties);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
 	}
     
 	/**

@@ -1,6 +1,8 @@
 package com.xnx3.j2ee.util;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -13,6 +15,8 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
+
+import net.sf.json.JSONObject;
 
 /**
  * session 操作
@@ -33,6 +37,9 @@ public class SessionUtil extends ShiroFunc{
 //	public static UserBean getUserBeanForSession(){
 //		return getUserBeanForShiroSession();
 //	}
+	//如果使用redis，那么将每个用户的 activeUser.getPluginMap() 作为value存入到redis的key，如 plugin_map_userid_1
+	public static final String REDIS_PLUGIN_MAP_NAME = "com.xnx3.j2ee.bean.ActiveUser.plugin.userid";
+	public static final int REDIS_PLUGIN_MAP_EXPIRETIME = 2*60*60*24;	//pluginMap 在redis中存在的有效期是1天
 	
 	/**
 	 * 获取当前用户是否已经登录
@@ -61,7 +68,6 @@ public class SessionUtil extends ShiroFunc{
 				return null;
 			}
 		}
-//		return ShiroFunc.getCurrentActiveUser();
 	}
 	
 	/**
@@ -77,7 +83,25 @@ public class SessionUtil extends ShiroFunc{
 		if(activeUser == null){
 			return null;
 		}
-		Object obj = activeUser.getPluginMap().get(key);
+		
+		Object obj = null;
+		User user = activeUser.getUser();
+		if(user == null){
+			//未登陆
+			return null;
+		}
+		//判断是从redis中取，还是从本地服务器中取
+		if(RedisUtil.isUse()){
+			Object redisObj = RedisUtil.getObject(REDIS_PLUGIN_MAP_NAME+user.getId());
+			if(redisObj == null){
+				return null;
+			}
+			Map<String, Object> map = (HashMap<String, Object>) redisObj;
+			obj = map.get(key);
+		}else{
+			obj = activeUser.getPluginMap().get(key);
+		}
+		
 		if(obj == null){
 			return null;
 		}
@@ -97,7 +121,25 @@ public class SessionUtil extends ShiroFunc{
 		if(activeUser == null){
 			return null;
 		}
-		Object obj = activeUser.getPluginMap().get(key);
+		Object obj = null;
+		User user = activeUser.getUser();
+		if(user == null){
+			//未登陆
+			return null;
+		}
+		
+		//判断是从redis中取，还是从本地服务器中取
+		if(RedisUtil.isUse()){
+			Object redisObj = RedisUtil.getObject(REDIS_PLUGIN_MAP_NAME+user.getId());
+			if(redisObj == null){
+				return null;
+			}
+			Map<String, Object> map = (HashMap<String, Object>) redisObj;
+			obj = map.get(key);
+		}else{
+			obj = activeUser.getPluginMap().get(key);
+		}
+		
 		if(obj == null){
 			return null;
 		}
@@ -115,7 +157,25 @@ public class SessionUtil extends ShiroFunc{
 		if(activeUser == null){
 			return;
 		}
-		activeUser.getPluginMap().put(key, value);
+		User user = activeUser.getUser();
+		if(user == null){
+			//未登陆
+			return;
+		}
+		//判断是存到redis中，还是本地服务器中
+		if(RedisUtil.isUse()){
+			Map map = null;
+			Object obj = RedisUtil.getObject(REDIS_PLUGIN_MAP_NAME+user.getId());
+			if(obj == null){
+				map = new HashMap<String, Object>();
+			}else{
+				map = (HashMap<String, Object>) obj;
+			}
+			map.put(key, value);
+			RedisUtil.setObject(REDIS_PLUGIN_MAP_NAME+user.getId(), map, REDIS_PLUGIN_MAP_EXPIRETIME);
+		}else{
+			activeUser.getPluginMap().put(key, value);
+		}
 	}
 	
 	/**
@@ -178,6 +238,10 @@ public class SessionUtil extends ShiroFunc{
 	public static void logout(){
 		Subject subject = SecurityUtils.getSubject();
 		if (subject.isAuthenticated()) {
+			int userid = getUserId();
+			if(userid > 0){
+//				RedisUtil.delkeyObject(key);
+			}
 			subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
 		}
 	}

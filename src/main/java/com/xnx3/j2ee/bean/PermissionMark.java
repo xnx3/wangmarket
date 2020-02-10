@@ -1,5 +1,7 @@
 package com.xnx3.j2ee.bean;
 
+import java.io.Serializable;
+
 import com.xnx3.j2ee.entity.Permission;
 
 /**
@@ -7,7 +9,7 @@ import com.xnx3.j2ee.entity.Permission;
  * @author 管雷鸣
  *
  */
-public class PermissionMark{
+public class PermissionMark implements Serializable{
 	private boolean selected;	//是否选中
 	private Permission permission;
 	

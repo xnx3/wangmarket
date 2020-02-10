@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -8,7 +9,7 @@ import java.util.List;
  * @author 管雷鸣
  *
  */
-public class PermissionTree {
+public class PermissionTree implements Serializable{
 	
 	private PermissionMark permissionMark;	//顶级permission
 	private List<PermissionMark> list;	//下级的Permission资源列表

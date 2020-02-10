@@ -15,14 +15,16 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-
 import com.xnx3.j2ee.pluginManage.interfaces.manage.ShiroFilterPluginManage;
 import com.xnx3.j2ee.shiro.CustomRealm;
+import com.xnx3.j2ee.util.RedisUtil;
 
 /**
  * Shiro 配置
@@ -31,6 +33,7 @@ import com.xnx3.j2ee.shiro.CustomRealm;
  */
 @Configuration
 public class ShiroConfiguration {
+	
 
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
@@ -126,41 +129,56 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
-
-    @Bean
+	
+	
+	@Bean(name = "securityManager")
     public org.apache.shiro.mgt.SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
         securityManager.setRealm(myShiroRealm());
-        // 自定义缓存实现 使用 ehcache
-        securityManager.setCacheManager(ehCacheManager());////用户授权/认证信息Cache, 采用EhCache 缓存 
+        
+        if(RedisUtil.isUse()){
+        	// redis缓存
+            RedisCacheManager redisCacheManager = new RedisCacheManager();
+            redisCacheManager.setRedisManager(redisManager());
+            securityManager.setCacheManager(redisCacheManager);
+        }else{
+        	//EhCache 缓存 
+        	securityManager.setCacheManager(ehCacheManager());
+        }
+        
+        
         // 自定义session管理
         securityManager.setSessionManager(sessionManager());
         //注入记住我管理器;
         securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
     }
-    
+
     @Bean
     public SessionManager sessionManager() {
-//        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        DefaultWebSessionManager sessionManager = new com.xnx3.j2ee.shiro.SessionManager();
-        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-        listeners.add(new SessionListener_());
-        sessionManager.setSessionListeners(listeners);
-        
-        org.apache.shiro.web.servlet.Cookie cookie = new SimpleCookie("iwSID");
-        cookie.setHttpOnly(true);
-        sessionManager.setSessionIdCookie(cookie);
-        sessionManager.setSessionIdCookieEnabled(true);
-        
-        //Session失效时长，毫秒
-        sessionManager.setGlobalSessionTimeout(60000000);
-        //sessionManager.setGlobalSessionTimeout(10000);
+    	com.xnx3.j2ee.shiro.SessionManager sessionManager = new com.xnx3.j2ee.shiro.SessionManager();
+    	
+    	if(RedisUtil.isUse()){
+    		//使用redis
+    		sessionManager.setSessionDAO(sessionDAO());
+    	}
+    	
+    	Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+    	listeners.add(new SessionListener_());
+    	sessionManager.setSessionListeners(listeners);
+    	
+	    org.apache.shiro.web.servlet.Cookie cookie = new SimpleCookie("iwSID");
+	    cookie.setHttpOnly(true);
+	    sessionManager.setSessionIdCookie(cookie);
+	    sessionManager.setSessionIdCookieEnabled(true);
+    	
+	    //Session失效时长，单位是毫秒，这里是12小时
+        sessionManager.setGlobalSessionTimeout(12*60*60*1000);
         
         return sessionManager;
     }
-
+    
     /** 
      * EhCacheManager , 缓存管理 
      * 用户登陆成功后 , 把用户信息和权限信息缓存起来 , 然后每次用户请求时 , 放入用户的session中 , 如果不设置这个bean , 每个请求都会查询一次数据库 . 
@@ -172,21 +190,6 @@ public class ShiroConfiguration {
       em.setCacheManagerConfigFile("classpath:shiro-ehcache.xml");//配置文件路径 
       return em;
     }
-    
-//    @Bean 
-//    public SessionManager sessionManager() { 
-//    	DefaultWebSessionManager sessionManager = new DefaultWebSessionManager(); 
-//    	Collection<SessionListener> listeners = new ArrayList<>(); 
-//    	listeners.add(new BDSessionListener()); 
-//    	sessionManager.setSessionListeners(listeners); 
-//    	sessionManager.setSessionDAO(sessionDAO()); 
-//    	return sessionManager; 
-//    } 
-//    
-//    @Bean 
-//    SessionDAO sessionDAO() { 
-//    	return new MemorySessionDAO(); 
-//    } 
     
     public CustomRealm myShiroRealm(){
         CustomRealm realm = new CustomRealm();
@@ -274,4 +277,48 @@ public class ShiroConfiguration {
        return authorizationAttributeSourceAdvisor;
     }
 	
+    /*** 下面 redis ***/
+    /**
+     * 配置shiro redisManager
+     */
+    public RedisManager redisManager() {
+    	String host = "127.0.0.1";
+    	if(RedisUtil.host != null && RedisUtil.host.length() > 0){
+    		host = RedisUtil.host;
+    	}
+    	int port = 6379;
+    	if(RedisUtil.port > 0){
+    		port = RedisUtil.port;
+    	}
+    	String password = null;
+    	if(RedisUtil.password != null && RedisUtil.password.length() > 0){
+    		password = RedisUtil.password;
+    	}
+    	int timeout = 3000;
+    	if(RedisUtil.timeout > 0){
+    		timeout = RedisUtil.timeout;
+    	}
+    	
+        RedisManager redisManager = new RedisManager();
+//        redisManager.setDatabase(0);	//数据库索引（默认为0）
+        redisManager.setHost(host+":"+port);	//服务器地址 变更为自己的
+        if(password != null){
+        	redisManager.setPassword(password); 	//服务器连接密码，如果不设置密码注释掉即可
+        }
+        redisManager.setTimeout(timeout); 	//连接超时时间（毫秒）
+        return redisManager;
+    }
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现
+     */
+    @Bean
+    public RedisSessionDAO sessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        //使用json序列化
+//        JsonRedisSerializer<Object> jsonRedisSerializer = new JsonRedisSerializer<Object>(Object.class);
+//        redisSessionDAO.setKeySerializer(jsonRedisSerializer);
+//        redisSessionDAO.setValueSerializer(new SerializeUtils());
+        return redisSessionDAO;
+    }
 }
