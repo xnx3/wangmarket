@@ -39,7 +39,7 @@ public class SessionUtil extends ShiroFunc{
 //	}
 	//如果使用redis，那么将每个用户的 activeUser.getPluginMap() 作为value存入到redis的key，如 plugin_map_userid_1
 	public static final String REDIS_PLUGIN_MAP_NAME = "com.xnx3.j2ee.bean.ActiveUser.plugin.userid";
-	public static final int REDIS_PLUGIN_MAP_EXPIRETIME = 2*60*60*24;	//pluginMap 在redis中存在的有效期是1天
+	public static final int REDIS_PLUGIN_MAP_EXPIRETIME = 2*60*60*24;	//pluginMap 在redis中存在的有效期是2天
 	
 	/**
 	 * 获取当前用户是否已经登录
