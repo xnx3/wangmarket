@@ -350,6 +350,11 @@
 			<artifactId>xnx3-util</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.xnx3.json</groupId>
+		  <artifactId>json</artifactId>
+		  <version>1.0</version>
+		</dependency>
 		
 		<!-- 支付宝支付 -->
 		<dependency>

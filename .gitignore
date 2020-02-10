@@ -99,3 +99,5 @@ hs_err_pid*
 .settings/
 /doc/
 
+/src/main/java/com/xnx3/wangmarket/shop/
+/src/main/java/com/xnx3/wangmarket/weixin/
