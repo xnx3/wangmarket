@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService{
 		user.setLastip(IpUtil.getIpAddress(request));
 		user.setRegtime(DateUtil.timeForUnix10());
 		user.setLasttime(DateUtil.timeForUnix10());
-		user.setNickname(user.getUsername());
+//		user.setNickname(user.getUsername());
 		user.setAuthority(Global.system.get("USER_REG_ROLE"));
 		user.setCurrency(0);
 		user.setReferrerid(0);
