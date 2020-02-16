@@ -27,7 +27,7 @@ public class SpringMVCInterceptorPluginManage {
 	/**
 	 * map： 
 	 * 		key: class、pathPatterns
-	 * 		value: HandlerInterceptor、 String
+	 * 		value: HandlerInterceptor、 List<String>
 	 */
 	public static List<Map<String, Object>> handlerInterceptorList;
 	
@@ -45,9 +45,9 @@ public class SpringMVCInterceptorPluginManage {
 				Method m = c.getMethod("pathPatterns",new Class[]{});
 				//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 				Object o = m.invoke(invoke, new Object[]{});
-				String pathPatterns = null;
+				List<String> pathPatterns = null;
 				if(o != null && !o.equals("null")){
-					pathPatterns = (String)o;
+					pathPatterns = (List<String>)o;
 				}
 				if(pathPatterns != null){
 					Map<String, Object> map = new HashMap<String, Object>();

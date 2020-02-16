@@ -1,5 +1,6 @@
 package com.xnx3.j2ee.system;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class WebMvcConfigurer_ implements WebMvcConfigurer {
         for (int i = 0; i < SpringMVCInterceptorPluginManage.handlerInterceptorList.size(); i++) {
         	Map<String, Object> map = SpringMVCInterceptorPluginManage.handlerInterceptorList.get(i);
         	HandlerInterceptor handler = (HandlerInterceptor) map.get("class");
-        	String pathPatterns = (String) map.get("pathPatterns");
+        	List<String> pathPatterns = (List<String>) map.get("pathPatterns");
         	registry.addInterceptor(handler).addPathPatterns(pathPatterns);
 		}
     }
