@@ -9,6 +9,10 @@ package com.xnx3.j2ee.vo;
  *
  */
 public class BaseVO extends com.xnx3.BaseVO {
+	/**
+	 * 接口需要登录才能获取到数据，但当前用户尚未登录，所以获取不到数据，result返回2
+	 */
+	public final static int NOT_LOGIN = 2;
 	
 	public BaseVO(){
 		super();
