@@ -1,6 +1,8 @@
 package com.xnx3.j2ee.util.mq;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.xnx3.DateUtil;
 
@@ -16,7 +18,7 @@ public class JavaMQUtil {
 	 * key: plugin id ，如 kefu 、 formManage 、 newsSearch
 	 * 
 	 */
-	public static Map<String, MQReceive> receiveInterfaceMap = new HashMap<String, MQReceive>();
+	public static Map<String, List<MQReceive>> receiveInterfaceMap = new HashMap<String, List<MQReceive>>();
 	
 
 	/**
@@ -30,9 +32,11 @@ public class JavaMQUtil {
 		queue.setContent(content);
 		
 		if(receiveInterfaceMap.get(pluginId) != null){
-			receiveInterfaceMap.get(pluginId).receive(content);
+			List<MQReceive> list = receiveInterfaceMap.get(pluginId);
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).receive(content);
+			}
 		}
-		
 	}
 	
 	/**
@@ -41,6 +45,11 @@ public class JavaMQUtil {
 	 * @param receive 接收到信息后的逻辑实现，接收到的信息要干什么用
 	 */
 	public static void addReceiveListener(String pluginId, MQReceive receive){
-		receiveInterfaceMap.put(pluginId, receive);
+		List<MQReceive> list = receiveInterfaceMap.get(pluginId);
+		if(list == null){
+			list = new ArrayList<MQReceive>();
+		}
+		list.add(receive);
+		receiveInterfaceMap.put(pluginId, list);
 	}
 }
