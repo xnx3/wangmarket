@@ -122,6 +122,24 @@ public class ActionLogUtil {
 		}
 		logItem.PushBack("type",type);
 		
+		logExtend(logItem);
+	}
+	
+
+	/**
+	 * 插入一条日志。这是最原始的插入，不会附带当前登录用户、来源、以及在那个方法执行等。除非在mq接收消息等一些特殊场景、J2SE等项目的场景，才会用这个，不然，还是用 insert....这个开头的方法吧
+	 * @param logItem 传入要保存的 {@link LogItem} 
+	 */
+	public static synchronized void logExtend(LogItem logItem){
+		if(aliyunLogUtil == null){
+			//不使用日志服务，终止即可
+			return;
+		}
+		if(logItem == null){
+			//没有传入有效值，推出
+			return;
+		}
+		
 		try {
 			aliyunLogUtil.cacheLog(logItem);
 		} catch (LogException e) {
