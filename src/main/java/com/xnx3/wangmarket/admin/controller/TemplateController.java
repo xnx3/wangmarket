@@ -577,7 +577,8 @@ public class TemplateController extends BaseController {
 	    sql.setSearchTable("template_var");
 	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
 	    sql.setSearchColumn(new String[]{"name"});
-	    sql.appendWhere("siteid = "+site.getId() + " AND template_name = '"+ getSite().getTemplateName() +"'");
+	    //如果templateName有值，才会加上templateName 进行查询
+	    sql.appendWhere("siteid = "+site.getId() + (site.getTemplateName() == null || site.getTemplateName().equals("") ? "":" AND template_name = '"+ site.getTemplateName() +"'"));
 	    //查询log数据表的记录总条数
 	    int count = sqlService.count("template_var", sql.getWhere());
 	    //每页显示100条
