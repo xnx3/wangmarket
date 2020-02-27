@@ -155,7 +155,7 @@ public final class RedisUtil {
     
     /**
      * 设定key-value
-     * @param expiretime 当前key-value的过期时间，单位是秒。比如设定为2，则超过2秒后没使用，会自动删除调
+     * @param expiretime 当前key-value的过期时间，单位是秒。比如设定为2，则在2秒后会自动删除
      * @return
      */
     public static String setObject(String key, Object value,int expiretime) {
