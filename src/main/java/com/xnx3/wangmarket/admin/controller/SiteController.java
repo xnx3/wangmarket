@@ -83,6 +83,17 @@ public class SiteController extends BaseController {
 			return error(model, "保存失败！");
 		}
 	}
+//	
+//	@RequestMapping(value="saveSite${url.suffix}", method = RequestMethod.POST)
+//	public String saveSite(Site s,Model model,HttpServletRequest request){
+//		SiteVO siteVO = siteService.saveSite(s, getUserId(), request);
+//		if(siteVO.getResult() == SiteVO.SUCCESS){
+//			ActionLogUtil.insert(request, "保存网站信息",s.toString());
+//			return success(model, s.getId()>0? "保存网站成功！":"创建网站成功！", Func.getConsoleRedirectUrl());
+//		}else{
+//			return error(model, "保存失败！");
+//		}
+//	}
 	
 	
 	/**
@@ -104,15 +115,11 @@ public class SiteController extends BaseController {
 		ActionLogUtil.insertUpdateDatabase(request, "修改站点名字", site.getName());
 		
 		//更新当前Session缓存
-		Func.getUserBeanForShiroSession().setSite(site);
-		
-		//刷新site.js ，pc、wap模式才有这个，已废弃
-//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
-		//如果是PC端网站，需要刷新一些东西
+		SessionUtil.setSite(site);
+		//如果是PC端网站，需要刷新一些东西,不过这个已废弃，好不容易写的，还是保留吧
 		if(site.getClient() - Site.CLIENT_PC == 0){
 			//刷新首页
 			Index.updateSiteName(site, site.getName());
-			
 		}
 		return vo;
 	}
@@ -207,11 +214,7 @@ public class SiteController extends BaseController {
 		siteService.updateDomainServers(mqBean);
 		
 		//刷新Session缓存
-		Func.getUserBeanForShiroSession().setSite(site);
-		
-		//刷新site.js , pc、wap用到，已废弃
-//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
-		
+		SessionUtil.setSite(site);
 		ActionLogUtil.insertUpdateDatabase(request, "修改站点绑定的域名", site.getBindDomain());
 		return vo;
 	}
@@ -293,9 +296,8 @@ public class SiteController extends BaseController {
 	 */
 	@RequestMapping(value="updateDomain${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO updateDomain(@RequestParam(value = "siteid", required = false , defaultValue="0") int siteid,
-			@RequestParam(value = "domain", required = false , defaultValue="") String domain,
-			Model model,HttpServletRequest request){
+	public BaseVO updateDomain(HttpServletRequest request,
+			@RequestParam(value = "domain", required = false , defaultValue="") String domain){
 		BaseVO vo = new BaseVO();
 		
 		domain = filter(domain);
@@ -335,13 +337,9 @@ public class SiteController extends BaseController {
 		siteService.updateDomainServers(mqBean);
 		
 		//刷新Session缓存
-		Func.getUserBeanForShiroSession().setSite(site);
-		
-		//刷新site.js， pc、wap用到，已废弃
-//		new com.xnx3.wangmarket.admin.cache.Site().site(site,imService.getImByCache());
+		SessionUtil.setSite(site);
 		
 		ActionLogUtil.insertUpdateDatabase(request, "更换站点二级域名", site.getDomain());
-		
 		return vo;
 	}
 
@@ -691,7 +689,7 @@ public class SiteController extends BaseController {
 			for (int i = 0; i < list.size(); i++) {
 				Site site = list.get(i);
 				
-				Func.getUserBeanForShiroSession().setSite(site);
+				SessionUtil.setSite(site);
 				try {
 					System.out.println(siteService.refreshSiteGenerateHtml(request));
 				} catch (Exception e) {

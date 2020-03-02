@@ -6,6 +6,11 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="基本信息"/>
 </jsp:include>
+<!-- weui，一个UI框架，这个包含weui，依赖Jquery -->
+<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/jquery-weui.css">
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
+
 
 <body style="text-align:left; min-width:10px;">
 <script src="/<%=Global.CACHE_FILE %>Site_mShowBanner.js"></script>

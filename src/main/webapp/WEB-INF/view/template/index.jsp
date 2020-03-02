@@ -3,26 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="com.xnx3.wangmarket.admin.G"%><!DOCTYPE html>
-<html style="margin: 0;padding: 0px;height: 100%;overflow: hidden;"><head>
-<meta charset="utf-8">
-<title><%=Global.get("SITE_NAME") %></title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
+<jsp:include page="../iw/common/head.jsp">
+	<jsp:param name="title" value="登录"/>
+</jsp:include>
 
 <script src="/js/fun.js"></script>
 <script src="/js/admin/cms/cms.js?v=<%=G.VERSION %>"></script>
-
-<!-- 模版的加载都是动态加载，在下面js里 -->
-<script src="${STATIC_RESOURCE_PATH}module/layer/layer.js" type="text/javascript"></script>
-<script src="${STATIC_RESOURCE_PATH}module/layui/layui.js"></script>
-<link href="${STATIC_RESOURCE_PATH}module/layui/css/layui.css" rel="stylesheet" type="text/css">	
-
-<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js" type="text/javascript"></script>
-<link href="${STATIC_RESOURCE_PATH}css/weui.min.css" rel="stylesheet" type="text/css">	
-<link href="${STATIC_RESOURCE_PATH}css/jquery-weui.css" rel="stylesheet" type="text/css">
-
-<script src="${STATIC_RESOURCE_PATH}js/iw.js"></script>	
 <script>
 var masterSiteUrl = '//<%=request.getServerName() %>:<%=request.getServerPort() %>/';
 var autoAssignDomain = '${autoAssignDomain }';
@@ -89,16 +75,7 @@ var autoAssignDomain = '${autoAssignDomain }';
     color: #2FE878;
     opacity: 0.8;
     display:none;
-}
-</style>
-</head>
-<body style="
-    margin: 0;
-    padding: 0px;
-    height: 100%;
-    overflow: hidden;
-">
-<style>
+}    
 /* 避免屏幕高度太小，造成左侧菜单拉太长，最下面的收缩侧边栏遮挡功能菜单 */
 .layui-nav-item{
 	background-color: #393D49;
@@ -106,6 +83,12 @@ var autoAssignDomain = '${autoAssignDomain }';
 }
 .subMenuItem{
 	font-size:13px;
+}
+body{
+	margin: 0;
+    padding: 0px;
+    height: 100%;
+    overflow: hidden;
 }
 </style>
 <div style="width:100%;height:100%;">
@@ -236,9 +219,9 @@ function codeEditMode(){
 		currentMode = 2;
 	}
 	
-	iw.loading("加载中");    //显示“操作中”的等待提示
+	msg.loading("加载中");    //显示“操作中”的等待提示
 	$.post("/template/getTemplatePageText.do?pageName="+document.getElementById("currentTemplatePageName").value, function(data){
-	    iw.loadClose();    //关闭“操作中”的等待提示
+	    msg.close();    //关闭“操作中”的等待提示
 	    document.getElementById("html_textarea").value=data;
 	    
 	    testEditor = editormd("editormd", {
@@ -335,15 +318,14 @@ function saveHtmlSource(){
 		html = document.getElementById("html_textarea").value
 	}
 	
-	iw.loading('保存中');
+	msg.loading('保存中');
 	var pageName = document.getElementById("currentTemplatePageName").value;
 	$.post("/template/saveTemplatePageText.do", {pageName: pageName, html: html}, function(data){
-		iw.loadClose();
+		msg.close();
 		if(data.result == 1){
-			iw.msgSuccess("保存成功");
-	     	//layer.msg('保存成功', {shade: 0.2});
+			msg.success("保存成功");
 		}else{
-			layer.msg(data.info, {shade: 0.2});
+			msg.failure(data.info);
 		}
 	});
 }

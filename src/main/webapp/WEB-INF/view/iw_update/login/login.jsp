@@ -112,11 +112,6 @@
 	<div style="position: absolute;bottom: 0px;padding: 10px;text-align: center;width: 100%;background-color: yellow;">建议使用<a href="https://www.baidu.com/s?wd=Chrome" target="_black" style="text-decoration:underline">Chrome(谷歌)</a>、<a href="https://www.baidu.com/s?wd=Firefox" target="_black" style="text-decoration:underline">Firefox(火狐)</a>浏览器，IE浏览器会无法操作！！！</div>
 <![endif]-->
 
-<!-- weui -->
-<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
-<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js"></script>
-<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
-<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/jquery-weui.css">
 <script>
 //Demo
 layui.use('form', function(){
@@ -124,23 +119,22 @@ layui.use('form', function(){
   
   //监听提交
   form.on('submit(formDemo)', function(data){
-	iw.loading("登陆中...");
-  	//$.showLoading('登录中...');
+	msg.loading("登陆中...");
     var d=$("form").serialize();
 	$.post("loginSubmit.do", d, function (result) {
-		//$.hideLoading();
-		iw.loadClose();
+		msg.close();
        	var obj = JSON.parse(result);
        	try{
        		console.log(obj);
        	}catch(e){}
        	if(obj.result == '1'){
-       		iw.msgSuccess("登陆成功！");
-       		window.location.href=obj.info;
+       		msg.success("登陆成功", function(){
+	       		window.location.href=obj.info;
+       		});
        	}else if(obj.result == '0'){
        		//登陆失败
+       		msg.failure(obj.info);
        		reloadCode();
-       		layer.msg(obj.info, {shade: 0.3})
        	}else if(obj.result == '11'){
        		//网站已过期。弹出提示
        		reloadCode();
@@ -150,7 +144,7 @@ layui.use('form', function(){
 			});     
        	}else{
        		reloadCode();
-       		layer.msg(result, {shade: 0.3})
+       		msg.failure(result);
        	}
 	}, "text");
     return false;

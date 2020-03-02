@@ -9,6 +9,10 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="网站基本设置"/>
 </jsp:include>
+<!-- weui，一个UI框架，这个包含weui，依赖Jquery -->
+<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/jquery-weui.css">
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
 
 <body style="text-align:left; min-width:10px;">
 <div class="weui_cells weui_cells_access" style="margin-top: 0em;">

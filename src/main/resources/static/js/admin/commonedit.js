@@ -13,13 +13,13 @@ try{
 	//dynamicLoading.css(resBasePath+'layui2/css/layui.css');
 	
 	//WEI UI
-	dynamicLoading.js(resBasePath+"js/jquery-weui.js");
-	dynamicLoading.css(resBasePath+"css/weui.min.css");
-	dynamicLoading.css(resBasePath+"css/jquery-weui.css");
+//	dynamicLoading.js(resBasePath+"js/jquery-weui.js");
+//	dynamicLoading.css(resBasePath+"css/weui.min.css");
+//	dynamicLoading.css(resBasePath+"css/jquery-weui.css");
 
 	/*拖拽控件*/
-	dynamicLoading.js(resBasePath+"js/HTML.min.js");
-	dynamicLoading.js(resBasePath+"js/Sortable.js");
+//	dynamicLoading.js(resBasePath+"js/HTML.min.js");
+//	dynamicLoading.js(resBasePath+"js/Sortable.js");
 }catch(err){}
 
 try{
@@ -271,7 +271,7 @@ function updateIndexBanner(){
 
 //更改模版，需 getSubWindowsParam()支持
 function updateTemplate(){
-	$.showLoading('模版更换中');
+	msg.loading('更换中');
 	window.location.href='/sites/templateSave.do?siteid='+site['id']+'&client=pc&templateId='+getSubWindowsParam();
 }
 
@@ -302,104 +302,99 @@ function updateSiteColumn(siteColumnId){
 
 //修改网站的关键词
 function updateSiteKeywords(){
-	$.showLoading();
-	$.post("/sites/getSiteData.do", function(result){
-		 $.hideLoading();
-		if(result.result != '1'){
-			alert(result.info);
-		}else{
-			console.log(result);
-			$.prompt({
-				text: "多个用“,”分割，建议输入3个以内的关键词",
-				title: "更改网站 keywords",
-				onOK: function(text) {
-					iw.loading("修改中");
-					$.post("/sites/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
-						iw.loadClose();
-						if(data.result == '1'){
-							iw.msgSuccess("修改成功");
-					 	}else if(data.result == '0'){
-					 		iw.msgFailure(data.info);
-					 	}else{
-					 		iw.msgFailure();
-					 	}
-					});
-					
-			 },
-			 input: result.site.keywords
-			});
-		}
-	});
+	msg.failure("已去除这个接口");
+//	msg.loading('设置中');
+//	$.post("/sites/getSiteData.do", function(result){
+//		 msg.close();
+//		if(result.result != '1'){
+//			alert(result.info);
+//		}else{
+//			console.log(result);
+//			$.prompt({
+//				text: "多个用“,”分割，建议输入3个以内的关键词",
+//				title: "更改网站 keywords",
+//				onOK: function(text) {
+//					iw.loading("修改中");
+//					$.post("/sites/updateKeywords.do?siteid="+site['id']+"&keywords="+text, function(data){
+//						iw.loadClose();
+//						if(data.result == '1'){
+//							iw.msgSuccess("修改成功");
+//					 	}else if(data.result == '0'){
+//					 		iw.msgFailure(data.info);
+//					 	}else{
+//					 		iw.msgFailure();
+//					 	}
+//					});
+//					
+//			 },
+//			 input: result.site.keywords
+//			});
+//		}
+//	});
 }
 
 
 //点击左上方站点的名字或LOGO，更改站点名字
 function updateSiteName(){
-	
-	iw.loading("加载中");    //显示“操作中”的等待提示
+	msg.loading('加载中');
 	$.post("/sites/getSiteData.do", function(data){
-	    iw.loadClose();    //关闭“操作中”的等待提示
+	    msg.close();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
-			$.prompt({
-			 text: "请输入13个字以内的网站名称",
-			 title: "更改网站名字",
-			 onOK: function(text) {
-				 iw.loading("修改中");
-				 
-				 $.post("/sites/updateName.do", {"name":text }, function(data){
-					 	iw.loadClose();
-					 	if(data.result == '1'){
-					 		iw.msgSuccess("操作成功");
-					 		console.log(site['client']);
-					 		try{
-					 			if(site['client'] == '1'){
-					 				//电脑模式
-							 		if(document.getElementById('logogramName') != null){
-										//如果是通用的七套模版，则改完网站名后要将当前网站的名字同步变过来
-										document.getElementById('logogramName').innerHTML = text;
-									}
-					 			}
-					 		}catch(err){}
-					 		
-					 		try{
-					 			if(site['client'] == '2'){
-						 			//手机模式
-					 				console.log(text);
-					 				document.getElementById('iframe').contentWindow.document.getElementById('title').innerHTML = text;
-					 				console.log(text);
-					 			}
-					 		}catch(err){
-					 			console.log(err)
-					 		}
-					 		
-					  	}else if(data.result == '0'){
-					  		iw.msgFailure(data.info);
-					  	}else{
-					  		iw.msgFailure();
-					  	}
-				    }, 
-				"json");
-				 
-			 },
-			 input: data.site.name
-			});
-		
+	    	layer.prompt({
+		  		  formType: 0,
+		  		  value: data.site.name,
+		  		  title: '请输入13个字以内的网站名称'
+		  	}, function(value, index, elem){
+		  		layer.close(index);
+		  		if(value != getSubWindowsParam()){
+		  			msg.loading('更改中...');
+		  			$.post("/sites/updateName.do", { "name": value},
+		  				function(data){
+		  					msg.close();
+		  					if(data.result != '1'){
+		  						msg.failure(data.info);
+		  					}else{
+		  						msg.success('修改成功');
+		  						
+		  						try{
+		  				 			if(site['client'] == '1'){
+		  				 				//电脑模式
+		  						 		if(document.getElementById('logogramName') != null){
+		  									//如果是通用的七套模版，则改完网站名后要将当前网站的名字同步变过来
+		  									document.getElementById('logogramName').innerHTML = text;
+		  								}
+		  				 			}
+		  				 		}catch(err){}
+		  				 		try{
+		  				 			if(site['client'] == '2'){
+		  					 			//手机模式
+		  				 				console.log(text);
+		  				 				document.getElementById('iframe').contentWindow.document.getElementById('title').innerHTML = text;
+		  				 				console.log(text);
+		  				 			}
+		  				 		}catch(err){
+		  				 			console.log(err)
+		  				 		}
+		  					}
+		  				}
+		  			, "json");
+		  		}
+		  	});
+		  	
 	     }else if(data.result == '0'){
-	         iw.msgFailure(data.info);
+	         msg.failure(data.info);
 	     }else{
-	         iw.msgFailure();
+	         msg.failure('失败');
 	     }
 	});
-	
 	
 }
 
 //修改网站首页的描述
 function updateSiteDataDescription(){
-	iw.loading("加载中");
-	
+	msg.loading("加载中");
 	$.post("/sites/getSiteData.do", function(data){
-		iw.loadClose();
+		msg.close();
 		if(data.result == '1'){
 			$.prompt({
 				 text: "请输入200个汉字以内的网站首页描述",
@@ -428,45 +423,37 @@ function updateSiteDataDescription(){
 
 //刷新首页
 function refreshIndex(){
-	$.showLoading('重新创建中');
+	msg.loading('重新创建中');
 	window.location.href='/sites/refreshIndex.do';
 }
 
 //更改二级域名,需 getSubWindowsParam()支持
 function updateDomain(){
-	$.prompt({
-	 text: ""
-		 +"<div style=\"text-align:left; padding-left:30px;\">"
-		 +"如：您输入了“guan”"
-		 +"<br/>那么您网站的域名可以为："
-		 +"<div style=\"padding-left:15px;\">http://guan."+autoAssignDomain
-		 +"</div>"
-		 +"<br/><b>注意：改完后，最多会等待5分钟才会生效</b>"
-		 +"<br/>请输入30个以内的英文或数字："
-		 +"</div>",
-	 title: "更换域名",
-	 onOK: function(text) {
-		 if(text.length > 30){
-			 $.alert("输入30个字符以内的英文或数字", "提示");
-		 }else{
-			 if(text != getSubWindowsParam()){
-				 iw.loading("修改中");
-				 $.post("/sites/updateDomain.do?siteid="+site['id']+"&domain="+text, function(data){
-				 	iw.loadClose();
-				 	if(data.result == '1'){
-				 		iw.msgSuccess("修改成功");
-				  	}else if(data.result == '0'){
-				  		iw.msgFailure(data.info);
-				  	}else{
-				  		iw.msgFailure();
-				  	}
-				 });
-				
-			 }
-		 }
-	 },
-	 input: getSubWindowsParam()
+	layer.prompt({
+		  formType: 0,
+		  value: getSubWindowsParam(),
+		  title: '请输入新域名，不含&nbsp;'+autoAssignDomain
+	}, function(value, index, elem){
+		layer.close(index);
+		if(value.length > 30){
+			msg.failure("请输入30个字符以内的英文或数字");
+			return;
+		}
+		if(value != getSubWindowsParam()){
+			msg.loading('更改中...');
+			$.post("/sites/updateDomain.do?siteid="+site['id'], { "domain": value},
+				function(data){
+					msg.close();
+					if(data.result != '1'){
+						msg.failure(data.info);
+					}else{
+						msg.success('修改成功');
+					}
+				}
+			, "json");
+		}
 	});
+	
 }
 
 //更改自己绑定的域名,需 getSubWindowsParam()支持
@@ -488,19 +475,17 @@ function updateBindDomain(){
  * CMS网站，生成整站
  */
 function generatehtml(){
-	$.showLoading('整站生成中<br/>此过程可能时间比较长，请耐心等待');
-	
+	msg.loading('整站生成中');
 	$.post("/template/refreshForTemplate.do", function(data){
-		$.hideLoading();
+		msg.close();
 		if(data.result == '1'){
-			iw.msgSuccess("操作成功");
+			msg.success("操作成功");
 	 	}else if(data.result == '0'){
-	 		iw.msgFailure(data.info);
+	 		msg.failure(data.info);
 	 	}else{
-	 		iw.msgFailure();
+	 		msg.failure('操作失败');
 	 	}
 	});
-	
 }
 
 /**
@@ -603,26 +588,31 @@ function exportTemplate(){
 
 /** v4.4
  * 绑定域名、解绑域名
- * domain 要绑定的域名。 若为空字符串，则是解除绑定
+ * oldDomain 之前使用的域名
+ * newDomain 要绑定的域名。 若为空字符串，则是解除绑定
  */
-function bindDomain(domain){
-	if(domain.length == 0){
-		parent.iw.loading("解绑中");
-	}else{
-		parent.iw.loading("绑定中");
+function bindDomain(oldDomain,newDomain){
+	if(oldDomain == newDomain){
+		parent.msg.success('您已绑定');
+		return;
 	}
-	$.post("/sites/updateBindDomain.do?siteid="+site['id']+"&bindDomain="+domain, function(data){
-		parent.iw.loadClose();
+	if(newDomain.length == 0){
+		parent.msg.loading("解绑中");
+	}else{
+		parent.msg.loading("绑定中");
+	}
+	$.post("/sites/updateBindDomain.do?bindDomain="+newDomain, function(data){
+		parent.msg.close();
 		if(data.result == '1'){
-			if(domain.length == 0){
-				parent.iw.msgSuccess("已解绑");
+			if(newDomain.length == 0){
+				parent.msg.success("已解绑");
 			}else{
-				parent.iw.msgSuccess("绑定成功");
+				parent.msg.success("绑定成功");
 			}
 	 	}else if(data.result == '0'){
-	 		parent.iw.msgFailure(data.info);
+	 		parent.msg.failure(data.info);
 	 	}else{
-	 		parent.iw.msgFailure();
+	 		parent.msg.failure('操作失败');
 	 	}
 	});
 }
@@ -651,14 +641,14 @@ function updatePassword(){
 		  title: '请输入新密码'
 	}, function(value, index, elem){
 		layer.close(index);
-		iw.loading('更改中...');
+		msg.loading('更改中...');
 		$.post("/sites/updatePassword.do", { "newPassword": value},
 			function(data){
-				iw.loadClose();
+				msg.close();
 				if(data.result != '1'){
-					iw.msgFailure(data.info);
+					msg.failure(data.info);
 				}else{
-					iw.msgSuccess('修改成功！新密码：'+value);
+					msg.success('修改成功！新密码：'+value);
 				}
 			}
 		, "json");

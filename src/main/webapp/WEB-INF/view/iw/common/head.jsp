@@ -22,7 +22,7 @@ if(description == null ){
 	description = Global.get("SITE_DESCRIPTION");
 }
 %><!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-size:16px;">
 <head>
 <meta charset="utf-8">
 <title><%=title %></title>
@@ -35,6 +35,7 @@ if(description == null ){
 <!-- layer 、 layui -->
 <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/layui/css/layui.css">
 <script src="${STATIC_RESOURCE_PATH}module/layui/layui.js"></script>
+<script src="${STATIC_RESOURCE_PATH}module/msg/msg-1.0.1.js"></script>
 <script>
 //加载 layer 模块
 layui.use('layer', function(){
@@ -44,15 +45,11 @@ layui.use('layer', function(){
 
 <script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
 
-<!-- weui，一个UI框架，这个包含weui，依赖Jquery -->
-<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js"></script>
-<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/jquery-weui.css">
-<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
-
 <!-- order by 列表的排序 -->
 <script src="${STATIC_RESOURCE_PATH}js/iw.js"></script>
 
 <style>
+
 /*列表页头部form搜索框*/
 .toubu_xnx3_search_form{
 	padding-top:10px;
