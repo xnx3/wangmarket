@@ -72,17 +72,17 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('数据保存中');
+		msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/sites/savePopupSiteUpdate.do", d, function (result) { 
-        	$.hideLoading();
+        	msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
+        		parent.msg.success('保存成功');
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.failure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.msg.failure(result);
         	}
         	parent.layer.close(index);
          }, "text");
@@ -113,16 +113,16 @@ function getEmailCode(){
 　　}
 	//通过，继续执行	
 	
-	iw.loading("邮件验证码发送中");
+	msg.loading("发送中");
 	$.post("sendPhoneRegCodeByAliyun.do?&phone="+document.getElementById('phone').value, function(data){
-		iw.loadClose();
+		msg.close();
 		if(data.result == '1'){
 			layer.closeAll();
-	    	iw.msgSuccess("验证码已发送至您的手机");
+	    	msg.success("验证码已发送");
 	 	}else if(data.result == '0'){
-	 		iw.msgFailure(data.info);
+	 		msg.failure(data.info);
 	 	}else{
-	 		iw.msgFailure();
+	 		msg.failure('发送失败');
 	 	}
 	});
 	

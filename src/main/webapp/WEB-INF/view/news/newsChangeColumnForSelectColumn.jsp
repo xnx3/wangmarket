@@ -80,31 +80,21 @@ parent.layer.iframeAuto(index);
 
 layui.use(['form', 'layedit', 'laydate'], function(){
   var form = layui.form;
-  
-  //监听提交
-  form.on('submit(demo1)', function(data){
-  	  $.showLoading('栏目保存中');
-		var d=$("form").serialize();
-        
-		
-    return false;
-  });
-  
 });
 
 //选择指定的栏目进行移动文章 targetColumnId 要移动到哪个栏目的id
 function selectColumn(targetColumnId){
-	iw.loading("转移中");
+	msg.loading("转移中");
 	$.post("/news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId, function(data){
 		iw.loadClose();
 		if(data.result == '1'){
-			parent.iw.msgSuccess("操作成功");
+			parent.msg.success("转移成功");
        		parent.location.reload();	//刷新父窗口
        		parent.layer.close(index);
 	 	}else if(data.result == '0'){
-	 		parent.iw.msgFailure(data.info);
+	 		parent.msg.failure(data.info);
 	 	}else{
-	 		parent.iw.msgFailure();
+	 		parent.msg.failure('操作失败');
 	 	}
 	});
 	

@@ -58,7 +58,7 @@ try{
 //点击保存的按钮
 function submitButton(){
 	if(document.getElementById('domain').value.length == 0){
-		parent.iw.msgFailure("请输入要绑定的域名");
+		parent.msg.failure("尚未输入");
 		return;
 	}
 	//调用 commonedit.js的函数

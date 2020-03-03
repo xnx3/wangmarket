@@ -69,18 +69,18 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-		parent.iw.loading('保存中');
+		parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/template/saveTemplateVar.do", d, function (result) { 
-        	parent.iw.loadClose();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.iw.msgSuccess("保存成功");
+        		parent.msg.success("保存成功");
         		window.location.href="templateVarList.do";
         	}else if(obj.result == '0'){
-        		layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.success(obj.info);
         	}else{
-        		layer.msg(result, {shade: 0.3})
+        		parent.msg.success(result);
         	}
          }, "text");
 		
@@ -123,13 +123,12 @@ function popupTemplateTagHelp(title,htmlNameTag, width, height){
 
 //加载 模版变量 的内容
 function loadTemplateVarText(){
-	parent.iw.loading("加载中");    //显示“操作中”的等待提示
+	parent.msg.loading("加载中");    //显示“操作中”的等待提示
 	$.post("getTemplateVarText.do?varName=${templateVar.varName }", function(data){
-	    parent.iw.loadClose();    //关闭“操作中”的等待提示
+	    parent.msg.close();    //关闭“操作中”的等待提示
 	    if(data.length == 0){
 	    	data = ' ';
 	    }
-	    
 	    
 	    //代码编辑器
 		testEditor = editormd("editormd", {

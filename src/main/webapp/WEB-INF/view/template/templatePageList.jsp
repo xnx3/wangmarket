@@ -142,16 +142,16 @@ function deleteTemplatePage(id, name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		parent.iw.loading('删除中');
+		parent.msg.loading('删除中');
 		$.post('/template/deleteTemplatePage.do?id='+id, function(data){
-			parent.iw.loadClose();
+			parent.msg.close();
 			if(data.result == '1'){
-				parent.iw.msgSuccess("删除成功");
+				parent.msg.success("删除成功");
 				location.reload();
 		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
+		 		parent.msg.failure(data.info);
 		 	}else{
-		 		parent.iw.msgFailure();
+		 		parent.msg.failure('删除失败');
 		 	}
 		});
 		

@@ -243,7 +243,7 @@ function codeEditMode(){
 
 
 function htmledit_mode(){
-	$.showLoading('切换中...');
+	msg.loading('切换中');
 	document.getElementById("htmledit_mode").style.display='';	//将 代码模式、智能模式切换的按钮显示。智能模式下，一直优惠智能模式、代码模式的切换按钮
 	if(currentMode == 1){
 		//由智能模式切换代码模式
@@ -296,7 +296,7 @@ function htmledit_mode(){
     	document.getElementById("htmledit_mode").innerHTML = '代码模式';
 		currentMode = 1;
 	}
-	$.hideLoading();
+	msg.close();
 }
 
 function getHtmlSource(){

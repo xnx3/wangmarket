@@ -94,13 +94,13 @@ function xufei(siteid, name){
 		value: '1',
 		title: '给'+name+'延期续费，单位：年',
 	}, function(value, index, elem){
-		iw.loading('续费中...');
-		$.getJSON("/agency/siteXuFie.do?siteid="+siteid+"&year="+value,function(result){
-			iw.loadClose();
+		parent.msg.loading('续费中');
+		$.post("/agency/siteXuFie.do?siteid="+siteid+"&year="+value,function(result){
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				parent.msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('续费成功');
+				parent.msg.success('续费成功');
 				location.reload();
 			}
 		});
@@ -110,13 +110,13 @@ function xufei(siteid, name){
 //冻结网站
 function freeze(siteid, name){
 	layer.confirm('确定要冻结'+name+'吗?<br/>冻结后其将无法登录', {icon: 3, title:'确认冻结'}, function(index){
-		iw.loading('冻结中...');
+		parent.msg.loading('冻结中');
 		$.getJSON("/agency/siteFreeze.do?siteid="+siteid,function(result){
-			iw.loadClose();
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('已冻结');
+				parent.msg.success('已冻结');
 				location.reload();
 			}
 		});
@@ -127,13 +127,13 @@ function freeze(siteid, name){
 //解除冻结网站，解冻
 function unFreeze(siteid, name){
 	layer.confirm('确定要解冻'+name+'吗?<br/>解冻后其将会恢复正常使用', {icon: 3, title:'确认解冻'}, function(index){
-		iw.loading('冻结中...');
+		parent.msg.loading('解除中');
 		$.getJSON("/agency/siteUnFreeze.do?siteid="+siteid,function(result){
-			iw.loadClose();
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('已解冻');
+				parent.msg.success('已解冻');
 				location.reload();
 			}
 		});
@@ -148,17 +148,16 @@ function updatePassword(userid, name){
 		value: '',
 		title: '给'+name+'改密码，请输入新密码',
 	}, function(value, index, elem){
-		iw.loading('更改中...');
-		parent.iw.loading("更改中");    //显示“更改中”的等待提示
+		parent.msg.loading('更改中');
 		$.post(
 		    "/agency/siteUpdatePassword.do", 
 		    { "newPassword": value, userid:userid }, 
 		    function(data){
-		        parent.iw.loadClose();    //关闭“更改中”的等待提示
+		        parent.msg.close();    //关闭“更改中”的等待提示
 		        if(data.result != '1'){
-		            parent.iw.msgFailure(data.info);
+		            parent.msg.failure(data.info);
 		        }else{
-		            parent.iw.msgSuccess();
+		            parent.msg.success('更改成功');
 					location.reload();
 		        }
 		    }, 

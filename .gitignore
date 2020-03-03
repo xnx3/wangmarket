@@ -82,7 +82,9 @@
 
 /src/main/java/com/xnx3/wangmarket/plugin/putNews/
 /src/main/webapp/WEB-INF/view/plugin/putNews/
-
+/src/main/webapp/WEB-INF/view/plugin/alipay/
+/src/main/webapp/WEB-INF/view/plugin/phoneCreateSite/
+/src/main/webapp/WEB-INF/view/plugin/resourceStatistics/
 
 
 # site 生成的网站过滤

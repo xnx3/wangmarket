@@ -206,13 +206,11 @@ public class AgencyUserController extends BaseController {
 		if(agency.getSiteSize() == 0){
 			return error("您的账户余额还剩 "+agency.getSiteSize()+" 站，不足以再开通网站！请联系相关人员充值");
 		}
-		
-		if(site.getClient() == 0){
-			return error("请选择站点类型，是电脑网站呢，还是手机网站呢？");
-		}
 		if(site.getName().length() == 0 || site.getName().length() > 30){
 			return error("请输入1～30个字符的要建立的站点名字");
 		}
+		//开通的都是CMS类型，v5.1
+		site.setClient(Site.CLIENT_CMS);
 		
 		//创建用户 
 		user.setPhone(filter(site.getPhone()));
@@ -620,7 +618,7 @@ public class AgencyUserController extends BaseController {
 	 * @return
 	 */
 	@RequiresPermissions("agencyTransferSiteSizeToSubAgencyList")
-	@RequestMapping("transferSiteSizeToSubAgency${url.suffix}")
+	@RequestMapping(value="transferSiteSizeToSubAgency${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO transferSiteSizeToSubAgency(HttpServletRequest request, Model model,
 			@RequestParam(value = "targetAgencyId", required = true) int targetAgencyId,
@@ -637,7 +635,7 @@ public class AgencyUserController extends BaseController {
 	 * @return
 	 */
 	@RequiresPermissions("agencySiteXuFie")
-	@RequestMapping("siteXuFie${url.suffix}")
+	@RequestMapping(value="siteXuFie${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO siteXuFie(HttpServletRequest request, Model model,
 			@RequestParam(value = "siteid", required = true) int siteid,
@@ -758,7 +756,7 @@ public class AgencyUserController extends BaseController {
 	 * @param year 要续费的年数，支持1～10，最大续费10年
 	 */
 	@RequiresPermissions("agencyYanQi")
-	@RequestMapping(value="agencyYanQi${url.suffix}")
+	@RequestMapping(value="agencyYanQi${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO agencyYanQi(HttpServletRequest request, Model model,
 			@RequestParam(value = "agencyId", required = true) int agencyId,

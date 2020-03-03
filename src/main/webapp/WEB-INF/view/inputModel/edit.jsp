@@ -113,18 +113,18 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-		parent.iw.loading('保存中');
+		parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/inputModel/save.do", d, function (result) { 
-        	parent.iw.loadClose();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.iw.msgSuccess("保存成功");
+        		parent.msg.success("保存成功");
         		window.location.href="list.do";
         	}else if(obj.result == '0'){
-        		layer.msg(obj.info, {shade: 0.3})
+        		msg.failure(obj.info);
         	}else{
-        		layer.msg(result, {shade: 0.3})
+        		msg.failure(result);
         	}
          }, "text");
 		
@@ -153,9 +153,9 @@ function loadEditor(){
 
 //加载输入模型的主要数据
 function load(){
-	parent.iw.loading("加载中");
+	parent.msg.loading("加载中");
 	$.post("/inputModel/getInputModelTextById.do?id=${inputModel.id }", function(data){
-		parent.iw.loadClose();
+		parent.msg.close();
 		if(data.result == '1'){
 			//编辑模式，获取模型主要内容成功，加载到textarea
 			document.getElementById("html_textarea").innerHTML = data.info;
@@ -166,7 +166,7 @@ function load(){
 			layer.msg("自动赋予系统默认输入模型，可以在此基础上进行修改，以创建自己的输入模型！", {shade: 0.3})
 			loadEditor();
 	 	}else{
-	 		parent.iw.msgFailure(data.info);
+	 		parent.msg.failure(data.info);
 	 	}
 	});
 

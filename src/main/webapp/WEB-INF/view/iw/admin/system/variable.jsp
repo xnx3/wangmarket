@@ -43,19 +43,19 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  parent.iw.loading("保存中");
+		parent.parent.msg.loading("保存中");
 		var d=$("form").serialize();
         $.post("/admin/system/variableSave.do", d, function (result) { 
-        	parent.iw.loadClose();
+        	parent.parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.parent.iw.msgSuccess("操作成功")
+        		parent.parent.msg.success("操作成功")
         		parent.layer.close(index);
         		parent.location.reload();	//刷新父窗口
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.parent.msg.failure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.parent.msg.failure(result);
         	}
          }, "text");
 		

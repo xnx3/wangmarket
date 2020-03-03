@@ -104,16 +104,16 @@ function deleteColumn(siteColumnId, name){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		parent.iw.loading('删除中');
-		$.getJSON('/column/delete.do?id='+siteColumnId,function(obj){
-			parent.iw.loadClose();
+		parent.msg.loading('删除中');
+		$.post('/column/delete.do?id='+siteColumnId,function(obj){
+			parent.msg.close();
 			if(obj.result == '1'){
-				parent.iw.msgSuccess("删除成功");
+				parent.msg.success("删除成功");
 				window.location.reload();	//刷新当前页
 	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
+	     		parent.msg.success(obj.info);
 	     	}else{
-	     		alert(obj.result);
+	     		parent.msg.success('操作失败');
 	     	}
 		});
 	}, function(){
@@ -146,18 +146,18 @@ function addColumn(siteColumnId){
  */
 function updateRank(id,rank,name){
 	layer.prompt({title: '请输入排序数字，数字越小越靠前', formType: 3, value: ''+rank}, function(text, index){
-		parent.iw.loading("保存中");    //显示“操作中”的等待提示
+		parent.msg.loading("保存中");    //显示“操作中”的等待提示
 		$.post('updateRank.do?id='+id+'&rank='+text, function(data){
-		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    parent.msg.close();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		        //由最外层发起提示框
-				parent.iw.msgSuccess('操作成功');
+				parent.msg.success('操作成功');
 				//刷新当前页
 				window.location.reload();	
 		     }else if(data.result == '0'){
-		         parent.iw.msgFailure(data.info);
+		         parent.msg.failure(data.info);
 		     }else{
-		         parent.iw.msgFailure();
+		         parent.msg.failure('操作失败');
 		     }
 		});
 		

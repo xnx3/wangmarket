@@ -965,7 +965,7 @@ public class ColumnController extends BaseController {
 	 * @param id 要删除的栏目的id
 	 * @return
 	 */
-	@RequestMapping(value="delete${url.suffix}")
+	@RequestMapping(value="delete${url.suffix}", method= {RequestMethod.POST})
 	@ResponseBody
 	public BaseVO delete(HttpServletRequest request,
 			@RequestParam(value = "id", required = false , defaultValue="0") int id){

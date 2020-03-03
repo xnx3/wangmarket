@@ -275,19 +275,19 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  		parent.iw.loading('保存中');
+  		parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
-        	parent.iw.loadClose();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.parent.iw.msgSuccess("操作成功");
+        		parent.parent.msg.success("操作成功");
         		parent.location.reload();	//刷新父窗口
         		parent.layer.close(index);
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		msg.failure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		msg.failure(result);
         	}
          }, "text");
 		
@@ -310,7 +310,7 @@ layui.use('upload', function(){
 		,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
 		,done: function(res){
 			//上传完毕回调
-			loadClose();
+			parent.msg.close();
 			if(res.result == 1){
 				try{
 					document.getElementById("titlePicInput").value = res.url;
@@ -318,18 +318,18 @@ layui.use('upload', function(){
 					document.getElementById("titlePicImg").src = res.url;
 					document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
 				}catch(err){}
-				parent.iw.msgSuccess("上传成功");
+				parent.msg.success("上传成功");
 			}else{
-				parent.iw.msgFailure(res.info);
+				parent.msg.failure(res.info);
 			}
 		}
 		,error: function(index, upload){
 			//请求异常回调
-			parent.iw.loadClose();
-			parent.iw.msgFailure();
+			parent.msg.close();
+			parent.msg.failure('操作异常');
 		}
 		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-			parent.iw.loading('上传中..');
+			parent.msg.loading('上传中');
 		}
 	});
 	

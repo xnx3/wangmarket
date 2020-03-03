@@ -60,16 +60,16 @@ function deleteInputModel(id, remark){
 	}, function(){
 		layer.close(dtv_confirm);
 		
-		parent.iw.loading('删除中');
+		parent.msg.loading('删除中');
 		$.post('/inputModel/delete.do?id='+id, function(data){
-		    parent.iw.loadClose();
+		    parent.msg.close();
 		    if(data.result == '1'){
-		        parent.iw.msgSuccess("删除成功");
+		        parent.msg.success("删除成功");
 				window.location.reload();	//刷新当前页
 		     }else if(data.result == '0'){
-		         iw.msgFailure(data.info);
+				msg.failure(data.info);
 		     }else{
-		         iw.msgFailure();
+				msg.failure('操作失败');
 		     }
 		});
 		

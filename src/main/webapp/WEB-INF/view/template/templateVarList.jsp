@@ -69,16 +69,16 @@ function deleteTemplateVar(id, name){
 	}, function(){
 		layer.close(dtv_confirm);
 		
-		parent.iw.loading('删除中');
+		parent.msg.loading('删除中');
 		$.post('/template/deleteTemplateVar.do?id='+id, function(data){
-			parent.iw.loadClose();
+			parent.msg.close();
 			if(data.result == '1'){
-				parent.iw.msgSuccess("删除成功");
+				parent.msg.success("删除成功");
 				location.reload();
 		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
+		 		parent.msg.failure(data.info);
 		 	}else{
-		 		parent.iw.msgFailure();
+		 		parent.msg.failure(data);
 		 	}
 		});
 		

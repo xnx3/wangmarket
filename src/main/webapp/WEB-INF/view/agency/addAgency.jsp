@@ -102,19 +102,18 @@ layui.use(['form'], function(){
 		}
 		
 		
-		$.showLoading('开通中...');
+		parent.msg.loading('开通中');
 		var d=$("form").serialize();
         $.post("addAgencySave.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		$.toast("开通成功", function() {
-					window.location.href="subAgencyList.do?orderBy=addtime_DESC"; 
-				});
+        		parent.msg.success('开通成功');
+        		window.location.href="subAgencyList.do?orderBy=addtime_DESC";
         	}else if(obj.result == '0'){
-        		layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.failure(obj.info);
         	}else{
-        		layer.msg(result, {shade: 0.3})
+        		parent.msg.failure(result);
         	}
          }, "text");
 		

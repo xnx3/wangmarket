@@ -82,19 +82,19 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-		parent.iw.loading('保存中');
+		parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/template/saveTemplatePage.do", d, function (result) { 
-        	parent.iw.loadClose();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.parent.iw.msgSuccess("保存成功");
+        		parent.parent.msg.success("保存成功");
        			parent.location.reload();	//刷新父窗口
        			parent.layer.close(index);
         	}else if(obj.result == '0'){
-        		layer.msg(obj.info, {shade: 0.3})
+        		parent.parent.msg.failure(obj.info);
         	}else{
-        		layer.msg(result, {shade: 0.3})
+        		parent.parent.msg.failure(result);
         	}
          }, "text");
 		

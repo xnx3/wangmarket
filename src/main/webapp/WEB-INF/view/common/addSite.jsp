@@ -10,13 +10,8 @@
 </style>
 <form class="layui-form" action="" style="padding-top:3%; padding-left:15%; padding-right:15%; padding-bottom: 3%;">
 	<input type="hidden" value="<%=ShiroFunc.getUser().getId() %>" name="inviteid" />
-	<div class="layui-form-item" style="display:none;">
-		<label class="layui-form-label">网站类型</label>
-		<div class="layui-input-inline xnx3_input">
-			<script type="text/javascript">writeSelectAllOptionForclient_('','请选择', true);</script>
-		</div>
-		<div id="help_client" class="layui-form-mid layui-word-aux" style="cursor: pointer;"><i class="layui-icon" style="font-size:18px;">&#xe607;</i></div>
-	</div>
+	<input type="hidden" value="client" name="3" />
+	
 	<div class="layui-form-item"  id="pc_autoCreateColumn" style="display:nonee;">
 		<label class="layui-form-label">自动创建</label>
 		<div class="layui-input-block">
@@ -137,19 +132,18 @@ layui.use(['form'], function(){
 
 	//监听提交
 	form.on('submit(formDemo)', function(data){
-		$.showLoading('开通中...');
+		parent.msg.loading('开通中');
 		var d=$("form").serialize();
         $.post("addSubmit.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		$.toast("开通成功", function() {
-					window.location.href="userList.do?orderBy=id_DESC"; 
-				});
+        		parent.msg.success('开通成功');
+				window.location.href="userList.do?orderBy=id_DESC"; 
         	}else if(obj.result == '0'){
-        		layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.failure(obj.info);
         	}else{
-        		layer.msg(result, {shade: 0.3})
+        		parent.msg.failure(result);
         	}
          }, "text");
 		

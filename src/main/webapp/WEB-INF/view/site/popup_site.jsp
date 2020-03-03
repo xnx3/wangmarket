@@ -86,21 +86,20 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('数据保存中');
+		msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/sites/savePopupSiteUpdate.do", d, function (result) { 
-        	$.hideLoading();
+        	msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
+        		parent.msg.success('保存成功');
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.success(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.msg.success(result);
         	}
         	parent.layer.close(index);
          }, "text");
-		
     return false;
   });
   

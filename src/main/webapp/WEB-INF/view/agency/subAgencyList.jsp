@@ -85,13 +85,13 @@ function chongzhi(agencyId, agencyName){
 		value: '',
 		title: '给'+agencyName+'充值的站币',
 	}, function(value, index, elem){
-		iw.loading('充值中...');
-		$.getJSON("/agency/transferSiteSizeToSubAgency.do?targetAgencyId="+agencyId+"&transferSiteSize="+value,function(result){
-			iw.loadClose();
+		parent.msg.loading('充值中');
+		$.post("/agency/transferSiteSizeToSubAgency.do?targetAgencyId="+agencyId+"&transferSiteSize="+value,function(result){
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				parent.msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('充值成功');
+				parent.msg.success('充值成功');
 				location.reload();
 			}
 		});
@@ -109,13 +109,13 @@ function yanqi(agencyId, name){
 		value: '1',
 		title: '给'+name+'延期，单位：年',
 	}, function(value, index, elem){
-		iw.loading('延长中...');
-		$.getJSON("/agency/agencyYanQi.do?agencyId="+agencyId+"&year="+value,function(result){
-			iw.loadClose();
+		parent.msg.loading('延长中');
+		$.post("/agency/agencyYanQi.do?agencyId="+agencyId+"&year="+value,function(result){
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				parent.msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('延长成功');
+				parent.msg.success('延长成功');
 				location.reload();
 			}
 		});
@@ -130,21 +130,20 @@ function updatePassword(userid, name){
 		value: '',
 		title: '给'+name+'改密码，请输入新密码',
 	}, function(value, index, elem){
-		parent.iw.loading("更改中");    //显示“更改中”的等待提示
+		parent.msg.loading("更改中");    //显示“更改中”的等待提示
 		$.post(
 		    "/agency/siteUpdatePassword.do", 
 		    { "newPassword": value, userid:userid }, 
 		    function(data){
-		        parent.iw.loadClose();    //关闭“更改中”的等待提示
+		        parent.msg.close();    //关闭“更改中”的等待提示
 		        if(data.result != '1'){
-		            parent.iw.msgFailure(data.info);
+		            parent.msg.failure(data.info);
 		        }else{
-		            parent.iw.msgSuccess();
+		            parent.msg.success('修改成功');
 					location.reload();
 		        }
 		    }, 
 		"json");
-		
 	});
 }
 
@@ -152,13 +151,13 @@ function updatePassword(userid, name){
 //冻结下级代理
 function freeze(agencyId, name){
 	layer.confirm('确定要冻结'+name+'吗?<br/>冻结后其将无法登录', {icon: 3, title:'确认冻结'}, function(index){
-		iw.loading('冻结中...');
-		$.getJSON("/agency/agencyFreeze.do?agencyId="+agencyId,function(result){
-			iw.loadClose();
+		parent.msg.loading('冻结中');
+		$.post("/agency/agencyFreeze.do?agencyId="+agencyId,function(result){
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				parent.msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('已冻结');
+				parent.msg.success('已冻结');
 				location.reload();
 			}
 		});
@@ -169,13 +168,13 @@ function freeze(agencyId, name){
 //解除冻结下级代理，恢复正常
 function unFreeze(agencyId, name){
 	layer.confirm('确定要解冻'+name+'吗?<br/>解冻后其将会恢复正常使用', {icon: 3, title:'确认解冻'}, function(index){
-		iw.loading('冻结中...');
-		$.getJSON("/agency/agencyUnFreeze.do?agencyId="+agencyId,function(result){
-			iw.loadClose();
+		parent.msg.loading('解除中');
+		$.post("/agency/agencyUnFreeze.do?agencyId="+agencyId,function(result){
+			parent.msg.close();
 			if(result.result != '1'){
-				alert(result.info);
+				parent.msg.failure(result.info);
 			}else{
-				parent.iw.msgSuccess('已解冻');
+				parent.msg.success('已解冻');
 				location.reload();
 			}
 		});

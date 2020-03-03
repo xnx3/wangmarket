@@ -137,16 +137,16 @@ function popAgency(name, description, oldValue){
 	  area: ['400px', '100px'] //自定义文本域宽高
 	}, function(value, index, elem){
 	  layer.close(index);
-	  parent.iw.loading('修改中');
+	  parent.msg.loading('修改中');
  	 $.post(
 	    "saveAgency.do", 
 	    { "name": name, "value":value }, 
 	    function(data){
-	        parent.iw.loadClose();    //关闭“更改中”的等待提示
+	        parent.msg.close();    //关闭“更改中”的等待提示
 	        if(data.result != '1'){
-	            parent.iw.msgFailure(data.info);
+	            parent.msg.failure(data.info);
 	        }else{
-	            parent.iw.msgSuccess("操作成功");
+	            parent.msg.success("操作成功");
 	            location.reload();
 	        }
 	    }, 
@@ -168,17 +168,17 @@ function popNotice(){
 	  area: ['500px', '200px'] //自定义文本域宽高
 	}, function(value, index, elem){
 	  layer.close(index);
-	  parent.iw.loading('修改中');
+	  parent.msg.loading('修改中');
  	 $.post(
 	    "saveNotice.do", 
 	    { "value":value }, 
 	    function(data){
 			console.log(data);
-	        parent.iw.loadClose();    //关闭“更改中”的等待提示
+	        parent.msg.close();    //关闭“更改中”的等待提示
 	        if(data.result != '1'){
-	            parent.iw.msgFailure(data.info);
+	            parent.msg.failure(data.info);
 	        }else{
-	            parent.iw.msgSuccess("操作成功");
+	            parent.msg.success("操作成功");
 	            location.reload();
 	        }
 	    }, 

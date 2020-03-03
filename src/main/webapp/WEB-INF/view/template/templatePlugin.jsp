@@ -102,15 +102,15 @@ function useTemplatePlugin(pluginName){
 	  btn: ['立即导入','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
-		iw.loading("获取中");
+		msg.loading("获取中");
 		$.post('/template/restoreTemplatePluginByRemote.do?pluginName='+pluginName, function(data){
-			iw.loadClose();
+			msg.close();
 			if(data.result == '1'){
 				templateComparePreview();
 		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
+		 		parent.msg.failure(data.info);
 		 	}else{
-		 		parent.iw.msgFailure();
+		 		parent.msg.failure('获取失败');
 		 	}
 		});
 		
@@ -161,9 +161,9 @@ function loadCloudTemplateList(){
 				
 				document.getElementById("cloudList").innerHTML = html;
 	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
+	     		msg.failure(obj.info);
 	     	}else{
-	     		alert(obj.result);
+	     		msg.failure(obj);
 	     	}
 		});
 }

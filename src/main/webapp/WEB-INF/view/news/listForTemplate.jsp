@@ -143,16 +143,16 @@ function updateAddtime(id, value){
 			if(oldValue != value){
 				//确实修改了，那么保存
 				
-				iw.loading("修改中");
+				msg.loading("修改中");
 				$.post("updateAddtime.do?id="+id+"&addtime="+value, function(data){
-					iw.loadClose();
+					msg.close();
 					if(data.result == '1'){
-						parent.iw.msgSuccess("修改成功");
+						parent.msg.success("修改成功");
 						location.reload();
 				 	}else if(data.result == '0'){
-				 		parent.iw.msgFailure(data.info);
+				 		parent.msg.failure(data.info);
 				 	}else{
-				 		parent.iw.msgFailure();
+				 		parent.msg.failure('修改失败');
 				 	}
 				});
 				
@@ -169,16 +169,16 @@ function deleteNews(newsid){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		iw.loading("删除中");
+		msg.loading("删除中");
 		$.post("/news/deleteNewsForAjax.do?id="+newsid, function(data){
-			iw.loadClose();
+			msg.close();
 			if(data.result == '1'){
-				parent.iw.msgSuccess("删除成功");
+				parent.msg.success("删除成功");
 				location.reload();
 	     	}else if(data.result == '0'){
-	     		parent.iw.msgFailure(data.info);
+	     		parent.msg.failure(data.info);
 	     	}else{
-	     		parent.iw.msgFailure();
+	     		parent.msg.failure('操作失败');
 	     	}
 		});
     }, function(){
