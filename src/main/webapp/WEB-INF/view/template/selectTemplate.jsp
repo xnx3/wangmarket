@@ -157,7 +157,7 @@ function typeClick(type){
 							previewPic = "/"+previewPic;
 						}
 						var temp = '<div>'+
-									'<img src="'+ previewPic +'" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+									'<img src="'+ previewPic +'?x-oss-process=image/resize,w_500" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 									'<div class="terminal">访问支持：'+
@@ -183,9 +183,9 @@ function typeClick(type){
 				
 				document.getElementById("cloudList").innerHTML = html;
 	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
+	     		msg.failure(obj.info);
 	     	}else{
-	     		alert(obj.result);
+	     		msg.failure('操作失败');
 	     	}
 		});
 	
@@ -203,16 +203,16 @@ layui.use('upload', function(){
 	  ,title :'加载本地模版'
 	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
       , before: function (obj) {
-          parent.iw.loading("上传中");
+          parent.msg.loading("上传中");
       }
 	  ,done: function(res, index, upload){
-	  	parent.iw.loadClose();
+	  	parent.msg.close();
 	    //上传成功返回值，必须为json格式
 	    if(res.result == '1'){
-	    	parent.iw.msgSuccess("模版加载成功！");
+	    	parent.msg.success("导入成功");
 	    	window.location.href = 'welcome.do';	//跳转到欢迎页面
 	    }else{
-	    	alert(res.info);
+	    	parent.msg.failure(res.info);
 	    }
 	  }
 	}); 
@@ -225,17 +225,17 @@ function useCloudTemplate(templateName){
 	}, function(){
 		layer.close(dtp_confirm);
 		
-		iw.loading("加载中");
+		msg.loading("加载中");
 		$.post('/template/remoteImportTemplate.do?templateName='+templateName, function(data){
-			iw.loadClose();
+			msg.close();
 			if(data.result == '1'){
-				parent.iw.msgSuccess("加载成功");
+				parent.msg.success("导入成功");
 				//进入内容管理中
 				parent.loadIframeByUrl('/template/welcome.do');
 		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
+		 		parent.msg.failure(data.info);
 		 	}else{
-		 		parent.iw.msgFailure();
+		 		parent.msg.failure('操作失败');
 		 	}
 		});
 		

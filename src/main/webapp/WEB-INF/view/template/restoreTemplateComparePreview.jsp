@@ -360,27 +360,25 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   form.on('submit(formSubmit)', function(data){
 		var d=$("form").serialize();
 		if(d.length == 0){
-			iw.msgFailure('请选择导入对象');
+			msg.failure('尚未选择');
 			return false;
 		}
-		$.showLoading('还原中');
+		msg.loading('还原中');
         $.post("/template/restoreTemplateSubmit.do", d, function (result) { 
-        	$.hideLoading();
+        	msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
+        		parent.msg.success('操作成功');
         		parent.layer.close(index);
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.failure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.msg.failure(result);
         	}
          }, "text");
 		
     return false;
   });
-  
-  
 });
 
 </script>

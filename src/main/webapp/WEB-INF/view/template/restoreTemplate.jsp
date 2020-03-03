@@ -167,15 +167,15 @@ layui.upload.render({
 
 //加载云端模版，触发选中云端模版还原
 function getCloudTemplate(){
-	iw.loading("获取中");
+	msg.loading("获取中");
 	$.post('/template/restoreTemplateByRemote.do', function(data){
-		iw.loadClose();
+		msg.close();
 		if(data.result == '1'){
 			templateComparePreview();
 	 	}else if(data.result == '0'){
-	 		parent.iw.msgFailure(data.info);
+	 		parent.msg.failure(data.info);
 	 	}else{
-	 		parent.iw.msgFailure();
+	 		parent.msg.failure('操作失败');
 	 	}
 	});
 }
