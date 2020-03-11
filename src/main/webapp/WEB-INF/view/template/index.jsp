@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="com.xnx3.wangmarket.admin.G"%><!DOCTYPE html>
 <jsp:include page="../iw/common/head.jsp">
-	<jsp:param name="title" value="登录"/>
+	<jsp:param name="title" value="网站管理后台"/>
 </jsp:include>
 
 <script src="/js/fun.js"></script>
