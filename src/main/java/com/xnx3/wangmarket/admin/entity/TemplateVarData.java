@@ -12,13 +12,9 @@ import javax.persistence.Table;
 @Table(name = "template_var_data")
 public class TemplateVarData implements java.io.Serializable {
 
-	// Fields
-
-	private Integer id;
-	private String text;
-
-
-	// Property accessors
+	private Integer id;		//模版变量的id，对应 templateVar.id
+	private String text;	//模版变量的内容
+	
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -29,7 +25,7 @@ public class TemplateVarData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "text", length = 65535)
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci COMMENT '模版变量的内容'")
 	public String getText() {
 		return this.text;
 	}

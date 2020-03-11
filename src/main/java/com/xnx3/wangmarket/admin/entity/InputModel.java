@@ -38,6 +38,7 @@ public class InputModel implements java.io.Serializable {
 		this.siteid = siteid;
 	}
 
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci")
 	public String getText() {
 		return text;
 	}

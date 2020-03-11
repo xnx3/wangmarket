@@ -11,14 +11,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "template_page_data")
 public class TemplatePageData implements java.io.Serializable {
-
-	// Fields
-
 	private Integer id;
 	private String text;
 
-
-	// Property accessors
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -29,7 +24,7 @@ public class TemplatePageData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	//@Column(name = "text", length = 65535)
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci")
 	public String getText() {
 		return this.text;
 	}

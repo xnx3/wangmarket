@@ -26,7 +26,7 @@ public class SiteVar {
 		this.id = id;
 	}
 	
-	@Column(name = "text", columnDefinition="text() comment '站点全局变量的具体变量具体数据，json对象格式' default ''")
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容'")
 	public String getText() {
 		return text;
 	}
@@ -39,5 +39,4 @@ public class SiteVar {
 	public String toString() {
 		return "SiteVar [id=" + id + ", text=" + text + "]";
 	}
-	
 }

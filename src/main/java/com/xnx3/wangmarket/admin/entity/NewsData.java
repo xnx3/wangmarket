@@ -43,7 +43,7 @@ public class NewsData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "text", length = 16777215)
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci")
 	public String getText() {
 		return this.text;
 	}

@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class CacheUtil {
 	private static Map<String, Object> map;	//当不用redis时，缓存用
+	public static final int EXPIRETIME = 30*24*60*60;	//30天，默认过期时间
 	static{
 		map = new HashMap<String, Object>();
 	}
