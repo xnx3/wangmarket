@@ -17,12 +17,12 @@ import com.xnx3.StringUtil;
 import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Func;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SmsService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.CaptchaUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
@@ -49,7 +49,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	@Resource
 	private UserService userService;
 	@Resource
-	private SmsService SmsService;
+	private SmsService smsService;
 	@Resource
 	private SqlService sqlService;
 	@Resource
@@ -298,14 +298,17 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						if(site != null && site.getExpiretime() != null && site.getExpiretime() < currentTime){
 							//您的网站已到期。若要继续使用，请续费
 							String info = "";
-							try {
-								info = "您的网站已于 "+DateUtil.dateFormat(site.getExpiretime(), "yyyy-MM-dd")+" 到期！"
+							if(SessionUtil.getParentAgency() != null){
+								try {
+									info = "您的网站已于 "+DateUtil.dateFormat(site.getExpiretime(), "yyyy-MM-dd")+" 到期！";
+								} catch (NotReturnValueException e) {
+									e.printStackTrace();
+								}
+								info = info + ""
 										+ "<br/>若要继续使用，请联系："
 										+ "<br/>姓名："+SessionUtil.getParentAgency().getName()
 										+ "<br/>QQ："+SessionUtil.getParentAgency().getQq()
 										+ "<br/>电话："+SessionUtil.getParentAgency().getPhone();
-							} catch (NotReturnValueException e) {
-								e.printStackTrace();
 							}
 							vo.setBaseVO(11, info);
 							SessionUtil.logout();	//退出登录，销毁session

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
+import com.xnx3.net.HuaweiSMSUtil;
 
 /**
  * 手机短信
@@ -99,4 +100,26 @@ public interface SmsService {
 	 * 			</ul>
 	 */
 	public BaseVO sendByAliyunSMS(HttpServletRequest request, AliyunSMSUtil aliyunSMSUtil, String signName,String templateCode, String phone, Short type);
+	
+
+	/**
+	 * 使用华为云短信通道，向指定手机号发送指定内容的验证码。
+	 * <br/><b>注意，只支持一个变量，在设置模版的时候变量要用${1}</b>
+	 * @param huaweiSMSUtil 项目中自行持久化的 {@link HuaweiSMSUtil} 对象
+	 * @param templateId 发送短信的模版id
+	 * @param phone 目标手机号，要发送的手机号。可以传入 +8618788888888 ，也可以不带+86，接口里面会自动加上 
+	 * @param type 发送类型，位于 {@link SmsLog}，以下几个数已使用,可从10以后开始用。此会计入 {@link SmsLog}.type数据字段
+	 * 				<ul>
+	 * 					<li>1:{@link SmsLog#TYPE_LOGIN}登录 </li>
+	 * 					<li>2:{@link SmsLog#TYPE_FIND_PASSWORD}找回密码 </li>
+	 * 					<li>3:{@link SmsLog#TYPE_BIND_PHONE}绑定手机 </li>
+	 * 				</ul>
+	 * @return {@link BaseVO}
+	 * 			<ul>
+	 * 				<li>若result = SUCCESS，则发送成功（华为云短信接口返回的成功，至于真的能不能到手机，还会涉及到手机号是否真的存在、用户开机没，这就不是我们管的了）</li>
+	 * 				<li>若result = FAIULRE，则是发送失败，可能是不允许发送短信验证，效验失败，发送达到当日的上限等</li>
+	 * 			</ul>
+	 */
+	public BaseVO sendByHuaweiSMS(HttpServletRequest request, HuaweiSMSUtil huaweiSMSUtil, String templateId, String phone, Short type);
+
 }

@@ -20,6 +20,7 @@ import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
+import com.xnx3.net.HuaweiSMSUtil;
 import com.xnx3.net.SMSUtil;
 
 /**
@@ -254,5 +255,13 @@ public class SmsServiceImpl implements SmsService {
 		
 		return null;
 	}
-
+	
+	public BaseVO sendByHuaweiSMS(HttpServletRequest request, HuaweiSMSUtil huaweiSMSUtil, String templateId, String phone, Short type) {
+		BaseVO baseVO = sendSMS(request, phone, type);
+		if(baseVO.getResult() - BaseVO.SUCCESS == 0){
+			//发送短信
+			baseVO.setBaseVOForSuper(huaweiSMSUtil.send(phone, templateId, "[\""+baseVO.getInfo()+"\"]"));
+		}
+		return baseVO;
+	}
 }
