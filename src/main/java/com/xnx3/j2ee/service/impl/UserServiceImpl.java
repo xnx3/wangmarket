@@ -144,6 +144,9 @@ public class UserServiceImpl implements UserService{
 		user.setNickname(SafetyUtil.filter(user.getNickname()));
 		user.setPhone(SafetyUtil.filter(user.getPhone()));
 		user.setUsername(SafetyUtil.filter(user.getUsername()));
+		if(user.getNickname() == null || user.getNickname().equals("")){
+			user.setNickname(user.getUsername());
+		}
 		
 		//判断用户名、邮箱、手机号是否有其中为空的
 		if(user.getUsername()==null||user.getUsername().equals("")||user.getPassword()==null||user.getPassword().equals("")){
@@ -177,7 +180,6 @@ public class UserServiceImpl implements UserService{
 		user.setLastip(IpUtil.getIpAddress(request));
 		user.setRegtime(DateUtil.timeForUnix10());
 		user.setLasttime(DateUtil.timeForUnix10());
-//		user.setNickname(user.getUsername());
 		user.setAuthority(Global.system.get("USER_REG_ROLE"));
 		user.setCurrency(0);
 		user.setReferrerid(0);
