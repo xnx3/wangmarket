@@ -1369,10 +1369,17 @@ public class TemplateServiceImpl implements TemplateService {
 
 		
 		//生成首页
-		String indexHtml = templateCacheMap.get(templatePageIndexVO.getTemplatePage().getName());
-		//替换首页中存在的栏目的动态调用标签
-		indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
-		indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
+		String indexHtml = "";	//首页的html代码
+		if(templatePageIndexVO.getResult() - BaseVO.FAILURE == 0){
+			//没有获取到首页模板，这个模板中没有首页，那么首页给一个默认输出
+			indexHtml = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>模板中没有首页模板</title></head><body>	您好，看到此页面，说明您的模板中没有首页模板！你可以登录你网站管理后台，找到左侧模板管理-模板页面，看看里面的类型一栏，是不是没有首页模板</body></html>";
+		}else{
+			//有首页，生成首页
+			indexHtml = templateCacheMap.get(templatePageIndexVO.getTemplatePage().getName());
+			//替换首页中存在的栏目的动态调用标签
+			indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
+			indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
+		}
 		//生成首页保存到OSS或本地盘
 		AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
