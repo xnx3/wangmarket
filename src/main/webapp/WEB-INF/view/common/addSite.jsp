@@ -10,7 +10,7 @@
 </style>
 <form class="layui-form" action="" style="padding-top:3%; padding-left:15%; padding-right:15%; padding-bottom: 3%;">
 	<input type="hidden" value="<%=ShiroFunc.getUser().getId() %>" name="inviteid" />
-	<input type="hidden" value="client" name="3" />
+	<input type="hidden" value="3" name="client" />
 	
 	<div class="layui-form-item"  id="pc_autoCreateColumn" style="display:nonee;">
 		<label class="layui-form-label">自动创建</label>
@@ -95,31 +95,9 @@
 </form>
 
 <script type="text/javascript">
-//当网站类型发生改变
-function selectClientChange(){
-	if(document.getElementById("client").options[1].selected){
-		//client＝pc
-		document.getElementById("pc_autoCreateColumn").style.display="";
-		$(".elseZL").css("display","");
-		
-		document.getElementById("wap_autoCreateColumn").style.display="none";
-	}else if(document.getElementById("client").options[3].selected){
-		//cms
-		document.getElementById("wap_autoCreateColumn").style.display="none";
-		document.getElementById("pc_autoCreateColumn").style.display="none";
-		$(".elseZL").css("display","none");
-	}else{
-		//client=wap
-		$(".elseZL").css("display","");
-		document.getElementById("wap_autoCreateColumn").style.display="";
-		
-		document.getElementById("email_id").style.display="none";
-		document.getElementById("address_id").style.display="none";
-		document.getElementById("companyName_id").style.display="none";
-		document.getElementById("contactUsername_id").style.display="none";
-		document.getElementById("pc_autoCreateColumn").style.display="none";
-	}
-}
+document.getElementById("wap_autoCreateColumn").style.display="none";
+document.getElementById("pc_autoCreateColumn").style.display="none";
+$(".elseZL").css("display","none");
 
 //form组件，开启select
 layui.use(['form'], function(){
@@ -149,35 +127,6 @@ layui.use(['form'], function(){
 		
 		return false;
 	});
-	
-	//如果进入时，类型没有选则，那么默认选择CMS模式
-	if(document.getElementById("client").options[0].selected){
-		document.getElementById('client')[3].selected = true;
-		layui.form.render();
-		selectClientChange();
-	}
 });
 
-
-//鼠标跟随提示
-$(function(){
-	//网站类型
-	var help_client_text = '要创建何种类型的网站。创建后不可更改！'+
-					'<br/><b>1.&nbsp;CMS</b>&nbsp;（推荐使用此种）全能模式！且百分百可自定义！类似于现有的织梦CMS、帝国CMS，懂HTML可以进行定制开发自己的网站，也可以根据导入模版一键创建出成品网站，只需要修改一下栏目名字、文字及图片就可达到使用级别！但是一旦导入模版使用后，就不可以再导入其他模版。此种类型因自由度极高，被广大建站爱好者青睐，其可以根据自己的意愿作出任意形式的网站。建议稍微懂点建站的，都可以试试这种模式！'+
-					'<br/><b>2.&nbsp;电脑端</b>&nbsp; 适合不太懂互联网的小白用户。最适合做SEO优化，但网站模版稍显单一。不过此种类型的网站有几套模版可以在手机或电脑中都可使用，且支持随意切换模版。推荐做SEO的网站首选。如果将网站作为一个赠送品送人，此种模式的网站是不错的选择，开通即用，没有使用难度'+
-					'<br/><b>3.&nbsp;手机端</b>&nbsp; 适合不太懂互联网的小白用户。专为手机设计的网站，仅有手机页面，但手机体验也是最好的。支持随意切换的手机模版。如果将网站作为一个赠送品送人，此种模式的网站是不错的选择，开通即用，没有使用难度';
-					
-	var help_client_index = 0;
-	$("#help_client").hover(function(){
-		help_client_index = layer.tips(help_client_text, '#help_client', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(help_client_index);
-	})
-	
-});
 </script>

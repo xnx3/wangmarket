@@ -119,7 +119,7 @@ layui.use('form', function(){
   
   //监听提交
   form.on('submit(formDemo)', function(data){
-	msg.loading("登陆中...");
+	msg.loading("登陆中");
     var d=$("form").serialize();
 	$.post("loginSubmit.do", d, function (result) {
 		msg.close();

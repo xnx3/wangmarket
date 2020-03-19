@@ -9,8 +9,8 @@ import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.VersionUtil;
 import com.xnx3.wangmarket.Authorization;
-import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 
 /**
@@ -18,7 +18,7 @@ import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
  * @author 管雷鸣
  */
 @Component
-public class Func {
+public class Func extends DomainUtil{
 	
 	/**
 	 * 判断是wap模式还是pc模式。若没有传递 client=pc，其余的统一认为是wap模式
@@ -60,21 +60,6 @@ public class Func {
 		return false;
 	}
 	
-
-	/**
-	 * 获取当前网站的访问域名。若是绑定顶级域名了，优先使用顶级域名。
-	 * @return 访问域名，如 leiwen.wang.market
-	 */
-	public static String getDomain(Site site){
-		if(site == null){
-			return "";
-		}
-		if(site.getBindDomain() != null && site.getBindDomain().length() > 3){
-			return site.getBindDomain();
-		}else{
-			return site.getDomain()+".wang.market";
-		}
-	}
 	
 	/**
 	 * 重定向跳转至当前登录用户的网站所属类型(wap\pc\cms)的控制台，或者代理后台、超级管理员后台，又或创建网站的页面
