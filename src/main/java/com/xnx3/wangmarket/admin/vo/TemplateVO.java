@@ -9,6 +9,7 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.json.JSONUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -351,8 +352,17 @@ public class TemplateVO extends BaseVO {
 				}else{
 					nsc.setIcon("");
 				}
-				
-				
+				//v5.1
+				if(j.get("adminNewsUsed") != null){
+					nsc.setAdminNewsUsed((short) JSONUtil.getInt(j, "adminNewsUsed"));
+				}else{
+					nsc.setAdminNewsUsed((short) 1);
+				}
+				if(j.get("templateCodeColumnUsed") == null){
+					nsc.setTemplateCodeColumnUsed((short) JSONUtil.getInt(j, "templateCodeColumnUsed"));
+				}else{
+					nsc.setTemplateCodeColumnUsed((short) 1);
+				}
 				
 				
 				siteColumnList.add(nsc);
