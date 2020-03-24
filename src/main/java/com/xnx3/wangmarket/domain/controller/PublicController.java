@@ -179,7 +179,7 @@ public class PublicController extends BaseController {
 					return "domain/pcPreview";
 				}
 			}
-			return "domain/pc";
+			return "domain/display";
 		}
 	}
 	
@@ -216,40 +216,6 @@ public class PublicController extends BaseController {
 		return true;
 	}
 	
-//	private void requestLog(HttpServletRequest request, RequestInfo requestInfo){
-//		//进行记录访问日志，记录入Session
-//		RequestLog requestLog = (RequestLog) request.getSession().getAttribute("requestLog");
-//		if(requestLog == null){
-//			requestLog = new RequestLog();
-//			requestLog.setIp(requestInfo.getIp());
-//			requestLog.setServerName(requestInfo.getServerName());
-//			
-//			SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
-//			if(vo != null){
-//				requestLog.setSiteid(vo.getSimpleSite().getId());
-//			}
-//			
-//			request.getSession().setAttribute("requestLog", requestLog);
-//		}
-//		
-//		LogItem logItem = new LogItem(DateUtil.timeForUnix10());
-//		logItem.PushBack("ip", requestInfo.getIp());
-//		logItem.PushBack("referer", requestInfo.getReferer());
-//		logItem.PushBack("userAgent", requestInfo.getUserAgent());
-//		logItem.PushBack("htmlFile", requestInfo.getHtmlFile());
-//		logItem.PushBack("siteid", requestLog.getSiteid()+"");
-//		requestLog.getLogGroup().add(logItem);
-//		
-//		if(requestLog.getLogGroup().size() > 1000){
-//			try {
-//				G.aliyunLogUtil.saveByGroup(requestLog.getServerName(), requestLog.getIp(), requestLog.getLogGroup());
-//				requestLog.setLogGroup(new Vector<LogItem>());
-//			} catch (LogException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-	
 	/**
 	 * sitemap.xml展示
 	 * @param request {@link HttpServletRequest}
@@ -259,28 +225,60 @@ public class PublicController extends BaseController {
 	public String sitemap(HttpServletRequest request, Model model){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
+		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
+			return error404();
+		}else{
+			//访问日志记录
+			alonePageRequestLog(request, "sitemap.xml", simpleSiteVO);
+			String sitemapXml = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			if(sitemapXml == null || sitemapXml.length() == 0){
+				return error404();
+			}else{
+				model.addAttribute("html", sitemapXml);
+				return "domain/display";
+			}
+		}
+	}
+	
+	/**
+	 * robots.txt展示
+	 * @param request {@link HttpServletRequest}
+	 * @param model {@link Model}
+	 */
+	@RequestMapping("robots.txt")
+	public String robots(HttpServletRequest request, Model model){
+		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
+		
+		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
+			return error404();
+		}else{
+			//访问日志记录
+			alonePageRequestLog(request, "robots.txt", simpleSiteVO);
+			String content = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
+			if(content == null || content.length() == 0){
+				return error404();
+			}else{
+				model.addAttribute("html", content);
+				return "domain/display";
+			}
+		}
+	}
+	
+	/**
+	 * 单独请求的页面，如 robots.txt 、 sitemap.xml 进行日志记录
+	 * @param requestFileName 传入如 robots.txt、 sitemap.xml
+	 * @param simpleSiteVO
+	 */
+	private void alonePageRequestLog(HttpServletRequest request, String requestFileName, SImpleSiteVO simpleSiteVO){
 		RequestInfo requestInfo = new RequestInfo();
-		requestInfo.setHtmlFile("sitemap.xml");
+		requestInfo.setHtmlFile(requestFileName);
 		requestInfo.setIp(IpUtil.getIpAddress(request));
 		requestInfo.setReferer(request.getHeader("referer"));
 		requestInfo.setServerName(request.getServerName());
 		requestInfo.setTime(DateUtil.timeForUnix10());
 		requestInfo.setUserAgent(request.getHeader("User-Agent"));
 		
-		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
-			return error404();
-		}else{
-			//访问日志记录
-//			requestLog(request, requestInfo);
-			Log.requestLog(request, requestInfo, simpleSiteVO);
-			String sitemapXml = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
-			if(sitemapXml == null || sitemapXml.length() == 0){
-				return error404();
-			}else{
-				model.addAttribute("html", sitemapXml);
-				return "domain/sitemap";
-			}
-		}
+		Log.requestLog(request, requestInfo, simpleSiteVO);
 	}
 	
 	/**
