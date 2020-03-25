@@ -571,7 +571,9 @@ public class ColumnController extends BaseController {
 		//v4.10
 		sc.setTemplateCodeColumnUsed(siteColumn.getTemplateCodeColumnUsed() == null? SiteColumn.USED_ENABLE:siteColumn.getTemplateCodeColumnUsed());//默认是启用，也就是显示
 		sc.setAdminNewsUsed(siteColumn.getAdminNewsUsed() == null ? SiteColumn.USED_ENABLE:siteColumn.getAdminNewsUsed());
-		
+		//v5.1
+		sc.setKeywords(siteColumn.getKeywords());
+		sc.setDescription(siteColumn.getDescription());
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = StringUtil.filterXss(siteColumn.getInputModelCodeName());

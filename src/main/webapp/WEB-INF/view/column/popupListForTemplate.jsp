@@ -83,7 +83,7 @@ function editColumn(siteColumnId, isCopy){
 		//title: false,
 		closeBtn: 1,
 		//title:(isCopy? '复制一个栏目快速创建':'修改栏目'),
-		area: ['460px', '570px'],
+		area: ['490px', '600px'],
 		shadeClose: true, //开启遮罩关闭
 		content: url+'?id='+siteColumnId+(isCopy? '&isCopy=1':''),
 		title:false, 
@@ -129,7 +129,7 @@ function addColumn(siteColumnId){
 	layer.open({
 		type: 2, 
 		//title:'添加栏目', 
-		area: ['460px', '600px'],
+		area: ['490px', '600px'],
 		shadeClose: true, //开启遮罩关闭
 		content: url,
 		title:false, 

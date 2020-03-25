@@ -296,7 +296,10 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("siteColumn.parentCodeName"), (siteColumn.getParentCodeName() == null || siteColumn.getParentCodeName().equals("")) ? siteColumn.getCodeName() : siteColumn.getParentCodeName());
 		//v4.7
 		text = Template.replaceAll(text, regex("siteColumn.icon"), (siteColumn.getIcon() == null? "":siteColumn.getIcon()).replace("{templatePath}", getTemplatePath()));
-				
+		//v5.1
+		text = Template.replaceAll(text, regex("siteColumn.keywords"), (siteColumn.getKeywords() == null? "":siteColumn.getKeywords()));
+		text = Template.replaceAll(text, regex("siteColumn.description"), (siteColumn.getDescription() == null? "":siteColumn.getDescription()));
+		
 		//判断栏目的链接地址
 		String url = "";
 		if(this.generateUrlRule.equals("code")){

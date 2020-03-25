@@ -89,12 +89,6 @@
 						<td>${site.qq}</td>
 					</tr>
 					<tr>
-						<td>{site.keywords}</td>
-						<td>当前网站的关键词</td>
-						<td>字符串</td>
-						<td>${site.keywords}</td>
-					</tr>
-					<tr>
 						<td>{site.address}</td>
 						<td>当前网站的联系人办公地址</td>
 						<td>字符串</td>

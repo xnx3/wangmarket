@@ -90,6 +90,8 @@ public class TemplateTagController extends BaseController {
 			siteColumn.setParentCodeName("");
 			//栏目图片
 			siteColumn.setIcon("http://cdn.weiunity.com/res/glyph-icons/world.png");
+			siteColumn.setKeywords("");
+			siteColumn.setDescription("");
 		}
 		
 		ActionLogUtil.insert(request, "栏目标签说明页面");

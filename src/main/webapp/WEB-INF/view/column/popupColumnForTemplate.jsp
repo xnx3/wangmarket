@@ -34,6 +34,7 @@
     <li class="layui-this">基本设置</li>
     <li>信息录入</li>
     <li>显示</li>
+    <li>SEO</li>
     <li>高级设置</li>
   </ul>
   <div class="layui-tab-content" style="padding-right: 35px;">
@@ -189,13 +190,26 @@
 				<div class="explain">注意，这个已经废弃！您可使用上面几个来控制</div>
 			</div>
 		</div>
-    	
-    	
+    </div>
+    
+    <!-- SEO -->
+    <div class="layui-tab-item">
+    	<div class="layui-form-item">
+			<label class="layui-form-label" id="keywords_label">Keywords</label>
+			<div class="layui-input-block">
+				<textarea name="keywords" lay-verify="keywords" autocomplete="off" placeholder="限50个字符以内，多个用,分割" class="layui-textarea">${siteColumn.keywords }</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label" id="description_label">Description</label>
+			<div class="layui-input-block">
+				<textarea name="description" lay-verify="description" autocomplete="off" placeholder="限200个字符以内" class="layui-textarea">${siteColumn.description }</textarea>
+			</div>
+		</div>
     </div>
     
     <div class="layui-tab-item">
     	<!-- 高级方式 -->
-    	
 		<div class="layui-form-item" id="listRank">
 			<label class="layui-form-label" id="listRank_label">信息排序</label>
 			<div class="layui-input-block">
@@ -222,9 +236,8 @@
 				</a><input class="layui-upload-file" type="file" name="fileName">
 			</div>
 		</div>
-    	
-    	
     </div>
+    
   </div>
 </div>
 
@@ -260,7 +273,17 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
       if(value=='' || value.length ==0){
         return '请选择栏目类型';
       }
-    }
+    },
+    keywords: function(value){
+      if(value.length > 50){
+        return 'SEO 下的 keywords限制不可超过50字符';
+      }
+    },
+    description: function(value){
+      if(value.length > 200){
+        return 'SEO 下的 description限制不可超过200字符';
+      }
+    },
   });
   
 	//当类型发生变动改变
@@ -275,10 +298,10 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  		parent.msg.loading('保存中');
+  		parent.parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
-        	parent.msg.close();
+        	parent.parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
         		parent.parent.msg.success("操作成功");
@@ -577,6 +600,31 @@ $(function(){
 	},function(){
 		layer.close(adminNewsUsed_label_index);
 	})
+	
+	var keywords_label_index = 0;
+	$("#keywords_label").hover(function(){
+		keywords_label_index = layer.tips('SEO 的 keywords ，多个中间用,分割<br/>在模板中可以用栏目标签 {siteColumn.keywords} 调取。<br/><b>注意，最大限制50个字符</b>', '#keywords_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(keywords_label_index);
+	})
+	
+	var description_label_index = 0;
+	$("#description_label").hover(function(){
+		description_label_index = layer.tips('SEO 的 description <br/>在模板中可以用栏目标签 {siteColumn.description} 调取。<br/><b>注意，最大限制200个字符</b>', '#description_label', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true,
+			area : ['310px' , 'auto']
+		});
+	},function(){
+		layer.close(description_label_index);
+	})
+	
 	
 	//是否在模版的文章列表中显示此栏目的文章
 	//var templateCodeNewsUsed_label_index = 0;

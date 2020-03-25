@@ -96,6 +96,18 @@
 						<td>URL</td>
 						<td><a href="${siteColumn.icon}">${siteColumn.icon}</a></td>
 					</tr>
+					<tr>
+						<td>{siteColumn.keywords}</td>
+						<td>SEO关键字</td>
+						<td>字符串</td>
+						<td>${siteColumn.keywords}</td>
+					</tr>
+					<tr>
+						<td>{siteColumn.description}</td>
+						<td>SEO描述</td>
+						<td>字符串</td>
+						<td>${siteColumn.description}</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

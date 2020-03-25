@@ -92,24 +92,23 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	 */
 	public static final Short LIST_RANK_ADDTIME_ASC = 2;
 	
-	// Fields
-	private Integer id;
-	private String name;
-	private String url;
+	private Integer id;		//id
+	private String name;	//栏目名字
+	private String url;		//已废弃
 	private String icon;	//本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示
 	private Integer rank;	//栏目间的排序
-	private Short used;
-	private Integer siteid;
-	private Integer userid;
+	private Short used;		//已废弃
+	private Integer siteid;	//栏目所属的站点id，对应 site.id
+	private Integer userid;	//栏目所属的用户id，对应 user.id，这个已逐渐废弃，由siteid代替。
 	private Integer parentid;	//已废弃，用 parentCodeName 取代
-	private Short type;
+	private Short type;		//栏目类型
 //	private Short client;
-	private String templatePageListName;
-	private String templatePageViewName;
-	private String codeName;
-	private String parentCodeName;
-	private Integer listNum;
-	private String inputModelCodeName;
+	private String templatePageListName;	//列表页模板对应的模板页面的名字
+	private String templatePageViewName;	//详情页模板对应的模板页面的名字
+	private String codeName;		//栏目diamante
+	private String parentCodeName;	//父栏目diamante
+	private Integer listNum;		//列表中每页显示多少条
+	private String inputModelCodeName;	//绑定的输入模型的代码
 	private Short editMode;	//若是独立页面，内容的编辑方式，是使用富文本编辑框呢，还是直接编辑模板
 	private Short listRank;	//列表排序，当前栏目若是信息列表，信息列表的排序规则
 	
@@ -125,9 +124,10 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Short templateCodeColumnUsed;		//是否在模版调用中显示（调取子栏目列表）。在模板中，使用动态栏目调用代码调取栏目列表时，是否会调取到此栏目。例如顶级栏目名为 手机 ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有子栏目列表时，就只有小米、中兴。默认1显示，0为不显示。如果为null也是显示
 //	private Short templateCodeNewsUsed;			//是否在模版调用中显示（调取文章列表）。在模板中，使用动态栏目调用代码调取某个父栏目下，所有子栏目的内容列表时，是否也将此栏目的内容一并调取出来。默认1显示，0为不显示。如果为null也是显示
 	private Short adminNewsUsed;				//是否在内容管理中显示这个栏目。默认1显示，0为不显示。如果为null也是显示
+	//v5.1
+	private String keywords;	//SEO关键字，限制50字以内
+	private String description;		//SEO描述，限制200字以内
 	
-	// Constructors
-
 	/** default constructor */
 	public SiteColumn() {
 //		client = CLIENT_WAP;	//默认手机端
@@ -390,6 +390,24 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	public void setAdminNewsUsed(Short adminNewsUsed) {
 		this.adminNewsUsed = adminNewsUsed;
 	}
+	
+	@Column(name = "keywords", columnDefinition="char(50) comment 'SEO keywords'")
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
+	
+	@Column(name = "description", columnDefinition="char(200) comment 'SEO description'")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	@Override
 	public String toString() {
@@ -400,10 +418,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 				+ listNum + ", inputModelCodeName=" + inputModelCodeName + ", editMode=" + editMode + ", listRank="
 				+ listRank + ", editUseTitlepic=" + editUseTitlepic + ", editUseIntro=" + editUseIntro
 				+ ", editUseText=" + editUseText + ", editUseExtendPhotos=" + editUseExtendPhotos + ", useGenerateView="
-				+ useGenerateView + "]";
+				+ useGenerateView + ", templateCodeColumnUsed=" + templateCodeColumnUsed + ", adminNewsUsed="
+				+ adminNewsUsed + ", keywords=" + keywords + ", description=" + description + "]";
 	}
 
-	
-	
 	
 }

@@ -692,7 +692,9 @@ public class TemplateServiceImpl implements TemplateService {
 			//v4.7，增加是否生成内容页面
 			sc.setUseGenerateView(sc_ori.getUseGenerateView() == null? SiteColumn.USED_ENABLE:sc_ori.getUseGenerateView());
 			sc.setIcon(sc_ori.getIcon() == null? "":sc_ori.getIcon());
-			//v5.1补上，显示中的几项配置
+			//v5.1，seo相关，另外补上，显示中的几项配置
+			sc.setKeywords(sc_ori.getKeywords() == null? "":sc_ori.getKeywords());
+			sc.setDescription(sc_ori.getDescription() == null? "":sc_ori.getDescription());
 			sc.setTemplateCodeColumnUsed(sc_ori.getTemplateCodeColumnUsed());
 			sc.setAdminNewsUsed(sc_ori.getAdminNewsUsed());
 			

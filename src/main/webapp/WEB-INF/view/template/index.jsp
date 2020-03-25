@@ -145,7 +145,7 @@ body{
 				可用：
 					<button onclick="popupTemplateTagHelp('模版变量-简化模式','/template/templateVarListForUsed.do', '520', '360');">模版变量</button>
 					<button id="tongyong" onclick="popupTemplateTagHelp('通用标签','/templateTag/common.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '770', '630');">通用标签</button>
-					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','/templateTag/column.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','870', '465');">栏目标签</button>
+					<button id="lanmu" onclick="popupTemplateTagHelp('栏目标签','/templateTag/column.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','870', '510');">栏目标签</button>
 					<button id="fenye" onclick="popupTemplateTagHelp('分页标签','/templateTag/page.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '760','605');">分页标签</button>
 					<button id="wenzhang" onclick="popupTemplateTagHelp('文章信息标签','/templateTag/news.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8','870', '660');">文章信息标签</button>
 					<button id="dongtailanmu" onclick="popupTemplateTagHelp('动态栏目调用','/templateTag/dynamic.do','770', '650');">动态栏目调用</button>

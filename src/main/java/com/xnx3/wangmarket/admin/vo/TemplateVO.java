@@ -363,6 +363,12 @@ public class TemplateVO extends BaseVO {
 				}else{
 					nsc.setTemplateCodeColumnUsed((short) 1);
 				}
+				if(j.get("keywords") != null){
+					nsc.setKeywords(JSONUtil.getString(j, "keywords"));
+				}
+				if(j.get("description") != null){
+					nsc.setDescription(JSONUtil.getString(j, "description"));
+				}
 				
 				
 				siteColumnList.add(nsc);
