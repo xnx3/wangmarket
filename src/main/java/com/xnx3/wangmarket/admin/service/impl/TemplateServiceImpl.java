@@ -37,6 +37,7 @@ import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
+import com.xnx3.wangmarket.admin.service.SiteVarService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
@@ -70,6 +71,8 @@ public class TemplateServiceImpl implements TemplateService {
 	private InputModelService inputModelService;
 	@Resource
 	private SiteColumnService siteColumnService;
+	@Resource
+	private SiteVarService siteVarService;
 	
 
 	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request) {
@@ -381,9 +384,8 @@ public class TemplateServiceImpl implements TemplateService {
 			//出错，没有获取到该栏目的模版页
 			return;
 		}
-//		Site site = SessionUtil.getSite();
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
-//		String pageHtml = template.assemblyTemplateVar(templateHtml);	//装载模版变量
+		template.setSiteVar(siteVarService.getVar(site.getId()));
 		String pageHtml = template.assemblyTemplateVar(templateHtml, getTemplateVarAndDataByDatabase(site).getCompileMap());	//装载模版变量
 		pageHtml = template.replaceSiteColumnTag(pageHtml, siteColumn);	//替换栏目相关标签
 		pageHtml = template.replacePublicTag(pageHtml);		//替换通用标签
@@ -1114,6 +1116,7 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
+		template.setSiteVar(siteVarService.getVar(site.getId()));
 		//取得当前网站所有模版页面
 //		TemplatePageListVO templatePageListVO = templateService.getTemplatePageListByCache(request);
 		//取得当前网站首页模版页面

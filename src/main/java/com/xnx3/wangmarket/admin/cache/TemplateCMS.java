@@ -18,6 +18,7 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
+import com.xnx3.json.JSONUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
@@ -30,6 +31,8 @@ import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 
+import net.sf.json.JSONObject;
+
 /**
  * CMS模版
  * @author 管雷鸣
@@ -38,6 +41,7 @@ public class TemplateCMS {
 	private int linuxTime;	//当前时间戳
 	private Site site;			//当前站点信息
 	private com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
+	private JSONObject siteVarJson;	//站点的全局变量，使用 setSiteVar 来赋予
 	private String templatePathDomain = null;	//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
 	
 	public final static String TEMPLATE_CLOUD_PATH;	//云端资源库路径，云端引用的js、css都是通过这个。格式如： http://cloudtemplate.weiunity.com/
@@ -131,6 +135,18 @@ public class TemplateCMS {
 		this.editMode = editMode;
 	}
 	
+	/**
+	 * 设置站点全局变量
+	 * @param siteVarJson
+	 */
+	public void setSiteVar(JSONObject siteVarJson){
+		if(siteVarJson == null){
+			this.siteVarJson = new JSONObject();
+			return;
+		}
+		
+		this.siteVarJson = siteVarJson;
+	}
 	
 	/**
 	 * 为模版替换为动态标签，替换公共/通用标签
@@ -163,8 +179,42 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		//v4.7增加
 		text = Template.replaceAll(text, regex("templatePath"), getTemplatePath());
+		//v5.1增加，全局变量
+		text = replaceSiteVar(text);
 		
 		return text;
+	}
+	
+	/**
+	 * v5.1增加，全局变量
+	 * @param text 要进行替换的字符串
+	 * @return 将全局变量已经替换的字符串
+	 */
+	public String replaceSiteVar(String text){
+		if(this.siteVarJson == null){
+			return text;
+		}
+		if(text == null){
+			return null;
+		}
+		
+		//如果 {var.xxx} 存在，则需要替换
+    	if(text.indexOf("{var.") > -1){
+    		Pattern p = Pattern.compile(regex("var\\.(.*?)"));
+            Matcher m = p.matcher(text);
+            while (m.find()) {
+            	String name = m.group(1);	//全局变量的name
+                String reg = regex("var."+name);
+                String value = null;
+                if(this.siteVarJson.get(name) != null){
+                	value = this.siteVarJson.getJSONObject(name).getString("value");
+                }else{
+                	value = "";
+                }
+                text = Template.replaceAll(text, reg, value);
+            }
+    	}
+    	return text;
 	}
 	
 	/**

@@ -28,6 +28,9 @@ public class SiteVar {
 	
 	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容'")
 	public String getText() {
+		if(text == null){
+			return "{}";
+		}
 		return text;
 	}
 

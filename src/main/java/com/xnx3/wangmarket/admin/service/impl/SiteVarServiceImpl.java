@@ -23,7 +23,7 @@ public class SiteVarServiceImpl implements SiteVarService {
 			SiteVar siteVar = sqlService.findById(SiteVar.class, siteid);
 			if(siteVar == null){
 				//没有，返回一个不包含任何数据的JSON对象
-				new JSONObject();
+				return new JSONObject();
 			}
 			//将查询出来的数据进行缓存
 			CacheUtil.setSiteVar(siteVar);
