@@ -31,6 +31,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.entity.SiteVar;
 import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
@@ -717,6 +718,9 @@ public class TemplateServiceImpl implements TemplateService {
 			inputModelList.add(im);
 		}
 		
+		//全局变量,v5.1增加
+		JSONObject siteVarJson = siteVarService.getVar(site.getId());
+		
 		JSONObject jo = new JSONObject();
 		jo.put("systemVersion", G.VERSION);	// 当前系统版本号
 		jo.put("time", DateUtil.timeForUnix10());	//导出的时间，10为时间戳
@@ -757,6 +761,7 @@ public class TemplateServiceImpl implements TemplateService {
 		jo.put("templateVarList", templateVarList);
 		jo.put("siteColumnList", siteColumnList);
 		jo.put("inputModelList", inputModelList);
+		jo.put("siteVar", siteVarJson);
 		
 		vo.setInfo(jo.toString());
 		return vo;
@@ -815,6 +820,13 @@ public class TemplateServiceImpl implements TemplateService {
 			sqlDAO.save(inputModel);
 		}
 		
+		//导入全局变量,v5.1增加
+		if(tvo.getSiteVarJson().size() > 0){
+			SiteVar siteVar = new SiteVar();
+			siteVar.setId(tvo.getCurrentSite().getId());
+			siteVar.setText(tvo.getSiteVarJson().toString());
+			sqlDAO.save(siteVar);
+		}
 
 		//是否也将此新模版栏目也一块复制过来
 		if(copySiteColumn){

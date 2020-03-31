@@ -30,6 +30,7 @@ public class TemplateVO extends BaseVO {
 	private List<TemplateVar> templateVarList;		//模版变量
 	private List<InputModel> inputModelList;	//输入模型
 	private List<SiteColumn> siteColumnList;	//栏目
+	private JSONObject siteVarJson;				//全局变量
 	
 	private String systemVersion;	// 当前系统版本号
 	private int time;	//导出的时间，10为时间戳
@@ -280,6 +281,11 @@ public class TemplateVO extends BaseVO {
 			}
 		}
 		
+		//v5.1，全局变量
+		if(jo.get("siteVar") != null){
+			this.siteVarJson = jo.getJSONObject("siteVar");
+		}
+		
 		//拿到模版网站下所有可用的栏目
 		siteColumnList = new ArrayList<SiteColumn>();
 		if(jo.get("siteColumnList") != null){
@@ -435,6 +441,16 @@ public class TemplateVO extends BaseVO {
 	}
 	public void setTemplate(Template template) {
 		this.template = template;
+	}
+	
+	public JSONObject getSiteVarJson() {
+		if(this.siteVarJson == null){
+			return new JSONObject();
+		}
+		return this.siteVarJson;
+	}
+	public void setSiteVarJson(JSONObject siteVarJson) {
+		this.siteVarJson = siteVarJson;
 	}
 	
 }

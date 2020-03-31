@@ -576,7 +576,7 @@ function versionUpdateRemind(version){
 
 //CMS模式下，导出当前模版
 function exportTemplate(){
-	var dtp_confirm = layer.confirm('确定要将当前网站的模版导出吗？<br/>导出内容包括模版页面、模版变量、栏目、输入模型<br/>导出的模版可以用于快速创建新网站;也可以作为备份,还原使用', {
+	var dtp_confirm = layer.confirm('确定要将当前网站的模版导出吗？<br/>导出内容包括全局变量、模版页面、模版变量、栏目、输入模型<br/>导出的模版可以用于快速创建新网站;也可以作为备份,还原使用', {
 	  btn: ['立即导出','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);

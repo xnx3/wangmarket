@@ -360,6 +360,18 @@ $(function(){
 		layer.close(save_tipindex);
 	})
 	
+	//全局变量
+	var quanjubianliang_tipindex = 0;
+	$("#quanjubianliang").hover(function(){
+		quanjubianliang_tipindex = layer.tips('当前网站模板中可以调用的变量，可再模版页面、模板变量中，使用<div style="padding:5px; font-size:16px">{var.xxx}</div>将再此设定的全局变量的值调出。', '#quanjubianliang', {
+			tips: [2, '#0FA6A8'], //还可配置颜色
+			time:0,
+			tipsMore: true
+		});
+	},function(){
+		layer.close(quanjubianliang_tipindex);
+	})
+	
 	//模版变量
 	var mobanbianliang_tipindex = 0;
 	$("#mobanbianliang").hover(function(){
@@ -399,7 +411,7 @@ $(function(){
 	//导入模版
 	var daorutemplate_tipindex = 0;
 	$("#daorutemplate").hover(function(){
-		daorutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建模版页面、模版变量、以及栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子', '#daorutemplate', {
+		daorutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建全局变量、模版页面、模版变量、输入模型、栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子', '#daorutemplate', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
