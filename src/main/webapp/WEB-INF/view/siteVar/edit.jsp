@@ -11,7 +11,7 @@
 		<div class="layui-input-block">
 			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入变量名" class="layui-input" value="${siteVar.name }">
 		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">同一个网站中，变量名必须是唯一的,限英文或数字。<br/>在制作模板时，也就是在模板变量跟模板页面中，可以用 {var.${siteVar.name }} 来调取变量值</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">同一个网站中，变量名必须是唯一的,限英文、数字、下划线_<br/>在制作模板时，也就是在模板变量跟模板页面中，可以用 {var.${siteVar.name }} 来调取变量值</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label" id="description_label">备注说明</label>
@@ -44,10 +44,10 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
       if(value.length < 1){
       	return '请输入变量名';
       }
-		if(/^[a-zA-Z0-9]*$/g.test(value)){
+		if(/^[a-zA-Z0-9_]*$/g.test(value)){
 			//success
 		}else{
-			return '变量名只限英文或数字';
+			return '变量名只限英文、数字、下划线_';
 		}
     },
   });

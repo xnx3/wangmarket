@@ -594,6 +594,9 @@ function zoomLeftMenu(){
 			document.getElementById("wentifankui").innerHTML = '问题反馈';
 		}catch(e){}
 		try{
+			document.getElementById("quanjubianliang").innerHTML = '全局变量';
+		}catch(e){}
+		try{
 			document.getElementById("mobanbianliang").innerHTML = '模版变量';
 		}catch(e){}
 		try{
@@ -655,6 +658,10 @@ function zoomLeftMenu(){
 		}catch(e){}
 		try{
 			document.getElementById("wentifankui").innerHTML = '反馈';
+		}catch(e){}
+		
+		try{
+			document.getElementById("quanjubianliang").innerHTML = '全局';
 		}catch(e){}
 		try{
 			document.getElementById("mobanbianliang").innerHTML = '变量';

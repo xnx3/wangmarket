@@ -323,7 +323,6 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
 layui.use('upload', function(){
 	var upload = layui.upload;
 	//上传图片,封面图
-	//upload.render(uploadPic);
 	upload.render({
 		elem: "#uploadImagesButton" //绑定元素
 		,url: '/sites/uploadImage.do' //上传接口
@@ -333,7 +332,7 @@ layui.use('upload', function(){
 		,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
 		,done: function(res){
 			//上传完毕回调
-			parent.msg.close();
+			parent.parent.msg.close();
 			if(res.result == 1){
 				try{
 					document.getElementById("titlePicInput").value = res.url;
@@ -341,18 +340,18 @@ layui.use('upload', function(){
 					document.getElementById("titlePicImg").src = res.url;
 					document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
 				}catch(err){}
-				parent.msg.success("上传成功");
+				parent.parent.msg.success("上传成功");
 			}else{
-				parent.msg.failure(res.info);
+				parent.parent.msg.failure(res.info);
 			}
 		}
 		,error: function(index, upload){
 			//请求异常回调
-			parent.msg.close();
-			parent.msg.failure('操作异常');
+			parent.parent.msg.close();
+			parent.parent.msg.failure('操作异常');
 		}
 		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-			parent.msg.loading('上传中');
+			parent.parent.msg.loading('上传中');
 		}
 	});
 	
