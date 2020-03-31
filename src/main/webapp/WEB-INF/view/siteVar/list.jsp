@@ -24,7 +24,7 @@
 	                <td style="width:55px;">${item['name'] }</td>
 	                <td>${item['description'] }</td>
 	                <td>${item['value'] }</td>
-	                <td style="text-align: center; width:140px;">
+	                <td style="text-align: center; width:110px;">
 	                	<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 	                	<botton class="layui-btn layui-btn-sm" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	                </td>
@@ -34,16 +34,14 @@
 	</table>
 
 	<div style="padding:15px;">
-		<button class="layui-btn" onclick="edit('');" style="margin-left: 10px;margin-bottom: 20px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加变量</button>
+		<button class="layui-btn" onclick="edit('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
 	</div>
-
-	<div style="width: 100%;height:100%;position: fixed;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
-		<div style="padding: 20px;color: gray;">
-			<div>操作按钮提示:</div>
-			<div><i class="layui-icon">&#xe642;</i> &nbsp;：对某篇文章进行编辑操作</div>
-			<div><i class="layui-icon">&#xe640;</i> &nbsp;：删除某篇文章，栏目类型为新闻信息、图文信息的栏目才会有此按钮</div>
-		</div>
+	<div style="padding-right:15px; text-align: right;margin-top: -66px;">
+		提示：&nbsp;&nbsp;&nbsp;
+		<botton class=""><i class="layui-icon">&#xe642;</i></botton><span style="padding-left:12px;padding-right: 30px;">编辑</span>
+		<botton class=""><i class="layui-icon">&#xe640;</i></botton><span style="padding-left:12px;padding-right: 30px;">删除</span>
 	</div>
+	
 </div>
 
 <script>
@@ -88,11 +86,10 @@ function edit(name){
 	var url = '/siteVar/edit.do?name='+name;
 	layer.open({
 		type: 2, 
-		//title:'添加栏目', 
+		title:'编辑全局变量', 
 		area: ['490px', '600px'],
 		shadeClose: true, //开启遮罩关闭
 		content: url,
-		title:false, 
 		closeBtn: 1
 	});
 }

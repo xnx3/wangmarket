@@ -44,7 +44,6 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	 */
 	@RequestMapping("/list${url.suffix}")
 	public String list(HttpServletRequest request ,Model model){
-		ActionLogUtil.insert(request, "查看网站全局变量列表");
 		JSONObject json = siteVarService.getVar(getSiteId());
 		
 		//将json转化为list形式
@@ -59,6 +58,7 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
             list.add(bean);
         }
 		
+        ActionLogUtil.insert(request, "查看网站全局变量列表");
 		model.addAttribute("list", list);
 		return "siteVar/list";
 	}
@@ -72,8 +72,8 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			@RequestParam(value = "name", required = false , defaultValue="") String name){
 		if(name.trim().length() > 0){
 			//修改
-			JSONObject json = siteVarService.getVar(getSiteId());
-			model.addAttribute("json", json);
+			JSONObject json = siteVarService.getVar(getSiteId(), name);
+			model.addAttribute("siteVar", new SiteVarBean(name, json));
 			ActionLogUtil.insert(request, "打开修改网站全局变量页面", StringUtil.filterXss(name));
 		}else{
 			//新增
@@ -86,10 +86,15 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	
 	/**
 	 * 保存某个模板变量
+	 * @param updateName 如果当前是修改的某个变量，那么这里时修改前，变量的名字，以此来判断是否修改过变量的名字。如果这里没有任何东西，那就是新增了
+	 * @param name 修改后的变量的名字
+	 * @param description 修改后的变量的描述
+	 * @param value 修改后的变量的值
 	 */
 	@RequestMapping(value="save${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO save(TemplateVar templateVarInput, 
+	public BaseVO save(
+			@RequestParam(value = "updateName", required = false , defaultValue="") String updateName,
 			@RequestParam(value = "name", required = false , defaultValue="") String name,
 			@RequestParam(value = "description", required = false , defaultValue="") String description,
 			@RequestParam(value = "value", required = false , defaultValue="") String value,
@@ -102,7 +107,23 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		}
 		JSONObject json = JSONObject.fromObject(siteVar.getText());
 		
-		JSONObject varJson = new JSONObject();
+		JSONObject varJson = null;
+		//判断是修改还是新增
+		if(updateName.length() == 0){
+			//新增
+			varJson = new JSONObject();
+		}else{
+			//修改
+			if(!updateName.equals(name.trim())){
+				//修改了变量名字了，那么要把之前的变量删掉，不然会变成两个变量了
+				json.remove(updateName);
+				varJson = new JSONObject();
+			}else{
+				//updateName == name ，那么只是修改了value、或者描述
+				varJson = json.getJSONObject(updateName);
+			}
+		}
+		
 		varJson.put("description", description);
 		varJson.put("value", value);
 		json.put(name, varJson);
@@ -114,8 +135,36 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		//更新缓存
 		siteVarService.setVar(site.getId(), siteVar);
 		
+		ActionLogUtil.insertUpdateDatabase(request, "保存全局变量", StringUtil.filterXss(name+", "+value));
 		return success();
 	}
 	
+	/**
+	 * 删除变量
+	 * @param name 要删除的全局变量的name
+	 */
+	@RequestMapping(value="deleteVar${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO deleteVar(HttpServletRequest request,
+			@RequestParam(value = "name", required = true) String name){
+		Site site = getSite();
+		SiteVar siteVar = sqlService.findById(SiteVar.class, site.getId());
+		if(siteVar == null){
+			siteVar = new SiteVar();
+			siteVar.setId(site.getId());
+		}
+		JSONObject json = JSONObject.fromObject(siteVar.getText());
+		json.remove(name);
+		
+		//保存到数据库
+		siteVar.setText(json.toString());
+		sqlService.save(siteVar);
+		
+		//更新缓存
+		siteVarService.setVar(site.getId(), siteVar);
+		
+		ActionLogUtil.insertUpdateDatabase(request, "删除全局变量", StringUtil.filterXss(name));
+		return success();
+	}
 	
 }

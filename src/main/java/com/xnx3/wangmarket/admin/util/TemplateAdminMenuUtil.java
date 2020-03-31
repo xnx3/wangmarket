@@ -97,6 +97,10 @@ public class TemplateAdminMenuUtil {
 		if(map.get(TemplateMenuEnum.TEMPLATE.id) != null){
 			FirstMenu Menu = new FirstMenu("li_"+TemplateMenuEnum.TEMPLATE.id, TemplateMenuEnum.TEMPLATE.id, TemplateMenuEnum.TEMPLATE.href, TemplateMenuEnum.TEMPLATE.icon, TemplateMenuEnum.TEMPLATE.name);
 			
+			//全局变量
+			if(map.get(TemplateMenuEnum.TEMPLATE_QuanJuBianLiang.id) != null){
+				Menu.addTwoMenu("dd_"+TemplateMenuEnum.TEMPLATE_QuanJuBianLiang.id, TemplateMenuEnum.TEMPLATE_QuanJuBianLiang.id, TemplateMenuEnum.TEMPLATE_QuanJuBianLiang.href, TemplateMenuEnum.TEMPLATE_QuanJuBianLiang.name);
+			}
 			//模版变量
 			if(map.get(TemplateMenuEnum.TEMPLATE_MoBanBianLiang.id) != null){
 				Menu.addTwoMenu("dd_"+TemplateMenuEnum.TEMPLATE_MoBanBianLiang.id, TemplateMenuEnum.TEMPLATE_MoBanBianLiang.id, TemplateMenuEnum.TEMPLATE_MoBanBianLiang.href, TemplateMenuEnum.TEMPLATE_MoBanBianLiang.name);

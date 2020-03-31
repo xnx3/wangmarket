@@ -26,7 +26,7 @@ public interface SiteVarService {
 	 * @param key 获取的变量的名字
 	 * @return 如果这个站点没有这个全局变量，那么返回""空字符串，总之不会返回null
 	 */
-	public String getVar(int siteid, String key);
+	public JSONObject getVar(int siteid, String key);
 	
 	/**
 	 * 设置某个网站的全局变量。

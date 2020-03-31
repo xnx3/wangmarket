@@ -34,12 +34,12 @@ public class SiteVarServiceImpl implements SiteVarService {
 	}
 
 	@Override
-	public String getVar(int siteid, String key) {
+	public JSONObject getVar(int siteid, String key) {
 		Object obj = getVar(siteid).get(key);
 		if(obj == null){
-			return "";
+			return new JSONObject();
 		}
-		return (String)obj;
+		return (JSONObject)obj;
 	}
 
 	@Override

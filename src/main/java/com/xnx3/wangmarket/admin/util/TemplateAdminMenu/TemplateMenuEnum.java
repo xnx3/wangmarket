@@ -12,6 +12,7 @@ public enum TemplateMenuEnum {
 	SYSTEM_YuLanWangZhan("chakanwangzhan", "预览网站", "javascript:window.open('/sites/sitePreview.do');", "", "system"),
 	
 	TEMPLATE("template", "模版管理", "javascript:;", "&#xe61b;", ""),
+	TEMPLATE_QuanJuBianLiang("quanjubianliang", "全局变量", "javascript:loadIframeByUrl('/siteVar/list.do'), notUseTopTools();", "", "template"),
 	TEMPLATE_MoBanBianLiang("mobanbianliang", "模版变量", "javascript:loadIframeByUrl('/template/templateVarList.do'), notUseTopTools();", "", "template"),
 	TEMPLATE_MoBanYeMian("mobanyemian", "模版页面", "javascript:loadIframeByUrl('/template/templatePageList.do'), notUseTopTools();", "", "template"),
 	TEMPLATE_ShuRuMoXing("shurumoxing", "输入模型", "javascript:loadIframeByUrl('/inputModel/list.do'), notUseTopTools();", "", "template"),
