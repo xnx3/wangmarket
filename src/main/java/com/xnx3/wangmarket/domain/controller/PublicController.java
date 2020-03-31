@@ -246,7 +246,7 @@ public class PublicController extends BaseController {
 	 * @param model {@link Model}
 	 */
 	@RequestMapping("robots.txt")
-	public String robots(HttpServletRequest request, Model model){
+	public String robots(HttpServletRequest request, HttpServletResponse response, Model model){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
@@ -259,7 +259,7 @@ public class PublicController extends BaseController {
 				return error404();
 			}else{
 				model.addAttribute("html", content);
-				return "domain/display";
+				return "domain/robots";
 			}
 		}
 	}
