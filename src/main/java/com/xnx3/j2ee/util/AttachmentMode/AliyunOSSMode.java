@@ -3,9 +3,15 @@ package com.xnx3.j2ee.util.AttachmentMode;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.net.ossbean.PutResult;
@@ -93,5 +99,25 @@ public class AliyunOSSMode implements StorageModeInterface{
 			vo.setUrl(pr.getUrl());
 		}
 		return vo;
+	}
+
+	@Override
+	public List<SubFileBean> getSubFileList(String path) {
+		List<SubFileBean> list = new ArrayList<SubFileBean>();
+		if(path == null || path.length() == 0){
+			return list;
+		}
+		
+		List<OSSObjectSummary> subList = OSSUtil.getFolderObjectList(path);
+		for (int i = 0; i < subList.size(); i++) {
+			OSSObjectSummary sum = subList.get(i);
+			SubFileBean bean = new SubFileBean();
+			bean.setSize(sum.getSize());
+			bean.setPath(sum.getKey());
+			bean.setLastModified(sum.getLastModified().getTime());
+			list.add(bean);
+		}
+		
+		return list;
 	}
 }

@@ -15,6 +15,9 @@ public class CacheUtil {
 	public final static String SHIRO_USERID = "shiro:userid:{userid}";
 	//session在redis中缓存的key，如果使用了redis的话
 	public final static String SHIRO_SESSION = "shiro:session:{sessionid}";
+	//用户登录成功后，有什么资源权限，比如可以查看网站、管理用户、查看日志等
+	public final static String SHIRO_CUSTOMREALM_AUTHORIZATION = "shiro:cache:com.xnx3.j2ee.shiro.CustomRealm.authorizationCache:{userid}";
+	
 	
 	private static Map<String, Object> map;	//当不用redis时，缓存用
 	public static final int EXPIRETIME = 7*24*60*60;	//7天，默认过期时间

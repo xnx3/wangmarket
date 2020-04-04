@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.obs.services.exception.ObsException;
-import com.xnx3.j2ee.Global;
+import com.obs.services.model.ListObjectsRequest;
+import com.obs.services.model.ObjectListing;
+import com.obs.services.model.ObsObject;
 import com.xnx3.j2ee.util.SystemUtil;
+import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.util.AttachmentMode.hander.OBSHandler;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
@@ -135,6 +140,32 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 	@Override
 	public void copyObject(String originalFilePath, String newFilePath) {
 		getObsHander().copyObject(obsBucketName, originalFilePath, obsBucketName, newFilePath);
+	}
+
+	@Override
+	public List<SubFileBean> getSubFileList(String path) {
+		List<SubFileBean> list = new ArrayList<SubFileBean>();
+		if(path == null || path.length() == 0){
+			return list;
+		}
+		
+		ListObjectsRequest request = new ListObjectsRequest(obsBucketName);
+		request.setPrefix(path);
+		request.setMaxKeys(100);
+		ObjectListing result;
+		do{
+			result = getObsHander().getObsClient().listObjects(request);
+			for(ObsObject obsObject : result.getObjects()){
+				SubFileBean bean = new SubFileBean();
+				bean.setPath(obsObject.getObjectKey());
+				bean.setSize(obsObject.getMetadata().getContentLength());
+				bean.setLastModified(obsObject.getMetadata().getLastModified().getTime());
+				list.add(bean);
+			}
+			request.setMarker(result.getNextMarker());
+		}while(result.isTruncated());
+		
+		return list;
 	}
 	
 }

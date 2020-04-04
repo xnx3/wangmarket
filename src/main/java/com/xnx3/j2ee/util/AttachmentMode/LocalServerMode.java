@@ -1,18 +1,23 @@
 package com.xnx3.j2ee.util.AttachmentMode;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
 /**
@@ -148,6 +153,33 @@ public class LocalServerMode implements StorageModeInterface{
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<SubFileBean> getSubFileList(String path) {
+		List<SubFileBean> list = new ArrayList<SubFileBean>();
+		if(path == null || path.length() == 0){
+			return list;
+		}
+		
+		File file = new File(AttachmentUtil.localFilePath+path);
+		if(!file.exists()){
+			//文件夹不存在，也返回空
+			return list;
+		}
+		
+		File[] subFiles = file.listFiles();
+		for (int i = 0; i < subFiles.length; i++) {
+			File subFile = subFiles[i];
+			SubFileBean bean = new SubFileBean();
+			bean.setPath(subFile.getPath().replace(AttachmentUtil.localFilePath+path, ""));
+			bean.setSize(subFile.length());
+			bean.setLastModified(subFile.lastModified());
+			bean.setFolder(subFile.isDirectory());
+			list.add(bean);
+		}
+		
+		return list;
 	}
 	
 }

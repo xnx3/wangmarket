@@ -2,7 +2,10 @@ package com.xnx3.j2ee.util.AttachmentMode;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
+
 import com.aliyun.openservices.oss.model.ObjectMetadata;
+import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.net.ossbean.PutResult;
 
@@ -72,4 +75,11 @@ public interface StorageModeInterface {
 	 * @param newFilePath 复制的文件所在的路径，所放的路径。(相对路径，非绝对路径，操作的是当前附件文件目录下)
 	 */
 	public void copyObject(String originalFilePath, String newFilePath);
+	
+	/**
+	 * 获取某个目录下的子文件列表。获取的只是目录下第一级的子文件，并非是在这个目录下无论目录深度是多少都列出来
+	 * @param path 要获取的是哪个目录的子文件。传入如 site/219/
+	 * @return 该目录下一级子文件（如果有文件夹，也包含文件夹）列表。如果size为0，则是没有子文件或文件夹。无论什么情况不会反null
+	 */
+	public List<SubFileBean> getSubFileList(String path);
 }

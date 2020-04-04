@@ -19,6 +19,7 @@ import com.xnx3.j2ee.util.AttachmentMode.AliyunOSSMode;
 import com.xnx3.j2ee.util.AttachmentMode.HuaweiyunOBSMode;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.util.AttachmentMode.StorageModeInterface;
+import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
 import com.xnx3.net.ossbean.PutResult;
@@ -483,7 +484,7 @@ public class AttachmentUtil {
 	
 	
 	//允许上传的后缀名数组，存储如 jpg 、 gif、zip
-	private static String[] allowUploadSuffixs;
+	public static String[] allowUploadSuffixs;
 	/**
 	 * 判断当前后缀名是否在可允许上传的后缀中(systemConfig.xml的attachmentFile.allowUploadSuffix节点配置)，该图片是否允许上传
 	 * @param fileSuffix 要判断的上传的文件的后缀名
@@ -615,5 +616,14 @@ public class AttachmentUtil {
 	 */
 	public static void directoryInit(String path){
 		LocalServerMode.directoryInit(path);
+	}
+	
+	/**
+	 * 获取某个目录下的子文件列表。获取的只是目录下第一级的子文件，并非是在这个目录下无论目录深度是多少都列出来
+	 * @param path 要获取的是哪个目录的子文件。传入如 site/219/
+	 * @return 该目录下一级子文件（如果有文件夹，也包含文件夹）列表。如果size为0，则是没有子文件或文件夹。无论什么情况不会反null
+	 */
+	public static List<SubFileBean> getSubFileList(String path){
+		return getStorageMode().getSubFileList(path);
 	}
 }

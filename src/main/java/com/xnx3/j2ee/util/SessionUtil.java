@@ -302,6 +302,7 @@ public class SessionUtil extends ShiroFunc{
 		            String s = iterator.next();
 		            if(s != null && s.length() > 0){
 		            	CacheUtil.delete(CacheUtil.SHIRO_SESSION.replace("{sessionid}", s));
+		            	CacheUtil.delete(CacheUtil.SHIRO_CUSTOMREALM_AUTHORIZATION.replace("{userid}", userid+""));
 		            }
 		        }
 		        CacheUtil.delete(shiro_userid_key);
