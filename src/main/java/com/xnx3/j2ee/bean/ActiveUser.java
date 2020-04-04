@@ -65,7 +65,6 @@ public class ActiveUser implements Serializable{
 		this.user = user;
 		if(user != null){
 			this.id = user.getId();
-			System.out.println("-------setid:"+this.id);
 		}
 	}
 	

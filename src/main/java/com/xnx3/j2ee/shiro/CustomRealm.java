@@ -12,13 +12,14 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import com.xnx3.j2ee.entity.Permission;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.RoleService;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.impl.RoleServiceImpl;
-import com.xnx3.j2ee.service.impl.SqlServiceImpl;
+import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.DateUtil;
 import com.xnx3.j2ee.bean.PermissionTree;
@@ -69,6 +70,37 @@ public class CustomRealm extends AuthorizingRealm {
     		
     		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
     				activeUser, md5Password,ByteSource.Util.bytes(user.getSalt()), this.getName());
+    		
+    		//获取当前的 sessionid
+    		Subject subject = SecurityUtils.getSubject();
+    		if(subject != null && subject.getSession() != null){
+    			String sessionid = (String) subject.getSession().getId();
+    			if(sessionid != null){
+    				//缓存的key
+    				String shiro_userid_key = CacheUtil.SHIRO_USERID.replace("{userid}", user.getId()+"");
+    				
+    				//将sessionid加入到这个用户的session id列表中。表示某个userid 有几个关联的已登录sessionid。因为一个用户可能会在多个浏览器登录，所以会有多个sessionid
+    				List<String> list = (List<String>) CacheUtil.get(shiro_userid_key);
+    				if(list == null){
+    					list = new ArrayList<String>();
+    				}
+    				//判断一下这个session id是否存在过了。理论上来说，刚登录，不可能存在过
+    				boolean find = false;	//默认是flase，也就是未发现这个sessionid存在
+    				for (int i = 0; i < list.size(); i++) {
+						String olds = list.get(i);
+						if(olds != null && olds.equals(sessionid)){
+							find = true;	//已发现，那么就没必要再保存到list中了
+							break;
+						}
+					}
+    				if(!find){
+    					//未发现，那么将新登录的sessionid增加入对应关系中
+    					list.add(sessionid);
+    					//缓存
+    					CacheUtil.set(shiro_userid_key, list);
+    				}
+    			}
+    		}
     		
     		return simpleAuthenticationInfo;
         }

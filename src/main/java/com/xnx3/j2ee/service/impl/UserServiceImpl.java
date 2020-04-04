@@ -30,6 +30,7 @@ import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
+import com.xnx3.j2ee.util.SessionUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -480,11 +481,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public void logout() {
-		Subject subject = SecurityUtils.getSubject();
-		if (subject.isAuthenticated()) {
-//			logDao.insert("USER_LOGOUT");
-			subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
-		}
+		SessionUtil.logout();
 	}
 
 

@@ -11,6 +11,11 @@ import java.util.Map;
  *
  */
 public class CacheUtil {
+	//关联 userid 跟当前用户登录之后的sessionid
+	public final static String SHIRO_USERID = "shiro:userid:{userid}";
+	//session在redis中缓存的key，如果使用了redis的话
+	public final static String SHIRO_SESSION = "shiro:session:{sessionid}";
+	
 	private static Map<String, Object> map;	//当不用redis时，缓存用
 	public static final int EXPIRETIME = 7*24*60*60;	//7天，默认过期时间
 	static{
@@ -94,5 +99,13 @@ public class CacheUtil {
 				map.remove(key);
 			}
 		}
+	}
+	
+	 /**
+     * 当前是否使用redis
+     * @return true:使用redis  false:不使用redis
+     */
+	public static boolean isUseRedis(){
+		return RedisUtil.isUse();
 	}
 }

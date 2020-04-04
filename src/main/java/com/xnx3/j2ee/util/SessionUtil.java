@@ -2,8 +2,9 @@ package com.xnx3.j2ee.util;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -11,12 +12,9 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-
 import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
-
-import net.sf.json.JSONObject;
 
 /**
  * session 操作
@@ -164,7 +162,7 @@ public class SessionUtil extends ShiroFunc{
 		}
 		//判断是存到redis中，还是本地服务器中
 		if(RedisUtil.isUse()){
-			Map map = null;
+			Map<String,Object> map = null;
 			Object obj = RedisUtil.getObject(REDIS_PLUGIN_MAP_NAME+user.getId());
 			if(obj == null){
 				map = new HashMap<String, Object>();
@@ -233,14 +231,40 @@ public class SessionUtil extends ShiroFunc{
 	}
 	
 	/**
-	 * 推出登录
+	 * 退出登录
 	 */
 	public static void logout(){
 		Subject subject = SecurityUtils.getSubject();
 		if (subject.isAuthenticated()) {
 			int userid = getUserId();
 			if(userid > 0){
-//				RedisUtil.delkeyObject(key);
+				//将 shiro:userid 中的关联删掉
+				
+				//缓存的key
+				String shiro_userid_key = CacheUtil.SHIRO_USERID.replace("{userid}", userid+"");
+				
+				//取当前的session id
+				String sessionid = null;
+				if(subject != null && subject.getSession() != null){
+	    			sessionid = (String) subject.getSession().getId();
+				}
+				
+				List<String> list = (List<String>) CacheUtil.get(shiro_userid_key);
+				if(list != null && sessionid != null){
+					Iterator<String> iterator = list.iterator();  
+			        while (iterator.hasNext()) {  
+			            String s = iterator.next();  
+			            if (sessionid.equals(s)) {  
+			                iterator.remove();//使用迭代器的删除方法删除  
+			            }
+			        }
+				}
+				//遍历完后，判断list是否还有值，如果没有了，那么直接将cache 的 key 删除
+				if(list.size() == 0){
+					CacheUtil.delete(shiro_userid_key);
+				}else{
+					CacheUtil.set(shiro_userid_key, list);
+				}
 			}
 			subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
 		}
@@ -260,37 +284,61 @@ public class SessionUtil extends ShiroFunc{
 	}
 	
 	/**
-	 * 清理掉当前登录用户的session，也就是根据某个用户id，删除这个用户的session，让这个用户下线
+	 * 清理掉当前登录用户的session，也就是根据某个用户id，删除这个用户的所有session，让这个用户下线
 	 * @param userid 对应User.id 要删除哪个用户的登录状态，就传入哪个用户的id
 	 */
 	public static void removeSession(int userid){
-		//获取shiro的sessionManager
-		DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-	    DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
-	    // 4.获取所有已登录用户的session列表
-	    Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();
-	 
-	    if (sessions.size() > 0) {
-	        for(Session onlineSession:sessions){
-	            // 清除当前用户以前登录时保存的session会话
-	        	
-	        	SimplePrincipalCollection principalCollection = (SimplePrincipalCollection) onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-	        	if(principalCollection == null){
-	        		continue;
-	        	}
-                Object obj = principalCollection.getPrimaryPrincipal();
-                if(obj == null){
-                	continue;
-                }
-        		ActiveUser activeUser = (ActiveUser)obj;
-        		User user= activeUser.getUser();
-        		if(user == null){
-        			continue;
-        		}
-    			if(user.getId() - userid == 0){
-    				sessionManager.getSessionDAO().delete(onlineSession);
-    			}
-	        }
-	    }
+		//判断是否使用了redis，如果使用了redis，那么session是已经存在于redis中的
+		if(CacheUtil.isUseRedis()){
+			//使用了redis
+			//获取这个userid所对应的sessionid
+			
+			String shiro_userid_key = CacheUtil.SHIRO_USERID.replace("{userid}", userid+"");	//缓存的key
+			
+			List<String> list = (List<String>) CacheUtil.get(shiro_userid_key);
+			if(list != null){
+				Iterator<String> iterator = list.iterator();
+		        while (iterator.hasNext()) {
+		            String s = iterator.next();
+		            if(s != null && s.length() > 0){
+		            	CacheUtil.delete(CacheUtil.SHIRO_SESSION.replace("{sessionid}", s));
+		            }
+		        }
+		        CacheUtil.delete(shiro_userid_key);
+			}
+			
+		}else{
+			//没有使用redis，那么session只是存在于服务器中
+			
+			//获取shiro的sessionManager
+			DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+		    DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
+		    // 4.获取所有已登录用户的session列表
+		    Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();
+		 
+		    if (sessions.size() > 0) {
+		        for(Session onlineSession:sessions){
+		            // 清除当前用户以前登录时保存的session会话
+		        	
+		        	SimplePrincipalCollection principalCollection = (SimplePrincipalCollection) onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+		        	if(principalCollection == null){
+		        		continue;
+		        	}
+	                Object obj = principalCollection.getPrimaryPrincipal();
+	                if(obj == null){
+	                	continue;
+	                }
+	        		ActiveUser activeUser = (ActiveUser)obj;
+	        		User user= activeUser.getUser();
+	        		if(user == null){
+	        			continue;
+	        		}
+	    			if(user.getId() - userid == 0){
+	    				sessionManager.getSessionDAO().delete(onlineSession);
+	    			}
+		        }
+		    }
+		}
+		
 	}
 }
