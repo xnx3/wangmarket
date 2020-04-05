@@ -65,8 +65,7 @@ public class InitLoadDomainByDB {
 			ss.setClient(map.get("client") != null? Lang.stringToInt(map.get("client").toString(), 1):1);
 			ss.setDomain(map.get("domain") != null? map.get("domain").toString():"");
 			ss.setId(map.get("id") != null? Lang.stringToInt(map.get("id").toString(), 0) : 0);
-			ss.setState((short) (map.get("state") == null ? Lang.stringToInt(map.get("state").toString(), 1) : 1));
-			
+			ss.setState((short) (map.get("state") == null ? 1:Lang.stringToInt(map.get("state").toString(), 1)));
 			Object templateIdObj = map.get("template_id");
 			int templateId = 0;
 			if(templateIdObj != null){
