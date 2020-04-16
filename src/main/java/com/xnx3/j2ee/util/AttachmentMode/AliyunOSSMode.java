@@ -120,4 +120,15 @@ public class AliyunOSSMode implements StorageModeInterface{
 		
 		return list;
 	}
+
+	@Override
+	public long getFileSize(String path) {
+		return OSSUtil.getOSSClient().getObjectMetadata(OSSUtil.bucketName, path).getContentLength();
+	}
+
+	@Override
+	public void createFolder(String path) {
+		// TODO Auto-generated method stub
+		OSSUtil.createFolder(path);
+	}
 }

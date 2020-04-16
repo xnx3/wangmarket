@@ -181,5 +181,20 @@ public class LocalServerMode implements StorageModeInterface{
 		
 		return list;
 	}
+
+	@Override
+	public long getFileSize(String path) {
+		File file = new File(AttachmentUtil.localFilePath+path);
+		if(!file.exists()){
+			//文件不存在
+			return -1;
+		}
+		return file.length();
+	}
+
+	@Override
+	public void createFolder(String path) {
+		directoryInit(path);
+	}
 	
 }

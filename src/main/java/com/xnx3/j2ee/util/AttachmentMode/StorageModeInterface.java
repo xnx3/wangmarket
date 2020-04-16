@@ -82,4 +82,17 @@ public interface StorageModeInterface {
 	 * @return 该目录下一级子文件（如果有文件夹，也包含文件夹）列表。如果size为0，则是没有子文件或文件夹。无论什么情况不会反null
 	 */
 	public List<SubFileBean> getSubFileList(String path);
+	
+	/**
+	 * 获取某个文件的大小，这个是文件，如果传入文件夹，是不起作用的，会返回-1，文件未发现
+	 * @param path 要获取的是哪个文件。传入如 site/219/1.html
+	 * @return 单位是 B， * 1000 = KB 。 如果返回-1，则是文件未发现，文件不存在
+	 */
+	public long getFileSize(String path);
+	
+	/**
+	 * 创建文件夹
+	 * @param path 要创建的文件路径，传入如 site/219/test/ 则是创建 test 文件夹
+	 */
+	public void createFolder(String path);
 }

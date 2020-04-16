@@ -167,5 +167,16 @@ public class HuaweiyunOBSMode implements StorageModeInterface{
 		
 		return list;
 	}
+
+	@Override
+	public long getFileSize(String path) {
+		getObsHander().getObsClient().getObjectMetadata(obsBucketName, path).getContentLength();
+		return 0;
+	}
+
+	@Override
+	public void createFolder(String path) {
+		getObsHander().mkdirFolder(obsBucketName, path);
+	}
 	
 }
