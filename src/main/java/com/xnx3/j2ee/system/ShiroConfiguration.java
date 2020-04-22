@@ -311,6 +311,10 @@ public class ShiroConfiguration {
     @Bean
     public RedisSessionDAO sessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+		// 设置用户的redis中的缓存有效期为200天
+		// 这样的话理论用户每200天会感受到一次掉线
+		// 肯定可以接受，避免用户过多登录造成缓存堆积，造成不必要的资源消耗
+		redisSessionDAO.setExpire(17280000);
         redisSessionDAO.setRedisManager(redisManager());
         //使用json序列化
 //        JsonRedisSerializer<Object> jsonRedisSerializer = new JsonRedisSerializer<Object>(Object.class);

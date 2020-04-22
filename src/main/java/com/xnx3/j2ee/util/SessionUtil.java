@@ -260,7 +260,7 @@ public class SessionUtil extends ShiroFunc{
 			        }
 				}
 				//遍历完后，判断list是否还有值，如果没有了，那么直接将cache 的 key 删除
-				if(list.size() == 0){
+				if(list == null || list.size() == 0){
 					CacheUtil.delete(shiro_userid_key);
 				}else{
 					CacheUtil.set(shiro_userid_key, list);
