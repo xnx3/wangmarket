@@ -10,14 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
-import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -26,6 +24,7 @@ import com.xnx3.wangmarket.domain.Log;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.pluginManage.interfaces.manage.DomainPluginManage;
+import com.xnx3.wangmarket.domain.util.GainSource;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
 
 /**
@@ -115,7 +114,7 @@ public class PublicController extends BaseController {
 				}
 			}
 			
-			String html = AttachmentUtil.getTextByPath("site/"+simpleSite.getId()+"/"+htmlFile);
+			String html = GainSource.get("site/"+simpleSite.getId()+"/"+htmlFile);
 			if(html == null){
 				//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
 				if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
@@ -230,7 +229,7 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "sitemap.xml", simpleSiteVO);
-			String sitemapXml = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			String sitemapXml = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
 			if(sitemapXml == null || sitemapXml.length() == 0){
 				return error404();
 			}else{
@@ -254,7 +253,7 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "robots.txt", simpleSiteVO);
-			String content = AttachmentUtil.getTextByPath("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
+			String content = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
 			if(content == null || content.length() == 0){
 				return error404();
 			}else{
