@@ -78,12 +78,13 @@ var msg = {
 	 * img 显示的图片或者svg
 	 */
 	show(text, img){
-		var wangmarket_loading_hengxiang = false;	//是否是横向显示
+		/** 是否是横向显示 **/
+		var wangmarket_loading_hengxiang = false;
 		if(text != null && text.length > 10){
 			wangmarket_loading_hengxiang = true;
 		}
 		
-		//显示前，如果还有其他正在显示的，将其都关掉
+		/** 显示前，如果还有其他正在显示的，将其都关掉 **/
 		this.close();
 		if(document.getElementsByTagName("body") != null && document.getElementsByTagName("body").length > 0){
 			var div=document.createElement("div");
