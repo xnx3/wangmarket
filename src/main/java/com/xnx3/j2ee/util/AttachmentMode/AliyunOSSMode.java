@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import com.aliyun.openservices.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.OSSObjectSummary;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.AttachmentMode.bean.SubFileBean;
 import com.xnx3.j2ee.vo.UploadFileVO;
@@ -107,16 +110,39 @@ public class AliyunOSSMode implements StorageModeInterface{
 		if(path == null || path.length() == 0){
 			return list;
 		}
+		Map<String, SubFileBean> subFolderMap = new HashMap<String, SubFileBean>(); //子文件夹，只是path这个目录的一级子文件夹
 		
 		List<OSSObjectSummary> subList = OSSUtil.getFolderObjectList(path);
 		for (int i = 0; i < subList.size(); i++) {
 			OSSObjectSummary sum = subList.get(i);
 			SubFileBean bean = new SubFileBean();
 			bean.setSize(sum.getSize());
-			bean.setPath(sum.getKey());
+			bean.setPath(sum.getKey().replace(path, ""));
 			bean.setLastModified(sum.getLastModified().getTime());
-			list.add(bean);
+			if(bean.getPath().indexOf("/") > 0){
+				//是目录形式，取出目录来
+				String folderName = StringUtil.subString(bean.getPath(), null, "/", 2);	//取出子文件夹的名字
+				if(subFolderMap.get(subFolderMap) == null){
+					//加入子文件夹map
+					bean.setPath(folderName);
+					bean.setFolder(true);
+					subFolderMap.put(folderName, bean);
+				}
+			}else if(bean.getPath().length() > 0){
+				//是文件,加入list
+				bean.setFolder(false);
+				list.add(bean);
+			}
 		}
+		
+		//将子文件夹取出来，加入list中
+		List<SubFileBean> folderList = new ArrayList<SubFileBean>();
+		for(Map.Entry<String, SubFileBean> entry : subFolderMap.entrySet()){
+			folderList.add(entry.getValue());
+		}
+		
+		//将文件list跟文件夹list合并，文件夹在上面
+		list.addAll(0, folderList);
 		
 		return list;
 	}
