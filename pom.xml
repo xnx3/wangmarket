@@ -165,12 +165,12 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 	    
-		<!-- 热部署 -->
-		<!-- <dependency>
+		<!-- 热部署,注意如果开启redis，要注释掉这个 -->
+		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <optional>true</optional>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
             <groupId>commons-configuration</groupId>
@@ -385,6 +385,13 @@
 	        <version>1.0</version>  
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3_tld.jar</systemPath>  
+	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.rabbitmq</groupId>  
+	        <artifactId>rabbitmq</artifactId>  
+	        <version>1.0</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/rabbitmq-1.0.jar</systemPath>
 	    </dependency>
 	    
 	    <!-- 一下三个是防xss -->

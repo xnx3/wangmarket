@@ -11,8 +11,6 @@ import com.xnx3.j2ee.util.mq.JavaMQUtil;
 import com.xnx3.j2ee.util.mq.MQReceive;
 import com.xnx3.j2ee.util.mq.RabbitUtil;
 
-import net.sf.json.JSONObject;
-
 /**
  * MQ 消息推送。
  * 消息推送有两种推送方式:
@@ -24,7 +22,6 @@ public class MQUtil {
 	public static boolean rabbitIsUse = false;	//是否启用rabbitmq，若是ture，则是启用，弱势false，则是不启用，用java本身模拟的
 	public static RabbitUtil rabbitUtil;
 	static{
-		rabbitUtil = new RabbitUtil();
 		String host = ApplicationPropertiesUtil.getProperty("spring.rabbitmq.host");
 		if(host == null){
 			rabbitIsUse = false;

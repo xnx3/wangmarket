@@ -55,7 +55,11 @@ public class DomainMQ {
 				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
 					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 						String content = new String(body, "UTF-8");
-						receiveDomainMQ.receive(content);
+						try {
+							receiveDomainMQ.receive(content);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 		            }
 				});
 			} catch (IOException e) {
