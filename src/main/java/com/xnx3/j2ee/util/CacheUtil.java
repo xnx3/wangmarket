@@ -71,6 +71,22 @@ public class CacheUtil {
 		}
 	}
 	
+
+	/**
+	 * 设置缓存。该值一年后过期自动删除掉
+	 * @param key 设置时，多个可以用英文字符:分隔开，就如 user:guanleiming   user:lixin  。同时杜绝一个key对应的value过大的情况！一个value尽可能不要超过10KB
+	 * @param value 缓存的值。坚决杜绝value过大，一个value尽可能不要超过10KB，如果太大，建议利用key进行拆分，如 key 为 user.1 存放用户编号为1的缓存信息
+	 */
+	public static void setYearCache(String key, Object value){
+		if(RedisUtil.isUse()){
+			//使用redis
+			RedisUtil.setObject(key, value, 365*24*60*60);
+		}else{
+			//使用 map
+			map.put(key, value);
+		}
+	}
+	
 	
 	
 	/**
