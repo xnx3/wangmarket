@@ -66,7 +66,7 @@
 			<!-- 这里的 onmouseenter 是为了避免下面的收费鼠标移开后，不变回来，所以这里又加了一个，如果下面的收费的霉变过来，鼠标移动过来后，收费的恢复回来 -->
 			<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE} -->
 			<div class="selectItem" onclick="mianfeiban();" onmouseenter="qiehuanshouquanyuanshi();">
-				<div class="title">免费版</div>
+				<div class="title">免费开源版</div>
 				<div class="intro">
 					<br/>服务器存储
 					<ul class="lilist"> 
@@ -84,11 +84,11 @@
 			<br/>
 			
 			<div class="selectItem" id="yun" onmouseenter="qiehuanshouquan();" onmouseleave="qiehuanshouquanyuanshi();" onclick="window.open('http://www.wang.market/price.html')">
-				<div class="title">收费版</div>
+				<div class="title">免费开源版</div>
 				<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_ALIYUN_OSS} -->
 			</div>
 			<div style="display:none;" id="weishouquanyun">
-				<div class="title">收费版</div>
+				<div class="title">收费企业版</div>
 				<div class="intro">
 					云端存储，无限扩展
 						<ul class="lilist"> 
@@ -103,11 +103,11 @@
 				</div>
 			</div>
 			<div style="display:none;" id="shouquanxinxi">
-				<div class="title">收费版</div>
+				<div class="title">收费企业版</div>
 				<div style="font-size: 38px;color: red;">
 					需我方授权！
 					<br/>
-					授权费用 ：500元/年、 或5000元永久
+					授权费用 ：5000元永久
 				</div>
 			</div>
 			
