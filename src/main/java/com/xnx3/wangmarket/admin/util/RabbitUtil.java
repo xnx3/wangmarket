@@ -51,8 +51,10 @@ public class RabbitUtil{
 
     public static void receive(String routingKey, Consumer consumer) throws IOException, TimeoutException{
     	// 当声明队列，不加任何参数，产生的将是一个临时队列，getQueue返回的是队列名称
-        String queue = rabbitUtil.getChannel().queueDeclare().getQueue();
-        ConsoleUtil.info("创建临时队列， routingKey："+routingKey+" , queue: "+queue);
+//        String queue = rabbitUtil.getChannel().queueDeclare().getQueue();
+    	String queue = "queue_"+Lang.uuid();
+        rabbitUtil.getChannel().queueDeclare(queue, true, false, false, null);
+        ConsoleUtil.info("创建队列， routingKey："+routingKey+" , queue: "+queue);
         rabbitUtil.getChannel().queueBind(queue, EXCHANGE_NAME, routingKey);
         rabbitUtil.getChannel().basicConsume(queue, true, consumer);
 	}
