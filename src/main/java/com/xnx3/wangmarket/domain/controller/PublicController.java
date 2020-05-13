@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.ApplicationProperties;
@@ -44,13 +46,19 @@ public class PublicController extends BaseController {
 	
 	/**
 	 * 域名捕获转发
-	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html
+	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html。 如果有传递这个参数，优先使用这个参数。如果这个参数没有转入值，那么取实际访问的路径文件
+	 * @param domain 访问的域名，传入如 help.wang.market 如果这个参数有值，则优先使用这个参数。如果这里没有传入值，那么取用户当前访问所使用的的域名
 	 * @param request 可get传入 domain 模拟访问的域名。可传入自己绑定的域名，也可传入二级域名。如domain=leiwen.wang.market
 	 */
 	@RequestMapping("*.html")
-	public String dns(HttpServletRequest request, HttpServletResponse response, Model model){
-		String htmlFile = request.getServletPath();
-		htmlFile = htmlFile.replace("/", "");	//将开头的 /去掉
+	public String dns(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
+		if(htmlFile.length() == 0){
+			htmlFile = request.getServletPath();
+			htmlFile = htmlFile.replace("/", "");	//将开头的 /去掉
+		}else{
+			htmlFile = htmlFile + ".html";
+		}
 		
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
