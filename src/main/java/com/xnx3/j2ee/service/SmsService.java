@@ -1,6 +1,8 @@
 package com.xnx3.j2ee.service;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.xnx3.SMSUtil;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.AliyunSMSUtil;
@@ -50,8 +52,9 @@ public interface SmsService {
 	
 	/**
 	 * 向指定手机号发送指定内容的验证码，内容里六位动态验证码用${code}表示
+	 * 短信参数配置，在 application.properties 的 sms.uid 、 sms.password
 	 * @param phone 发送至的手机号
-	 * @param content 发送的包含验证码的内容
+	 * @param content 发送的包含验证码的内容.内容里六位动态验证码用${code}表示
 	 * @param type 发送类型，位于 {@link SmsLog}，以下几个数已使用,可从10以后开始用。此会计入 {@link SmsLog}.type数据字段
 	 * 				<ul>
 	 * 					<li>1:{@link SmsLog#TYPE_LOGIN}登录 </li>
@@ -98,6 +101,7 @@ public interface SmsService {
 	 * 				<li>若result = SUCCESS，则info为六位数动态验证码code</li>
 	 * 				<li>若result = FAIULRE，则不允许发送短信验证，效验失败，发送达到当日的上限</li>
 	 * 			</ul>
+	 * @deprecated 请使用 {@link #sendSms(HttpServletRequest, String, String, Short)}
 	 */
 	public BaseVO sendByAliyunSMS(HttpServletRequest request, AliyunSMSUtil aliyunSMSUtil, String signName,String templateCode, String phone, Short type);
 	
@@ -119,7 +123,23 @@ public interface SmsService {
 	 * 				<li>若result = SUCCESS，则发送成功（华为云短信接口返回的成功，至于真的能不能到手机，还会涉及到手机号是否真的存在、用户开机没，这就不是我们管的了）</li>
 	 * 				<li>若result = FAIULRE，则是发送失败，可能是不允许发送短信验证，效验失败，发送达到当日的上限等</li>
 	 * 			</ul>
+	 * @deprecated 请使用 {@link #sendSms(HttpServletRequest, String, String, Short)}
 	 */
 	public BaseVO sendByHuaweiSMS(HttpServletRequest request, HuaweiSMSUtil huaweiSMSUtil, String templateId, String phone, Short type);
-
+	
+	/**
+	 * 判断当前是否开启了短信发送服务，配置了短信接口
+	 * @return true:开启短信发送服务； false:未开启短信发送
+	 */
+	public boolean useSMS();
+	
+	/**
+	 * 获取自己当前的短信余额，短信还剩多少条
+	 * @return 其中 {@link BaseVO#getResult()} 为执行状态，是否成功
+	 * 		<ul>
+	 *	 		<li>{@link BaseVO#SUCCESS} 	：失败,可以通过 {@link BaseVO#getInfo()} 获得失败原因 </li>
+	 * 			<li>{@link BaseVO#FAILURE} 	：成功,可以通过 {@link BaseVO#getInfo()} 获得短信剩余条数</li>
+	 * 		</ul>
+	 */
+	public BaseVO getBalance();
 }

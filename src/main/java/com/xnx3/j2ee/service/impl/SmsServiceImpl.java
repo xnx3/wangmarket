@@ -10,10 +10,12 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import com.xnx3.DateUtil;
+import com.xnx3.Lang;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.entity.SmsLog;
 import com.xnx3.j2ee.service.SmsService;
+import com.xnx3.j2ee.util.ApplicationPropertiesUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
@@ -30,6 +32,15 @@ import com.xnx3.net.SMSUtil;
  */
 @Service
 public class SmsServiceImpl implements SmsService {
+	public static com.xnx3.SMSUtil smsUtil;
+	static{
+		String uid = ApplicationPropertiesUtil.getProperty("sms.uid");
+		String password = ApplicationPropertiesUtil.getProperty("sms.password");
+		if(uid != null && password != null){
+			int intUid = Lang.stringToInt(uid, 0);
+			smsUtil = new com.xnx3.SMSUtil(intUid, password);
+		}
+	}
 	
 	@Resource
 	private SqlDAO sqlDAO;
@@ -78,11 +89,16 @@ public class SmsServiceImpl implements SmsService {
 		BaseVO baseVO = sendSMS(request, phone, type);
 		if(baseVO.getResult() - BaseVO.SUCCESS == 0){
 			//发送短信
-			String result = SMSUtil.send(phone, content.replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
-			if(result == null){
-				baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("sms_codeSendYourPhoneSuccess"));
+			if(smsUtil != null){
+				com.xnx3.BaseVO vo = smsUtil.send(phone, content.replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
+				baseVO.setBaseVO(vo);
 			}else{
-				baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure")+"-"+result);
+				String result = SMSUtil.send(phone, content.replaceAll("\\$\\{code\\}", baseVO.getInfo()+""));
+				if(result == null){
+					baseVO.setBaseVO(BaseVO.SUCCESS, LanguageUtil.show("sms_codeSendYourPhoneSuccess"));
+				}else{
+					baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("sms_saveFailure")+"-"+result);
+				}
 			}
 		}
 		return baseVO;
@@ -264,4 +280,21 @@ public class SmsServiceImpl implements SmsService {
 		}
 		return baseVO;
 	}
+
+	@Override
+	public boolean useSMS() {
+		return smsUtil != null;
+	}
+
+	@Override
+	public BaseVO getBalance() {
+		if(smsUtil == null){
+			return BaseVO.failure("未配置短信通道");
+		}
+		com.xnx3.BaseVO bvo = smsUtil.getBalance();
+		BaseVO vo = new BaseVO();
+		vo.setBaseVO(bvo);
+		return vo;
+	}
+	
 }
