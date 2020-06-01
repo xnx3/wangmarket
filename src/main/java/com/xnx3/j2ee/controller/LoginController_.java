@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.ActionLogUtil;
+import com.xnx3.j2ee.util.SessionUtil;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -105,6 +107,17 @@ public class LoginController_ extends BaseController {
 			
 			return vo;
 		}
+	}
+	
+	
+	/**
+	 * 退出登录状态
+	 */
+	@RequestMapping(value="logout${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO logout(HttpServletRequest request,Model model){
+		SessionUtil.logout();
+		return success();
 	}
 	
 }
