@@ -27,14 +27,19 @@ public class LoadTemplateByDataBase {
 				ConsoleUtil.info("start database template refresh thread.");
 				while(true){
 					try {
+						//避免出问题中断
+						load();
+						
 						//一天同步一次
 						Thread.sleep(1000 * 60 * 60 * 24);
-						
-						//避免出问题中断
-						//将load() 放到sleep下面，避免出现异常，走了cache，导致死循环，从而使  catalina.out 沾满整个磁盘
-						load();
 					} catch (Exception e) {
 						e.printStackTrace();
+
+						//避免出现异常，走了cache，导致死循环，从而使  catalina.out 沾满整个磁盘
+						try {
+							Thread.sleep(1000 * 60);	//延迟1分钟
+						} catch (InterruptedException e1) {
+						}
 					}
 				}
 			}
@@ -55,6 +60,7 @@ public class LoadTemplateByDataBase {
 		List<Template> list = SpringUtil.getSqlService().findByProperty(Template.class, "iscommon", Template.ISCOMMON_YES);
 		if(list.size() == 0){
 			//如果没有取出数据，那么就不用执行下面的了
+			ConsoleUtil.log("LoadTemplateByDataBase Finish , not find local Template");
 			return;
 		}
 		
