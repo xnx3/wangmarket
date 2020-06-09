@@ -100,9 +100,8 @@ public class UserServiceImpl implements UserService{
 					return baseVO;
 				}
 				
-				user.setLasttime(DateUtil.timeForUnix10());
-				user.setLastip(IpUtil.getIpAddress(request));
-				sqlDAO.save(user);
+				String ip = SafetyUtil.filter(IpUtil.getIpAddress(request));
+				sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
 				
 				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
 		        token.setRememberMe(false);
@@ -141,10 +140,10 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO reg(User user, HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		user.setEmail(SafetyUtil.filter(user.getEmail()));
-		user.setNickname(SafetyUtil.filter(user.getNickname()));
-		user.setPhone(SafetyUtil.filter(user.getPhone()));
-		user.setUsername(SafetyUtil.filter(user.getUsername()));
+		user.setEmail(SafetyUtil.xssFilter(user.getEmail()));
+		user.setNickname(SafetyUtil.xssFilter(user.getNickname()));
+		user.setPhone(SafetyUtil.xssFilter(user.getPhone()));
+		user.setUsername(SafetyUtil.xssFilter(user.getUsername()));
 		if(user.getNickname() == null || user.getNickname().equals("")){
 			user.setNickname(user.getUsername());
 		}
@@ -312,7 +311,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhoneAndCode(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = SafetyUtil.filter(request.getParameter("phone"));
+		String phone = SafetyUtil.xssFilter(request.getParameter("phone"));
 		String code = SafetyUtil.filter(request.getParameter("code"));
 		if(phone==null || phone.length() != 11){
 			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_loginByPhoneAndCodePhoneFailure"));
@@ -419,7 +418,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	public BaseVO loginByPhone(HttpServletRequest request) {
 		BaseVO baseVO = new BaseVO();
-		String phone = SafetyUtil.filter(request.getParameter("phone"));
+		String phone = SafetyUtil.xssFilter(request.getParameter("phone"));
 		if(phone==null){
 			baseVO.setBaseVO(BaseVO.FAILURE, LanguageUtil.show("user_loginByPhonePhoneFailure"));
 			return baseVO;
@@ -452,10 +451,8 @@ public class UserServiceImpl implements UserService{
 		ConsoleUtil.debug("检验此用户状态是否正常，是否被冻结，未冻结，正常");
 		
 		/*******更改User状态******/
-		user.setLasttime(DateUtil.timeForUnix10());
-		user.setLastip(IpUtil.getIpAddress(request));
-		sqlDAO.save(user);
-		ConsoleUtil.debug("更新User状态，更新后的User为："+user);
+		ip = SafetyUtil.filter(ip);
+		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);
@@ -730,11 +727,9 @@ public class UserServiceImpl implements UserService{
 			return baseVO;
 		}
 		
-		/*******更改User状态******/
-		user.setLasttime(DateUtil.timeForUnix10());
-		user.setLastip(IpUtil.getIpAddress(request));
-		sqlDAO.save(user);
-		ConsoleUtil.debug("设置指定userId为登陆用户，设置后得User："+user);
+		/*******更改User最后一次登录的ip、登录时间******/
+		String ip = SafetyUtil.filter(IpUtil.getIpAddress(request));
+		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);
@@ -778,8 +773,8 @@ public class UserServiceImpl implements UserService{
 
 	public BaseVO createUser(User user, HttpServletRequest request) {
 		//用户名、密码进行xss、sql防注入
-		user.setUsername(SafetyUtil.filter(user.getUsername()));
-		user.setPassword(SafetyUtil.filter(user.getPassword()));
+		user.setUsername(SafetyUtil.xssFilter(user.getUsername()));
+		user.setPassword(user.getPassword());
 		
 		//既然是注册新用户，那么用户名、密码一定是不能为空的
 		if(user.getUsername()==null||user.getUsername().equals("")){
