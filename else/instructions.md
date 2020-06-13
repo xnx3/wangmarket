@@ -4,7 +4,7 @@
 ### 1.参照 README.md 文件中的“[极速体验步骤](https://github.com/xnx3/wangmarket/blob/master/README.md#项目极速搭建体验步骤)”搭建起来<br/>
 
 ### 2.配置及创建日志服务
-日志服务主要用来记录用户登录后台的动作、网站的访问、IM客服会话的内容记录等。<br/>
+日志服务主要用来记录用户登录后台的动作、网站的访问等。<br/>
 ##### 2.1 配置 /src/systemConfig.xml 文件<br/>
 将其中的 log.logService.use 设置为 true ,便是开启日志服务的使用<br/>
 
