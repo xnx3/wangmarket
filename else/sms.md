@@ -1,7 +1,7 @@
 # 短信配置
 
 开通短信通道，可用于比如手机号自助开通网站等场景。
-短信收费：  [http://sms.leimingyun.com](sms.leimingyun.com)
+短信收费：  [sms.leimingyun.com](http://sms.leimingyun.com)
 开通联系 微信:xnx3com   QQ:921153866
 
 ## 配置方式
