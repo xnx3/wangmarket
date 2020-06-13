@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService{
 				}
 				
 				String ip = SafetyUtil.filter(IpUtil.getIpAddress(request));
-				sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
+				sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = '"+ip+"' WHERE id = "+user.getId());
 				
 				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
 		        token.setRememberMe(false);
@@ -452,7 +452,7 @@ public class UserServiceImpl implements UserService{
 		
 		/*******更改User状态******/
 		ip = SafetyUtil.filter(ip);
-		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
+		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = '"+ip+"' WHERE id = "+user.getId());
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);
@@ -729,7 +729,7 @@ public class UserServiceImpl implements UserService{
 		
 		/*******更改User最后一次登录的ip、登录时间******/
 		String ip = SafetyUtil.filter(IpUtil.getIpAddress(request));
-		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = "+ip+" WHERE id = "+user.getId());
+		sqlDAO.executeSql("UPDATE user SET lasttime = "+DateUtil.timeForUnix10()+", lastip = '"+ip+"' WHERE id = "+user.getId());
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getUsername());
         token.setRememberMe(false);

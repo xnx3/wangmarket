@@ -21,6 +21,8 @@ import com.obs.services.model.ObsObject;
 import com.obs.services.model.PutObjectResult;
 import com.obs.services.model.S3Bucket;
 import com.obs.services.model.StorageClassEnum;
+import com.xnx3.StringUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.vo.UploadFileVO;
 
 /**
@@ -32,7 +34,7 @@ public class OBSHandler {
 	
 	private String accessKeyId;// 华为云的 Access Key Id
 	private String accessKeySecret;// 华为云的 Access Key Secret
-	private String endpoint; // 华为云连接的地址节点
+	public String endpoint; // 华为云连接的地址节点
 	
 	private String obsBucketName; // 创建的桶的名称
 	private String url; // 访问OBS文件的url
@@ -302,6 +304,13 @@ public class OBSHandler {
 	 * @return 新创建的桶的名字
 	 */
 	public String createOBSBucket(String obsBucketName) {
+		if(this.endpoint == null || this.endpoint.length() == 0){
+			ConsoleUtil.error("error ! obs endpoint is null");
+			return "endpoint is null";
+		}
+		String location = StringUtil.subString(this.endpoint, "obs.", ".myhuaweicloud.com");
+		ConsoleUtil.log("setLocation : "+location);
+				
 		// 将桶的名字进行保存
 		this.obsBucketName = obsBucketName;
 		ObsBucket obsBucket = new ObsBucket();
@@ -310,6 +319,7 @@ public class OBSHandler {
 		obsBucket.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
 		// 设置桶的存储类型为标准存储
 		obsBucket.setBucketStorageClass(StorageClassEnum.STANDARD);
+		obsBucket.setLocation(location);
 		// 创建桶
 		getObsClient().createBucket(obsBucket);
 		//设置桶策略
