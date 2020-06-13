@@ -279,7 +279,13 @@ public class OBSHandler {
 	 * @return 桶原生的访问前缀，即不经过CDN加速的访问路径
 	 */
 	public String getOriginalUrlForOBS() {
-		return "//" + obsBucketName + "." + endpoint.substring(8, endpoint.length()) + "/";
+		String endpoint_ = "";
+		if(this.endpoint.indexOf("https://") > -1){
+			endpoint_ = this.endpoint.substring(8, this.endpoint.length());
+		}else{
+			endpoint_ = this.endpoint;
+		}
+		return "//" + obsBucketName + "." + endpoint_ + "/";
 	}
 	
 	/**
