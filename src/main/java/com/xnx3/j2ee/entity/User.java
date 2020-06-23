@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements java.io.Serializable{
 	
 	private Integer id;		//用户id
 	private String username;	//用户名，限制40字符
