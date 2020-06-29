@@ -13,9 +13,9 @@
 | ------------- |-------------|-------------|
 | 网市场官网 | [www.wang.market](http://www.leimingyun.com) | 潍坊雷鸣云网络科技有限公司 |
 | 功能插件 | [www.leimingyun.com/plugin.html](https://www.leimingyun.com/plugin.html) | 十多个功能插件，持续增加中 |
-| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 七十多个模版，持续增加中 |
+| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 百多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
-| 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 技术人员出租1天300元 |
+| 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 网站技术人员租用1天300元 |
 | 系统授权 | [www.wang.market/price.html](https://www.leimingyun.com/price.html) | 拥有更好的服务，帮安装、使用指导 |
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
@@ -79,18 +79,11 @@ Eclipse、MyEclipse <br/>
 参考视频：https://pan.baidu.com/s/1vhmGlr9lhhx7dmjMJBhckQ   
 这个是 wangmarket 开发视频，包含从 gitee 导入 eclipse，以及运行起来后登陆登陆的步骤演示。
 
-## 优秀合作项目推荐
-| 项目 | 码云地址 | 简介 |
-| ------------- |-------------|-------------|
-| xnx3 | [gitee.com/xnx3/xnx3](https://gitee.com/xnx3/xnx3) | Java常用工具类 |
-| Coody Framework | [gitee.com/coodyer/coody-icop](https://gitee.com/coodyer/coody-icop) | 国产分布式IOC框架、已实现IOC、AOP、定时任务、切面缓存、<br/>MVC、事务管理 |
-
-
 
 ## 云端模版库<br/>
 你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
 我们附带有 [云端模版库，点此查看](http://wang.market/template.do)<br/>
-虽然模版不多只有不到30套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。<br/>
+虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。<br/>
 [所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
 <br/>

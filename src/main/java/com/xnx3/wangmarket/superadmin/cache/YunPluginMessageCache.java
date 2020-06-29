@@ -53,6 +53,12 @@ public class YunPluginMessageCache {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					try {
+						//延迟1分钟，避免异常，沾满磁盘
+						Thread.sleep(60 * 1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
 				}
 			}
 		}).start();;
@@ -77,6 +83,7 @@ public class YunPluginMessageCache {
 			return false;
 		}
 		String content = StringUtil.utf8ToString(response.getContent());
+		System.out.println(content);
 		// 对请求获得信息进行封装
 		JSONObject contentJsonObject = JSONObject.fromObject(content);
 		if(contentJsonObject.getInt("result") == 0) {
