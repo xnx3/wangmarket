@@ -40,10 +40,25 @@ public interface SqlCacheService {
 	 */
 	public <E> E findAloneByProperty(Class<E> entity,String propertyName, Object value);
 	
+
+	/**
+	 * 根据字段名查一条值，取一条记录。
+	 * 1. value会自动进行sql注入过滤
+	 * 2. 会先从缓存中取，如果缓存中没有，再从mysql中取。取出来如果有值，放入缓存
+	 * 3. 如果获取的信息没有，也就是0条，那么不会进行缓存。只有获取到的信息大于0条，也就是有数据时，才会缓存
+	 * 4. 强烈建议不要缓存条数超过30条的数据
+	 * @param entity {@link Class} 实体类，如 {@link User}.class
+	 * @param propertyName 数据表字段名(Hibernate 语句的字段名，驼峰命名,非数据库的字段名)
+	 * @param value 值
+	 * @return list 。如果查询不到记录，返回 new ArrayList(); ，size 是 0
+	 */
+	public <E> List<E> findByProperty(Class<E> entity,String propertyName, Object value);
+	
+	
 	/**
 	 * 删除缓存的记录。这里只是删除缓存的记录而已，并不会影响mysql表的信息。
 	 * 可以用来作为更新缓存使用。
-	 * 这里删除的缓存，是 {@link #findAloneByProperty(Class, String, Object)} 中产生的缓存数据
+	 * 这里删除的缓存，是 {@link #findAloneByProperty(Class, String, Object)} 跟 {@link #findByProperty(Class, String, Object)} 中产生的缓存数据
 	 * @param entity {@link Class} 实体类，如 {@link User}.class
 	 * @param propertyName 数据表字段名(Hibernate 语句的字段名，驼峰命名,非数据库的字段名)
 	 * @param value 值

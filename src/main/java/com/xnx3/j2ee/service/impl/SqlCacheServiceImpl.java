@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.service.SqlCacheService;
 import com.xnx3.j2ee.util.CacheUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 
 @Service("sqlCacheService")
 public class SqlCacheServiceImpl implements SqlCacheService {
 	//通过主键查询出来的实体类信息的缓存key， {entity}实体类的名字，如 user    {id}主键的内容，如 1
 	public static final String CACHE_KEY_BY_ID  = "sql:{entity}:id:{id}";
+	//通过指定字段查询出来的实体类信息的缓存key， {entity}实体类的名字，如 user   {property} 实体类中驼峰字段的名字，如 username   {value}查询的字段的值，如 1
+	public static final String CACHE_KEY_BY_PROPERTY_ALONE  = "sql:{entity}:{property}:{value}:alone";
 	//通过指定字段查询出来的实体类信息的缓存key， {entity}实体类的名字，如 user   {property} 实体类中驼峰字段的名字，如 username   {value}查询的字段的值，如 1
 	public static final String CACHE_KEY_BY_PROPERTY  = "sql:{entity}:{property}:{value}";
 	//通过制定表table、where条件，来缓存。 {where} 查询条件
@@ -53,7 +56,7 @@ public class SqlCacheServiceImpl implements SqlCacheService {
 
 	@Override
 	public <E> E findAloneByProperty(Class<E> entity, String propertyName, Object value) {
-		String key = CACHE_KEY_BY_PROPERTY.replace("{entity}", entity.getName()).replace("{property}", propertyName).replace("{value}", value.toString());
+		String key = CACHE_KEY_BY_PROPERTY_ALONE.replace("{entity}", entity.getName()).replace("{property}", propertyName).replace("{value}", value.toString());
 		//先从缓存中取，看缓存中有没有
 		E e = (E) CacheUtil.get(key);
 		if(e == null){
@@ -68,8 +71,13 @@ public class SqlCacheServiceImpl implements SqlCacheService {
 
 	@Override
 	public void deleteCacheByProperty(Class entity, String propertyName, Object value) {
+		//删除list
 		String key = CACHE_KEY_BY_PROPERTY.replace("{entity}", entity.getName()).replace("{property}", propertyName).replace("{value}", value.toString());
 		CacheUtil.delete(key);
+		
+		//删除单个实体类的
+		String aloneKey = CACHE_KEY_BY_PROPERTY_ALONE.replace("{entity}", entity.getName()).replace("{property}", propertyName).replace("{value}", value.toString());
+		CacheUtil.delete(aloneKey);
 	}
 
 	@Override
@@ -106,5 +114,20 @@ public class SqlCacheServiceImpl implements SqlCacheService {
 				.replaceAll("'", "")
 				.replaceAll("\\s+", "");
 		return key_where;
+	}
+
+	@Override
+	public <E> List<E> findByProperty(Class<E> entity, String propertyName, Object value) {
+		String key = CACHE_KEY_BY_PROPERTY.replace("{entity}", entity.getName()).replace("{property}", propertyName).replace("{value}", value.toString());
+		//先从缓存中取，看缓存中有没有
+		List<E> list = (List<E>) CacheUtil.get(key);
+		if(list == null){
+			//缓存中没有，那么从mysql中读
+			list = (List<E>) sqlDAO.findByProperty(entity, propertyName, value);
+			if(list != null && list.size() > 0){
+				CacheUtil.setYearCache(key, list);
+			}
+		}
+		return list;
 	} 
 }
