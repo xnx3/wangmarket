@@ -31,7 +31,19 @@ public class AutoLoadSimpleSitePluginTableDatePluginManage {
 			ConsoleUtil.info("装载 AutoLoadSimpleSitePluginTableDate 插件："+classList.get(i).getName());
 		}
 		
-		execute();
+		new Thread(new Runnable() {
+			public void run() {
+				while(SpringUtil.getApplicationContext() == null){
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				//当 SpringUtil 被Spring 加载后才会执行
+				execute();
+			}
+		}).start();
 	}
 	
 	/**
