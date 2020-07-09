@@ -513,15 +513,6 @@ CREATE TABLE `site_size_change` (
   KEY `site_size_change` (`site_size_change`,`addtime`,`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='站币变动日志记录表。站币变动日志由阿里云日志服务跟此表共同记录';
 
--- ----------------------------
---  Table structure for `site_user`
--- ----------------------------
-DROP TABLE IF EXISTS `site_user`;
-CREATE TABLE `site_user` (
-  `userid` int(11) NOT NULL,
-  `siteid` int(11) DEFAULT NULL COMMENT 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id',
-  PRIMARY KEY (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 --  Table structure for `sms_log`

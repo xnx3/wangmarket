@@ -417,6 +417,13 @@
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm.jar</systemPath>  
 	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.cache</groupId>  
+	        <artifactId>xnx3-cache</artifactId>  
+	        <version>1.0</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-cache-1.0.jar</systemPath>  
+	    </dependency>
 		<!-- iw end --> 
        
    </dependencies>  
