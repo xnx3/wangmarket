@@ -375,9 +375,9 @@
 	    <dependency> 
 	        <groupId>com.xnx3.weixin</groupId>  
 	        <artifactId>xnx3-weixin</artifactId>  
-	        <version>1.1</version>  
+	        <version>1.2</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-weixin-1.1.jar</systemPath>
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-weixin-1.2.jar</systemPath>
 	    </dependency>
 	  	<dependency> 
 	        <groupId>com.xnx3.tld</groupId>  
