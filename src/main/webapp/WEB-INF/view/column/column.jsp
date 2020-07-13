@@ -87,7 +87,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	});
 	
 	form.on('submit(demo1)', function(data){
-		$.showLoading('保存中...');
+		parent.msg.loading('保存中');
 	
 		//创建FormData对象，获取到form表单的相关数据
 		var formobj =  document.getElementById("form");
@@ -105,12 +105,12 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        contentType: false,    //不可缺
 	        processData: false,    //不可缺
 	        success:function(data){
-	        	$.hideLoading();
+	        	parent.msg.close();
 	            if(data.result=='0'){
 	            	alert(data.info);
 	            }else{
 	            	//上传成功
-	            	layer.msg('上传成功');
+	            	parent.msg.success('上传成功');
 	            	parent.location.reload();	//刷新父窗口
         			parent.layer.close(index);
 	            }

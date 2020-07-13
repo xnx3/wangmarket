@@ -150,10 +150,11 @@ layui.upload.render({
 	,exts: 'wscso|xnx3'
 	,title :'加载本地模版'
 	,before: function(input){
-		$.showLoading('载入中');
+		//$.showLoading('');
+		parent.msg.loading('载入中');
 	}
 	,done: function(res){
-		$.hideLoading();
+		parent.msg.close();
 	    //上传成功返回值，必须为json格式
 	    if(res.result == '1'){
 	    	templateComparePreview();
@@ -167,9 +168,9 @@ layui.upload.render({
 
 //加载云端模版，触发选中云端模版还原
 function getCloudTemplate(){
-	msg.loading("获取中");
+	parent.msg.loading("获取中");
 	$.post('/template/restoreTemplateByRemote.do', function(data){
-		msg.close();
+		parent.msg.close();
 		if(data.result == '1'){
 			templateComparePreview();
 	 	}else if(data.result == '0'){

@@ -48,6 +48,11 @@ layui.use('layer', function(){
 <!-- order by 列表的排序 -->
 <script src="${STATIC_RESOURCE_PATH}js/iw.js"></script>
 
+<!-- 已废弃的，下个版本要删掉 -->
+<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js" type="text/javascript"></script>
+<link href="${STATIC_RESOURCE_PATH}css/weui.min.css" rel="stylesheet" type="text/css">	
+<link href="${STATIC_RESOURCE_PATH}css/jquery-weui.css" rel="stylesheet" type="text/css">	
+	
 <style>
 
 /*列表页头部form搜索框*/

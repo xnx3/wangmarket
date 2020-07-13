@@ -55,17 +55,17 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('栏目保存中');
+  	  parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/column/popupColumnUpdateSubmit.do", d, function (result) { 
-        	$.hideLoading();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.layer.msg('操作成功', {shade: 0.3});
+        		parent.msg.success('保存成功');
         	}else if(obj.result == '0'){
-        		parent.layer.msg(obj.info, {shade: 0.3})
+        		parent.msg.failure(obj.info);
         	}else{
-        		parent.layer.msg(result, {shade: 0.3})
+        		parent.msg.failure(result);
         	}
         	parent.layer.close(index);
          }, "text");
