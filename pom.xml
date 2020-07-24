@@ -166,11 +166,11 @@
 		</dependency>
 	    
 		<!-- 热部署,注意如果开启redis，要注释掉这个 -->
-		<!-- <dependency>
+		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <optional>true</optional>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
             <groupId>commons-configuration</groupId>
@@ -345,11 +345,11 @@
 		</dependency>
 		
 		<!-- xnx3-util -->
-		<dependency>
+		<!-- <dependency>
 		 	<groupId>com.xnx3.util</groupId>
 			<artifactId>xnx3-util</artifactId>
 			<version>1.1.2</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 		  <groupId>com.xnx3.json</groupId>
 		  <artifactId>json</artifactId>
@@ -413,16 +413,23 @@
 	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>1.0</version>  
+	        <version>1.0.1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.0.1.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  
 	        <artifactId>xnx3-cache</artifactId>  
 	        <version>1.0</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-cache-1.0.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-cache-1.1.jar</systemPath>  
+	    </dependency>
+	    <dependency> 
+	        <groupId>com.xnx3.util</groupId>
+			<artifactId>xnx3-util</artifactId>
+	        <version>1.1.3</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.1.3.jar</systemPath>  
 	    </dependency>
 		<!-- iw end --> 
        

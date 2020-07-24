@@ -25,14 +25,6 @@ public class WMConfig {
 		return new ApiServiceImpl();
 	}
 	@Bean
-	public CollectService collectService(){
-		return new CollectServiceImpl();
-	}
-	@Bean
-	public MessageService messageService(){
-		return new MessageServiceImpl();
-	}
-	@Bean
 	public RoleService roleService(){
 		return new RoleServiceImpl();
 	}
