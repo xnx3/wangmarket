@@ -86,7 +86,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 function selectColumn(targetColumnId){
 	msg.loading("转移中");
 	$.post("/news/newsChangeColumnForSelectColumnSubmit.do?newsid=${newsid}&targetColumnId="+targetColumnId, function(data){
-		iw.loadClose();
+		msg.close();
 		if(data.result == '1'){
 			parent.msg.success("转移成功");
        		parent.location.reload();	//刷新父窗口

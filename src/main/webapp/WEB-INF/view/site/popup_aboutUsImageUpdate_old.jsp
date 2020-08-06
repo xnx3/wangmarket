@@ -29,15 +29,15 @@ layui.use('upload', function(){
 		exts: 'jpg|gif|png|jpeg|bmp', //那么，就只会支持这三种格式的上传。注意是用|分割。
 		before: function(input){
 			//返回的参数item，即为当前的input DOM对象
-			$.showLoading('图片上传中');
+			msg.loading('图片上传中');
 		},
 		done: function(res, input){
-			$.hideLoading();
+			msg.close();
 			parent.layer.msg('上传成功', {shade: 0.2});
 			parent.location.reload();
 		},
 		error: function(res, input){
-			$.hideLoading();
+			msg.close();
 			parent.layer.msg('上传失败！', {shade: 0.2});
 			parent.layer.close(index);
 		}

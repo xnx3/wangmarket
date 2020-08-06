@@ -83,11 +83,11 @@
 			  btn: ['确认','取消'] //按钮
 			}, function(){
 				layer.close(dtp_confirm);
-				parent.iw.loading("升级中");    //显示“操作中”的等待提示
+				parent.msg.loading("升级中");    //显示“操作中”的等待提示
 				$.post('/plugin/pluginManage/upgradePlugin.do',{"plugin_id" : pluginId, "version" : version }, function(data){
-				    parent.iw.loadClose();    //关闭“操作中”的等待提示
+				    parent.msg.close();    //关闭“操作中”的等待提示
 				    if(data.result == 1){
-				        parent.iw.msgSuccess('升级成功');
+				        parent.msg.success('升级成功');
 				        
 				        var aler = layer.alert('升级成功。重新Tomcat服务后生效，请稍后重试。<span style="color:red;">注：windows系统tomcat环境下需要手动启动tomcat。</span>', {
 						  skin: 'layui-layer-molv' //样式类名
@@ -96,7 +96,7 @@
 							// 关闭弹窗
 							layer.close(aler);
 							// 重启服务器
-							parent.iw.loading("重启中,此过程大约1分钟左右");
+							parent.msg.loading("重启中,此过程大约1分钟左右");
 							$.ajax({
 								url:'/plugin/pluginManage/restart.do',
 						        type:'POST',
@@ -116,9 +116,9 @@
 				        
 				        //window.location.reload();	//刷新当前页
 				     }else if(data.result == '0'){
-				         parent.iw.msgFailure(data.info);
+				         parent.msg.failure(data.info);
 				     }else{
-				         parent.iw.msgFailure();
+				         parent.msg.failure();
 				     }
 				});
 			}, function(){
@@ -131,16 +131,16 @@
 			  btn: ['确认','取消'] //按钮
 			}, function(){
 				layer.close(dtp_confirm);
-				parent.iw.loading("卸载中");    //显示“操作中”的等待提示
+				parent.msg.loading("卸载中");    //显示“操作中”的等待提示
 				$.post('/plugin/pluginManage/unIstallPlugin.do?plugin_id=' + pluginId, function(data){
-				    parent.iw.loadClose();    //关闭“操作中”的等待提示
+				    parent.msg.close();    //关闭“操作中”的等待提示
 				    if(data.result == '1'){
-				        parent.iw.msgSuccess('卸载成功');
+				        parent.msg.success('卸载成功');
 				        parent.parent.loadUrl('/plugin/pluginManage/index.do')
 				     }else if(data.result == '0'){
-				         parent.iw.msgFailure(data.info);
+				         parent.msg.failure(data.info);
 				     }else{
-				         parent.iw.msgFailure();
+				         parent.msg.failure();
 				     }
 				});
 			}, function(){
@@ -157,7 +157,7 @@ function revisit(){
         processData: false,    //不可缺
         success:function(data){
         	if(data != null && data != '' && data != undefined){
-        		parent.iw.loadClose();
+        		parent.msg.close();
         		parent.parent.window.location.reload();
 		    }
         },

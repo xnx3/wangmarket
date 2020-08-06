@@ -130,17 +130,17 @@ function selectTemp(tempId){
 		btn: ['立即使用','再看看']
 	}, function(){
 		layer.close(layer_confirm_tip);
-		parent.iw.loading("修改中");
+		parent.msg.loading("修改中");
 		$.post("/sites/templateSave.do?templateId="+tempId, function(data){
-			parent.iw.loadClose();
+			parent.msg.close();
 			if(data.result == '1'){
-				parent.iw.msgSuccess("操作成功");
+				parent.msg.success("操作成功");
 				//设置cookie，首页强制刷新开启。再打开首页时，会判断这个Cookie，若是1，则变为0，并且执行js强制刷新本页面
 				parent.openIndexRefreshCache();
 		 	}else if(data.result == '0'){
-		 		parent.iw.msgFailure(data.info);
+		 		parent.msg.failure(data.info);
 		 	}else{
-		 		parent.iw.msgFailure();
+		 		parent.msg.failure();
 		 	}
 		});
 		

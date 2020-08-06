@@ -198,7 +198,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        contentType: false,    //不可缺
 	        processData: false,    //不可缺
 	        success:function(data){
-	        	parent.iw.loadClose();    //关闭“操作中”的等待提示
+	        	parent.msg.close();    //关闭“操作中”的等待提示
 	        	if(data.result == '1'){
 			        //上传成功
 	            	parent.msg.success('保存成功');

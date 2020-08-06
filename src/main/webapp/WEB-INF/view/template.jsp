@@ -267,7 +267,7 @@ function previewUrl(url){
 	if(url != null && url.length > 8){
 		window.open(url);
 	}else{
-		iw.msgFailure('抱歉，该模版暂无预览体验的网站示例');
+		msg.failure('抱歉，该模版暂无预览体验的网站示例');
 		
 	}
 }

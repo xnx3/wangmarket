@@ -45,13 +45,13 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-	iw.loading('保存中...');
+	  msg.loading('保存中...');
 		var d=$("form").serialize();
-        $.post("/install/accessKeySave.do", d, function (result) { 
-        	iw.loadClose();
+        $.post("/install/accessKeySave.do", d, function (result) {
+			msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		iw.msgSuccess();
+				msg.success();
         		window.location.href='installSuccess.do'; 
         	}else if(obj.result == '0'){
         		layer.alert(obj.info);

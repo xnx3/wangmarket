@@ -99,13 +99,13 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-	iw.loading('保存中...');
+	  msg.loading('保存中...');
 		var d=$("form").serialize();
-        $.post("/install/systemSetSave.do", d, function (result) { 
-        	iw.loadClose();
+        $.post("/install/systemSetSave.do", d, function (result) {
+			msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		iw.msgSuccess();
+				msg.success();
         		if('<%=Global.get("ATTACHMENT_FILE_MODE") %>' == 'aliyunOSS'){
         			//使用的阿里云oss进行附件存储，那么需要配置阿里云相关参数
         			window.location.href='accessKey.do'; 

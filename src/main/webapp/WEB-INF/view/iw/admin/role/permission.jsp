@@ -61,19 +61,19 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	
 	//监听提交
 	form.on('submit(formSubmit)', function(data){
-		parent.iw.loading("保存中");
+		parent.msg.loading("保存中");
 		var d=$("form").serialize();
         $.post("savePermission.do", d, function (result) {
-        	parent.iw.loadClose();
+        	parent.msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
-        		parent.parent.iw.msgSuccess("操作成功");
+        		parent.parent.msg.success("操作成功");
         		parent.layer.close(index);	//关闭当前窗口
         		parent.location.reload();	//刷新父窗口列表
         	}else if(obj.result == '0'){
-        		parent.iw.msgFailure(obj.info);
+        		parent.msg.failure(obj.info);
         	}else{
-        		parent.iw.msgFailure(result);
+        		parent.msg.failure(result);
         	}
          }, "text");
 		return false;

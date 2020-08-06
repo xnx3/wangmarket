@@ -106,16 +106,16 @@ function editRole(){
 
 //更改用户的冻结状态。  userid 要冻结的用户的user.id   ，freezeState是否是冻结的状态,取值如 <%=User.ISFREEZE_FREEZE %>
 function updateFreezeState(userid, freezeState){
-	parent.iw.loading("修改中");    //显示“操作中”的等待提示
+	parent.msg.loading("修改中");    //显示“操作中”的等待提示
 	$.post("/admin/user/updateFreeze.do?id="+userid+"&isfreeze="+freezeState, function(data){
-	    parent.iw.loadClose();    //关闭“操作中”的等待提示
+	    parent.msg.close();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
-			parent.iw.msgSuccess('操作成功');
+			parent.msg.success('操作成功');
 			location.reload();
 	     }else if(data.result == '0'){
-			iw.msgFailure(data.info);
+			msg.failure(data.info);
 	     }else{
-			iw.msgFailure();
+			msg.failure();
 	     }
 	});
 }

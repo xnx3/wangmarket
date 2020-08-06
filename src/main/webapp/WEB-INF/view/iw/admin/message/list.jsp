@@ -78,16 +78,16 @@
 function deleteMessage(id){
 	$.confirm("您确定要删除此条信息吗?", "确认删除?", function() {
 		
-		parent.iw.loading("删除中");    //显示“操作中”的等待提示
+		parent.msg.loading("删除中");    //显示“操作中”的等待提示
 		$.post('/admin/message/delete.do?id='+id, function(data){
-		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    parent.msg.close();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
-		        parent.iw.msgSuccess('删除成功');
+		        parent.msg.success('删除成功');
 		        window.location.reload();	//刷新当前页
 		     }else if(data.result == '0'){
-		         parent.iw.msgFailure(data.info);
+		         parent.msg.failure(data.info);
 		     }else{
-		         parent.iw.msgFailure();
+		         parent.msg.failure();
 		     }
 		});
 	

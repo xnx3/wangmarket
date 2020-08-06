@@ -40,10 +40,10 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	
 	//监听提交
 	form.on('submit(formSubmit)', function(data){
-		$.showLoading('保存中...');
+		msg.loading('保存中...');
 		var d=$("form").serialize();
         $.post("saveRole.do", d, function (result) {
-        	$.hideLoading();
+			msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
         		parent.layer.msg('操作成功', {shade: 0.3});

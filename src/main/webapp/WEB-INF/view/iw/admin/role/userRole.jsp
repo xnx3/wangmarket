@@ -34,7 +34,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	
 	//监听提交
   	form.on('submit(demo1)', function(data){
-		parent.iw.loading("保存中");    //显示“操作中”的等待提示
+		parent.msg.loading("保存中");    //显示“操作中”的等待提示
 		var userid = document.getElementById("userid").value;
 		
 		var roleObj;
@@ -55,15 +55,15 @@ layui.use(['form', 'layedit', 'laydate'], function(){
     
     	
 		$.post('saveUserRole.do?userid='+userid+'&role='+roleValue, function(data){
-		    parent.iw.loadClose();    //关闭“操作中”的等待提示
+		    parent.msg.close();    //关闭“操作中”的等待提示
 		    if(data.result == '1'){
 		    	parent.location.reload();	//刷新父窗口
-		        parent.iw.msgSuccess('操作成功');
+		        parent.msg.success('操作成功');
 		        parent.layer.close(index);
 		     }else if(data.result == '0'){
-		         parent.iw.msgFailure(data.info);
+		         parent.msg.failure(data.info);
 		     }else{
-		         parent.iw.msgFailure();
+		         parent.msg.failure();
 		     }
 		});
 

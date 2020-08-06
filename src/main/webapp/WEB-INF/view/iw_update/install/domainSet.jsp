@@ -126,18 +126,18 @@
     function saveDomain(){
     	var domain = document.getElementById('autoAssignDomain').value;
     	if(domain.length < 3){
-    		iw.msgFailure("请先设置域名");
+			msg.failure("请先设置域名");
     		return;
     	}
-    
-    	iw.loading("更改中");    //显示“更改中”的等待提示
+
+		msg.loading("更改中");    //显示“更改中”的等待提示
 		$.post(
 		    "domainSetSave.do", 
 		    { "autoAssignDomain": domain }, 
 		        function(result){
-		        iw.loadClose();    //关闭“更改中”的等待提示
+					msg.close();    //关闭“更改中”的等待提示
 		        if(result.result != '1'){
-		            iw.msgFailure(result.info);
+					msg.failure(result.info);
 		        }else{
 					//安装成功
 					window.location.href="installSuccess.do";

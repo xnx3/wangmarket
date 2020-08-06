@@ -16,7 +16,7 @@ ${topHtml}
 <script type="text/javascript">
 //form提交验证
 function validate(){
-	$.showLoading('正在上传中');
+	msg.loading('正在上传中');
 	return true;
 }
 </script>

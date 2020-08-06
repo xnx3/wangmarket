@@ -127,16 +127,16 @@ layui.use('upload', function(){
 	  ,title :'上传插件'
 	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
       , before: function (obj) {
-          parent.iw.loading("上传中");
+          parent.msg.loading("上传中");
       }
 	  ,done: function(res, index, upload){
-	  	parent.iw.loadClose();
+	  	parent.msg.close();
 	    //上传成功返回值，必须为json格式
 	    if(res.result == '1'){
-	    	parent.iw.msgSuccess("上传成功！");
+	    	parent.msg.success("上传成功！");
 	    	parent.location.reload();	//刷新父窗口列表
 	    }else{
-	    	parent.iw.msgFailure(data.info);
+	    	parent.msg.failure(data.info);
 	    }
 	  }
 	}); 

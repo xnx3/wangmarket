@@ -134,9 +134,9 @@ function editColumn(siteColumnId){
  */
 function deleteColumn(siteColumnId, name){
 	$.confirm("您确定要删除\""+name+"\"吗?", "确认删除?", function() {
-		$.showLoading('正在删除');
+        msg.loading('正在删除');
 		$.getJSON('/column/delete.do?id='+siteColumnId,function(obj){
-			$.hideLoading();
+            msg.close();
 			if(obj.result == '1'){
 				$.toast("删除成功", function() {
 					window.location.reload();	//刷新当前页

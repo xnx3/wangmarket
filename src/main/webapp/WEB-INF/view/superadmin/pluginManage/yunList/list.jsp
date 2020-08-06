@@ -133,7 +133,7 @@ function installPlugin(pluginId, pluginName) {
 		  btn: ['安装','取消'] //按钮
 		}, function(){
 			layer.close(dtp_confirm);
-			parent.iw.loading("安装中");    //显示“操作中”的等待提示
+			parent.msg.loading("安装中");    //显示“操作中”的等待提示
 			$.ajax({
 				url:'/plugin/pluginManage/installYunPlugin.do?plugin_id=' + pluginId,
 				type:'POST',
@@ -141,7 +141,7 @@ function installPlugin(pluginId, pluginName) {
 				contentType: false,
 				processData: false,
 				success:function(data){
-					parent.iw.loadClose();    //关闭“操作中”的等待提示
+					parent.msg.close();    //关闭“操作中”的等待提示
 					if(data.result == 1){
 						if(data.info == 'restart') {
 							var aler = layer.alert('安装成功。该插件需要重新启动当前服务，请稍后重试。<span style="color:red;">注：windows系统tomcat环境下需要手动启动tomcat。</span>', {
@@ -151,7 +151,7 @@ function installPlugin(pluginId, pluginName) {
 							// 关闭弹窗
 							layer.close(aler);
 							// 重启服务器
-							parent.iw.loading("请稍候,此过程大约1分钟左右");
+							parent.msg.loading("请稍候,此过程大约1分钟左右");
 							$.ajax({
 								url:'/plugin/pluginManage/restart.do',
 						        type:'POST',
@@ -169,13 +169,13 @@ function installPlugin(pluginId, pluginName) {
 							});
 						});
 						}else {
-							parent.iw.msgSuccess('安装成功');
+							parent.msg.success('安装成功');
 							parent.parent.loadUrl('/plugin/pluginManage/index.do')
 						}
 					}else if(data.result == 0){
-					     parent.iw.msgFailure(data.info);
+					     parent.msg.failure(data.info);
 					}else{
-					     parent.iw.msgFailure();
+					     parent.msg.failure();
 					}
  				},
  				error:function(){
@@ -194,7 +194,7 @@ function revisit(){
         processData: false,    //不可缺
         success:function(data){
         	if(data != null && data != '' && data != undefined){
-        		parent.iw.loadClose();
+        		parent.msg.close();
         		parent.parent.window.location.reload();
 		    }
         },
@@ -214,7 +214,7 @@ function titleQuery(){
 //提示禁止安装信息
 function showUnAuth(auth) {
 	if(auth == true) {
-		iw.msgFailure("此插件仅未授权用户可用");
+		msg.failure("此插件仅未授权用户可用");
 	}else{
 		window.location.href = 'http://www.leimingyun.com/price.html';	
 	}
@@ -222,7 +222,7 @@ function showUnAuth(auth) {
 }
 
 function showUnSupport() {
-	iw.msgFailure("您当前环境不支持该插件");
+	msg.failure("您当前环境不支持该插件");
 }
 
 //查看插件详情信息

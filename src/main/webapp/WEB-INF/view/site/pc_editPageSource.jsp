@@ -47,10 +47,10 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-  	  $.showLoading('数据保存中');
+    msg.loading('数据保存中');
 		var d=$("form").serialize();
-        $.post("sitePc/savePageSource.do", d, function (result) { 
-        	$.hideLoading();
+        $.post("sitePc/savePageSource.do", d, function (result) {
+          msg.close();
         	var obj = JSON.parse(result);
         	if(obj.result == '1'){
         		parent.layer.msg('操作成功', {shade: 0.3});

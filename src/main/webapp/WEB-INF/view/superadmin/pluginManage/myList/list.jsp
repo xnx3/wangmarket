@@ -42,17 +42,17 @@ function exportPlugin(plugin_id, plugin_name) {
 		  btn: ['导出','取消'] //按钮
 		}, function(){
 			layer.close(dtp_confirm);
-			parent.iw.loading("导出中");    //显示“操作中”的等待提示
+			parent.msg.loading("导出中");    //显示“操作中”的等待提示
 			$.post('/plugin/pluginManage/exportPlugin.do?plugin_id=' + plugin_id, function(data){
-			    parent.iw.loadClose();    //关闭“操作中”的等待提示
+			    parent.msg.close();    //关闭“操作中”的等待提示
 			    if(data.result == 1){
-			        parent.iw.msgSuccess('导出成功');
+			        parent.msg.success('导出成功');
 			        //设置下载文件的返回路径
 			        window.location.href=data.info;
 			     }else if(data.result == 0){
-			         parent.iw.msgFailure(data.info);
+			         parent.msg.failure(data.info);
 			     }else{
-			         parent.iw.msgFailure();
+			         parent.msg.failure();
 			     }
 			});
 		}, function(){
