@@ -40,10 +40,30 @@ try{
 	 * @param photoUrl 要显示的图片的url
 	 */
 	function appendPhotosInput(photoUrl){
+		//先把添加input之前，那几个input输入框的数据拿出来
+		var titlePicInput_i = 0;
+		var titlePicInput_array = [];
+		for(titlePicInput_i=0; titlePicInput_i < 500; titlePicInput_i++){
+			var titlePicInput_name = 'titlePicInput'+titlePicInput_i;
+			if(document.getElementById(titlePicInput_name) == null){
+				titlePicInput_i = 500;
+				break;
+			}
+			titlePicInput_array[titlePicInput_i] = document.getElementById(titlePicInput_name).value;
+		}
+		console.log(titlePicInput_array);
+		
 		var photos_i = document.getElementById('photos_i').value;
 		var inputListHTML = itemTemplate.replace(/{i}/g, photos_i).replace(/{value}/g, photoUrl);
 		document.getElementById('photos_i').value = parseInt(photos_i)+1;
 		document.getElementById('photoInputList').innerHTML = document.getElementById('photoInputList').innerHTML + inputListHTML;
+		
+		//input添加后，在吧之前那些input输入框的数据补上
+		for(var old_i = 0; old_i < titlePicInput_array.length; old_i++){
+			try{
+				document.getElementById('titlePicInput'+old_i).value = titlePicInput_array[old_i];
+			}catch(e){ console.log(e); }
+		}
 		
 		//当手动点击添加输入框按钮后，刷新上传按钮绑定
 		if(typeof(upload) != "undefined"){
