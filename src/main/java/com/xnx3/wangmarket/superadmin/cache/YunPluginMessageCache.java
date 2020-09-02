@@ -83,7 +83,6 @@ public class YunPluginMessageCache {
 			return false;
 		}
 		String content = StringUtil.utf8ToString(response.getContent());
-		System.out.println(content);
 		// 对请求获得信息进行封装
 		JSONObject contentJsonObject = JSONObject.fromObject(content);
 		if(contentJsonObject.getInt("result") == 0) {
