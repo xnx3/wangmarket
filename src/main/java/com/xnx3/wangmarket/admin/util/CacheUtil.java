@@ -19,7 +19,7 @@ public class CacheUtil extends com.xnx3.j2ee.util.CacheUtil{
 	 * @return 如果没有缓存过，那么会返回null
 	 */
 	public static String getSiteVar(int siteid){
-		Object obj = get(siteid+""); 
+		Object obj = get(SITE_VAR.replace("{siteid}", siteid+"")); 
 		return (String) obj;
 	}
 	
@@ -31,7 +31,7 @@ public class CacheUtil extends com.xnx3.j2ee.util.CacheUtil{
 		if(siteVar == null){
 			return;
 		}
-		setWeekCache(siteVar.getId()+"", siteVar.getText());
+		setWeekCache(SITE_VAR.replace("{siteid}", siteVar.getId()+""), siteVar.getText());
 	}
 	
 }

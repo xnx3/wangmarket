@@ -7,6 +7,19 @@
 	<jsp:param name="title" value="网站全局变量"/>
 </jsp:include>
 
+<script>
+//输出值
+function showValue(type, value){
+	if(type == 'text' || type == 'number'){
+		return value;
+	}else if(type == 'image'){
+		return '<a href="'+value+'" target="_black"><img src="'+value+'?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>';
+	}else if(type == 'select'){
+		return 
+	}
+}
+
+</script>
 
 <div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
 	<table class="layui-table iw_table">
@@ -23,7 +36,19 @@
 	            <tr>
 	                <td style="width:55px;">${item['name'] }</td>
 	                <td>${item['description'] }</td>
-	                <td>${item['value'] }</td>
+	                <td>
+	                	<script>
+	                		try{ ${item.valueItems} }catch(e){console.log(e);}
+	                		var type = '${item['type']}';
+	                		if(type == 'text' || type == 'number'){
+								document.write('${item['value']}');
+							}else if(type == 'image'){
+								document.write('<a href="${item['value']}" target="_black"><img src="${item['value']}?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>');
+							}else if(type == 'select'){
+								document.write(site_var_${item['name']}['${item['value']}']);
+							}
+	                	</script>
+	                </td>
 	                <td style="text-align: center; width:110px;">
 	                	<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 	                	<botton class="layui-btn layui-btn-sm" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
@@ -87,7 +112,7 @@ function edit(name){
 	layer.open({
 		type: 2, 
 		title:'编辑全局变量', 
-		area: ['490px', '600px'],
+		area: ['490px', '620px'],
 		shadeClose: true, //开启遮罩关闭
 		content: url,
 		closeBtn: 1

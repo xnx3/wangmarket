@@ -7,52 +7,18 @@
 
 <form id="form" class="layui-form" action="save.do" method="post" style="padding-top:20px; padding-right:20px;">
 	<input type="hidden" name="updateName" value="${siteVar.name }">
+	<input type="hidden" name="name" value="${siteVar.name }">
+	<input type="hidden" name="title" value="${siteVar.title }">
+	<input type="hidden" name="type" value="${siteVar.type }">
+	<textarea name="valueItems" id="valueItems" style="display:none;">${siteVar.valueItems }</textarea>
+	<textarea name="description" style="display:none;">${siteVar.description }</textarea>
+	
 	<div class="layui-form-item">
-		<label class="layui-form-label" id="columnCode">变量名</label>
-		<div class="layui-input-block">
-			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入变量名" class="layui-input" value="${siteVar.name }">
-		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">同一个网站中，变量名必须是唯一的,限英文、数字、下划线_<br/>在制作模板时，也就是在模板变量跟模板页面中，可以用 {var.${siteVar.name }} 来调取变量值</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="columnCode">标题</label>
-		<div class="layui-input-block">
-			<input type="text" name="title" class="layui-input" value="${siteVar.title}">
-		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">实际给客户使用时，会隐藏变量名，这个标题就是显示给用户看的录入项的标题</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="columnCode">录入方式</label>
-		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionFortype_('${siteVar.type}','', true);</script>
-		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">用户填写此变量的方式</div>
-	</div>
-	<div class="layui-form-item" id="valueItemsFormItem">
-		<label class="layui-form-label" id="columnCode">下拉数值</label>
-		<div class="layui-input-block">
-			<textarea name="valueItems" onchange="showVarValue('select');" id="valueItems" autocomplete="off" class="layui-textarea">${siteVar.valueItems }</textarea>
-		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">下拉选择框的可选项，每个选项一行，填写如：<br/>
-			<div>
-				0:关闭<br/>
-				1:开启
-			</div> 
-			每行格式的含义为  变量的值:用户看到的文字说明
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="description_label">备注说明</label>
-		<div class="layui-input-block">
-			<textarea name="description" lay-verify="description" autocomplete="off" placeholder="限200个字符以内" class="layui-textarea">${siteVar.description }</textarea>
-		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">只是备注而已，没有什么其他作用。修改的时候看到这个，能直到这是干嘛的</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label" id="keywords_label">变量值</label>
+		<label class="layui-form-label" id="keywords_label">${siteVar.title}</label>
 		<div class="layui-input-block" id="var_value_div">
 			<textarea name="value" lay-verify="value" autocomplete="off" class="layui-textarea">${siteVar.value }</textarea>
 		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">${siteVar.description }</div>
 	</div>
   
 	  <div class="layui-form-item" style="text-align:center;">
@@ -62,24 +28,13 @@
 
 <div id="varValue" style="display:none;">${siteVar.value }</div>
 <script>
+//自适应弹出层大小
+var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+parent.layer.iframeAuto(index);
 
 layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   var form = layui.form;
   var element = layui.element;
-  
-  //自定义验证规则
-  form.verify({
-    name: function(value){
-      if(value.length < 1){
-      	return '请输入变量名';
-      }
-		if(/^[a-zA-Z0-9_]*$/g.test(value)){
-			//success
-		}else{
-			return '变量名只限英文、数字、下划线_';
-		}
-    },
-  });
   
   //监听提交
   form.on('submit(demo1)', function(data){
@@ -101,11 +56,6 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
     return false;
   });
   
-  	//当类型发生变动改变
-	form.on('select(type)', function (data) {
-		showVarValue(document.getElementById("type").value);
-	});
-  
 });
 
 //获取当前select的可选值
@@ -117,7 +67,6 @@ function getValueItems(){
 //显示变量值的方式
 function showVarValue(ctype){
 	var currentValue = document.getElementById('varValue').innerHTML;
-	document.getElementById('valueItemsFormItem').style.display = 'none';	//默认隐藏
 	
 	if(ctype == 'image'){
 		
@@ -163,7 +112,6 @@ function showVarValue(ctype){
 		var text = '<input name="value" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="'+currentValue+'" style="padding-right: 120px;"><button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">	<i class="layui-icon layui-icon-upload"></i></button><a href="'+currentValue+'" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">	<img id="titlePicImg" src="'+currentValue+'?x-oss-process=image/resize,h_38" onerror="this.style.display=\'none\';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片"></a><input class="layui-upload-file" type="file" name="fileName">';	
 		document.getElementById('var_value_div').innerHTML = text;
 	}else if(ctype == 'select'){
-		document.getElementById('valueItemsFormItem').style.display = '';	//显示编辑项
 		try{
 			var optionList = '';
 			var s = getValueItems();

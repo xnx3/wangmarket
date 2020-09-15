@@ -15,15 +15,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
+import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.SiteVarBean;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.entity.SiteUser;
 import com.xnx3.wangmarket.admin.entity.SiteVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 
 import net.sf.json.JSONObject;
 
@@ -52,9 +56,48 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
         while (iter.hasNext()) {
         	String key = iter.next();
             SiteVarBean bean = new SiteVarBean();
+            JSONObject item = json.getJSONObject(key);
+            
             bean.setName(key);
-            bean.setDescription(json.getJSONObject(key).getString("description"));
-            bean.setValue(json.getJSONObject(key).getString("value"));
+            bean.setDescription(item.getString("description"));
+            bean.setValue(item.getString("value"));
+            if(item.get("type") == null){
+            	bean.setType(SiteVar.TYPE_TEXT);
+			}else{
+				bean.setType(item.getString("type"));
+			}
+            if(item.get("title") == null){
+            	bean.setTitle(bean.getDescription());
+			}else{
+				bean.setTitle(item.getString("title"));
+			}
+            
+            
+            if(item.get("valueItems") == null){
+            	bean.setValueItems("");
+			}else{
+				bean.setValueItems("");
+				
+				//如果当前变量类型是select的，那么还要生成select的js变量，以显示给用户具体的值的描述
+				if(item.get("type").equals(SiteVar.TYPE_SELECT)){
+					//将其转化为js变量
+					String vi = item.getString("valueItems");
+					String[] vis = vi.split("\r|\n");
+					
+					StringBuffer sb = new StringBuffer();
+					sb.append("var site_var_"+key+" = new Array(); ");
+					if(vis.length > 1 || vis[0].indexOf(":") > 0){
+						for (int i = 0; i < vis.length; i++) {
+							String[] items = vis[i].split(":");
+							if(items.length == 2){
+								sb.append("site_var_"+key+"['"+items[0]+"'] = '"+items[1]+"'; ");
+							}
+						}
+					}
+					bean.setValueItems(sb.toString());
+				}
+			}
+            
             list.add(bean);
         }
 		
@@ -70,9 +113,10 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	@RequestMapping("/edit${url.suffix}")
 	public String edit(HttpServletRequest request ,Model model,
 			@RequestParam(value = "name", required = false , defaultValue="") String name){
+		Site site = getSite();
 		if(name.trim().length() > 0){
 			//修改
-			JSONObject json = siteVarService.getVar(getSiteId(), name);
+			JSONObject json = siteVarService.getVar(site.getId(), name);
 			model.addAttribute("siteVar", new SiteVarBean(name, json));
 			ActionLogUtil.insert(request, "打开修改网站全局变量页面", StringUtil.filterXss(name));
 		}else{
@@ -80,7 +124,21 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			ActionLogUtil.insert(request, "打开增加网站全局变量页面");
 		}
 		
-		return "siteVar/edit";
+		//可上传的后缀列表
+		model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);
+		//可上传的文件最大大小(KB)
+		model.addAttribute("maxFileSizeKB", AttachmentUtil.getMaxFileSizeKB());
+		//设置上传后的图片、附件所在的个人路径
+		SessionUtil.setUeUploadParam1(site.getId()+"");
+		
+		SiteUser siteUser = SessionUtil.getSiteUser();
+		if(siteUser == null || siteUser.getSiteid() == null){
+			//主账号
+			return "siteVar/edit";
+		}else{
+			//子客户，只能看到修改
+			return "siteVar/subAccountEdit";
+		}
 	}
 	
 	
@@ -90,6 +148,8 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	 * @param name 修改后的变量的名字
 	 * @param description 修改后的变量的描述
 	 * @param value 修改后的变量的值
+	 * @param title 给客户修改时，客户看到的标题，2~6字的那种标题
+	 * @param type 数据类型，包含 text（文本框、文本输入）、 image（图片上传，存的是图片url）、select（select下拉框）。  不传默认是 text
 	 */
 	@RequestMapping(value="save${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
@@ -98,6 +158,9 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			@RequestParam(value = "name", required = false , defaultValue="") String name,
 			@RequestParam(value = "description", required = false , defaultValue="") String description,
 			@RequestParam(value = "value", required = false , defaultValue="") String value,
+			@RequestParam(value = "type", required = false , defaultValue="") String type,
+			@RequestParam(value = "title", required = false , defaultValue="") String title,
+			@RequestParam(value = "valueItems", required = false , defaultValue="") String valueItems,
 			HttpServletRequest request,Model model){
 		Site site = getSite();
 		SiteVar siteVar = sqlService.findById(SiteVar.class, site.getId());
@@ -126,6 +189,18 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		
 		varJson.put("description", description);
 		varJson.put("value", value);
+		if(type.equals(SiteVar.TYPE_IMAGE)){
+			varJson.put("type", SiteVar.TYPE_IMAGE);
+		}else if(type.equals(SiteVar.TYPE_SELECT)){
+			varJson.put("type", SiteVar.TYPE_SELECT);
+		}else if(type.equals(SiteVar.TYPE_NUMBER)){
+			varJson.put("type", SiteVar.TYPE_NUMBER);
+		}else{
+			//如果上面的情况都不是，那么默认就是text文本方式。也是对v5.1版本的兼容
+			varJson.put("type", SiteVar.TYPE_TEXT);
+		}
+		varJson.put("valueItems", valueItems);
+		varJson.put("title", title);
 		json.put(name, varJson);
 		
 		//保存到数据库
