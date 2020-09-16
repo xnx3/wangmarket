@@ -19,7 +19,7 @@
 		<div class="layui-input-block">
 			<input type="text" name="title" class="layui-input" value="${siteVar.title}">
 		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">实际给客户使用时，会隐藏变量名，这个标题就是显示给用户看的录入项的标题</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">实际给客户使用时，会隐藏变量名，这个标题就是显示给用户看的录入项的标题。这个标题就只是提供观看而已。</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label" id="columnCode">录入方式</label>
@@ -48,12 +48,60 @@
 		</div>
 		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">只是备注而已，没有什么其他作用。修改的时候看到这个，能直到这是干嘛的</div>
 	</div>
-	<div class="layui-form-item">
+	<div class="layui-form-item" id="var_value_layuiItem">
 		<label class="layui-form-label" id="keywords_label">变量值</label>
 		<div class="layui-input-block" id="var_value_div">
-			<textarea name="value" lay-verify="value" autocomplete="off" class="layui-textarea">${siteVar.value }</textarea>
+			<textarea name="value" class="layui-textarea">${siteVar.value }</textarea>
 		</div>
 	</div>
+	
+	
+	<div class="layui-form-item" id="sitecolumn_editUseExtendPhotos" style="display:none;">
+	<div id="photosDefaultValue" style="display:none;">${siteVar.value}</div><!-- 这里放置图集原本的值 -->
+	<script>
+		try{
+			var pdv = document.getElementById('photosDefaultValue').innerHTML.trim();
+			if(pdv.length > 0 && pdv.indexOf(',') > 0){
+				var pdvs = pdv.split(',');
+				var pdvjson = '[';
+				for(var p = 0; p<pdvs.length; p++){
+					if(pdvjson.length > 2){
+						pdvjson = pdvjson + ',';
+					}
+					pdvjson = pdvjson + '"'+pdvs[p]+'"';
+				}
+				pdvjson = pdvjson + ']';
+				console.log(pdvjson);
+				document.getElementById('photosDefaultValue').innerHTML = pdvjson;
+			}
+		}catch(e){ console.log(e); }
+	</script>
+	<input type="hidden" value="0" id="photos_i" style="display:none;" /><!-- 这里放循环输出input的i，也就是extend.photos数组下标。也就是图集中有多少个input输入框。从0开始。此处由 appendPhotosInput 自动管理，不可吧此删除掉。 -->
+	<label class="layui-form-label" id="label_columnName">文章图集</label>
+	<div class="layui-input-block" id="photoInputList" style="min-height: 0px;">
+		<!-- 同样，这个 photoInputList 里面的也算是每一个item的模版。item模版开始 -->
+		<div id="photos_input_item_{i}" style="padding-top:5px;">
+			<input name="imageGroupName" id="titlePicInput{i}" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="{value}" style="padding-right: 174px;">
+			<button type="button" name="{i}" class="layui-btn uploadImagesButton" id="uploadImagesButton{i}" style="float: right;margin-top: -38px;">
+				<i class="layui-icon layui-icon-upload"></i>
+			</button>
+			<a href="{value}" id="titlePicA{i}" style="float: right;margin-top: -38px;margin-right: 116px;" title="预览原始图片" target="_black">
+				<img id="titlePicImg{i}" src="{value}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+			</a><input class="layui-upload-file" type="file" name="fileName">
+			<a href="javascript:deletePhotosInput('{i}');" class="layui-btn" style="float: right;margin-top: -38px;margin-right: 58px;" title="删除" >
+				<i class="layui-icon layui-icon-delete"></i>
+			</a>
+		</div>
+		<!-- item模版结束 -->
+	</div>
+	<div style="padding-top:5px; padding-left:110px;">
+		<a href="javascript:appendPhotosInput('');" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius" style="float:left;">添加一个图片输入框</a>
+		<!-- <div class="explain" style=" float: left; padding-left: 15px; padding-top: 6px; float:left;">这里显示图集的上传指引，比如：建议图片比例为4:3</div> -->
+	</div>
+</div>
+  <!--  图集，让文章可以拥有多张图片上传的功能。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到文章图集，点击 使用 即可。若是自己添加的输入模型，请保留 id="editUseExtendPhotos" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+<script type="text/javascript" src="/js/admin/cms/news_extend_photos.js"></script>
+  
   
 	  <div class="layui-form-item" style="text-align:center;">
 	  	<button class="layui-btn" lay-submit="" lay-filter="demo1">保存</button>
@@ -83,6 +131,12 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
+  		//判断是否是多图片图集方式
+  		if(document.getElementById('type').value == 'imagegroup'){
+  			//使用的图集，要将图集内容赋予 value 中
+  			document.getElementsByName("value")[0].value = getImageGroupValue();
+  		}
+  		
 		parent.parent.msg.loading('保存中');
 		var d=$("form").serialize();
         $.post("/siteVar/save.do", d, function (result) { 
@@ -108,90 +162,11 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   
 });
 
-//获取当前select的可选值
-function getValueItems(){
-	var v = document.getElementById('valueItems').value;
-	return v.split(/[\s\n]/);
-}
-
-//显示变量值的方式
-function showVarValue(ctype){
-	var currentValue = document.getElementById('varValue').innerHTML;
-	document.getElementById('valueItemsFormItem').style.display = 'none';	//默认隐藏
-	
-	if(ctype == 'image'){
-		
-		layui.use('upload', function(){
-			var upload = layui.upload;
-			//上传图片,封面图
-			upload.render({
-				elem: "#uploadImagesButton" //绑定元素
-				,url: '/sites/uploadImage.do' //上传接口
-				,field: 'image'
-				,accept: 'file'
-				,size: ${maxFileSizeKB}
-				,exts:'${ossFileUploadImageSuffixList }'	//可上传的文件后缀
-				,done: function(res){
-					//上传完毕回调
-					parent.parent.msg.close();
-					if(res.result == 1){
-						try{
-							document.getElementById("titlePicInput").value = res.url;
-							document.getElementById("titlePicA").href = res.url;
-							document.getElementById("titlePicImg").src = res.url;
-							document.getElementById("titlePicImg").style.display='';	//避免新增加的文章，其titlepicImg是隐藏的
-						}catch(err){}
-						parent.parent.msg.success("上传成功");
-					}else{
-						parent.parent.msg.failure(res.info);
-					}
-				}
-				,error: function(index, upload){
-					//请求异常回调
-					parent.parent.msg.close();
-					parent.parent.msg.failure('操作异常');
-				}
-				,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-					parent.parent.msg.loading('上传中');
-				}
-			});
-			
-			//上传图片,图集，v4.6扩展
-			//upload.render(uploadExtendPhotos);
-		});
-		
-		var text = '<input name="value" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="'+currentValue+'" style="padding-right: 120px;"><button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">	<i class="layui-icon layui-icon-upload"></i></button><a href="'+currentValue+'" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">	<img id="titlePicImg" src="'+currentValue+'?x-oss-process=image/resize,h_38" onerror="this.style.display=\'none\';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片"></a><input class="layui-upload-file" type="file" name="fileName">';	
-		document.getElementById('var_value_div').innerHTML = text;
-	}else if(ctype == 'select'){
-		document.getElementById('valueItemsFormItem').style.display = '';	//显示编辑项
-		try{
-			var optionList = '';
-			var s = getValueItems();
-			for(var i = 0; i< s.length; i++){
-				var vs = s[i].split(":");
-				var sel = '';
-				if(currentValue==vs[0]){
-					sel = ' selected="selected"';
-				}
-				optionList = optionList + '<option value="'+vs[0]+'"' +sel+'>'+vs[1]+'</option>'; 
-			}
-			document.getElementById('var_value_div').innerHTML = '<select name="value">'+optionList+'</select>';
-		}catch(e){
-			console.log(e);
-			document.getElementById('var_value_div').innerHTML = '下拉数值格式填写错误，解析失败';
-		}
-	}else if(ctype == 'number'){
-		//number输入方式
-		document.getElementById('var_value_div').innerHTML = '<input type="number" name="value" value="'+currentValue+'" class="layui-input" />';
-	}else{
-		//text方式
-		document.getElementById('var_value_div').innerHTML = '<textarea name="value" lay-verify="value" autocomplete="off" class="layui-textarea">'+currentValue+'</textarea>';
-	}
-	
-	layui.use('form', function(){
-		layui.form.render();;
-	});
-}
+var exts = '${ossFileUploadImageSuffixList }';
+var size = ${maxFileSizeKB};
+</script>
+<script type="text/javascript" src="/js/admin/cms/siteVarEdit.js"></script>
+<script>
 showVarValue('${siteVar.type}');
 </script>
 

@@ -60,7 +60,7 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
             
             bean.setName(key);
             bean.setDescription(item.getString("description"));
-            bean.setValue(item.getString("value"));
+            bean.setValue(item.getString("value").replaceAll("\r|\n", " "));
             if(item.get("type") == null){
             	bean.setType(SiteVar.TYPE_TEXT);
 			}else{
@@ -101,6 +101,16 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
             list.add(bean);
         }
 		
+        
+        SiteUser siteUser = SessionUtil.getSiteUser();
+		if(siteUser == null || siteUser.getSiteid() == null){
+			//主账号
+			model.addAttribute("isSubAccount", "0");	//是否是子账号，不是
+		}else{
+			//子客户，只能看到修改
+			model.addAttribute("isSubAccount", "1");	//是否是子账号,是
+		}
+        
         ActionLogUtil.insert(request, "查看网站全局变量列表");
 		model.addAttribute("list", list);
 		return "siteVar/list";
@@ -195,6 +205,8 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			varJson.put("type", SiteVar.TYPE_SELECT);
 		}else if(type.equals(SiteVar.TYPE_NUMBER)){
 			varJson.put("type", SiteVar.TYPE_NUMBER);
+		}else if(type.equals(SiteVar.TYPE_IMAGE_GROUP)){	
+			varJson.put("type", SiteVar.TYPE_IMAGE_GROUP);
 		}else{
 			//如果上面的情况都不是，那么默认就是text文本方式。也是对v5.1版本的兼容
 			varJson.put("type", SiteVar.TYPE_TEXT);

@@ -6,27 +6,31 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="网站全局变量"/>
 </jsp:include>
-
-<script>
-//输出值
-function showValue(type, value){
-	if(type == 'text' || type == 'number'){
-		return value;
-	}else if(type == 'image'){
-		return '<a href="'+value+'" target="_black"><img src="'+value+'?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>';
-	}else if(type == 'select'){
-		return 
-	}
+<style>
+.var_name_class_0{
+	width:155px;
 }
+.var_name_class_1{
+	display:none;
+}
+.des_name_class_1, .des_name_class_0{
+	display:none;
+}
+.add_var_1{
+	display:none;
+}
+.del_var_1{
+	display:none;
+}
+</style>
 
-</script>
-
-<div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
+<div style="width:100%;height:100%; background-color: #fff; ">
 	<table class="layui-table iw_table">
 		<thead>
 			<tr>
-				<th>变量名</th>
-	            <th>说明</th>
+				<th class="var_name_class_${isSubAccount}">变量名</th>
+				<th style="min-width:100px;">名称</th>
+	            <th class="des_name_class_${isSubAccount}">说明</th>
 	            <th>值</th>
 	            <th>操作</th>
 			</tr> 
@@ -34,8 +38,9 @@ function showValue(type, value){
 		<tbody>
 			<c:forEach items="${list}" var="item">
 	            <tr>
-	                <td style="width:55px;">${item['name'] }</td>
-	                <td>${item['description'] }</td>
+	                <td style="" class="var_name_class_${isSubAccount}">${item['name'] }</td>
+	                <td style="min-width:100px;">${item['title'] }</td>
+	                <td class="des_name_class_${isSubAccount}">${item['description'] }</td>
 	                <td>
 	                	<script>
 	                		try{ ${item.valueItems} }catch(e){console.log(e);}
@@ -44,14 +49,16 @@ function showValue(type, value){
 								document.write('${item['value']}');
 							}else if(type == 'image'){
 								document.write('<a href="${item['value']}" target="_black"><img src="${item['value']}?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>');
+							}else if(type == 'imagegroup'){
+								document.write('图片列表,点修改查看');
 							}else if(type == 'select'){
 								document.write(site_var_${item['name']}['${item['value']}']);
 							}
 	                	</script>
 	                </td>
-	                <td style="text-align: center; width:110px;">
+	                <td style="text-align:center; width:110px;">
 	                	<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-	                	<botton class="layui-btn layui-btn-sm" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+	                	<botton class="layui-btn layui-btn-sm del_var_${isSubAccount}" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	                </td>
 	            </tr>
 	        </c:forEach>
@@ -59,7 +66,7 @@ function showValue(type, value){
 	</table>
 
 	<div style="padding:15px;">
-		<button class="layui-btn" onclick="edit('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
+		<button class="layui-btn add_var_${isSubAccount}" onclick="edit('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
 	</div>
 	<div style="padding-right:15px; text-align: right;margin-top: -66px;">
 		提示：&nbsp;&nbsp;&nbsp;

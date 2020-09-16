@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Table(name = "site_var")
 public class SiteVar {
 	public static final String TYPE_TEXT = "text";	//文本输入
-	public static final String TYPE_IMAGE = "image";	//图片上传输入
+	public static final String TYPE_IMAGE = "image";	//单个图片上传输入
+	public static final String TYPE_IMAGE_GROUP = "imagegroup";	//多个图片上传输入
 	public static final String TYPE_SELECT = "select";	//select 下拉选择
 	public static final String TYPE_NUMBER = "number";	//整数型输入
 	
