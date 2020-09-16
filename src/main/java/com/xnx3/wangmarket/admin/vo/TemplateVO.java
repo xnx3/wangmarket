@@ -1,7 +1,10 @@
 package com.xnx3.wangmarket.admin.vo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import com.xnx3.DateUtil;
@@ -283,7 +286,22 @@ public class TemplateVO extends BaseVO {
 		
 		//v5.1，全局变量
 		if(jo.get("siteVar") != null){
-			this.siteVarJson = jo.getJSONObject("siteVar");
+			JSONObject siteVarJson = jo.getJSONObject("siteVar");
+			JSONObject newSiteVar = new JSONObject();
+			Iterator iter = siteVarJson.entrySet().iterator();
+	        while (iter.hasNext()) {
+	            Map.Entry entry = (Map.Entry) iter.next();
+	            JSONObject textObj = (JSONObject)entry.getValue();
+	            
+	            JSONObject uft8SubJson = new JSONObject();
+	            Iterator subIter = textObj.entrySet().iterator();
+	            while (subIter.hasNext()) {
+	            	Map.Entry subEntry = (Map.Entry) subIter.next();
+	            	uft8SubJson.put(subEntry.getKey(), StringUtil.utf8ToString((String) subEntry.getValue()));
+	            }
+	            newSiteVar.put(entry.getKey(), uft8SubJson);
+	        }
+			this.siteVarJson = newSiteVar;
 		}
 		
 		//拿到模版网站下所有可用的栏目

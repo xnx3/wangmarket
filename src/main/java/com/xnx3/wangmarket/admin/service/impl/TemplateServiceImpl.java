@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -720,6 +721,21 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		//全局变量,v5.1增加
 		JSONObject siteVarJson = siteVarService.getVar(site.getId());
+		JSONObject utf8SiteVar = new JSONObject();
+		Iterator iter = siteVarJson.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            JSONObject textObj = (JSONObject)entry.getValue();
+            
+            JSONObject uft8SubJson = new JSONObject();
+            Iterator subIter = textObj.entrySet().iterator();
+            while (subIter.hasNext()) {
+            	Map.Entry subEntry = (Map.Entry) subIter.next();
+            	uft8SubJson.put(subEntry.getKey(), StringUtil.StringToUtf8((String) subEntry.getValue()));
+            }
+            utf8SiteVar.put(entry.getKey(), uft8SubJson);
+        }
+		
 		
 		JSONObject jo = new JSONObject();
 		jo.put("systemVersion", G.VERSION);	// 当前系统版本号
@@ -761,7 +777,7 @@ public class TemplateServiceImpl implements TemplateService {
 		jo.put("templateVarList", templateVarList);
 		jo.put("siteColumnList", siteColumnList);
 		jo.put("inputModelList", inputModelList);
-		jo.put("siteVar", siteVarJson);
+		jo.put("siteVar", utf8SiteVar);
 		
 		vo.setInfo(jo.toString());
 		return vo;
