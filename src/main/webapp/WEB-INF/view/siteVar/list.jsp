@@ -22,6 +22,12 @@
 .del_var_1{
 	display:none;
 }
+.tishi_1{
+	margin-top:-10px;
+}
+.tishi_0{
+	margin-top: -86px;
+}
 </style>
 
 <div style="width:100%;height:100%; background-color: #fff; ">
@@ -68,7 +74,7 @@
 	<div style="padding:15px;">
 		<button class="layui-btn add_var_${isSubAccount}" onclick="edit('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
 	</div>
-	<div style="padding-right:15px; text-align: right;margin-top: -66px;">
+	<div style="padding-right:15px; text-align: right;" class="tishi_${isSubAccount}">
 		提示：&nbsp;&nbsp;&nbsp;
 		<botton class=""><i class="layui-icon">&#xe642;</i></botton><span style="padding-left:12px;padding-right: 30px;">编辑</span>
 		<botton class=""><i class="layui-icon">&#xe640;</i></botton><span style="padding-left:12px;padding-right: 30px;">删除</span>
