@@ -154,6 +154,9 @@ public class TemplateCMS {
 	 * @return 替换好的内容
 	 */
 	public String replacePublicTag(String text){
+		//v5.1增加，全局变量, v5.2有底部移到顶部
+		text = replaceSiteVar(text);
+				
 		text = Template.replaceAll(text, regex("OSSUrl"), AttachmentUtil.netUrl());	//以废弃，保留，适应以前版本
 		text = Template.replaceAll(text, regex("AttachmentFileUrl"), AttachmentUtil.netUrl());
 		text = Template.replaceAll(text, regex("resUrl"), AttachmentUtil.netUrl());
@@ -179,8 +182,7 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("masterSiteUrl"), SystemUtil.get("MASTER_SITE_URL"));
 		//v4.7增加
 		text = Template.replaceAll(text, regex("templatePath"), getTemplatePath());
-		//v5.1增加，全局变量
-		text = replaceSiteVar(text);
+		
 		
 		return text;
 	}
