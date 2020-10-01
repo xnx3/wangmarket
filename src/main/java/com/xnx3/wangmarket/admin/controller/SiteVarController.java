@@ -119,10 +119,13 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 
 	/**
 	 * 新增、编辑页面
+	 * @param name 要编辑的模板变量的名字
+	 * @param editType 用什么方式来编辑这个模板变量。可传入 property:属性设置 、 edit:编辑内容。默认不传则是 edit 编辑内容 
 	 */
 	@RequestMapping("/edit${url.suffix}")
 	public String edit(HttpServletRequest request ,Model model,
-			@RequestParam(value = "name", required = false , defaultValue="") String name){
+			@RequestParam(value = "name", required = false , defaultValue="") String name,
+			@RequestParam(value = "editType", required = false , defaultValue="edit") String editType){
 		Site site = getSite();
 		if(name.trim().length() > 0){
 			//修改
@@ -144,11 +147,12 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		SiteUser siteUser = SessionUtil.getSiteUser();
 		if(siteUser == null || siteUser.getSiteid() == null){
 			//主账号
-			return "siteVar/edit";
 		}else{
-			//子客户，只能看到修改
-			return "siteVar/subAccountEdit";
+			//子客户，只能看到修改，那么肯定就是只是编辑内容，不需要编辑属性的
+			editType = "property";
 		}
+		
+		return "siteVar/"+(editType.contentEquals("edit")? "edit":"property");
 	}
 	
 	

@@ -7,22 +7,56 @@
 
 <form id="form" class="layui-form" action="save.do" method="post" style="padding-top:20px; padding-right:20px;">
 	<input type="hidden" name="updateName" value="${siteVar.name }">
-	<input type="hidden" name="name" value="${siteVar.name }">
-	<input type="hidden" name="title" value="${siteVar.title }">
-	<input type="hidden" id="type" name="type" value="${siteVar.type }">
-	<textarea name="valueItems" id="valueItems" style="display:none;">${siteVar.valueItems }</textarea>
-	<textarea name="description" style="display:none;">${siteVar.description }</textarea>
-	
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="columnCode">变量名</label>
+		<div class="layui-input-block">
+			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入变量名" class="layui-input" value="${siteVar.name }">
+		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">同一个网站中，变量名必须是唯一的,限英文、数字、下划线_<br/>在制作模板时，也就是在模板变量跟模板页面中，可以用 {var.${siteVar.name }} 来调取变量值</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="columnCode">标题</label>
+		<div class="layui-input-block">
+			<input type="text" name="title" class="layui-input" value="${siteVar.title}">
+		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">实际给客户使用时，会隐藏变量名，这个标题就是显示给用户看的录入项的标题。这个标题就只是提供观看而已。</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="columnCode">录入方式</label>
+		<div class="layui-input-block">
+			<script type="text/javascript">writeSelectAllOptionFortype_('${siteVar.type}','', true);</script>
+		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">用户填写此变量的方式</div>
+	</div>
+	<div class="layui-form-item" id="valueItemsFormItem">
+		<label class="layui-form-label" id="columnCode">下拉数值</label>
+		<div class="layui-input-block">
+			<textarea name="valueItems" onchange="showVarValue('select');" id="valueItems" autocomplete="off" class="layui-textarea">${siteVar.valueItems }</textarea>
+		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">下拉选择框的可选项，每个选项一行，填写如：<br/>
+			<div>
+				0:关闭<br/>
+				1:开启
+			</div> 
+			每行格式的含义为  变量的值:用户看到的文字说明
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="description_label">备注说明</label>
+		<div class="layui-input-block">
+			<textarea name="description" lay-verify="description" autocomplete="off" placeholder="限200个字符以内" class="layui-textarea">${siteVar.description }</textarea>
+		</div>
+		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">只是备注而已，没有什么其他作用。修改的时候看到这个，能直到这是干嘛的</div>
+	</div>
 	<div class="layui-form-item" id="var_value_layuiItem">
-		<label class="layui-form-label" id="keywords_label">${siteVar.title}</label>
+		<label class="layui-form-label" id="keywords_label">变量值</label>
 		<div class="layui-input-block" id="var_value_div">
 			<textarea name="value" class="layui-textarea">${siteVar.value }</textarea>
 		</div>
-		<div class="layui-form-mid" style="margin-left: 110px;line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">${siteVar.description }</div>
 	</div>
-  	
-  	
-  	<div class="layui-form-item" id="sitecolumn_editUseExtendPhotos" style="display:none;">
+	
+	
+	<div class="layui-form-item" id="sitecolumn_editUseExtendPhotos" style="display:none;">
 	<div id="photosDefaultValue" style="display:none;">${siteVar.value}</div><!-- 这里放置图集原本的值 -->
 	<script>
 		try{
@@ -43,7 +77,7 @@
 		}catch(e){ console.log(e); }
 	</script>
 	<input type="hidden" value="0" id="photos_i" style="display:none;" /><!-- 这里放循环输出input的i，也就是extend.photos数组下标。也就是图集中有多少个input输入框。从0开始。此处由 appendPhotosInput 自动管理，不可吧此删除掉。 -->
-	<label class="layui-form-label" id="label_columnName">${siteVar.title}</label>
+	<label class="layui-form-label" id="label_columnName">文章图集</label>
 	<div class="layui-input-block" id="photoInputList" style="min-height: 0px;">
 		<!-- 同样，这个 photoInputList 里面的也算是每一个item的模版。item模版开始 -->
 		<div id="photos_input_item_{i}" style="padding-top:5px;">
@@ -62,13 +96,11 @@
 	</div>
 	<div style="padding-top:5px; padding-left:110px;">
 		<a href="javascript:appendPhotosInput('');" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius" style="float:left;">添加一个图片输入框</a>
-		<div class="layui-form-mid" style="line-height: 14px; color: gray; font-size: 12px; padding-top:0px;">${siteVar.description }</div>
+		<!-- <div class="explain" style=" float: left; padding-left: 15px; padding-top: 6px; float:left;">这里显示图集的上传指引，比如：建议图片比例为4:3</div> -->
 	</div>
 </div>
   <!--  图集，让文章可以拥有多张图片上传的功能。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到文章图集，点击 使用 即可。若是自己添加的输入模型，请保留 id="editUseExtendPhotos" ,不然栏目设置中的是否使用图集功能将会失效！ -->
 <script type="text/javascript" src="/js/admin/cms/news_extend_photos.js"></script>
-  
-  
   
   
 	  <div class="layui-form-item" style="text-align:center;">
@@ -78,13 +110,24 @@
 
 <div id="varValue" style="display:none;">${siteVar.value }</div>
 <script>
-//自适应弹出层大小
-var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-parent.layer.iframeAuto(index);
 
 layui.use(['element', 'form', 'layedit', 'laydate'], function(){
   var form = layui.form;
   var element = layui.element;
+  
+  //自定义验证规则
+  form.verify({
+    name: function(value){
+      if(value.length < 1){
+      	return '请输入变量名';
+      }
+		if(/^[a-zA-Z0-9_]*$/g.test(value)){
+			//success
+		}else{
+			return '变量名只限英文、数字、下划线_';
+		}
+    },
+  });
   
   //监听提交
   form.on('submit(demo1)', function(data){
@@ -112,6 +155,11 @@ layui.use(['element', 'form', 'layedit', 'laydate'], function(){
     return false;
   });
   
+  	//当类型发生变动改变
+	form.on('select(type)', function (data) {
+		showVarValue(document.getElementById("type").value);
+	});
+  
 });
 
 var exts = '${ossFileUploadImageSuffixList }';
@@ -120,10 +168,6 @@ var size = ${maxFileSizeKB};
 <script type="text/javascript" src="/js/admin/cms/siteVarEdit.js"></script>
 <script>
 showVarValue('${siteVar.type}');
-
-
-parent.layer.iframeAuto(index);
 </script>
-
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>

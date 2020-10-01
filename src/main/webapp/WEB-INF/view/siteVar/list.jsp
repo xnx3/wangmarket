@@ -28,6 +28,9 @@
 .tishi_0{
 	margin-top: -86px;
 }
+.property_button_1{
+	display:none;
+}
 </style>
 
 <div style="width:100%;height:100%; background-color: #fff; ">
@@ -62,7 +65,8 @@
 							}
 	                	</script>
 	                </td>
-	                <td style="text-align:center; width:110px;">
+	                <td style="text-align:center; width:140px;">
+	                	<button onclick="property('${item['name'] }');" class="layui-btn layui-btn-sm property_button_${isSubAccount}"><i class="layui-icon">&#xe614;</i></button>
 	                	<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 	                	<botton class="layui-btn layui-btn-sm del_var_${isSubAccount}" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
 	                </td>
@@ -76,6 +80,7 @@
 	</div>
 	<div style="padding-right:15px; text-align: right;" class="tishi_${isSubAccount}">
 		提示：&nbsp;&nbsp;&nbsp;
+		<botton class=""><i class="layui-icon">&#xe614;</i></botton><span style="padding-left:12px;padding-right: 30px;">设置编辑属性</span>
 		<botton class=""><i class="layui-icon">&#xe642;</i></botton><span style="padding-left:12px;padding-right: 30px;">编辑</span>
 		<botton class=""><i class="layui-icon">&#xe640;</i></botton><span style="padding-left:12px;padding-right: 30px;">删除</span>
 	</div>
@@ -121,10 +126,25 @@ function deleteVar(name){
  * name 修改的变量，如果是新增，传入 '' 空字符串
  */
 function edit(name){
-	var url = '/siteVar/edit.do?name='+name;
+	var url = '/siteVar/edit.do?editType=edit&name='+name;
 	layer.open({
 		type: 2, 
-		title:'编辑全局变量', 
+		title:'编辑变量内容', 
+		area: ['490px', '620px'],
+		shadeClose: true, //开启遮罩关闭
+		content: url,
+		closeBtn: 1
+	});
+}
+
+/**
+ * 编辑模板变量属性
+ */
+function property(name){
+	var url = '/siteVar/edit.do?editType=property&name='+name;
+	layer.open({
+		type: 2, 
+		title:'编辑变量属性', 
 		area: ['490px', '620px'],
 		shadeClose: true, //开启遮罩关闭
 		content: url,
