@@ -157,6 +157,10 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 			ActionLogUtil.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
 			return redirect(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());
 		}
+		if(SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
+			//尚未安装，进入安装界面
+			return redirect("install/index.do");
+		}
 		
 		ActionLogUtil.insert(request, "进入登录页面");
 		return "iw_update/login/login";
