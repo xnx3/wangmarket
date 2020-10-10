@@ -76,7 +76,7 @@
 	</table>
 
 	<div style="padding:15px;">
-		<button class="layui-btn add_var_${isSubAccount}" onclick="edit('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
+		<button class="layui-btn add_var_${isSubAccount}" onclick="property('');" style="margin-left: 10px;margin-bottom: 35px;"><i class="layui-icon" style="padding-right:8px; font-size: 22px;">&#xe608;</i>添加全局变量</button>
 	</div>
 	<div style="padding-right:15px; text-align: right;" class="tishi_${isSubAccount}">
 		提示：&nbsp;&nbsp;&nbsp;
