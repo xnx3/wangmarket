@@ -649,7 +649,7 @@ CREATE TABLE `template_var_data` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户id编号',
-  `username` char(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户名',
+  `username` char(40) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户名',
   `email` char(40) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '邮箱',
   `password` char(32) COLLATE utf8_unicode_ci NOT NULL COMMENT '加密后的密码',
   `head` char(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '头像',
