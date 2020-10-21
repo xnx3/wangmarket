@@ -413,9 +413,9 @@
 	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>1.0.1</version>  
+	        <version>1.1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.0.1.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.1.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  
