@@ -149,7 +149,7 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			//主账号
 		}else{
 			//子客户，只能看到修改，那么肯定就是只是编辑内容，不需要编辑属性的
-			editType = "property";
+			editType = "edit";
 		}
 		
 		return "siteVar/"+(editType.contentEquals("edit")? "edit":"property");
