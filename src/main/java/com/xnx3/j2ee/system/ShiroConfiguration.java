@@ -19,9 +19,12 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.web.filter.DelegatingFilterProxy;
+
 import com.xnx3.j2ee.pluginManage.interfaces.manage.ShiroFilterPluginManage;
 import com.xnx3.j2ee.shiro.CustomRealm;
 import com.xnx3.j2ee.util.RedisUtil;
@@ -220,7 +223,6 @@ public class ShiroConfiguration {
 //       cookieRememberMeManager.setCipherKey(Base64.decode("3AvVhmFLUs0KTA3Kprsdag=="));
        return cookieRememberMeManager;
     }
-    
 //    @Bean
 //    public FilterRegistrationBean delegatingFilterProxy(){
 //        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();

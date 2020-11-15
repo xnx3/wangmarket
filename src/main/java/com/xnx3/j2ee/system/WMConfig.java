@@ -10,7 +10,6 @@ import com.xnx3.j2ee.util.ConsoleUtil;
 /**
  * WM 的配置，service、dao等
  * @author 管雷鸣
- * com.xnx3.j2ee.dao.SqlDAO,
  */
 @Configuration
 @Order(11)
@@ -19,7 +18,6 @@ public class WMConfig {
 	public WMConfig() {
 		ConsoleUtil.info("Spring Scan : WMConfig");
 	}
-	
 	@Bean
 	public ApiService apiService(){
 		return new ApiServiceImpl();
