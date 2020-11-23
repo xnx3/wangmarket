@@ -566,7 +566,12 @@ function exportTemplate(){
  */
 function bindDomain(oldDomain,newDomain){
 	if(oldDomain == newDomain){
-		parent.msg.success('您已绑定');
+		if(oldDomain == ''){
+			//还未绑定域名时，点击的取消绑定
+			parent.msg.info('尚未绑定，无需解绑。');
+		}else{
+			parent.msg.success('您已绑定了');
+		}
 		return;
 	}
 	if(newDomain.length == 0){

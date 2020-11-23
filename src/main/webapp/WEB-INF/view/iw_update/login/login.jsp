@@ -16,7 +16,7 @@
 		password = "";
 	}
  %>
-<jsp:include page="../../iw/common/head.jsp">
+<jsp:include page="/wm/common/head.jsp">
 	<jsp:param name="title" value="登录"/>
 </jsp:include>
 
@@ -128,6 +128,7 @@ layui.use('form', function(){
        		console.log(obj);
        	}catch(e){}
        	if(obj.result == '1'){
+       		localStorage.setItem('token',obj.token);
        		msg.success("登陆成功", function(){
 	       		window.location.href=obj.info;
        		});
