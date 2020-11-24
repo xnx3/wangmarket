@@ -154,7 +154,7 @@ function openBindDomain(){
 	//展开某个一级栏目
 	unfoldFirstColumn('li_system');
 	//选中某个菜单
-	selectedLeftMenu('dd_wangzhanshuxing');
+	selectedLeftMenu('dd_domainBind');
 	
 	//调出绑定域名
 	updateBindDomain();

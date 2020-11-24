@@ -7,6 +7,7 @@ package com.xnx3.wangmarket.admin.util.TemplateAdminMenu;
 public enum TemplateMenuEnum {
 	SYSTEM("system", "系统设置", "javascript:;", "&#xe620;", ""),
 	SYSTEM_JiBenXinXi("jibenxinxi", "基本信息", "javascript:;", "", "system"),
+	SYSTEM_DomainBind("domainBind", "绑定域名", "javascript:updateBindDomain();", "", "system"),
 	SYSTEM_WangZhanSheZhi("wangzhanshuxing", "网站设置", "javascript:;", "", "system"),
 	SYSTEM_XiuGaiMiMa("xiugaimima", "修改密码", "javascript:updatePassword();", "", "system"),
 	SYSTEM_YuLanWangZhan("chakanwangzhan", "预览网站", "javascript:window.open('/sites/sitePreview.do');", "", "system"),
