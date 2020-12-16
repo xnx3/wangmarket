@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.xnx3.wangmarket</groupId>
   <artifactId>wangmarket</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.2</version>
+  <version>5.3</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -134,7 +134,7 @@
                 <!-- 指定resources插件处理哪个目录下的资源文件 -->  
                 <directory>src/main/webapp/WEB-INF</directory>  
                 <!-- 注意此次必须要放在此目录下才能被访问到 -->  
-                <targetPath>META-INF/resources/</targetPath>  
+                <targetPath>META-INF/resources/WEB-INF/</targetPath>  
                 <includes>  
                     <include>view/**</include>  
                 </includes>  
