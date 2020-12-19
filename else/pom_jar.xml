@@ -116,6 +116,16 @@
                     </plugin>
 	    </plugins>
 	    <resources>  
+	    	<!-- 将 resource/META-INF 下的配置文件拷贝到jar包 META-INF 目录下 -->  
+            <resource>  
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->  
+                <directory>src/main/resources</directory>  
+                <!-- 注意此次必须要放在此目录下才能被访问到 -->  
+                <targetPath>./</targetPath>  
+                <includes>  
+                    <include>META-INF/**</include>  
+                </includes>
+            </resource> 
             <!-- 将 resource/static 下的配置文件拷贝到jar包  -->  
             <resource>  
                 <!-- 指定resources插件处理哪个目录下的资源文件 -->  
@@ -426,12 +436,12 @@
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xssProtect-0.1.jar</systemPath>  
 	    </dependency>
-	    <dependency> 
+	    <dependency>
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>1.3</version>  
+	        <version>1.9</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.3.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.9.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  
