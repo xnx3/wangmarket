@@ -20,6 +20,7 @@ public class Permission implements java.io.Serializable {
 	private Integer parentId;	//上级资源的id，对应的也是 permission.id
 	private String name;		//名字，这个资源权限的名字，显示给用户的
 	private String percode;		//shiro中，与 @RequiresPermissions 所标注对应，这里也就是这个注解所标注的值
+	private Short menu;			//是否作为菜单，在菜单中显示， 1是，0否
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -61,6 +62,12 @@ public class Permission implements java.io.Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Short getMenu() {
+		return menu;
+	}
+	public void setMenu(Short menu) {
+		this.menu = menu;
 	}
 	@Override
 	public String toString() {

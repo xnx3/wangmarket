@@ -49,19 +49,6 @@ public class LoginController extends BaseController {
 	    com.xnx3.j2ee.util.CaptchaUtil.showImage(captchaUtil, request, response);
 	}
 	
-	/**
-	 * 登陆页面
-	 */
-//	@RequestMapping("login${url.suffix}")
-	public String login(HttpServletRequest request,Model model){
-		if(getUser() != null){
-			ActionLogUtil.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
-			return redirect("");
-		}
-		
-		ActionLogUtil.insert(request, "进入登录页面");
-		return "iw_update/login/login";
-	}
 
 	/**
 	 * 登陆请求验证

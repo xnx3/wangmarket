@@ -90,9 +90,6 @@
                         <configuration>
 							<excludes>
 		            			<exclude>**/com/Application*</exclude>
-		            			<exclude>**/com/xnx3/j2ee/entity/**</exclude>
-		            			<exclude>**/com/xnx3/j2ee/controller/**</exclude>
-		            			<exclude>**/com/xnx3/j2ee/system/**</exclude>
 		            			<exclude>**/*.xml</exclude>
 		            			<exclude>**/*.json</exclude>
 		            			<exclude>**/*.db</exclude>

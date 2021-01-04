@@ -163,7 +163,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		
 		ActionLogUtil.insert(request, "进入登录页面");
-		return "iw_update/login/login";
+		return "/wm/login/login";
 	}
 	
 	/**

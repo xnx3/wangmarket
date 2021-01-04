@@ -18,7 +18,6 @@ import com.xnx3.wangmarket.admin.entity.Site;
 public class G {
 	/**
 	 * 当前的版本号。1.x为通用模版时代； 2.x为cms时代, 3.x 整体架构及云模块使用升级， 4.x整体架构升级，由深度依赖阿里云抽离， 5.x 插件时代，将更多的功能以插件的形式来做
-	 * @deprecated 转移到 {@link Global}
 	 */
 	public static final String VERSION = "5.2";	
 	

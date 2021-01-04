@@ -166,11 +166,11 @@
 		</dependency>
 	    
 		<!-- 热部署,注意如果开启redis，要注释掉这个 -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <optional>true</optional>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
             <groupId>commons-configuration</groupId>
@@ -432,9 +432,9 @@
 	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>1.6</version>  
+	        <version>1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.6.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.14.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  

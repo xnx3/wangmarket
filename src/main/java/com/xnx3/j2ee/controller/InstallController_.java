@@ -71,7 +71,7 @@ public class InstallController_ extends BaseController {
 		
 		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentUtil.MODE_LOCAL_FILE);
 		model.addAttribute("AttachmentFile_MODE_ALIYUN_OSS", AttachmentUtil.MODE_ALIYUN_OSS);
-		return "iw_update/install/selectAttachment";
+		return "/wm/install/selectAttachment";
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class InstallController_ extends BaseController {
 		
 		model.addAttribute("fangwenyuming", fangwenyuming);
 		model.addAttribute("fujianyuming", fujianyuming);
-		return "iw_update/install/systemSet";
+		return "/wm/install/systemSet";
 	}
 	
 
@@ -136,7 +136,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/installSuccess${url.suffix}")
 	public String installSuccess(HttpServletRequest request, Model model){
 		ActionLogUtil.insert(request, "进入install安装-安装成功页面");
-		return "iw_update/install/installSuccess";
+		return "/wm/install/installSuccess";
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class InstallController_ extends BaseController {
 		
 		ActionLogUtil.insert(request, "进入install安装-设置域名");
 		model.addAttribute("autoAssignDomain", autoAssignDomain);
-		return "iw_update/install/domainSet";
+		return "/wm/install/domainSet";
 	}
 	
 
