@@ -5,13 +5,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
  * News entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "news")
+@Table(name = "news", indexes={@Index(name="suoyin_index",columnList="userid,addtime,type,status,cid,siteid")})
 public class News implements java.io.Serializable {
 	/**
 	 * 正常显示

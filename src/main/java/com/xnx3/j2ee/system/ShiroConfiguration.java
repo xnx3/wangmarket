@@ -177,6 +177,8 @@ public class ShiroConfiguration {
 	    //Session失效时长，单位是毫秒，这里是12小时
         sessionManager.setGlobalSessionTimeout(12*60*60*1000);
         
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        
         return sessionManager;
     }
     

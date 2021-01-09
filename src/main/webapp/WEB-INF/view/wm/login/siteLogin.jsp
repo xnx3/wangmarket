@@ -159,7 +159,7 @@ code.setAttribute('src','captcha.do?'+Math.random());
 //这里必须加入随机数不然地址相同我发重新加载
 }
 
-
+/* 
 //检测浏览器，若不是Chrome浏览器，弹出提示
 if(navigator.userAgent.indexOf('Chrome') == -1){
 	layer.open({
@@ -178,7 +178,7 @@ if(navigator.userAgent.indexOf('Chrome') == -1){
 	    layer.closeAll();
 	  }
 	});
-}
+} */
 
 </script>
 

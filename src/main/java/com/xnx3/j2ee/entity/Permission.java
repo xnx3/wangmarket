@@ -21,6 +21,12 @@ public class Permission implements java.io.Serializable {
 	private String name;		//名字，这个资源权限的名字，显示给用户的
 	private String percode;		//shiro中，与 @RequiresPermissions 所标注对应，这里也就是这个注解所标注的值
 	private Short menu;			//是否作为菜单，在菜单中显示， 1是，0否
+	private Integer rank;		//排序，数字越小越靠前
+	
+	public Permission() {
+		this.menu = 0;
+		this.rank = 0;
+	}
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -69,9 +75,21 @@ public class Permission implements java.io.Serializable {
 	public void setMenu(Short menu) {
 		this.menu = menu;
 	}
+	
+	@Column(name = "rank", columnDefinition="int(11) COMMENT '排序，数字越小越靠前' default '0'")
+	public Integer getRank() {
+		return rank;
+	}
+
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
 	@Override
 	public String toString() {
 		return "Permission [id=" + id + ", description=" + description + ", url=" + url + ", parentId=" + parentId
-				+ ", name=" + name + ", percode=" + percode + "]";
+				+ ", name=" + name + ", percode=" + percode + ", menu=" + menu + ", rank=" + rank + "]";
 	}
+	
+	
 }

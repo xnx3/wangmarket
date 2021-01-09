@@ -191,7 +191,7 @@ public class RoleAdminController extends BaseController {
 		permission.setParentId(permissionInput.getParentId());
 		permission.setPercode(permissionInput.getPercode());
 		permission.setUrl(permissionInput.getUrl());
-		permission.setMenu(permissionInput.getMenu());
+//		permission.setMenu(permissionInput.getMenu());
 		sqlService.save(permission);
 		ActionLogUtil.insertUpdateDatabase(request, permission.getId(), "资源Permission保存", permission.getName()+"，"+permission.getDescription());
 		return success();
@@ -228,7 +228,7 @@ public class RoleAdminController extends BaseController {
 		int count = sqlService.count("permission", sql.getWhere());
 		Page page = new Page(count, 1000, request);
 		sql.setSelectFromAndPage("SELECT * FROM permission", page);
-		sql.setDefaultOrderBy("permission.id DESC");
+		sql.setDefaultOrderBy("permission.rank ASC");
 		List<Permission> list = sqlService.findBySql(sql, Permission.class);
 		List<PermissionTree> permissionTreeList = new ShiroFunc().PermissionToTree(new ArrayList<Permission>(), list);
 		
@@ -321,4 +321,50 @@ public class RoleAdminController extends BaseController {
 		}
 	}
 	
+
+	/**
+	 * 设置当前资源是否是菜单
+	 * @param permissionid 资源的id
+	 * @param role 权限多选框提交列表，如 1,2,3,4,5
+	 */
+	@RequiresPermissions("adminRoleEditPermissionMenu")
+	@RequestMapping(value="editPermissionMenu${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO editPermissionMenu(
+			@RequestParam(value = "permissionid", required = true, defaultValue="0") int permissionid,
+			@RequestParam(value = "menu", required = false, defaultValue="0") short menu,
+			Model model, HttpServletRequest request){
+		Permission permission = sqlService.findById(Permission.class, permissionid);
+		if(permission == null){
+			return error("要操作的资源不存在");
+		}
+		
+		permission.setMenu((short) (menu - 1 == 0? 1:0));
+		sqlService.save(permission);
+		
+		ActionLogUtil.insertUpdateDatabase(request, permission.getId(), "修改资源是否是菜单", permission.toString());
+		return success();
+	}
+	
+	/**
+	 * 保存资源的排序
+	 * @param permissionid 要调整排序的资源id
+	 * @param rank 排序的数字，数字越小越靠前
+	 */
+	@RequiresPermissions("adminRoleEditPermissionRank")
+	@RequestMapping(value="/savePermissionRank${url.suffix}", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO savePermissionRank(HttpServletRequest request,
+			@RequestParam(value = "permissionid", required = false , defaultValue="0") int permissionid,
+			@RequestParam(value = "rank", required = false , defaultValue="0") int rank){
+		Permission permission = sqlService.findById(Permission.class, permissionid);
+		if(permission == null){
+			return error("要操作的资源不存在");
+		}
+		permission.setRank(rank);
+		sqlService.save(permission);
+		
+		ActionLogUtil.insertUpdateDatabase(request, permission.getId(), "保存权限资源的排序", permission.toString());
+		return success();
+	}
 }

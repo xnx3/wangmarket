@@ -60,7 +60,7 @@ public class UserAdminController extends BaseController {
 	@RequestMapping("list${url.suffix}")
 	public String list(HttpServletRequest request,Model model){
 		Sql sql = new Sql(request);
-		sql.setSearchColumn(new String[]{"username","email","nickname","phone","id=","regtime(date:yyyy-MM-dd hh:mm:ss)>"});
+		sql.setSearchColumn(new String[]{"username","email","nickname","authority","referrerid","phone","id=","regtime(date:yyyy-MM-dd hh:mm:ss)>"});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
 		sql.setSelectFromAndPage("SELECT * FROM user", page);

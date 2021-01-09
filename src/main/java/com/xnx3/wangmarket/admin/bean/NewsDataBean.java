@@ -11,10 +11,10 @@ import net.sf.json.JSONObject;
  *
  */
 public class NewsDataBean {
-	private int id;	//对应news.id
-	private String text;	//对应news_data.text
-	private JSONObject extendJson;	//对应news_data.extend，只不过不同的是，这里是将 extend转化为了json对象，需要什么数据直接从这里取
-	private JSONArray photoJsonArray;	//将 photos 转化为的json字符串。如果里面没有内容，这里是null
+	public int id;	//对应news.id
+	public String text;	//对应news_data.text
+	public JSONObject extendJson;	//对应news_data.extend，只不过不同的是，这里是将 extend转化为了json对象，需要什么数据直接从这里取
+	public JSONArray photoJsonArray;	//将 photos 转化为的json字符串。如果里面没有内容，这里是null
 	
 	public NewsDataBean(NewsData newsData) {
 		if(newsData == null){
