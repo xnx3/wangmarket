@@ -166,11 +166,11 @@
 		</dependency>
 	    
 		<!-- 热部署,注意如果开启redis，要注释掉这个 -->
-		<!-- <dependency>
+		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <optional>true</optional>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
             <groupId>commons-configuration</groupId>
@@ -381,7 +381,38 @@
 		    <artifactId>alipay-sdk-java</artifactId>
 		    <version>4.9.13.ALL</version>
 		</dependency>
-				
+		
+		
+		
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>7.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+			<version>7.10.1</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>org.elasticsearch</groupId>
+                    <artifactId>elasticsearch</artifactId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+<!-- 		<dependency>
+		  <groupId>com.xnx3.elasticsearch</groupId>
+		  <artifactId>elasticsearch</artifactId>
+		  <version>1.0</version>
+		</dependency>
+ -->
+ 		<dependency> 
+	        <groupId>com.xnx3.elasticsearch</groupId>
+		  <artifactId>elasticsearch</artifactId>
+		  <version>1.0</version>
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/elasticsearch-1.1.jar</systemPath>  
+	    </dependency>
 
 	    <!-- 本地的 -->
 	    <dependency> 
@@ -434,7 +465,7 @@
 	        <artifactId>wm</artifactId>  
 	        <version>1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.14.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.15.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  

@@ -386,6 +386,37 @@
 		    <version>4.9.13.ALL</version>
 		</dependency>
 				
+		
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>7.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+			<version>7.10.1</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>org.elasticsearch</groupId>
+                    <artifactId>elasticsearch</artifactId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+<!-- 		<dependency>
+		  <groupId>com.xnx3.elasticsearch</groupId>
+		  <artifactId>elasticsearch</artifactId>
+		  <version>1.0</version>
+		</dependency>
+ -->
+ 		<dependency> 
+	        <groupId>com.xnx3.elasticsearch</groupId>
+		  <artifactId>elasticsearch</artifactId>
+		  <version>1.0</version>
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/elasticsearch-1.1.jar</systemPath>  
+	    </dependency>
+		
 
 	    <!-- 本地的 -->
 	    <dependency> 
@@ -436,9 +467,9 @@
 	    <dependency>
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>1.9</version>  
+	        <version>1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.9.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.15.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  
