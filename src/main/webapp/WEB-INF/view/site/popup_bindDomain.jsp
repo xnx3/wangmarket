@@ -42,7 +42,7 @@ li{
 	<div style="color:gray;  padding-bottom: 5px; font-size:14px;">
 		提示：
 		<br/>&nbsp;1. 中文域名无法绑定
-		<br/>&nbsp;2. 如果您想解除域名绑定，可<a href="javascript:parent.bindDomain('${site.bindDomain }','');" style="padding:2px; cursor:pointer; color: blue; text-decoration: underline;">点击此处取消绑定</a>
+		<br/>&nbsp;2. 如果您想解除域名绑定，可<a href="javascript:bindDomain('${site.bindDomain }','');" style="padding:2px; cursor:pointer; color: blue; text-decoration: underline;">点击此处取消绑定</a>
 	</div>
 </div>
 
@@ -58,11 +58,56 @@ try{
 //点击保存的按钮
 function submitButton(){
 	if(document.getElementById('domain').value.length == 0){
-		parent.msg.failure("尚未输入");
+		msg.failure("尚未输入");
 		return;
 	}
-	//调用 commonedit.js的函数
-	parent.bindDomain('${site.bindDomain }',document.getElementById('domain').value);
+	
+	var oldDomain = '${site.bindDomain }';
+	var newDomain = document.getElementById('domain').value;
+	bindDomain(oldDomain, newDomain);
+}
+
+/** v4.4
+ * 绑定域名、解绑域名
+ * oldDomain 之前使用的域名
+ * newDomain 要绑定的域名。 若为空字符串，则是解除绑定
+ */
+function bindDomain(oldDomain,newDomain){
+	if(oldDomain == newDomain){
+		if(oldDomain == ''){
+			//还未绑定域名时，点击的取消绑定
+			msg.info('尚未绑定，无需解绑。');
+		}else{
+			msg.success('您已绑定了');
+		}
+		return;
+	}
+	if(newDomain.length == 0){
+		msg.loading("解绑中");
+	}else{
+		msg.loading("绑定中");
+	}
+	$.post("/sites/updateBindDomain.do?bindDomain="+newDomain, function(data){
+		msg.close();
+		if(data.result == '1'){
+			if(newDomain.length == 0){
+				msg.success("已解绑", function(){
+					//刷新当前页面
+					location.reload();
+				});
+			}else{
+				msg.success("绑定成功", function(){
+					//刷新当前页面
+					location.reload();
+				});
+			}
+			
+	 	}else if(data.result == '0'){
+	 		msg.failure(data.info);
+	 	}else{
+	 		msg.failure('操作失败');
+	 	}
+	});
 }
 </script>
 

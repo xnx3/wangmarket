@@ -563,6 +563,7 @@ function exportTemplate(){
  * 绑定域名、解绑域名
  * oldDomain 之前使用的域名
  * newDomain 要绑定的域名。 若为空字符串，则是解除绑定
+ * 这个已废弃，转移到site/popup_bindDomain.jsp 中
  */
 function bindDomain(oldDomain,newDomain){
 	if(oldDomain == newDomain){
