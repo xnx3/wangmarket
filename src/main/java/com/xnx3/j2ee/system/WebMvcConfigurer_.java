@@ -2,7 +2,6 @@ package com.xnx3.j2ee.system;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.xnx3.j2ee.pluginManage.interfaces.manage.SpringMVCInterceptorPluginManage;
-import com.xnx3.j2ee.system.interceptor.AllInterceptor;
 import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
@@ -24,8 +22,6 @@ public class WebMvcConfigurer_ implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AllInterceptor()).addPathPatterns("/**");
-        
         for (int i = 0; i < SpringMVCInterceptorPluginManage.handlerInterceptorList.size(); i++) {
         	Map<String, Object> map = SpringMVCInterceptorPluginManage.handlerInterceptorList.get(i);
         	HandlerInterceptor handler = (HandlerInterceptor) map.get("class");
