@@ -838,6 +838,7 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		//导入全局变量,v5.1增加
 		if(tvo.getSiteVarJson().size() > 0){
+			sqlDAO.executeSql("DELETE FROM site_var WHERE id = "+tvo.getCurrentSite().getId());	//避免当前网站已经设置过全局变量，先执行一次delete删除
 			SiteVar siteVar = new SiteVar();
 			siteVar.setId(tvo.getCurrentSite().getId());
 			siteVar.setText(tvo.getSiteVarJson().toString());
