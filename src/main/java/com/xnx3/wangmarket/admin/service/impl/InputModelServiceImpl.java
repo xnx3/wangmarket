@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
@@ -234,6 +235,9 @@ public class InputModelServiceImpl implements InputModelService {
 	public String getDefaultInputModelText() {
 		if(defaultInputModelText == null){	
 			defaultInputModelText = FileUtil.read(SystemUtil.getProjectPath()+"static/inputModel/default.html");
+			if(defaultInputModelText == null || defaultInputModelText.length() < 1) {
+				ConsoleUtil.error("错误！！检测到系统默认的输入模型不存在！请确认 src/main/resources/static/inputModel/default.html 是否存在！");
+			}
 		}
 		return defaultInputModelText;
 	}
