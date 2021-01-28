@@ -10,7 +10,7 @@
 <script src="/js/fun.js"></script>
 <script src="/js/admin/cms/cms.js?v=<%=G.VERSION %>"></script>
 <script>
-var masterSiteUrl = '//<%=request.getServerName() %>:<%=request.getServerPort() %>/';
+var masterSiteUrl = window.location.protocol+'//'+location.host+'/';
 var autoAssignDomain = '${autoAssignDomain }';
 </script>
 <style>
