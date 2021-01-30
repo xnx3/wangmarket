@@ -14,7 +14,7 @@
 	<textarea name="description" style="display:none;">${siteVar.description }</textarea>
 	
 	<div class="layui-form-item" id="var_value_layuiItem">
-		<label class="layui-form-label" id="keywords_label">${siteVar.title}</label>
+		<label class="layui-form-label" id="keywords_label" style=" height: 18px;">${siteVar.title}</label>
 		<div class="layui-input-block" id="var_value_div">
 			<textarea name="value" class="layui-textarea">${siteVar.value }</textarea>
 		</div>

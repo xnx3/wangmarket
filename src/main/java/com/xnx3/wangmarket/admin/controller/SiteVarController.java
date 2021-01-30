@@ -20,9 +20,11 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.SiteVarBean;
+import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteUser;
 import com.xnx3.wangmarket.admin.entity.SiteVar;
+import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
@@ -49,6 +51,11 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	@RequestMapping("/list${url.suffix}")
 	public String list(HttpServletRequest request ,Model model){
 		JSONObject json = siteVarService.getVar(getSiteId());
+		Site site = getSite();
+		
+		//列表中的值，替换公共标签使用
+		Template templateEntity = sqlService.findAloneByProperty(Template.class, "name", site.getTemplateName());
+		TemplateCMS template = new TemplateCMS(site, templateEntity);
 		
 		//将json转化为list形式
 		List<SiteVarBean> list = new ArrayList<SiteVarBean>();
@@ -60,7 +67,7 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
             
             bean.setName(key);
             bean.setDescription(item.getString("description"));
-            bean.setValue(item.getString("value").replaceAll("\r|\n", " "));
+            bean.setValue(template.replacePublicTag(item.getString("value").replaceAll("\r|\n", " ")));
             if(item.get("type") == null){
             	bean.setType(SiteVar.TYPE_TEXT);
 			}else{
