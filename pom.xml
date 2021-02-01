@@ -465,7 +465,7 @@
 	        <artifactId>wm</artifactId>  
 	        <version>1</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.16.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-1.17.jar</systemPath>  
 	    </dependency>
 	    <dependency> 
 	        <groupId>com.xnx3.cache</groupId>  
