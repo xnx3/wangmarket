@@ -26,7 +26,8 @@
 	<div id="photosDefaultValue" style="display:none;">${siteVar.value}</div><!-- 这里放置图集原本的值 -->
 	<script>
 		try{
-			var pdv = document.getElementById('photosDefaultValue').innerHTML.trim().replace(/{templatePath}/g,'${templatePath}');;
+			//var pdv = document.getElementById('photosDefaultValue').innerHTML.trim().replace(/{templatePath}/g,'${templatePath}');
+			var pdv = document.getElementById('photosDefaultValue').innerHTML.trim();
 			if(pdv.length > 0 && pdv.indexOf(',') > 0){
 				var pdvs = pdv.split(',');
 				var pdvjson = '[';
@@ -52,7 +53,7 @@
 				<i class="layui-icon layui-icon-upload"></i>
 			</button>
 			<a href="{value}" id="titlePicA{i}" style="float: right;margin-top: -38px;margin-right: 116px;" title="预览原始图片" target="_black">
-				<img id="titlePicImg{i}" src="{value}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+				<img id="titlePicImg{i}" class="previewImg" src="{value}?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
 			</a><input class="layui-upload-file" type="file" name="fileName">
 			<a href="javascript:deletePhotosInput('{i}');" class="layui-btn" style="float: right;margin-top: -38px;margin-right: 58px;" title="删除" >
 				<i class="layui-icon layui-icon-delete"></i>
@@ -67,7 +68,6 @@
 </div>
   <!--  图集，让文章可以拥有多张图片上传的功能。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到文章图集，点击 使用 即可。若是自己添加的输入模型，请保留 id="editUseExtendPhotos" ,不然栏目设置中的是否使用图集功能将会失效！ -->
 <script type="text/javascript" src="/js/admin/cms/news_extend_photos.js"></script>
-  
   
   
   
@@ -124,6 +124,18 @@ showVarValue('${siteVar.type}');
 
 parent.layer.iframeAuto(index);
 </script>
-
+<script>
+try{
+	//图片预览, 将 {templatePath} 转化为绝对url路径，来显示出图片
+	var templatePath = '${templatePath}';
+	var previreImgList = document.getElementsByClassName('previewImg');
+	for(var i = 0; i < previreImgList.length; i++){ 
+		previreImgList[i].src = previreImgList[i].attributes.src.value.replace(/{templatePath}/g,templatePath);
+		previreImgList[i].parentNode.href=previreImgList[i].src;
+	}
+}catch(e){
+	console.log(e);
+}
+</script>
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>
