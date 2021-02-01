@@ -26,7 +26,7 @@
 	<div id="photosDefaultValue" style="display:none;">${siteVar.value}</div><!-- 这里放置图集原本的值 -->
 	<script>
 		try{
-			var pdv = document.getElementById('photosDefaultValue').innerHTML.trim();
+			var pdv = document.getElementById('photosDefaultValue').innerHTML.trim().replace(/{templatePath}/g,'${templatePath}');;
 			if(pdv.length > 0 && pdv.indexOf(',') > 0){
 				var pdvs = pdv.split(',');
 				var pdvjson = '[';

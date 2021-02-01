@@ -159,6 +159,10 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			editType = "edit";
 		}
 		
+		//列表中的值，替换公共标签使用
+		Template templateEntity = sqlService.findAloneByProperty(Template.class, "name", site.getTemplateName());
+		TemplateCMS template = new TemplateCMS(site, templateEntity);
+		model.addAttribute("templatePath", template.getTemplatePath());
 		return "siteVar/"+(editType.contentEquals("edit")? "edit":"property");
 	}
 	
