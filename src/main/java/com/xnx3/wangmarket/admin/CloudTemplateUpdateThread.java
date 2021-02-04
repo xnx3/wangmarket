@@ -8,6 +8,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.ApplicationPropertiesUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.HttpResponse;
@@ -26,6 +27,14 @@ public class CloudTemplateUpdateThread {
 	}
 
 	public CloudTemplateUpdateThread() {
+		String netStr = ApplicationPropertiesUtil.getProperty("wm.server.net");
+		if(netStr == null || netStr.trim().equalsIgnoreCase("true")) {
+			//开启外网的
+		}else {
+			//不开启外网，那么直接退出，不需要再加载模板库了
+			ConsoleUtil.info("application.properties -> wm.server.net=false, cloud template not load");
+			return;
+		}
 		new Thread(new Runnable() {
 			public void run() {
 				ConsoleUtil.info("Start the cloud template thread synchronization");
