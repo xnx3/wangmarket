@@ -28,13 +28,23 @@ public class CloudTemplateUpdateThread {
 
 	public CloudTemplateUpdateThread() {
 		String netStr = ApplicationPropertiesUtil.getProperty("wm.server.net");
-		if(netStr == null || netStr.trim().equalsIgnoreCase("true")) {
-			//开启外网的
-		}else {
+		if(netStr == null || netStr.trim().length() == 0) {
+			//未设置的，默认就是开启
+			netStr = "true";
+		}
+		
+		netStr = netStr.trim();
+		if(netStr.equalsIgnoreCase("true")) {
+			//开启
+		}else if(netStr.equalsIgnoreCase("false")) {
+			//关闭，无网络环境
 			//不开启外网，那么直接退出，不需要再加载模板库了
 			ConsoleUtil.info("application.properties -> wm.server.net=false, cloud template not load");
 			return;
+		}else {
+			ConsoleUtil.info("WARNING!  application.properties -> wm.server.net is not true or false, cloud template default start");
 		}
+		
 		new Thread(new Runnable() {
 			public void run() {
 				ConsoleUtil.info("Start the cloud template thread synchronization");
