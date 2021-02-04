@@ -848,7 +848,7 @@ public class TemplateController extends BaseController {
 			e.printStackTrace();
 			return BaseVO.failure("生成整站时，插件 finish 接口的实现失败，但当前网站已正常生成成功！插件异常："+e.getMessage());
 		}
-		return vo;
+		return success(vo.getInfo());
 	}
 	
 	/**
