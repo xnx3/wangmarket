@@ -134,6 +134,7 @@
                     <include>css/**</include>
                     <include>inputModel/**</include>
                     <include>image/**</include>  
+                    <include>plugin/**</include>  
                 </includes>
             </resource> 
              <!-- 打包时将jsp文件拷贝到META-INF目录下 -->  

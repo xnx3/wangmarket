@@ -201,6 +201,17 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        	parent.msg.close();    //关闭“操作中”的等待提示
 	        	if(data.result == '1'){
 			        //上传成功
+			        
+	        		//判断是否有 saveSuccess() 方法，若有，则先执行 saveSuccess()  这个方法是用户在输入模型中自己定义的
+	        		if(typeof(saveSuccess) == 'function'){
+	        			try{
+	        				var success_return = saveSuccess();
+	        				if(typeof(success_return) == 'boolean' && success_return == false){
+	        					return false;
+	        				}
+	        			}catch(err){ console.log(err); }
+	        		}
+			        
 	            	parent.msg.success('保存成功');
 	            	window.location.href='listForTemplate.do?cid=${news.cid }';
 			    }else if(data.result == '0'){
