@@ -205,6 +205,11 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 				<i class="layui-icon firstMenuIcon">&#xe857;</i>
 				<span class="firstMenuFont">功能插件</span>
 			</a>
+			<style>
+			#pluginManage{
+				display:none;
+			}
+			</style>
 			<dl class="layui-nav-child" id="plugin_submenu">${pluginMenu }</dl>
 		</li>
 		<script>
