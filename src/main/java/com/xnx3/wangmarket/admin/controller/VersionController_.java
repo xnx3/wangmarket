@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.controller;
+package com.xnx3.wangmarket.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;

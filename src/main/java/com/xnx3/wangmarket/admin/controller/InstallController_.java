@@ -1,4 +1,4 @@
-package com.xnx3.j2ee.controller;
+package com.xnx3.wangmarket.admin.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +71,7 @@ public class InstallController_ extends BaseController {
 		
 		model.addAttribute("AttachmentFile_MODE_LOCAL_FILE", AttachmentUtil.MODE_LOCAL_FILE);
 		model.addAttribute("AttachmentFile_MODE_ALIYUN_OSS", AttachmentUtil.MODE_ALIYUN_OSS);
-		return "/wm/install/selectAttachment";
+		return "/install/selectAttachment";
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class InstallController_ extends BaseController {
 		
 		model.addAttribute("fangwenyuming", fangwenyuming);
 		model.addAttribute("fujianyuming", fujianyuming);
-		return "/wm/install/systemSet";
+		return "/install/systemSet";
 	}
 	
 
@@ -136,7 +136,7 @@ public class InstallController_ extends BaseController {
 	@RequestMapping("/installSuccess${url.suffix}")
 	public String installSuccess(HttpServletRequest request, Model model){
 		ActionLogUtil.insert(request, "进入install安装-安装成功页面");
-		return "/wm/install/installSuccess";
+		return "/install/installSuccess";
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class InstallController_ extends BaseController {
 		
 		ActionLogUtil.insert(request, "进入install安装-设置域名");
 		model.addAttribute("autoAssignDomain", autoAssignDomain);
-		return "/wm/install/domainSet";
+		return "/install/domainSet";
 	}
 	
 
