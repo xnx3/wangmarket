@@ -68,7 +68,7 @@ public class LoginController extends BaseController {
 	 * 登录
 	 */
 	@RequestMapping("login${url.suffix}")
-	public String login(HttpServletRequest request,Model model){
+	public String login(HttpServletRequest request){
 		if(getUser() != null){
 			ActionLogUtil.insert(request, "进入登录页面", "已经登录成功，无需再登录，进行跳转");
 			return redirect(com.xnx3.wangmarket.admin.Func.getConsoleRedirectUrl());
