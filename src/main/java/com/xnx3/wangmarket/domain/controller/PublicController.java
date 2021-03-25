@@ -15,6 +15,7 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
@@ -25,6 +26,7 @@ import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.Log;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+import com.xnx3.wangmarket.domain.bean.TextBean;
 import com.xnx3.wangmarket.domain.pluginManage.interfaces.manage.DomainPluginManage;
 import com.xnx3.wangmarket.domain.util.GainSource;
 import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
@@ -111,83 +113,83 @@ public class PublicController extends BaseController {
 			//v4.12增加
 			model.addAttribute("adminUrl", getAdminLoginUrl());
 			return "domain/notFindDomain";
-		}else{
-			//判断网站的状态，冻结的网站将无法访问
-			SimpleSite simpleSite = simpleSiteVO.getSimpleSite();
-			if(simpleSite.getState() != null){
-				if(simpleSite.getState() - Site.STATE_FREEZE == 0){
-					//2为冻结，暂停，此时访问网站会直接到冻结的提示页面
-					model.addAttribute("url", simpleSiteVO.getServerName()+"/"+htmlFile);
-					return "domain/pause";
-				}
-			}
-			
-			String html = GainSource.get("site/"+simpleSite.getId()+"/"+htmlFile);
-			if(html == null){
-				//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
-				if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
-					System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
-				}
-				if(htmlFile.equals("index.html")){
-					//如果是首页，但是没有获取到这个页面的数据
-					
-					//有可能是系统还未安装，判断，如果是，则进行指引安装
-					if(!isUnInstallRequest()){
-						return "domain/welcome";
-					}
-					
-					//已安装过了，正常访问，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
-					//v4.12增加
-					model.addAttribute("adminUrl", getAdminLoginUrl());
-					return "domain/notFindIndexHtml";
-				}
-				return "domain/404";
-			}
-			
-			//如果用的第六套模版，需要进行手机电脑自适应
-			if(simpleSite.getTemplateId() - 6 == 0){
-				//判断是否增加了 viewport，若没有，补上
-				if(html.indexOf("<meta name=\"viewport\"") == -1){
-					String equiv = "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-					int ins = -1;
-					int equivInt = html.indexOf(equiv);
-					if(equivInt > -1){
-						ins = equivInt + equiv.length();
-					}
-					html = StringUtil.insert(html, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">", ins);
-				}
-			}
-			
-			html = replaceHtmlTag(simpleSite, html);
-			//过滤掉空行
-//			html = html.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", ""); 
-			
-			
-			/**** 针对html源码处理插件 ****/
-			try {
-				html = DomainPluginManage.manage(html, simpleSite, requestInfo);
-			} catch (InstantiationException | IllegalAccessException
-					| NoSuchMethodException | SecurityException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			
-			
-			model.addAttribute("html", html);
-			
-			//判断此网站的类型，是PC端还是手机端
-			if(simpleSite.getClient() - Site.CLIENT_WAP == 0){
-				//手机端
-				//如果是电脑浏览的，会显示经过处理的电脑页面，有个手机模拟器
-				//如果是手机访问的，也是使用二级域名进行访问
-				boolean isMobile = TerminalDetection.checkMobileOrPc(request);
-				if(!isMobile){
-					model.addAttribute("url", AttachmentUtil.netUrl()+"site/"+simpleSite.getId()+"/"+htmlFile);
-					return "domain/pcPreview";
-				}
-			}
-			return "domain/display";
 		}
+		
+		//判断网站的状态，冻结的网站将无法访问
+		SimpleSite simpleSite = simpleSiteVO.getSimpleSite();
+		if(simpleSite.getState() != null){
+			if(simpleSite.getState() - Site.STATE_FREEZE == 0){
+				//2为冻结，暂停，此时访问网站会直接到冻结的提示页面
+				model.addAttribute("url", simpleSiteVO.getServerName()+"/"+htmlFile);
+				return "domain/pause";
+			}
+		}
+		
+		String html = GainSource.get("site/"+simpleSite.getSiteid()+"/"+htmlFile).getText();
+		if(html == null){
+			//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
+			if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+				System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
+			}
+			if(htmlFile.equals("index.html")){
+				//如果是首页，但是没有获取到这个页面的数据
+				
+				//有可能是系统还未安装，判断，如果是，则进行指引安装
+				if(!isUnInstallRequest()){
+					return "domain/welcome";
+				}
+				
+				//已安装过了，正常访问，那肯定是CMS模式，没有生成整站的缘故，应在404页面中给用户提示
+				//v4.12增加
+				model.addAttribute("adminUrl", getAdminLoginUrl());
+				return "domain/notFindIndexHtml";
+			}
+			return "domain/404";
+		}
+		
+		//如果用的第六套模版，需要进行手机电脑自适应
+		if(simpleSite.getTemplateId() - 6 == 0){
+			//判断是否增加了 viewport，若没有，补上
+			if(html.indexOf("<meta name=\"viewport\"") == -1){
+				String equiv = "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
+				int ins = -1;
+				int equivInt = html.indexOf(equiv);
+				if(equivInt > -1){
+					ins = equivInt + equiv.length();
+				}
+				html = StringUtil.insert(html, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">", ins);
+			}
+		}
+		
+		html = replaceHtmlTag(simpleSite, html);
+		//过滤掉空行
+//			html = html.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", ""); 
+		
+		
+		/**** 针对html源码处理插件 ****/
+		try {
+			html = DomainPluginManage.manage(html, simpleSite, requestInfo);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("html", html);
+		
+		//判断此网站的类型，是PC端还是手机端
+		if(simpleSite.getClient() - Site.CLIENT_WAP == 0){
+			//手机端
+			//如果是电脑浏览的，会显示经过处理的电脑页面，有个手机模拟器
+			//如果是手机访问的，也是使用二级域名进行访问
+			boolean isMobile = TerminalDetection.checkMobileOrPc(request);
+			if(!isMobile){
+				model.addAttribute("url", AttachmentUtil.netUrl()+"site/"+simpleSite.getId()+"/"+htmlFile);
+				return "domain/pcPreview";
+			}
+		}
+		return "domain/display";
 	}
 	
 	/**
@@ -237,7 +239,8 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "sitemap.xml", simpleSiteVO);
-			String sitemapXml = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			TextBean textBean = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			String sitemapXml = textBean.getText();
 			if(sitemapXml == null || sitemapXml.length() == 0){
 				return error404();
 			}else{
@@ -261,7 +264,8 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "robots.txt", simpleSiteVO);
-			String content = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
+			TextBean textBean = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
+			String content = textBean.getText();
 			if(content == null || content.length() == 0){
 				return error404();
 			}else{
@@ -294,70 +298,74 @@ public class PublicController extends BaseController {
 	 * @return
 	 */
 	private SImpleSiteVO getCurrentSimpleSite(HttpServletRequest request){
-		//当前访问域名的对应站点，先从Session中拿
-		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+		//取得要访问的域名
 		String serverName = request.getParameter("domain");	//get传入的域名，如 pc.wang.market
+		if(serverName == null || serverName.length() == 0){
+			//get没传入，那么取当前访问的url的域名
+			serverName = request.getServerName();	//访问域名，如 pc.wang.market
+		}
+		
+		//先从session缓存中取
+		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
 		if(serverName != null && vo != null && !vo.getServerName().equalsIgnoreCase(serverName)){
 			//当get传入的domain有值，且值跟之前缓存的simpleSiteVO的值不对应，那么应该是代理商在用，在编辑多个网站。之前的网站退出了，又上了一个网站，正在预览当前的网站。那么清空之前的网站再session的缓存，重新进行缓存
 			vo = null;
 		}
-		
-		if(vo == null){
-			//Session中没有SImpleSiteVO ，第一次用，那就找内存中的吧
-			vo = new SImpleSiteVO();
-			
-			if(serverName == null || serverName.length() == 0){
-				serverName = request.getServerName();	//访问域名，如 pc.wang.market
-			}
-			vo.setServerName(serverName);
-			SimpleSite simpleSite = null;
-			
-			//内部调试使用，本地
-			if(serverName.equals("localhost") || serverName.equals("127.0.0.1")){
-				//模拟一个站点提供访问
-				simpleSite = new SimpleSite();
-				simpleSite.setBindDomain(serverName);
-				simpleSite.setClient(Site.CLIENT_CMS);
-				simpleSite.setDomain(serverName);
-				simpleSite.setSiteid(219);
-				simpleSite.setId(simpleSite.getSiteid());
-				simpleSite.setState(Site.STATE_NORMAL);
-				simpleSite.setTemplateId(1);
-			}else{
-				//正常使用，从域名缓存中找到对应的网站
-				
-				//判断当前访问域名是否是使用的二级域名
-				String twoDomain = null;	
-				for (int i = 0; i < G.getAutoAssignDomain().length; i++) {
-					if(serverName.indexOf("."+G.getAutoAssignDomain()[i]) > -1){
-						twoDomain = serverName.replace("."+G.getAutoAssignDomain()[i], "");
-					}
-				}
-				
-				if(twoDomain != null){
-					//用的二级域名
-					simpleSite = G.getDomain(twoDomain);
-				}
-				
-				if(simpleSite == null){
-					//如果没有使用二级域名、或者是二级域名，但在二级域名里面，没找到，那么就从自己绑定的域名里面找
-					simpleSite = G.getBindDomain(serverName);
-				}
-				
-			}
-			
-			if(simpleSite == null){
-				vo.setBaseVO(SImpleSiteVO.FAILURE, "网站没发现，过会在来看看吧");
-				return vo;
-			}
-			vo.setSimpleSite(simpleSite);
-			
-			//将获取到的加入Session
-			request.getSession().setAttribute("SImpleSiteVO", vo);
-		}else{
+		//如果session缓存中有，直接将session的返回
+		if(vo != null) {
 			vo.setSourceBySession(true);
+			return vo;
 		}
 		
+		/****** session中没有，那么从map中读取 ******/
+		vo = new SImpleSiteVO();
+		
+		if(serverName == null || serverName.length() == 0){
+			serverName = request.getServerName();	//访问域名，如 pc.wang.market
+		}
+		vo.setServerName(serverName);
+		SimpleSite simpleSite = null;
+		
+		//内部调试使用，本地
+		if(serverName.equals("localhost") || serverName.equals("127.0.0.1")){
+			//模拟一个站点提供访问
+			simpleSite = new SimpleSite();
+			simpleSite.setBindDomain(serverName);
+			simpleSite.setClient(Site.CLIENT_CMS);
+			simpleSite.setDomain(serverName);
+			simpleSite.setSiteid(219);
+			simpleSite.setId(simpleSite.getSiteid());
+			simpleSite.setState(Site.STATE_NORMAL);
+			simpleSite.setTemplateId(1);
+		}else{
+			//正常使用，从域名缓存中找到对应的网站
+			
+			//判断当前访问域名是否是使用的二级域名
+			String twoDomain = null;	
+			for (int i = 0; i < G.getAutoAssignDomain().length; i++) {
+				if(serverName.indexOf("."+G.getAutoAssignDomain()[i]) > -1){
+					twoDomain = serverName.replace("."+G.getAutoAssignDomain()[i], "");
+				}
+			}
+			
+			if(twoDomain != null){
+				//用的二级域名
+				simpleSite = G.getDomain(twoDomain);
+			}
+			if(simpleSite == null){
+				//如果没有使用二级域名、或者是二级域名，但在二级域名里面，没找到，那么就从自己绑定的域名里面找
+				simpleSite = G.getBindDomain(serverName);
+			}
+		}
+		
+		if(simpleSite == null){
+			vo.setBaseVO(SImpleSiteVO.FAILURE, "网站没发现，过会在来看看吧");
+			return vo;
+		}
+		vo.setSimpleSite(simpleSite);
+		
+		//将获取到的加入Session
+		request.getSession().setAttribute("SImpleSiteVO", vo);
 		return vo;
 	}
 	

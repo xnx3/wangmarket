@@ -2,9 +2,11 @@ package com.xnx3.wangmarket.domain.util;
 
 import com.xnx3.ClassUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
+import com.xnx3.wangmarket.domain.bean.TextBean;
 
 /**
  * 获取html源代码的工具类
@@ -33,8 +35,24 @@ public class GainSource {
 	 * @param path 传入如 site/219/index.html
 	 * @return 源代码 。若返回null，则是文件不存在，404
 	 */
-	public static String get(String path){
-		return AttachmentUtil.getTextByPath(path);
+	public static TextBean get(String path){
+		TextBean bean;
+		//先从缓存中取
+		Object obj = CacheUtil.get("path:"+path);
+		if(obj == null) {
+			System.out.println("read oss : "+path);
+			String text = AttachmentUtil.getTextByPath(path);
+			bean = new TextBean();
+			bean.setText(text);
+			
+			//加入缓存，缓存时间是3秒
+			CacheUtil.set("path:"+path, bean, 3);
+		}else {
+			System.out.println("read cache : "+path);
+			bean = (TextBean) obj;
+		}
+		
+		return bean;
 		
 //		if(isDomain){
 //			//网站管理后台

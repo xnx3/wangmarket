@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +56,7 @@ public class LoginController extends BaseController {
 	@RequestMapping("/captcha${url.suffix}")
 	public void captcha(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		ActionLogUtil.insert(request, "获取验证码显示");
-		
+
 		com.xnx3.media.CaptchaUtil captchaUtil = new com.xnx3.media.CaptchaUtil();
 	    captchaUtil.setCodeCount(5);                   //验证码的数量，若不增加图宽度的话，只能是1～5个之间
 	    captchaUtil.setFont(new Font("Fixedsys", Font.BOLD, 21));    //验证码字符串的字体
