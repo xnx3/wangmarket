@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<jsp:include page="../../../iw/common/head.jsp">
+<jsp:include page="/wm/common/head.jsp">
 	<jsp:param name="title" value="管理后台"/>
 </jsp:include>
 <script src="${STATIC_RESOURCE_PATH}js/fun.js"></script>
@@ -76,4 +76,4 @@ checkVersion();
 
 </script>
 
-<jsp:include page="../../../iw/common/foot.jsp"></jsp:include> 
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

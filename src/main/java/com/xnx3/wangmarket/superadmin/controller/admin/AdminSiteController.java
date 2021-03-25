@@ -51,7 +51,7 @@ public class AdminSiteController extends BaseController {
 		ActionLogUtil.insert(request, "总管理后台，网站管理,网站列表");
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
-		return "admin/site/list";
+		return "/superadmin/site/list";
 	}
 	
 
@@ -66,6 +66,6 @@ public class AdminSiteController extends BaseController {
 		Site site = sqlService.findById(Site.class, id);
 		ActionLogUtil.insert(request, site.getId(), "总管理后台，网站管理,网站详情", site.getName());
 		model.addAttribute("site", site);
-		return "admin/site/view";
+		return "/superadmin/site/view";
 	}
 }

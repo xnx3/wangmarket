@@ -14,7 +14,7 @@ import com.xnx3.wangmarket.admin.G;
  * @author 管雷鸣
  */
 @Controller
-@RequestMapping("/admin/index")
+@RequestMapping("/superadmin/index")
 public class AdminIndexController extends BaseController{
 	
 	/**
@@ -27,7 +27,7 @@ public class AdminIndexController extends BaseController{
 		
 		model.addAttribute("user", user);
 		model.addAttribute("version", G.VERSION);	//版本号
-		return "/wm/admin/index/welcome";
+		return "/superadmin/index/welcome";
 	}
 	
 }

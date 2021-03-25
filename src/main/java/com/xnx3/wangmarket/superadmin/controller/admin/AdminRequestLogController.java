@@ -53,7 +53,7 @@ public class AdminRequestLogController extends BaseController {
 			return error(model, "您未开启网站访问相关的日志服务！无法查看网站访问日志");
 		}
 		ActionLogUtil.insert(request, "进入总管理后台－日志访问-访问统计页面");
-		return "admin/requestLog/fangwentongji";
+		return "/superadmin/requestLog/fangwentongji";
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class AdminRequestLogController extends BaseController {
 		
 		model.addAttribute("list", jsonArray);
 		model.addAttribute("page", page);
-		return "/admin/requestLog/fangwenList";
+		return "/superadmin/requestLog/fangwenList";
 	}
 	
 }

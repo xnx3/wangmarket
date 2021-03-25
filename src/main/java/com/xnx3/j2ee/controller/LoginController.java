@@ -77,8 +77,8 @@ public class LoginController extends BaseController {
 			//尚未安装，进入安装界面
 			return redirect("install/index.do");
 		}
-		
 		ActionLogUtil.insert(request, "进入登录页面");
+		//siteLogin
 		return "/wm/login/siteLogin";
 	}
 
@@ -97,7 +97,6 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public LoginVO loginSubmit(HttpServletRequest request,Model model){
 		LoginVO vo = new LoginVO();
-		
 		//验证码校验
 		BaseVO capVO = CaptchaUtil.compare(request.getParameter("code"), request);
 		if(capVO.getResult() == BaseVO.FAILURE){
@@ -106,10 +105,9 @@ public class LoginController extends BaseController {
 			return vo;
 		}else{
 			//验证码校验通过
-			
-			BaseVO baseVO =  userService.loginByUsernameAndPassword(request);
+			BaseVO baseVO = userService.loginByUsernameAndPassword(request);
 			vo.setBaseVO(baseVO);
-			if(baseVO.getResult() == BaseVO.SUCCESS){
+			if(baseVO.getResult() - BaseVO.SUCCESS == 0){
 				//登录成功,BaseVO.info字段将赋予成功后跳转的地址，所以这里要再进行判断
 				
 				//用于缓存入Session，用户的一些基本信息，比如用户的站点信息、用户的上级代理信息、如果当前用户是代理，还包含当前用户的代理信息等

@@ -50,7 +50,7 @@ public class AdminNewsController extends BaseController {
 		ActionLogUtil.insert(request, "总管理后台，News 文章管理，查看文章列表");
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
-		return "admin/news/list";
+		return "/superadmin/news/list";
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class AdminNewsController extends BaseController {
 		model.addAttribute("news", news);
 		model.addAttribute("site", site);
 		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
-		return "admin/news/view";
+		return "/superadmin/news/view";
 	}
 	
 	/**
