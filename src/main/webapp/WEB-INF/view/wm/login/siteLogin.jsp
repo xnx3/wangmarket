@@ -121,7 +121,7 @@ layui.use('form', function(){
   form.on('submit(formDemo)', function(data){
 	msg.loading("登陆中");
     var d=$("form").serialize();
-	$.post("loginSubmit.do", d, function (result) {
+	$.post("wangmarketLoginSubmit.do", d, function (result) {
 		msg.close();
        	var obj = JSON.parse(result);
        	try{
