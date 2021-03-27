@@ -9,17 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
-import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.domain.G;
@@ -37,8 +34,6 @@ import com.xnx3.wangmarket.domain.vo.SImpleSiteVO;
 @Controller
 @RequestMapping("/")
 public class PublicController extends BaseController {
-	private HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-	
 	@Resource
 	private SqlService sqlService;
 	
@@ -125,7 +120,7 @@ public class PublicController extends BaseController {
 			}
 		}
 		
-		String html = GainSource.get("site/"+simpleSite.getSiteid()+"/"+htmlFile).getText();
+		String html = GainSource.get(simpleSite, htmlFile).getText();
 		if(html == null){
 			//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
 			if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
@@ -239,7 +234,7 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "sitemap.xml", simpleSiteVO);
-			TextBean textBean = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/sitemap.xml");
+			TextBean textBean = GainSource.get(simpleSiteVO.getSimpleSite(), "sitemap.xml");
 			String sitemapXml = textBean.getText();
 			if(sitemapXml == null || sitemapXml.length() == 0){
 				return error404();
@@ -264,7 +259,7 @@ public class PublicController extends BaseController {
 		}else{
 			//访问日志记录
 			alonePageRequestLog(request, "robots.txt", simpleSiteVO);
-			TextBean textBean = GainSource.get("site/"+simpleSiteVO.getSimpleSite().getSiteid()+"/robots.txt");
+			TextBean textBean = GainSource.get(simpleSiteVO.getSimpleSite(), "robots.txt");
 			String content = textBean.getText();
 			if(content == null || content.length() == 0){
 				return error404();
