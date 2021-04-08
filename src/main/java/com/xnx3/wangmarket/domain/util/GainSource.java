@@ -1,5 +1,7 @@
 package com.xnx3.wangmarket.domain.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.ClassUtil;
@@ -11,6 +13,8 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.net.HttpUtil;
+import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.util.WangmarketDataUtil;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.bean.TextBean;
 
@@ -87,8 +91,15 @@ public class GainSource {
 					return bean;
 				}else {
 					//再文件缓存中，读出来
-					String text = localServerMode.getTextByPath("domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName);
-					if(text != null && text.length() > 0) {
+					//检测缓存文件夹是否存在，如果不存在，则创建
+					directoryInit(simpleSite.getSiteid());	
+					//从缓存文件夹中取缓存的这个文件
+					String text = FileUtil.read(WangmarketDataUtil.getWangmarketDataRootPath()+"domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName, FileUtil.UTF8);
+					if(text != null && text.length() == 0){
+						text = null;
+					}
+					
+					if(text != null) {
 						//克隆一个，返回
 						TextBean returnTextBena = new TextBean();
 						returnTextBena.setText(text);
@@ -115,7 +126,16 @@ public class GainSource {
 		if(text != null && text.length() > cacheToMemorySize) {
 			System.out.println(fileName+" size: "+text.length());
 			//超过10KB，那么存到磁盘中
-			localServerMode.putStringFile("domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName, text, FileUtil.UTF8);
+			
+			//检测缓存文件夹是否存在，如果不存在，则创建
+			directoryInit(simpleSite.getSiteid());	
+			//写入txt缓存文件
+			try {
+				FileUtil.write(WangmarketDataUtil.getWangmarketDataRootPath()+"domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName, text, FileUtil.UTF8);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			bean.setExistMenory(false);
 		}else {
 			//不超过10KB，存到内存中
@@ -139,4 +159,28 @@ public class GainSource {
 		}
 	}
 	
+	
+	/**
+	 * 自动判断这个缓存文件夹是否存在，如果不存在，那么创建一个
+	 * @param siteid {@link Site}.id
+	 */
+	public static void directoryInit(int siteid) {
+		//domain_io_cache 文件夹
+		String cachePath = WangmarketDataUtil.getWangmarketDataRootPath()+"domain_io_cache/";
+		if(!FileUtil.exists(cachePath)) {
+			new File(cachePath).mkdir();
+		}
+		
+		//site 文件夹
+		cachePath = cachePath+"site/";
+		if(!FileUtil.exists(cachePath)) {
+			new File(cachePath).mkdir();
+		}
+		
+		//siteid 文件夹
+		cachePath = cachePath+siteid+"/";
+		if(!FileUtil.exists(cachePath)) {
+			new File(cachePath).mkdir();
+		}
+	}
 }
