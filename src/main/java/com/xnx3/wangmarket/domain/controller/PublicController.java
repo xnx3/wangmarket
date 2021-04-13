@@ -302,10 +302,10 @@ public class PublicController extends BaseController {
 		
 		//先从session缓存中取
 		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
-		if(serverName != null && vo != null && !vo.getServerName().equalsIgnoreCase(serverName)){
-			//当get传入的domain有值，且值跟之前缓存的simpleSiteVO的值不对应，那么应该是代理商在用，在编辑多个网站。之前的网站退出了，又上了一个网站，正在预览当前的网站。那么清空之前的网站再session的缓存，重新进行缓存
-			vo = null;
-		}
+//		if(serverName != null && vo != null && !vo.getServerName().equalsIgnoreCase(serverName)){
+//			//当get传入的domain有值，且值跟之前缓存的simpleSiteVO的值不对应，那么应该是代理商在用，在编辑多个网站。之前的网站退出了，又上了一个网站，正在预览当前的网站。那么清空之前的网站再session的缓存，重新进行缓存
+//			vo = null;
+//		}
 		//如果session缓存中有，直接将session的返回
 		if(vo != null) {
 			vo.setSourceBySession(true);
@@ -324,14 +324,14 @@ public class PublicController extends BaseController {
 		//内部调试使用，本地
 		if(serverName.equals("localhost") || serverName.equals("127.0.0.1")){
 			//模拟一个站点提供访问
-			simpleSite = new SimpleSite();
-			simpleSite.setBindDomain(serverName);
-			simpleSite.setClient(Site.CLIENT_CMS);
-			simpleSite.setDomain(serverName);
-			simpleSite.setSiteid(219);
-			simpleSite.setId(simpleSite.getSiteid());
-			simpleSite.setState(Site.STATE_NORMAL);
-			simpleSite.setTemplateId(1);
+//			simpleSite = new SimpleSite();
+//			simpleSite.setBindDomain(serverName);
+//			simpleSite.setClient(Site.CLIENT_CMS);
+//			simpleSite.setDomain(serverName);
+//			simpleSite.setSiteid(219);
+//			simpleSite.setId(simpleSite.getSiteid());
+//			simpleSite.setState(Site.STATE_NORMAL);
+//			simpleSite.setTemplateId(1);
 		}else{
 			//正常使用，从域名缓存中找到对应的网站
 			
