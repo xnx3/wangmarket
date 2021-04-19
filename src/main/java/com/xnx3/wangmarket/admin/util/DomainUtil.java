@@ -35,7 +35,7 @@ public class DomainUtil {
 		if(site.getBindDomain() != null && site.getBindDomain().length() > 3){
 			return site.getBindDomain();
 		}else{
-			return site.getDomain()+getAssignMainDomain();
+			return site.getDomain()+"."+getAssignMainDomain();
 		}
 	}
 	
