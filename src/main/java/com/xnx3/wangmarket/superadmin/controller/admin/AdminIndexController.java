@@ -13,7 +13,7 @@ import com.xnx3.wangmarket.admin.G;
  * 管理后台首页
  * @author 管雷鸣
  */
-@Controller
+@Controller(value = "SuperadminIndexController")
 @RequestMapping("/superadmin/index")
 public class AdminIndexController extends BaseController{
 	
