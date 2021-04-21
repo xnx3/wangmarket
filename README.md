@@ -5,6 +5,11 @@
 3. 试用三个月到期后，如果你已经学会了如何使用，那么不再继续续费(500元/年授权费)依旧可以正常用！安装系统后，你可以在三个月内，赶紧做网站，在有人工客服帮助时，把网站的功能熟悉了。
 4. 会教授在合法合规的前提下，如何使用未备案的域名解析到国内服务器
 5. 技术指导你如何开通网站、选择模板、修改、填充网站信息、网站上线，让你真正用它来发展业务赚钱。  
+
+###### 重点-作者的话
+我们支持白嫖，但我们不想被无意义的白嫖！很多工作室、小微公司生存赚点钱都不容易，其资金积累方面如果购买授权，显然是有不小的负担的，如果您属于这方面，我们很愿意帮助您，因为您是真的在用我们这套系统去赚钱生存下去，是真心在用它了，我们也在后面的三个月让您熟练使用它，以达到第四个月不再购买授权的情况下，依旧能很好的使用。如果您用它赚到钱了，撑过了艰难的资金紧张阶段了，希望您在考虑购买我们的授权。  
+我们开源不易，还要赚钱糊口，精力实在有限，我们只能将时间放在真正想用它的朋友那里。如果你能掏买服务器的百八十块钱，不管后面能不能用不用起来，起码是有想法，舍得去投入那么一点点去做的，我们也愿意帮助您。
+
 联系微信： xnx3com
 
 
@@ -18,18 +23,17 @@
 ## 本项目相关信息
 ||||
 | ------------- |-------------|-------------|
-| 网市场官网 | [www.wang.market](http://www.leimingyun.com) | 潍坊雷鸣云网络科技有限公司 |
-| 功能插件 | [www.leimingyun.com/plugin.html](https://www.leimingyun.com/plugin.html) | 十多个功能插件，持续增加中 |
+| 网市场官网 | [www.wang.market](http://www.wang.market) | 潍坊雷鸣云网络科技有限公司 |
+| 功能插件 | [www.leimingyun.com/plugin.html](https://www.wang.market/plugin.html) | 十多个功能插件，持续增加中 |
 | 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 百多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
 | 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 网站技术人员租用1天300元 |
-| 系统授权 | [www.wang.market/price.html](https://www.leimingyun.com/price.html) | 拥有更好的服务，帮安装、使用指导 |
+| 系统授权 | [www.wang.market/price.html](https://www.wang.market/price.html) | 拥有更好的服务，帮安装、使用指导 |
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
-| 渠道合作 | [www.wang.market](https://www.leimingyun.com/shouquanhezuo.html) | 渠道合作，代授权，高比例分成 |
+| 渠道合作 | [www.wang.market](https://www.wang.market/shouquanhezuo.html) | 渠道合作，代授权，高比例分成 |
 <br/>
-
 
 
 ## 功能简介
@@ -74,26 +78,8 @@
 按照此网址开通账号、选配服务器，仅需要一元，就能在线上将网市场云建站系统部署起来使用，不再需要其他额外花费！ 
 [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) 
 
- 
-## 建站公司、有意增加建站业务的朋友合作
-我们诚邀各建站公司加入我们，专业的技术团队、使用指导人员辅助到位，您如果感觉本系统对您有用，可联系我们，我们帮你安装，你只管用（不花钱保留版权标记，跟你自己安装的开源版本一样，授权版本的去除版权标记。授权请参考： https://www.leimingyun.com/price.html ）
-
 ## 销售、渠道方面合作
 我们是纯技术团队，对销售不在行，如果您有这方面路子，我们诚邀合作，我们提供技术，您进行市场、渠道推广，我们宁愿拿出大部分利润让与您，共同来推进，各自发挥自身的优势，大家一块赚这个钱。
-
-## 二次开发<br/>
-#### 环境
-Java 1.8、Maven 3.3.9<br/>
-#### IDE开发工具
-Eclipse、MyEclipse <br/>
-请注意，intellij idea 不支持！想二次开发，请用Eclipse、MyEclipse
-#### 步骤
-1. 直接导入maven项目
-2. 运行 com.xnx3.Application 即可运行项目 (SpringBoot 框架，不懂的请先自行补充此框架相关基础知识)
-3. 访问 /login.do
-
-参考视频：https://pan.baidu.com/s/1vhmGlr9lhhx7dmjMJBhckQ   
-这个是 wangmarket 开发视频，包含从 gitee 导入 eclipse，以及运行起来后登陆登陆的步骤演示。
 
 
 ## 云端模版库<br/>
@@ -103,6 +89,13 @@ Eclipse、MyEclipse <br/>
 [所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
 <br/>
+
+
+## 二次开发<br/>
+![](//cdn.weiunity.com/site/341/news/a3cc04ca18c64fc2ac4ad8bcb197ecaf.png)  
+二次开发方面，请查阅开发文档：  [wm.zvo.cn](http://wm.zvo.cn/log.html)  
+从网市场云建站5这个版本以后，我们将网市场云建站系统的底层基础支持，比如常用工具类、权限控制等，单独进行了抽离，调整包装出了一套集成开发框架，我们称之为 wm 。 也就是网市场云建站的基础操作，都是在wm文档之中的。  
+二次开发文档，也就是wm的基础开发文档，包含数据库操作、文件操作、日志操作、短信发送、ajax请求等最基础的功能模块，通过它，可以让一个刚毕业的软件系的大学生在一个月内快速进入开发状态，拥有项目开发能力。
 
 
 ## 项目简介<br/>
