@@ -48,13 +48,11 @@
 <br/>
 
 ## 在线快速体验
-##### 在线免费开通一个网站
-[点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
+##### 2分钟快速体验从代理开通网站，到网站管理、发布（推荐）
+[点此查看](https://gitee.com/leimingyun/dashboard/wikis/leimingyun/wangmarket_site_learn/preview?doc_id=1258300&sort_id=4364015) ， 从登录代理平台，通过代理平台开通网站、登录开通的网站管理后台，选择指定模板、改动相关信息、快速发布网站进行预览看到效果。
 
-##### 体验代理后台的功能：开通、管理网站
-登录网址：[wang.market](http://wang.market)<br/>
-登录帐号：ceshidaili<br/>
-登录密码：ceshidaili<br/>
+##### 只是看看网站管理后台的功能
+[点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
 <br/>
 
 ## 使用的框架及工具
