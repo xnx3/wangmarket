@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.j2ee.util.SafetyUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -5,13 +6,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	//登陆用户名
-	String username = request.getParameter("username");
+	String username = SafetyUtil.filter(request.getParameter("username"));
 	if(username == null || (username != null && username.equals("null"))){
 		username = "";
 	}
 	
 	//登陆密码
-	String password = request.getParameter("password");
+	String password = SafetyUtil.filter(request.getParameter("password"));
 	if(password == null || (password != null && password.equals("null"))){
 		password = "";
 	}
