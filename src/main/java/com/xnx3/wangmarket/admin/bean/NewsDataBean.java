@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.bean;
 
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 
 import net.sf.json.JSONArray;
@@ -33,7 +34,12 @@ public class NewsDataBean {
 		
 		//判断一下，如果extend里面有内容，才会进行json转换
 		if(newsData.getExtend() != null && newsData.getExtend().length() > 2){
-			this.extendJson = JSONObject.fromObject(newsData.getExtend());
+			try {
+				this.extendJson = JSONObject.fromObject(newsData.getExtend());
+			} catch (Exception e) {
+				ConsoleUtil.error(newsData.getId()+", "+newsData.getExtend());
+				e.printStackTrace();
+			}
 		}
 	}
 
