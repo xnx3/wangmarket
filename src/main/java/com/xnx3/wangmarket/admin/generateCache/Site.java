@@ -12,6 +12,7 @@ public class Site extends BaseGenerate {
 	public Site() {
 		mShowBanner();
 		client();
+		state();
 	}
 	
 	public void mShowBanner(){
@@ -36,5 +37,10 @@ public class Site extends BaseGenerate {
 		generateCacheFile();
 	}
 	
-
+	public void state(){
+		createCacheObject("state");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.STATE_NORMAL, "正常");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.Site.STATE_FREEZE, "冻结");
+		generateCacheFile();
+	}
 }

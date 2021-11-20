@@ -8,12 +8,18 @@
 	<jsp:param name="title" value="网站列表"/>
 </jsp:include>
 <script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
+<script src="/<%=Global.CACHE_FILE %>Site_state.js"></script>
 
 
 <jsp:include page="../../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="../../iw/common/list/formSearch_input.jsp">
 		<jsp:param name="iw_label" value="站名"/>
 		<jsp:param name="iw_name" value="name"/>
+	</jsp:include>
+	<jsp:include page="../../iw/common/list/formSearch_input.jsp">
+		<jsp:param name="iw_label" value="状态"/>
+		<jsp:param name="iw_name" value="state"/>
+		<jsp:param name="iw_type" value="select"/>
 	</jsp:include>
 	
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
@@ -28,6 +34,7 @@
 			<th>域名</th>
 			<th>创建时间</th>
 			<th>到期时间</th>
+			<th style="width: 90px;">状态</th>
 		</tr> 
 	</thead>
 	<tbody>
@@ -47,6 +54,17 @@
 				
 				<td style="width:100px;"><x:time linuxTime="${site['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td style="width:100px;"><x:time linuxTime="${site['expiretime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+				<td>
+					<script type="text/javascript">document.write(state[${site['state']}]);</script>
+					<c:choose>
+						<c:when test="${site['state'] == 1 }">
+							<botton class="layui-btn layui-btn-sm" onclick="freeze('${site['id'] }','${site['name'] }');" style="margin-left: 3px;">冻结</botton>
+						</c:when>
+						<c:when test="${site['state'] == 2 }">
+							<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${site['id'] }','${site['name'] }');" style="margin-left: 3px;">解冻</botton>
+						</c:when>
+					</c:choose>
+				</td>
 			</tr>
 		</c:forEach>
   </tbody>
@@ -74,6 +92,43 @@ function userView(id){
 		area: ['460px', '630px'],
 		shadeClose: true, //开启遮罩关闭
 		content: '/admin/user/view.do?id='+id
+	});
+}
+
+
+//冻结网站
+function freeze(siteid, name){
+	msg.confirm('<div style="padding-bottom: 0.4rem;">确定要冻结['+name+']吗?</div>1. 冻结后其将无法登录<br/>2. 冻结后网站将无法访问',function(){
+		parent.msg.loading('冻结中');    //接口请求前，显示加载中的友好提示，避免用户感觉系统卡了
+		wm.post("siteFreeze.json", {siteid:siteid},function(data){
+			parent.msg.close();    //接口请求完毕拿到返回结果后，关闭加载中的提示。
+		    if(data.result != '1'){
+		        //接口返回执行失败
+		        msg.failure(data.info);
+		        return;
+		    }
+
+		    parent.msg.success('已冻结');
+			location.reload();
+		});
+	});
+}
+
+//解除冻结网站，解冻
+function unFreeze(siteid, name){
+	msg.confirm('<div style="padding-bottom: 0.4rem;">确定要解冻['+name+']吗?</div>1. 解除后网站可正常登录<br/>2. 解除后网站将正常访问',function(){
+		parent.msg.loading('解冻中');    //接口请求前，显示加载中的友好提示，避免用户感觉系统卡了
+		wm.post("siteUnFreeze.json", {siteid:siteid},function(data){
+			parent.msg.close();    //接口请求完毕拿到返回结果后，关闭加载中的提示。
+		    if(data.result != '1'){
+		        //接口返回执行失败
+		        msg.failure(data.info);
+		        return;
+		    }
+
+		    parent.msg.success('已解冻');
+			location.reload();
+		});
 	});
 }
 </script>
