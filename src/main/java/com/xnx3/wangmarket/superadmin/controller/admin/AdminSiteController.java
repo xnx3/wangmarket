@@ -52,6 +52,7 @@ public class AdminSiteController extends BaseController {
 		int count = sqlService.count("site", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
 		sql.setSelectFromAndPage("SELECT * FROM site", page);
+		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		sql.setOrderBy("site.id DESC");
 		List<Site> list = sqlService.findBySql(sql, Site.class);
 		

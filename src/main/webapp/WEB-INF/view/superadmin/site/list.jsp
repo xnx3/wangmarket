@@ -23,6 +23,10 @@
 	</jsp:include>
 	
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
+	
+	<div style="float: right;">
+    	<script type="text/javascript"> orderBy('id_DESC=编号,addtime_DESC=创建时间,expiretime_DESC=过期时间'); </script>
+    </div>
 </form>	
                    
 <table class="layui-table iw_table">

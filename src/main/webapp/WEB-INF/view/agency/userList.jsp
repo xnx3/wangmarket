@@ -7,13 +7,13 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="我开通的网站列表"/>
 </jsp:include>
+<script src="/<%=Global.CACHE_FILE %>Site_state.js"></script>
 
 <jsp:include page="../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
-	<jsp:include page="../iw/common/list/formSearch_input.jsp">
+	<jsp:include page="/wm/common/list/formSearch_input.jsp">
 		<jsp:param name="iw_label" value="用户名"/>
 		<jsp:param name="iw_name" value="username"/>
 	</jsp:include>
-	
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">
