@@ -24,15 +24,15 @@
 ||||
 | ------------- |-------------|-------------|
 | 网市场官网 | [www.wang.market](http://www.wang.market) | 潍坊雷鸣云网络科技有限公司 |
-| 功能插件 | [www.leimingyun.com/plugin.html](https://www.wang.market/plugin.html) | 十多个功能插件，持续增加中 |
+| 功能插件 | [www.leimingyun.com/plugin.html](http://www.wang.market/plugin.html) | 十多个功能插件，持续增加中 |
 | 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 百多个模版，持续增加中 |
 | 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
 | 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 网站技术人员租用1天300元 |
-| 系统授权 | [www.wang.market/price.html](https://www.wang.market/price.html) | 拥有更好的服务，帮安装、使用指导 |
+| 系统授权 | [www.wang.market/price.html](http://www.wang.market/price.html) | 拥有更好的服务，帮安装、使用指导 |
 | 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
 | 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
 | 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
-| 渠道合作 | [www.wang.market](https://www.wang.market/shouquanhezuo.html) | 渠道合作，代授权，高比例分成 |
+| 渠道合作 | [www.wang.market](http://www.wang.market/shouquanhezuo.html) | 渠道合作，代授权，高比例分成 |
 <br/>
 
 
@@ -117,9 +117,9 @@ svn版本更新迭代837次！<br/>
 #### 3. 1块钱成本，安装到自己服务器<br/>
 一台1核1G，安装网市场云建站系统，可以支撑起至少100个网站。详细步骤参见： [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) <br/>
 #### 5. 3000左右的成本，安装到自己服务器<br/>
-一台2核4G服务器 + Mysql云数据库 + 云存储 + CDN + 日志服务，可以支撑起至少 40000 个网站 （此方式仅限[授权用户](https://www.leimingyun.com/price.html)）<br/>
+一台2核4G服务器 + Mysql云数据库 + 云存储 + CDN + 日志服务，可以支撑起至少 40000 个网站 （此方式仅限[授权用户](http://www.wang.market/price.html)）<br/>
 #### 6. 7000以上的成本
-两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + 日志服务，可支撑百万级以上的网站数量。（此方式仅限[合作伙伴](https://www.leimingyun.com/price.html)）架构如下：<br/>
+两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + 日志服务，可支撑百万级以上的网站数量。（此方式仅限[合作伙伴](http://www.wang.market/price.html)）架构如下：<br/>
 ![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
 <br/>
 
@@ -140,7 +140,7 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 
 
 ## 交流、反馈<br/>
-交流QQ群：472328584<br/>
+QQ交流群：老群已满，新群 740332119<br/>
 开发者姓名：管雷鸣<br/>
 开发者QQ：921153866<br/>
 开发者微信：xnx3com<br/>
@@ -150,5 +150,3 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
 <br/>
 
-## 开发人员
-[管雷鸣](http://www.guanleiming.com) , [李鑫](https://gitee.com/warm_joy)
