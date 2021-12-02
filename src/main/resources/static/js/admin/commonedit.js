@@ -530,6 +530,7 @@ function versionUpdateRemind(version){
 					+'<li>修复sitemap插件，如果未绑定自己顶级域名，使用的是系统自动分配的域名时，生成的 sitemap.xml 中，域名少了一个.的问题。</li>'
 					+'<li>修复网站转移插件如果导出异常，在导入时会导入不全的情况。</li>'
 					+'<li>修复客服坐席插件的对接通道</li>'
+					+'<li>修复商城插件进入时异常的问题，跟随最新云商城接口进行对接</li>'
 					
 					//+'<li>增加个人博客模版，可用于个人博客、空间等。电脑网站通用。适用于CMS模式。 预览:  <a href="http://qiye8.wscso.com" target="_black" style="text-decoration: underline; color:#999">http://qiye8.wscso.com</a></li>'
 					+'</ul></div>'
