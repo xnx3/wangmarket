@@ -97,31 +97,15 @@ SpringBoot2.6.1、Shiro、Redis5、Mysql5.7、[ElasticSearch 7.10.1](https://git
 [信息提示 msg.js](https://gitee.com/mail_osc/msg)、[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、网站管理后台Layui
 
 ### 开发前的说明
-**一定注意版本号不要错，jdk1.8、mysql5.7，重要的事说三遍！！ **  
+采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。  
+**一定注意版本号不要错，jdk1.8、mysql要用5.7，重要的事说三遍！！ **  
 另外开发请用 Eclipse ，我们没用过idea，如果你用idea出现异常你可以自己百度搜索解决方式，因为有其他idea的朋友而且不少都能正常运行，但是我们没使用过idea，如果你idea出现异常我们也没法提供任何帮助。  
 ![](//cdn.weiunity.com/site/341/news/a3cc04ca18c64fc2ac4ad8bcb197ecaf.png)  
 二次开发方面，请查阅开发文档：  [wm.zvo.cn](http://wm.zvo.cn/log.html)  
 从网市场云建站5这个版本以后，我们将网市场云建站系统的底层基础支持，比如常用工具类、权限控制等，单独进行了抽离，调整包装出了一套集成开发框架，我们称之为 wm 。 也就是网市场云建站的基础操作，都是在wm文档之中的。  
 二次开发文档，也就是wm的基础开发文档，包含数据库操作、文件操作、日志操作、短信发送、ajax请求等最基础的功能模块，通过它，可以让一个刚毕业的软件系的大学生在一个月内快速进入开发状态，拥有项目开发能力。
 
-
-## 使用的成本投入
-#### 1. 无成本<br/>
-如果你只是需要一个两个网站，不需要费这么大的劲熟悉程序购买服务器搭建等。可直接在线开通网站 [http://wang.market/regByPhone.do](http://wang.market/regByPhone.do?inviteid=50) 无任何广告，可永久使用。让人人都能有网站！<br/>
-#### 2. 1000元成本，即可代理加盟<br/>
-免费开通代理平台，最低预充值1000元，即可拥有开通1000个网站名额。你即可尝试开展自己的业务！<br/>
-开通一个网站的价格为：1元/年，以后每次充值不得少于1000元。另外，你可以继续开通你的下级代理、下下级……<br/>
-[查看联系方式 http://www.wang.market/contact.html](http://www.wang.market/contact.html) （这种方式是在我们服务器给你开通代理账户，你所做的网站，数据实际上都是在我们服务器上，你只管使用。）
-#### 3. 1块钱成本，安装到自己服务器<br/>
-一台1核1G，安装网市场云建站系统，可以支撑起至少100个网站。详细步骤参见： [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) <br/>
-#### 5. 3000左右的成本，安装到自己服务器<br/>
-一台2核4G服务器 + Mysql云数据库 + 云存储 + CDN + 日志服务，可以支撑起至少 40000 个网站 （此方式仅限[授权用户](http://www.wang.market/price.html)）<br/>
-#### 6. 7000以上的成本
-两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + 日志服务，可支撑百万级以上的网站数量。（此方式仅限[合作伙伴](http://www.wang.market/price.html)）架构如下：<br/>
-![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
-<br/>
-
-## 当前目录结构
+### 当前目录结构
 ```
 wangmarket                          项目
 ├─src                               项目源代码 ( Maven )
@@ -131,13 +115,27 @@ wangmarket                          项目
 └─README.md                         说明
 ```
 
-## 使用技术及框架
-采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。<br/>
-v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理，更方便于开发者进行二次开发。<br/>
-其他框架，包含 Shiro、Spring MVC、Hibernate等.<br/>
+
+## 使用的成本投入
+#### 1. 无成本<br/>
+如果你只是需要一个两个网站，不需要费这么大的劲熟悉程序购买服务器搭建等。可直接在线开通网站 [http://wang.market/regByPhone.do](http://wang.market/regByPhone.do?inviteid=50) 无任何广告，可永久使用。让人人都能有网站！<br/>
+#### 2. 1000元成本，即可代理加盟<br/>
+免费开通代理平台，最低预充值1000元，即可拥有开通1000个网站名额。你即可尝试开展自己的业务！<br/>
+开通网站不收费，网站按使用空间大小及流量计费，一个普通企业网站，一天费用也就一分钱。另外，你可以继续开通你的下级代理。详细介绍参考：http://www.wang.market/shouquanhezuo.html  
+（这种方式是在我们服务器给你开通代理账户，你所做的网站，数据实际上都是在我们服务器上，你只管使用。）
+#### 3. 100元成本，安装到自己服务器<br/>
+一台1核2G，安装网市场云建站系统，可以支撑几千个网站。详细步骤参见： [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html)  
+建议参与我们下面的帮安装的活动  
+#### 4. 其他。。定制部署，例如
+两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + Elasticsearch 
+(http://www.wang.market/price.html)）架构如下：  
+![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
 
 
-## 其他信息
+
+
+# 其他
+
 * 开发者姓名：管雷鸣
 * 开发者微信：xnx3com
 * 官方网站：[www.wang.market](http://www.leimingyun.com)
@@ -145,19 +143,29 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 * 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)
 * QQ交流群：老群已满，新群 740332119
 * 微信公众号：wangmarket
+* [云端免费模版库,百多个模版，持续增加中](http://wang.market/template.do)
+* [升级日志 www.wang.market/log.html](http://www.wang.market/log.html)
+* [有偿帮助 www.wang.market/pay.html](http://www.wang.market/pay.html)
+* [企业版授权 www.wang.market/price.html](http://www.wang.market/price.html)
+	* 拥有更好的服务，帮安装、使用指导
+	* **建议大中型企业购买企业授权，提供更好的服务支持，小微、初创企业及工作室，用开源版本的就足够，创业不易，更应相互扶持**
+* [帮助文档，系统使用的帮助说明 help.wscso.com] (http://help.wscso.com)
+* [模版文档,模版开发说明，及模版标签 tag.wscso.com](http://tag.wscso.com)
 
 
-| 云端免费模版库 | [wang.market/template.jsp](http://wang.market/template.do) | 百多个模版，持续增加中 |
-| 升级日志 | [www.wang.market/log.html](http://www.wang.market/log.html) | 最近几年百余次升级日志 |
-| 有偿帮助 | [www.wang.market/pay.html](http://www.wang.market/pay.html) | 网站技术人员租用1天300元 |
-| 系统授权 | [www.wang.market/price.html](http://www.wang.market/price.html) | 拥有更好的服务，帮安装、使用指导 |
-| 帮助文档 | [help.wscso.com](http://help.wscso.com) | 系统使用的帮助说明，要使用系统必看 |
-| 二次开发 | [iw.wscso.com](http://iw.wscso.com) | 系统二次开发说明 |
-| 模版文档 | [tag.wscso.com](http://tag.wscso.com) | 模版开发说明，及模版标签文档 |
-| 渠道合作 | [www.wang.market](http://www.wang.market/shouquanhezuo.html) | 渠道合作，代授权，高比例分成 |
-<br/>
+### 云端模版库
+你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
+我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)  
+虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。
+[所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
-## 活动，免费安装+调试
+
+### 项目经历
+网市场云建站系统，于09年开始用php开发wap系统建站。之后用java重构，[于2010年底发布第一版的Java版建站系统](https://down.chinaz.com/soft/29191.htm)，经过十多年不断更新迭代、功能完善……
+
+
+
+### 活动，免费帮安装+调试
 1. 华为云通过我们链接 huawei.leimingyun.com 开通的华为云账户，购买服务器（1核2G服务器一年88元）安装网市场，帮你安装好、调试好，你可以不用管服务器所有操作，只管用！只不过我方不再提供人工方面的帮助。
 2. 注意，此活动需要购买一年服务器，是因为我们想把有限的精力放在真正想用的人身上。买了服务器，那证明你确实想用它。
 4. 会教授在合法合规的前提下，如何使用未备案的域名解析到国内服务器
@@ -166,21 +174,7 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 ###### 重点-作者的话
 我们支持白嫖，但我们不想被无意义的白嫖！很多工作室、小微公司生存赚点钱都不容易，其资金积累方面如果购买授权，显然是有不小的负担的，如果您属于这方面，我们很愿意帮助您，因为您是真的在用我们这套系统去赚钱生存下去，是真心在用它了，我们也在后面的三个月让您熟练使用它，以达到第四个月不再购买授权的情况下，依旧能很好的使用。如果您用它赚到钱了，撑过了艰难的资金紧张阶段了，希望您在考虑购买我们的授权。  
 我们开源不易，还要赚钱糊口，精力实在有限，我们只能将时间放在真正想用它的朋友那里。如果你能掏买服务器的百八十块钱，不管后面能不能用不用起来，起码是有想法，舍得去投入那么一点点去做的，我们也愿意帮助您。
-
 联系微信： xnx3com
-
-# 其他
-
-#### 云端模版库
-你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
-我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)  
-虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。
-[所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
-
-
-#### 项目简介
-网市场云建站系统，于09年开始用php开发wap系统建站。之后用java重构，于2011年发布第一版的Java版建站系统，经过不断更新迭代、功能完善……
-
 
 # 常见问题-问答
 #### 这个安装后只是一个网站，还是也有代理后台可以开通多个网站
