@@ -152,3 +152,12 @@ GitHub：[github.com/xnx3/wangmarket](https://github.com/xnx3/wangmarket)<br/>
 开源中国：[gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)<br/>
 <br/>
 
+## 常见问题-问答
+#### 这个安装后只是一个网站，还是也有代理后台可以开通多个网站
+安装的是全功能的，包含代理后台。这个安装后其实就是你自己私有化部署了一套SAAS云建站系统。代理后台的使用可以参考： [http://help.wscso.com/5717.html](http://help.wscso.com/5717.html)
+
+#### 可以一键生成html网页吗？还是伪静态
+是一键生成的html网页，是真静态，不是伪静态
+
+#### 做的网站对手机适配程度怎么样？
+我们模板库的数百模板中，大部分模板都是支持手机电脑同步访问的。其实这个问题跟我们建站系统没啥关系，对手机适配怎么样，取决于你做的模板中css样式是怎么写的，是不是响应式做了手机端的适配
