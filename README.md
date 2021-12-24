@@ -40,11 +40,6 @@
 	* 开放式模板机制，同帝国CMS、织梦CMS的模板方式，网站想怎么显示就能怎么写html，同时有完善的模板开发辅助软件、插件、及文档。
 	* 成熟的插件机制，有数十种扩展插件可直接拿来使用或看其源代码参考，同时有完善的插件开发示例及说明、二次开发文档可供参考 （[wm.zvo.cn](http://wm.zvo.cn)）
 
-
-# 配套软件：扒网站工具、模版计算工具
-看好哪个网站，用它拔下来做成模版。所见网站，皆可为我所用！
-[gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider)
-
 # 可扩展安装的功能插件
 * [**万能表单反馈** 你可以用来做留言反馈、在线预约等各种表单。无条数限制、无类型限制、无需额外设置，做到模版上后，自动识别数据格式！](http://www.wang.market/10068.html)
 * [**站内搜索** 让模版支持当前站内文章搜索功能。可搜索当前使用该模版的网站的某篇或多篇文章。](http://www.wang.market/10102.html)
@@ -68,70 +63,47 @@
 * [**在线商城** 打通了 www.shop.zvo.cn 与网市场云建站，让网市场云建站具有在线商城的功能。本插件具体的功能，可以进入 www.shop.zvo.cn 查看，在线体验。](http://www.wang.market/34167.html)
 
 
-
-
-
-# 在线快速体验
-##### 2分钟快速体验从代理开通网站，到网站管理、发布（推荐）
+# 快速体验功能
+#### 2分钟快速体验从代理开通网站，到网站管理、发布（推荐）
 [点此查看](https://gitee.com/leimingyun/dashboard/wikis/leimingyun/wangmarket_site_learn/preview?doc_id=1258300&sort_id=4364015) ， 从登录代理平台，通过代理平台开通网站、登录开通的网站管理后台，选择指定模板、改动相关信息、快速发布网站进行预览看到效果。
 
-##### 只是看看网站管理后台的功能
-[点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只有一个免费名额。<br/>
-<br/>
+#### 只是看看网站管理后台的功能
+[点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只可免费开通一次。
 
-## 使用的框架及工具
-后端SpringBoot2、
-[信息提示 msg.js](https://gitee.com/mail_osc/msg)、
-后台前端Layui、
-[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、
-[Elasticsearch工具](https://gitee.com/leimingyun/elasticsearch)、
-[cache缓存工具](https://gitee.com/leimingyun/cache)
-
-## 项目在本地快速运行体验，提供一键运行包
+#### 项目在本地快速运行体验，提供一键运行包
 1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
-2. 解压出来,注意不要有中文路径
+2. 解压出来运行,注意不要有中文路径
 3. 双击 “ 启动.bat ”
 4. 访问 [localhost](http://localhost) 
 
 就这么简单！
 [查看详细视频演示](http://help.wscso.com/5683.html)
 
-## 放到线上，华为云服务器，花一元快速部署到线上使用
+#### 放到线上，华为云服务器，花一元快速部署到线上使用
 按照此网址开通账号、选配服务器，仅需要一元，就能在线上将网市场云建站系统部署起来使用，不再需要其他额外花费！ 
 [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) 
 
-## 销售、渠道方面合作
-我们是纯技术团队，对销售不在行，如果您有这方面路子，我们诚邀合作，我们提供技术，您进行市场、渠道推广，我们宁愿拿出大部分利润让与您，共同来推进，各自发挥自身的优势，大家一块赚这个钱。
 
 
-## 云端模版库<br/>
-你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
-我们附带有 [云端模版库，点此查看](http://wang.market/template.do)<br/>
-虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。<br/>
-[所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
-<br/>
+# 配套的软件：扒网站工具、模版计算工具
+看好哪个网站，用它拔下来做成模版。所见网站，皆可为我所用！
+[gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider)
 
+# 系统二次开发
 
-## 二次开发<br/>
-一定注意版本号不要错，jdk1.8、mysql5.7，重要的事说三遍！！  
+### 当前使用的开源框架介绍
+SpringBoot2.6.1、Shiro、Redis5、Mysql5.7、[ElasticSearch 7.10.1](https://gitee.com/leimingyun/elasticsearch)、  
+[信息提示 msg.js](https://gitee.com/mail_osc/msg)、[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、网站管理后台Layui
+
+### 开发前的说明
+**一定注意版本号不要错，jdk1.8、mysql5.7，重要的事说三遍！！ **  
 另外开发请用 Eclipse ，我们没用过idea，如果你用idea出现异常你可以自己百度搜索解决方式，因为有其他idea的朋友而且不少都能正常运行，但是我们没使用过idea，如果你idea出现异常我们也没法提供任何帮助。  
 ![](//cdn.weiunity.com/site/341/news/a3cc04ca18c64fc2ac4ad8bcb197ecaf.png)  
 二次开发方面，请查阅开发文档：  [wm.zvo.cn](http://wm.zvo.cn/log.html)  
 从网市场云建站5这个版本以后，我们将网市场云建站系统的底层基础支持，比如常用工具类、权限控制等，单独进行了抽离，调整包装出了一套集成开发框架，我们称之为 wm 。 也就是网市场云建站的基础操作，都是在wm文档之中的。  
 二次开发文档，也就是wm的基础开发文档，包含数据库操作、文件操作、日志操作、短信发送、ajax请求等最基础的功能模块，通过它，可以让一个刚毕业的软件系的大学生在一个月内快速进入开发状态，拥有项目开发能力。
 
-
-## 项目简介<br/>
-网市场云建站系统，于09年开发wap系统建站。之后在xnx3、iw等基础上开发而来。<br/>
-于15年重新启动，<br/>
-16年开始试运行<br/>
-17年底正式开源发布！<br/>
-截止17年底：<br/>
-共建立网站服务客户一千余个，经过市场及客户验证。而非一时兴起作出来扔网上开源后就不管的<br/>
-svn版本更新迭代837次！<br/>
-版本功能性升级57次！[升级日志](http://www.wang.market/log.html)<br/>
-<br/>
 
 ## 使用的成本投入
 #### 1. 无成本<br/>
@@ -197,9 +169,20 @@ v4.0 版本以后，使用 Spring Boot2 框架，以及采用 Maven 进行管理
 
 联系微信： xnx3com
 
+# 其他
+
+#### 云端模版库
+你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
+我们附带有 [云端模版库，点此查看](http://wang.market/template.jsp)  
+虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。
+[所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
 
-## 常见问题-问答
+#### 项目简介
+网市场云建站系统，于09年开始用php开发wap系统建站。之后用java重构，于2011年发布第一版的Java版建站系统，经过不断更新迭代、功能完善……
+
+
+# 常见问题-问答
 #### 这个安装后只是一个网站，还是也有代理后台可以开通多个网站
 安装的是全功能的，包含代理后台。这个安装后其实就是你自己私有化部署了一套SAAS云建站系统。代理后台的使用可以参考： [http://help.wscso.com/5717.html](http://help.wscso.com/5717.html)
 
