@@ -83,9 +83,12 @@ public class Site implements java.io.Serializable {
 	 */
 	private String logo;		//pc、wap模式使用的，已废弃！
 	
+	private String remark;		//站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的
+	
 	public Site() {
 		this.state = STATE_NORMAL;
 		this.attachmentSizeHave = G.REG_GENERAL_OSS_HAVE;
+		this.remark = "";
 	}
 
 	@Id
@@ -303,6 +306,15 @@ public class Site implements java.io.Serializable {
 
 	public void setAttachmentSizeHave(Integer attachmentSizeHave) {
 		this.attachmentSizeHave = attachmentSizeHave;
+	}
+
+	@Column(name = "remark", columnDefinition="char(255) comment '站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的'")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	@Override

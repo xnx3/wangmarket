@@ -2,7 +2,6 @@ package com.xnx3.wangmarket.admin;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.bean.ActiveUser;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
@@ -136,7 +135,7 @@ public class Func extends DomainUtil{
 				}
 				Authorization.setDomain(SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
 				try {
-					Authorization.setVersion(VersionUtil.strToInt(Global.VERSION));
+					Authorization.setVersion(VersionUtil.strToInt(G.VERSION));
 				} catch (Exception e) {
 				}
 				new Authorization();
