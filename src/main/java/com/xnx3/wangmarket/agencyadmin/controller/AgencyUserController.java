@@ -29,6 +29,7 @@ import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.LanguageUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -909,7 +910,33 @@ public class AgencyUserController extends BaseController {
 		
 		return success();
 	}
-	
 
-	
+	/**
+	 * 代理商给其下的某个站点更改备注
+	 * @param siteid 要更改备注的site.id
+	 * @param remark 要更改的备注
+	 * @author 王晓龙
+	 */
+	@RequiresPermissions("agencyUserList")
+	@RequestMapping("siteUpdateRemark${api.suffix}")
+	@ResponseBody
+	public BaseVO siteUpdateRemark(HttpServletRequest request,
+			@RequestParam(value = "siteid", required = true) int siteid,
+			@RequestParam(value = "remark", required = true) String remark){
+		//通过siteid查询网站的信息
+		Site site = sqlService.findById(Site.class, siteid);
+		if(site == null){
+			return error("网站不存在");
+		}
+		//查询网站对应user表的信息
+		User user = sqlService.findById(User.class, site.getUserid());
+		//判断是否是其直属下级
+		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
+			return error("要更改备注的网站不是您的直属下级，操作失败");
+		}
+		site.setRemark(SafetyUtil.xssFilter(remark));
+		sqlService.save(site);
+		ActionLogUtil.insertUpdateDatabase(request, siteid, "代理商给其下的某个站点更改备注", remark);
+		return success();
+	}
 }
