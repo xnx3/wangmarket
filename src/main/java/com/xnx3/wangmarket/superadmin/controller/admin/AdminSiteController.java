@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.xnx3.j2ee.controller.BaseController;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.G;
@@ -152,4 +152,26 @@ public class AdminSiteController extends BaseController {
 		return success();
 	}
 	
+	/**
+	 * 总后台给某个站点更改备注
+	 * @param siteid 要更改备注的site.id
+	 * @param remark 要更改的备注
+	 * @author 王晓龙
+	 */
+	@RequiresPermissions("adminSiteList")
+	@RequestMapping("siteUpdateRemark${api.suffix}")
+	@ResponseBody
+	public BaseVO siteUpdateRemark(HttpServletRequest request,
+			@RequestParam(value = "siteid", required = true) int siteid,
+			@RequestParam(value = "remark", required = true) String remark){
+		//通过siteid查询网站的信息
+		Site site = sqlService.findById(Site.class, siteid);
+		if(site == null){
+			return error("网站不存在");
+		}
+		site.setRemark(SafetyUtil.xssFilter(remark));
+		sqlService.save(site);
+		ActionLogUtil.insertUpdateDatabase(request, siteid, "总后台给某个站点更改备注", remark);
+		return success();
+	}
 }

@@ -36,6 +36,7 @@
 			<th>用户ID</th>
 			<th>网站名</th>
 			<th>域名</th>
+			<th>备注</th>
 			<th>创建时间</th>
 			<th>到期时间</th>
 			<th style="width: 90px;">状态</th>
@@ -55,7 +56,7 @@
 				        <td onclick="window.open('http://${site['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 180px;">${site['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></td>
 				    </c:otherwise>
 				</c:choose>
-				
+				<td><x:substring maxLength="15" text="${site['remark'] }"></x:substring><botton class="layui-btn layui-btn-sm" onclick="updateRemark('${site['id'] }','${site['name'] }','${site['remark'] }');" style="margin-left: 3px;">修改</botton></td>
 				<td style="width:100px;"><x:time linuxTime="${site['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td style="width:100px;"><x:time linuxTime="${site['expiretime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td>
@@ -133,6 +134,30 @@ function unFreeze(siteid, name){
 		    parent.msg.success('已解冻');
 			location.reload();
 		});
+	});
+}
+//给某个站点修改站点备注
+function updateRemark(siteid, name, remark){
+	layer.prompt({
+		formType: 2,
+		value: remark.replace(/\[br\]/g,"\n"),
+		title: '给'+name+'改备注，请输入备注',
+	}, function(value, index, elem){
+		parent.msg.loading('更改中');
+		$.post(
+		    "/admin/site/siteUpdateRemark.json", 
+		    { 'remark' : value.replace(/\n/g,"[br]"), siteid:siteid }, 
+		    function(data){
+		        parent.msg.close();    //关闭“更改中”的等待提示
+		        if(data.result != '1'){
+		            parent.msg.failure(data.info);
+		        }else{
+		            parent.msg.success('更改成功');
+					location.reload();
+		        }
+		    }, 
+		"json");
+		
 	});
 }
 </script>
