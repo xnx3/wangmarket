@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.4</version>
+  <version>5.4.3</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -18,7 +18,7 @@
   <parent>
     <groupId>com.xnx3.wangmarket.wm</groupId>
     <artifactId>parent</artifactId>
-    <version>2.0</version>
+    <version>2.11.2</version>
   </parent>
   
      
@@ -156,9 +156,9 @@
 	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>2.1</version>  
+	        <version>2.11</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.1.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.11.jar</systemPath>  
 	    </dependency> 
    </dependencies>  
   
