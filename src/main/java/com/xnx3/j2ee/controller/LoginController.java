@@ -70,9 +70,19 @@ public class LoginController extends BaseController {
 	/**
 	 * 退出登录状态
 	 */
-	@RequestMapping(value="logout${url.suffix}", method = RequestMethod.POST)
+	@RequestMapping(value="logout.json", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseVO logout(HttpServletRequest request,Model model){
+		SessionUtil.logout();
+		return success();
+	}
+	
+	/**
+	 * 退出登录状态，兼容旧版本
+	 */
+	@RequestMapping(value="logout.do", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO logout_old(HttpServletRequest request,Model model){
 		SessionUtil.logout();
 		return success();
 	}
