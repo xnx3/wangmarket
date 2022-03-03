@@ -78,7 +78,9 @@
 #### 只是看看网站管理后台的功能
 [点此免费开通 http://wang.market/regByPhone.do?inviteid=50](http://wang.market/regByPhone.do?inviteid=50) 你可以使用你的手机号，免费自助开通一个网站进行使用或体验。一个手机号只可免费开通一次。
 
-#### 项目在本地快速运行体验，提供一键运行包
+## 项目部署
+
+#### 方式一：项目在本地快速运行体验，提供一键运行包
 1. [点此下载 Windows 64一键运行包](http://www.wang.market/down.html) , 
 2. 解压出来运行,注意不要有中文路径
 3. 双击 “ 启动.bat ”
@@ -87,24 +89,25 @@
 就这么简单！
 [查看详细视频演示](http://help.wscso.com/5683.html)
 
-#### 放到线上，华为云服务器，花一元快速部署到线上使用
+#### 方式二：放到线上，华为云服务器，花一元快速部署到线上使用
 按照此网址开通账号、选配服务器，仅需要一元，就能在线上将网市场云建站系统部署起来使用，不再需要其他额外花费！ 
 [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html) 
 
+#### 方式三：自定义部署，如部署到私有服务器、阿里云、腾讯云等
+参考：  https://gitee.com/leimingyun/wangmarket_deploy  
 
 
-
-# 配套的软件：扒网站工具、模版计算工具
+## 配套的软件：扒网站工具、模版计算工具
 看好哪个网站，用它拔下来做成模版。所见网站，皆可为我所用！
 [gitee.com/mail_osc/templatespider](https://gitee.com/mail_osc/templatespider)
 
-# 系统二次开发
+## 系统二次开发
 
-### 当前使用的开源框架介绍
-SpringBoot2.6.1、Shiro、Redis5、Mysql5.7、[ElasticSearch 7.10.1](https://gitee.com/leimingyun/elasticsearch)、  
-[信息提示 msg.js](https://gitee.com/mail_osc/msg)、[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、网站管理后台Layui
+#### 当前使用的开源框架介绍
+SpringBoot2.6.1、Shiro、Redis5、Mysql5.7 (必须这个版本)、[ElasticSearch 7.10.1](https://gitee.com/leimingyun/elasticsearch)、  
+[前端信息提示 msg.js](https://gitee.com/mail_osc/msg)、[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、网站管理后台Layui
 
-### 开发前的说明
+#### 开发前的说明
 采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。  
  **一定注意版本号不要错，jdk1.8、mysql要用5.7，重要的事说三遍**  
 另外开发请用 Eclipse ，我们没用过idea，如果你用idea出现异常你可以自己百度搜索解决方式，因为有其他idea的朋友而且不少都能正常运行，但是我们没使用过idea，如果你idea出现异常我们也没法提供任何帮助。  
@@ -113,7 +116,7 @@ SpringBoot2.6.1、Shiro、Redis5、Mysql5.7、[ElasticSearch 7.10.1](https://git
 从网市场云建站5这个版本以后，我们将网市场云建站系统的底层基础支持，比如常用工具类、权限控制等，单独进行了抽离，调整包装出了一套集成开发框架，我们称之为 wm 。 也就是网市场云建站的基础操作，都是在wm文档之中的。  
 二次开发文档，也就是wm的基础开发文档，包含数据库操作、文件操作、日志操作、短信发送、ajax请求等最基础的功能模块，通过它，可以让一个刚毕业的软件系的大学生在一个月内快速进入开发状态，拥有项目开发能力。
 
-### 当前目录结构
+#### 当前目录结构
 ```
 wangmarket                          项目
 ├─src                               项目源代码 ( Maven )
@@ -122,6 +125,11 @@ wangmarket                          项目
 │  ├─wangmarket.sql                 项目运行所需要的数据库文件( Mysql数据库，默认sqlite3)
 └─README.md                         说明
 ```
+
+#### 进行二次开发
+二次开发时，我们不建议您直接在这个项目进行改动，不然您将失去跟随我们版本升级的能力。众所周知的织梦CMS，也是因为版本不升级失去维护，而出现大家所知晓的安全缺陷。  
+我们建议您可以在这个项目 https://gitee.com/leimingyun/wangmarket_deploy 上进行扩展开发您自己想做的模块及功能、以及一些原有的功能及页面更改。比如，登陆页面的重写。  
+我们网市场有新版本时，您只需直接更新 WEB-INF/lib/wangmarket-xxx.jar 即可完成版本的升级
 
 
 ## 使用的成本投入
@@ -134,7 +142,10 @@ wangmarket                          项目
 #### 3. 100元成本，安装到自己服务器<br/>
 一台1核2G，安装网市场云建站系统，可以支撑几千个网站。详细步骤参见： [http://help.wscso.com/16329.html](http://help.wscso.com/16329.html)  
 建议参与我们下面的帮安装的活动  
-#### 4. 其他。。定制部署，例如
+#### 4. 用于大集团、政府方面需要安全防护、攻防演练等场景  
+可进行私有服务器（以及局域网环境）的部署、以及上云情况下的部署。  
+比如满足政府每年的攻防演练要求等
+#### 其他。。定制部署，例如
 两台2核4G服务器(或更多) + 一台1核2G服务器 + 负载均衡 + Mysql云数据库 + 云存储 + CDN + Elasticsearch 
 (http://www.wang.market/price.html)）架构如下：  
 ![](http://cdn.weiunity.com/site/341/templateimage/4f6088b65e514321a7caed3c1f62a547.png)<br/>
