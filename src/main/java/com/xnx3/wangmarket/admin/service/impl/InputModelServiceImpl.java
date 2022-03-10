@@ -14,6 +14,8 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
+import com.xnx3.net.HttpResponse;
+import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.InputModel;
@@ -236,7 +238,14 @@ public class InputModelServiceImpl implements InputModelService {
 		if(defaultInputModelText == null){	
 			defaultInputModelText = FileUtil.read(SystemUtil.getProjectPath()+"static/inputModel/default.html");
 			if(defaultInputModelText == null || defaultInputModelText.length() < 1) {
-				ConsoleUtil.error("错误！！检测到系统默认的输入模型不存在！请确认 src/main/resources/static/inputModel/default.html 是否存在！");
+				ConsoleUtil.info("检测到系统默认的输入模型不存在！（src/main/resources/static/inputModel/default.html）");
+				ConsoleUtil.info("正在从云端 http://down.zvo.cn/wangmarket/resources/inputModel_default.html 加载默认的输入模型");
+				HttpUtil http = new HttpUtil(HttpUtil.UTF8);
+				HttpResponse hr = http.get("http://down.zvo.cn/wangmarket/resources/inputModel_default.html");
+				if(hr.getCode() != 200) {
+					ConsoleUtil.error("http://down.zvo.cn/wangmarket/resources/inputModel_default.html 获取失败，request code："+hr.getCode());
+				}
+				defaultInputModelText = hr.getContent();
 			}
 		}
 		return defaultInputModelText;
