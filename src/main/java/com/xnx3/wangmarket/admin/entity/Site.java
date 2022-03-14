@@ -48,6 +48,19 @@ public class Site implements java.io.Serializable {
 	 */
 	public static final Short STATE_FREEZE = 2;
 	
+	/**
+	 * 网站html存储方式：默认方式，采用AttachmentUtil存储
+	 */
+	public static final String GENERATE_HTML_STORAGE_TYPE_DEFAULT = "default";
+	/**
+	 * 网站html存储方式：obs
+	 */
+	public static final String GENERATE_HTML_STORAGE_TYPE_OBS = "obs";
+	/**
+	 * 网站html存储方式：ftp
+	 */
+	public static final String GENERATE_HTML_STORAGE_TYPE_FTP = "ftp";
+	
 	private Integer id;			//自动编号
 	private String name;		//站点名字
 	private Integer userid;		//站点所属用户，是哪个用户创建的，对应 User.id
@@ -70,6 +83,8 @@ public class Site implements java.io.Serializable {
 	private Integer attachmentSize;			//当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/$siteid/ 下的空间占用大小，单位是KB  
 	private Integer attachmentSizeHave;		//当前用户网站所拥有的空间大小，单位是MB	
 	
+	private String generateHtmlStorageType;		//生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储
+	
 	/**
 	 * @deprecated
 	 */
@@ -89,6 +104,7 @@ public class Site implements java.io.Serializable {
 		this.state = STATE_NORMAL;
 		this.attachmentSizeHave = G.REG_GENERAL_OSS_HAVE;
 		this.remark = "";
+		this.generateHtmlStorageType = GENERATE_HTML_STORAGE_TYPE_DEFAULT;
 	}
 
 	@Id
@@ -315,6 +331,18 @@ public class Site implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Column(name = "generate_html_storage_type", columnDefinition="char(20) comment '生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储'")
+	public String getGenerateHtmlStorageType() {
+		if(generateHtmlStorageType == null || generateHtmlStorageType.length() == 0) {
+			generateHtmlStorageType = GENERATE_HTML_STORAGE_TYPE_DEFAULT;
+		}
+		return generateHtmlStorageType;
+	}
+
+	public void setGenerateHtmlStorageType(String generateHtmlStorageType) {
+		this.generateHtmlStorageType = generateHtmlStorageType;
 	}
 
 	@Override

@@ -18,19 +18,17 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
-import com.xnx3.json.JSONUtil;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
+import com.xnx3.wangmarket.admin.cache.generateSite.DefaultGenerateHtmlInterfaceImpl;
+import com.xnx3.wangmarket.admin.cache.generateSite.GenerateHtmlInterface;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
-
 import net.sf.json.JSONObject;
 
 /**
@@ -43,6 +41,8 @@ public class TemplateCMS {
 	private com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
 	private JSONObject siteVarJson;	//站点的全局变量，使用 setSiteVar 来赋予
 	private String templatePathDomain = null;	//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
+	public GenerateHtmlInterface generateHtmlInterface;	//生成当前网站的html文件
+	
 	
 	public final static String TEMPLATE_CLOUD_PATH;	//云端资源库路径，云端引用的js、css都是通过这个。格式如： http://cloudtemplate.weiunity.com/
 	//模版引用路径。v4.7增加，值如 http://wang.market/template/
@@ -119,6 +119,8 @@ public class TemplateCMS {
 			generateUrlRule = "code";
 		}
 		
+		//使用默认的生成html接口
+		this.generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
 	}
 	
 	/**
@@ -133,6 +135,18 @@ public class TemplateCMS {
 		linuxTime = DateUtil.timeForUnix10();
 		this.site = site;
 		this.editMode = editMode;
+		
+		//使用默认的生成html接口
+		this.generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
+	}
+	
+	/**
+	 * 赋予生成html文件存储到哪里的实现。
+	 * 不设置此接口，默认则是使用 AttachmentUtil 进行存储。设置此接口，可以自定义存储到指定ftp、obs、oss等
+	 * @param interfaceImpl 
+	 */
+	public void setGenerateHtmlInterface(GenerateHtmlInterface interfaceImpl) {
+		this.generateHtmlInterface = interfaceImpl;
 	}
 	
 	/**
@@ -762,6 +776,7 @@ public class TemplateCMS {
 		}
 		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
+	
 	
 	/**
 	 * 替换 列表模版页面 的分页标签

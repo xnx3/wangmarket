@@ -27,6 +27,9 @@ import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
+import com.xnx3.wangmarket.admin.cache.generateSite.DefaultGenerateHtmlInterfaceImpl;
+import com.xnx3.wangmarket.admin.cache.generateSite.GenerateHtmlInterface;
+import com.xnx3.wangmarket.admin.cache.generateSite.ObsGenerateHtmlInterfaceImpl;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
@@ -1144,7 +1147,18 @@ public class TemplateServiceImpl implements TemplateService {
 			return vo;
 		}
 		
+		//生成的网站信息存放。默认方式，AttachmentUtil方式
+		GenerateHtmlInterface generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
+		//判断html存储方式
+		if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_FTP)) {
+			//ftp
+		}else if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_OBS)) {
+			//obs
+//			generateHtmlInterface = ObsGenerateHtmlInterfaceImpl(accessKeyId, accessKeySecret, endpoint, bucketName);
+		}
+		
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
+		template.setGenerateHtmlInterface(generateHtmlInterface); //指定html存储方式
 		template.setSiteVar(siteVarService.getVar(site.getId()));
 		//取得当前网站所有模版页面
 //		TemplatePageListVO templatePageListVO = templateService.getTemplatePageListByCache(request);
@@ -1418,7 +1432,8 @@ public class TemplateServiceImpl implements TemplateService {
 			indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		}
 		//生成首页保存到OSS或本地盘
-		AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
+		generateHtmlInterface.putStringFile(indexHtml, "index.html");
+		//AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
 		/*
 		 * 生成栏目、内容页面
