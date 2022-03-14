@@ -16,7 +16,6 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
@@ -29,7 +28,6 @@ import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.cache.generateSite.DefaultGenerateHtmlInterfaceImpl;
 import com.xnx3.wangmarket.admin.cache.generateSite.GenerateHtmlInterface;
-import com.xnx3.wangmarket.admin.cache.generateSite.ObsGenerateHtmlInterfaceImpl;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
@@ -39,7 +37,7 @@ import com.xnx3.wangmarket.admin.entity.SiteVar;
 import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
-import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateHtmlStorateInterfaceManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
@@ -1147,15 +1145,28 @@ public class TemplateServiceImpl implements TemplateService {
 			return vo;
 		}
 		
-		//生成的网站信息存放。默认方式，AttachmentUtil方式
-		GenerateHtmlInterface generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
-		//判断html存储方式
-		if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_FTP)) {
-			//ftp
-		}else if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_OBS)) {
-			//obs
-//			generateHtmlInterface = ObsGenerateHtmlInterfaceImpl(accessKeyId, accessKeySecret, endpoint, bucketName);
+		//生成的网站信息存放
+		GenerateHtmlInterface generateHtmlInterface = null;
+		try {
+			generateHtmlInterface = GenerateHtmlStorateInterfaceManage.getGenerateHtmlInterfaceImpl(request, site);
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
+		//如果没有插件，或者插件没有实现，那么赋予默认方式，AttachmentUtil方式
+		if(generateHtmlInterface == null) {
+			System.out.println("generateHtmlInterface == null");
+			generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
+		}
+		System.out.println(generateHtmlInterface);
+		
+//		//判断html存储方式
+//		if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_FTP)) {
+//			//ftp
+//		}else if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_OBS)) {
+//			//obs
+////			generateHtmlInterface = ObsGenerateHtmlInterfaceImpl(accessKeyId, accessKeySecret, endpoint, bucketName);
+//		}
 		
 		TemplateCMS template = new TemplateCMS(site, TemplateUtil.getTemplateByName(site.getTemplateName()));
 		template.setGenerateHtmlInterface(generateHtmlInterface); //指定html存储方式

@@ -593,7 +593,8 @@ public class TemplateCMS {
 			}
 			
 			//写出列表页面的HTML文件
-			AttachmentUtil.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
+			generateHtmlInterface.putStringFile(currentListHtml, generateSiteColumnListPageHtmlName(siteColumn, i) + ".html");
+//			AttachmentUtil.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
 		}
 	}
 	
@@ -729,7 +730,8 @@ public class TemplateCMS {
 		
 		String generateUrl = "";
 		if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
-			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
+//			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
+			generateUrl = generateNewsPageHtmlName(siteColumn, news)+".html";
 		}else{
 			//若是当前页面是列表页的内容详情时，支持上一页、下一页的功能
 			
@@ -772,9 +774,12 @@ public class TemplateCMS {
 			pageHtml = Template.replaceAll(pageHtml, Template.regex("upPageUrl"), upPageUrl);
 			pageHtml = Template.replaceAll(pageHtml, Template.regex("nextPageUrl"), nextPageUrl);
 			
-			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
+//			generateUrl = "site/"+site.getId()+"/"+generateNewsPageHtmlName(siteColumn, news)+".html";
+			generateUrl = generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
-		AttachmentUtil.putStringFile(generateUrl, pageHtml);
+		
+		generateHtmlInterface.putStringFile(pageHtml, generateUrl);
+//		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
 	
 	
