@@ -27,7 +27,7 @@ li{
 				<input type="text" style="width:250px; float: left;" name="domain" id="domain" lay-verify="domain" autocomplete="off" placeholder="输入您的域名" class="layui-input" value="${site.bindDomain }">
 				<button onclick="submitButton();" class="layui-btn">立即绑定</button>
 			</div>
-			<div class="shuoming">填写格式如： www.guanleiming.com</div>
+			<div class="shuoming">填写格式如： ${bindDomainDemo }</div>
 		</li>
 		<li>
 			将上面绑定的域名，做 CNAME 记录解析至：

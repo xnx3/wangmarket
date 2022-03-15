@@ -754,8 +754,15 @@ public class SiteController extends BaseController {
 	public String popupBindDomain(Model model,HttpServletRequest request){
 		model.addAttribute("user", getUser());
 		model.addAttribute("site", getSite());
-		ActionLogUtil.insert(request, "弹出框口，绑定自己的域名");
 		
+		//在v5.5增加的这个设置，跟随 oem 插件增加的
+		String bindDomainDemo = SystemUtil.get("BIND_DOMAIN_DEMO");
+		if(bindDomainDemo == null || bindDomainDemo.length() == 0 || bindDomainDemo.equalsIgnoreCase("null")) {
+			bindDomainDemo = "www.guanleiming.com";
+		}
+		model.addAttribute("bindDomainDemo", bindDomainDemo);
+		
+		ActionLogUtil.insert(request, "弹出框口，绑定自己的域名");
 		return "site/popup_bindDomain";
 	}
 	
