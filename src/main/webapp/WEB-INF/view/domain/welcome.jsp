@@ -72,7 +72,7 @@
 			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 30px;font-size: 20px;">点击此处开始安装本系统</a>
 			<br/>
 			<div style="font-size:12px; padding-top:8px; ">
-				<span style="color: gray;">交流QQ群：472328584</span> &nbsp;&nbsp; <span style="color: gray;">作者微信：xnx3com</span>
+				<span style="color: gray;">交流QQ群22群：740332119</span> &nbsp;&nbsp; <span style="color: gray;">作者微信：xnx3com</span>
 				<!-- <a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a> -->
 			</div>
 			

@@ -105,7 +105,7 @@
     	</div>
     	
     	<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
-			<a href="/login.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">登陆后台体验一下吧</a>
+			<a href="/login.do" target="_black"  class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">登陆后台体验一下吧</a>
 		</div>
     	
     	<div style="width: 100%;text-align: center;">

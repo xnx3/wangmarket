@@ -69,7 +69,7 @@
     	</div>
     	
     	<div class="info">
-    		本系统需要独占一个域名！<br/> 
+    		本系统需要独占一个域名！<span style="color:gray;font-size: 11px;">（除了www之外的域名。您的www域名可以正常解析使用）</span><br/> 
 			比如你准备的域名为 leimingyun.com <br/> 
 			那么你需要进入你的域名管理后台，做个泛解析 *.leimingyun.com 指向到你这个服务器 ip
     	</div>
@@ -129,21 +129,24 @@
 			msg.failure("请先设置域名");
     		return;
     	}
-
-		msg.loading("更改中");    //显示“更改中”的等待提示
-		$.post(
-		    "domainSetSave.do", 
-		    { "autoAssignDomain": domain }, 
-		        function(result){
-					msg.close();    //关闭“更改中”的等待提示
-		        if(result.result != '1'){
-					msg.failure(result.info);
-		        }else{
-					//安装成功
-					window.location.href="installSuccess.do";
-		        }
-		    }, 
-		"json");
+		
+    	msg.confirm('你确定已经按照说明将域名进行泛解析指向到本服务器ip了吗？',function(){
+    		msg.loading("更改中");    //显示“更改中”的等待提示
+    		$.post(
+    		    "domainSetSave.do", 
+    		    { "autoAssignDomain": domain }, 
+    		        function(result){
+    					msg.close();    //关闭“更改中”的等待提示
+    		        if(result.result != '1'){
+    					msg.failure(result.info);
+    		        }else{
+    					//安装成功
+    					window.location.href="installSuccess.do";
+    		        }
+    		    }, 
+    		"json");
+    	});
+		
     }
     
     //快速体验，自动设置域名
