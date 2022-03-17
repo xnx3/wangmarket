@@ -72,12 +72,12 @@
     	<div class="select">
 			<!-- 这里的 onmouseenter 是为了避免下面的收费鼠标移开后，不变回来，所以这里又加了一个，如果下面的收费的霉变过来，鼠标移动过来后，收费的恢复回来 -->
 			<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE} -->
-			<div class="selectItem" onclick="mianfeiban();" onmouseenter="qiehuanshouquanyuanshi();">
+			<div class="selectItem" onclick="mianfeiban();">
 				<div class="title">默认-服务器本身存储</div>
 				<div class="intro">
 					使用服务器本身来存储网站中所上传的图片等附件资源。
 					<br/>
-					<b>如果你不是非常懂，你选这个默认的就行了！</b>
+					<b>如果你不是非常懂，想快速体验功能、或想快速完成安装使用，你选这个默认的就对了！</b>
 				</div>
 			</div>
 			
@@ -94,6 +94,13 @@
 		</div>
     	
     </div>
+    
+    
+    <div style="width: 100%;text-align: center; padding-top: 50px;">
+   		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">欢迎云厂商、各地IDC商家、以及提供存储服务等厂商开展各种合作，微信：xnx3com</a>
+   	</div>
+    
+    
   </body>
   
   
@@ -170,7 +177,21 @@ function mianfeiban(){
 
 //选择使用obs存储
 function selectObs(){
-	msg.confirm('使用华为云OBS存储？此种方式只有战略合作伙伴才会安装配置',function(){
+	/* msg.popups({
+	    text:'此种方式只有战略合作伙伴才会安装配置',
+	    width:'200px'
+	}); */
+	
+	msg.loading('正在判断是否存在华为云OBS配置引导插件');
+	post('/plugin/huaWeiYunServiceCreate/isExist.json', {}, function(result){
+		msg.close();
+		if(result.result == '1'){
+			//成功，有这个插件，跳转进入
+			window.location.href='/plugin/huaWeiYunServiceCreate/index.do';
+		}
+	});
+	
+	/* msg.confirm('使用华为云OBS存储？此种方式只有战略合作伙伴才会安装配置',function(){
 	    msg.confirm({
 	        text:'您可在安装完成后，登录总管理后台（账号密码都是admin），找到 【功能插件】 下的 华为云 插件即可完成配置',
 	        buttons:{
@@ -180,7 +201,7 @@ function selectObs(){
 	        } 
 	    });
 	    
-	});
+	}); */
 }
 </script>
 
