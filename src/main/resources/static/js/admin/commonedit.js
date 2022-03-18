@@ -493,6 +493,10 @@ function generatehtml(){
  * @param version 当前最新的版本号，如 var version = '2.1';
  */
 function versionUpdateRemind(version){
+	if('1' == '1'){
+		return;
+	}
+	
 	var oldVersion = getCookie('version');
 	if(oldVersion == null || oldVersion.length == 0){
 		//没有保存上个版本的版本号，那么可能是第一次使用，也可能是浏览器不允许保存Cookie。
