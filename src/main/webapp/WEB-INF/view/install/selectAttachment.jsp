@@ -88,6 +88,7 @@
 					使用华为云OBS对象存储来存储网站中所上传的图片等附件资源。搭配CDN，效果最优。
 					<br/>
 					降低服务器带宽成本、网站图片加载速度更快、更易扩展维护。但只限我们战略合作伙伴会此安装方式。
+					<div style="font-size:11px; color:gray; text-align:right;padding-top:10px;">获取您当前城市战略合作伙伴联系方式 | 想成为战略合作伙伴？  -- 微信 xnx3com</div>
 				</div>
 			</div>
 			
@@ -190,6 +191,12 @@ function selectObs(){
 			window.location.href='/plugin/huaWeiYunServiceCreate/index.do';
 		}
 	});
+	
+	//3秒要是还没获取到响应，那肯定就是没这个插件
+	setTimeout(function () {
+	    msg.close();
+	    msg.alert('当前系统未安装华为云OBS自动安装引导插件，请联系我们战略合作伙伴进行安装');
+	}, 3000);
 	
 	/* msg.confirm('使用华为云OBS存储？此种方式只有战略合作伙伴才会安装配置',function(){
 	    msg.confirm({
