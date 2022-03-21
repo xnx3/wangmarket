@@ -193,16 +193,22 @@ public class InstallController_ extends BaseController {
 			return error("请正确设置您的域名");
 		}
 		
-		//更新附件域名的内存缓存
-		AttachmentUtil.netUrl = "http://cdn."+autoAssignDomain+"/";
-		
 		//将其存入system数据表
 		sqlService.executeSql("update system set value = 'http://admin."+autoAssignDomain+"/' WHERE name = 'MASTER_SITE_URL'");
-		sqlService.executeSql("update system set value = 'http://cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
 		sqlService.executeSql("update system set value = '"+autoAssignDomain+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		
+		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
+			//本地存储，才会配置默认的附件域名
+			sqlService.executeSql("update system set value = 'http://cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+			
+			//更新附件域名的内存缓存
+			AttachmentUtil.netUrl = "http://cdn."+autoAssignDomain+"/";
+		}
 		
 		//到这一步就结束了，在此禁用install安装
 		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		//手动刷新缓存
+		Global.system.put("IW_AUTO_INSTALL_USE", "false");
 		
 		//更新缓存
 		systemService.refreshSystemCache();
@@ -222,18 +228,25 @@ public class InstallController_ extends BaseController {
 		//获取域名 ，格式如 http://www.leimingyun.com/
 		String domain = request.getRequestURL().toString().replace("install/setLocalDomain.do", "");
 		
-		//更新附件域名的内存缓存
-		AttachmentUtil.netUrl = domain;
-		
 		ConsoleUtil.info("快速测试体验，域名自动获取："+domain);
 		
 		//将其存入system数据表
 		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'MASTER_SITE_URL'");
-		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
+//		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
 		sqlService.executeSql("update system set value = 'wang.market' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		
+		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
+			//本地存储，才会配置默认的附件域名
+			sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
+			
+			//更新附件域名的内存缓存
+			AttachmentUtil.netUrl = domain;
+		}
 		
 		//到这一步就结束了，在此禁用install安装
 		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		//手动刷新缓存
+		Global.system.put("IW_AUTO_INSTALL_USE", "false");
 		
 		//更新缓存
 		systemService.refreshSystemCache();
