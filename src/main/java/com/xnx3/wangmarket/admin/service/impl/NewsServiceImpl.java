@@ -1,6 +1,5 @@
 package com.xnx3.wangmarket.admin.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.xnx3.BaseVO;
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
@@ -25,9 +23,7 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsPluginManage;
 import com.xnx3.wangmarket.admin.service.NewsService;
-import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
@@ -39,8 +35,6 @@ public class NewsServiceImpl implements NewsService {
 
 	@Resource
 	private SqlDAO sqlDAO;
-	@Resource
-	private SiteService siteService;
 	@Resource
 	private TemplateService templateService;
 	
