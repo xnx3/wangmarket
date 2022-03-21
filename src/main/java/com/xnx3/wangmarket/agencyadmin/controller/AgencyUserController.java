@@ -918,7 +918,7 @@ public class AgencyUserController extends BaseController {
 	 * @author 王晓龙
 	 */
 	@RequiresPermissions("agencyUserList")
-	@RequestMapping("siteUpdateRemark${api.suffix}")
+	@RequestMapping("siteUpdateRemark.json")
 	@ResponseBody
 	public BaseVO siteUpdateRemark(HttpServletRequest request,
 			@RequestParam(value = "siteid", required = true) int siteid,
