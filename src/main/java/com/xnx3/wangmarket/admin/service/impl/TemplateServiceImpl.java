@@ -18,6 +18,7 @@ import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -1158,7 +1159,7 @@ public class TemplateServiceImpl implements TemplateService {
 			System.out.println("generateHtmlInterface == null");
 			generateHtmlInterface = new DefaultGenerateHtmlInterfaceImpl(site);
 		}
-		System.out.println(generateHtmlInterface);
+		ConsoleUtil.log(generateHtmlInterface.toString());
 		
 //		//判断html存储方式
 //		if(site.getGenerateHtmlStorageType().equals(Site.GENERATE_HTML_STORAGE_TYPE_FTP)) {
@@ -1442,7 +1443,7 @@ public class TemplateServiceImpl implements TemplateService {
 			indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
 			indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		}
-		//生成首页保存到OSS或本地盘
+		//生成首页保存
 		generateHtmlInterface.putStringFile(indexHtml, "index.html");
 		//AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
