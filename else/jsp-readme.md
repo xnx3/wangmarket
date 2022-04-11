@@ -18,7 +18,8 @@ newsForTemplate.jsp	新增/编辑文章（注意，这里使用了输入模型�
 * popupBasicInfo.jsp	点击系统设置-基本信息，弹出的弹出窗口显示到期时间、注册时间等信息
 * popupInfo.jsp	点击系统设置-网站设置，弹出的网站标题、分配域名等信息
 * popupSiteUpdate.jsp	点击系统设置-网站设置，点击其中某项如联系地址，所弹出的修改页面(用途不大，已被全局变量取代，未来版本考虑废弃)
-* 
+* popupBindDomain.jsp	系统设置-绑定域名，弹出的绑定域名设置窗口
+
 
 #### siteVar		网站管理后台-模板管理-全局变量
 * list.jsp	全局变量列表

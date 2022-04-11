@@ -767,7 +767,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("bindDomainDemo", bindDomainDemo);
 		
 		ActionLogUtil.insert(request, "弹出框口，绑定自己的域名");
-		return "site/popup_bindDomain";
+		return "site/popupBindDomain";
 	}
 	
 	

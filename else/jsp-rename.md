@@ -3,3 +3,4 @@
 * baseInfo.jsp -> popupBasicInfo.jsp
 * baseSet.jsp -> popupInfo.jsp
 * popup_site.jsp -> popupSiteUpdate.jsp
+* popup_bindDomain.jsp -> popupBindDomain.jsp
