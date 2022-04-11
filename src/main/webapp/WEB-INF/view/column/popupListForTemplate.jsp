@@ -100,9 +100,7 @@ function editColumn(siteColumnId, isCopy){
  * name 要删除的栏目的栏目名字
  */
 function deleteColumn(siteColumnId, name){
-	var dtv_confirm = layer.confirm('确定要删除“'+name+'”吗? ', {
-	  btn: ['删除','取消'] //按钮
-	}, function(){
+	msg.confirm('确定要删除“'+name+'”吗? ', function(){
 		layer.close(dtv_confirm);
 		parent.msg.loading('删除中');
 		$.post('/column/delete.do?id='+siteColumnId,function(obj){
