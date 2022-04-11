@@ -201,18 +201,14 @@ function openTemplateVarList(){
 
 //打开网站基本信息弹出框
 function openJiBenXinXi(){
-	var jibenxinxi_open = layer.open({
-		type: 2,
-		closeBtn: 1, //不显示关闭按钮
-		anim: 3, area:['390px','260px'],
-		shadeClose: true, //开启遮罩关闭
-		content: '/sites/popupBasicInfo.do',
-		title: false,
-		closeBtn: 1
+	msg.popups({
+	    url:'/sites/popupBasicInfo.do',
+	    padding:'1px',
+	    height:'272px',
+		width:'390px',
 	});
-	layer.style(jibenxinxi_open, {
-	  overflow: 'hidden'
-	}); 
+	
+	
 }
 
 //打开问题反馈弹出框
