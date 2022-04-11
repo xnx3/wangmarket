@@ -16,13 +16,13 @@
 
 <body style="text-align:left; min-width:10px;">
 <div class="weui_cells weui_cells_access" style="margin-top: 0em;">
-	<a class="weui_cell" href="javascript:updateTitle();">
+	<a class="weui_cell" href="javascript:updateTitle();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>网站标题</p>
 		</div>
 		<div class="weui_cell_ft" id="nameDiv">${site.name }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDomain_info();">
+	<a class="weui_cell" href="javascript:updateDomain_info();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>分配域名</p>
 		</div>
@@ -32,7 +32,7 @@
 			</span>
 		</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateBindDomain_info();">
+	<a class="weui_cell" href="javascript:updateBindDomain_info();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>绑定域名</p>
 		</div>
@@ -42,31 +42,31 @@
 			</span>
 		</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDiBuLianXi();">
+	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系人姓名</p>
 		</div>
 		<div class="weui_cell_ft">${site.username }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDiBuLianXi();">
+	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系电话</p>
 		</div>
 		<div class="weui_cell_ft">${site.phone }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDiBuLianXi();">
+	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系QQ</p>
 		</div>
 		<div class="weui_cell_ft">${site.qq }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDiBuLianXi();">
+	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>公司(团体)名</p>
 		</div>
 		<div class="weui_cell_ft">${site.companyName }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDiBuLianXi();">
+	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>办公地址</p>
 		</div>
@@ -76,7 +76,7 @@
 	<% //判断是否已开启邮件发送功能
 		if(MailUtil.username != null && MailUtil.username.length() > 0 || MailUtil.password != null && MailUtil.password.length() > 0){
 	%>
-		<a class="weui_cell" href="javascript:;">
+		<a class="weui_cell" href="javascript:;" style="display:none;">
 			<div class="weui_cell_bd weui_cell_primary">
 				<p>我的邮箱</p>
 			</div>
