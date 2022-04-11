@@ -336,11 +336,8 @@ function updateSiteName(){
 	$.post("/sites/getSiteData.do", function(data){
 	    msg.close();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
-	    	layer.prompt({
-		  		  formType: 0,
-		  		  value: data.site.name,
-		  		  title: '请输入13个字以内的网站名称'
-		  	}, function(value, index, elem){
+		
+		msg.input('请输入13个字以内的网站名称', function(value, index, elem){
 		  		layer.close(index);
 		  		if(value != getSubWindowsParam()){
 		  			msg.loading('更改中...');
@@ -375,8 +372,7 @@ function updateSiteName(){
 		  				}
 		  			, "json");
 		  		}
-		  	});
-		  	
+		  	},data.site.name);
 	     }else if(data.result == '0'){
 	         msg.failure(data.info);
 	     }else{
@@ -613,11 +609,7 @@ function openKefuSet(){
 //v3.4
 //修改密码
 function updatePassword(){
-	layer.prompt({
-		  formType: 0,
-		  value: '',
-		  title: '请输入新密码'
-	}, function(value, index, elem){
+	msg.input('请输入新密码', function(value, index, elem){
 		layer.close(index);
 		msg.loading('更改中...');
 		$.post("/sites/updatePassword.do", { "newPassword": value},

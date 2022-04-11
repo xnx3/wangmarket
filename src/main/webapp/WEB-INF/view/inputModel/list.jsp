@@ -55,9 +55,7 @@
  * remark 要删除的输入模型的remark
  */
 function deleteInputModel(id, remark){
-	var dtv_confirm = layer.confirm('确定要删除“'+remark+'”吗? ', {
-	  btn: ['删除','取消'] //按钮
-	}, function(){
+	msg.confirm('确定要删除“'+remark+'”吗? ', function(){
 		layer.close(dtv_confirm);
 		
 		parent.msg.loading('删除中');
