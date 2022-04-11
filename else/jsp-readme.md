@@ -60,8 +60,8 @@
 	* view.jsp	查看网站详情
 	
 #### template	网站管理后台-模板管理及
-	
-	
+
+
 * templateVar.jsp	新增/修改 模板变量
 * templateVarList.jsp	模板变量列表
 * templateVarListForUsed.jsp	当在模板管理-模板页面-编辑某个模板页面时，上方会有一些常用标签的提醒，其中有个[模板变量]点开就是这个页面
@@ -69,4 +69,5 @@
 
 
 #### templateTag
-#### wm
+
+#### 跟目录的几个
