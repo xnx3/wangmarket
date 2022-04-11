@@ -1,0 +1,1 @@
+WEB-INF/view/ 中一些过时的jsp放到这里
