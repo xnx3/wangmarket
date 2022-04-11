@@ -138,9 +138,7 @@ function editTemplatePageAttribute(pageName){
  * name 要删除的项的名字
  */
 function deleteTemplatePage(id, name){
-	var dtp_confirm = layer.confirm('确定要删除“'+name+'”？删除后不可恢复！', {
-	  btn: ['删除','取消'] //按钮
-	}, function(){
+	msg.confirm('确定要删除“'+name+'”？删除后不可恢复！', function(){
 		layer.close(dtp_confirm);
 		parent.msg.loading('删除中');
 		$.post('/template/deleteTemplatePage.do?id='+id, function(data){

@@ -64,9 +64,7 @@ function editColumn(siteColumnId){
  * name 要删除的项的名字
  */
 function deleteTemplateVar(id, name){
-	var dtv_confirm = layer.confirm('确定要删除“'+name+'”？删除后不可恢复！', {
-	  btn: ['删除','取消'] //按钮
-	}, function(){
+	msg.confirm('确定要删除“'+name+'”？删除后不可恢复！', function(){
 		layer.close(dtv_confirm);
 		
 		parent.msg.loading('删除中');
