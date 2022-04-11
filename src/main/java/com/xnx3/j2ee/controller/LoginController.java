@@ -62,7 +62,7 @@ public class LoginController extends BaseController {
 		}
 		ActionLogUtil.insert(request, "进入登录页面");
 		//siteLogin
-		return "/wm/login/siteLogin";
+		return "/siteLogin";
 	}
 	
 

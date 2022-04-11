@@ -137,13 +137,6 @@
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.12.3.jar</systemPath>  
 	    </dependency>
-	    <dependency> 
-	        <groupId>com.xnx3.wm.htmlSeparate</groupId>  
-	        <artifactId>wm.htmlSeparate</artifactId>  
-	        <version>1.1</version>  
-	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wangmarket.plugin.htmlSeparate-1.1.jar</systemPath>  
-	    </dependency>
    </dependencies>  
   
 </project>

@@ -244,7 +244,7 @@ public class SiteController extends BaseController {
 		
 		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
 		model.addAttribute("autoAssignDomain", G.getFirstAutoAssignDomain());
-		return "site/baseSet";
+		return "site/popupInfo";
 	}
 	
 	/**
@@ -345,6 +345,7 @@ public class SiteController extends BaseController {
 
 	/**
 	 * 选择模版(包含通用的手机、电脑模版。不含CMS模版)
+	 * @deprecated
 	 */
 	@RequestMapping("templateList${url.suffix}")
 	public String templateList(Model model,HttpServletRequest request){
@@ -403,6 +404,7 @@ public class SiteController extends BaseController {
 	 * HTML后缀捕获转发，主要用于电脑模式网站，可视化状态
 	 * @param request {@link HttpServletRequest}
 	 * @param htmlFile 访问的html文件，如访问c202.html ，则传入c202，会自动拼接上.html
+	 * @deprecated
 	 */
 	@RequestMapping("html${url.suffix}")
 	public String html(HttpServletRequest request,Model model,
@@ -455,6 +457,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 刷新，重新生成sitemap.xml文件
 	 * @return
+	 * @deprecated
 	 */
 	@RequestMapping("refreshSitemap${url.suffix}")
 	public String refreshSitemap(@RequestParam(value = "siteid", required = true) int siteid,
@@ -471,6 +474,7 @@ public class SiteController extends BaseController {
 	/**
 	 * 刷新，重新生成首页（PC）
 	 * @return
+	 * @deprecated
 	 */
 	@RequestMapping("refreshIndex${url.suffix}")
 	public String refreshIndex(Model model, HttpServletRequest request){
@@ -492,7 +496,7 @@ public class SiteController extends BaseController {
 		ActionLogUtil.insert(request, "弹出弹出框，显示站点信息修改");
 		
 		model.addAttribute("site", getSite());
-		return "site/popup_site";
+		return "site/popupSiteUpdate";
 	}
 	
 	/**
