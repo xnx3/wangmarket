@@ -1,7 +1,20 @@
 # WEB-INF/view/ 中的jsp页面说明
 
-#### agency
-#### column
+#### agency	代理后台的一些页面
+* actionLogList.jsp	操作日志，用户登录代理后台进行操作的所有操作记录进行查看，就是通过这个页面
+* add.jsp	网站管理-开通网站
+* addAgency.jsp	下级代理-开通下级代理
+* index.jsp	代理后台主页，也就是显示左侧菜单的这个页面
+* siteSizeLogList.jsp	资金日志，代理后台站币资金变动的日志记录
+* subAgencyList.jsp	下级代理的列表页面
+* systemSet.jsp	系统设置
+* userList.jsp	网站管理的列表页面
+* welcome.jsp	登录代理后台成功后，看到的中间的欢迎页面，包括到期时间、最后登录ip等。
+
+#### column 网站管理后台-栏目管理
+* popupColumnForTemplate.jsp	添加/编辑/复制 栏目
+* popupListForTemplate.jsp	栏目管理进入后的列表
+
 #### common
 #### domain
 #### inputModel	网站管理后台-模板管理-输入模型

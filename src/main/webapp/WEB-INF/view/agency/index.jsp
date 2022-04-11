@@ -85,7 +85,7 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			<!-- <li class="layui-nav-item">
 				<a href="javascript:loadUrl('/agency/siteSizeLogList.do');">
 					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
-					<span class="firstMenuFont">站币日志</span>
+					<span class="firstMenuFont">资金日志</span>
 				</a>
 			</li> -->
 		<% } %>
