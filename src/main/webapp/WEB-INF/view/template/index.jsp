@@ -759,13 +759,13 @@ function jumpParentAgency(){
 			+getTr('地址', '${parentAgency.address}')
 			+'</tbody></table>';
 	
-	layer.open({
-      type: 1
-      ,title: '技术支持'
-      ,shadeClose:true
-      ,content: content
-      ,resize: false
-    });
+	msg.popups({
+		text:content,
+	    padding:'1px',
+	    height:'255px',
+	    width:'300px',
+	});
+
 }
 
 //入门视频，引导
