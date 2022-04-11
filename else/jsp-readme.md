@@ -15,7 +15,7 @@
 * popupColumnForTemplate.jsp	添加/编辑/复制 栏目
 * popupListForTemplate.jsp	栏目管理进入后的列表
 
-#### domain
+#### domain 跟网站实际访问相关的一些页面
 * common/head.jsp	已废弃，配合pcPreview.jsp使用的
 * 404.jsp	网站访问时某个html页面未发现，就会出现这个404提示页面
 * display.jsp	网站正常访问所显示的页面，就是通过这个来进行显示的
@@ -30,14 +30,14 @@
 * list.jsp	输入模型列表
 * edit.jsp	添加或编辑某个输入模型
 
-#### install	网市场第一次使用，通过安装引导进行安装的一些页面
+#### install	网市场第一次使用，通过安装引导进行安装的一些页面，就不过多说明
 
 #### news 网站管理后台-内容管理
 * listForTemplate.jsp	点开内容管理后看到的文章列表
 * newsChangeColumnForSelectColumn.jsp	将某篇文章，转移到其他栏目中去
 * newsForTemplate.jsp	新增/编辑文章（注意，这里使用了输入模型，并不是文章的所有录入项都在这个jsp中）
 
-#### site
+#### site 网站一些属性相关
 * popupBasicInfo.jsp	点击系统设置-基本信息，弹出的弹出窗口显示到期时间、注册时间等信息
 * popupInfo.jsp	点击系统设置-网站设置，弹出的网站标题、分配域名等信息
 * popupSiteUpdate.jsp	点击系统设置-网站设置，点击其中某项如联系地址，所弹出的修改页面(用途不大，已被全局变量取代，未来版本考虑废弃)
@@ -59,15 +59,23 @@
 	* list.jsp	网站列表
 	* view.jsp	查看网站详情
 	
-#### template	网站管理后台-模板管理及
-
-
+#### template	网站管理后台-模板管理
+* getTemplatePageText.jsp    编辑模板页面时，获取模板页面的内容，内容通过此页面输出。这个页面无需什么改动
+* getTemplateVarText.jsp    编辑模板变量时，获取模板变量的内容，内容通过此页面输出。这个页面无需什么改动
+* index.jsp    登录成功后进入的便是这个，包括左侧菜单显示等
+* restoreTemplate.jsp    还原模板的页面
+* restoreTemplateComparePreview.jsp    还原模板时，会弹出数据比对，哪些数据有修改，可以进行选择还原，便是此页面
+* selectTemplate.jsp     网站创建后，如果没有选择模板，会进入选择模版的页面，也就是此
+* templatePage.jsp    新增/修改 模板页面
+* templatePageList.jsp    模板页面列表
+* templatePlugin.jsp    模板插件
 * templateVar.jsp	新增/修改 模板变量
 * templateVarList.jsp	模板变量列表
 * templateVarListForUsed.jsp	当在模板管理-模板页面-编辑某个模板页面时，上方会有一些常用标签的提醒，其中有个[模板变量]点开就是这个页面
 * welcome.jsp	网站管理后台登录成功后看到的欢迎页面，包含用户名、到期时间等
 
-
-#### templateTag
+#### templateTag    网站管理后台-模板管理-模板页面 ，在编辑模板页面时，上方会有一些提示标签，如 通用标签，栏目标签，文章标签 等，点击某个所打开的页面就是打开这里面的jsp页面
 
 #### 跟目录的几个
+* siteLogin.jsp    登录页面
+* template.jsp    模板列表
