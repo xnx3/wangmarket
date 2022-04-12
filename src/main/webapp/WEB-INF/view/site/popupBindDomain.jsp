@@ -19,7 +19,7 @@ li{
 	color: gray;
 }
 </style>
-<div style="padding-left: 25px;">
+<div style="padding-left: 25px; background: #FFFFFF;">
 	<ul>
 		<li>
 			设置你想绑定的域名 <span onclick="window.open('http://huawei.leimingyun.com/wangmarket_binddomain.html');" style=" padding-left: 15px; color: blue; text-decoration: underline; font-size: 12px; cursor:pointer;">没有？点此立即注册一个域名</span>

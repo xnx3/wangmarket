@@ -421,11 +421,7 @@ function refreshIndex(){
 
 //更改二级域名,需 getSubWindowsParam()支持
 function updateDomain(){
-	layer.prompt({
-		  formType: 0,
-		  value: getSubWindowsParam(),
-		  title: '请输入新域名，不含&nbsp;'+autoAssignDomain
-	}, function(value, index, elem){
+	msg.input('请输入新域名，不含&nbsp;'+autoAssignDomain, function(value, index, elem){
 		layer.close(index);
 		if(value.length > 30){
 			msg.failure("请输入30个字符以内的英文或数字");
@@ -444,21 +440,17 @@ function updateDomain(){
 				}
 			, "json");
 		}
-	});
+	},getSubWindowsParam());
 	
 }
 
 //更改自己绑定的域名,需 getSubWindowsParam()支持
 function updateBindDomain(){
-	layer.open({
-		type: 2,
-		closeBtn: 1, //不显示关闭按钮
-		area:['438px','400px'],
-		shadeClose: false, //开启遮罩关闭
-		content: '/sites/popupBindDomain.do',
-		scrollbar: false,
-		title: '您需要以下这几步，来进行绑定域名',
-		closeBtn: 1
+	msg.popups({
+	    url:'/sites/popupBindDomain.do',
+	    padding:'1px',
+	    height:'258px',
+		width:'400px',
 	});
 }
 

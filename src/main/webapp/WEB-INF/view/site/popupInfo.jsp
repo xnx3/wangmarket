@@ -22,7 +22,7 @@
 		</div>
 		<div class="weui_cell_ft" id="nameDiv">${site.name }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDomain_info();parent.msg.close();">
+	<a class="weui_cell" href="javascript:parent.msg.close(); updateDomain_info();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>分配域名</p>
 		</div>
@@ -32,7 +32,7 @@
 			</span>
 		</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateBindDomain_info();parent.msg.close();">
+	<a class="weui_cell" href="javascript:updateBindDomain_info();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>绑定域名</p>
 		</div>
