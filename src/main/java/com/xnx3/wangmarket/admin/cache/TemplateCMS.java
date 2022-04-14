@@ -467,7 +467,9 @@ public class TemplateCMS {
 			return text;
 		}
 		
-		text = Template.replaceAll(text, Template.regex("news.text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情
+		//v5.6增加，仅针对newsData.text 文章内容进行关键字替换
+		String newsDataText = getNewsDataText(newsDataBean);
+		text = Template.replaceAll(text, Template.regex("news.text"),newsDataText);	//替换新闻内容的详情
 		
 		//v4.6增加
 		//如果模版里面使用了 extend 调取，那么进行此相关替换
@@ -726,7 +728,10 @@ public class TemplateCMS {
 		if(newsDataBean == null){
 			newsDataBean = new NewsDataBean(new NewsData());
 		}
-		pageHtml = Template.replaceAll(pageHtml, Template.regex("text"), replaceNewsText(newsDataBean.getText()));	//替换新闻内容的详情。新版本中这个标签已经废弃，改用了 {news.text}
+		
+		//v5.6增加，仅针对newsData.text 文章内容进行关键字替换
+		String newsDataText = getNewsDataText(newsDataBean);
+		pageHtml = Template.replaceAll(pageHtml, Template.regex("text"), newsDataText);	//替换新闻内容的详情。新版本中这个标签已经废弃，改用了 {news.text}
 		
 		String generateUrl = "";
 		if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0){
@@ -1026,6 +1031,28 @@ public class TemplateCMS {
     		newsListTemplate = StringUtil.subStringReplace(newsListTemplate+" ", "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
     	}
     	return newsListTemplate;
+	}
+	
+	/**
+	 * v5.6增加，仅针对 newsData.text 文章内容进行关键字替换
+	 * @param newsDataBean
+	 * @return newsData.text 替换后的内容
+	 */
+	private String getNewsDataText(NewsDataBean newsDataBean) {
+		String newsDataText = newsDataBean.getText();
+		if(site.getKeywords() != null && site.getKeywords().trim().length() > 0) {
+			String[] keywords = site.getKeywords().split(",");
+			for(int i = 0; i<keywords.length; i++) {
+				String keyword = keywords[i].trim();
+				if(keyword.length() > 0) {
+					ConsoleUtil.log("keyword:"+keyword);
+					newsDataText = Template.replaceAll(newsDataText, keyword, "<a href=\"http://"+site.getBindDomain()+"\">"+keyword+"</a>");
+				}
+			}
+		}
+		newsDataText = replaceNewsText(newsDataText);
+		
+		return newsDataText;
 	}
 	
 }
