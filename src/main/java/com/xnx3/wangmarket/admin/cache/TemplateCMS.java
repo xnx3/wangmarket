@@ -1045,7 +1045,7 @@ public class TemplateCMS {
 			for(int i = 0; i<keywords.length; i++) {
 				String keyword = keywords[i].trim();
 				if(keyword.length() > 0) {
-					newsDataText = Template.replaceAll(newsDataText, keyword, "<a href=\"http://"+site.getBindDomain()+"\">"+keyword+"</a>");
+					newsDataText = Template.replaceAll(newsDataText, keyword, "<a href=\"http://"+site.getBindDomain()+"\" class=\"keyword\">"+keyword+"</a>");
 				}
 			}
 		}
