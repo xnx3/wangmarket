@@ -29,6 +29,10 @@ public class G {
 	public static final boolean SITE_MYSELF_USED = true;	//网站是否是wang.market自己使用，若是，为true，若不是，是将其部署到其他的服务器上，则为false
 //	public static final boolean SITE_DEPLOYMODE_SHARE = true;	//当前的部署模式，是否是共享一台服务器，即网站建设项目跟域名转发绑定都在一个项目里，都共用一个服务器。若是，则为true
 	
+	//权限相关
+	public static final int ROLE_ID_AGENCY = 10;	//代理用户的role.id
+	public static final int ROLE_ID_SITE = 1;		//网站用户的role.id
+	
 	//站点信息缓存
 	public static final String CACHE_FILE = "cache/data/";
 	public static final String DEFAULT_SITE_COLUMN_ICON_URL = "res/glyph-icons/world.png";

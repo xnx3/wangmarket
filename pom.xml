@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.xnx3.wangmarket</groupId>
   <artifactId>wangmarket</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.5.4</version>
+  <version>5.5.5</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -15,12 +15,12 @@
 	    <java.version>1.8</java.version>
 	  </properties>
   
-	<!-- 定义公共资源版本 -->
   <parent>
     <groupId>com.xnx3.wangmarket.wm</groupId>
     <artifactId>parent</artifactId>
     <version>2.11.2</version>
   </parent>
+  
      
   
   <repositories>
@@ -48,95 +48,118 @@
 	</repositories>
    
   
-    <build>
-    	<finalName>wangmarket</finalName>  
-    	
+    
+  <!-- 如果打包第三方jar包出来，那就加build，如果只是打包项目，注释掉build -->
+  <build>
 	    <plugins>
-	      <plugin>
-	        <artifactId>maven-compiler-plugin</artifactId>
-	        <configuration>
-	          <source>1.8</source>
-	          <target>1.8</target>
-	          <encoding>UTF-8</encoding>
-  			  <compilerArgs>
-  			  	<!--指定外部lib，打包时一并将外部jar打包-->  
-	            <arg>-extdirs</arg> 
-	            <arg>${project.basedir}/src/main/webapp/WEB-INF/lib</arg>
-	          </compilerArgs> 
-	        </configuration>
-	      </plugin>
-
-	      <plugin>
-	        <artifactId>maven-war-plugin</artifactId>
-	        <configuration>
-	          <encoding>UTF-8</encoding>
-	          <failOnMissingWebXml>false</failOnMissingWebXml>
-	          <webResources>
-				  <resource>
-						<directory>src/main/resources/static</directory>
-						<targetPath>static</targetPath>
-						<filtering>true</filtering>
-				  </resource>
-			  </webResources>
-
-	        </configuration>
-	      </plugin>
-	      
-	      <plugin>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-maven-plugin</artifactId>
-	            <configuration>
-	                <!-- 没有该配置，devtools 不生效 -->
-	                <fork>true</fork>
-	                <mainClass>com.Application</mainClass>
-	            </configuration>
-	        </plugin>
-	        
-	      
+                    <plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<!-- 打包成jar时，忽略的包 -->
+		            			<exclude>**/com/Application*</exclude>
+		            			<exclude>**/com/ServletInitializer*</exclude>
+		            			<exclude>**/*.xml</exclude>
+		            			<exclude>/*.properties</exclude>
+		            			<exclude>**/*.json</exclude>
+		            			<exclude>**/*.db</exclude>
+		          			</excludes>
+							<archive>  
+								<manifest>  
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
+									<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+								</manifest>
+							</archive>
+						</configuration>
+					</plugin>
+					<!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+                        </executions>
+                        <configuration>
+							<excludes>
+		            			<exclude>**/com/Application*</exclude>
+		            			<exclude>**/*.xml</exclude>
+		            			<exclude>**/*.json</exclude>
+		            			<exclude>**/*.db</exclude>
+		            			<exclude>**/static/**</exclude>
+		          			</excludes>
+						</configuration>
+                    </plugin>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 	    </plugins>
-	    
-	     <resources>  
-            <!-- 打包时将jsp文件拷贝到META-INF目录下-->  
+	    <resources>  
+	    	<!-- 将 resource/META-INF 下的配置文件拷贝到jar包 META-INF 目录下 -->  
             <resource>  
                 <!-- 指定resources插件处理哪个目录下的资源文件 -->  
-                <directory>src/main/webapp</directory>  
-                <!--注意此次必须要放在此目录下才能被访问到-->  
-                <targetPath>META-INF/resources</targetPath>  
+                <directory>src/main/resources</directory>  
+                <!-- 注意此次必须要放在此目录下才能被访问到 -->  
+                <targetPath>./</targetPath>  
                 <includes>  
-                    <include>**/**</include>  
+                    <include>META-INF/**</include>  
+                </includes>
+            </resource> 
+            <!-- 将 resource/static 下的配置文件拷贝到jar包  -->  
+            <resource>  
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->  
+                <directory>src/main/resources/static/</directory>  
+                <!-- 注意此次必须要放在此目录下才能被访问到 -->  
+                <targetPath>META-INF/resources/</targetPath>  
+                <includes>  
+                    <include>js/**</include>
+                    <include>css/**</include>
+                    <include>inputModel/**</include>
+                    <include>image/**</include>  
+                    <include>plugin/**</include>  
+                </includes>
+            </resource> 
+             <!-- 打包时将jsp文件拷贝到META-INF目录下 -->  
+            <resource>  
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->  
+                <directory>src/main/webapp/WEB-INF</directory>  
+                <!-- 注意此次必须要放在此目录下才能被访问到 -->  
+                <targetPath>META-INF/resources/WEB-INF/</targetPath>  
+                <includes>  
+                    <include>view/**</include>  
                 </includes>  
             </resource>  
-            <resource>  
-                <directory>src/main/resources</directory>  
-                <includes>  
-                    <include>**/**</include>  
-                </includes>  
-                <filtering>false</filtering>  
-            </resource>
-            <!-- 打包时将本地jar拷贝到打成jar运行包的BOOT-INF/lib/目录下-->  
-            <resource>  
-                <!-- 指定resources插件处理哪个目录下的资源文件 -->  
-                <directory>src/main/webapp/WEB-INF/lib</directory>  
-                <!--注意此次必须要放在此目录下才能被访问到-->  
-                <targetPath>BOOT-INF/lib</targetPath>  
-                <includes>  
-                    <include>**/*.jar</include>  
-                </includes>  
-            </resource> 
-           
         </resources>  
 	</build>   
+	  
+	  
   
   
   <dependencies>  
-  		<!-- 这个jar的源文件在 http://wm.zvo.cn -->
-  		<dependency> 
+    	<!-- 本地的 -->
+	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
 	        <version>2.12.6</version>  
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.12.6.jar</systemPath>  
-	    </dependency>
+	    </dependency> 
    </dependencies>  
   
 </project>

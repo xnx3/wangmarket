@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
@@ -24,6 +23,7 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
+import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
@@ -73,7 +73,7 @@ public class NewsController extends BaseController {
 	@ResponseBody
 	public BaseVO saveNews(News s,
 			@RequestParam(value = "text", required = false , defaultValue="") String text,
-			HttpServletRequest request, HttpServletResponse response, Model model){
+			HttpServletRequest request){
 		String title = "";
 		if(s.getTitle() != null && s.getTitle().length()>0){
 			title = StringUtil.filterXss(s.getTitle());
@@ -85,14 +85,7 @@ public class NewsController extends BaseController {
 		}
 		
 		Site site = getSite();
-		SiteColumn siteColumn = sqlService.findById(SiteColumn.class, s.getCid());
-		if(siteColumn == null){
-			return error("信息所属栏目不存在");
-		}
-		if(siteColumn.getSiteid() - site.getId() != 0){
-			return error("信息所属栏目不属于您，无法操作");
-		}
-		
+		SiteColumn siteColumn = null;
 		
 		News news;
 		NewsData newsData;
@@ -114,8 +107,13 @@ public class NewsController extends BaseController {
 			}
 		}else{
 			//新增
+			
+			if(s.getCid() == null || s.getCid() < 1) {
+				return error("您要发布的文章是要发布到哪个栏目下呢？请传入文章所属栏目的编号 cid");
+			}
+			
 			news = new News();
-			news.setCid(siteColumn.getId());	//默认没有栏目绑定
+			news.setCid(s.getCid());
 			news.setCommentnum(0);
 			news.setOpposenum(0);
 			news.setReadnum(0);
@@ -123,10 +121,19 @@ public class NewsController extends BaseController {
 			news.setType(SiteColumn.TYPE_LIST);
 			news.setUserid(getUserId());
 			news.setAddtime(DateUtil.timeForUnix10());
-			news.setSiteid(siteColumn.getSiteid());
+			news.setSiteid(site.getId());
 			
 			newsData = new NewsData();
 		}
+		
+		siteColumn = sqlService.findById(SiteColumn.class, s.getCid());
+		if(siteColumn == null){
+			return error("栏目不存在");
+		}
+		if(siteColumn.getSiteid() - site.getId() != 0){
+			return error("栏目不属于您，无法操作");
+		}
+		
 		
 		title = StringUtil.filterXss(StringUtil.filterHtmlTag(title));
 		if(title != null && title.length() > 60){

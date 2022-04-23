@@ -795,14 +795,15 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping(value="uploadImage${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public UploadFileVO uploadImage(Model model,HttpServletRequest request){
+	public UploadFileVO uploadImage(HttpServletRequest request, 
+			@RequestParam(value="image") MultipartFile image){
 		UploadFileVO uploadFileVO = new UploadFileVO();
 		if(getSite() == null){
 			uploadFileVO.setBaseVO(UploadFileVO.FAILURE, "请先登录");
 			return uploadFileVO;
 		}
 		
-		uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/templateimage/", request, "image", 0);
+		uploadFileVO = AttachmentUtil.uploadImageByMultipartFile("site/"+getSiteId()+"/templateimage/", image);
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
 			//上传成功，写日志
 			ActionLogUtil.insert(request, "CMS模式下，模版页自由上传图片成功", uploadFileVO.getFileName());
