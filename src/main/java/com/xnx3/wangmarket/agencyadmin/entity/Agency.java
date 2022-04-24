@@ -37,15 +37,15 @@ public class Agency implements java.io.Serializable {
 	public static final Short ALLOW_CREATE_SUBAGENCY_NO = 0;
 	
 	private Integer id;
-	private String name;
-	private String phone;
-	private Integer userid;
-	private String qq;
-	private String address;
+	private String name;	//代理商的公司名字（或个人姓名）
+	private String phone;	//手机号
+	private Integer userid;	//当前代理是属于哪个用户
+	private String qq;		//联系QQ
+	private String address;	//办公地址
 	private Integer siteSize;		//站点数量，站点余额。1个对应着一个网站/年
 	private Integer parentId;		//推荐人id，父级代理的agency.id。若父级代理是总管理，则为0
-	private Integer addtime;
-	private Integer expiretime;
+	private Integer addtime;	//添加，开通时间，10位时间戳
+	private Integer expiretime;	//代理资格的过期时间，10位时间戳
 	private Short state;		//代理状态，1或null正常；2冻结
 	private Integer money;		//金额，单位是分，网市场5.0后，上线云版本按量计费
 	private Short allowCreateSubAgency;	//此代理是否允许开通下级代理，是否有开通下级代理的功能。0不允许，1允许
