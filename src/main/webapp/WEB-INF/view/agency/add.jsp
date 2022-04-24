@@ -6,6 +6,6 @@
 	<jsp:param name="title" value="开通网站"/>
 </jsp:include>
 
-<jsp:include page="../common/addSite.jsp"></jsp:include>
+<jsp:include page="./addSite.jsp"></jsp:include>
 
 <jsp:include page="../iw/common/foot.jsp"></jsp:include>
