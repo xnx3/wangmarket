@@ -145,7 +145,7 @@ public class AgencyUserController extends BaseController {
 	@RequiresPermissions("agencyAdd")
 	@RequestMapping("addSubmit${url.suffix}")
 	@ResponseBody
-	public BaseVO addSubmit(HttpServletRequest request, Model model,
+	public BaseVO addSubmit(HttpServletRequest request,
 			User user,
 			@RequestParam(value = "client", required = false , defaultValue="0") Short client,
 			@RequestParam(value = "siteName", required = false , defaultValue="") String siteName,
@@ -203,6 +203,13 @@ public class AgencyUserController extends BaseController {
 			Site site,
 			String email
 		){
+		
+		if(user.getUsername() == null || user.getUsername().length() < 1) {
+			return error("请填写登录用户名");
+		}
+		if(user.getPassword() == null || user.getPassword().length() < 1) {
+			return error("请填写登录密码");
+		}
 		
 		if(agency.getSiteSize() == 0){
 			return error("您的账户余额还剩 "+agency.getSiteSize()+" 站，不足以再开通网站！请联系相关人员充值");

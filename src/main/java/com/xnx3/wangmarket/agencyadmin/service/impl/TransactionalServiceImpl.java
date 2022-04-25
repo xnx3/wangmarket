@@ -162,7 +162,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		
 		//判断续费后的网站是否超过了10年 ,当前时间 ＋ 3660天
 		if(expiretime > (DateUtil.timeForUnix10() + 316224000)){
-			vo.setBaseVO(BaseVO.FAILURE, "网站往后续费最大为10年！");
+			vo.setBaseVO(BaseVO.FAILURE, "网站往后续费最大为10年！当前网站已经延期很多年了，不需要在进行延期了");
 			return vo;
 		}
 		
