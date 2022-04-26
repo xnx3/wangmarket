@@ -12,6 +12,12 @@
 <script>
 var masterSiteUrl = window.location.protocol+'//'+location.host+'/';
 var autoAssignDomain = '${autoAssignDomain }';
+
+//判断是否有从get传递来的token参数。这个时 adminapi 接口有使用，自动过来登录
+var token = getUrlParams('token');
+if(token != null && token.length > 10){
+	wm.token.set(token);	//更新浏览器token缓存
+}
 </script>
 <style>
 #editPanel{
