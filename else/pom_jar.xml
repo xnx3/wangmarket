@@ -152,7 +152,7 @@
   
   
   <dependencies>  
-    	<!-- 本地的 -->
+    	<!-- 本地的。这个wm文档及源码在  http://wm.zvo.cn  -->
 	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
@@ -160,6 +160,15 @@
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.13.jar</systemPath>  
 	    </dependency> 
+	    
+	    <dependency> 
+			<groupId>com.xnx3.util</groupId>
+			<artifactId>xnx3-util</artifactId>
+	        <version>1.7.1</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.7.1.jar</systemPath>  
+	    </dependency> 
+	    
    </dependencies>  
   
 </project>
