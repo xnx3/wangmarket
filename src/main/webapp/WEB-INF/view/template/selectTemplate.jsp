@@ -105,8 +105,8 @@
 </div>
 
 <div style="height:20px; width:100%;">&nbsp;</div>
-<div class="site-title">
-	<fieldset><legend><a name="fieldset">方案三.使用云端现有模版</a>&nbsp;&nbsp;<b>(推荐)</b></legend></fieldset>
+<div class="site-title" >
+	<fieldset><legend><a name="fieldset" id="fangan_three">方案三.使用云端现有模版</a>&nbsp;&nbsp;<b>(推荐)</b></legend></fieldset>
 </div>
 
 <div style="width: 100%; padding-left: 20px; padding-right: 20px; box-sizing: border-box;" id="template_type">
@@ -156,7 +156,7 @@ function typeClick(type){
 							//这种情况是使用Eclipse开发状态，且没有设置主域名的情况下
 							previewPic = "/"+previewPic;
 						}
-						var temp = '<div>'+
+						var temp = '<div class="temlate_item_'+to.name+'">'+
 									'<img src="'+ previewPic +'?x-oss-process=image/resize,w_500" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
@@ -230,6 +230,13 @@ function useCloudTemplate(templateName){
 			msg.close();
 			if(data.result == '1'){
 				parent.msg.success("导入成功");
+
+				//进行第二轮，父级的指引
+				if(useYindao){
+					parent.yindaoStart();	//启动 template/index.do 的引导
+				}
+				
+				
 				//进入内容管理中
 				parent.loadIframeByUrl('/template/welcome.do');
 		 	}else if(data.result == '0'){
@@ -241,6 +248,63 @@ function useCloudTemplate(templateName){
 		
 	}, function(){
 	});
+}
+
+</script>
+
+<!-- 引导 -->
+<script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+<script>
+var useYindao = false;	//当前用户是否选择了使用引导，true则是使用
+//操作引导
+function yindao(){
+	useYindao = true;
+	
+	const driver = new Driver({
+		  doneBtnText: '导入模板', // 最终按钮上的文本 Text on the final button
+		  closeBtnText: '关闭指引', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		  nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		  prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		  onReset: function(Element) {
+			  useCloudTemplate('lmyglm1');
+		  },        // 遮罩将要关闭时调用
+	});
+	//Define the steps for introduction
+	driver.defineSteps([
+		{
+			 element: '#fangan_three',
+			 popover: {
+			   title: '选择模板导入方式',
+			   description: '刚开始用，那就直接用我们云端模板，都是做好的，导入就能直接用。如果后面使用熟悉了，您可以自己尝试做模板',
+			   position: 'top'
+			 }
+		},
+		{
+		 element: '#type_2',
+		 popover: {
+		   title: '选择一个分类',
+		   description: '这里以五金制造这个分类来演示。',
+		   position: 'right'
+		 }
+		},
+		{
+		 element: '.temlate_item_lmyglm1',
+		 popover: {
+		   title: '选择一个模板',
+		   description: '这里以 [ lmyglm1 ] 这个模板为例进行演示。（此模板是我们跟阿里巴巴国际站合作专门给定做的一套，适用于绝大多数类型网站使用。您如果做网站时没有考虑好用哪个模板，建议用这个。）',
+		   position: 'top'
+		 }
+		}
+	]);
+	driver.start();
+}
+
+//模板选择的引导
+var msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
+//layer.confirm(msgHtml, {icon: 0, title:'您是否是第一次使用本系统'}, yindao);
+if(confirm(msgHtml)){
+	yindao();
 }
 
 </script>

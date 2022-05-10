@@ -66,6 +66,7 @@ if(token != null && token.length > 10){
 
 .layui-nav-tree .layui-nav-child a{
 	padding-left: 43px;
+	background-color: #393d49;
 }
 
 .top_htmledit_buttom{
@@ -501,7 +502,7 @@ $(function(){
 	//生成整站
 	var generatehtml_tipindex = 0;
 	$("#generatehtml").hover(function(){
-		generatehtml_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版什么的了，最后这里，生成整站后，别人访问你的网址才能看到效果', '#generatehtml', {
+		generatehtml_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来', '#generatehtml', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
@@ -835,6 +836,59 @@ if('${user.username}'.indexOf('ceshi') > -1){
 
 </script>
 
+<!-- 引导 -->
+<script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+<script>
+/**
+ * 运行引导。这个是在选择了 lmyglm1模板后触发的引导
+ */
+function yindaoStart(){
+	const driver = new Driver({
+		  doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
+		  closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		  nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		  prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		  onReset: function(Element) {
+				//打开全局变量
+				loadIframeByUrl('/siteVar/list.do');
+		  },        // 遮罩将要关闭时调用
+	});
+	//Define the steps for introduction
+	driver.defineSteps([
+		{
+			 element: '#quanjubianliang',
+			 popover: {
+			   title: '模板管理下的全局变量',
+			   description: '像是一些基本的信息，如LOGO、Banner、地址...等信息，都可以在这里面进行修改',
+			   position: 'right'
+			 }
+		},
+		{
+			 element: '#li_news',
+			 popover: {
+			   title: '内容管理',
+			   description: '像是新闻资讯等文章的发布、产品的添加、关于我们公司荣誉等页面内容的填充等，都是在内容管理中操作的',
+			   position: 'right'
+			 }
+		},
+		{
+		 element: '#li_generatehtml',
+		 popover: {
+		   title: '点击[生成整站]来生成网站',
+		   description: '网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来',
+		   position: 'right'
+		 }
+		}
+	]);
+
+	//展开模板管理
+	unfoldFirstColumn('li_template');
+	//Start the introduction
+	driver.start();
+}
+
+</script>
 
 </body></html>
 ${pluginAppendHtml}
