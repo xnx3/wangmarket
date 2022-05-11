@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.5.6</version>
+  <version>5.6</version>
   <description>网市场云建站系统</description>
   
    <properties>

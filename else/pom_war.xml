@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>war</packaging>
   <name>wangmarket</name>
-  <version>5.5.5</version>
+  <version>5.5.6</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -129,14 +129,23 @@
   
   
   <dependencies>  
-  		<!-- 这个jar的源文件在 http://wm.zvo.cn -->
-  		<dependency> 
+  		<!-- 本地的。这个wm文档及源码在  http://wm.zvo.cn  -->
+	    <dependency> 
 	        <groupId>com.xnx3.wm</groupId>  
 	        <artifactId>wm</artifactId>  
 	        <version>2.13</version>  
 	        <scope>system</scope>  
     		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.13.jar</systemPath>  
-	    </dependency>
+	    </dependency> 
+	    
+	    <dependency> 
+			<groupId>com.xnx3.util</groupId>
+			<artifactId>xnx3-util</artifactId>
+	        <version>1.7.1</version>  
+	        <scope>system</scope>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.7.1.jar</systemPath>  
+	    </dependency> 
+	    
    </dependencies>  
   
 </project>
