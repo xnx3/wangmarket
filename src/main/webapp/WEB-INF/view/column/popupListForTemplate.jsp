@@ -101,7 +101,6 @@ function editColumn(siteColumnId, isCopy){
  */
 function deleteColumn(siteColumnId, name){
 	msg.confirm('确定要删除“'+name+'”吗? ', function(){
-		layer.close(dtv_confirm);
 		parent.msg.loading('删除中');
 		$.post('/column/delete.do?id='+siteColumnId,function(obj){
 			parent.msg.close();

@@ -416,11 +416,20 @@ public class TemplateServiceImpl implements TemplateService {
 			loadDatabaseTemplateVarToCache();
 		}
 		SessionUtil.getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
+		//字节相成提出的redis不更改的bug
+		Map<String, String> compileDataMap = SessionUtil.getTemplateVarCompileDataMap();
+		compileDataMap.put(templateVar.getVarName(), templateVarData.getText());
+		SessionUtil.getTemplateVarCompileDataMap().put(templateVar.getVarName(), templateVarData.getText());
+		SessionUtil.setTemplateVarCompileDataMap(compileDataMap);
 		
 		TemplateVarVO templateVarVO = new TemplateVarVO();
 		templateVarVO.setTemplateVar(templateVar);
 		templateVarVO.setTemplateVarData(templateVarData);
 		SessionUtil.getTemplateVarMapForOriginal().put(templateVar.getVarName(), templateVarVO);
+		//字节相成提出的redis不更改的bug
+		Map<String, TemplateVarVO> originalMap = SessionUtil.getTemplateVarMapForOriginal();
+		originalMap.put(templateVar.getVarName(), templateVarVO);
+		SessionUtil.setTemplateVarMapForOriginal(originalMap);
 	}
 
 	public void loadDatabaseTemplateVarToCache() {
