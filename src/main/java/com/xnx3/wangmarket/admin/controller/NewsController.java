@@ -20,6 +20,7 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.func.TextFilter;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -507,9 +508,14 @@ public class NewsController extends BaseController {
 			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());
 			
 			//删除OSS的html、头图文件
-			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
-			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+			//v5.6.3增加，避免serverless版本中，配置好了桶，又将桶通过控制台删掉，这里导致异常卡住的问题
+			try {
+				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+				if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
+					AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+				}
+			} catch (Exception e) {
+				ConsoleUtil.error("删除存储中的html时异常，不过不影响您正常使用.异常信息 ："+e.getMessage());
 			}
 			
 			//插件拦截

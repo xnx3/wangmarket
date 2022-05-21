@@ -11,6 +11,7 @@ import com.xnx3.FileUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.Func;
@@ -339,7 +340,11 @@ public class NewsServiceImpl implements NewsService {
 		
 		//删除titlepic文件
 		if(news.getTitlepic() != null && news.getTitlepic().indexOf("http://") == -1){
-			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+			try {
+				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
+			} catch (Exception e) {
+				ConsoleUtil.error("删除titlepic时异常，但不影响正常使用。异常:"+e.getMessage());
+			}
 		}
 		
 		baseVO.setNews(news);
