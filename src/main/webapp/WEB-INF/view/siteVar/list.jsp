@@ -102,7 +102,6 @@ layui.use('laydate', function(){
  */
 function deleteVar(name){
 	msg.confirm('删除后不可恢复，您确定要删除此变量吗？', function(){
-		layer.close(dtv_confirm);
 		parent.msg.loading("删除中");
 		$.post("/siteVar/deleteVar.do?name="+name, function(data){
 			parent.msg.close();

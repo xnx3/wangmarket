@@ -139,7 +139,6 @@ function editTemplatePageAttribute(pageName){
  */
 function deleteTemplatePage(id, name){
 	msg.confirm('确定要删除“'+name+'”？删除后不可恢复！', function(){
-		layer.close(dtp_confirm);
 		parent.msg.loading('删除中');
 		$.post('/template/deleteTemplatePage.do?id='+id, function(data){
 			parent.msg.close();

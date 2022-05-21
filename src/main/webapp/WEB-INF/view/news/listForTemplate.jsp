@@ -169,9 +169,9 @@ function deleteNews(newsid){
 	  btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
-		msg.loading("删除中");
+		parent.msg.loading("删除中");
 		$.post("/news/deleteNewsForAjax.do?id="+newsid, function(data){
-			msg.close();
+			parent.msg.close();
 			if(data.result == '1'){
 				parent.msg.success("删除成功");
 				location.reload();

@@ -56,8 +56,6 @@
  */
 function deleteInputModel(id, remark){
 	msg.confirm('确定要删除“'+remark+'”吗? ', function(){
-		layer.close(dtv_confirm);
-		
 		parent.msg.loading('删除中');
 		$.post('/inputModel/delete.do?id='+id, function(data){
 		    parent.msg.close();
