@@ -1,7 +1,8 @@
 ![输入图片说明](//cdn.weiunity.com/site/341/news/4dc19cce6540459d9cfb441bda11d146.png "1.png")
 
-**无服务器版本发布并纳入华为云开发中心**
-华为云OBS与网市场云建站CMS内容管理系统的深度整合，提供一个无技术门槛、可快速搭建100%自由度的网站。可做博客、文档、企业官网、电子简历…… 结合云计算的海量、安全、高可靠、低成本等优势，使各企业都能享受华为云所带来的技术变革。
+**【无服务器版发布并纳入华为云开发团队】**  
+[https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms](https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms)  
+华为云OBS与网市场云建站CMS内容管理系统的深度整合，提供一个无技术门槛、可快速搭建100%自由度的网站。可做博客、文档、企业官网、电子简历…… 结合云计算的海量、安全、高可靠、低成本等优势，使各企业都能享受华为云所带来的技术变革。[优先建议采用此方式]
 
 # 简介
 #### 网站使用方面
