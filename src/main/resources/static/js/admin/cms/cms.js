@@ -175,5 +175,6 @@ function loadIframeByUrl(url){
 		//如果当前是编辑模版页的代码模式下，将其切换回智能模式。不然内容管理等这些就显示不出来了
 		htmledit_mode();
 	}
+	msg.closeAllSimpleMsg();	//修复模板页面保存后立即点别的如栏目管理，提示信息不自动取消的问题
 	document.getElementById("iframe").src=url;
 }
