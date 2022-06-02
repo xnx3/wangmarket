@@ -3,7 +3,7 @@
 [https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms](https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms)  
 华为云OBS与网市场云建站CMS内容管理系统的深度整合，提供一个无技术门槛、可快速搭建100%自由度的网站。云计算的海量、安全、高可靠、低成本等优势，使企业都能享受云服务带来的技术便利。[优先建议采用此方式]
 #### 优势
-1. [**上云成本方面**，服务器没了~~不能理解吧？做网站真的不再需要服务器了！一年也就少到可怜的几毛钱的存储及流量费。](https://e.gitee.com/leimingyun/doc/share/d88704307ba06edd/?sub_id=5624017)
+1. [**上云成本方面**，服务器没了~~不可思议吧？做网站真的不再需要服务器了！一年也就少到可怜的几毛钱的存储及流量费。](https://e.gitee.com/leimingyun/doc/share/d88704307ba06edd/?sub_id=5624017)
 1. **技术人员方面**，服务器运维及后端开发岗位（甚至前端工程师）也没了~~
 1. **安全稳定方面**，数据持久性高达99.9999999999%、千万级并发、高可靠，彻底杜绝攻击、挂马等传统建站系统的安全隐患
 1. **隐私担忧方面**，去中心化服务器，所有数据都在你自己当前的电脑上。在一些人眼里，自己手里的才是最安全的。我们就完全可以做到这样。只要你不想，谁也拿不到你当前网站的后台数据。
