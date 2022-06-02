@@ -1,5 +1,4 @@
-![输入图片说明](//cdn.weiunity.com/site/341/news/4dc19cce6540459d9cfb441bda11d146.png "1.png")
-
+![image.png](https://images.gitee.com/uploads/images/2022/0530/084148_27b04528_429922.png)  
 # 【无服务器版发布并纳入华为云开发团队】
 [https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms](https://gitee.com/HuaweiCloudDeveloper/huaweicloud-obs-website-wangmarket-cms)  
 华为云OBS与网市场云建站CMS内容管理系统的深度整合，提供一个无技术门槛、可快速搭建100%自由度的网站。云计算的海量、安全、高可靠、低成本等优势，使企业都能享受云服务带来的技术便利。[优先建议采用此方式]
