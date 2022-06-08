@@ -61,8 +61,10 @@ public class Log {
 		logItem.PushBack("referer", requestInfo.getReferer());
 		logItem.PushBack("userAgent", requestInfo.getUserAgent());
 		logItem.PushBack("htmlFile", requestInfo.getHtmlFile());
-		logItem.PushBack("siteid", simpleSiteVO.getSimpleSite().getId()+"");
 		logItem.PushBack("serverName", requestInfo.getServerName());
+		if(simpleSiteVO != null && simpleSiteVO.getSimpleSite() != null) {
+			logItem.PushBack("siteid", simpleSiteVO.getSimpleSite().getId()+"");
+		}
 		
 		try {
 			aliyunLogUtil.cacheLog(logItem);

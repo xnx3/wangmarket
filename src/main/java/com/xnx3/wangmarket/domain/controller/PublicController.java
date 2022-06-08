@@ -84,18 +84,9 @@ public class PublicController extends BaseController {
 			}
 		}
 		
-		RequestInfo requestInfo = new RequestInfo();
-		requestInfo.setHtmlFile(htmlFile);
-		requestInfo.setIp(IpUtil.getIpAddress(request));
-		requestInfo.setReferer(request.getHeader("referer"));
-		requestInfo.setServerName(request.getServerName());
-		requestInfo.setTime(DateUtil.timeForUnix10());
-		requestInfo.setUserAgent(request.getHeader("User-Agent"));
-		
 //		htmlFile = htmlFile + ".html";
 		//访问日志记录
 //		requestLog(request, requestInfo);
-		Log.requestLog(request, requestInfo, simpleSiteVO);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			//未发现这个域名对应的网站
@@ -109,6 +100,16 @@ public class PublicController extends BaseController {
 			model.addAttribute("adminUrl", getAdminLoginUrl());
 			return "domain/notFindDomain";
 		}
+		
+		//日志
+		RequestInfo requestInfo = new RequestInfo();
+		requestInfo.setHtmlFile(htmlFile);
+		requestInfo.setIp(IpUtil.getIpAddress(request));
+		requestInfo.setReferer(request.getHeader("referer"));
+		requestInfo.setServerName(simpleSiteVO.getServerName());
+		requestInfo.setTime(DateUtil.timeForUnix10());
+		requestInfo.setUserAgent(request.getHeader("User-Agent"));
+		Log.requestLog(request, requestInfo, simpleSiteVO);
 		
 		//判断网站的状态，冻结的网站将无法访问
 		SimpleSite simpleSite = simpleSiteVO.getSimpleSite();
@@ -300,24 +301,47 @@ public class PublicController extends BaseController {
 			serverName = request.getServerName();	//访问域名，如 pc.wang.market
 		}
 		
-		//先从session缓存中取
-		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+		SImpleSiteVO vo = null;
+		
+		//如果是 zvo.cn 或 admin.zvo.cn 这种格式的，那么就是预览网站时用的，是要用到缓存的
+		if(serverName.equalsIgnoreCase(G.getAutoAssignDomain()[0]) || serverName.equalsIgnoreCase("admin."+G.getAutoAssignDomain()[0])) {
+			//是再预览网站
+			if(request.getParameter("domain") != null && request.getParameter("domain").length() > 1) {
+				//通过 http://admin.xxx.com/index.html?domain=www.zvo.cn 这样点击预览网站直接预览的。
+				//这种方式就是可以理解为正常浏览，走下面
+			}else {
+				//预览后直接点击某个页面进行查看的，后面已经不带 domain 参数了，那就要从缓存取
+				vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+				
+				//如果session缓存中有，直接将session的返回
+				if(vo != null) {
+					vo.setSourceBySession(true);
+				}else {
+					vo = new SImpleSiteVO();
+					vo.setBaseVO(SImpleSiteVO.FAILURE, "网站没发现，过会在来看看吧");	//默认是没找到
+				}
+				return vo;
+			}
+		}
+		
+//		SImpleSiteVO vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+//		SImpleSiteVO vo = null;
 //		if(serverName != null && vo != null && !vo.getServerName().equalsIgnoreCase(serverName)){
 //			//当get传入的domain有值，且值跟之前缓存的simpleSiteVO的值不对应，那么应该是代理商在用，在编辑多个网站。之前的网站退出了，又上了一个网站，正在预览当前的网站。那么清空之前的网站再session的缓存，重新进行缓存
 //			vo = null;
 //		}
 		//如果session缓存中有，直接将session的返回
-		if(vo != null) {
-			vo.setSourceBySession(true);
-			return vo;
-		}
+//		if(vo != null) {
+//			vo.setSourceBySession(true);
+//			return vo;
+//		}
 		
 		/****** session中没有，那么从map中读取 ******/
 		vo = new SImpleSiteVO();
 		
-		if(serverName == null || serverName.length() == 0){
-			serverName = request.getServerName();	//访问域名，如 pc.wang.market
-		}
+//		if(serverName == null || serverName.length() == 0){
+//			serverName = request.getServerName();	//访问域名，如 pc.wang.market
+//		}
 		vo.setServerName(serverName);
 		SimpleSite simpleSite = null;
 		
@@ -332,6 +356,18 @@ public class PublicController extends BaseController {
 //			simpleSite.setId(simpleSite.getSiteid());
 //			simpleSite.setState(Site.STATE_NORMAL);
 //			simpleSite.setTemplateId(1);
+			vo = (SImpleSiteVO) request.getSession().getAttribute("SImpleSiteVO");
+			
+			//如果session缓存中有，直接将session的返回
+			if(vo != null) {
+				vo.setSourceBySession(true);
+			}else {
+				vo = new SImpleSiteVO();
+				vo.setBaseVO(SImpleSiteVO.FAILURE, "网站没发现，过会在来看看吧");	//默认是没找到
+			}
+			return vo;
+			
+			
 		}else{
 			//正常使用，从域名缓存中找到对应的网站
 			

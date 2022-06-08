@@ -186,6 +186,16 @@ public class SiteController extends BaseController {
 			@RequestParam(value = "bindDomain", required = false , defaultValue="") String bindDomain){
 		BaseVO vo = new BaseVO();
 		
+		//判断域名格式
+		//在v5.5增加的这个设置，跟随 oem 插件增加的
+		String bindDomainDemo = SystemUtil.get("BIND_DOMAIN_DEMO");
+		if(bindDomainDemo == null || bindDomainDemo.length() == 0 || bindDomainDemo.equalsIgnoreCase("null")) {
+			bindDomainDemo = "www.guanleiming.com";
+		}
+		if(bindDomain.indexOf(':') > -1 || bindDomain.indexOf('/') > -1){
+			return error("域名格式校验异常<br/>填写格式如："+bindDomainDemo);
+		}
+		
 		bindDomain = StringUtil.filterXss(bindDomain);
 		
 		//v3.0版本更新，若不填写，则是绑定空的字符串，也就是解除之前的域名绑定！
