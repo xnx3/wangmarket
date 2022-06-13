@@ -3,6 +3,7 @@ package com.xnx3.wangmarket.domain;
 import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.j2ee.Global;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;

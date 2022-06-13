@@ -60,6 +60,14 @@ public class Site implements java.io.Serializable {
 	 * 网站html存储方式：ftp
 	 */
 	public static final String GENERATE_HTML_STORAGE_TYPE_FTP = "ftp";
+	/**
+	 * 网站html存储方式：sftp
+	 */
+	public static final String GENERATE_HTML_STORAGE_TYPE_SFTP = "sftp";
+	/**
+	 * 网站html存储方式：local，本地服务器存储，也就是不管是否AttachmentUtil 配置了OBS、OSS，这个网站存储的html都会使用LocalServerMode存储
+	 */
+	public static final String GENERATE_HTML_STORAGE_TYPE_LOCAL = "local";
 	
 	private Integer id;			//自动编号
 	private String name;		//站点名字

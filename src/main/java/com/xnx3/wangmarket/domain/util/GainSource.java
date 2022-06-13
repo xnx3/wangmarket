@@ -7,9 +7,9 @@ import java.util.Map;
 import com.xnx3.ClassUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.Lang;
-import com.xnx3.cache.JavaUtil;
 import com.xnx3.j2ee.util.ApplicationPropertiesUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.net.HttpUtil;
@@ -76,7 +76,7 @@ public class GainSource {
 		TextBean bean;
 		Map<String, TextBean> map;
 		
-		Object obj = JavaUtil.get("site:"+simpleSite.getSiteid());
+		Object obj = CacheUtil.get("site:"+simpleSite.getSiteid());
 		if(obj != null) {
 			//这个站点已经有过缓存了
 			
@@ -145,7 +145,7 @@ public class GainSource {
 		
 		map.put(fileName, bean);
 		if(obj == null) {
-			JavaUtil.set("site:"+simpleSite.getSiteid(), map);
+			CacheUtil.set("site:"+simpleSite.getSiteid(), map);
 		}
 		
 		if(bean.isExistMenory()) {
