@@ -595,7 +595,7 @@ public class TemplateCMS {
 			}
 			
 			//写出列表页面的HTML文件
-			generateHtmlInterface.putStringFile(currentListHtml, generateSiteColumnListPageHtmlName(siteColumn, i) + ".html");
+			putStringFile(currentListHtml, generateSiteColumnListPageHtmlName(siteColumn, i) + ".html");
 //			AttachmentUtil.putStringFile("site/"+site.getId()+"/" + generateSiteColumnListPageHtmlName(siteColumn, i) + ".html", currentListHtml);
 		}
 	}
@@ -783,10 +783,18 @@ public class TemplateCMS {
 			generateUrl = generateNewsPageHtmlName(siteColumn, news)+".html";
 		}
 		
-		generateHtmlInterface.putStringFile(pageHtml, generateUrl);
+		putStringFile(pageHtml, generateUrl);
 //		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
 	
+	/**
+	 * 生成，写出页面文件，如 index.html 、 sitemap.xml 等 
+	 * @param text 写出页面的源代码的内容
+	 * @param fileName	生成的页面文件的名字，传入如 index.html  、 sitemap.xml 等
+	 */
+	public void putStringFile(String text, String fileName) {
+		generateHtmlInterface.putStringFile(text, fileName);
+	}
 	
 	/**
 	 * 替换 列表模版页面 的分页标签

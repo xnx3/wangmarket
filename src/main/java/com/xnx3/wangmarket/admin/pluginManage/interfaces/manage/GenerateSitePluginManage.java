@@ -15,6 +15,7 @@ import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
+import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -92,15 +93,15 @@ public class GenerateSitePluginManage {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+	public static void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap, TemplateCMS template) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
 			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("generateSiteFinish",new Class[]{HttpServletRequest.class, Site.class, Map.class, Map.class, Map.class});	//获取要调用的init方法  
+			Method m = c.getMethod("generateSiteFinish",new Class[]{HttpServletRequest.class, Site.class, Map.class, Map.class, Map.class, TemplateCMS.class});	//获取要调用的init方法  
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			m.invoke(invokeReply, new Object[]{request, site, siteColumnMap, newsMap, newsDataMap});
+			m.invoke(invokeReply, new Object[]{request, site, siteColumnMap, newsMap, newsDataMap, template});
 		}
 	}
 	

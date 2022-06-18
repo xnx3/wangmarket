@@ -843,21 +843,21 @@ public class TemplateController extends BaseController {
 			return vo;
 		}
 		
-		//生成整站成功，那么执行成功的插件
-		try {
-			GenerateSitePluginManage.generateSiteFinish(request, getSite(), vo.getSiteColumnMap(), vo.getNewsMap(), vo.getNewsDataMap());
-		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
-				| IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return BaseVO.failure("生成整站时，插件 finish 接口的实现失败，但当前网站已正常生成成功！插件异常："+e.getMessage());
-		}
-		
 		if(AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//如果使用的是本地存储，那么不需要走缓存，这层缓存是为云存储准备的，避免被ddos穿透到云存储
 		}else {
 			SimpleSite simpleSite = new SimpleSite(getSite());
 			String content = new com.xnx3.wangmarket.domain.bean.PluginMQ(com.xnx3.wangmarket.admin.util.SessionUtil.getSite()).jsonAppend(net.sf.json.JSONObject.fromObject(com.xnx3.j2ee.util.EntityUtil.entityToMap(simpleSite))).toString();
 			com.xnx3.wangmarket.domain.mq.DomainMQ.send(CleanIOCacheMQListener.CLEAN_IO_CACHE_MQ_NAME, content);
+		}
+		
+		//生成整站成功，那么执行成功的插件
+		try {
+			GenerateSitePluginManage.generateSiteFinish(request, getSite(), vo.getSiteColumnMap(), vo.getNewsMap(), vo.getNewsDataMap(), vo.getTemplate());
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+			ConsoleUtil.error("生成整站时，插件 finish 接口的实现失败，但当前网站已正常生成成功！插件异常："+e.getMessage());
 		}
 		
 		return success(vo.getInfo());

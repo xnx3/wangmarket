@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
+import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -39,6 +40,6 @@ public interface GenerateSiteInterface {
 	 * @param newsMap 当前网站的文章数据， 以栏目codeName为key，将文章List加入进自己对应的栏目。同时，若传入父栏目代码，其栏目下有多个新闻子栏目，会调出所有子栏目的内容
 	 * @param newsDataMap 当前网站的文章详情的数据 key: {@link News}.id  value: {@link NewsDataBean}
 	 */
-	public void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap);
+	public void generateSiteFinish(HttpServletRequest request, Site site, Map<String, SiteColumn> siteColumnMap, Map<String, List<News>> newsMap, Map<Integer, NewsDataBean> newsDataMap, TemplateCMS template);
 	
 }

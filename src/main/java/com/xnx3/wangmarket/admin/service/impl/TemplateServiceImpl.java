@@ -39,6 +39,7 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateHtmlStorateInterfaceManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
@@ -1453,7 +1454,7 @@ public class TemplateServiceImpl implements TemplateService {
 			indexHtml = template.replacePublicTag(indexHtml);	//替换公共标签
 		}
 		//生成首页保存
-		generateHtmlInterface.putStringFile(indexHtml, "index.html");
+		template.putStringFile(indexHtml, "index.html");
 		//AttachmentUtil.putStringFile("site/"+site.getId()+"/index.html", indexHtml);
 		
 		/*
@@ -1533,6 +1534,7 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 		} 
 		
+		vo.setTemplate(template);
 		vo.setNewsDataMap(newsDataMap);
 		vo.setNewsMap(columnNewsMap);
 		vo.setSiteColumnMap(columnMap);
