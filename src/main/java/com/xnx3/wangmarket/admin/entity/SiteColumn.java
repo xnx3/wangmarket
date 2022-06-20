@@ -252,7 +252,8 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	public void setTemplatePageViewName(String templatePageViewName) {
 		this.templatePageViewName = templatePageViewName;
 	}
-
+	
+	@Column(name = "code_name", columnDefinition="char(40) COLLATE utf8mb4_unicode_ci")
 	public String getCodeName() {
 		return codeName;
 	}

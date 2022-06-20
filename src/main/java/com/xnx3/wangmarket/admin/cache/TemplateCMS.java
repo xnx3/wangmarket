@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.cache;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -25,6 +26,8 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.TemplateInterfaceManage;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
@@ -197,6 +200,15 @@ public class TemplateCMS {
 		//v4.7增加
 		text = Template.replaceAll(text, regex("templatePath"), getTemplatePath());
 		
+
+		/**** 插件扩展，v5.7增加 ****/
+		try {
+			text = TemplateInterfaceManage.publicTag(text, this);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		
 		return text;
 	}
@@ -383,6 +395,15 @@ public class TemplateCMS {
 		}
 		text = Template.replaceAll(text, regex("siteColumn.url"), url);
 		
+		/**** 插件扩展，v5.7增加 ****/
+		try {
+			text = TemplateInterfaceManage.siteColumnTag(text, siteColumn, this);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
 		return text;
 	}
 
@@ -485,6 +506,15 @@ public class TemplateCMS {
 	        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
 	        	text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsDataBean.getExtendJson(entry.getKey()));	//替换新闻内容的详情
 	        }
+		}
+		
+		/**** 插件扩展，v5.7增加 ****/
+		try {
+			text = TemplateInterfaceManage.newsTag(text, news, siteColumn, newsDataBean, this);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
 		
 		return text;
@@ -793,6 +823,16 @@ public class TemplateCMS {
 	 * @param fileName	生成的页面文件的名字，传入如 index.html  、 sitemap.xml 等
 	 */
 	public void putStringFile(String text, String fileName) {
+		
+		/**** 插件扩展，v5.7增加 ****/
+		try {
+			text = TemplateInterfaceManage.publishHtmlFileBefore(text, fileName, this);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
 		generateHtmlInterface.putStringFile(text, fileName);
 	}
 	
