@@ -159,7 +159,24 @@ public class TemplateDevelopController extends BasePluginController {
 			//当前还没有模版编码
 			//创建模版编码的文件夹
 			File file = new File(SystemUtil.getProjectPath()+getExportPath()+templateName);
-			file.mkdir();	//创建这个文件夹
+			ConsoleUtil.log("自动创建文件夹路径："+SystemUtil.getProjectPath()+getExportPath()+templateName);
+			
+			//创建这个文件夹
+			file.mkdirs();
+				
+			//判断这个文件夹是否存在，被成功创建了
+			if(!new File(SystemUtil.getProjectPath()+getExportPath()+templateName).isDirectory()) {
+				//创建文件夹失败
+				//不是一个目录，那就是还没创建
+//				return error("自动创建文件夹失败");
+				
+				//判断当前是否在C盘下
+				if(SystemUtil.getProjectPath().indexOf("C:") > -1) {
+					return error("<b>自动创建文件夹失败！</b><br/>经检查，您将本系统放在了C盘下，按照第一步的说明要求，本系统不能放到C盘下，不然会出现权限问题导致无法自动创建模板存放的文件夹！<br/>您可以将此放到D盘、E盘中，再运行使用");
+				}
+				return error("自动创建文件夹失败！权限不足。您可加一下QQ群740332119进行反馈");
+			}
+			
 			//创建 css 文件夹
 			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
 			//创建 js 文件夹

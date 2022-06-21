@@ -42,7 +42,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 					<li>此插件仅限于模版开发人员使用</li>
 					<li>如果你是Windows系统，请不要将项目此放到C盘，否则可能会由于权限等问题导致无法创建相关文件夹。</li>
 					<li>不要将本项目放到有空格、中文字符的文件夹（路径）中</li>
-					<li>如有疑问或是在解决不了的，可到 <a href="http://bbs.leimingyun.com" target="_black">社区论坛 bbs.leimingyun.com</a> 发帖求助，我们有专人负责答疑</li>
+					<li>如有疑问或是在解决不了的，可加QQ群 740332119 进行求助,热心网友会进行解惑</li>
 				</ul>
 			</div>
 		</div>

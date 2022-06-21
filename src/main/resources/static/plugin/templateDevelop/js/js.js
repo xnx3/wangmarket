@@ -33,21 +33,21 @@ layui.use('upload', function(){
 function saveTemplateName(){
 	var templateName = document.getElementById('templateName').value.trim();
 	if(templateName.length == 0){
-		parent.iw.msgFailure("请输入模版编码");
+		parent.msg.failure("请输入模版编码");
 		return;
 	}
 	
-	parent.iw.loading("设置中");    //显示“操作中”的等待提示
+	parent.msg.loading("设置中");    //显示“操作中”的等待提示
 	$.post("saveTemplateName.do?templateName="+templateName, function(data){
-		parent.iw.loadClose();    //关闭“操作中”的等待提示
+		parent.msg.close();    //关闭“操作中”的等待提示
 	    if(data.result == '1'){
-	    	parent.iw.msgSuccess('设置成功');
+	    	parent.msg.success('设置成功');
 	    	//刷新当前页面
 	    	window.location.reload();
 	     }else if(data.result == '0'){
-	    	 parent.iw.msgFailure(data.info);
+	    	 parent.msg.alert(data.info);
 	     }else{
-	    	 parent.iw.msgFailure();
+	    	 parent.msg.alert('设置失败，处理异常');
 	     }
 	});
 	
