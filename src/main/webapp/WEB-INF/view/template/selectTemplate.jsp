@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.j2ee.util.SystemUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -256,6 +257,13 @@ function useCloudTemplate(templateName){
 <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
 <script>
+
+/****** 模板选择的引导 *******/
+//自定义的引导模板
+var SELECT_TEMPLATE_YINDAO_USE = '<%=SystemUtil.get("SELECT_TEMPLATE_YINDAO_USE") %>';
+if(SELECT_TEMPLATE_YINDAO_USE == 'null' || SELECT_TEMPLATE_YINDAO_USE == ''){
+	SELECT_TEMPLATE_YINDAO_USE = 'lmyglm1';
+}
 var useYindao = false;	//当前用户是否选择了使用引导，true则是使用
 //操作引导
 function yindao(){
@@ -267,7 +275,9 @@ function yindao(){
 		  nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
 		  prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
 		  onReset: function(Element) {
-			  useCloudTemplate('lmyglm1');
+			  
+			  
+			  useCloudTemplate(SELECT_TEMPLATE_YINDAO_USE);
 		  },        // 遮罩将要关闭时调用
 	});
 	//Define the steps for introduction
@@ -301,10 +311,12 @@ function yindao(){
 }
 
 //模板选择的引导
-var msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
-//layer.confirm(msgHtml, {icon: 0, title:'您是否是第一次使用本系统'}, yindao);
-if(confirm(msgHtml)){
-	yindao();
+if(SELECT_TEMPLATE_YINDAO_USE != '0'){
+	var msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
+	//layer.confirm(msgHtml, {icon: 0, title:'您是否是第一次使用本系统'}, yindao);
+	if(confirm(msgHtml)){
+		yindao();
+	}
 }
 
 </script>
