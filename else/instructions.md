@@ -1,3 +1,5 @@
+# 该文档已过时已不实用，详细使用请参考 /README.md
+
 # 网市场云建站系统详细搭建步骤
 (以放到香港服务器为例)
 
@@ -58,4 +60,4 @@
 配置其中的  AliyunSMSUtil 节点下的属性
 ##### 9.2 阿里云平台开通
 阿里云短信控制台：[https://dysms.console.aliyun.com/dysms.htm](https://dysms.console.aliyun.com/dysms.htm)
-
+instructions.md
