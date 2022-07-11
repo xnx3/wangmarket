@@ -12,12 +12,18 @@
 		
 	<div class="layui-nav layui-nav-tree layui-nav-side menu">
 		<div style="height: 65px;text-align: left;line-height: 65px;font-size: 16px;font-weight: 700;color: black;padding-left: 18px;">内容管理</div>
-		<ul class="">
+		<ul class="" id="columnTreeNav">
 		  ${columnTreeNav }
 		</ul>
 	</div>
 	
-	<div style="width: 100%;height:100%;position: fixed;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
+	<div id="pleaseSelectColumn" style="width: 100%;height:100%;position: fixed;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent;">
+		<!-- 点击内容管理进来后，如果没选择栏目，那么显示这个请选择要修改的栏目的提示标识 -->
+		<div style="font-size: 2rem; text-align: center; padding-top: 28%;">
+			请在左侧选择您要进行操作的栏目 <span onclick="yindaoSelectColumn();" style="cursor: pointer; font-size: 0.5rem; color: blue; text-decoration: underline;">没看到?</span>
+		</div>
+	</div>
+	<div id="newsList" style="width: 100%;height:100%;position: fixed;left: 170px;word-wrap: break-word;border-right: 170px;box-sizing: border-box; padding-right: 10px; overflow-y: auto;overflow-x: hidden; border-right: 170px solid transparent; display:none;">
 		
 		<jsp:include page="../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 			<jsp:include page="../iw/common/list/formSearch_input.jsp">
@@ -107,6 +113,12 @@
 </div>
 
 <script>
+if('${siteColumn.id}'.length > 0){
+	//默认是直接点击内容管理过来的，列表区域显示请选择栏目的提示。如果点击某个栏目了，那就显示具体栏目的列表信息
+	document.getElementById('newsList').style.display='';
+	document.getElementById('pleaseSelectColumn').style.display='none';
+}
+
 layui.use('element', function(){
   var element = layui.element;
 });
@@ -212,6 +224,43 @@ function changeColumn(newsid, columnid){
 </script>
 
 ${autoJumpTemplateEdit}
+
+
+<!-- 选择要编辑的栏目的引导 -->
+<script src="/module/driver.js/driver.min.js"></script>
+<link rel="stylesheet" href="/module/driver.js/driver.min.css">
+<script>
+/**
+ * 运行引导。
+ */
+function yindaoSelectColumn(){
+	const columnDriver = new Driver({
+		  //doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
+		  closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		  //nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		  //prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		  onReset: function(Element) {
+			  // 遮罩将要关闭时调用
+		  },       
+	});
+	//Define the steps for introduction
+	columnDriver.defineSteps([
+		{
+			 element: '#columnTreeNav',
+			 popover: {
+			   title: '在这里选择要编辑的栏目',
+			   description: '您想编辑哪个栏目，就可以点击这里的哪个栏目，便可编辑其内容了。',
+			   position: 'right'
+			 }
+		}
+	]);
+	
+	//Start the introduction
+	setTimeout(function(){
+		columnDriver.start();
+	}, 100);
+}
+</script>
 
 
 </body>
