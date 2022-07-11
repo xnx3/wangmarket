@@ -185,7 +185,7 @@ public class PublicController extends BaseController {
 				return "domain/pcPreview";
 			}
 		}
-		return "domain/display";
+		return "domain/displayHtml";
 	}
 	
 	/**
@@ -226,8 +226,8 @@ public class PublicController extends BaseController {
 	 * @param request {@link HttpServletRequest}
 	 * @param model {@link Model}
 	 */
-	@RequestMapping("sitemap.xml")
-	public String sitemap(HttpServletRequest request, Model model){
+	@RequestMapping(value="sitemap.xml")
+	public String sitemap(HttpServletRequest request, Model model, HttpServletResponse response){
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
@@ -241,7 +241,7 @@ public class PublicController extends BaseController {
 				return error404();
 			}else{
 				model.addAttribute("html", sitemapXml);
-				return "domain/display";
+				return "domain/displayXml";
 			}
 		}
 	}
