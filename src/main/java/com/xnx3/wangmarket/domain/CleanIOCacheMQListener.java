@@ -4,6 +4,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.xnx3.cache.JavaUtil;
+import com.xnx3.j2ee.util.CacheUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.bean.MQBean;
@@ -28,7 +29,7 @@ public class CleanIOCacheMQListener {
 			public void receive(String content) {
 				JSONObject json = JSONObject.fromObject(content);
 				int siteid = json.getInt("siteid");
-				JavaUtil.delete("site:"+siteid);
+				CacheUtil.delete("site:"+siteid);
 				ConsoleUtil.debug("删除网站 "+siteid+" 的io缓存");
 			}
 		});
