@@ -344,10 +344,26 @@ public class NewsController extends BaseController {
 	    	}
 	    }
 	    if(siteColumn != null){
-	    	//如果是CMS模版网站，且使用模板式编辑，那么没有列表页面，直接到模版页面的可视化编辑中
-	    	if(Func.isCMS(site) && (siteColumn.getEditMode() == null || siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0)){
-	    		model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
-	    		return "news/listForTemplate";
+	    	//如果是CMS模版网站
+	    	if(Func.isCMS(site)){
+	    		
+	    		if((siteColumn.getEditMode() == null || siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0)) {
+	    			//使用模板式编辑，那么没有列表页面，直接到模版页面的可视化编辑中
+	    			model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
+		    		return "news/listForTemplate";
+	    		}else if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0) {
+	    			//独立页面，那也没必要显示列表，因为列表就一条。直接进入编辑模式
+	    			//查出这个栏目下，有那些文章
+	    			List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid ="+siteColumn.getId(), News.class);
+	    			if(newsList.size() - 1 == 0) {
+	    				//正常，就是一条
+	    				return redirect("/news/news.do?id="+newsList.get(0).getId());
+	    			}else {
+	    				//不正常，应该是一条才是。出现提醒
+		    			model.addAttribute("autoJumpTemplateEdit", "<script>msg.alert('检测到数据异常，这个栏目应该只能由一条信息才对。请联系管理员说明');</script>");
+	    			}
+	    		}
+	    		
 	    	}
 	    }
 	    
