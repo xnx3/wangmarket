@@ -357,7 +357,7 @@ public class NewsController extends BaseController {
 	    			List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid ="+siteColumn.getId(), News.class);
 	    			if(newsList.size() - 1 == 0) {
 	    				//正常，就是一条
-	    				return redirect("/news/news.do?id="+newsList.get(0).getId());
+	    				return redirect("news/news.do?id="+newsList.get(0).getId());
 	    			}else {
 	    				//不正常，应该是一条才是。出现提醒
 		    			model.addAttribute("autoJumpTemplateEdit", "<script>msg.alert('检测到数据异常，这个栏目应该只能由一条信息才对。请联系管理员说明');</script>");
