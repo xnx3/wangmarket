@@ -103,3 +103,9 @@ hs_err_pid*
 
 /src/main/java/com/xnx3/wangmarket/shop/
 /src/main/java/com/xnx3/wangmarket/weixin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
