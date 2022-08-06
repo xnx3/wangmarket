@@ -382,7 +382,7 @@ $(function(){
 	//模版变量
 	var mobanbianliang_tipindex = 0;
 	$("#mobanbianliang").hover(function(){
-		mobanbianliang_tipindex = layer.tips('当前网站模版页面所使用的动态变量内容，可再模版页面中使用<div style="padding:5px; font-size:16px">{include=变量名}</div>随处调出使用、显示', '#mobanbianliang', {
+		mobanbianliang_tipindex = layer.tips('当前网站模版页面所使用的动态变量内容，可在模版页面中使用<div style="padding:5px; font-size:16px">{include=变量名}</div>随处调出使用、显示', '#mobanbianliang', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true
