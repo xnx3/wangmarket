@@ -257,8 +257,9 @@ public class NewsController extends BaseController {
 			
 			/**
 			 * 生成静态页面
+			 * v5.7去掉了，统一有生成整站来生成
 			 */
-			newsService.generateViewHtml(site, news,siteColumn, new NewsDataBean(newsData), request);	//生成当前内容页
+			//newsService.generateViewHtml(site, news,siteColumn, new NewsDataBean(newsData), request);	//生成当前内容页
 			
 			//如果是通用模式，还要生成列表页。当然，CMS模式是不会生成列表页跟首页的
 			if(!Func.isCMS(site)){

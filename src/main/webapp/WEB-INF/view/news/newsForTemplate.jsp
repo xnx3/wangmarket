@@ -37,7 +37,7 @@ function editText(name){
 }
 
 //判断文章所属的栏目，所属类型，若是独立页面，同时还是模板式编辑，那么直接进入模板编辑
-if('${siteColumn.type}' == 3 && '${siteColumn.editMode}' == 1){
+if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn.editMode}' == 1){
 	editText('${siteColumn.templatePageViewName}');
 }
 </script>
@@ -213,7 +213,14 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	        		}
 			        
 	            	parent.msg.success('保存成功');
-	            	window.location.href='listForTemplate.do?cid=${news.cid }';
+	            	if('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8'){
+	            		//如果是独立页面，那就只是进入内容管理刚进入时，提示选择要修改哪个栏目的样子
+	            		window.location.href='listForTemplate.do';
+	            	}else{
+	            		//列表页面，修改完成还是会回到列表
+	            		window.location.href='listForTemplate.do?cid=${news.cid }';
+	            	}
+	            	
 			    }else if(data.result == '0'){
 			        parent.msg.failure(data.info);
 			    }else{

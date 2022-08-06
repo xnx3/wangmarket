@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>war</packaging>
   <name>wangmarket</name>
-  <version>5.6.10</version>
+  <version>5.6.12</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -130,13 +130,11 @@
   
   <dependencies>  
   		<!-- 本地的基础功能如文件上传、数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
-	    <dependency> 
-	        <groupId>com.xnx3.wm</groupId>  
-	        <artifactId>wm</artifactId>  
-	        <version>2.17</version>  
-	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.17.jar</systemPath>  
-	    </dependency> 
+	   	<dependency>
+		  <groupId>com.xnx3.wangmarket.wm</groupId>
+		  <artifactId>wm</artifactId>
+		  <version>2.19</version>
+		</dependency>
 	    
 	    <dependency> 
 			<groupId>com.xnx3.util</groupId>
