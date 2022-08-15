@@ -1,3 +1,4 @@
+<%@page import="com.xnx3.j2ee.util.ApplicationPropertiesUtil"%>
 <%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -6,6 +7,13 @@
 	<jsp:param name="title" value="选择图片等附件的存储方式"/>
 </jsp:include>
 
+<%
+Object selectStorage = ApplicationPropertiesUtil.getProperty("wangmarket.install.selectStorage");
+if(selectStorage != null && selectStorage.toString().trim().equalsIgnoreCase("false")){
+	//不使用这个页面，那么直接跳转到下个域名设置页面
+	response.sendRedirect("/install/domainSet.do");
+}
+%>
   	<style>
   		
   		.content{
