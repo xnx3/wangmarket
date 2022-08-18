@@ -24,6 +24,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
@@ -775,6 +776,19 @@ public class SiteController extends BaseController {
 			bindDomainDemo = "www.guanleiming.com";
 		}
 		model.addAttribute("bindDomainDemo", bindDomainDemo);
+		
+		//cname解析到的地址
+		String assignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");	
+		if(assignDomain == null || assignDomain.trim().equals("")) {
+			//什么设置也没有，那就是用js获取当前域名来吧
+			model.addAttribute("cnameDomain", "<script>document.write(window.location.hostname);</script>");
+		}else if(IpUtil.isIp(assignDomain)) {
+			//是ip格式,那就直接显示ip
+			model.addAttribute("cnameDomain", assignDomain);
+		}else {
+			//其他的那就是正常的了，直接加上domain进行展示出来
+			model.addAttribute("cnameDomain", "domain."+assignDomain);
+		}
 		
 		ActionLogUtil.insert(request, "弹出框口，绑定自己的域名");
 		return "site/popupBindDomain";

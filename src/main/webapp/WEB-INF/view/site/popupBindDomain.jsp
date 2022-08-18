@@ -31,8 +31,7 @@ li{
 		</li>
 		<li>
 			将上面绑定的域名，做 CNAME 记录解析至：
-			<br/> <div style="padding-left:10px;">domain.<script>document.write(parent.autoAssignDomain);</script></div>
-			
+			<br/> <div style="padding-left:10px; padding-top: 5px;">${cnameDomain}</div>
 		</li>
 		<li>
 			等待十分钟，访问域名，便可见效果

@@ -35,6 +35,7 @@ import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
+import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -167,6 +168,18 @@ public class TemplateController extends BaseController {
 		
 		//上级代理的变长表数据
 		AgencyData parentAgencyData = getParentAgencyData();
+		Site site = getSite();
+
+		//cname解析到的地址
+		String assignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");	
+		if(assignDomain == null || assignDomain.trim().equals("") || IpUtil.isIp(assignDomain)) {
+			//什么设置也没有，那就是用js获取当前域名来吧
+			model.addAttribute("domain", "<span style=\"cursor:pointer;\" onclick=\"msg.alert('您在安装时，跳过了设置域名那一步，所以这里不会自动分配域名。如果您想每个网站能自动给其分配一个二级域名，那可以重新安装，或者联系您的服务商帮您操作。');\">安装时未设置</span>");
+		}else {
+			//其他的那就是正常的了，直接加上domain进行展示出来
+			String domain = site.getDomain()+"."+assignDomain;
+			model.addAttribute("domain", "<a href=\"http://"+domain+"\" target=\"_black\">"+domain+"</a>");
+		}
 		
 		User user = getUser();
 		model.addAttribute("site", getSite());

@@ -97,7 +97,7 @@ try{
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">自动分配域名</td>
-			<td><script>document.write('<a href="http://${site.domain }.'+parent.autoAssignDomain+'" target="_black">${site.domain }.'+parent.autoAssignDomain+'</a>');</script></td>
+			<td>${domain}</td>
 		</tr>
     </tbody>
 </table>

@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>war</packaging>
   <name>wangmarket</name>
-  <version>5.6.12</version>
+  <version>5.6.13</version>
   <description>网市场云建站系统</description>
   
    <properties>
@@ -133,15 +133,17 @@
 	   	<dependency>
 		  <groupId>com.xnx3.wangmarket.wm</groupId>
 		  <artifactId>wm</artifactId>
-		  <version>2.19</version>
+		  <version>2.20</version>
+		  <scope>system</scope>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.20.jar</systemPath>  
 		</dependency>
 	    
 	    <dependency> 
 			<groupId>com.xnx3.util</groupId>
 			<artifactId>xnx3-util</artifactId>
-	        <version>1.7.1</version>  
+	        <version>1.9</version>  
 	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.7.1.jar</systemPath>  
+    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.9.jar</systemPath>  
 	    </dependency> 
 	    
    </dependencies>  
