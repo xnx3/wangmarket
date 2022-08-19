@@ -782,6 +782,8 @@ public class SiteController extends BaseController {
 		if(assignDomain == null || assignDomain.trim().equals("")) {
 			//什么设置也没有，那就是用js获取当前域名来吧
 			model.addAttribute("cnameDomain", "<script>document.write(window.location.hostname);</script>");
+		}else if(assignDomain.indexOf("localhost") > -1 || assignDomain.indexOf("127.0.0.1") > -1) {
+			model.addAttribute("cnameDomain", "当前本地运行无法绑定域名");
 		}else if(IpUtil.isIp(assignDomain)) {
 			//是ip格式,那就直接显示ip
 			model.addAttribute("cnameDomain", assignDomain);

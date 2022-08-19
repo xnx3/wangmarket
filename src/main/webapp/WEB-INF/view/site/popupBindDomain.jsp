@@ -24,14 +24,14 @@ li{
 		<li>
 			设置你想绑定的域名 <span onclick="window.open('http://huawei.leimingyun.com/wangmarket_binddomain.html');" style=" padding-left: 15px; color: blue; text-decoration: underline; font-size: 12px; cursor:pointer;">没有？点此立即注册一个域名</span>
 			<div style="margin-top: 10px; ">
-				<input type="text" style="width:250px; float: left;" name="domain" id="domain" lay-verify="domain" autocomplete="off" placeholder="输入您的域名" class="layui-input" value="${site.bindDomain }">
+				<input type="text" style="width:240px; float: left;" name="domain" id="domain" lay-verify="domain" autocomplete="off" placeholder="输入您的域名" class="layui-input" value="${site.bindDomain }">
 				<button onclick="submitButton();" class="layui-btn">立即绑定</button>
 			</div>
 			<div class="shuoming">填写格式如： ${bindDomainDemo }</div>
 		</li>
 		<li>
 			将上面绑定的域名，做 CNAME 记录解析至：
-			<br/> <div style="padding-left:10px; padding-top: 5px;">${cnameDomain}</div>
+			<br/> <div style="padding-left:10px; padding-top: 5px;     max-height: 18px;">${cnameDomain}</div>
 		</li>
 		<li>
 			等待十分钟，访问域名，便可见效果
