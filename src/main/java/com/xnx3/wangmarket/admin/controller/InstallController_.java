@@ -218,29 +218,32 @@ public class InstallController_ extends BaseController {
 	
 	/**
 	 * 设置域名为测试使用的，只为快速测试体验而设置的域名
+	 * @param host 传入格式如 localhost:8080   这里也是在安装界面用js 的 window.location.host 获取到的值
 	 */
 	@RequestMapping("/setLocalDomain${url.suffix}")
-	public String setLocalDomain(HttpServletRequest request, Model model){
+	public String setLocalDomain(HttpServletRequest request, Model model,
+			@RequestParam(value = "host", required = false, defaultValue="") String host
+			){
 		if(!SystemUtil.get("IW_AUTO_INSTALL_USE").equals("true")){
 			return error(model, jinzhianzhuang, "login.do");
 		}
 		
 		//获取域名 ，格式如 http://www.leimingyun.com/
-		String domain = request.getRequestURL().toString().replace("install/setLocalDomain.do", "");
+//		String domain = request.getRequestURL().toString().replace("install/setLocalDomain.do", "");
 		
-		ConsoleUtil.info("快速测试体验，域名自动获取："+domain);
+		ConsoleUtil.info("快速测试体验，域名自动获取："+host);
 		
 		//将其存入system数据表
-		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'MASTER_SITE_URL'");
-//		sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
-		sqlService.executeSql("update system set value = 'wang.market' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'MASTER_SITE_URL'");
+//		sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+		sqlService.executeSql("update system set value = '' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
 		
 		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//本地存储，才会配置默认的附件域名
-			sqlService.executeSql("update system set value = '"+domain+"' WHERE name = 'ATTACHMENT_FILE_URL'");
+			sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
 			
 			//更新附件域名的内存缓存
-			AttachmentUtil.netUrl = domain;
+			AttachmentUtil.setNetUrl("http://"+host+"/");
 		}
 		
 		//到这一步就结束了，在此禁用install安装

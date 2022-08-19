@@ -80,7 +80,7 @@
     		<div class="layui-form-item" style="padding-top: 20px;">
 				<label class="layui-form-label">你的域名：</label>
 				<div class="layui-input-block" style="width: 200px; float: left;margin-left: 10px;">
-					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="${autoAssignDomain}" style="width: 200px;">
+					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="" style="width: 200px;">
 				</div>
 				<div style="color:#d2d2d2; font-size: 13px;">
 					&nbsp;&nbsp;填入格式如  leimingiyun.com  
@@ -152,8 +152,8 @@
     //快速体验，自动设置域名
     function quickTest(){
     	layer.confirm('确定只是体验系统功能吗？体验完后，如果你想线上正式使用，请重新安装一次。', {icon: 7, title:'提示'}, function(index){
-		  window.location.href="setLocalDomain.do";
 		  layer.close(index);
+		  window.location.href="setLocalDomain.do?host="+window.location.host;
 		});
     }
     
