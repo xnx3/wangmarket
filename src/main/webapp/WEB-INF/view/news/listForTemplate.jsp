@@ -227,8 +227,8 @@ ${autoJumpTemplateEdit}
 
 
 <!-- 选择要编辑的栏目的引导 -->
-<script src="/module/driver.js/driver.min.js"></script>
-<link rel="stylesheet" href="/module/driver.js/driver.min.css">
+<script src="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.css">
 <script>
 /**
  * 运行引导。

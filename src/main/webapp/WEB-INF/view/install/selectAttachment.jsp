@@ -171,7 +171,7 @@ function mianfeiban(){
 				+'</ul></div>'
 				
 			,yes: function(index, layero){
-				window.location.href="setLocalDomain.do";
+				window.location.href="setLocalDomain.do?host="+window.location.host;
 			}
 			,btn2: function(index, layero){
 				window.location.href='domainSet.do';

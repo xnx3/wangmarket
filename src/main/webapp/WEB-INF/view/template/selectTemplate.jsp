@@ -7,7 +7,7 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="选择模版"/>
 </jsp:include>
-<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/layerGlobal.css" media="all">
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/css/layerGlobal.css" media="all">
 
 <!-- author:管雷鸣 -->
 <style>
@@ -158,7 +158,7 @@ function typeClick(type){
 							previewPic = "/"+previewPic;
 						}
 						var temp = '<div class="temlate_item_'+to.name+'">'+
-									'<img src="'+ previewPic +'?x-oss-process=image/resize,w_500" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+									'<img src="'+ previewPic +'?x-oss-process=image/resize,w_300" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
 									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 									'<div class="terminal">访问支持：'+
@@ -254,8 +254,8 @@ function useCloudTemplate(templateName){
 </script>
 
 <!-- 引导 -->
-<script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+<script src="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.css">
 <script>
 
 /****** 模板选择的引导 *******/

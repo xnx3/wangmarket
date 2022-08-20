@@ -5,8 +5,8 @@
 
 try{
 	//加载 layer
-	dynamicLoading.js(resBasePath+"layer/layer.js");
-	dynamicLoading.css(resBasePath+'layer/skin/default/layer.css');
+	dynamicLoading.js(resBasePath+"module/layer/layer.js");
+	dynamicLoading.css(resBasePath+'module/layer/skin/default/layer.css');
 	
 	//加载layui
 	//dynamicLoading.js(resBasePath+"layui2/layui.js");
@@ -25,7 +25,7 @@ try{
 try{
 	//加载iw.js
 	if(typeof(iw) == 'undefined'){
-		dynamicLoading.js(resBasePath+"js/iw.js");
+		dynamicLoading.js(resBasePath+"module/js/iw.js");
 	}
 }catch(err){}
 

@@ -837,8 +837,8 @@ if('${user.username}'.indexOf('ceshi') > -1){
 </script>
 
 <!-- 引导 -->
-<script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+<script src="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.js"></script>
+<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}module/driver.js/driver.min.css">
 <script>
 /**
  * 运行引导。这个是在选择了 lmyglm1模板后触发的引导

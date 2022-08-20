@@ -10,10 +10,10 @@
 	<!-- 站点首页的js缓存数据 -->
 	
 	<!-- jQuery WeUI -->
-	<script src="//res.weiunity.com/js/jquery-2.1.4.js"></script>
-	<script src="//res.weiunity.com/js/jquery-weui.js"></script>
-	<link rel="stylesheet" href="//res.weiunity.com/css/weui.min.css">
-	<link rel="stylesheet" href="//res.weiunity.com/css/jquery-weui.css">
+	<script src="${STATIC_RESOURCE_PATH}js/jquery-2.1.4.js"></script>
+	<script src="${STATIC_RESOURCE_PATH}js/jquery-weui.js"></script>
+	<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
+	<link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/jquery-weui.css">
 	
 	<!-- 模版加载 -->
 	<link rel="stylesheet" href="//res.weiunity.com/template/1/style.css">
