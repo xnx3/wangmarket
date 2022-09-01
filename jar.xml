@@ -4,8 +4,8 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.6.15</version>
-  <description>网市场云建站系统</description>
+  <version>5.6.16</version>
+  <description>网市场云建站系统生成 wangmarket.jar 专用。生成方式为 mvn clean package -f jar.xml</description>
   
    <properties>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -156,9 +156,9 @@
 	    <dependency>
 		  <groupId>com.xnx3.wangmarket.wm</groupId>
 		  <artifactId>wm</artifactId>
-		  <version>2.21</version>
+		  <version>2.22</version>
 		  <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.21.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.22.jar</systemPath>  
 		</dependency>
 	    
 	    <dependency> 
