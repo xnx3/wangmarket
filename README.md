@@ -126,11 +126,6 @@
 下载地址： http://www.wang.market/down.html  
 
 
-#### 方式三：放到线上，华为云服务器，花一元快速部署到线上使用
-按照此网址开通账号、选配服务器，仅需要一元，就能在线上将网市场云建站系统部署起来使用，不再需要其他额外花费！ 
-[http://help.wscso.com/16329.html](http://help.wscso.com/16329.html)  
-（这个版本可能是5.2的镜像，稍微有点旧了，但正常使用没问题，推荐参与下面的活动我们整套帮您安装好最新的） 
-
 #### 方式四：自定义部署，如部署到私有服务器、阿里云、腾讯云等 （此种方式用的最多）
 参考：  https://gitee.com/leimingyun/wangmarket_deploy  
 如果您要部署到服务器，推荐这种方式。
@@ -142,25 +137,7 @@
 
 ## 系统二次开发
 
-#### 当前使用的开源框架介绍
-SpringBoot2.6.1、Shiro、Redis5、Mysql5.7 (必须这个版本)、[ElasticSearch 7.10.1](https://gitee.com/leimingyun/elasticsearch)、  
-[前端信息提示 msg.js](https://gitee.com/mail_osc/msg)、[客服坐席 kefu.js](https://gitee.com/mail_osc/kefu.js)、网站管理后台Layui
-
-#### 开发前的说明
-采用 Java 开发，数据库提供两种，默认使用 sqlite 3 ，也可以自己配置成使用 mysql。  
- **一定注意版本号不要错，jdk1.8、mysql要用5.7，重要的事说三遍**  
-另外开发请用 Eclipse ，我们没用过idea，如果你用idea出现异常你可以自己百度搜索解决方式，因为有其他idea的朋友而且不少都能正常运行，但是我们没使用过idea，如果你idea出现异常我们也没法提供任何帮助。   
-这里列出一些入门的步骤供参考：  
-
-1. [本地环境及git导入项目](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=5808068)
-2. [配置Mysql数据库（可选，不做这一步也完全能运行起来）](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=5810398)
-3. [代码起来后，通过安装引导，安装系统](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=5808141)
-4. [用三分钟的时间，导入一个模板快速创建一个自己的网站](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=5808118)
-
-
-![](//cdn.weiunity.com/site/341/news/a3cc04ca18c64fc2ac4ad8bcb197ecaf.png)  
-从网市场云建站v5.0这个版本以后，我们将网市场云建站系统的底层基础支持，比如常用工具类、权限控制等，单独进行了抽离，调整包装出了一套集成开发框架，我们称之为 wm 。 也就是网市场云建站的基础操作，都是在wm文档之中的。  wm的基础开发文档，包含数据库操作、文件操作、日志操作、短信发送、ajax请求等最基础的功能模块，通过它，可以让一个刚毕业的软件系的大学生在一个月内快速进入开发状态，拥有项目开发能力。 [点此查看wm开发文档 wm.zvo.cn](http://wm.zvo.cn)  
-
+开发文档： [https://e.gitee.com/leimingyun/projects/54004/docs/1066611/file/2994053/preview](https://e.gitee.com/leimingyun/projects/54004/docs/1066611/file/2994053/preview)
 
 #### 当前目录结构
 ```
@@ -172,10 +149,6 @@ wangmarket                          项目
 └─README.md                         说明
 ```
 
-#### 进行二次开发
-二次开发时，我们不建议您直接在这个项目进行改动，不然您将失去跟随我们版本升级的能力。众所周知的织梦CMS，也是因为版本不升级失去维护，而出现大家所知晓的安全缺陷。  
-我们建议您可以在这个项目 https://gitee.com/leimingyun/wangmarket_deploy 上进行扩展开发您自己想做的模块及功能、以及一些原有的功能及页面更改。比如，登陆页面的重写。  
-我们网市场有新版本时，您只需直接更新 WEB-INF/lib/wangmarket-xxx.jar 即可完成版本的升级
 
 ### 云端模版库
 你的时间是非常宝贵的！不会让你一接触就要自己去学习做模版。
@@ -183,12 +156,6 @@ wangmarket                          项目
 虽然模版不多只有几百套，但却是可以在创建网站后一键导入，直接拿过来使用！一键导入之后，会自动创建栏目、页面。你只需要改一下栏目名字、改改文字、图片，就可以达到成本网站交付标准！作为初期的你，足够用此来来服务客户、及熟悉整个系统！另外我们的模版库的模版会持续增加。
 [所见网站，皆可为我所用－无限模版计划](https://github.com/xnx3/templatespider)
 
-### 项目经历
-网市场云建站系统，于09年开始用php开发wap系统建站。之后用java重构，[于2010年底发布第一版的Java版建站系统](https://down.chinaz.com/soft/29191.htm)，经过十多年不断更新迭代、功能完善……
-
-### 活动，免费帮安装+调试/送授权/送代理
-![输入图片说明](//cdn.weiunity.com/site/341/news/af89c06a590743e98ee39b1809bef289.png "1.png")  
-微信扫码关注公众号，花10分钟时间参与提示的活动，即可换取我们的帮安装调试、授权、代理等
 
 ###### 作者的话
 我们支持白嫖，但我们不想被无意义的白嫖！很多工作室、小微公司生存赚点钱都不容易，其资金积累方面如果购买授权，显然是有不小的负担的，如果您属于这方面，我们建议您参与我们的活动，关注微信公众号 “wangmarket” 即可看到活动，无需花钱即可使用
