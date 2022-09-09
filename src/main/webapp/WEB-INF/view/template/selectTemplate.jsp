@@ -32,7 +32,7 @@
 .previewButton{
 	margin-top: -30px;
 	text-align: right;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 .previewButton a{
     background-color: #FF5722;
