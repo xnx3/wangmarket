@@ -142,8 +142,6 @@
 			<groupId>com.xnx3.util</groupId>
 			<artifactId>xnx3-util</artifactId>
 	        <version>1.9</version>  
-	        <scope>system</scope>  
-    		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-util-1.9.jar</systemPath>  
 	    </dependency> 
 	    
    </dependencies>  

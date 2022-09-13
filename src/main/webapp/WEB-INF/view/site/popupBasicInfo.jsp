@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}css/weui.min.css">
 
 
-<body style="text-align:left; min-width:10px;">
+<body style="text-align:left; min-width:10px; background-color: white;">
 <script src="/<%=Global.CACHE_FILE %>Site_mShowBanner.js"></script>
 
 <div class="weui_cells weui_cells_access" style="margin-top: 0em;">
