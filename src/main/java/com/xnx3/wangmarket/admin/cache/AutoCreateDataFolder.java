@@ -1,9 +1,10 @@
 package com.xnx3.wangmarket.admin.cache;
 
 import java.io.File;
+
 import org.springframework.stereotype.Component;
+
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.G;
 

@@ -1,11 +1,9 @@
 package com.xnx3.wangmarket.admin.cache;
 
-import com.xnx3.Lang;
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
+import com.xnx3.Lang;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SystemUtil;
-import com.xnx3.wangmarket.admin.G;
 
 /**
  * 模版总控制
@@ -201,7 +199,7 @@ public class Template {
 		}
 
 		//将$符号替换为 \$
-		replacement = replacement.replaceAll("\\$", "\\\\\\$");  
+		replacement = replacement.replaceAll("\\$", "\\\\\\$");
 		
 		return sourceText.replaceAll(regex, replacement);
 	}

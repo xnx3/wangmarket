@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.bean.TagA;
@@ -26,12 +27,12 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.TemplateInterfaceManage;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -39,15 +40,15 @@ import net.sf.json.JSONObject;
  * @author 管雷鸣
  */
 public class TemplateCMS {
-	private int linuxTime;	//当前时间戳
-	private Site site;			//当前站点信息
+	private int linuxTime;										//当前时间戳
+	private Site site;											//当前站点信息
 	private com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
-	private JSONObject siteVarJson;	//站点的全局变量，使用 setSiteVar 来赋予
-	private String templatePathDomain = null;	//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
-	public GenerateHtmlInterface generateHtmlInterface;	//生成当前网站的html文件
+	private JSONObject siteVarJson;								//站点的全局变量，使用 setSiteVar 来赋予
+	private String templatePathDomain = null;					//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
+	public GenerateHtmlInterface generateHtmlInterface;			//生成当前网站的html文件
 	
 	
-	public final static String TEMPLATE_CLOUD_PATH;	//云端资源库路径，云端引用的js、css都是通过这个。格式如： http://cloudtemplate.weiunity.com/
+	public final static String TEMPLATE_CLOUD_PATH;				//云端资源库路径，云端引用的js、css都是通过这个。格式如： http://cloudtemplate.weiunity.com/
 	//模版引用路径。v4.7增加，值如 http://wang.market/template/
 	public final static String TEMPLATE_PRIVATE_PATH;
 	static{
@@ -227,22 +228,22 @@ public class TemplateCMS {
 		}
 		
 		//如果 {var.xxx} 存在，则需要替换
-    	if(text.indexOf("{var.") > -1){
-    		Pattern p = Pattern.compile(regex("var\\.(.*?)"));
-            Matcher m = p.matcher(text);
-            while (m.find()) {
-            	String name = m.group(1);	//全局变量的name
-                String reg = regex("var."+name);
-                String value = null;
-                if(this.siteVarJson.get(name) != null){
-                	value = this.siteVarJson.getJSONObject(name).getString("value");
-                }else{
-                	value = "";
-                }
-                text = Template.replaceAll(text, reg, value);
-            }
-    	}
-    	return text;
+		if(text.indexOf("{var.") > -1){
+			Pattern p = Pattern.compile(regex("var\\.(.*?)"));
+			Matcher m = p.matcher(text);
+			while (m.find()) {
+				String name = m.group(1);	//全局变量的name
+				String reg = regex("var."+name);
+				String value = null;
+				if(this.siteVarJson.get(name) != null){
+					value = this.siteVarJson.getJSONObject(name).getString("value");
+				}else{
+					value = "";
+				}
+				text = Template.replaceAll(text, reg, value);
+			}
+		}
+		return text;
 	}
 	
 	/**
@@ -265,28 +266,28 @@ public class TemplateCMS {
 	 */
 //	public String assemblyTemplateVar(String text){
 //		Pattern p = Pattern.compile(regex("include=(.*?)"));
-//        Matcher m = p.matcher(text);
-//        while (m.find()) {
-//        	String templateVarName = m.group(1);	//模版变量的id
-//        	//从Session缓存中取模版变量内容
-//        	String content = null;
-//        	if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName) != null){
-//        		if(editMode){
-//            		//编辑模式
-//            		content = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName).getTemplateVarData().getText();
-//            	}else{
-//            		//生成模式
-//            		content = Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().get(templateVarName);
-//            	}
-//        	}else{
-//        		content = "模版变量"+templateVarName+"不存在";
-//        	}
-//            
-//            String reg = regex("include="+templateVarName);
-//            text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
-//        }
+//		Matcher m = p.matcher(text);
+//		while (m.find()) {
+//			String templateVarName = m.group(1);	//模版变量的id
+//			//从Session缓存中取模版变量内容
+//			String content = null;
+//			if(Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName) != null){
+//				if(editMode){
+//					//编辑模式
+//					content = Func.getUserBeanForShiroSession().getTemplateVarMapForOriginal().get(templateVarName).getTemplateVarData().getText();
+//				}else{
+//					//生成模式
+//					content = Func.getUserBeanForShiroSession().getTemplateVarCompileDataMap().get(templateVarName);
+//				}
+//			}else{
+//				content = "模版变量"+templateVarName+"不存在";
+//			}
+//			
+//			String reg = regex("include="+templateVarName);
+//			text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
+//		}
 //		
-//        return text;
+//		return text;
 //	}
 	
 	/**
@@ -296,23 +297,23 @@ public class TemplateCMS {
 	 */
 	public String assemblyTemplateVarByOriginal(String text, Map<String, TemplateVarVO> templateVarVOMap){
 		Pattern p = Pattern.compile(regex("include=(.*?)"));
-        Matcher m = p.matcher(text);
-        while (m.find()) {
-        	String templateVarName = m.group(1);	//模版变量的id
-        	//从Session缓存中取模版变量内容
-        	String content = null;
-        	if(templateVarVOMap.get(templateVarName) != null){
-        		//编辑模式
-        		content = templateVarVOMap.get(templateVarName).getTemplateVarData().getText();
-        	}else{
-        		content = "模版变量"+templateVarName+"不存在";
-        	}
-            
-            String reg = regex("include="+templateVarName);
-            text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
-        }
+		Matcher m = p.matcher(text);
+		while (m.find()) {
+			String templateVarName = m.group(1);	//模版变量的id
+			//从Session缓存中取模版变量内容
+			String content = null;
+			if(templateVarVOMap.get(templateVarName) != null){
+				//编辑模式
+				content = templateVarVOMap.get(templateVarName).getTemplateVarData().getText();
+			}else{
+				content = "模版变量"+templateVarName+"不存在";
+			}
+			
+			String reg = regex("include="+templateVarName);
+			text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
+		}
 		
-        return text;
+		return text;
 	}
 	
 
@@ -324,23 +325,23 @@ public class TemplateCMS {
 	 */
 	public String assemblyTemplateVar(String text, Map<String, String> map){
 		Pattern p = Pattern.compile(regex("include=(.*?)"));
-        Matcher m = p.matcher(text);
-        while (m.find()) {
-        	String templateVarName = m.group(1);	//模版变量的id
-        	//从Session缓存中取模版变量内容
-        	String content = null;
-        	if(map.get(templateVarName) != null){
-        		//生成模式
-        		content = map.get(templateVarName);
-        	}else{
-        		content = "模版变量"+templateVarName+"不存在";
-        	}
-            
-            String reg = regex("include="+templateVarName);
-            text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
-        }
+		Matcher m = p.matcher(text);
+		while (m.find()) {
+			String templateVarName = m.group(1);	//模版变量的id
+			//从Session缓存中取模版变量内容
+			String content = null;
+			if(map.get(templateVarName) != null){
+				//生成模式
+				content = map.get(templateVarName);
+			}else{
+				content = "模版变量"+templateVarName+"不存在";
+			}
+			
+			String reg = regex("include="+templateVarName);
+			text = Template.replaceAll(text, reg, "<!--templateVarStart--><!--templateVarName="+templateVarName+"-->"+content+"<!--templateVarEnd-->");
+		}
 		
-        return text;
+		return text;
 	}
 	
 	/**
@@ -433,7 +434,7 @@ public class TemplateCMS {
 		text = Template.replaceAll(text, regex("news.reserve1"), news.getReserve1());
 		text = Template.replaceAll(text, regex("news.reserve2"), news.getReserve2());
 		
-		//文章头图在正常访问时，使用相对路径  
+		//文章头图在正常访问时，使用相对路径
 		if(titlePic.indexOf("//") == 0 || titlePic.indexOf("http://") == 0 || titlePic.indexOf("https://") == 0){
 			//用的绝对路径，这里不用做任何补充
 		}else{
@@ -496,16 +497,16 @@ public class TemplateCMS {
 		//如果模版里面使用了 extend 调取，那么进行此相关替换
 		if(text.indexOf("{news.extend.") > -1){
 			Pattern p = Pattern.compile(Template.regex("news.extend.(\\w*?)"));
-	        Matcher m = p.matcher(text);
-	        //用map来过滤重复的key 。 这里value是没什么用的
-	        Map<String, Boolean> map = new HashMap<String, Boolean>();
-	        while(m.find()){
-	        	String key = m.group(1);	//得到key，以便组合 {news.extend.?}
-	        	map.put(key, true);	//将得到的key加入map中，以起到排重的作用
-	        }
-	        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
-	        	text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsDataBean.getExtendJson(entry.getKey()));	//替换新闻内容的详情
-	        }
+			Matcher m = p.matcher(text);
+			//用map来过滤重复的key 。 这里value是没什么用的
+			Map<String, Boolean> map = new HashMap<String, Boolean>();
+			while(m.find()){
+				String key = m.group(1);	//得到key，以便组合 {news.extend.?}
+				map.put(key, true);	//将得到的key加入map中，以起到排重的作用
+			}
+			for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+				text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsDataBean.getExtendJson(entry.getKey()));	//替换新闻内容的详情
+			}
 		}
 		
 		/**** 插件扩展，v5.7增加 ****/
@@ -536,12 +537,12 @@ public class TemplateCMS {
 	 */
 	public String getListItemTemplate(String listTemplate){
 		Pattern p = Pattern.compile("<!--TemplateListItemStart-->([\\s|\\S]*?)<!--TemplateListItemEnd-->");
-        Matcher m = p.matcher(listTemplate);
-        if(m.find()){
-        	String itemTemplate = m.group(1);	//得到列表项模版的内容
-        	return itemTemplate;
-        }
-        return "";
+		Matcher m = p.matcher(listTemplate);
+		if(m.find()){
+			String itemTemplate = m.group(1);	//得到列表项模版的内容
+			return itemTemplate;
+		}
+		return "";
 	}
 	
 	/**
@@ -551,12 +552,12 @@ public class TemplateCMS {
 	 */
 	public String getListPageTemplate(String listTemplate){
 		Pattern p = Pattern.compile("<!--TemplateListPageStart-->([\\s|\\S]*?)<!--TemplateListPageEnd-->");
-        Matcher m = p.matcher(listTemplate);
-        if(m.find()){
-        	String itemTemplate = m.group(1);	//得到列表项模版的内容
-        	return itemTemplate;
-        }
-        return "";
+		Matcher m = p.matcher(listTemplate);
+		if(m.find()){
+			String itemTemplate = m.group(1);	//得到列表项模版的内容
+			return itemTemplate;
+		}
+		return "";
 	}
 	
 	/**
@@ -940,112 +941,112 @@ public class TemplateCMS {
 	 */
 	public String replaceSiteColumnBlock(String templateHTML, Map<String, List<News>> columnNewsMap, Map<String, SiteColumn> columnMap, Map<String, SiteColumnTreeVO> columnTreeMap, boolean codeRetainDynamicTag, SiteColumn currentSiteColumn, Map<Integer, NewsDataBean> newsDataMap){
 		Pattern p = Pattern.compile("<!--SiteColumn_Start-->([\\s|\\S]*?)<!--SiteColumn_End-->");
-        Matcher m = p.matcher(templateHTML);
-        while(m.find()){
-        	String siteColumnTemplate = m.group(1);	//得到其中某个栏目的模版内容
-        	String codeName = Template.getConfigValue(siteColumnTemplate, "codeName");	//当前的栏目代码codeName
-        	if(codeName.indexOf("{") > -1){
-        		if(codeRetainDynamicTag){
-        			//如果有动态标签，则保留此动态标签，不在替换范围内
-        			//此次保留，不尽兴替换
-        			continue;
-        		}else{
-        			if(currentSiteColumn != null){
-        				//将动态调取的标签，替换为实际的值
-        				codeName = replaceSiteColumnTag(codeName, currentSiteColumn);
-        			}
-        		}
-        	}
-        	
-        	SiteColumn siteColumn = columnMap.get(codeName);
-        	
-        	//如果
-        	if((siteColumn != null) || (siteColumn == null && codeName.equals(""))){
-        		//如果指定栏目存在
-        		//    或者codeName为空，即不传入，或没有codeName这个栏目标签，那么就是调用所有一级栏目
-        		
-        		//如果<!--subColumnList_Start-->存在，需要调出其子栏目列表
-            	if(siteColumnTemplate.indexOf("<!--SubColumnList_Start-->") > -1){
-            		String subColumnListTemp = Template.getAnnoCenterString(siteColumnTemplate, "SubColumnList");		//取得SubColumnList的子栏目，的每项展示的模版内容
-            		
-            		int number = Template.getConfigValue(subColumnListTemp, "number", 6);		//当前显示多少条记录
-            		int start_number = Template.getConfigValue(subColumnListTemp, "start_number", 0);		//当前显示多少条记录
-                	String itemTemp = Template.getAnnoCenterString(subColumnListTemp, "List");		//取得list的列表项内容
-            		
-            		StringBuffer itemBuffer = new StringBuffer();	//显示的栏目
-            		List<SiteColumnTreeVO> scList = null;
-            		if(codeName.length() == 0){
-            			//调用所有顶级栏目
-            			scList = new ArrayList<SiteColumnTreeVO>();
-            			for (Map.Entry<String, SiteColumnTreeVO> entry : columnTreeMap.entrySet()) {
-            				SiteColumnTreeVO sct = entry.getValue();
-            				if(sct.getLevel() == 1 && sct.getSiteColumn().getUsed() - SiteColumn.USED_ENABLE == 0){
-            					//是1级栏目，且栏目为显示（启用）状态
-            					scList.add(sct);
-            				}
-            			}
-            			
-            			//一级栏目因为存储于map，是没有排序的，所以取一级栏目，取出后进行排序
-            			Collections.sort(scList, new Comparator<SiteColumnTreeVO>() {
-            	            public int compare(SiteColumnTreeVO sc1, SiteColumnTreeVO sc2) {
-            	            	//按照发布时间正序排序，发布时间越早，排列越靠前
-            	            	return sc1.getSiteColumn().getRank() - sc2.getSiteColumn().getRank();
-            	            }
-            	        });
-            			
-            		}else{
-            			//调用二级栏目
-            			SiteColumnTreeVO stvo = columnTreeMap.get(codeName);
-            			if(stvo != null){
-            				scList = stvo.getList();	//取得子栏目的数据源
-            			}else{
-            				scList = new ArrayList<SiteColumnTreeVO>();
-            			}
-            		}
-//            		List<SiteColumnTreeVO> scList = columnTreeMap.get(codeName).getList();	//取得子栏目的数据源
-            		for (int i = 0; i < scList.size(); i++) {
-            			//获取子栏目信息
-            			SiteColumn subColumn = scList.get(i).getSiteColumn();
-            			//栏目状态为启用时，才会列出来。隐藏的则不会列出
-            			
-            			//v4.10 当栏目的显示（旧的 used 字段）为不显示、或者 templateCodeColumnUsed 为不显示
-            			if((subColumn.getUsed() != null && subColumn.getUsed() - SiteColumn.USED_UNABLE == 0) || (subColumn.getTemplateCodeColumnUsed() != null && subColumn.getTemplateCodeColumnUsed() - SiteColumn.USED_UNABLE == 0)){
-            				//不显示，那么直接吧模版代码赋予 subColumnNewsTemp ,准备进行下一步的文章替换
-            			}else{
-            				//显示
-            				//取到子栏目中，某个栏目的，替换掉栏目信息后的内容(如果其中有信息列表标签，还要替换)
-                			String subColumnNewsTemp = replaceSiteColumnTag(subColumnListTemp, subColumn);
-                			String str = replaceSiteColumnBlock_replaceNews(subColumnNewsTemp,start_number, number, itemTemp, columnNewsMap, subColumn, newsDataMap);
-                			//将子栏目替换栏目标签后，加入 itemBuffer
-                			itemBuffer.append(str);
-            			}
-            			
-            		}
-            		siteColumnTemplate = StringUtil.subStringReplace(siteColumnTemplate, "<!--SubColumnList_Start-->", "<!--SubColumnList_End-->", itemBuffer.toString());
-            	}
-            	
-        	}
-        	
-        	if(siteColumn == null){
-//        		siteColumnTemplate = "栏目代码"+codeName+"不存在";
-        	}else{
-            	//如果<!--List_Start-->存在，则需要News信息列表
-            	if(siteColumnTemplate.indexOf("<!--List_Start-->") > -1){
-            		int number = Template.getConfigValue(siteColumnTemplate, "number", 6);		//当前显示多少条记录
-            		int start_number = Template.getConfigValue(siteColumnTemplate, "start_number", 0);		//当前从第几条开始显示
-            		String itemTemp = Template.getAnnoCenterString(siteColumnTemplate, "List");		//取得list的列表项内容
-                	siteColumnTemplate = replaceSiteColumnBlock_replaceNews(siteColumnTemplate,start_number, number, itemTemp, columnNewsMap, siteColumn, newsDataMap);
-            	}
-            	
-            	//替换栏目标签
-            	siteColumnTemplate = replaceSiteColumnTag(siteColumnTemplate, siteColumn);		
-        	}
-        	
-        	//将其替换入原始的模版内容中
-        	templateHTML = StringUtil.subStringReplace(templateHTML, "<!--SiteColumn_Start-->", "<!--SiteColumn_End-->", siteColumnTemplate);
-        }
+		Matcher m = p.matcher(templateHTML);
+		while(m.find()){
+			String siteColumnTemplate = m.group(1);	//得到其中某个栏目的模版内容
+			String codeName = Template.getConfigValue(siteColumnTemplate, "codeName");	//当前的栏目代码codeName
+			if(codeName.indexOf("{") > -1){
+				if(codeRetainDynamicTag){
+					//如果有动态标签，则保留此动态标签，不在替换范围内
+					//此次保留，不尽兴替换
+					continue;
+				}else{
+					if(currentSiteColumn != null){
+						//将动态调取的标签，替换为实际的值
+						codeName = replaceSiteColumnTag(codeName, currentSiteColumn);
+					}
+				}
+			}
+			
+			SiteColumn siteColumn = columnMap.get(codeName);
+			
+			//如果
+			if((siteColumn != null) || (siteColumn == null && codeName.equals(""))){
+				//如果指定栏目存在
+				//	或者codeName为空，即不传入，或没有codeName这个栏目标签，那么就是调用所有一级栏目
+				
+				//如果<!--subColumnList_Start-->存在，需要调出其子栏目列表
+				if(siteColumnTemplate.indexOf("<!--SubColumnList_Start-->") > -1){
+					String subColumnListTemp = Template.getAnnoCenterString(siteColumnTemplate, "SubColumnList");		//取得SubColumnList的子栏目，的每项展示的模版内容
+					
+					int number = Template.getConfigValue(subColumnListTemp, "number", 6);		//当前显示多少条记录
+					int start_number = Template.getConfigValue(subColumnListTemp, "start_number", 0);		//当前显示多少条记录
+					String itemTemp = Template.getAnnoCenterString(subColumnListTemp, "List");		//取得list的列表项内容
+					
+					StringBuffer itemBuffer = new StringBuffer();	//显示的栏目
+					List<SiteColumnTreeVO> scList = null;
+					if(codeName.length() == 0){
+						//调用所有顶级栏目
+						scList = new ArrayList<SiteColumnTreeVO>();
+						for (Map.Entry<String, SiteColumnTreeVO> entry : columnTreeMap.entrySet()) {
+							SiteColumnTreeVO sct = entry.getValue();
+							if(sct.getLevel() == 1 && sct.getSiteColumn().getUsed() - SiteColumn.USED_ENABLE == 0){
+								//是1级栏目，且栏目为显示（启用）状态
+								scList.add(sct);
+							}
+						}
+						
+						//一级栏目因为存储于map，是没有排序的，所以取一级栏目，取出后进行排序
+						Collections.sort(scList, new Comparator<SiteColumnTreeVO>() {
+							public int compare(SiteColumnTreeVO sc1, SiteColumnTreeVO sc2) {
+								//按照发布时间正序排序，发布时间越早，排列越靠前
+								return sc1.getSiteColumn().getRank() - sc2.getSiteColumn().getRank();
+							}
+						});
+						
+					}else{
+						//调用二级栏目
+						SiteColumnTreeVO stvo = columnTreeMap.get(codeName);
+						if(stvo != null){
+							scList = stvo.getList();	//取得子栏目的数据源
+						}else{
+							scList = new ArrayList<SiteColumnTreeVO>();
+						}
+					}
+//					List<SiteColumnTreeVO> scList = columnTreeMap.get(codeName).getList();	//取得子栏目的数据源
+					for (int i = 0; i < scList.size(); i++) {
+						//获取子栏目信息
+						SiteColumn subColumn = scList.get(i).getSiteColumn();
+						//栏目状态为启用时，才会列出来。隐藏的则不会列出
+						
+						//v4.10 当栏目的显示（旧的 used 字段）为不显示、或者 templateCodeColumnUsed 为不显示
+						if((subColumn.getUsed() != null && subColumn.getUsed() - SiteColumn.USED_UNABLE == 0) || (subColumn.getTemplateCodeColumnUsed() != null && subColumn.getTemplateCodeColumnUsed() - SiteColumn.USED_UNABLE == 0)){
+							//不显示，那么直接吧模版代码赋予 subColumnNewsTemp ,准备进行下一步的文章替换
+						}else{
+							//显示
+							//取到子栏目中，某个栏目的，替换掉栏目信息后的内容(如果其中有信息列表标签，还要替换)
+							String subColumnNewsTemp = replaceSiteColumnTag(subColumnListTemp, subColumn);
+							String str = replaceSiteColumnBlock_replaceNews(subColumnNewsTemp,start_number, number, itemTemp, columnNewsMap, subColumn, newsDataMap);
+							//将子栏目替换栏目标签后，加入 itemBuffer
+							itemBuffer.append(str);
+						}
+						
+					}
+					siteColumnTemplate = StringUtil.subStringReplace(siteColumnTemplate, "<!--SubColumnList_Start-->", "<!--SubColumnList_End-->", itemBuffer.toString());
+				}
+				
+			}
+			
+			if(siteColumn == null){
+//				siteColumnTemplate = "栏目代码"+codeName+"不存在";
+			}else{
+				//如果<!--List_Start-->存在，则需要News信息列表
+				if(siteColumnTemplate.indexOf("<!--List_Start-->") > -1){
+					int number = Template.getConfigValue(siteColumnTemplate, "number", 6);		//当前显示多少条记录
+					int start_number = Template.getConfigValue(siteColumnTemplate, "start_number", 0);		//当前从第几条开始显示
+					String itemTemp = Template.getAnnoCenterString(siteColumnTemplate, "List");		//取得list的列表项内容
+					siteColumnTemplate = replaceSiteColumnBlock_replaceNews(siteColumnTemplate,start_number, number, itemTemp, columnNewsMap, siteColumn, newsDataMap);
+				}
+				
+				//替换栏目标签
+				siteColumnTemplate = replaceSiteColumnTag(siteColumnTemplate, siteColumn);		
+			}
+			
+			//将其替换入原始的模版内容中
+			templateHTML = StringUtil.subStringReplace(templateHTML, "<!--SiteColumn_Start-->", "<!--SiteColumn_End-->", siteColumnTemplate);
+		}
 		
-        return templateHTML;
+		return templateHTML;
 	}
 	
 	/**
@@ -1064,21 +1065,21 @@ public class TemplateCMS {
 			return "";
 		}
 		//如果<!--List_Start-->存在，则需要News信息列表
-    	if(newsListTemplate.indexOf("<!--List_Start-->") > -1){
-        	StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
-        	List<News> list = columnNewsMap.get(siteColumn.getCodeName());	//获取要显示的列表的数据源
-    		
-        	if(start_number < 0){
-        		start_number = 0;
-        	}
-        	int zongshu = number + start_number;	//从start_number 开始，去到第几个为止。
-        	for (int i = start_number; i < list.size() && i < zongshu; i++) {
-    			News news = list.get(i);
-        		itemBuffer.append(replaceNewsTag(itemTemp, news, siteColumn, newsDataMap.get(news.getId())));
-    		}
-    		newsListTemplate = StringUtil.subStringReplace(newsListTemplate+" ", "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
-    	}
-    	return newsListTemplate;
+		if(newsListTemplate.indexOf("<!--List_Start-->") > -1){
+			StringBuffer itemBuffer = new StringBuffer();	//显示的列表内容
+			List<News> list = columnNewsMap.get(siteColumn.getCodeName());	//获取要显示的列表的数据源
+			
+			if(start_number < 0){
+				start_number = 0;
+			}
+			int zongshu = number + start_number;	//从start_number 开始，去到第几个为止。
+			for (int i = start_number; i < list.size() && i < zongshu; i++) {
+				News news = list.get(i);
+				itemBuffer.append(replaceNewsTag(itemTemp, news, siteColumn, newsDataMap.get(news.getId())));
+			}
+			newsListTemplate = StringUtil.subStringReplace(newsListTemplate+" ", "<!--List_Start-->", "<!--List_End-->", itemBuffer.toString());
+		}
+		return newsListTemplate;
 	}
 	
 	/**

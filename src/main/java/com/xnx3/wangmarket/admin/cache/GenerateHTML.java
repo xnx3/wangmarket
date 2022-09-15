@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.bean.TagA;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -22,12 +22,12 @@ import com.xnx3.wangmarket.admin.entity.SiteData;
  */
 public class GenerateHTML {
 	
-	private int linuxTime;	//当前时间戳
-	public int templateId;	//当前所用模版的编号
-	private Site site;			//当前站点信息
-	private boolean editMode;	//是否是编辑模式，默认不是编辑模式，用户端前台查看，正常网站浏览模式
+	private int linuxTime;															//当前时间戳
+	public int templateId;															//当前所用模版的编号
+	private Site site;																//当前站点信息
+	private boolean editMode;														//是否是编辑模式，默认不是编辑模式，用户端前台查看，正常网站浏览模式
 	public static Map<String, String> commonMap = new HashMap<String, String>();	//common带标签的内容缓存，每个项只会引入一次，以后再次使用会直接从这里取而不必再进行读文件。 key:tmeplateid_filename(无.html)   value:html文件的内容
-	private String columnAList = null;	//当前站点的Site.column_id拼接出来的超链接内容区域，放到<nav>标签中的
+	private String columnAList = null;												//当前站点的Site.column_id拼接出来的超链接内容区域，放到<nav>标签中的
 	
 	public GenerateHTML(Site site) {
 		linuxTime = DateUtil.timeForUnix10();
@@ -150,24 +150,24 @@ public class GenerateHTML {
 	 */
 	public String assemblyCommon(String text){
 		Pattern p = Pattern.compile(regex("include=(.*?)"));
-        Matcher m = p.matcher(text);
-        while (m.find()) {
-        	String templateVarName = m.group(1);	//模版变量的id
-            
-        	//查看再内存中是否有此项内容了，若没有，先将模版装载入内存，以后直接从内存取
-        	String key = templateId+templateVarName;
-        	String templateVarText = commonMap.get(key);
-//            if(templateVarText == null){
-            if(true){
-            	templateVarText = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/common/"+templateVarName+".html");
-            	commonMap.put(key,templateVarText);
-            }
-            
-            String reg = regex("include="+templateVarName);
-            text = text.replaceAll(reg, templateVarText);
-        }
+		Matcher m = p.matcher(text);
+		while (m.find()) {
+			String templateVarName = m.group(1);	//模版变量的id
+			
+			//查看再内存中是否有此项内容了，若没有，先将模版装载入内存，以后直接从内存取
+			String key = templateId+templateVarName;
+			String templateVarText = commonMap.get(key);
+//			if(templateVarText == null){
+			if(true){
+				templateVarText = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+templateId+"/common/"+templateVarName+".html");
+				commonMap.put(key,templateVarText);
+			}
+			
+			String reg = regex("include="+templateVarName);
+			text = text.replaceAll(reg, templateVarText);
+		}
 		
-        return text;
+		return text;
 	}
 	
 	/**
