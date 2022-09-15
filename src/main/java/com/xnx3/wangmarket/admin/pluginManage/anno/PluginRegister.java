@@ -85,7 +85,7 @@ public @interface PluginRegister {
 	String version() default "";
 	
 	/**
-	 * 远程版本检测的url地址    
+	 * 远程版本检测的url地址
 	 * <br/> 其内返回值为 最新版本号|提示有新版本后点击进入的网址|  如： 1.0|http://www.wang.market/wangmarket.html|
 	 * @return
 	 */

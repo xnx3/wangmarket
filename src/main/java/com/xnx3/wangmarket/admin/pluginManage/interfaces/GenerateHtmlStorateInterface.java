@@ -1,12 +1,8 @@
 package com.xnx3.wangmarket.admin.pluginManage.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.bean.NewsDataBean;
+
 import com.xnx3.wangmarket.admin.cache.generateSite.GenerateHtmlInterface;
-import com.xnx3.wangmarket.admin.entity.News;
-import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 
 /**

@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.admin.pluginManage.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;

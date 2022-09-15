@@ -1,9 +1,10 @@
 package com.xnx3.wangmarket.admin.init;
 
 import java.io.File;
+
 import org.springframework.stereotype.Component;
+
 import com.xnx3.DateUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 
@@ -14,7 +15,7 @@ import com.xnx3.j2ee.util.SystemUtil;
  */
 @Component
 public class TemplateTemporaryFolder {
-	public static String folderPath;	//存放上传模版zip包的临时文件夹
+	public static String folderPath;		//存放上传模版zip包的临时文件夹
 	public static final int TIMEOUT = 120;	//过期时间120秒
 	
 	static{

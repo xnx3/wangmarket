@@ -62,8 +62,8 @@ public class NewsPluginManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsSaveBefore",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("newsSaveBefore",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, news});
 		}
@@ -86,8 +86,8 @@ public class NewsPluginManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsSaveFinish",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("newsSaveFinish",new Class[]{HttpServletRequest.class, News.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, news});
 		}
@@ -108,8 +108,8 @@ public class NewsPluginManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsDataSaveBefore",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("newsDataSaveBefore",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, newsData});
 		}
@@ -130,8 +130,8 @@ public class NewsPluginManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsDataSaveFinish",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("newsDataSaveFinish",new Class[]{HttpServletRequest.class, NewsData.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, newsData});
 		}
@@ -147,8 +147,8 @@ public class NewsPluginManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("newsDeleteFinish",new Class[]{HttpServletRequest.class,News.class});  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("newsDeleteFinish",new Class[]{HttpServletRequest.class,News.class});
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			m.invoke(invokeReply, new Object[]{request, news});
 		}

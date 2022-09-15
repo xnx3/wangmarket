@@ -58,10 +58,10 @@ public class TemplateInterfaceManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
+			//运用newInstance()来生成这个新获取方法的实例
 			Method m = null;
 			try {
-				m = c.getMethod("publicTag",new Class[]{String.class,TemplateCMS.class});  
+				m = c.getMethod("publicTag",new Class[]{String.class,TemplateCMS.class});
 			}catch (java.lang.NoSuchMethodException e) {
 				if(Global.isJarRun) {
 					ConsoleUtil.error(c.getSimpleName() + " 初始化异常，系统判断您当前是在开发环境中运行的，这是由于您使用了热部署而导致的，此异常忽略即可。正常线上部署，放到tomcat中运行时就不会再有热部署，不会再有这个问题");
@@ -97,10 +97,10 @@ public class TemplateInterfaceManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
+			//运用newInstance()来生成这个新获取方法的实例
 			Method m = null;
 			try {
-				m = c.getMethod("siteColumnTag",new Class[]{String.class,SiteColumn.class, TemplateCMS.class});  
+				m = c.getMethod("siteColumnTag",new Class[]{String.class,SiteColumn.class, TemplateCMS.class});
 			}catch (java.lang.NoSuchMethodException e) {
 				if(Global.isJarRun) {
 					ConsoleUtil.error(c.getSimpleName() + " 初始化异常，系统判断您当前是在开发环境中运行的，这是由于您使用了热部署而导致的，此异常忽略即可。正常线上部署，放到tomcat中运行时就不会再有热部署，不会再有这个问题");
@@ -128,10 +128,10 @@ public class TemplateInterfaceManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
+			//运用newInstance()来生成这个新获取方法的实例
 			Method m = null;
 			try {
-				m = c.getMethod("newsTag",new Class[]{String.class,News.class, SiteColumn.class,NewsDataBean.class, TemplateCMS.class});  
+				m = c.getMethod("newsTag",new Class[]{String.class,News.class, SiteColumn.class,NewsDataBean.class, TemplateCMS.class});
 			}catch (java.lang.NoSuchMethodException e) {
 				if(Global.isJarRun) {
 					ConsoleUtil.error(c.getSimpleName() + " 初始化异常，系统判断您当前是在开发环境中运行的，这是由于您使用了热部署而导致的，此异常忽略即可。正常线上部署，放到tomcat中运行时就不会再有热部署，不会再有这个问题");
@@ -155,7 +155,7 @@ public class TemplateInterfaceManage {
 	}
 	
 	/**
-	 * 写出string文本文件之前，也就是生成html页面之前会先执行的。  
+	 * 写出string文本文件之前，也就是生成html页面之前会先执行的。
 	 * <p>这个接口主要是给第三方系统使用网市场模板系统时，自定义一些模板标签所预留使用的</p>
 	 * @param text 写出的文本文件的内容，文本。也就是写出html的内容
 	 * @param path 要生成html文件的路径。 传入如 index.html 、sitemap.xml
@@ -166,10 +166,10 @@ public class TemplateInterfaceManage {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
+			//运用newInstance()来生成这个新获取方法的实例
 			Method m = null;
 			try {
-				m = c.getMethod("publishHtmlFileBefore",new Class[]{String.class,String.class, TemplateCMS.class});  
+				m = c.getMethod("publishHtmlFileBefore",new Class[]{String.class,String.class, TemplateCMS.class});
 			}catch (java.lang.NoSuchMethodException e) {
 				if(Global.isJarRun) {
 					ConsoleUtil.error(c.getSimpleName() + " 初始化异常，系统判断您当前是在开发环境中运行的，这是由于您使用了热部署而导致的，此异常忽略即可。正常线上部署，放到tomcat中运行时就不会再有热部署，不会再有这个问题");

@@ -42,7 +42,7 @@ public interface TemplateInterface {
 	public BaseVO newsTag(String text,News news, SiteColumn siteColumn, NewsDataBean newsDataBean, TemplateCMS template);
 	
 	/**
-	 * 写出string文本文件之前，也就是生成html页面之前会先执行的。  
+	 * 写出string文本文件之前，也就是生成html页面之前会先执行的。
 	 * <p>这个接口主要是给第三方系统使用网市场模板系统时，自定义一些模板标签所预留使用的</p>
 	 * @param text 写出的文本文件的内容，文本。也就是写出html的内容
 	 * @param path 要生成html文件的路径。 传入如 index.html 、 sitemap.xml

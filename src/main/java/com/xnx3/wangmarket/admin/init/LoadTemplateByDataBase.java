@@ -2,10 +2,9 @@ package com.xnx3.wangmarket.admin.init;
 
 import java.util.HashMap;
 import java.util.List;
-import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
-import com.xnx3.j2ee.Global;
-import com.xnx3.j2ee.service.SqlService;
+
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.j2ee.util.SystemUtil;

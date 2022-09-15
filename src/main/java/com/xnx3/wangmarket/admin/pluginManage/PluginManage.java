@@ -1,20 +1,11 @@
 package com.xnx3.wangmarket.admin.pluginManage;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.springframework.stereotype.Component;
 
-import com.xnx3.ClassUtil;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
-import com.xnx3.j2ee.util.PluginUtil;
 import com.xnx3.wangmarket.admin.pluginManage.anno.PluginRegister;
 
 /**
@@ -29,13 +20,13 @@ public class PluginManage {
 	 */
 	public static void scanPluginClass() throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		List<Class<?>> classList = ScanClassUtil.getClassSearchAnnotationsName(ScanClassUtil.getClasses("com.xnx3.wangmarket"), "PluginRegister");
-        for (Class<?> clazz : classList) {
-        	//找到插件注册类了，进行注册插件
-        	if(clazz.getAnnotation(PluginRegister.class) != null){
-        		registerPlugin(clazz);
-    			ConsoleUtil.info("注册插件："+clazz.getName());
-        	}
-        }
+		for (Class<?> clazz : classList) {
+			//找到插件注册类了，进行注册插件
+			if(clazz.getAnnotation(PluginRegister.class) != null){
+				registerPlugin(clazz);
+				ConsoleUtil.info("注册插件："+clazz.getName());
+			}
+		}
 	}
 	
 	/**
@@ -110,14 +101,14 @@ public class PluginManage {
 			};
 			
 			if(plugin.applyToCMS()){
-        		com.xnx3.j2ee.pluginManage.PluginManage.cmsSiteClassManage.put(pluginOld.id(), plugin);
-        	}
-        	if(plugin.applyToAgency()){
-        		com.xnx3.j2ee.pluginManage.PluginManage.agencyClassManage.put(pluginOld.id(), plugin);
-        	}
-        	if(plugin.applyToSuperAdmin()){
-        		com.xnx3.j2ee.pluginManage.PluginManage.superAdminClassManage.put(pluginOld.id(), plugin);
-        	}
+				com.xnx3.j2ee.pluginManage.PluginManage.cmsSiteClassManage.put(pluginOld.id(), plugin);
+			}
+			if(plugin.applyToAgency()){
+				com.xnx3.j2ee.pluginManage.PluginManage.agencyClassManage.put(pluginOld.id(), plugin);
+			}
+			if(plugin.applyToSuperAdmin()){
+				com.xnx3.j2ee.pluginManage.PluginManage.superAdminClassManage.put(pluginOld.id(), plugin);
+			}
 		}
 		
 	}
