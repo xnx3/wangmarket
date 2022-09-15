@@ -2,18 +2,21 @@ package com.xnx3.j2ee.controller;
 
 import java.awt.Font;
 import java.io.IOException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.xnx3.j2ee.util.ActionLogUtil;
-import com.xnx3.j2ee.util.SystemUtil;
+
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
+import com.xnx3.j2ee.util.ActionLogUtil;
+import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.agencyadmin.util.SessionUtil;
 
@@ -38,12 +41,12 @@ public class LoginController extends BaseController {
 		ActionLogUtil.insert(request, "获取验证码显示");
 
 		com.xnx3.media.CaptchaUtil captchaUtil = new com.xnx3.media.CaptchaUtil();
-	    captchaUtil.setCodeCount(5);                   //验证码的数量，若不增加图宽度的话，只能是1～5个之间
-	    captchaUtil.setFont(new Font("Fixedsys", Font.BOLD, 21));    //验证码字符串的字体
-	    captchaUtil.setHeight(18);  //验证码图片的高度
-	    captchaUtil.setWidth(110);      //验证码图片的宽度
-//	    captchaUtil.setCode(new String[]{"我","是","验","证","码"});   //如果对于数字＋英文不满意，可以自定义验证码的文字！
-	    com.xnx3.j2ee.util.CaptchaUtil.showImage(captchaUtil, request, response);
+		captchaUtil.setCodeCount(5);								//验证码的数量，若不增加图宽度的话，只能是1～5个之间
+		captchaUtil.setFont(new Font("Fixedsys", Font.BOLD, 21));	//验证码字符串的字体
+		captchaUtil.setHeight(18);									//验证码图片的高度
+		captchaUtil.setWidth(110);									//验证码图片的宽度
+//		captchaUtil.setCode(new String[]{"我","是","验","证","码"});	//如果对于数字＋英文不满意，可以自定义验证码的文字！
+		com.xnx3.j2ee.util.CaptchaUtil.showImage(captchaUtil, request, response);
 	}
 	
 
