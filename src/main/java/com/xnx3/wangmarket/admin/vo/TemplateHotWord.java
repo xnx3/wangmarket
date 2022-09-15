@@ -8,7 +8,7 @@ import com.xnx3.j2ee.vo.BaseVO;
  */
 public class TemplateHotWord extends BaseVO{
 	private String word;	//词
-	private Integer num;	//出现的次数
+	private Integer num;		//出现的次数
 	
 	public TemplateHotWord(String word, int num) {
 		this.word = word;

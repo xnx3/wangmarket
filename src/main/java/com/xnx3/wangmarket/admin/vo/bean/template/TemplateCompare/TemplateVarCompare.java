@@ -10,8 +10,8 @@ import com.xnx3.wangmarket.admin.entity.TemplateVar;
  *
  */
 public class TemplateVarCompare {
-	private TemplateVar currentTemplateVar;	//当前网站使用的模板变量
-	private TemplateVar backupsTemplateVar;	//备份，导入的模板变量
+	private TemplateVar currentTemplateVar;		//当前网站使用的模板变量
+	private TemplateVar backupsTemplateVar;		//备份，导入的模板变量
 	
 	private String currentTemplateVarDataText;	//当前网站使用的模板变量内容
 	private String backupsTemplateVarDataText;	//备份，导入的模板变量的模板内容

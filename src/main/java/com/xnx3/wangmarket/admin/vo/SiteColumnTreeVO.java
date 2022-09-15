@@ -10,8 +10,8 @@ import com.xnx3.wangmarket.admin.entity.SiteColumn;
  * @author 管雷鸣
  */
 public class SiteColumnTreeVO extends BaseVO{
-	private int level;	//当前栏目的级别，1：顶级、一级栏目；  2：二级栏目
-	private SiteColumn siteColumn;	//栏目信息
+	private int level;						//当前栏目的级别，1：顶级、一级栏目；  2：二级栏目
+	private SiteColumn siteColumn;			//栏目信息
 	private List<SiteColumnTreeVO> list;	//其下级栏目列表
 	public int getLevel() {
 		return level;

@@ -5,15 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.json.JSONUtil;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
@@ -22,29 +18,32 @@ import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplatePage;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateVar;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * 模版页面，模版导入，将导入的字符串转化为json，然后将json转化为此对象
  * @author 管雷鸣
  */
 public class TemplateVO extends BaseVO {
-	private Site currentSite;	//当前用户的站点信息
-	private String text;		//导入的模版的text内容，字符串
-	private List<TemplatePage> templatePageList;		//模版页面
+	private Site currentSite;						//当前用户的站点信息
+	private String text;							//导入的模版的text内容，字符串
+	private List<TemplatePage> templatePageList;	//模版页面
 	private List<TemplateVar> templateVarList;		//模版变量
-	private List<InputModel> inputModelList;	//输入模型
-	private List<SiteColumn> siteColumnList;	//栏目
-	private JSONObject siteVarJson;				//全局变量
+	private List<InputModel> inputModelList;		//输入模型
+	private List<SiteColumn> siteColumnList;		//栏目
+	private JSONObject siteVarJson;					//全局变量
 	
-	private String systemVersion;	// 当前系统版本号
-	private int time;	//导出的时间，10为时间戳
-	private String templateName;	//当前模版的名字
-	private String sourceUrl;	//模版来源的网站，从那个网站导出来的，可以作为预览网站
-	private String plugin;		//插件模式。如果此不为null，且长度大于1，则视为插件模式，无视templateName，可在已经有模版的CMS模式网站直接导入
+	private String systemVersion;					//当前系统版本号
+	private int time;								//导出的时间，10为时间戳
+	private String templateName;					//当前模版的名字
+	private String sourceUrl;						//模版来源的网站，从那个网站导出来的，可以作为预览网站
+	private String plugin;							//插件模式。如果此不为null，且长度大于1，则视为插件模式，无视templateName，可在已经有模版的CMS模式网站直接导入
 	
-	private Template template;	//模版数据信息，v4.7增加
+	private Template template;						//模版数据信息，v4.7增加
 	
 	//v3.6增加，根据模版中的useUtf8Encode=true来识别。3.6之后的全部采用编码机制
-	private boolean isUtf8Encode;	//当前是否使用utf8编码，将汉字转化为utf8字符，避免乱码
+	private boolean isUtf8Encode;					//当前是否使用utf8编码，将汉字转化为utf8字符，避免乱码
 	
 	public Site getCurrentSite() {
 		return currentSite;
@@ -289,18 +288,18 @@ public class TemplateVO extends BaseVO {
 			JSONObject siteVarJson = jo.getJSONObject("siteVar");
 			JSONObject newSiteVar = new JSONObject();
 			Iterator iter = siteVarJson.entrySet().iterator();
-	        while (iter.hasNext()) {
-	            Map.Entry entry = (Map.Entry) iter.next();
-	            JSONObject textObj = (JSONObject)entry.getValue();
-	            
-	            JSONObject uft8SubJson = new JSONObject();
-	            Iterator subIter = textObj.entrySet().iterator();
-	            while (subIter.hasNext()) {
-	            	Map.Entry subEntry = (Map.Entry) subIter.next();
-	            	uft8SubJson.put(subEntry.getKey(), StringUtil.utf8ToString((String) subEntry.getValue()));
-	            }
-	            newSiteVar.put(entry.getKey(), uft8SubJson);
-	        }
+			while (iter.hasNext()) {
+				Map.Entry entry = (Map.Entry) iter.next();
+				JSONObject textObj = (JSONObject)entry.getValue();
+				
+				JSONObject uft8SubJson = new JSONObject();
+				Iterator subIter = textObj.entrySet().iterator();
+				while (subIter.hasNext()) {
+					Map.Entry subEntry = (Map.Entry) subIter.next();
+					uft8SubJson.put(subEntry.getKey(), StringUtil.utf8ToString((String) subEntry.getValue()));
+				}
+				newSiteVar.put(entry.getKey(), uft8SubJson);
+			}
 			this.siteVarJson = newSiteVar;
 		}
 		

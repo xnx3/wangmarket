@@ -9,7 +9,7 @@ import com.xnx3.j2ee.vo.BaseVO;
  *
  */
 public class TemplateVarAndDataMapVO extends BaseVO{
-	private Map<String, String> compileMap;	//可替换的，要存入缓存的map  var_name－text
+	private Map<String, String> compileMap;							//可替换的，要存入缓存的map  var_name－text
 	private Map<String, TemplateVarVO> templateVarMapForOriginal;	//数据库中获取到的原始信息
 
 	public Map<String, String> getCompileMap() {

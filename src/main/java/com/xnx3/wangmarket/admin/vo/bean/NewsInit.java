@@ -12,11 +12,11 @@ import com.xnx3.wangmarket.admin.service.NewsService;
  * @author 管雷鸣
  */
 public class NewsInit extends BaseVO {
-	private String pageTitle;	//网页的标题，是添加新闻，还是修改图文
+	private String pageTitle;			//网页的标题，是添加新闻，还是修改图文
 	private News news;
 	private SiteColumn siteColumn;
 	private Site site;
-	private String titlepicImage;	//当前显示的titlepic的缩略图，会自动加上图片标签，默认高度30px
+	private String titlepicImage;		//当前显示的titlepic的缩略图，会自动加上图片标签，默认高度30px
 	private NewsDataBean newsDataBean;	//替代之前的newsText， v4.6增加
 	
 	public NewsInit() {

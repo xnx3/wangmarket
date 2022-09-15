@@ -14,9 +14,9 @@ import com.xnx3.j2ee.vo.BaseVO;
  */
 public class SiteRemainHintVO extends BaseVO {
 	private String remainTimeString;	//距离过期剩余时间文字提醒
-	private String companyName;		//此网站上级代理的名字，公司名
-	private String phone;		//此网站上级代理的联系电话
-	private String qq;			//此网站上级代理的联系QQ
+	private String companyName;			//此网站上级代理的名字，公司名
+	private String phone;				//此网站上级代理的联系电话
+	private String qq;					//此网站上级代理的联系QQ
 	
 	public String getRemainTimeString() {
 		return remainTimeString;
