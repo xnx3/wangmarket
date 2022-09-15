@@ -4,10 +4,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -50,6 +50,8 @@ import com.xnx3.wangmarket.admin.vo.SiteDataVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+
+import net.sf.json.JSONObject;
 
 /**
  * 公共的
@@ -546,30 +548,30 @@ public class SiteController extends BaseController {
 		}else{
 			//格式转换
 			BufferedImage bufferedImage = ImageUtil.inputStreamToBufferedImage(multipartFile.getInputStream());
-	        BufferedImage tag = ImageUtil.formatConversion(bufferedImage);
-	        BufferedImage tag1 = ImageUtil.proportionZoom(tag, 400);
+			BufferedImage tag = ImageUtil.formatConversion(bufferedImage);
+			BufferedImage tag1 = ImageUtil.proportionZoom(tag, 400);
 			
 			//上传
-	        AttachmentUtil.put("site/"+site.getId()+"/images/qr.jpg", ImageUtil.bufferedImageToInputStream(tag1, "jpg"));
+			AttachmentUtil.put("site/"+site.getId()+"/images/qr.jpg", ImageUtil.bufferedImageToInputStream(tag1, "jpg"));
 			
-	        ActionLogUtil.insert(request, "通用电脑模式，更改底部的二维码，提交保存");
+			ActionLogUtil.insert(request, "通用电脑模式，更改底部的二维码，提交保存");
 			
 			json.put("result", "1");
 		}
 		
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("application/json; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try {  
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }  
-	    }  
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 	
 	/**
@@ -614,19 +616,19 @@ public class SiteController extends BaseController {
 		}
 		
 		
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("application/json; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try {  
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }  
-	    }  
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 	
 	/**
@@ -643,19 +645,19 @@ public class SiteController extends BaseController {
 		
 		JSONObject json = new JSONObject();
 		json.put("result", "1");
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("application/json; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try { 
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }  
-	    }  
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 	
 	

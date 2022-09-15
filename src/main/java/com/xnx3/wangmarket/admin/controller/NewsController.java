@@ -4,15 +4,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.StringUtil;
@@ -27,7 +30,6 @@ import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
-import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.pc.IndexNews;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
@@ -43,6 +45,7 @@ import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -327,121 +330,121 @@ public class NewsController extends BaseController {
 		Site site = getSite();
 		
 		//如果传入了cid，获取到当前的siteColumn信息
-	    String cidPar = request.getParameter("cid");
-	    int cid = 0;
-	    SiteColumn siteColumn = null;
-	    if(cidPar != null){
-	    	cid = Lang.stringToInt(cidPar, 0);
-	    	if(cid > 0){
-	    		siteColumn = sqlService.findById(SiteColumn.class, cid);
-	    		if(siteColumn == null){
-	    			return error(model, "要查看的栏目不存在");
-	    		}
-	    		if(siteColumn.getSiteid() - getSiteId() != 0){
-	    			return error(model, "该栏目不属于您，无法查看");
-	    		}
-	    		model.addAttribute("siteColumn", siteColumn);
-	    		ActionLogUtil.insert(request, siteColumn.getId(), "查看指定栏目下的文章列表", siteColumn.getName());
-	    	}
-	    }
-	    if(siteColumn != null){
-	    	//如果是CMS模版网站
-	    	if(Func.isCMS(site)){
-	    		
-	    		if((siteColumn.getEditMode() == null || siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0)) {
-	    			//使用模板式编辑，那么没有列表页面，直接到模版页面的可视化编辑中
-	    			model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
-		    		return "news/listForTemplate";
-	    		}else if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0) {
-	    			//独立页面，那也没必要显示列表，因为列表就一条。直接进入编辑模式
-	    			//查出这个栏目下，有那些文章
-	    			List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid ="+siteColumn.getId(), News.class);
-	    			if(newsList.size() - 1 == 0) {
-	    				//正常，就是一条
-	    				return redirect("news/news.do?id="+newsList.get(0).getId());
-	    			}else {
-	    				//不正常，应该是一条才是。出现提醒
-		    			model.addAttribute("autoJumpTemplateEdit", "<script>msg.alert('检测到数据异常，这个栏目应该只能由一条信息才对。请联系管理员说明');</script>");
-	    			}
-	    		}
-	    		
-	    	}
-	    }
-	    
-	    if(cid == 0){
-	    	ActionLogUtil.insert(request, "查看网站内所有文章的列表");
-	    }
-		
-	    Sql sql = new Sql(request);
-	    sql.setSearchTable("news");
-	    sql.setSearchColumn(new String[]{"type=","title","cid="});
-	    sql.appendWhere("siteid = "+getSiteId());
-	    int count = sqlService.count("news", sql.getWhere());
-	    Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM news", page);
-	    
-	    //排序方式，通过栏目设置的内容排序，进行判断
-	    if(siteColumn != null && siteColumn.getListRank() != null){
-	    	if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
-	    		sql.setDefaultOrderBy("addtime ASC");
-	    	}else{
-	    		sql.setDefaultOrderBy("addtime DESC");
-	    	}
-	    }else{
-	    	//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
-	    	sql.setDefaultOrderBy("addtime DESC");
-	    }
-	    
-	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
-	    List<News> list = sqlService.findBySql(sql, News.class);
-	     
-	    //从缓存中调取当前网站栏目
-	    //从缓存中获取栏目树列表
-    	List<SiteColumnTreeVO> siteColumnTreeVOList = siteColumnService.getSiteColumnTreeVOByCache();
-	    if(siteColumnTreeVOList.size() > 0){
-	    	StringBuffer columnTreeSB = new StringBuffer();
-		    for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
-		    	SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
-		    	//v4.10 增加 adminNewsUsed
-		    	if(sct.getSiteColumn().getUsed() - SiteColumn.USED_UNABLE == 0 || sct.getSiteColumn().getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
-		    		continue;
-		    	}
-		    	
-		    	//如果有下级栏目，也将下级栏目列出来
-		    	if(sct.getList().size() > 0){
-		    		columnTreeSB.append("<li class=\"layui-nav-item\" id=\"super"+sct.getSiteColumn().getId()+"\"><a href=\"javascript:;\" class=\"dltitle\">"+sct.getSiteColumn().getName()+"</a><dl class=\"layui-nav-child\" style=\"background-color: #EAEDF1;\">");
-		    		for (int j = 0; j < sct.getList().size(); j++) {
-		    			SiteColumn s = sct.getList().get(j).getSiteColumn();
-		    			if(s == null){
-		    				//理论上不存在
-		    				continue;
-		    			}
-		    			//v4.10 增加 adminNewsUsed
-		    			if(s.getUsed() - SiteColumn.USED_UNABLE == 0 || s.getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
-				    		continue;
-				    	}
-		    			columnTreeSB.append("<dd>"+getLeftNavColumnA(cid, s, sct.getSiteColumn().getId())+"</dd>");
-					}
-		    		columnTreeSB.append("</dl></li>");
-		    		
-		    	}else{
-		    		columnTreeSB.append("<li class=\"layui-nav-item\">"+getLeftNavColumnA(cid, sct.getSiteColumn(), 0)+"</li>");
-		    	}
+		String cidPar = request.getParameter("cid");
+		int cid = 0;
+		SiteColumn siteColumn = null;
+		if(cidPar != null){
+			cid = Lang.stringToInt(cidPar, 0);
+			if(cid > 0){
+				siteColumn = sqlService.findById(SiteColumn.class, cid);
+				if(siteColumn == null){
+					return error(model, "要查看的栏目不存在");
+				}
+				if(siteColumn.getSiteid() - getSiteId() != 0){
+					return error(model, "该栏目不属于您，无法查看");
+				}
+				model.addAttribute("siteColumn", siteColumn);
+				ActionLogUtil.insert(request, siteColumn.getId(), "查看指定栏目下的文章列表", siteColumn.getName());
 			}
-		    model.addAttribute("columnTreeNav", columnTreeSB.toString());
-	    }else{
-	    	return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧","template/welcome.do");
-	    }
-	    
-	    //将数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    //将分页信息传到页面以供显示
-	    model.addAttribute("page", page);
-	    model.addAttribute("siteDomain", Func.getDomain(site));	//访问域名
-	    model.addAttribute("site", site);
-	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
-	    return "news/listForTemplate";
+		}
+		if(siteColumn != null){
+			//如果是CMS模版网站
+			if(Func.isCMS(site)){
+				
+				if((siteColumn.getEditMode() == null || siteColumn.getEditMode() - SiteColumn.EDIT_MODE_TEMPLATE == 0)) {
+					//使用模板式编辑，那么没有列表页面，直接到模版页面的可视化编辑中
+					model.addAttribute("autoJumpTemplateEdit", "<script>editText('"+siteColumn.getTemplatePageViewName()+"')</script>");	//自动跳转到模版页面的编辑，执行js
+					return "news/listForTemplate";
+				}else if(siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_PAGE == 0) {
+					//独立页面，那也没必要显示列表，因为列表就一条。直接进入编辑模式
+					//查出这个栏目下，有那些文章
+					List<News> newsList = sqlService.findBySqlQuery("SELECT * FROM news WHERE cid ="+siteColumn.getId(), News.class);
+					if(newsList.size() - 1 == 0) {
+						//正常，就是一条
+						return redirect("news/news.do?id="+newsList.get(0).getId());
+					}else {
+						//不正常，应该是一条才是。出现提醒
+						model.addAttribute("autoJumpTemplateEdit", "<script>msg.alert('检测到数据异常，这个栏目应该只能由一条信息才对。请联系管理员说明');</script>");
+					}
+				}
+				
+			}
+		}
+		
+		if(cid == 0){
+			ActionLogUtil.insert(request, "查看网站内所有文章的列表");
+		}
+		
+		Sql sql = new Sql(request);
+		sql.setSearchTable("news");
+		sql.setSearchColumn(new String[]{"type=","title","cid="});
+		sql.appendWhere("siteid = "+getSiteId());
+		int count = sqlService.count("news", sql.getWhere());
+		Page page = new Page(count, SystemUtil.getInt("LIST_EVERYPAGE_NUMBER"), request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT * FROM news", page);
+		
+		//排序方式，通过栏目设置的内容排序，进行判断
+		if(siteColumn != null && siteColumn.getListRank() != null){
+			if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+				sql.setDefaultOrderBy("addtime ASC");
+			}else{
+				sql.setDefaultOrderBy("addtime DESC");
+			}
+		}else{
+			//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
+			sql.setDefaultOrderBy("addtime DESC");
+		}
+		
+		//因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
+		List<News> list = sqlService.findBySql(sql, News.class);
+		 
+		//从缓存中调取当前网站栏目
+		//从缓存中获取栏目树列表
+		List<SiteColumnTreeVO> siteColumnTreeVOList = siteColumnService.getSiteColumnTreeVOByCache();
+		if(siteColumnTreeVOList.size() > 0){
+			StringBuffer columnTreeSB = new StringBuffer();
+			for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
+				SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
+				//v4.10 增加 adminNewsUsed
+				if(sct.getSiteColumn().getUsed() - SiteColumn.USED_UNABLE == 0 || sct.getSiteColumn().getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
+					continue;
+				}
+				
+				//如果有下级栏目，也将下级栏目列出来
+				if(sct.getList().size() > 0){
+					columnTreeSB.append("<li class=\"layui-nav-item\" id=\"super"+sct.getSiteColumn().getId()+"\"><a href=\"javascript:;\" class=\"dltitle\">"+sct.getSiteColumn().getName()+"</a><dl class=\"layui-nav-child\" style=\"background-color: #EAEDF1;\">");
+					for (int j = 0; j < sct.getList().size(); j++) {
+						SiteColumn s = sct.getList().get(j).getSiteColumn();
+						if(s == null){
+							//理论上不存在
+							continue;
+						}
+						//v4.10 增加 adminNewsUsed
+						if(s.getUsed() - SiteColumn.USED_UNABLE == 0 || s.getAdminNewsUsed() - SiteColumn.USED_UNABLE == 0){
+							continue;
+						}
+						columnTreeSB.append("<dd>"+getLeftNavColumnA(cid, s, sct.getSiteColumn().getId())+"</dd>");
+					}
+					columnTreeSB.append("</dl></li>");
+					
+				}else{
+					columnTreeSB.append("<li class=\"layui-nav-item\">"+getLeftNavColumnA(cid, sct.getSiteColumn(), 0)+"</li>");
+				}
+			}
+			model.addAttribute("columnTreeNav", columnTreeSB.toString());
+		}else{
+			return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧","template/welcome.do");
+		}
+		
+		//将数据记录传到页面以供显示
+		model.addAttribute("list", list);
+		//将分页信息传到页面以供显示
+		model.addAttribute("page", page);
+		model.addAttribute("siteDomain", Func.getDomain(site));	//访问域名
+		model.addAttribute("site", site);
+		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
+		return "news/listForTemplate";
 	}
 	
 	/**
@@ -673,33 +676,33 @@ public class NewsController extends BaseController {
 		}
 		
 		//从缓存中调取当前网站栏目
-	    //从缓存中获取栏目树列表
-    	List<SiteColumnTreeVO> siteColumnTreeVOList = siteColumnService.getSiteColumnTreeVOByCache();
-	    if(siteColumnTreeVOList.size() > 0){
-	    	StringBuffer columnTreeSB = new StringBuffer();
-		    for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
-		    	SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
-		    	
-		    	//如果有下级栏目，也将下级栏目列出来
-		    	if(sct.getList().size() > 0){
-		    		columnTreeSB.append(newsChangeColumnForSelectColumn_Format(sct.getSiteColumn(), columnid, 1, true));
-		    		for (int j = 0; j < sct.getList().size(); j++) {
-		    			
-		    			SiteColumn s = sct.getList().get(j).getSiteColumn();
-		    			columnTreeSB.append(newsChangeColumnForSelectColumn_Format(s, columnid, 2, false));
+		//从缓存中获取栏目树列表
+		List<SiteColumnTreeVO> siteColumnTreeVOList = siteColumnService.getSiteColumnTreeVOByCache();
+		if(siteColumnTreeVOList.size() > 0){
+			StringBuffer columnTreeSB = new StringBuffer();
+			for (int i = 0; i < siteColumnTreeVOList.size(); i++) {
+				SiteColumnTreeVO sct = siteColumnTreeVOList.get(i);
+				
+				//如果有下级栏目，也将下级栏目列出来
+				if(sct.getList().size() > 0){
+					columnTreeSB.append(newsChangeColumnForSelectColumn_Format(sct.getSiteColumn(), columnid, 1, true));
+					for (int j = 0; j < sct.getList().size(); j++) {
+						
+						SiteColumn s = sct.getList().get(j).getSiteColumn();
+						columnTreeSB.append(newsChangeColumnForSelectColumn_Format(s, columnid, 2, false));
 					}
-		    		
-		    	}else{
-		    		columnTreeSB.append(newsChangeColumnForSelectColumn_Format(sct.getSiteColumn(), columnid, 1, false));
-		    	}
+					
+				}else{
+					columnTreeSB.append(newsChangeColumnForSelectColumn_Format(sct.getSiteColumn(), columnid, 1, false));
+				}
 			}
-		    model.addAttribute("columnTreeNav", columnTreeSB.toString());
-	    }else{
-	    	return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧");
-	    }
-	    
-	    ActionLogUtil.insert(request, newsid, "打开文章可转移的栏目选择页面");
-	    model.addAttribute("newsid", newsid);
+			model.addAttribute("columnTreeNav", columnTreeSB.toString());
+		}else{
+			return error(model, "您现在还没有创建栏目，既然没有栏目，那要管理的内容是属于哪的呢？内容必须有所属的栏目，请先去建立栏目吧");
+		}
+		
+		ActionLogUtil.insert(request, newsid, "打开文章可转移的栏目选择页面");
+		model.addAttribute("newsid", newsid);
 		return "news/newsChangeColumnForSelectColumn";
 	}
 	
@@ -733,7 +736,7 @@ public class NewsController extends BaseController {
 			return "<tr><td style=\"color:gray; opacity: 0.5;\">"+columnName+"</td></tr>\n";
 		}
 	}
-    
+
 	
 	/**
 	 * 服务于 {@link #newsChangeColumnForSelectColumn(HttpServletRequest, Model, int, int)} 将文章转移到其他栏目，选择后提交保存

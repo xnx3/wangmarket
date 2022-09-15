@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.xnx3.ClassUtil;
+
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.func.StaticResource;
 import com.xnx3.j2ee.pluginManage.PluginManage;
@@ -81,6 +81,8 @@ import com.xnx3.wangmarket.admin.vo.bean.template.TemplateCompare.TemplateVarCom
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.domain.CleanIOCacheMQListener;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
+
+import net.sf.json.JSONObject;
 
 /**
  * 模版相关操作
@@ -197,8 +199,8 @@ public class TemplateController extends BaseController {
 	public String templateVarList(HttpServletRequest request,Model model){
 		ActionLogUtil.insert(request, "进入模版变量列表");
 		
-	    model.addAttribute("list", templateService.getTemplateVarList());
-	    return "template/templateVarList";
+		model.addAttribute("list", templateService.getTemplateVarList());
+		return "template/templateVarList";
 	}
 
 
@@ -210,50 +212,50 @@ public class TemplateController extends BaseController {
 	public String templatePageList(HttpServletRequest request,Model model,
 			@RequestParam(value = "templatePageName", required = false , defaultValue="") String templatePageName){
 		Sql sql = new Sql(request);
-	    sql.setSearchTable("template_page");
-	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
-	    sql.setSearchColumn(new String[]{"name"});
-	    sql.appendWhere("siteid = "+getSiteId());
-	    //查询log数据表的记录总条数
-	    int count = sqlService.count("template_page", sql.getWhere());
-	    //每页显示100条
-	    Page page = new Page(count, 100, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM template_page", page);
-	    
-	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("id DESC");
-	    List<TemplatePage> list = sqlService.findBySql(sql, TemplatePage.class);
-	    
-	    ActionLogUtil.insert(request, "进入模版页列表", "第"+page.getCurrentPageNumber()+"页");
-	    
-	    
-	    if(templatePageName.length() > 0){
-	    	//如果 templatePageName 有值，那么会自动跳转进入编辑内容
-	    	if(templatePageName.equals("templatepage_type_index")){
-	    		//编辑当前网站的首页
-	    		for (int i = 0; i < list.size(); i++) {
-	    			TemplatePage tp = list.get(i);
-	    			if(tp.getType() - TemplatePage.TYPE_INDEX == 0){
-	    				model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
-	    				break;
-	    			}
+		sql.setSearchTable("template_page");
+		//增加添加搜索字段。这里的搜索字段跟log表的字段名对应
+		sql.setSearchColumn(new String[]{"name"});
+		sql.appendWhere("siteid = "+getSiteId());
+		//查询log数据表的记录总条数
+		int count = sqlService.count("template_page", sql.getWhere());
+		//每页显示100条
+		Page page = new Page(count, 100, request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT * FROM template_page", page);
+		
+		//当用户没有选择排序方式时，系统默认排序。
+		sql.setDefaultOrderBy("id DESC");
+		List<TemplatePage> list = sqlService.findBySql(sql, TemplatePage.class);
+		
+		ActionLogUtil.insert(request, "进入模版页列表", "第"+page.getCurrentPageNumber()+"页");
+		
+		
+		if(templatePageName.length() > 0){
+			//如果 templatePageName 有值，那么会自动跳转进入编辑内容
+			if(templatePageName.equals("templatepage_type_index")){
+				//编辑当前网站的首页
+				for (int i = 0; i < list.size(); i++) {
+					TemplatePage tp = list.get(i);
+					if(tp.getType() - TemplatePage.TYPE_INDEX == 0){
+						model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
+						break;
+					}
 				}
-	    	}else{
-	    		//编辑指定的 templatePage.name 页面
-	    		for (int i = 0; i < list.size(); i++) {
-	    			TemplatePage tp = list.get(i);
-	    			if(tp.getName().equals(templatePageName)){
-	    				model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
-	    				break;
-	    			}
+			}else{
+				//编辑指定的 templatePage.name 页面
+				for (int i = 0; i < list.size(); i++) {
+					TemplatePage tp = list.get(i);
+					if(tp.getName().equals(templatePageName)){
+						model.addAttribute("autoEditText", "<script>editText('"+tp.getName()+"','"+tp.getType()+"', '"+tp.getEditMode()+"');</script>");
+						break;
+					}
 				}
-	    	}
-	    }
-	    
-	    //将数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    return "template/templatePageList";
+			}
+		}
+		
+		//将数据记录传到页面以供显示
+		model.addAttribute("list", list);
+		return "template/templatePageList";
 	}
 	
 	/**
@@ -589,26 +591,26 @@ public class TemplateController extends BaseController {
 	public String templateVarListForUsed(HttpServletRequest request,Model model){
 		Site site = getSite();
 		Sql sql = new Sql(request);
-	    sql.setSearchTable("template_var");
-	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
-	    sql.setSearchColumn(new String[]{"name"});
-	    //如果templateName有值，才会加上templateName 进行查询
-	    sql.appendWhere("siteid = "+site.getId() + (site.getTemplateName() == null || site.getTemplateName().equals("") ? "":" AND template_name = '"+ site.getTemplateName() +"'"));
-	    //查询log数据表的记录总条数
-	    int count = sqlService.count("template_var", sql.getWhere());
-	    //每页显示100条
-	    Page page = new Page(count, 100, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM template_var", page);
-	    
-	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("id DESC");
-	    List<TemplateVar> list = sqlService.findBySql(sql, TemplateVar.class);
-	    
-	    ActionLogUtil.insert(request, "获取当前网站的模版变量列表，供编辑模版页使用");
-	    
-	    model.addAttribute("list", list);
-	    return "template/templateVarListForUsed";
+		sql.setSearchTable("template_var");
+		//增加添加搜索字段。这里的搜索字段跟log表的字段名对应
+		sql.setSearchColumn(new String[]{"name"});
+		//如果templateName有值，才会加上templateName 进行查询
+		sql.appendWhere("siteid = "+site.getId() + (site.getTemplateName() == null || site.getTemplateName().equals("") ? "":" AND template_name = '"+ site.getTemplateName() +"'"));
+		//查询log数据表的记录总条数
+		int count = sqlService.count("template_var", sql.getWhere());
+		//每页显示100条
+		Page page = new Page(count, 100, request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT * FROM template_var", page);
+		
+		//当用户没有选择排序方式时，系统默认排序。
+		sql.setDefaultOrderBy("id DESC");
+		List<TemplateVar> list = sqlService.findBySql(sql, TemplateVar.class);
+		
+		ActionLogUtil.insert(request, "获取当前网站的模版变量列表，供编辑模版页使用");
+		
+		model.addAttribute("list", list);
+		return "template/templateVarListForUsed";
 	}
 	
 	/**
@@ -678,7 +680,7 @@ public class TemplateController extends BaseController {
 		BaseVO vo = templateService.exportTemplate(request);
 		String fileName = "template"+DateUtil.currentDate("yyyyMMdd_HHmm")+".wscso".toString(); // 文件的默认保存名
 		//读到流中
-		InputStream inStream = new ByteArrayInputStream(vo.getInfo().getBytes("UTF-8"));  
+		InputStream inStream = new ByteArrayInputStream(vo.getInfo().getBytes("UTF-8"));
 		
 		ActionLogUtil.insert(request, "导出当前网站当前的模版文件");
 		
@@ -686,15 +688,15 @@ public class TemplateController extends BaseController {
 		response.reset();
 		response.setContentType("bin");
 		response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-	        // 循环取出流中的数据
+			// 循环取出流中的数据
 		byte[] b = new byte[1000];
 		int len;
 		try {
-		    while ((len = inStream.read(b)) > 0)
-		        response.getOutputStream().write(b, 0, len);
-		    inStream.close();
+			while ((len = inStream.read(b)) > 0)
+				response.getOutputStream().write(b, 0, len);
+			inStream.close();
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	
@@ -940,19 +942,19 @@ public class TemplateController extends BaseController {
 			}
 		}
 		
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("application/json; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try { 
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }
-	    }  
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 	
 
@@ -1254,11 +1256,11 @@ public class TemplateController extends BaseController {
 		}
 		
 		//获取便利选中的项
-		Map<String,String[]> map = (Map<String,String[]>)request.getParameterMap();  
+		Map<String,String[]> map = (Map<String,String[]>)request.getParameterMap();
 		List<String> paramList = new ArrayList<String>();
-        for(String name:map.keySet()){  
-           paramList.add(name);
-        }
+		for(String name:map.keySet()){
+			paramList.add(name);
+		}
 		
 		//获取用户选择好的要还原的模板的每项
 		RestoreTemplateSubmitCheckDataVO data = new RestoreTemplateSubmitCheckDataVO(paramList);
@@ -1272,14 +1274,14 @@ public class TemplateController extends BaseController {
 			
 			//若是制定了还原模板页面，则先从数据库中将其获取到最新信息
 			//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版页面
-		    String templateNameWhere = "";
-		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		    	templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
-		    }
-		    List<TemplatePage> templatePageList = sqlService.findBySqlQuery("SELECT * FROM template_page WHERE siteid = " + site.getId() + templateNameWhere, TemplatePage.class);
-		    List<TemplatePageData> templatePageDataList = sqlService.findBySqlQuery("SELECT template_page_data.* FROM template_page_data,template_page WHERE template_page.id = template_page_data.id AND siteid = " + site.getId() + templateNameWhere, TemplatePageData.class);
+			String templateNameWhere = "";
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+			}
+			List<TemplatePage> templatePageList = sqlService.findBySqlQuery("SELECT * FROM template_page WHERE siteid = " + site.getId() + templateNameWhere, TemplatePage.class);
+			List<TemplatePageData> templatePageDataList = sqlService.findBySqlQuery("SELECT template_page_data.* FROM template_page_data,template_page WHERE template_page.id = template_page_data.id AND siteid = " + site.getId() + templateNameWhere, TemplatePageData.class);
 			
-		    //将用户当前网站的模板页面，list转化为map，方便取
+			//将用户当前网站的模板页面，list转化为map，方便取
 			for (int i = 0; i < templatePageList.size(); i++) {
 				TemplatePage tp = templatePageList.get(i);
 				templatePageMap.put(tp.getName(), tp);
@@ -1337,14 +1339,14 @@ public class TemplateController extends BaseController {
 			
 			//若是制定了还原模板变量，则先从数据库中将其获取到最新信息
 			//模版变量的变量名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-		    String templateNameWhere = "";
-		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-		    }
-		    List<TemplateVar> templateVarList = sqlService.findBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere, TemplateVar.class);
-		    List<TemplateVarData> templateVarDataList = sqlService.findBySqlQuery("SELECT template_var_data.* FROM template_var_data,template_var WHERE template_var.id = template_var_data.id AND siteid = " + site.getId() + templateNameWhere, TemplateVarData.class);
+			String templateNameWhere = "";
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+			}
+			List<TemplateVar> templateVarList = sqlService.findBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere, TemplateVar.class);
+			List<TemplateVarData> templateVarDataList = sqlService.findBySqlQuery("SELECT template_var_data.* FROM template_var_data,template_var WHERE template_var.id = template_var_data.id AND siteid = " + site.getId() + templateNameWhere, TemplateVarData.class);
 			
-		    //将用户当前网站的模板变量，list转化为map，方便取
+			//将用户当前网站的模板变量，list转化为map，方便取
 			for (int i = 0; i < templateVarList.size(); i++) {
 				TemplateVar tv = templateVarList.get(i);
 				templateVarMap.put(tv.getVarName(), tv);
@@ -1406,9 +1408,9 @@ public class TemplateController extends BaseController {
 			Map<String, InputModel> backupsInputModelMap = new HashMap<String, InputModel>();	//要还原的备份的输入模型，之后用到时直接从map取   key:codeName
 			
 			//若是指定了还原输入模型，则先从数据库中将其获取到最新信息
-		    List<InputModel> inputModelList = sqlService.findBySqlQuery("SELECT * FROM input_model WHERE siteid = " + site.getId(), InputModel.class);
+			List<InputModel> inputModelList = sqlService.findBySqlQuery("SELECT * FROM input_model WHERE siteid = " + site.getId(), InputModel.class);
 			
-		    //将用户当前网站的输入模型，list转化为map，方便取
+			//将用户当前网站的输入模型，list转化为map，方便取
 			for (int i = 0; i < inputModelList.size(); i++) {
 				InputModel im= inputModelList.get(i);
 				inputModelMap.put(im.getCodeName(), im);
@@ -1447,9 +1449,9 @@ public class TemplateController extends BaseController {
 			Map<String, SiteColumn> backupsSiteColumnMap = new HashMap<String, SiteColumn>();	//要还原的备份的栏目，之后用到时直接从map取   key:codeName
 			
 			//若是制定了还原栏目，则先从数据库中将其获取到最新信息
-		    List<SiteColumn> siteColumnList = sqlService.findBySqlQuery("SELECT * FROM site_column WHERE siteid = " + site.getId(), SiteColumn.class);
+			List<SiteColumn> siteColumnList = sqlService.findBySqlQuery("SELECT * FROM site_column WHERE siteid = " + site.getId(), SiteColumn.class);
 			
-		    //将用户当前网站的栏目，list转化为map，方便取
+			//将用户当前网站的栏目，list转化为map，方便取
 			for (int i = 0; i < siteColumnList.size(); i++) {
 				SiteColumn sc = siteColumnList.get(i);
 				siteColumnMap.put(sc.getCodeName(), sc);

@@ -1,21 +1,17 @@
 package com.xnx3.wangmarket.admin.controller;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.xnx3.DateUtil;
-import com.xnx3.j2ee.Global;
+
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.UserService;
-import com.xnx3.j2ee.shiro.ShiroFunc;
-import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.MailUtil;
-import com.xnx3.wangmarket.admin.entity.Exchange;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 
@@ -119,9 +115,9 @@ public class CurrencyController extends BaseController {
 //				ActionLogUtil.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，申请已提交");
 //				return success();
 //			} catch (Exception e) {
-//			    sqlService.delete(exchange);
-//			    ActionLogUtil.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
-//			    return error("您的积分校验异常，请重新尝试！");
+//				sqlService.delete(exchange);
+//				ActionLogUtil.insertUpdateDatabase(request, exchange.getId(), "用户申请用积分："+goods.getMoney()+"，兑换商品："+goods.getType()+"，出现异常！申请记录自动删除");
+//				return error("您的积分校验异常，请重新尝试！");
 //			}
 //		}else{
 //			return error("兑换失败，请再次尝试。若多次仍失败，请联系管理员");

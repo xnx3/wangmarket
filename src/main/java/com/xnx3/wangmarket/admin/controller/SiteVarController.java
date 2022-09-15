@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
@@ -25,8 +25,6 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteUser;
 import com.xnx3.wangmarket.admin.entity.SiteVar;
 import com.xnx3.wangmarket.admin.entity.Template;
-import com.xnx3.wangmarket.admin.entity.TemplateVar;
-import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
@@ -60,28 +58,28 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		//将json转化为list形式
 		List<SiteVarBean> list = new ArrayList<SiteVarBean>();
 		Iterator<String> iter = json.keys();
-        while (iter.hasNext()) {
-        	String key = iter.next();
-            SiteVarBean bean = new SiteVarBean();
-            JSONObject item = json.getJSONObject(key);
-            
-            bean.setName(key);
-            bean.setDescription(item.getString("description"));
-            bean.setValue(template.replacePublicTag(item.getString("value").replaceAll("\r|\n", " ")));
-            if(item.get("type") == null){
-            	bean.setType(SiteVar.TYPE_TEXT);
+		while (iter.hasNext()) {
+			String key = iter.next();
+			SiteVarBean bean = new SiteVarBean();
+			JSONObject item = json.getJSONObject(key);
+			
+			bean.setName(key);
+			bean.setDescription(item.getString("description"));
+			bean.setValue(template.replacePublicTag(item.getString("value").replaceAll("\r|\n", " ")));
+			if(item.get("type") == null){
+				bean.setType(SiteVar.TYPE_TEXT);
 			}else{
 				bean.setType(item.getString("type"));
 			}
-            if(item.get("title") == null){
-            	bean.setTitle(bean.getDescription());
+			if(item.get("title") == null){
+				bean.setTitle(bean.getDescription());
 			}else{
 				bean.setTitle(item.getString("title"));
 			}
-            
-            
-            if(item.get("valueItems") == null){
-            	bean.setValueItems("");
+			
+			
+			if(item.get("valueItems") == null){
+				bean.setValueItems("");
 			}else{
 				bean.setValueItems("");
 				
@@ -104,12 +102,12 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 					bean.setValueItems(sb.toString());
 				}
 			}
-            
-            list.add(bean);
-        }
+			
+			list.add(bean);
+		}
 		
-        
-        SiteUser siteUser = SessionUtil.getSiteUser();
+		
+		SiteUser siteUser = SessionUtil.getSiteUser();
 		if(siteUser == null || siteUser.getSiteid() == null){
 			//主账号
 			model.addAttribute("isSubAccount", "0");	//是否是子账号，不是
@@ -117,8 +115,8 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			//子客户，只能看到修改
 			model.addAttribute("isSubAccount", "1");	//是否是子账号,是
 		}
-        
-        ActionLogUtil.insert(request, "查看网站全局变量列表");
+		
+		ActionLogUtil.insert(request, "查看网站全局变量列表");
 		model.addAttribute("list", list);
 		return "siteVar/list";
 	}

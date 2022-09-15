@@ -3,15 +3,19 @@ package com.xnx3.wangmarket.admin.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
@@ -40,7 +44,6 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 
@@ -69,32 +72,32 @@ public class ColumnController extends BaseController {
 	 */
 	@RequestMapping("/list${url.suffix}")
 	public String list(HttpServletRequest request,Model model){
-	    Sql sql = new Sql(request);
-	    sql.setSearchTable("site_column");
-	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
-	    sql.setSearchColumn(new String[]{});
-	    sql.appendWhere("userid = "+getUserId());
-	    //查询log数据表的记录总条数
-	    int count = sqlService.count("site_column", sql.getWhere());
-	    //每页显示300条
-	    Page page = new Page(count, 300, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM site_column", page);
-	    
-	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("site_column.rank ASC");
-	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
-	    List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
-	    
-	    ActionLogUtil.insert(request, "查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
-	    
-	    //将数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    //将分页信息传到页面以供显示
-	    model.addAttribute("page", page);
-	    model.addAttribute("siteid", getSiteId());
-	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
-	    return "column/list";
+		Sql sql = new Sql(request);
+		sql.setSearchTable("site_column");
+		//增加添加搜索字段。这里的搜索字段跟log表的字段名对应
+		sql.setSearchColumn(new String[]{});
+		sql.appendWhere("userid = "+getUserId());
+		//查询log数据表的记录总条数
+		int count = sqlService.count("site_column", sql.getWhere());
+		//每页显示300条
+		Page page = new Page(count, 300, request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT * FROM site_column", page);
+		
+		//当用户没有选择排序方式时，系统默认排序。
+		sql.setDefaultOrderBy("site_column.rank ASC");
+		//因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
+		List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
+		
+		ActionLogUtil.insert(request, "查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
+		
+		//将数据记录传到页面以供显示
+		model.addAttribute("list", list);
+		//将分页信息传到页面以供显示
+		model.addAttribute("page", page);
+		model.addAttribute("siteid", getSiteId());
+		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
+		return "column/list";
 	}
 	
 	/**
@@ -103,34 +106,34 @@ public class ColumnController extends BaseController {
 	 */
 	@RequestMapping("/popupList${url.suffix}")
 	public String popupList(HttpServletRequest request,Model model){
-	    Sql sql = new Sql(request);
-	    sql.setSearchTable("site_column");
-	    //增加添加搜索字段。这里的搜索字段跟log表的字段名对应
-	    sql.setSearchColumn(new String[]{});
-	    sql.appendWhere("siteid = "+getSiteId()+" AND userid = "+getUserId());
-	    //查询log数据表的记录总条数
-	    int count = sqlService.count("site_column", sql.getWhere());
-	    //每页显示300条
-	    Page page = new Page(count, 300, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT * FROM site_column", page);
-	    
-	    //当用户没有选择排序方式时，系统默认排序。
-	    sql.setDefaultOrderBy("site_column.rank ASC");
-	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
-	    List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
-	    
-	    ActionLogUtil.insert(request, "针对PC端通用模版模式下，查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
-	    
-	    //将数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    //将分页信息传到页面以供显示
-	    model.addAttribute("page", page);
-	    model.addAttribute("siteid", getSiteId());
-	    model.addAttribute("site", getSite());
-	    model.addAttribute("cursorStyle", (getSite().getTemplateName()!=null && getSite().getTemplateName().length()>0) ? "":"cursor: all-scroll;");
-	    model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
-	    return "column/popup_list";
+		Sql sql = new Sql(request);
+		sql.setSearchTable("site_column");
+		//增加添加搜索字段。这里的搜索字段跟log表的字段名对应
+		sql.setSearchColumn(new String[]{});
+		sql.appendWhere("siteid = "+getSiteId()+" AND userid = "+getUserId());
+		//查询log数据表的记录总条数
+		int count = sqlService.count("site_column", sql.getWhere());
+		//每页显示300条
+		Page page = new Page(count, 300, request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT * FROM site_column", page);
+		
+		//当用户没有选择排序方式时，系统默认排序。
+		sql.setDefaultOrderBy("site_column.rank ASC");
+		//因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
+		List<SiteColumn> list = sqlService.findBySql(sql, SiteColumn.class);
+		
+		ActionLogUtil.insert(request, "针对PC端通用模版模式下，查看栏目列表", "第"+page.getCurrentPageNumber()+"页");
+		
+		//将数据记录传到页面以供显示
+		model.addAttribute("list", list);
+		//将分页信息传到页面以供显示
+		model.addAttribute("page", page);
+		model.addAttribute("siteid", getSiteId());
+		model.addAttribute("site", getSite());
+		model.addAttribute("cursorStyle", (getSite().getTemplateName()!=null && getSite().getTemplateName().length()>0) ? "":"cursor: all-scroll;");
+		model.addAttribute("AttachmentFileUrl", AttachmentUtil.netUrl());
+		return "column/popup_list";
 	}
 	
 	/**
@@ -139,14 +142,14 @@ public class ColumnController extends BaseController {
 	@RequestMapping("/popupListForTemplate${url.suffix}")
 	public String popupListForTemplate(HttpServletRequest request,Model model){
 		List<SiteColumnTreeVO> list = siteColumnService.getSiteColumnTreeVOByCache();
-	    
+		
 		ActionLogUtil.insert(request, "CMS模式下，获取网站下的栏目列表");
 		
-	    //将数据记录传到页面以供显示
-	    model.addAttribute("list", list);
-	    //将分页信息传到页面以供显示
-	    model.addAttribute("site", getSite());
-	    return "column/popupListForTemplate";
+		//将数据记录传到页面以供显示
+		model.addAttribute("list", list);
+		//将分页信息传到页面以供显示
+		model.addAttribute("site", getSite());
+		return "column/popupListForTemplate";
 	}
 	
 	/**
@@ -257,7 +260,7 @@ public class ColumnController extends BaseController {
 	/**
 	 * CMS模式建站，添加／修改栏目
 	 * @param id 栏目id，若是修改栏目，需要传入其id，若是添加，不用理会
-	 * @param isCopy 是否是要复制一个栏目来创建  0:不是复制     1:复制一个目标栏目来快速创建栏目，此时要清空siteColumn.id为null
+	 * @param isCopy 是否是要复制一个栏目来创建  0:不是复制	 1:复制一个目标栏目来快速创建栏目，此时要清空siteColumn.id为null
 	 */
 	@RequestMapping("/popupColumnForTemplate${url.suffix}")
 	public String popupColumnForTemplate(HttpServletRequest request,Model model,
