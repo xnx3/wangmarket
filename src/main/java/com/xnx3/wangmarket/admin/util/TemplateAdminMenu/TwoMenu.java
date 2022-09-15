@@ -1,16 +1,16 @@
 package com.xnx3.wangmarket.admin.util.TemplateAdminMenu;
 
 public class TwoMenu {
-	private String twoMenu_dd_id;		//二级菜单中，dd标签的id
-	private String twoMenu_a_id;			//二级菜单中，a标签的id
-	private String twoMenu_a_href;		//二级菜单中，a标签的href
-	private String twoMenu_font;			//二级菜单中，a标签的文字，如： 模版页面
+	private String twoMenu_dd_id;	//二级菜单中，dd标签的id
+	private String twoMenu_a_id;	//二级菜单中，a标签的id
+	private String twoMenu_a_href;	//二级菜单中，a标签的href
+	private String twoMenu_font;	//二级菜单中，a标签的文字，如： 模版页面
 	
 	
 	public static void main(String[] args) {
 		
 		for (TemplateMenuEnum e : TemplateMenuEnum.values()) { 
-		    System.out.println(e.id); 
+			System.out.println(e.id); 
 		} 
 		
 	}

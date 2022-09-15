@@ -38,10 +38,10 @@ public enum TemplateMenuEnum {
 	
 	
 	
-	public final String id;	//id，如 jibenxinxi 一级menu是直接就是id，但是二级不是直接用，加tag前缀，如 dd_jibenxinxi 、 a_jibenxinxi
-	public final String name;	//菜单所显示的文字，如 基本信息
-	public final String href;	//a标签的href的值
-	public final String icon;	//一级菜单才有，也就是顶级菜单，前面会有个图标。这个就是。值如：&#xe620;
+	public final String id;			//id，如 jibenxinxi 一级menu是直接就是id，但是二级不是直接用，加tag前缀，如 dd_jibenxinxi 、 a_jibenxinxi
+	public final String name;		//菜单所显示的文字，如 基本信息
+	public final String href;		//a标签的href的值
+	public final String icon;		//一级菜单才有，也就是顶级菜单，前面会有个图标。这个就是。值如：&#xe620;
 	public final String parentid;	//父菜单，上级菜单的id，如果已经是顶级菜单，这里没有值，为“”空字符串
 	
 	private TemplateMenuEnum(String id, String name, String href, String icon, String parentid) { 

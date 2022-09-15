@@ -34,29 +34,29 @@ public class RabbitUtil{
 		isUse = true;
 	}
 	
-    /**
-     * 发送 topic 消息。所有消费端都可以接收到
-     * @param routingKey 路由键，如 com.xnx3.wangmarket
-     * @param content 发送的消息内容
-     * @throws IOException
-     * @throws TimeoutException
-     */
-    public static void sendTopicMessage(String routingKey, String content){
-    	try {
-    		rabbitUtil.getChannel().basicPublish(EXCHANGE_NAME, routingKey, null, content.getBytes());
+	/**
+	 * 发送 topic 消息。所有消费端都可以接收到
+	 * @param routingKey 路由键，如 com.xnx3.wangmarket
+	 * @param content 发送的消息内容
+	 * @throws IOException
+	 * @throws TimeoutException
+	 */
+	public static void sendTopicMessage(String routingKey, String content){
+		try {
+			rabbitUtil.getChannel().basicPublish(EXCHANGE_NAME, routingKey, null, content.getBytes());
 		} catch (IOException | TimeoutException e) {
 			e.printStackTrace();
 		}
 	}
 
-    public static void receive(String routingKey, Consumer consumer) throws IOException, TimeoutException{
-    	// 当声明队列，不加任何参数，产生的将是一个临时队列，getQueue返回的是队列名称
-//        String queue = rabbitUtil.getChannel().queueDeclare().getQueue();
-    	String queue = "queue_"+Lang.uuid();
-        rabbitUtil.getChannel().queueDeclare(queue, true, false, false, null);
-        ConsoleUtil.info("创建队列， routingKey："+routingKey+" , queue: "+queue);
-        rabbitUtil.getChannel().queueBind(queue, EXCHANGE_NAME, routingKey);
-        rabbitUtil.getChannel().basicConsume(queue, true, consumer);
+	public static void receive(String routingKey, Consumer consumer) throws IOException, TimeoutException{
+		// 当声明队列，不加任何参数，产生的将是一个临时队列，getQueue返回的是队列名称
+//		String queue = rabbitUtil.getChannel().queueDeclare().getQueue();
+		String queue = "queue_"+Lang.uuid();
+		rabbitUtil.getChannel().queueDeclare(queue, true, false, false, null);
+		ConsoleUtil.info("创建队列， routingKey："+routingKey+" , queue: "+queue);
+		rabbitUtil.getChannel().queueBind(queue, EXCHANGE_NAME, routingKey);
+		rabbitUtil.getChannel().basicConsume(queue, true, consumer);
 	}
 	
 }

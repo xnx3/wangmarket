@@ -3,9 +3,7 @@ package com.xnx3.wangmarket.admin.util;
 import java.io.File;
 
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SystemUtil;
-import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 
 /**
  * wangmarket 数据相关的data文件相关

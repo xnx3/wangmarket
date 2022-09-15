@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.xnx3.j2ee.pluginManage.PluginManage;
 import com.xnx3.j2ee.pluginManage.PluginRegister;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.FirstMenu;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.MenuBean;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenu.TemplateMenuEnum;
