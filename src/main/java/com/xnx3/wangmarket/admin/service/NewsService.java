@@ -58,7 +58,7 @@ public interface NewsService {
 	public void generateViewHtmlForTemplate(Site site, News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request);
 	
 	/**
-	 * 新闻、独立页面、图文详情页面的内容text,在用户编辑完成后保存时，将附件、图片等OSS存储的资源路径替换，将 "http://......com/site/14/" 替换为 {prefixUrl}  
+	 * 新闻、独立页面、图文详情页面的内容text,在用户编辑完成后保存时，将附件、图片等OSS存储的资源路径替换，将 "http://......com/site/14/" 替换为 {prefixUrl}
 	 * @param text 内容详情
 	 * @param siteId 站点的id
 	 */

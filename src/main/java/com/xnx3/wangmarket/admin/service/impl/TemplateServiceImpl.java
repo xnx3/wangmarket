@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
@@ -39,7 +41,6 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateHtmlStorateInterfaceManage;
-import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
@@ -54,6 +55,8 @@ import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarAndDataMapVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarListVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
+
+import net.sf.json.JSONObject;
 
 @Service("TemplateService")
 public class TemplateServiceImpl implements TemplateService {
@@ -87,12 +90,12 @@ public class TemplateServiceImpl implements TemplateService {
 			//登陆后第一次取，缓存中还尚未存储，那么读数据表，取出后存入缓存
 			
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
-		    String templateNameWhere = "";
-		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		    	templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
-		    }
+			String templateNameWhere = "";
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+			}
 			
-		    //从数据库中取
+			//从数据库中取
 			List<TemplatePage> templateList = sqlDAO.findBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId() + templateNameWhere, TemplatePage.class);
 			
 			List<TemplatePageVO> templatePageVOList = new ArrayList<TemplatePageVO>();
@@ -115,12 +118,12 @@ public class TemplateServiceImpl implements TemplateService {
 		TemplatePageListVO vo = new TemplatePageListVO();
 			
 		//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
-	    String templateNameWhere = "";
-	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-	    	templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
-	    }
+		String templateNameWhere = "";
+		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+		}
 		
-	    //从数据库中取
+		//从数据库中取
 		List<TemplatePage> templateList = sqlDAO.findBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId() + templateNameWhere, TemplatePage.class);
 		
 		List<TemplatePageVO> templatePageVOList = new ArrayList<TemplatePageVO>();
@@ -262,53 +265,53 @@ public class TemplateServiceImpl implements TemplateService {
 			if(html.indexOf("<!--templateVarStart-->") > -1){
 				Template temp = new Template(site);
 				Pattern p = Pattern.compile("<!--templateVarStart-->([\\s|\\S]*?)<!--templateVarEnd-->");
-		        Matcher m = p.matcher(html);
-		        while (m.find()) {
-		        	String templateVarText = m.group(1);	//<!--templateVarName=-->+模版变量的内容
-		        	String templateVarName = temp.getConfigValue(templateVarText, "templateVarName");	//模版变量的名字
-		        	templateVarName = Sql.filter(templateVarName);
-		        	
-		        	//替换出当前模版变量的内容，即去掉templateVarText注释
-		        	templateVarText = templateVarText.replace("<!--templateVarName="+templateVarName+"-->", "");
-		        	
-		        	//判断模版变量是否有过变动，当前用户是否修改过模版变量，如果修改过，将修改过的模版变量保存
-		        	//从内存中取模版变量内容
-		        	String content = null;
-		        	BaseVO tvVO = getTemplateVarByCache(templateVarName);
-		        	if(tvVO.getResult() - BaseVO.SUCCESS == 0){
-		        		content = tvVO.getInfo();
-		        	}else{
-		        		vo.setBaseVO(BaseVO.FAILURE, "其中使用的模版变量“"+templateVarName+"”不存在！保存失败，请检查修改后再尝试保存");
-		    			return vo;
-		        	}
-//		        	String content = G.templateVarMap.get(site.getTemplateName()).get(templateVarName);
-		        	
-		        	//讲用户保存的跟内存中的模版变量内容比较，是否一样，若不一样，要将当前的保存
-		        	if(!(content.replaceAll("\r|\n|\t", "").equals(templateVarText.replaceAll("\r|\n|\t", "")))){
-		        		//不一样，进行保存
-		        		
-		        	    //模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-		        	    String templateNameWhere = "";
-		        	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		        	    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-		        	    }
-		        		com.xnx3.wangmarket.admin.entity.TemplateVar tv = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere + " AND var_name = '"+templateVarName+"'", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
-		        		if(tv != null){
-		        			tv.setUpdatetime(DateUtil.timeForUnix10());
-			        		sqlDAO.save(tv);
-			        		
-			        		TemplateVarData templateVarData = sqlDAO.findById(TemplateVarData.class, tv.getId());
-			        		templateVarData.setText(templateVarText);
-			        		sqlDAO.save(templateVarData);
-			        		
-			        		//保存完后，要将其更新到全局缓存中
-			        		updateTemplateVarForCache(tv, templateVarData);
-		        		}
-		        	}
-		        	
-//		            将用户保存的当前的模版页面，模版变量摘除出来，还原为模版调用的模式
-		            html = html.replaceAll("<!--templateVarStart--><!--templateVarName="+templateVarName+"-->([\\s|\\S]*?)<!--templateVarEnd-->", "{include="+templateVarName+"}");
-		        }
+				Matcher m = p.matcher(html);
+				while (m.find()) {
+					String templateVarText = m.group(1);	//<!--templateVarName=-->+模版变量的内容
+					String templateVarName = temp.getConfigValue(templateVarText, "templateVarName");	//模版变量的名字
+					templateVarName = Sql.filter(templateVarName);
+					
+					//替换出当前模版变量的内容，即去掉templateVarText注释
+					templateVarText = templateVarText.replace("<!--templateVarName="+templateVarName+"-->", "");
+					
+					//判断模版变量是否有过变动，当前用户是否修改过模版变量，如果修改过，将修改过的模版变量保存
+					//从内存中取模版变量内容
+					String content = null;
+					BaseVO tvVO = getTemplateVarByCache(templateVarName);
+					if(tvVO.getResult() - BaseVO.SUCCESS == 0){
+						content = tvVO.getInfo();
+					}else{
+						vo.setBaseVO(BaseVO.FAILURE, "其中使用的模版变量“"+templateVarName+"”不存在！保存失败，请检查修改后再尝试保存");
+						return vo;
+					}
+//					String content = G.templateVarMap.get(site.getTemplateName()).get(templateVarName);
+					
+					//讲用户保存的跟内存中的模版变量内容比较，是否一样，若不一样，要将当前的保存
+					if(!(content.replaceAll("\r|\n|\t", "").equals(templateVarText.replaceAll("\r|\n|\t", "")))){
+						//不一样，进行保存
+						
+						//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
+						String templateNameWhere = "";
+						if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+							templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+						}
+						com.xnx3.wangmarket.admin.entity.TemplateVar tv = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere + " AND var_name = '"+templateVarName+"'", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
+						if(tv != null){
+							tv.setUpdatetime(DateUtil.timeForUnix10());
+							sqlDAO.save(tv);
+							
+							TemplateVarData templateVarData = sqlDAO.findById(TemplateVarData.class, tv.getId());
+							templateVarData.setText(templateVarText);
+							sqlDAO.save(templateVarData);
+							
+							//保存完后，要将其更新到全局缓存中
+							updateTemplateVarForCache(tv, templateVarData);
+						}
+					}
+					
+//					将用户保存的当前的模版页面，模版变量摘除出来，还原为模版调用的模式
+					html = html.replaceAll("<!--templateVarStart--><!--templateVarName="+templateVarName+"-->([\\s|\\S]*?)<!--templateVarEnd-->", "{include="+templateVarName+"}");
+				}
 			}
 			
 		}
@@ -518,10 +521,10 @@ public class TemplateServiceImpl implements TemplateService {
 //			
 //			//复制TemplateVar模版变量
 //			//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-//		    String templateNameWhere = "";
-//		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-//		    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-//		    }
+//			String templateNameWhere = "";
+//			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+//				templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+//			}
 //			List<Map<String, Object>> templateVarList = sqlDAO.findMapBySqlQuery("SELECT template_var.remark, template_var.var_name, template_var_data.text FROM template_var,template_var_data WHERE template_var.id = template_var_data.id AND template_var.siteid = "+site.getId() + templateNameWhere);
 //			for (int i = 0; i < templateVarList.size(); i++) {
 //				Map<String, Object> map = templateVarList.get(i);
@@ -735,18 +738,18 @@ public class TemplateServiceImpl implements TemplateService {
 		JSONObject siteVarJson = siteVarService.getVar(site.getId());
 		JSONObject utf8SiteVar = new JSONObject();
 		Iterator iter = siteVarJson.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            JSONObject textObj = (JSONObject)entry.getValue();
-            
-            JSONObject uft8SubJson = new JSONObject();
-            Iterator subIter = textObj.entrySet().iterator();
-            while (subIter.hasNext()) {
-            	Map.Entry subEntry = (Map.Entry) subIter.next();
-            	uft8SubJson.put(subEntry.getKey(), StringUtil.StringToUtf8((String) subEntry.getValue()));
-            }
-            utf8SiteVar.put(entry.getKey(), uft8SubJson);
-        }
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			JSONObject textObj = (JSONObject)entry.getValue();
+			
+			JSONObject uft8SubJson = new JSONObject();
+			Iterator subIter = textObj.entrySet().iterator();
+			while (subIter.hasNext()) {
+				Map.Entry subEntry = (Map.Entry) subIter.next();
+				uft8SubJson.put(subEntry.getKey(), StringUtil.StringToUtf8((String) subEntry.getValue()));
+			}
+			utf8SiteVar.put(entry.getKey(), uft8SubJson);
+		}
 		
 		
 		JSONObject jo = new JSONObject();
@@ -942,13 +945,13 @@ public class TemplateServiceImpl implements TemplateService {
 	public List<com.xnx3.wangmarket.admin.entity.TemplateVar> getTemplateVarList(){
 		Site site = SessionUtil.getSite();
 
-	    //模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-	    String templateNameWhere = "";
-	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-	    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-	    }
-	    
-	    return sqlDAO.findBySqlQuery("SELECT * FROM template_var WHERE siteid = "+site.getId() + templateNameWhere + " ORDER BY id DESC", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
+		//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
+		String templateNameWhere = "";
+		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+		}
+		
+		return sqlDAO.findBySqlQuery("SELECT * FROM template_var WHERE siteid = "+site.getId() + templateNameWhere + " ORDER BY id DESC", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
 	}
 
 	public BaseVO deleteTemplatePageForCache(int templatePageId, HttpServletRequest request) {
@@ -1028,12 +1031,12 @@ public class TemplateServiceImpl implements TemplateService {
 			Site site = SessionUtil.getSite();
 			
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
-		    String templateNameWhere = "";
-		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		    	templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
-		    }
-		    
-		    //从数据库中拉取 pageData的列表
+			String templateNameWhere = "";
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+			}
+			
+			//从数据库中拉取 pageData的列表
 			List<TemplatePageData> tpdList = sqlDAO.findBySqlQuery("SELECT template_page_data.* FROM template_page, template_page_data WHERE template_page.id = template_page_data.id AND siteid = "+site.getId() + templateNameWhere, TemplatePageData.class);
 		
 			//将拉取的pageData列表，由List转换为Map，方便随时取。map key: template_page.id
@@ -1072,12 +1075,12 @@ public class TemplateServiceImpl implements TemplateService {
 			Site site = SessionUtil.getSite();
 			
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
-		    String templateNameWhere = "";
-		    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-		    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-		    }
-		    
-		    //从数据库中拉取 varData的列表
+			String templateNameWhere = "";
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+			}
+			
+			//从数据库中拉取 varData的列表
 			List<TemplateVarData> tvdList = sqlDAO.findBySqlQuery("SELECT template_var_data.* FROM template_var, template_var_data WHERE template_var.id = template_var_data.id AND siteid = "+site.getId() + templateNameWhere, TemplateVarData.class);
 		
 			//将拉取的varData列表，由List转换为Map，方便随时取。map key: template_var.id
@@ -1222,11 +1225,11 @@ public class TemplateServiceImpl implements TemplateService {
 			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
 			if(siteColumn.getListRank() != null && siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
 				Collections.sort(nList, new Comparator<News>() {
-		            public int compare(News n1, News n2) {
-	                	//按照发布时间正序排序，发布时间越早，排列越靠前
-	                	return n1.getAddtime() - n2.getAddtime();
-		            }
-		        });
+					public int compare(News n1, News n2) {
+						//按照发布时间正序排序，发布时间越早，排列越靠前
+						return n1.getAddtime() - n2.getAddtime();
+					}
+				});
 			}
 			
 			columnMap.put(siteColumn.getCodeName(), siteColumn);
@@ -1321,16 +1324,16 @@ public class TemplateServiceImpl implements TemplateService {
 			if(sct.getList().size() > 0){
 //				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
 				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
-		            public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
-		                if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
-		                	//按照发布时间正序排序，发布时间越早，排列越靠前
-		                	return n2.getNews().getAddtime() - n1.getNews().getAddtime();
-		                }else{
-		                	//按照发布时间倒序排序，发布时间越晚，排列越靠前
-		                	return n1.getNews().getAddtime() - n2.getNews().getAddtime();
-		                }
-		            }
-		        });
+					public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
+						if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+							//按照发布时间正序排序，发布时间越早，排列越靠前
+							return n2.getNews().getAddtime() - n1.getNews().getAddtime();
+						}else{
+							//按照发布时间倒序排序，发布时间越晚，排列越靠前
+							return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+						}
+					}
+				});
 				
 			}
 		}
@@ -1391,7 +1394,7 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		
 		//v4.7加入，避免没有模版变量时，生成整站报错
-		for (Map.Entry<String, TemplateVarVO> entry : templateVarVOMapForOriginal.entrySet()) {  
+		for (Map.Entry<String, TemplateVarVO> entry : templateVarVOMapForOriginal.entrySet()) {
 			//替换公共标签
 			String v = template.replacePublicTag(entry.getValue().getTemplateVarData().getText());
 			//替换栏目的动态调用标签
@@ -1562,10 +1565,10 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		
 		//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
-	    String templateNameWhere = "";
-	    if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-	    	templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
-	    }
+		String templateNameWhere = "";
+		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+		}
 
 		//从数据库中取模板变量主表、内容表
 		List<com.xnx3.wangmarket.admin.entity.TemplateVar> templateVarList = sqlDAO.findBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere, com.xnx3.wangmarket.admin.entity.TemplateVar.class);

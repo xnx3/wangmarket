@@ -6,14 +6,16 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SafetyUtil;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
@@ -68,16 +70,16 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 		}
 		//根据rank排序
 		Collections.sort(siteColumnTreeVOList,new Comparator<SiteColumnTreeVO>(){
-            public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
-//            	if(arg0.getSiteColumn().getRank() == null){
-//            		arg0.getSiteColumn().setRank(0);
-//            	}
-//            	if(arg1.getSiteColumn().getRank() == null){
-//            		arg1.getSiteColumn().setRank(0);
-//            	}
-                return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
-            }
-        });
+			public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
+//				if(arg0.getSiteColumn().getRank() == null){
+//					arg0.getSiteColumn().setRank(0);
+//				}
+//				if(arg1.getSiteColumn().getRank() == null){
+//					arg1.getSiteColumn().setRank(0);
+//				}
+				return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
+			}
+		});
 		
 		//然后，列出二级栏目
 		for (Map.Entry<Integer, SiteColumn> entry : siteColumnMap.entrySet()) {
@@ -105,10 +107,10 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 				List<SiteColumnTreeVO> list = vo.getList();
 				//将某个父栏目内的子栏目进行排序
 				Collections.sort(list,new Comparator<SiteColumnTreeVO>(){
-		            public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
-		                return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
-		            }
-		        });
+					public int compare(SiteColumnTreeVO arg0, SiteColumnTreeVO arg1) {
+						return arg0.getSiteColumn().getRank().compareTo(arg1.getSiteColumn().getRank());
+					}
+				});
 			}
 		}
 		

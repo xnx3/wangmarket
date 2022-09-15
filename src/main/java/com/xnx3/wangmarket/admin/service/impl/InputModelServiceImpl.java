@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.xnx3.FileUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.News;
@@ -50,7 +51,7 @@ public class InputModelServiceImpl implements InputModelService {
 		Map<Integer, InputModel> map = getInputModelBySession();
 		
 		List<InputModel> inputModelList = new ArrayList<InputModel>();
-		for (InputModel model : map.values()) {  
+		for (InputModel model : map.values()) {
 			inputModelList.add(model);
 		}
 		return inputModelList;
@@ -167,10 +168,10 @@ public class InputModelServiceImpl implements InputModelService {
 			Map<String, Boolean> map = new HashMap<String, Boolean>();
 			if(text.indexOf("extend.") > 0){
 				Pattern p = Pattern.compile(Template.regex("news.extend.(\\w*?)"));
-		        Matcher m = p.matcher(text);
-		        while(m.find()){
-		        	map.put(m.group(1), true);
-		        }
+				Matcher m = p.matcher(text);
+				while(m.find()){
+					map.put(m.group(1), true);
+				}
 			}
 			
 			if(news == null || news.getId() == null){
@@ -185,8 +186,8 @@ public class InputModelServiceImpl implements InputModelService {
 				//v4.6,自定义 extend
 				if(map.size() > 0){
 					for (Map.Entry<String, Boolean> entry : map.entrySet()) {
-			        	text = text.replaceAll(Template.regex("news.extend."+entry.getKey()), "");
-			        }
+						text = text.replaceAll(Template.regex("news.extend."+entry.getKey()), "");
+					}
 				}
 				
 			}else{
@@ -204,7 +205,7 @@ public class InputModelServiceImpl implements InputModelService {
 				if(map.size() > 0){
 					for (Map.Entry<String, Boolean> entry : map.entrySet()) {
 						text = Template.replaceAll(text, Template.regex("news.extend."+entry.getKey()), newsInit.getNewsDataBean().getExtendJson(entry.getKey()));
-			        }
+					}
 				}
 			}
 		}
@@ -214,11 +215,11 @@ public class InputModelServiceImpl implements InputModelService {
 	public InputModel getInputModelBySiteColumn(SiteColumn siteColumn) {
 		Map<Integer, InputModel> map = getInputModelBySession(siteColumn.getSiteid());
 		for (Integer key : map.keySet()) {
-		   InputModel inputModel = map.get(key);
-		   //此处判断将 siteColumn.getCodeName 改为 siteColumn.getInputModelCodeName()  ，感谢 https://gitee.com/tendeness 提出问题所在
-		   if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(siteColumn.getInputModelCodeName())){
-			   return inputModel;
-		   }
+			InputModel inputModel = map.get(key);
+			//此处判断将 siteColumn.getCodeName 改为 siteColumn.getInputModelCodeName()  ，感谢 https://gitee.com/tendeness 提出问题所在
+			if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(siteColumn.getInputModelCodeName())){
+				return inputModel;
+			}
 		}
 		return null;
 	}
@@ -226,10 +227,10 @@ public class InputModelServiceImpl implements InputModelService {
 	public InputModel getInputModelByCodeName(String codeName) {
 		Map<Integer, InputModel> map = getInputModelBySession();
 		for (Integer key : map.keySet()) {
-		   InputModel inputModel = map.get(key);
-		   if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(codeName)){
-			   return inputModel;
-		   }
+			InputModel inputModel = map.get(key);
+			if(inputModel != null && inputModel.getCodeName() != null && inputModel.getCodeName().equals(codeName)){
+				return inputModel;
+			}
 		}
 		return null;
 	}

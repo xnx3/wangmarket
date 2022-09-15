@@ -283,7 +283,7 @@ public class NewsServiceImpl implements NewsService {
 				while(it.hasNext()){
 					// 获得key
 					String key = it.next(); 
-					String value = json.getString(key);    
+					String value = json.getString(key);
 				}
 			}
 			n.setNewsDataBean(newsDataBean);

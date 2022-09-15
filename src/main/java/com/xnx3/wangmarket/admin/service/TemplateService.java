@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.TemplatePage;
@@ -13,7 +14,6 @@ import com.xnx3.wangmarket.admin.entity.TemplateVarData;
 import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
-import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarAndDataMapVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarListVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;

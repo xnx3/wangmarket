@@ -1,31 +1,28 @@
 package com.xnx3.wangmarket.admin.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.GenerateHTML;
 import com.xnx3.wangmarket.admin.cache.Template;
-import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.cache.pc.IndexAboutUs;
 import com.xnx3.wangmarket.admin.cache.pc.IndexNews;
 import com.xnx3.wangmarket.admin.entity.Carousel;
@@ -34,25 +31,21 @@ import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.SiteData;
-import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
-import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.IndexVO;
-import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.SiteRemainHintVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
-import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
-import com.xnx3.wangmarket.admin.vo.TemplatePageVO;
-import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.admin.vo.bean.TemplateCommon;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.mq.DomainMQ;
+
+import net.sf.json.JSONObject;
 
 @Service("siteService")
 public class SiteServiceImpl implements SiteService {
@@ -347,11 +340,11 @@ public class SiteServiceImpl implements SiteService {
 //			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
 //			if(siteColumn.getListRank() != null && siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
 //				Collections.sort(nList, new Comparator<News>() {
-//		            public int compare(News n1, News n2) {
-//	                	//按照发布时间正序排序，发布时间越早，排列越靠前
-//	                	return n1.getAddtime() - n2.getAddtime();
-//		            }
-//		        });
+//					public int compare(News n1, News n2) {
+//						//按照发布时间正序排序，发布时间越早，排列越靠前
+//						return n1.getAddtime() - n2.getAddtime();
+//					}
+//				});
 //			}
 //			
 //			columnMap.put(siteColumn.getCodeName(), siteColumn);
@@ -446,16 +439,16 @@ public class SiteServiceImpl implements SiteService {
 //			if(sct.getList().size() > 0){
 ////				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
 //				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
-//		            public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
-//		                if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
-//		                	//按照发布时间正序排序，发布时间越早，排列越靠前
-//		                	return n2.getNews().getAddtime() - n1.getNews().getAddtime();
-//		                }else{
-//		                	//按照发布时间倒序排序，发布时间越晚，排列越靠前
-//		                	return n1.getNews().getAddtime() - n2.getNews().getAddtime();
-//		                }
-//		            }
-//		        });
+//					public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
+//						if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+//							//按照发布时间正序排序，发布时间越早，排列越靠前
+//							return n2.getNews().getAddtime() - n1.getNews().getAddtime();
+//						}else{
+//							//按照发布时间倒序排序，发布时间越晚，排列越靠前
+//							return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+//						}
+//					}
+//				});
 //				
 //			}
 //		}
@@ -765,7 +758,7 @@ public class SiteServiceImpl implements SiteService {
 					site.setTemplateId(G.TEMPLATE_WAP_DEFAULT);
 				}
 			}
-			site.setTemplateName("");  //避免sqlite 数据库中为null
+			site.setTemplateName("");	//避免sqlite 数据库中为null
 		}else{
 			//CMS类型，填充一些数据
 			site.setTemplateId(0);
@@ -892,7 +885,7 @@ public class SiteServiceImpl implements SiteService {
 					sqlDAO.save(site);
 					
 					if(site.getClient() == Site.CLIENT_PC){
-						/****        PC start      ***/
+						/****        PC start        ***/
 						//生成PC首页
 						GenerateHTML gh = new GenerateHTML(site);
 						Template temp = new Template(site);
@@ -993,7 +986,7 @@ public class SiteServiceImpl implements SiteService {
 						//刷新栏目js数据以及排序
 						siteColumnService.resetColumnRankAndJs(site);
 						
-						/***     PC end     ****/
+						/***        PC end        ****/
 					}else{
 						//WAP
 						columnList.add(sc);
@@ -1197,7 +1190,7 @@ public class SiteServiceImpl implements SiteService {
 			//获取当前网站还有多久过期，获取剩余时间的秒数
 			int remain = site.getExpiretime() - DateUtil.timeForUnix10();
 			
-			//当前时间 + 两个月以后的时间，于过期时间比较  //1 * 60 * 60 * 24 * 30 * 2 两个月
+			//当前时间 + 两个月以后的时间，于过期时间比较	//1 * 60 * 60 * 24 * 30 * 2 两个月
 			if(remain < 5184000){
 				//如果剩余时间不到连个月了，那么会有提示
 				//计算还剩多久了
