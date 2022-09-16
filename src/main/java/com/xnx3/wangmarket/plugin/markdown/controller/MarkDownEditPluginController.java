@@ -49,19 +49,19 @@ public class MarkDownEditPluginController extends BasePluginController {
 			}
 		}
 		
-		response.setCharacterEncoding("UTF-8");  
-	    response.setContentType("text/html; charset=utf-8");  
-	    PrintWriter out = null;  
-	    try {  
-	        out = response.getWriter();  
-	        out.append(json.toString());
-	    } catch (IOException e) {  
-	        e.printStackTrace();  
-	    } finally {  
-	        if (out != null) {  
-	            out.close();  
-	        }  
-	    }
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 	
 

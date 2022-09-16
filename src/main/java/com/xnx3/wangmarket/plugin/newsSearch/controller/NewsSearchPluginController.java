@@ -58,18 +58,18 @@ public class NewsSearchPluginController extends BasePluginController {
 		Sql sql = new Sql(request);
 		sql.setSearchTable("news");
 		sql.appendWhere("siteid = "+siteid+" AND status = "+News.STATUS_NORMAL);
-	    sql.appendWhere("( type = "+News.TYPE_NEWS+" OR type = "+News.TYPE_IMAGENEWS+" OR type = "+SiteColumn.TYPE_LIST+")");
+		sql.appendWhere("( type = "+News.TYPE_NEWS+" OR type = "+News.TYPE_IMAGENEWS+" OR type = "+SiteColumn.TYPE_LIST+")");
 		sql.setSearchColumn(new String[]{"title"});
-	    int count = sqlService.count("news", sql.getWhere());
-	    Page page = new Page(count, everyPageNumber, request);
-	    //创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-	    sql.setSelectFromAndPage("SELECT id,addtime,title,titlepic,intro,cid FROM news", page);
-	    //v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
-    	sql.setDefaultOrderBy("addtime DESC");
-	    //因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
-    	List<Map<String, Object>> list = sqlService.findMapBySql(sql);
-	    
-	    vo.setList(list);
+		int count = sqlService.count("news", sql.getWhere());
+		Page page = new Page(count, everyPageNumber, request);
+		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
+		sql.setSelectFromAndPage("SELECT id,addtime,title,titlepic,intro,cid FROM news", page);
+		//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
+		sql.setDefaultOrderBy("addtime DESC");
+		//因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
+		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
+		
+		vo.setList(list);
 		vo.setPage(page);
 		return vo;
 	}

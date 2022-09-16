@@ -20,13 +20,13 @@ import com.xnx3.j2ee.service.SqlService;
 public class DataDictionaryPluginController extends BasePluginController {
 	
 	//数据库名字
-    @Value("${database.name}")
-    private String databaseName;
-    
-    //数据库驱动
-    @Value("${spring.datasource.driver-class-name}")
-    private String dataDriver;
-    
+	@Value("${database.name}")
+	private String databaseName;
+	
+	//数据库驱动
+	@Value("${spring.datasource.driver-class-name}")
+	private String dataDriver;
+	
 	@Resource
 	private SqlService sqlService;
 	

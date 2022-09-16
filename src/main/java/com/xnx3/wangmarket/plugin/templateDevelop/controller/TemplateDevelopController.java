@@ -51,7 +51,7 @@ public class TemplateDevelopController extends BasePluginController {
 	
 	/*
 	 * 导出路径。
-	 * 如果是在开发环境，则是 static/template/   
+	 * 如果是在开发环境，则是 static/template/
 	 * 如果是在实际运行环境，则是 WEB-INF/classes/static/template/
 	 * 使用 getExportPath() 获取
 	 */
@@ -322,8 +322,8 @@ public class TemplateDevelopController extends BasePluginController {
 		
 		
 		if (request instanceof MultipartHttpServletRequest) {
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
-			List<MultipartFile> imageList = multipartRequest.getFiles("image");  
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			List<MultipartFile> imageList = multipartRequest.getFiles("image");
 			if(imageList.size()>0 && !imageList.get(0).isEmpty()){
 				MultipartFile multi = imageList.get(0);
 				try {
@@ -335,10 +335,10 @@ public class TemplateDevelopController extends BasePluginController {
 				uploadFileVO.setResult(UploadFileVO.NOTFILE);
 				uploadFileVO.setInfo(LanguageUtil.show("oss_uploadNotFile"));
 			}
-	    }else{
-	    	uploadFileVO.setResult(UploadFileVO.NOTFILE);
+		}else{
+			uploadFileVO.setResult(UploadFileVO.NOTFILE);
 			uploadFileVO.setInfo(LanguageUtil.show("oss_uploadNotFile"));
-	    }
+		}
 		
 		
 		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){

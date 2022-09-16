@@ -1,7 +1,6 @@
 package com.xnx3.wangmarket.plugin.base.controller;
 
 import com.xnx3.j2ee.Func;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
 import com.xnx3.j2ee.util.SystemUtil;
