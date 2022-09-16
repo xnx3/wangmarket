@@ -11,9 +11,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "news_data")
 public class NewsData implements java.io.Serializable {
-	private Integer id;
-	private String text;
-	private String extend;	//扩展，以json形式存在
+	
+	private Integer id;		//对应news.id
+	private String text;	//信息内容
+	private String extend;	//其他扩展字段，以json形式存在
 	
 
 
@@ -43,7 +44,7 @@ public class NewsData implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci")
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci COMMENT '信息内容' default ''")
 	public String getText() {
 		return this.text;
 	}
@@ -52,13 +53,18 @@ public class NewsData implements java.io.Serializable {
 		this.text = text;
 	}
 
-
+	@Column(name = "extend", columnDefinition="text COMMENT '其他扩展字段，以json形式存在' default ''")
 	public String getExtend() {
 		return extend;
 	}
 
 	public void setExtend(String extend) {
 		this.extend = extend;
+	}
+
+	@Override
+	public String toString() {
+		return "NewsData [id=" + id + ", text=" + text + ", extend=" + extend + "]";
 	}
 
 }

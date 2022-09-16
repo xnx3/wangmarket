@@ -15,15 +15,13 @@ import javax.persistence.Table;
 public class NewsComment implements java.io.Serializable {
 
 	// Fields
-
 	private Integer id;
-	private Integer newsid;
-	private Integer userid;
-	private Integer addtime;
-	private String text;
+	private Integer newsid;		//关联news.id
+	private Integer userid;		//关联user.id，评论用户的id
+	private Integer addtime;	//添加时间
+	private String text;		//评论内容
 
 	// Constructors
-
 	/** default constructor */
 	public NewsComment() {
 	}
@@ -49,7 +47,7 @@ public class NewsComment implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "newsid")
+	@Column(name = "newsid", columnDefinition="int(11) COMMENT '关联news.id' default '0'")
 	public Integer getNewsid() {
 		return this.newsid;
 	}
@@ -58,7 +56,7 @@ public class NewsComment implements java.io.Serializable {
 		this.newsid = newsid;
 	}
 
-	@Column(name = "userid")
+	@Column(name = "userid", columnDefinition="int(11) COMMENT '关联user.id，评论用户的id' default '0'")
 	public Integer getUserid() {
 		return this.userid;
 	}
@@ -67,7 +65,7 @@ public class NewsComment implements java.io.Serializable {
 		this.userid = userid;
 	}
 
-	@Column(name = "addtime")
+	@Column(name = "addtime", columnDefinition="int(11) COMMENT '添加时间'")
 	public Integer getAddtime() {
 		return this.addtime;
 	}
@@ -76,13 +74,19 @@ public class NewsComment implements java.io.Serializable {
 		this.addtime = addtime;
 	}
 
-	@Column(name = "text", length = 200)
+	@Column(name = "text", columnDefinition="varchar(200) COMMENT '评论内容' default ''")
 	public String getText() {
 		return this.text;
 	}
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return "NewsComment [id=" + id + ", newsid=" + newsid + ", userid=" + userid + ", addtime=" + addtime
+				+ ", text=" + text + "]";
 	}
 
 }

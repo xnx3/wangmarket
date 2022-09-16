@@ -13,15 +13,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "input_model")
 public class InputModel implements java.io.Serializable {
-	private Integer id;
-	private Integer siteid;
-	private String remark;		//备注
-	private String text;
-	private String codeName;	//模型代码
 	
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	private Integer id;
+	private Integer siteid;		//对应site.id
+	private String remark;		//备注说明
+	private String text;		//输入模型的内容
+	private String codeName;	//模型代码，每个网站的模型代码是唯一的
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -29,7 +26,12 @@ public class InputModel implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
+	@Column(name = "siteid", columnDefinition="int(11) COMMENT '对应site.id' default '0'")
 	public Integer getSiteid() {
 		return siteid;
 	}
@@ -38,7 +40,7 @@ public class InputModel implements java.io.Serializable {
 		this.siteid = siteid;
 	}
 
-	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci")
+	@Column(name = "text", columnDefinition="mediumtext COLLATE utf8mb4_unicode_ci COMMENT '输入模型的内容'")
 	public String getText() {
 		return text;
 	}
@@ -47,6 +49,7 @@ public class InputModel implements java.io.Serializable {
 		this.text = text;
 	}
 
+	@Column(name = "remark", columnDefinition="varchar(30) COMMENT '备注说明' default ''")
 	public String getRemark() {
 		return remark;
 	}
@@ -55,12 +58,19 @@ public class InputModel implements java.io.Serializable {
 		this.remark = remark;
 	}
 
+	@Column(name = "code_name", columnDefinition="char(30) COMMENT '模型代码，每个网站的模型代码是唯一的' default ''")
 	public String getCodeName() {
 		return codeName;
 	}
 
 	public void setCodeName(String codeName) {
 		this.codeName = codeName;
+	}
+
+	@Override
+	public String toString() {
+		return "InputModel [id=" + id + ", siteid=" + siteid + ", remark=" + remark + ", text=" + text + ", codeName="
+				+ codeName + "]";
 	}
 	
 }

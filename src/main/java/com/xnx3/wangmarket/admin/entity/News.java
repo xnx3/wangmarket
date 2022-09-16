@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "news", indexes={@Index(name="suoyin_index",columnList="userid,addtime,type,status,cid,siteid")})
 public class News implements java.io.Serializable {
+	
 	/**
 	 * 正常显示
 	 */
@@ -45,23 +46,21 @@ public class News implements java.io.Serializable {
 	 */
 	public final static short LEGITIMATE_NO = 0;
 	
-	
 	// Fields
-
 	private Integer id;
-	private Integer userid;
-	private Integer addtime;
+	private Integer userid;		//对应user.id，是哪个用户发表的
+	private Integer addtime;	//发布时间
 	private String title;
-	private String titlepic;
-	private String intro;
-	private Integer opposenum;
-	private Integer readnum;
-	private Short type;
-	private Short status;
-	private Integer commentnum;
-	private Integer cid;
-	private Integer siteid;
-	private Short legitimate;
+	private String titlepic;	//头图
+	private String intro;		//简介,从内容正文里自动剪切出开始的160个汉字
+	private Integer opposenum;	//反对的总数量
+	private Integer readnum;	//阅读的总数量
+	private Short type;			//1新闻；2图文；3独立页面
+	private Short status;		//1：正常显示；2：隐藏不显示
+	private Integer commentnum;	//评论的总数量
+	private Integer cid;			//所属栏目id，对应site_column.id
+	private Integer siteid;		//所属站点，对应site.id
+	private Short legitimate;	//是否是合法的，1是，0不是，涉嫌
 	
 	//以下两个为预留字段，可以通过输入模型进行扩展
 	private String reserve1;
@@ -72,10 +71,6 @@ public class News implements java.io.Serializable {
 		this.reserve1 = "";
 		this.reserve2 = "";
 	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -84,7 +79,11 @@ public class News implements java.io.Serializable {
 		return id;
 	}
 
-	@Column(name = "userid")
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Column(name = "userid", columnDefinition="int(11) COMMENT '对应user.id，是哪个用户发表的' default '0'")
 	public Integer getUserid() {
 		return this.userid;
 	}
@@ -93,7 +92,7 @@ public class News implements java.io.Serializable {
 		this.userid = userid;
 	}
 
-	@Column(name = "addtime")
+	@Column(name = "addtime", columnDefinition="int(11) COMMENT '发布时间'")
 	public Integer getAddtime() {
 		return this.addtime;
 	}
@@ -102,7 +101,7 @@ public class News implements java.io.Serializable {
 		this.addtime = addtime;
 	}
 
-	@Column(name = "title")
+	@Column(name = "title", columnDefinition="char(60) COMMENT '' default ''")
 	public String getTitle() {
 		return this.title;
 	}
@@ -111,7 +110,7 @@ public class News implements java.io.Serializable {
 		this.title = title;
 	}
 
-	@Column(name = "titlepic")
+	@Column(name = "titlepic", columnDefinition="char(200) COMMENT '头图' default ''")
 	public String getTitlepic() {
 		return this.titlepic;
 	}
@@ -120,7 +119,7 @@ public class News implements java.io.Serializable {
 		this.titlepic = titlepic;
 	}
 
-	@Column(name = "intro")
+	@Column(name = "intro", columnDefinition="char(160) COMMENT '简介,从内容正文里自动剪切出开始的160个汉字' default ''")
 	public String getIntro() {
 		return this.intro;
 	}
@@ -143,7 +142,7 @@ public class News implements java.io.Serializable {
 		this.intro = intro;
 	}
 
-	@Column(name = "opposenum")
+	@Column(name = "opposenum", columnDefinition="int(11) COMMENT '反对的总数量' default '0'")
 	public Integer getOpposenum() {
 		return this.opposenum;
 	}
@@ -152,7 +151,7 @@ public class News implements java.io.Serializable {
 		this.opposenum = opposenum;
 	}
 
-	@Column(name = "readnum")
+	@Column(name = "readnum", columnDefinition="int(11) COMMENT '阅读的总数量' default '0'")
 	public Integer getReadnum() {
 		return this.readnum;
 	}
@@ -161,7 +160,7 @@ public class News implements java.io.Serializable {
 		this.readnum = readnum;
 	}
 
-	@Column(name = "type")
+	@Column(name = "type", columnDefinition="tinyint(2) COMMENT '1新闻；2图文；3独立页面' default '0'")
 	public Short getType() {
 		return this.type;
 	}
@@ -170,7 +169,7 @@ public class News implements java.io.Serializable {
 		this.type = type;
 	}
 
-	@Column(name = "status")
+	@Column(name = "status", columnDefinition="tinyint(2) COMMENT '1：正常显示；2：隐藏不显示' default '0'")
 	public Short getStatus() {
 		return this.status;
 	}
@@ -179,7 +178,7 @@ public class News implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@Column(name = "commentnum")
+	@Column(name = "commentnum", columnDefinition="int(11) COMMENT '评论的总数量' default '0'")
 	public Integer getCommentnum() {
 		return this.commentnum;
 	}
@@ -187,7 +186,8 @@ public class News implements java.io.Serializable {
 	public void setCommentnum(Integer commentnum) {
 		this.commentnum = commentnum;
 	}
-	@Column(name = "cid")
+	
+	@Column(name = "cid", columnDefinition="int(11) COMMENT '所属栏目id，对应site_column.id' default '0'")
 	public Integer getCid() {
 		return cid;
 	}
@@ -196,7 +196,7 @@ public class News implements java.io.Serializable {
 		this.cid = cid;
 	}
 	
-	@Column(name = "siteid")
+	@Column(name = "siteid", columnDefinition="int(11) COMMENT '所属站点，对应site.id' default '0'")
 	public Integer getSiteid() {
 		return siteid;
 	}
@@ -204,7 +204,8 @@ public class News implements java.io.Serializable {
 	public void setSiteid(Integer siteid) {
 		this.siteid = siteid;
 	}
-	@Column(name = "legitimate")
+	
+	@Column(name = "legitimate", columnDefinition="tinyint(2) COMMENT '是否是合法的，1是，0不是，涉嫌' default '0'")
 	public Short getLegitimate() {
 		return legitimate;
 	}
@@ -213,7 +214,7 @@ public class News implements java.io.Serializable {
 		this.legitimate = legitimate;
 	}
 
-	@Column(name = "reserve1")
+	@Column(name = "reserve1", columnDefinition="char(10) COMMENT '预留字段，用户可使用输入模型来进行扩展' default ''")
 	public String getReserve1() {
 		return reserve1;
 	}
@@ -225,7 +226,7 @@ public class News implements java.io.Serializable {
 		this.reserve1 = reserve1;
 	}
 
-	@Column(name = "reserve2")
+	@Column(name = "reserve2", columnDefinition="char(10) COMMENT '预留字段，用户可使用输入模型来进行扩展' default ''")
 	public String getReserve2() {
 		return reserve2;
 	}

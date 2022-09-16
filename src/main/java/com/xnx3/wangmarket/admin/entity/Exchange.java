@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "exchange")
 public class Exchange implements java.io.Serializable {
+	
 	/**
 	 * 申请中，用户已提交申请，等待管理员或者客服审核
 	 */
@@ -26,9 +27,7 @@ public class Exchange implements java.io.Serializable {
 	 */
 	public final static Short STATUS_APPLY_REFUSE_FINISH = 4;
 	
-	
 	// Fields
-
 	private Integer id;
 	private Integer userid;
 	private Integer addtime;
@@ -39,19 +38,18 @@ public class Exchange implements java.io.Serializable {
 	private String userRemark;
 	private String kefuRemark;
 	
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return id;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-	@Column(name = "userid")
+	@Column(name = "userid", columnDefinition="int(11) COMMENT '' default '0'")
 	public Integer getUserid() {
 		return this.userid;
 	}
@@ -60,7 +58,7 @@ public class Exchange implements java.io.Serializable {
 		this.userid = userid;
 	}
 
-	@Column(name = "addtime")
+	@Column(name = "addtime", columnDefinition="int(11) COMMENT ''")
 	public Integer getAddtime() {
 		return this.addtime;
 	}
@@ -69,6 +67,7 @@ public class Exchange implements java.io.Serializable {
 		this.addtime = addtime;
 	}
 
+	@Column(name = "type", columnDefinition="varchar(255) COMMENT '' default ''")
 	public String getType() {
 		return type;
 	}
@@ -77,6 +76,7 @@ public class Exchange implements java.io.Serializable {
 		this.type = type;
 	}
 
+	@Column(name = "status", columnDefinition="smallint(6) COMMENT '' default '0'")
 	public Short getStatus() {
 		return status;
 	}
@@ -85,6 +85,7 @@ public class Exchange implements java.io.Serializable {
 		this.status = status;
 	}
 
+	@Column(name = "siteid", columnDefinition="int(11) COMMENT '' default '0'")
 	public Integer getSiteid() {
 		return siteid;
 	}
@@ -93,6 +94,7 @@ public class Exchange implements java.io.Serializable {
 		this.siteid = siteid;
 	}
 
+	@Column(name = "user_remark", columnDefinition="varchar(255) COMMENT '' default ''")
 	public String getUserRemark() {
 		return userRemark;
 	}
@@ -101,6 +103,7 @@ public class Exchange implements java.io.Serializable {
 		this.userRemark = userRemark;
 	}
 
+	@Column(name = "kefu_remark", columnDefinition="varchar(255) COMMENT '' default ''")
 	public String getKefuRemark() {
 		return kefuRemark;
 	}
@@ -109,6 +112,7 @@ public class Exchange implements java.io.Serializable {
 		this.kefuRemark = kefuRemark;
 	}
 
+	@Column(name = "goodsid", columnDefinition="int(11) COMMENT '' default '0'")
 	public Integer getGoodsid() {
 		return goodsid;
 	}
@@ -117,4 +121,11 @@ public class Exchange implements java.io.Serializable {
 		this.goodsid = goodsid;
 	}
 
+	@Override
+	public String toString() {
+		return "Exchange [id=" + id + ", userid=" + userid + ", addtime=" + addtime + ", type=" + type + ", status="
+				+ status + ", siteid=" + siteid + ", goodsid=" + goodsid + ", userRemark=" + userRemark
+				+ ", kefuRemark=" + kefuRemark + "]";
+	}
+	
 }

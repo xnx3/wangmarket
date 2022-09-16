@@ -16,6 +16,7 @@ import com.xnx3.wangmarket.admin.G;
 @Entity
 @Table(name = "site")
 public class Site implements java.io.Serializable {
+	
 	/**
 	 * 隐藏手机端首页的Banner
 	 */
@@ -29,7 +30,6 @@ public class Site implements java.io.Serializable {
 	 * 客户端类型：PC电脑端
 	 */
 	public static final Short CLIENT_PC = 1;
-	
 	/**
 	 * 客户端类型：WAP手机端
 	 */
@@ -69,44 +69,44 @@ public class Site implements java.io.Serializable {
 	 */
 	public static final String GENERATE_HTML_STORAGE_TYPE_LOCAL = "local";
 	
-	private Integer id;			//自动编号
-	private String name;		//站点名字
-	private Integer userid;		//站点所属用户，是哪个用户创建的，对应 User.id
-	private Integer addtime;	//站点添加时间，10位linux时间戳
-	private Short mShowBanner;	//pc、wap模式使用的，已废弃！
-	private String phone;		//联系手机，可以在模版中，通过 {site.phone} 调用
-	private String qq;			//联系QQ，可以在模版中，通过 {site.qq} 调用
-	private String domain;		//站点自动分配的二级域名
-	private Short client;		//客户端类型，现在都是 CMS模式，之前的pc、wap已经没有了
-	private String keywords;	//站点的关键字，可以在模版中，通过 {site.keywords} 调用
-	private String address;		//站点公司地址，可以在模版中，通过 {site.address} 调用
-	private String username;	//联系人姓名
-	private String companyName;	//公司名、工作室名字、团体名字, 可以在模版中，通过 {site.companyName} 调用
-	private String bindDomain;	//用户自己绑定的域名
-	private String columnId;	//栏目id，这里暂时只记录栏目类型的ID，方便生成页面时，生成Nav标签的填充，方便搜索引擎抓取
-	private Short state;		//站点状态，1正常；2冻结
-	private String templateName;	//自定义模版的模版名字，位于 /template/模版名字，这里的模版单纯修改HTML，没有动态后台
-	private Integer expiretime;		//网站过期时间，linux时间戳
-	private String attachmentUpdateDate;	//当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次 
+	private Integer id;						//自动编号
+	private String name;					//站点名字
+	private Integer userid;					//站点所属用户，是哪个用户创建的，对应 User.id
+	private Integer addtime;				//站点添加时间，10位linux时间戳
+	private Short mShowBanner;				//pc、wap模式使用的，已废弃！
+	private String phone;					//联系手机，可以在模版中，通过 {site.phone} 调用
+	private String qq;						//联系QQ，可以在模版中，通过 {site.qq} 调用
+	private String domain;					//站点自动分配的二级域名
+	private Short client;					//客户端类型，现在都是 CMS模式，之前的pc、wap已经没有了
+	private String keywords;				//站点的关键字，可以在模版中，通过 {site.keywords} 调用
+	private String address;					//站点公司地址，可以在模版中，通过 {site.address} 调用
+	private String username;				//联系人姓名
+	private String companyName;				//公司名、工作室名字、团体名字, 可以在模版中，通过 {site.companyName} 调用
+	private String bindDomain;				//用户自己绑定的域名
+	private String columnId;				//栏目id，这里暂时只记录栏目类型的ID，方便生成页面时，生成Nav标签的填充，方便搜索引擎抓取
+	private Short state;					//站点状态，1正常；2冻结
+	private String templateName;			//自定义模版的模版名字，位于 /template/模版名字，这里的模版单纯修改HTML，没有动态后台
+	private Integer expiretime;				//网站过期时间，linux时间戳
+	private Integer attachmentUpdateDate;	//当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次
 	private Integer attachmentSize;			//当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/$siteid/ 下的空间占用大小，单位是KB  
 	private Integer attachmentSizeHave;		//当前用户网站所拥有的空间大小，单位是MB	
 	
-	private String generateHtmlStorageType;		//生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储
+	private String generateHtmlStorageType;	//生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储
 	
 	/**
 	 * @deprecated
 	 */
-	private Integer templateId;	//pc、wap模式使用的，已废弃！
+	private Integer templateId;				//pc、wap模式使用的，已废弃！
 	/**
 	 * @deprecated
 	 */
-	private Integer aboutUsCid;	//pc、wap模式使用的，已废弃！
+	private Integer aboutUsCid;				//pc、wap模式使用的，已废弃！
 	/**
 	 * @deprecated
 	 */
-	private String logo;		//pc、wap模式使用的，已废弃！
+	private String logo;					//pc、wap模式使用的，已废弃！
 	
-	private String remark;		//站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的
+	private String remark;					//站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的
 	
 	public Site() {
 		this.state = STATE_NORMAL;
@@ -129,6 +129,7 @@ public class Site implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "name", columnDefinition="char(40) COMMENT '站点名字' default ''")
 	public String getName() {
 		return name;
 	}
@@ -137,6 +138,7 @@ public class Site implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@Column(name = "userid", columnDefinition="int(11) COMMENT '站点所属用户，是哪个用户创建的，对应 User.id' default '0'")
 	public Integer getUserid() {
 		return userid;
 	}
@@ -145,6 +147,7 @@ public class Site implements java.io.Serializable {
 		this.userid = userid;
 	}
 
+	@Column(name = "addtime", columnDefinition="int(11) COMMENT '站点添加时间，10位linux时间戳'")
 	public Integer getAddtime() {
 		return addtime;
 	}
@@ -153,7 +156,7 @@ public class Site implements java.io.Serializable {
 		this.addtime = addtime;
 	}
 
-	@Column(name = "m_show_banner")
+	@Column(name = "m_show_banner", columnDefinition="tinyint(1) COMMENT 'pc、wap模式使用的，已废弃！' default '0'")
 	public Short getmShowBanner() {
 		return mShowBanner;
 	}
@@ -162,6 +165,7 @@ public class Site implements java.io.Serializable {
 		this.mShowBanner = mShowBanner;
 	}
 
+	@Column(name = "phone", columnDefinition="char(12) COMMENT '联系手机，可以在模版中，通过 {site.phone} 调用' default ''")
 	public String getPhone() {
 		return phone;
 	}
@@ -170,6 +174,7 @@ public class Site implements java.io.Serializable {
 		this.phone = phone;
 	}
 
+	@Column(name = "qq", columnDefinition="char(12) COMMENT '联系QQ，可以在模版中，通过 {site.qq} 调用' default ''")
 	public String getQq() {
 		return qq;
 	}
@@ -178,7 +183,7 @@ public class Site implements java.io.Serializable {
 		this.qq = qq;
 	}
 	
-	@Column(name = "template_id")
+	@Column(name = "template_id", columnDefinition="int(11) COMMENT 'pc、wap模式使用的，已废弃！' default '0'")
 	public Integer getTemplateId() {
 		return templateId;
 	}
@@ -186,7 +191,8 @@ public class Site implements java.io.Serializable {
 	public void setTemplateId(Integer templateId) {
 		this.templateId = templateId;
 	}
-	@Column(name = "domain")
+	
+	@Column(name = "domain", columnDefinition="char(30) COMMENT '站点自动分配的二级域名' default ''")
 	public String getDomain() {
 		if(domain == null || domain.equals("")){
 			domain = id+"";
@@ -198,7 +204,7 @@ public class Site implements java.io.Serializable {
 		this.domain = domain;
 	}
 	
-	@Column(name = "about_us_cid")
+	@Column(name = "about_us_cid", columnDefinition="int(11) COMMENT 'pc、wap模式使用的，已废弃！' default '0'")
 	public Integer getAboutUsCid() {
 		return aboutUsCid;
 	}
@@ -207,6 +213,7 @@ public class Site implements java.io.Serializable {
 		this.aboutUsCid = aboutUsCid;
 	}
 	
+	@Column(name = "logo", columnDefinition="char(80) COMMENT 'pc、wap模式使用的，已废弃！' default ''")
 	public String getLogo() {
 		return logo;
 	}
@@ -215,6 +222,7 @@ public class Site implements java.io.Serializable {
 		this.logo = logo;
 	}
 
+	@Column(name = "client", columnDefinition="tinyint(2) COMMENT '客户端类型，现在都是 CMS模式，之前的pc、wap已经没有了' default '0'")
 	public Short getClient() {
 		return client;
 	}
@@ -223,6 +231,7 @@ public class Site implements java.io.Serializable {
 		this.client = client;
 	}
 
+	@Column(name = "keywords", columnDefinition="char(38) COMMENT '站点的关键字，可以在模版中，通过 {site.keywords} 调用' default ''")
 	public String getKeywords() {
 		return keywords;
 	}
@@ -231,6 +240,7 @@ public class Site implements java.io.Serializable {
 		this.keywords = keywords;
 	}
 
+	@Column(name = "address", columnDefinition="char(80) COMMENT '站点公司地址，可以在模版中，通过 {site.address} 调用' default ''")
 	public String getAddress() {
 		return address;
 	}
@@ -239,6 +249,7 @@ public class Site implements java.io.Serializable {
 		this.address = address;
 	}
 
+	@Column(name = "username", columnDefinition="char(10) COMMENT '联系人姓名' default ''")
 	public String getUsername() {
 		return username;
 	}
@@ -246,7 +257,8 @@ public class Site implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	@Column(name = "company_name")
+	
+	@Column(name = "company_name", columnDefinition="char(30) COMMENT '公司名、工作室名字、团体名字, 可以在模版中，通过 {site.companyName} 调用' default ''")
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -254,7 +266,8 @@ public class Site implements java.io.Serializable {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	@Column(name = "bind_domain")
+	
+	@Column(name = "bind_domain", columnDefinition="char(30) COMMENT '用户自己绑定的域名' default ''")
 	public String getBindDomain() {
 		return bindDomain;
 	}
@@ -262,7 +275,8 @@ public class Site implements java.io.Serializable {
 	public void setBindDomain(String bindDomain) {
 		this.bindDomain = bindDomain;
 	}
-	@Column(name = "column_id")
+	
+	@Column(name = "column_id", columnDefinition="char(80) COMMENT '栏目id，这里暂时只记录栏目类型的ID，方便生成页面时，生成Nav标签的填充，方便搜索引擎抓取' default ''")
 	public String getColumnId() {
 		return columnId;
 	}
@@ -275,7 +289,7 @@ public class Site implements java.io.Serializable {
 		this.columnId = columnId;
 	}
 	
-	@Column(name = "state")
+	@Column(name = "state", columnDefinition="tinyint(2) COMMENT '站点状态，1正常；2冻结' default '0'")
 	public Short getState() {
 		return state;
 	}
@@ -284,6 +298,7 @@ public class Site implements java.io.Serializable {
 		this.state = state;
 	}
 
+	@Column(name = "template_name", columnDefinition="char(20) COMMENT '自定义模版的模版名字，位于 /template/模版名字，这里的模版单纯修改HTML，没有动态后台' default ''")
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -292,7 +307,7 @@ public class Site implements java.io.Serializable {
 		this.templateName = Sql.filter(templateName);
 	}
 
-
+	@Column(name = "expiretime", columnDefinition="int(11) COMMENT '网站过期时间，linux时间戳'")
 	public Integer getExpiretime() {
 		return expiretime;
 	}
@@ -301,17 +316,16 @@ public class Site implements java.io.Serializable {
 		this.expiretime = expiretime;
 	}
 	
-	
-	@Column(name = "attachment_update_date", columnDefinition="int(11) comment '当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次'")
-	public String getAttachmentUpdateDate() {
+	@Column(name = "attachment_update_date", columnDefinition="int(11) COMMENT '当前附件占用空间大小，最后一次计算的日期，存储格式如 20191224 ，每天登录时都会计算一次'")
+	public Integer getAttachmentUpdateDate() {
 		return attachmentUpdateDate;
 	}
 
-	public void setAttachmentUpdateDate(String attachmentUpdateDate) {
+	public void setAttachmentUpdateDate(Integer attachmentUpdateDate) {
 		this.attachmentUpdateDate = attachmentUpdateDate;
 	}
 
-	@Column(name = "attachment_size", columnDefinition="int(11) comment '当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/siteid/ 下的空间占用大小，单位是KB'")
+	@Column(name = "attachment_size", columnDefinition="int(11) COMMENT '当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/siteid/ 下的空间占用大小，单位是KB' default '0'")
 	public Integer getAttachmentSize() {
 		return attachmentSize;
 	}
@@ -320,7 +334,7 @@ public class Site implements java.io.Serializable {
 		this.attachmentSize = attachmentSize;
 	}
 	
-	@Column(name = "attachment_size_have", columnDefinition="int(11) comment '当前用户网站所拥有的空间大小，单位是MB'")
+	@Column(name = "attachment_size_have", columnDefinition="int(11) COMMENT '当前用户网站所拥有的空间大小，单位是MB' default '0'")
 	public Integer getAttachmentSizeHave() {
 		if(attachmentSizeHave == null){
 			this.attachmentSizeHave = 0;
@@ -332,7 +346,7 @@ public class Site implements java.io.Serializable {
 		this.attachmentSizeHave = attachmentSizeHave;
 	}
 
-	@Column(name = "remark", columnDefinition="char(255) comment '站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的'")
+	@Column(name = "remark", columnDefinition="char(255) COMMENT '站点备注，代理商给网站的备注，方便代理商记录这个网站干嘛的' default ''")
 	public String getRemark() {
 		return remark;
 	}
@@ -341,7 +355,7 @@ public class Site implements java.io.Serializable {
 		this.remark = remark;
 	}
 
-	@Column(name = "generate_html_storage_type", columnDefinition="char(20) comment '生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储'")
+	@Column(name = "generate_html_storage_type", columnDefinition="char(20) COMMENT '生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储' default ''")
 	public String getGenerateHtmlStorageType() {
 		if(generateHtmlStorageType == null || generateHtmlStorageType.length() == 0) {
 			generateHtmlStorageType = GENERATE_HTML_STORAGE_TYPE_DEFAULT;

@@ -20,7 +20,6 @@ public class Feedback implements java.io.Serializable {
 	private Integer addtime;
 	private String text;
 
-
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
@@ -32,6 +31,7 @@ public class Feedback implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "userid", columnDefinition="int(11) COMMENT '' default '0'")
 	public Integer getUserid() {
 		return userid;
 	}
@@ -40,6 +40,7 @@ public class Feedback implements java.io.Serializable {
 		this.userid = userid;
 	}
 
+	@Column(name = "addtime", columnDefinition="int(11) COMMENT ''")
 	public Integer getAddtime() {
 		return addtime;
 	}
@@ -48,6 +49,7 @@ public class Feedback implements java.io.Serializable {
 		this.addtime = addtime;
 	}
 
+	@Column(name = "text", columnDefinition="varchar(255) COMMENT '' default ''")
 	public String getText() {
 		return text;
 	}

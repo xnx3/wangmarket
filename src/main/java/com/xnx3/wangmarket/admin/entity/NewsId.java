@@ -10,13 +10,11 @@ import javax.persistence.Embeddable;
 public class NewsId implements java.io.Serializable {
 
 	// Fields
-
 	private Integer id;
-	private Integer supportnum;
-	private Integer sharenum;
+	private Integer supportnum;	//支持的总数量
+	private Integer sharenum;	//分享的总数量
 
 	// Constructors
-
 	/** default constructor */
 	public NewsId() {
 	}
@@ -29,7 +27,6 @@ public class NewsId implements java.io.Serializable {
 	}
 
 	// Property accessors
-
 	@Column(name = "id", nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -39,7 +36,7 @@ public class NewsId implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "supportnum", nullable = false)
+	@Column(name = "supportnum", nullable = false, columnDefinition="int(11) COMMENT '支持的总数量' default '0'")
 	public Integer getSupportnum() {
 		return this.supportnum;
 	}
@@ -48,7 +45,7 @@ public class NewsId implements java.io.Serializable {
 		this.supportnum = supportnum;
 	}
 
-	@Column(name = "sharenum", nullable = false)
+	@Column(name = "sharenum", nullable = false, columnDefinition="int(11) COMMENT '分享的总数量' default '0'")
 	public Integer getSharenum() {
 		return this.sharenum;
 	}

@@ -384,7 +384,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 					
 					int kb = Math.round(sizeB/1024);
 					sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+getUserId());
-					site.setAttachmentUpdateDate(currentDate);
+					site.setAttachmentUpdateDate(Integer.parseInt(currentDate));
 					site.setAttachmentSize(kb);
 					com.xnx3.wangmarket.admin.util.SessionUtil.setSite(site);
 					
