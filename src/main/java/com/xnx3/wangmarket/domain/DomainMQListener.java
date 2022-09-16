@@ -1,14 +1,13 @@
 package com.xnx3.wangmarket.domain;
 
-import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.xnx3.j2ee.util.ConsoleUtil;
-import com.xnx3.wangmarket.domain.G;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.mq.DomainMQ;
 import com.xnx3.wangmarket.domain.mq.ReceiveDomainMQ;
+
 import net.sf.json.JSONObject;
 
 /**

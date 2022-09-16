@@ -1,17 +1,15 @@
 package com.xnx3.wangmarket.domain;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.stereotype.Component;
-import com.xnx3.DateUtil;
+
 import com.xnx3.Lang;
-import com.xnx3.wangmarket.domain.bean.SimpleSite;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SpringUtil;
 import com.xnx3.j2ee.util.SystemUtil;
+import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
 /**
  * 项目启动初始化，从数据库加载域名列表缓存到内存
@@ -90,23 +88,23 @@ public class InitLoadDomainByDB {
 //		try {
 //			rs = com.xnx3.j2ee.func.DB.getResultSet("SELECT id,client,domain,bind_domain,state,template_id FROM site");
 //			//如果有这行存在
-//	        while(rs.next()){
-//	        	SimpleSite ss = new SimpleSite();
-//	        	ss.setBindDomain(rs.getString("bind_domain"));
-//	        	ss.setClient(rs.getInt("client"));
-//	        	ss.setDomain(rs.getString("domain"));
-//	        	ss.setId(rs.getInt("id"));
-//	        	ss.setState(rs.getShort("state"));
-//	        	ss.setTemplateId(rs.getInt("template_id"));
-//	        	
-//	        	if(ss.getDomain() != null && ss.getDomain().length() > 0){
+//			while(rs.next()){
+//				SimpleSite ss = new SimpleSite();
+//				ss.setBindDomain(rs.getString("bind_domain"));
+//				ss.setClient(rs.getInt("client"));
+//				ss.setDomain(rs.getString("domain"));
+//				ss.setId(rs.getInt("id"));
+//				ss.setState(rs.getShort("state"));
+//				ss.setTemplateId(rs.getInt("template_id"));
+//				
+//				if(ss.getDomain() != null && ss.getDomain().length() > 0){
 //					G.putDomain(ss.getDomain(), ss);
 //				}
 //				if(ss.getBindDomain() != null && ss.getBindDomain().length() > 2){
 //					G.putBindDomain(ss.getBindDomain(), ss);
 //				}
-//	        }
-//	        
+//			}
+//			
 //		} catch (SQLException e) {
 //			e.printStackTrace();
 //		}

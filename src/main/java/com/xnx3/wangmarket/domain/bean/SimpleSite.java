@@ -12,13 +12,13 @@ import com.xnx3.wangmarket.admin.entity.Site;
  * @author 管雷鸣
  */
 public class SimpleSite implements Serializable{
-	private int id;	//site.id ，废弃，用 siteid 代替
+	private int id;				//site.id ，废弃，用 siteid 代替
 	private String domain;
 	private String bindDomain;
 	private int client;
 	private int templateId;
 	private Short state;
-	private int siteid;	//site.id 
+	private int siteid;			//site.id 
 	
 	/*
 	 * 插件

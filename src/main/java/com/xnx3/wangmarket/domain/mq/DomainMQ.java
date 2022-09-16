@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import com.xnx3.wangmarket.domain.bean.PluginMQ;
-import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.RabbitUtil;
+import com.xnx3.wangmarket.domain.bean.PluginMQ;
 import com.xnx3.wangmarket.domain.util.PluginCache;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -60,7 +61,7 @@ public class DomainMQ {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-		            }
+					}
 				});
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -92,7 +93,7 @@ public class DomainMQ {
 					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 						String content = new String(body, "UTF-8");
 						receiveContentDispose(pluginId, content);
-		            }
+					}
 				});
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -124,21 +125,21 @@ public class DomainMQ {
 		}
 		
 		JSONObject json = mq.getMqContentJson();
-        Iterator<String> iterator = json.keys();
-        while(iterator.hasNext()){
-        	String key = (String) iterator.next();
-        	
-        	//排除不是 siteid、domain、bindDomain 这三个
-        	if(!key.equals("siteid") && !key.equals("domain") && !key.equals("bindDomain")){
-        		String value = null;
-	        	if(json.get(key) == null){
-	        		value = "";
-	        	}else{
-	        		value = json.get(key).toString();
-	        	}
-	        	map.put(key, value);
-        	}
-        }
+		Iterator<String> iterator = json.keys();
+		while(iterator.hasNext()){
+			String key = (String) iterator.next();
+			
+			//排除不是 siteid、domain、bindDomain 这三个
+			if(!key.equals("siteid") && !key.equals("domain") && !key.equals("bindDomain")){
+				String value = null;
+				if(json.get(key) == null){
+					value = "";
+				}else{
+					value = json.get(key).toString();
+				}
+				map.put(key, value);
+			}
+		}
 
 		PluginCache.setPluginMap(mq.getSiteid(), pluginId, map);
 	}

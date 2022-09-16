@@ -1,10 +1,10 @@
 package com.xnx3.wangmarket.domain;
 
 import javax.servlet.http.HttpServletRequest;
+
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.net.AliyunLogUtil;
 import com.xnx3.wangmarket.domain.bean.RequestInfo;

@@ -39,8 +39,8 @@ public class DomainPluginManage {
 			Class<?> c = domainClassList.get(i);
 			Object invoke = null;
 			invoke = c.newInstance();
-			//运用newInstance()来生成这个新获取方法的实例  
-			Method m = c.getMethod("htmlManage",new Class[]{String.class, SimpleSite.class, RequestInfo.class});	//获取要调用的init方法  
+			//运用newInstance()来生成这个新获取方法的实例
+			Method m = c.getMethod("htmlManage",new Class[]{String.class, SimpleSite.class, RequestInfo.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 			Object o = m.invoke(invoke, new Object[]{html, simpleSite, requestInfo});
 			html = o.toString();

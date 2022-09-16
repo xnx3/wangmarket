@@ -11,9 +11,9 @@ public class MQBean {
 	public final static int TYPE_STATE = 3;			//更新网站的状态，比如暂停网站、正常访问等网站状态
 	public final static int TYPE_NEW_SITE = 4;		//创建新的网站，会自动分配一个二级域名
 	
-	private int type;	//类型；
-	private String oldValue;	//旧的值，比如旧的二级域名、或者旧的绑定顶级域名
-	private SimpleSite simpleSite;	//新的值
+	private int type;								//类型；
+	private String oldValue;						//旧的值，比如旧的二级域名、或者旧的绑定顶级域名
+	private SimpleSite simpleSite;					//新的值
 	
 	
 	public int getType() {

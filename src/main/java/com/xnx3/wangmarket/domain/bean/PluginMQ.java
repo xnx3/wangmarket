@@ -10,8 +10,8 @@ import net.sf.json.JSONObject;
  *
  */
 public class PluginMQ {
-	private int siteid;	//站点id
-	private String domain;	//站点自动分配的二级域名,无论什么插件，MQ的必须有这个参数
+	private int siteid;			//站点id
+	private String domain;		//站点自动分配的二级域名,无论什么插件，MQ的必须有这个参数
 	private String bindDomain;	//站点绑定的域名,无论什么插件，MQ的必须有这个参数
 	
 	JSONObject mqContentJson;	//mqContent MQ传递来的消息体的JSON格式数据

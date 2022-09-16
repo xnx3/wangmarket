@@ -25,10 +25,10 @@ import com.xnx3.wangmarket.domain.bean.TextBean;
  */
 public class GainSource {
 	public static HttpUtil httpUtil;
-	public static boolean isDomain;	//当前是否是单独运行的domain项目
+	public static boolean isDomain;											//当前是否是单独运行的domain项目
 	public static final String jiasuDomain = "http://cdn.weiunity.com/";	//单独部署domain项目，获取html源代码的全球加速域名
-	public static LocalServerMode localServerMode;	//本地文件操作的工具类
-	public static int cacheToMemorySize = 10000;	//将文本文件缓存到内存中条件，当文件字符数量不超过多大，才会缓存到内存中。超过这个大小将缓存到磁盘中。这里10000，约等于10KB， 单位是字符的数量
+	public static LocalServerMode localServerMode;							//本地文件操作的工具类
+	public static int cacheToMemorySize = 10000;							//将文本文件缓存到内存中条件，当文件字符数量不超过多大，才会缓存到内存中。超过这个大小将缓存到磁盘中。这里10000，约等于10KB， 单位是字符的数量
 	
 	static{
 		httpUtil = new HttpUtil();

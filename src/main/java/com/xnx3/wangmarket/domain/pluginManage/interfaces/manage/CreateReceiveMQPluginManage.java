@@ -59,8 +59,8 @@ public class CreateReceiveMQPluginManage {
 			
 			try {
 				Object invoke = c.newInstance();
-				//运用newInstance()来生成这个新获取方法的实例  
-				Method m = c.getMethod("createReceiveMQForDomain",new Class[]{});	//获取要调用的init方法  
+				//运用newInstance()来生成这个新获取方法的实例
+				Method m = c.getMethod("createReceiveMQForDomain",new Class[]{});	//获取要调用的init方法
 				//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
 				m.invoke(invoke, new Object[]{});
 			} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
