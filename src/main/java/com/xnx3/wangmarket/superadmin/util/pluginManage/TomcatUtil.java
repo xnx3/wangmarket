@@ -37,16 +37,16 @@ public class TomcatUtil implements Runnable{
 	public static void exeCommand(String command) {
 		Process process = null; 
 		List<String> processList = new ArrayList<String>(); 
-		try {  
-			process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});  
-			BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));  
-			String line = "";  
+		try {
+			process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+			BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line = "";
 			while ((line = input.readLine()) != null) {
 				processList.add(line); 
-			}  
+			}
 			input.close();
 		} catch (IOException e) {
-			e.printStackTrace();  
+			e.printStackTrace();
 		}
 	}
 	

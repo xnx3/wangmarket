@@ -18,10 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import javax.annotation.Resource;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.MappingException;
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.xnx3.BaseVO;
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
@@ -40,14 +43,12 @@ import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.pluginManage.PluginManage;
 import com.xnx3.j2ee.pluginManage.PluginRegister;
 import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
-import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.ActionLogUtil;
-import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SafetyUtil;
-import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.VersionUtil;
+import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.net.HttpResponse;
 import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
@@ -60,6 +61,7 @@ import com.xnx3.wangmarket.superadmin.util.pluginManage.ScanClassesUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.TomcatUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ZipUtils;
 import com.xnx3.wangmarket.superadmin.vo.InstallApplicationVO;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -1422,16 +1424,16 @@ public class PluginManageController extends BasePluginController {
 				}
 			}
 		} catch (Exception e) {
-		    throw new RuntimeException("unzip error from ZipUtils", e);
-	    } finally {
-	    	if(zipFile != null){
-	    		try {
-	    			zipFile.close();
-	    		} catch (IOException e) {
-	    			e.printStackTrace();
-	    		}
-	    	}
-	    }
+			throw new RuntimeException("unzip error from ZipUtils", e);
+		} finally {
+			if(zipFile != null){
+				try {
+					zipFile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	/**

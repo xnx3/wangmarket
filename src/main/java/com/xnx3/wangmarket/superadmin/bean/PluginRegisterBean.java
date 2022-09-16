@@ -8,21 +8,21 @@ import com.xnx3.j2ee.pluginManage.PluginRegister;
  *
  */
 public class PluginRegisterBean {
-	public String id;	//该插件的唯一标识。如自定义表单插件，唯一标识便是 formManage 。注意不能与其他插件重名
+	public String id;							//该插件的唯一标识。如自定义表单插件，唯一标识便是 formManage 。注意不能与其他插件重名
 	
 	//作为网站管理后台左侧 功能插件 菜单下的子菜单所显示的入口，入口菜单超链接所显示的标题及超链接所连接的页面
-	public String menuTitle;	// 如：表单反馈
-	public String menuHref;		// 如：站外的绝对路径，或站内的相对路径  ../../column/popupListForTemplate.do
+	public String menuTitle;					// 如：表单反馈
+	public String menuHref;						// 如：站外的绝对路径，或站内的相对路径  ../../column/popupListForTemplate.do
 	
-	public boolean applyToCMS = false;	//是否适用于CMS类型网站管理后台， true：是
-	public boolean applyToAgency = false;	//是否适用于代理后台， true：是
+	public boolean applyToCMS = false;			//是否适用于CMS类型网站管理后台， true：是
+	public boolean applyToAgency = false;		//是否适用于代理后台， true：是
 	public boolean applyToSuperAdmin = false;	//是否适用于总管理后台， true：是
 	
 	//v4.6增加
-	public String intro;	//该插件的简介说明
-	public String detailUrl;	//该插件的详情说明的网址，点击后进入这个url查看详细说明
-	public String version;	//当前插件的版本号
-	public String versionCheckUrl;	//远程版本检测的url地址。 其内返回值为 最新版本号|提示有新版本后点击进入的网址|  如： 1.0|http://www.wang.market/wangmarket.html|
+	public String intro;						//该插件的简介说明
+	public String detailUrl;					//该插件的详情说明的网址，点击后进入这个url查看详细说明
+	public String version;						//当前插件的版本号
+	public String versionCheckUrl;				//远程版本检测的url地址。 其内返回值为 最新版本号|提示有新版本后点击进入的网址|  如： 1.0|http://www.wang.market/wangmarket.html|
 	
 	/**
 	 * 将增加注解 PluginRegister 传入，将其转为 Bean 的形态
