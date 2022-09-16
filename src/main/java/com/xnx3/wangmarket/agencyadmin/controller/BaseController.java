@@ -1,10 +1,11 @@
 package com.xnx3.wangmarket.agencyadmin.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.bean.UserBean;
 import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 

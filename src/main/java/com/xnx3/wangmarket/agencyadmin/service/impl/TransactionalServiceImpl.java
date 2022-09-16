@@ -1,11 +1,14 @@
 package com.xnx3.wangmarket.agencyadmin.service.impl;
 
 import java.util.Random;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.xnx3.DateUtil;
 import com.xnx3.MD5Util;
 import com.xnx3.StringUtil;
@@ -21,8 +24,6 @@ import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.AliyunLogUtil;
-import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
@@ -334,7 +335,7 @@ public class TransactionalServiceImpl implements TransactionalService {
 		
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
-        String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
+		String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
 		user.setPassword(md5Password);
 		
 		sqlDAO.save(user);

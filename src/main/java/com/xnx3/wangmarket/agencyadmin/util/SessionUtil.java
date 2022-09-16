@@ -1,10 +1,5 @@
 package com.xnx3.wangmarket.agencyadmin.util;
 
-import java.util.Map;
-import com.xnx3.wangmarket.admin.entity.InputModel;
-import com.xnx3.wangmarket.admin.entity.Site;
-import com.xnx3.wangmarket.admin.entity.SiteColumn;
-import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 

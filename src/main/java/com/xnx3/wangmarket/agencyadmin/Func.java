@@ -1,7 +1,5 @@
 package com.xnx3.wangmarket.agencyadmin;
 
-import com.xnx3.wangmarket.admin.bean.UserBean;
-import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 

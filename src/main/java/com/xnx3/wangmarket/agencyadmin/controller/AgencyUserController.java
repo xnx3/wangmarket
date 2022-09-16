@@ -3,8 +3,10 @@ package com.xnx3.wangmarket.agencyadmin.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
@@ -40,12 +43,13 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.UserVO;
-import com.xnx3.wangmarket.domain.bean.MQBean;
-import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
 import com.xnx3.wangmarket.agencyadmin.entity.SiteSizeChange;
 import com.xnx3.wangmarket.agencyadmin.service.TransactionalService;
 import com.xnx3.wangmarket.agencyadmin.util.SiteSizeChangeLog;
+import com.xnx3.wangmarket.domain.bean.MQBean;
+import com.xnx3.wangmarket.domain.bean.SimpleSite;
+
 import net.sf.json.JSONArray;
 
 /**
@@ -499,7 +503,7 @@ public class AgencyUserController extends BaseController {
 		
 		Random random = new Random();
 		user.setSalt(random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+""+random.nextInt(10)+"");
-        String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
+		String md5Password = new Md5Hash(user.getPassword(), user.getSalt(),Global.USER_PASSWORD_SALT_NUMBER).toString();
 		user.setPassword(md5Password);
 		
 		sqlService.save(user);
