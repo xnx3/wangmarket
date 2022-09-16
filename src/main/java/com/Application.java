@@ -4,17 +4,15 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.xnx3.j2ee.system.WMConfig;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
-import com.xnx3.wangmarket.superadmin.util.pluginManage.ComponentUtils;
 
 /**
  * 运行入口
