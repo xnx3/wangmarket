@@ -1,6 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/wm/common/head.jsp">
 	<jsp:param name="title" value="设置系统参数"/>
 </jsp:include>
@@ -85,8 +85,8 @@
 			</div>
 		</div>
 	</div>
-    
-   	<div class="layui-form-item" style="padding-top:15px;">
+	
+	<div class="layui-form-item" style="padding-top:15px;">
 		<div class="layui-input-block">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1">保存设置</button>
 		</div>
@@ -95,44 +95,44 @@
 
 <script>
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form;
-  
-  //监听提交
-  form.on('submit(demo1)', function(data){
-	  msg.loading('保存中...');
+	var form = layui.form;
+
+	//监听提交
+	form.on('submit(demo1)', function(data){
+		msg.loading('保存中...');
 		var d=$("form").serialize();
-        $.post("/install/systemSetSave.do", d, function (result) {
+		$.post("/install/systemSetSave.do", d, function (result) {
 			msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
 				msg.success();
-        		if('<%=Global.get("ATTACHMENT_FILE_MODE") %>' == 'aliyunOSS'){
-        			//使用的阿里云oss进行附件存储，那么需要配置阿里云相关参数
-        			window.location.href='accessKey.do'; 
-        		}else{
-        			//本地服务器存储。那么到此完成配置
-        			window.location.href='installSuccess.do'; 
-        		}
-        	}else if(obj.result == '0'){
-        		layer.alert(obj.info);
-        	}else{
-        		layer.msg(result, {shade: 0.3})
-        	}
-         }, "text");
+				if('<%=Global.get("ATTACHMENT_FILE_MODE") %>' == 'aliyunOSS'){
+					//使用的阿里云oss进行附件存储，那么需要配置阿里云相关参数
+					window.location.href='accessKey.do'; 
+				}else{
+					//本地服务器存储。那么到此完成配置
+					window.location.href='installSuccess.do'; 
+				}
+			}else if(obj.result == '0'){
+				layer.alert(obj.info);
+			}else{
+				layer.msg(result, {shade: 0.3})
+			}
+		 }, "text");
 		
-    return false;
-  });
-  
-});  
+		return false;
+	});
+
+});
 
 </script>
 
 <style>
 .two{
 	background-color: #5fb87852;
-    padding: 2px;
-    padding-left: 10px;
-    border-radius: 5px;
+	padding: 2px;
+	padding-left: 10px;
+	border-radius: 5px;
 }
 </style>
 <jsp:include page="common.jsp"></jsp:include>

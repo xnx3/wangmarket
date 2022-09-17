@@ -1,42 +1,42 @@
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
-    <jsp:param name="title" value="自定义输入模型"/>
+	<jsp:param name="title" value="自定义输入模型"/>
 </jsp:include>
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
 
 <table class="layui-table" style="margin:0px;">
-  <colgroup>
-    <col>
-    <col width="160">
-    <col width="80">
-    <col width="58">
-  </colgroup>
-  <thead>
-    <tr>
-      <th>模型代码</th>
-      <th>备注说明</th>
-      <th>操作</th>
-    </tr> 
-  </thead>
-  <tbody class="tile__listedit" id="columnList">
-  	<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
-  	<c:forEach items="${list}" var="model">
-        <tr>
-        	<td>${model.codeName }</td>
-        	<td>${model.remark }</td>
-            <td  style="width:110px;">
-            	<botton class="layui-btn layui-btn-sm" onclick="window.location.href='edit.do?id=${model.id}';"><i class="layui-icon">&#xe642;</i></botton>
-            	<botton class="layui-btn layui-btn-sm" onclick="deleteInputModel('${model.id }', '${model.remark }');"><i class="layui-icon">&#xe640;</i></botton>
-			</td>
-        </tr>
-    </c:forEach>
-  </tbody>
+	<colgroup>
+		<col>
+		<col width="160">
+		<col width="80">
+		<col width="58">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>模型代码</th>
+			<th>备注说明</th>
+			<th>操作</th>
+		</tr> 
+	</thead>
+	<tbody class="tile__listedit" id="columnList">
+		<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
+		<c:forEach items="${list}" var="model">
+			<tr>
+				<td>${model.codeName }</td>
+				<td>${model.remark }</td>
+				<td style="width:110px;">
+					<botton class="layui-btn layui-btn-sm" onclick="window.location.href='edit.do?id=${model.id}';"><i class="layui-icon">&#xe642;</i></botton>
+					<botton class="layui-btn layui-btn-sm" onclick="deleteInputModel('${model.id }', '${model.remark }');"><i class="layui-icon">&#xe640;</i></botton>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
 </table>
 
 <div style="padding:15px;">
@@ -58,15 +58,15 @@ function deleteInputModel(id, remark){
 	msg.confirm('确定要删除“'+remark+'”吗? ', function(){
 		parent.msg.loading('删除中');
 		$.post('/inputModel/delete.do?id='+id, function(data){
-		    parent.msg.close();
-		    if(data.result == '1'){
-		        parent.msg.success("删除成功");
+			parent.msg.close();
+			if(data.result == '1'){
+				parent.msg.success("删除成功");
 				window.location.reload();	//刷新当前页
-		     }else if(data.result == '0'){
+			 }else if(data.result == '0'){
 				msg.failure(data.info);
-		     }else{
+			 }else{
 				msg.failure('操作失败');
-		     }
+			 }
 		});
 		
 	}, function(){

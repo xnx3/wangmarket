@@ -17,71 +17,71 @@
 
 <div class="weui_cells weui_cells_access" style="margin-top: 0em;">
 	
- <a class="weui_cell" href="../productPrice.do" style="display:none;">
-   <div class="weui_cell_bd weui_cell_primary">
-     <p>产品介绍</p>
-   </div>
-   <div class="weui_cell_ft">按量计费</div>
- </a>
- <a class="weui_cell" href="../user/invite.do" style="display:none;">
-   <div class="weui_cell_bd weui_cell_primary">
-     <p>我的下线</p>
-   </div>
-   <div class="weui_cell_ft">下线列表</div>
- </a>
+<a class="weui_cell" href="../productPrice.do" style="display:none;">
+	<div class="weui_cell_bd weui_cell_primary">
+		<p>产品介绍</p>
+	</div>
+	<div class="weui_cell_ft">按量计费</div>
+</a>
+<a class="weui_cell" href="../user/invite.do" style="display:none;">
+	<div class="weui_cell_bd weui_cell_primary">
+		<p>我的下线</p>
+	</div>
+	<div class="weui_cell_ft">下线列表</div>
+</a>
 
 </div>
 
 <div class="weui_cells" style="margin-top:0px;">
-  
-  <div class="weui_cell" style="display:none;">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>我的<%=Global.get("CURRENCY_NAME") %></p>
-    </div>
-    <div class="weui_cell_ft" style="color: #9717F7;cursor: pointer;" onclick="window.parent.openMoneyIndex();">${user.currency }<%=Global.get("CURRENCY_NAME") %></div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>到期时间</p>
-    </div>
-    <a href="javascript:parent.jumpParentAgency();;" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
-    <div class="weui_cell_ft">
-    	<x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time>
-    </div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>空间占用</p>
-    </div>
-    <div class="weui_cell_ft" id="ossSize">计算中...</div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>空间总量</p>
-    </div>
-    <div class="weui_cell_ft">
-    	${site.attachmentSizeHave}&nbsp;MB
-    	<!-- <a href="../productPrice.do" class="weui_btn weui_btn_mini weui_btn_primary" style="margin-left:10px;">升级</a> -->
-    </div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>剩余空间</p>
-    </div>
-    <div class="weui_cell_ft" id="residueSize">计算中...</div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>注册时间</p>
-    </div>
-    <div class="weui_cell_ft"><x:time linuxTime="${user.regtime }"></x:time></div>
-  </div>
-  <div class="weui_cell">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>最后登陆</p>
-    </div>
-    <div class="weui_cell_ft"><x:time linuxTime="${user.lasttime }"></x:time></div>
-  </div>
+	
+	<div class="weui_cell" style="display:none;">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>我的<%=Global.get("CURRENCY_NAME") %></p>
+		</div>
+		<div class="weui_cell_ft" style="color: #9717F7;cursor: pointer;" onclick="window.parent.openMoneyIndex();">${user.currency }<%=Global.get("CURRENCY_NAME") %></div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>到期时间</p>
+		</div>
+		<a href="javascript:parent.jumpParentAgency();;" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
+		<div class="weui_cell_ft">
+			<x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time>
+		</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>空间占用</p>
+		</div>
+		<div class="weui_cell_ft" id="ossSize">计算中...</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>空间总量</p>
+		</div>
+		<div class="weui_cell_ft">
+			${site.attachmentSizeHave}&nbsp;MB
+			<!-- <a href="../productPrice.do" class="weui_btn weui_btn_mini weui_btn_primary" style="margin-left:10px;">升级</a> -->
+		</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>剩余空间</p>
+		</div>
+		<div class="weui_cell_ft" id="residueSize">计算中...</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>注册时间</p>
+		</div>
+		<div class="weui_cell_ft"><x:time linuxTime="${user.regtime }"></x:time></div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
+			<p>最后登陆</p>
+		</div>
+		<div class="weui_cell_ft"><x:time linuxTime="${user.lasttime }"></x:time></div>
+	</div>
 </div>
 
 <script>

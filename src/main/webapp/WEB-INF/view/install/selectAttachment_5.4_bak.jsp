@@ -6,63 +6,63 @@
 	<jsp:param name="title" value="选择使用方式"/>
 </jsp:include>
 
-  	<style>
-  		
-  		.content{
-  			width: 600px;
-  			min-height:80%;
-		    margin: 0 auto;
-		    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 10px 2px;
-		    padding: 30px;
-		    margin-top: 50px;
-  		}
-  		.title{
-  			border-bottom: 1px solid #eee;
-		    padding-top: 20px;
-		    padding-left: 10px;
-		    padding-bottom: 20px;
-		    font-size: 28px;
-		    margin-bottom: 20px;
-		    text-align:center;
-  		}
-  		.content ul{
-  			padding-left: 20px;
-  		}
-  		.content ul li{
-  			list-style-type: decimal;
-  			padding-left:10px;
-  			padding-bottom:4px;
-  		}
-  		.content ul li img{
-  			max-width:250px;
-  			padding:4px;
-  			padding-left:40px;
-  		}
-  		.info{
-  			font-size:14px;
-  		}
-  		.info h2,h3,h4,h5{
- 			border-bottom: 1px solid #eee;
-		    padding-top: 15px;
-		    margin-bottom: 5px;
-  		}
-  		
-  		@media only screen and (max-width: 700px) {
-  			.content{
-  				width:auto;
-  				margin-top: 0px;
-  				box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 0px;
-  			}
-  			
-  		}
-  		
-  		a{
-  			color: blue;
-  		}
-  	</style>
-  	
-    <div class="content">
-    	<div class="select">
+	<style>
+		
+		.content{
+			width: 600px;
+			min-height:80%;
+			margin: 0 auto;
+			box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 10px 2px;
+			padding: 30px;
+			margin-top: 50px;
+		}
+		.title{
+			border-bottom: 1px solid #eee;
+			padding-top: 20px;
+			padding-left: 10px;
+			padding-bottom: 20px;
+			font-size: 28px;
+			margin-bottom: 20px;
+			text-align:center;
+		}
+		.content ul{
+			padding-left: 20px;
+		}
+		.content ul li{
+			list-style-type: decimal;
+			padding-left:10px;
+			padding-bottom:4px;
+		}
+		.content ul li img{
+			max-width:250px;
+			padding:4px;
+			padding-left:40px;
+		}
+		.info{
+			font-size:14px;
+		}
+		.info h2,h3,h4,h5{
+			border-bottom: 1px solid #eee;
+			padding-top: 15px;
+			margin-bottom: 5px;
+		}
+		
+		@media only screen and (max-width: 700px) {
+			.content{
+				width:auto;
+				margin-top: 0px;
+				box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 0px;
+			}
+			
+		}
+		
+		a{
+			color: blue;
+		}
+	</style>
+
+	<div class="content">
+		<div class="select">
 			<!-- 这里的 onmouseenter 是为了避免下面的收费鼠标移开后，不变回来，所以这里又加了一个，如果下面的收费的霉变过来，鼠标移动过来后，收费的恢复回来 -->
 			<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE} -->
 			<div class="selectItem" onclick="mianfeiban();" onmouseenter="qiehuanshouquanyuanshi();">
@@ -110,20 +110,20 @@
 			</div>
 			
 		</div>
-    	
-    </div>
-  </body>
-  
-  
+		
+	</div>
+</body>
+
+
 <style>
 .select{
 	padding:20px;
 }
 .select>div{
 	padding: 30px;
-    border: 1px;
-    border-style: solid;
-    border-color: #d2d2d236;
+	border: 1px;
+	border-style: solid;
+	border-color: #d2d2d236;
 }
 .select div .title{
 	font-size: 20px;
@@ -194,5 +194,5 @@ function mianfeiban(){
 	}
 }
 </script>
-  
+
 </html>

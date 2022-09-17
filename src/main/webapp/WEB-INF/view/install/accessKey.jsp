@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/wm/common/head.jsp">
 	<jsp:param name="title" value="设置阿里云AccessKey参数"/>
 </jsp:include>
@@ -33,8 +33,8 @@
 			<input type="text" name="secret"  required lay-verify="required" autocomplete="off" class="layui-input" value="">
 		</div>
 	</div>
-    
-   	<div class="layui-form-item" style="padding-top:15px;">
+	
+	<div class="layui-form-item" style="padding-top:15px;">
 		<div class="layui-input-block">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1">保存</button>
 		</div>
@@ -44,29 +44,29 @@
 
 <script>
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form;
-  
-  //监听提交
-  form.on('submit(demo1)', function(data){
-	  msg.loading('保存中...');
+	var form = layui.form;
+
+	//监听提交
+	form.on('submit(demo1)', function(data){
+		msg.loading('保存中...');
 		var d=$("form").serialize();
-        $.post("/install/accessKeySave.do", d, function (result) {
+		$.post("/install/accessKeySave.do", d, function (result) {
 			msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
 				msg.success();
-        		window.location.href='systemSet.do'; 
-        	}else if(obj.result == '0'){
-        		layer.alert(obj.info);
-        	}else{
-        		layer.msg(result, {shade: 0.3})
-        	}
-         }, "text");
+				window.location.href='systemSet.do'; 
+			}else if(obj.result == '0'){
+				layer.alert(obj.info);
+			}else{
+				layer.msg(result, {shade: 0.3})
+			}
+		}, "text");
 		
-    return false;
-  });
-  
-});  
+		return false;
+	});
+
+});
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
@@ -13,7 +13,7 @@
 	<div class="layui-nav layui-nav-tree layui-nav-side menu">
 		<div style="height: 65px;text-align: left;line-height: 65px;font-size: 16px;font-weight: 700;color: black;padding-left: 18px;">内容管理</div>
 		<ul class="" id="columnTreeNav">
-		  ${columnTreeNav }
+			${columnTreeNav }
 		</ul>
 	</div>
 	
@@ -33,70 +33,70 @@
 			
 			<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 			
-		    <c:choose>
-			    <c:when test="${siteColumn.type == 1 || siteColumn.type == 2 || siteColumn.type == 7}">
-			    	<a href="news.do?cid=${siteColumn['id'] }" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加信息</a>
-			    </c:when>
-			    <c:otherwise>
-			    </c:otherwise>
+			<c:choose>
+				<c:when test="${siteColumn.type == 1 || siteColumn.type == 2 || siteColumn.type == 7}">
+					<a href="news.do?cid=${siteColumn['id'] }" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加信息</a>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
 			</c:choose>
 		</form>	
-		    
+			
 		<table class="layui-table iw_table">
 			<thead>
 				<tr>
 					<th>编号</th>
-		            <th>文章标题</th>
-		            <th>标题图片</th>
-		            <th>发布时间</th>
-		            <th>操作</th>
+					<th>文章标题</th>
+					<th>标题图片</th>
+					<th>发布时间</th>
+					<th>操作</th>
 				</tr> 
 			</thead>
 			<tbody>
 				<c:forEach items="${list}" var="news">
-		            <tr>
-		                <td style="width:55px;">${news['id'] }</td>
-		                <td><a href="redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black">${news['title'] }</a></td>
-		                <td style="width:60px;">
-		                	<c:if test="${not empty news.titlepic }">
-		               			<c:choose>
-								    <c:when test="${fn:contains(news.titlepic,'//')}">
-								    	<img src="${news.titlepic }?x-oss-process=image/resize,h_25" height="25" />
-								    </c:when>
-								    <c:otherwise>
+					<tr>
+						<td style="width:55px;">${news['id'] }</td>
+						<td><a href="redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black">${news['title'] }</a></td>
+						<td style="width:60px;">
+							<c:if test="${not empty news.titlepic }">
+								<c:choose>
+									<c:when test="${fn:contains(news.titlepic,'//')}">
+										<img src="${news.titlepic }?x-oss-process=image/resize,h_25" height="25" />
+									</c:when>
+									<c:otherwise>
 										<a href="${AttachmentFileUrl }site/${news.siteid }/news/${news.titlepic }" target="_black"><img src="${AttachmentFileUrl }site/${news.siteid }/news/${news.titlepic }?x-oss-process=image/resize,h_25" height="25" /></a>
-								    </c:otherwise>
+									</c:otherwise>
 								</c:choose>
 							</c:if>
-		                </td>
-		                <td style="width:140px; cursor: pointer;" id="addtime_${news['id'] }" onclick="updateAddtime('${news['id'] }', '<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>');">
-		                	<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time>
-		                	<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
-		                </td>
-		                <td style="text-align: center; width:140px;">
-		                	<c:choose>
-							    <c:when test="${siteColumn.type == 3 && siteColumn.editMode == 1}">
+						</td>
+						<td style="width:140px; cursor: pointer;" id="addtime_${news['id'] }" onclick="updateAddtime('${news['id'] }', '<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>');">
+							<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time>
+							<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
+						</td>
+						<td style="text-align: center; width:140px;">
+							<c:choose>
+								<c:when test="${siteColumn.type == 3 && siteColumn.editMode == 1}">
 									<botton class="layui-btn layui-btn-sm" onclick="editText('${siteColumn.templatePageViewName}');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-							    </c:when>
-							    <c:otherwise>
-							    	<a class="layui-btn layui-btn-sm" href="news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
-							    </c:otherwise>
+								</c:when>
+								<c:otherwise>
+									<a class="layui-btn layui-btn-sm" href="news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
+								</c:otherwise>
 							</c:choose>
-		                	
-		                	<c:choose>
-		                		<c:when test="${siteColumn.type == 3 || siteColumn.type == 5 || siteColumn.type == 8}">
-							    	<!-- 独立页面、超链接是不显示删除按钮、转移栏目的 -->
-							    </c:when>
-							    <c:otherwise>
-							    	<!-- 新闻列表、图文列表, 又或者这里是列出所有信息，siteColumn 本身为空 -->
-							    	<botton class="layui-btn layui-btn-sm" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
-							    	<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
-							    </c:otherwise>
+							
+							<c:choose>
+								<c:when test="${siteColumn.type == 3 || siteColumn.type == 5 || siteColumn.type == 8}">
+									<!-- 独立页面、超链接是不显示删除按钮、转移栏目的 -->
+								</c:when>
+								<c:otherwise>
+									<!-- 新闻列表、图文列表, 又或者这里是列出所有信息，siteColumn 本身为空 -->
+									<botton class="layui-btn layui-btn-sm" onclick="changeColumn('${news['id'] }', '${news['cid'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe609;</i></botton>
+									<botton class="layui-btn layui-btn-sm" onclick="deleteNews('${news['id'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+								</c:otherwise>
 							</c:choose>
-		                	
-		                </td>
-		            </tr>
-		        </c:forEach>
+							
+						</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		<!-- 通用分页跳转 -->
@@ -120,11 +120,11 @@ if('${siteColumn.id}'.length > 0){
 }
 
 layui.use('element', function(){
-  var element = layui.element;
+	var element = layui.element;
 });
 var laydate;
 layui.use('laydate', function(){
-  laydate = layui.laydate;
+	laydate = layui.laydate;
 });
 
 /**
@@ -178,7 +178,7 @@ function updateAddtime(id, value){
  */
 function deleteNews(newsid){
 	var dtv_confirm = layer.confirm('删除后不可恢复，您确定要删除此条信息吗？', {
-	  btn: ['删除','取消'] //按钮
+		btn: ['删除','取消'] //按钮
 	}, function(){
 		layer.close(dtv_confirm);
 		parent.msg.loading("删除中");
@@ -187,13 +187,13 @@ function deleteNews(newsid){
 			if(data.result == '1'){
 				parent.msg.success("删除成功");
 				location.reload();
-	     	}else if(data.result == '0'){
-	     		parent.msg.failure(data.info);
-	     	}else{
-	     		parent.msg.failure('操作失败');
-	     	}
+		 	}else if(data.result == '0'){
+		 		parent.msg.failure(data.info);
+		 	}else{
+		 		parent.msg.failure('操作失败');
+		 	}
 		});
-    }, function(){
+	}, function(){
 	});
 }
 
@@ -235,23 +235,23 @@ ${autoJumpTemplateEdit}
  */
 function yindaoSelectColumn(){
 	const columnDriver = new Driver({
-		  //doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
-		  closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
-		  //nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
-		  //prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
-		  onReset: function(Element) {
-			  // 遮罩将要关闭时调用
-		  },       
+		//doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
+		closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		//nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		//prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		onReset: function(Element) {
+			// 遮罩将要关闭时调用
+		},
 	});
 	//Define the steps for introduction
 	columnDriver.defineSteps([
 		{
-			 element: '#columnTreeNav',
-			 popover: {
-			   title: '在这里选择要编辑的栏目',
-			   description: '您想编辑哪个栏目，就可以点击这里的哪个栏目，便可编辑其内容了。',
-			   position: 'right'
-			 }
+			element: '#columnTreeNav',
+			popover: {
+				title: '在这里选择要编辑的栏目',
+				description: '您想编辑哪个栏目，就可以点击这里的哪个栏目，便可编辑其内容了。',
+				position: 'right'
+			}
 		}
 	]);
 	

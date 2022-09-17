@@ -31,14 +31,14 @@ li{
 		</li>
 		<li>
 			将上面绑定的域名，做 CNAME 记录解析至：
-			<br/> <div style="padding-left:10px; padding-top: 5px;     max-height: 18px;">${cnameDomain}</div>
+			<br/> <div style="padding-left:10px; padding-top: 5px; max-height: 18px;">${cnameDomain}</div>
 		</li>
 		<li>
 			等待十分钟，访问域名，便可见效果
 		</li>
 	</ul>
 	
-	<div style="color:gray;  padding-bottom: 5px; font-size:14px;">
+	<div style="color:gray; padding-bottom: 5px; font-size:14px;">
 		提示：
 		<br/>&nbsp;1. 中文域名无法绑定
 		<br/>&nbsp;2. 如果您想解除域名绑定，可<a href="javascript:bindDomain('${site.bindDomain }','');" style="padding:2px; cursor:pointer; color: blue; text-decoration: underline;">点击此处取消绑定</a>

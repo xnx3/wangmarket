@@ -1,6 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
@@ -39,8 +39,8 @@
 }
 
 .layui-nav-itemed>a, .layui-nav-tree .layui-nav-title a, .layui-nav-tree .layui-nav-title a:hover {
-    background-color: #EAEDF1!important;
-    color: #222!important;
+	background-color: #EAEDF1!important;
+	color: #222!important;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th{
@@ -60,7 +60,7 @@
 	border-top-color: rgba(64, 34, 34, 0);
 	border-color: transparent transparent #a42828;
 }
-    
+	
 </style>
 
 <table class="layui-table" style="margin-top:-1px;">
@@ -79,7 +79,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
 
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form;
+	var form = layui.form;
 });
 
 //选择指定的栏目进行移动文章 targetColumnId 要移动到哪个栏目的id
@@ -89,8 +89,8 @@ function selectColumn(targetColumnId){
 		msg.close();
 		if(data.result == '1'){
 			parent.msg.success("转移成功");
-       		parent.location.reload();	//刷新父窗口
-       		parent.layer.close(index);
+			parent.location.reload();	//刷新父窗口
+			parent.layer.close(index);
 	 	}else if(data.result == '0'){
 	 		parent.msg.failure(data.info);
 	 	}else{

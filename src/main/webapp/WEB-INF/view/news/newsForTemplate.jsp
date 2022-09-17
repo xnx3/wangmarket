@@ -46,8 +46,8 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 /*input输入框下面的文字说明*/
 .explain{
 	font-size: 12px;
-    color: gray;
-    padding-top: 3px;
+	color: gray;
+	padding-top: 3px;
 }
 </style>
 
@@ -58,7 +58,7 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 	<input type="hidden" name="type" value="${news.type }" />
 	
 	${inputModelText }
-    
+	
 	<div class="layui-form-item" style="padding-top:15px; text-align:center;">
 		<div class="layui-input-block">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:150px; font-size: 16px; height: 45px;line-height: 45px;">保存</button>
@@ -167,8 +167,8 @@ layui.use('upload', function(){
 
 <script type="text/javascript">
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form;
-  //监听提交
+	var form = layui.form;
+	//监听提交
 	form.on('submit(demo1)', function(data){
 	
 		//判断是否有 save() 方法，若有，则先执行 save()  这个方法是用户在输入模型中自己定义的
@@ -181,60 +181,60 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 			}catch(err){}
 		}
 	
-		parent.msg.loading("保存中");    //显示“操作中”的等待提示
+		parent.msg.loading("保存中");	//显示“操作中”的等待提示
 		//创建FormData对象，获取到form表单的相关数据
 		var formobj =  document.getElementById("form");
 		var data = new FormData(formobj);
 	
-	    //为FormData对象添加上传图片的数据，这里由3.11版本更新后，图片单独上传，此项废弃
-	    //$.each($('#titlePicFile')[0].files, function(i, file) {
-	    //    data.append('titlePicFile', file);
-	    //});
+		//为FormData对象添加上传图片的数据，这里由3.11版本更新后，图片单独上传，此项废弃
+		//$.each($('#titlePicFile')[0].files, function(i, file) {
+		//	data.append('titlePicFile', file);
+		//});
 		$.ajax({
 			url:'/news/saveNews.do',
-	        type:'POST',
-	        data:data,
-	        cache: false,
-	        contentType: false,    //不可缺
-	        processData: false,    //不可缺
-	        success:function(data){
-	        	parent.msg.close();    //关闭“操作中”的等待提示
-	        	if(data.result == '1'){
-			        //上传成功
-			        
-	        		//判断是否有 saveSuccess() 方法，若有，则先执行 saveSuccess()  这个方法是用户在输入模型中自己定义的
-	        		if(typeof(saveSuccess) == 'function'){
-	        			try{
-	        				var success_return = saveSuccess();
-	        				if(typeof(success_return) == 'boolean' && success_return == false){
-	        					return false;
-	        				}
-	        			}catch(err){ console.log(err); }
-	        		}
-			        
-	            	parent.msg.success('保存成功');
-	            	if('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8'){
-	            		//如果是独立页面，那就只是进入内容管理刚进入时，提示选择要修改哪个栏目的样子
-	            		window.location.href='listForTemplate.do';
-	            	}else{
-	            		//列表页面，修改完成还是会回到列表
-	            		window.location.href='listForTemplate.do?cid=${news.cid }';
-	            	}
-	            	
-			    }else if(data.result == '0'){
-			        parent.msg.failure(data.info);
-			    }else{
-			        parent.msg.failure('操作失败');
-			    }
-	        },
-	        error:function(){
-	        	parent.msg.close();    //关闭“操作中”的等待提示
-	        	parent.msg.failure('出错');
-	        }
+			type:'POST',
+			data:data,
+			cache: false,
+			contentType: false,	//不可缺
+			processData: false,	//不可缺
+			success:function(data){
+				parent.msg.close();	//关闭“操作中”的等待提示
+				if(data.result == '1'){
+					//上传成功
+					
+					//判断是否有 saveSuccess() 方法，若有，则先执行 saveSuccess()  这个方法是用户在输入模型中自己定义的
+					if(typeof(saveSuccess) == 'function'){
+						try{
+							var success_return = saveSuccess();
+							if(typeof(success_return) == 'boolean' && success_return == false){
+								return false;
+							}
+						}catch(err){ console.log(err); }
+					}
+					
+					parent.msg.success('保存成功');
+					if('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8'){
+						//如果是独立页面，那就只是进入内容管理刚进入时，提示选择要修改哪个栏目的样子
+						window.location.href='listForTemplate.do';
+					}else{
+						//列表页面，修改完成还是会回到列表
+						window.location.href='listForTemplate.do?cid=${news.cid }';
+					}
+					
+				}else if(data.result == '0'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.failure('操作失败');
+				}
+			},
+			error:function(){
+				parent.msg.close();	//关闭“操作中”的等待提示
+				parent.msg.failure('出错');
+			}
 		});
-    return false;
-  });
-  
+		return false;
+	});
+
 });
 
 //载入素材库
