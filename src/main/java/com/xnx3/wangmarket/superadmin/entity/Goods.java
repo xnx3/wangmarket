@@ -1,6 +1,7 @@
 package com.xnx3.wangmarket.superadmin.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,16 +15,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "goods")
 public class Goods implements java.io.Serializable {
+	
 	private Integer id;
 	private Integer money;
 	private String explain;
 	private String deadline;
 	private String type;
-	
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -31,7 +28,12 @@ public class Goods implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
+	@Column(name = "money", columnDefinition = "int(11) COMMENT '' default '0'")
 	public Integer getMoney() {
 		return money;
 	}
@@ -40,6 +42,7 @@ public class Goods implements java.io.Serializable {
 		this.money = money;
 	}
 
+	@Column(name = "explain", columnDefinition = "char(100) COMMENT '' default ''")
 	public String getExplain() {
 		return explain;
 	}
@@ -48,6 +51,7 @@ public class Goods implements java.io.Serializable {
 		this.explain = explain;
 	}
 
+	@Column(name = "deadline", columnDefinition = "char(10) COMMENT '' default ''")
 	public String getDeadline() {
 		return deadline;
 	}
@@ -56,12 +60,19 @@ public class Goods implements java.io.Serializable {
 		this.deadline = deadline;
 	}
 
+	@Column(name = "type", columnDefinition = "char(5) COMMENT '' default ''")
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Goods [id=" + id + ", money=" + money + ", explain=" + explain + ", deadline=" + deadline + ", type="
+				+ type + "]";
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "site_data")
 public class SiteData implements java.io.Serializable {
+	
 	private Integer id;
 	private String indexDescription;
 
@@ -28,7 +29,7 @@ public class SiteData implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "index_description")
+	@Column(name = "index_description", columnDefinition = "varchar(400) COMMENT '首页的描述' default ''")
 	public String getIndexDescription() {
 		return indexDescription;
 	}

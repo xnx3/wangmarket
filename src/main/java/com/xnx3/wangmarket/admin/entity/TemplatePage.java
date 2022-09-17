@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "template_page")
 public class TemplatePage implements java.io.Serializable {
+	
 	/**
 	 * 模版页面类型，0:其他
 	 */
@@ -70,6 +71,7 @@ public class TemplatePage implements java.io.Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name = "name", columnDefinition = "char(20) COMMENT '当前模版页面的名字，（还原模板时会使用到）' default ''")
 	public String getName() {
 		return name;
 	}
@@ -79,41 +81,53 @@ public class TemplatePage implements java.io.Serializable {
 		}
 		this.name = name;
 	}
+	@Column(name = "userid", columnDefinition = "int(11) COMMENT '所属用户的id' default '0'")
 	public Integer getUserid() {
 		return userid;
 	}
 	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
+	@Column(name = "type", columnDefinition = "tinyint(2) COMMENT '当前模版页的类型，类型；0其他；1首页；2新闻列表,文字列表；3新闻详情；6单页面如关于我们' default '0'")
 	public Short getType() {
 		return type;
 	}
 	public void setType(Short type) {
 		this.type = type;
 	}
+	@Column(name = "template_name", columnDefinition = "char(20) COMMENT '所属的模版名字' default ''")
 	public String getTemplateName() {
 		return templateName;
 	}
 	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
 	}
+	@Column(name = "siteid", columnDefinition = "int(11) COMMENT '当前模版页面，是那个站点在使用。一个站点拥有一个自己的模版，克隆而来' default '0'")
 	public int getSiteid() {
 		return siteid;
 	}
 	public void setSiteid(int siteid) {
 		this.siteid = siteid;
 	}
+	@Column(name = "remark", columnDefinition = "char(30) COMMENT '备注' default ''")
 	public String getRemark() {
 		return remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	@Column(name = "edit_mode", columnDefinition = "tinyint(2) COMMENT '当前模版页面的编辑模式，1:智能模式； 2:代码模式。  这里，判断只要不是2，那都是智能模式，以兼容以前的版本' default '0'")
 	public Short getEditMode() {
 		return editMode;
 	}
 	public void setEditMode(Short editMode) {
 		this.editMode = editMode;
+	}
+	
+	@Override
+	public String toString() {
+		return "TemplatePage [id=" + id + ", name=" + name + ", editMode=" + editMode + ", userid=" + userid + ", type="
+				+ type + ", templateName=" + templateName + ", siteid=" + siteid + ", remark=" + remark + "]";
 	}
 	
 }

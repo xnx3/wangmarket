@@ -34,4 +34,9 @@ public class TemplateVarData implements java.io.Serializable {
 		this.text = text;
 	}
 
+	@Override
+	public String toString() {
+		return "TemplateVarData [id=" + id + ", text=" + text + "]";
+	}
+
 }

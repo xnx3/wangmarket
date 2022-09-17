@@ -12,8 +12,8 @@ import javax.persistence.Table;
 @Table(name = "agency_data")
 public class AgencyData implements java.io.Serializable {
 
-	private Integer id;	//对应agency.id
-	private String notice;	//公告	
+	private Integer id;		//对应agency.id
+	private String notice;	//公告
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -25,12 +25,18 @@ public class AgencyData implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "notice", columnDefinition = "text COMMENT '公告' default ''")
 	public String getNotice() {
 		return notice;
 	}
 
 	public void setNotice(String notice) {
 		this.notice = notice;
+	}
+
+	@Override
+	public String toString() {
+		return "AgencyData [id=" + id + ", notice=" + notice + "]";
 	}
 	
 }

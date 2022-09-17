@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "template_page_data")
 public class TemplatePageData implements java.io.Serializable {
+	
 	private Integer id;
 	private String text;
 
@@ -31,6 +32,11 @@ public class TemplatePageData implements java.io.Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return "TemplatePageData [id=" + id + ", text=" + text + "]";
 	}
 
 }

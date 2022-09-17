@@ -1,9 +1,10 @@
 package com.xnx3.wangmarket.admin.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "template")
 public class Template implements java.io.Serializable {
+	
 	//是公共的
 	public static final Short ISCOMMON_YES = 1;
 	public static final Short ISCOMMON_NO = 0;
@@ -24,23 +26,23 @@ public class Template implements java.io.Serializable {
 	//资源引用，使用本地的资源文件
 	public static final String RESOURCE_IMPORT_PRIVATE = "private";
 	
-	private Integer id;			//自动编号
+	private Integer id;				//自动编号
 	private String name;			//模版的名字，编码，唯一，限制50个字符以内
 	private Integer addtime;		//模版添加时间
-	private Integer userid;		//此模版所属的用户，user.id。如果此模版是用户的私有模版，也就是 iscommon=0 时，这里存储导入此模版的用户的id
-	private String remark;		//模版的简介，备注说明，限制200字以内
-	private String previewUrl;	//模版预览网址，示例网站网址，绝对路径，
-	private String previewPic;	//模版预览图的网址，preview.jpg 图片的网址
-	private int type;			//模版所属分类，如广告、科技、生物、医疗等
-	private String companyname;	//模版开发者公司名字。如果没有公司，则填写个人姓名。限制50字符以内
-	private String username;	//模版开发人员的名字，姓名，限制10个字符以内
-	private String siteurl;		//模版开发者官方网站、企业官网。如果是企业，这里是企业官网的网址，格式如： http://www.leimingyun.com  ，如果是个人，则填写个人网站即可
+	private Integer userid;			//此模版所属的用户，user.id。如果此模版是用户的私有模版，也就是 iscommon=0 时，这里存储导入此模版的用户的id
+	private String remark;			//模版的简介，备注说明，限制200字以内
+	private String previewUrl;		//模版预览网址，示例网站网址，绝对路径，
+	private String previewPic;		//模版预览图的网址，preview.jpg 图片的网址
+	private int type;				//模版所属分类，如广告、科技、生物、医疗等
+	private String companyname;		//模版开发者公司名字。如果没有公司，则填写个人姓名。限制50字符以内
+	private String username;		//模版开发人员的名字，姓名，限制10个字符以内
+	private String siteurl;			//模版开发者官方网站、企业官网。如果是企业，这里是企业官网的网址，格式如： http://www.leimingyun.com  ，如果是个人，则填写个人网站即可
 	private Short terminalMobile;	//网站模版是否支持手机端, 1支持，0不支持
 	private Short terminalPc;		//网站模版是否支持PC端, 1支持，0不支持
 	private Short terminalIpad;		//网站模版是否支持平板电脑, 1支持，0不支持
 	private Short terminalDisplay;	//网站模版是否支持展示机, 1支持，0不支持
-	private Short iscommon;		//是否是公共的模版 1是公共的模版， 0不是公共的，私有的，是用户自己开通网站导入的
-	private int rank;			//公共模版的排序，数字越小越靠前。
+	private Short iscommon;			//是否是公共的模版 1是公共的模版， 0不是公共的，私有的，是用户自己开通网站导入的
+	private int rank;				//公共模版的排序，数字越小越靠前。
 	private String wscsoDownUrl;	//wscso模版文件下载的url地址
 	private String zipDownUrl;		//zip模版素材包文件下载的url地址
 	
@@ -61,126 +63,133 @@ public class Template implements java.io.Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Column(name = "name", columnDefinition = "char(50) COMMENT '模版的名字，编码，唯一，限制50个字符以内' default ''")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	@Column(name = "addtime", columnDefinition = "int(11) COMMENT '模版添加时间'")
 	public Integer getAddtime() {
 		return addtime;
 	}
 	public void setAddtime(Integer addtime) {
 		this.addtime = addtime;
 	}
+	@Column(name = "userid", columnDefinition = "int(11) COMMENT '此模版所属的用户，user.id。如果此模版是用户的私有模版，也就是 iscommon=0 时，这里存储导入此模版的用户的id' default '0'")
 	public Integer getUserid() {
 		return userid;
 	}
 	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
+	@Column(name = "remark", columnDefinition = "char(200) COMMENT '模版的简介，备注说明，限制200字以内' default ''")
 	public String getRemark() {
 		return remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	@Column(name = "preview_url")
+	@Column(name = "preview_url", columnDefinition = "char(200) COMMENT '模版预览网址，示例网站网址，绝对路径' default ''")
 	public String getPreviewUrl() {
 		return previewUrl;
 	}
 	public void setPreviewUrl(String previewUrl) {
 		this.previewUrl = previewUrl;
 	}
+	@Column(name = "type", columnDefinition = "int(11) COMMENT '模版所属分类，如广告、科技、生物、医疗等' default '0'")
 	public int getType() {
 		return type;
 	}
 	public void setType(int type) {
 		this.type = type;
 	}
+	@Column(name = "companyname", columnDefinition = "char(50) COMMENT '模版开发者公司名字。如果没有公司，则填写个人姓名。限制50字符以内' default ''")
 	public String getCompanyname() {
 		return companyname;
 	}
 	public void setCompanyname(String companyname) {
 		this.companyname = companyname;
 	}
+	@Column(name = "username", columnDefinition = "char(10) COMMENT '模版开发人员的名字，姓名，限制10个字符以内' default ''")
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	@Column(name = "siteurl", columnDefinition = "char(100) COMMENT '模版开发者官方网站、企业官网。如果是企业，这里是企业官网的网址，格式如： http://www.leimingyun.com  ，如果是个人，则填写个人网站即可' default ''")
 	public String getSiteurl() {
 		return siteurl;
 	}
 	public void setSiteurl(String siteurl) {
 		this.siteurl = siteurl;
 	}
-	@Column(name = "terminal_mobile")
+	@Column(name = "terminal_mobile", columnDefinition = "tinyint(2) COMMENT '网站模版是否支持手机端, 1支持，0不支持' default '0'")
 	public Short getTerminalMobile() {
 		return terminalMobile;
 	}
 	public void setTerminalMobile(Short terminalMobile) {
 		this.terminalMobile = terminalMobile;
 	}
-	@Column(name = "terminal_ipad")
+	@Column(name = "terminal_ipad", columnDefinition = "tinyint(2) COMMENT '网站模版是否支持平板电脑, 1支持，0不支持' default '0'")
 	public Short getTerminalIpad() {
 		return terminalIpad;
 	}
 	public void setTerminalIpad(Short terminalIpad) {
 		this.terminalIpad = terminalIpad;
 	}
+	@Column(name = "iscommon", columnDefinition = "tinyint(2) COMMENT '是否是公共的模版 1是公共的模版， 0不是公共的，私有的，是用户自己开通网站导入的' default '0'")
 	public Short getIscommon() {
 		return iscommon;
 	}
 	public void setIscommon(Short iscommon) {
 		this.iscommon = iscommon;
 	}
-	@Column(name = "terminal_pc")
+	@Column(name = "terminal_pc", columnDefinition = "tinyint(2) COMMENT '网站模版是否支持PC端, 1支持，0不支持' default '0'")
 	public Short getTerminalPc() {
 		return terminalPc;
 	}
 	public void setTerminalPc(Short terminalPc) {
 		this.terminalPc = terminalPc;
 	}
-	@Column(name = "terminal_display")
+	@Column(name = "terminal_display", columnDefinition = "tinyint(2) COMMENT '网站模版是否支持展示机, 1支持，0不支持' default '0'")
 	public Short getTerminalDisplay() {
 		return terminalDisplay;
 	}
 	public void setTerminalDisplay(Short terminalDisplay) {
 		this.terminalDisplay = terminalDisplay;
 	}
+	@Column(name = "rank", columnDefinition = "int(11) COMMENT '公共模版的排序，数字越小越靠前。' default '0'")
 	public int getRank() {
 		return rank;
 	}
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	
-	@Column(name = "wscso_down_url")
+	@Column(name = "wscso_down_url", columnDefinition = "char(100) COMMENT 'wscso模版文件下载的url地址' default ''")
 	public String getWscsoDownUrl() {
 		return wscsoDownUrl;
 	}
 	public void setWscsoDownUrl(String wscsoDownUrl) {
 		this.wscsoDownUrl = wscsoDownUrl;
 	}
-	@Column(name = "zip_down_url")
+	@Column(name = "zip_down_url", columnDefinition = "char(100) COMMENT 'zip模版素材包文件下载的url地址' default ''")
 	public String getZipDownUrl() {
 		return zipDownUrl;
 	}
 	public void setZipDownUrl(String zipDownUrl) {
 		this.zipDownUrl = zipDownUrl;
 	}
-	@Column(name = "preview_pic")
+	@Column(name = "preview_pic", columnDefinition = "char(100) COMMENT '模版预览图的网址，preview.jpg 图片的网址' default ''")
 	public String getPreviewPic() {
 		return previewPic;
 	}
 	public void setPreviewPic(String previewPic) {
 		this.previewPic = previewPic;
 	}
-	
-	@Column(name = "resource_import")
+	@Column(name = "resource_import", columnDefinition = "char(10) COMMENT 'js、css等资源引用方式。 cloud：使用云端模版库； private:使用私有模版库，也就是本地的' default ''")
 	public String getResourceImport() {
 		return resourceImport;
 	}

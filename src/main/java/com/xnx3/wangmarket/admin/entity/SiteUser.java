@@ -1,12 +1,9 @@
 package com.xnx3.wangmarket.admin.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -19,6 +16,7 @@ import com.xnx3.j2ee.entity.User;
 @Entity
 @Table(name = "site_user")
 public class SiteUser implements Serializable{
+	
 	private Integer id;		//用户id，对应 User.id
 	
 	//v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id
@@ -34,7 +32,7 @@ public class SiteUser implements Serializable{
 		this.id = id;
 	}
 	
-	@Column(name = "siteid", columnDefinition="int(11) comment 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id'")
+	@Column(name = "siteid", columnDefinition = "int(11) COMMENT 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id'")
 	public Integer getSiteid() {
 		return siteid;
 	}
