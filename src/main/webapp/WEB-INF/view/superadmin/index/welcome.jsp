@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.j2ee.entity.User"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <jsp:include page="/wm/common/head.jsp">
@@ -57,7 +57,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 			<td><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="height:100px;" /></td>
 		</tr>
 		
-    </tbody>
+	</tbody>
 </table>
 
 <script>

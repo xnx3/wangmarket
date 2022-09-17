@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版页面列表"/>
@@ -10,30 +10,30 @@
 <script src="/<%=Global.CACHE_FILE %>TemplatePage_type.js"></script>
 
 <table class="layui-table" id="xnx3_body" style="margin:0px;">
-  <thead>
-    <tr>
-      <th>页面名字</th>
-      <th>类型</th>
-      <th>备注</th>
-      <th>操作</th>
-    </tr> 
-  </thead>
-  <tbody class="tile__listedit" id="columnList">
-  	<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
-  	<c:forEach items="${list}" var="templatePage">
-        <tr>
-        	<!--display${column['used']}-->
-            <td >${templatePage['name'] }</td>
-            <td style="width:90px;"><script type="text/javascript">document.write(type[${templatePage['type'] }]);</script></td>
-            <td>${templatePage['remark'] }</td>
-            <td style="width:160px;">
-            	 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe614;</i></button>
-            	 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] }, '${templatePage['editMode'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
-            	 <button onclick="deleteTemplatePage('${templatePage['id'] }', '${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
-			</td>
-        </tr>
-    </c:forEach>
-  </tbody>
+	<thead>
+		<tr>
+			<th>页面名字</th>
+			<th>类型</th>
+			<th>备注</th>
+			<th>操作</th>
+		</tr> 
+	</thead>
+	<tbody class="tile__listedit" id="columnList">
+		<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
+		<c:forEach items="${list}" var="templatePage">
+			<tr>
+				<!--display${column['used']}-->
+				<td >${templatePage['name'] }</td>
+				<td style="width:90px;"><script type="text/javascript">document.write(type[${templatePage['type'] }]);</script></td>
+				<td>${templatePage['remark'] }</td>
+				<td style="width:160px;">
+					 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe614;</i></button>
+					 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] }, '${templatePage['editMode'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
+					 <button onclick="deleteTemplatePage('${templatePage['id'] }', '${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
 </table>
 
 <div style="padding:15px;">

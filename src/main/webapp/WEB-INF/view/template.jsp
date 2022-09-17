@@ -244,18 +244,18 @@ function typeClick(type){
 					}
 				}
 				
-				//将四个div分别遍历，组合成显示的html   
+				//将四个div分别遍历，组合成显示的html
 				for(var i=0; i<divArray.length; i++){
 					//html = html + '<ul class="template">' + divArray[i] +'<div class="clear_left"></div></ul><div class="clear_left"></div>';
 					html = html + divArray[i];
 				}
 				
 				document.getElementById("zong_muban").innerHTML = html;
-	     	}else if(obj.result == '0'){
-	     		 $.toast(obj.info, "cancel", function(toast) {});
-	     	}else{
-	     		alert(obj.result);
-	     	}
+			}else if(obj.result == '0'){
+				 $.toast(obj.info, "cancel", function(toast) {});
+			}else{
+				alert(obj.result);
+			}
 		});
 	
 }

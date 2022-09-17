@@ -46,7 +46,7 @@
 	<div class="layui-input-block">
 		<div style="padding-top: 7px;">
 			<x:time linuxTime="${tcv.buckupsTemplateVO.time }"></x:time>
-			<i class="layui-icon" style="font-size: 14px;color: #777777;border: 1px solid #5FB878;border-radius: 10px;padding: 1px;cursor: pointer;" onclick="layer.msg('生成的时间，此是什么时间生成的，什么时间导出的。', {shade: 2});">&#xe607;</i>  
+			<i class="layui-icon" style="font-size: 14px;color: #777777;border: 1px solid #5FB878;border-radius: 10px;padding: 1px;cursor: pointer;" onclick="layer.msg('生成的时间，此是什么时间生成的，什么时间导出的。', {shade: 2});">&#xe607;</i>
 		</div>
 		
 	</div>
@@ -89,27 +89,27 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				<script>
 				$(function(){
 					<c:choose>
-					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需导入</b>';
-					    </c:when>
-					    <c:when test="${v.result == 1}">
-					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
-					        var tableTr = '';
-					        <c:forEach items="${v.updateListInfo}" var="updateInfo">
-					        	console.log('${updateInfo}');
-					        	if('${updateInfo}' == 'type'){
-					        		tableTr = tableTr + generateTableTrTag('页面类型', '${v.currentTemplatePage.type }', '${v.backupsTemplatePage.type }');
-					        	}else if ('${updateInfo}' == 'text') {
-					        		tableTr = tableTr + generateTableTrTag('页面内容', '${fn:length(v.currentTemplatePageDataText)}字', '${fn:length(v.backupsTemplatePageDataText)}字');
+						<c:when test="${v.result == 0}">
+							var text = '当前网站内未有改动，<b>无需导入</b>';
+						</c:when>
+						<c:when test="${v.result == 1}">
+							var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
+							var tableTr = '';
+							<c:forEach items="${v.updateListInfo}" var="updateInfo">
+								console.log('${updateInfo}');
+								if('${updateInfo}' == 'type'){
+									tableTr = tableTr + generateTableTrTag('页面类型', '${v.currentTemplatePage.type }', '${v.backupsTemplatePage.type }');
+								}else if ('${updateInfo}' == 'text') {
+									tableTr = tableTr + generateTableTrTag('页面内容', '${fn:length(v.currentTemplatePageDataText)}字', '${fn:length(v.backupsTemplatePageDataText)}字');
 								}
-					        </c:forEach>
-					        if(tableTr.length > 0){
-					        	text = text + tableBefore + tableTr + tableAfter;
-					        }
-					    </c:when>
-					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内未发现其存在，<b>可导入</b>';
-					    </c:when>
+							</c:forEach>
+							if(tableTr.length > 0){
+								text = text + tableBefore + tableTr + tableAfter;
+							}
+						</c:when>
+						<c:when test="${v.result == 2}">
+							var text = '当前网站内未发现其存在，<b>可导入</b>';
+						</c:when>
 					</c:choose>
 					
 					var templatePage_${v.backupsTemplatePage.name }_tipindex = 0;
@@ -142,24 +142,24 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				<script>
 				$(function(){
 					<c:choose>
-					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需导入</b>';
-					    </c:when>
-					    <c:when test="${v.result == 1}">
-					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
-					        var tableTr = '';
-					        <c:forEach items="${v.updateListInfo}" var="updateInfo">
-					        	if ('${updateInfo}' == 'text') {
-					        		tableTr = tableTr + generateTableTrTag('变量内容', '${fn:length(v.currentTemplateVarDataText)}字', '${fn:length(v.backupsTemplateVarDataText)}字');
+						<c:when test="${v.result == 0}">
+							var text = '当前网站内未有改动，<b>无需导入</b>';
+						</c:when>
+						<c:when test="${v.result == 1}">
+							var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
+							var tableTr = '';
+							<c:forEach items="${v.updateListInfo}" var="updateInfo">
+								if ('${updateInfo}' == 'text') {
+									tableTr = tableTr + generateTableTrTag('变量内容', '${fn:length(v.currentTemplateVarDataText)}字', '${fn:length(v.backupsTemplateVarDataText)}字');
 								}
-					        </c:forEach>
-					        if(tableTr.length > 0){
-					        	text = text + tableBefore + tableTr + tableAfter;
-					        }
-					    </c:when>
-					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内未发现其存在，<b>可导入</b>';
-					    </c:when>
+							</c:forEach>
+							if(tableTr.length > 0){
+								text = text + tableBefore + tableTr + tableAfter;
+							}
+						</c:when>
+						<c:when test="${v.result == 2}">
+							var text = '当前网站内未发现其存在，<b>可导入</b>';
+						</c:when>
 					</c:choose>
 					
 					var templateVar_${v.backupsTemplateVar.varName }_tipindex = 0;
@@ -193,14 +193,14 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				<script>
 				$(function(){
 					<c:choose>
-					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需导入</b>';
-					    </c:when>
-					    <c:when test="${v.result == 1}">
-					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
-					        var tableTr = '';
-					        <c:forEach items="${v.updateListInfo}" var="updateInfo">
-					        	switch ('${updateInfo}') {
+						<c:when test="${v.result == 0}">
+							var text = '当前网站内未有改动，<b>无需导入</b>';
+						</c:when>
+						<c:when test="${v.result == 1}">
+							var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
+							var tableTr = '';
+							<c:forEach items="${v.updateListInfo}" var="updateInfo">
+								switch ('${updateInfo}') {
 								case 'icon':
 									tableTr = tableTr + generateTableTrTag('栏目图标', '${v.currentSiteColumn.icon }', '${v.backupsSiteColumn.icon }');
 									break;
@@ -231,15 +231,15 @@ function generateTableTrTag(name, currentValue, backupsValue){
 								default:
 									break;
 								}
-					        	
-					        </c:forEach>
-					        if(tableTr.length > 0){
-					        	text = text + tableBefore + tableTr + tableAfter;
-					        }
-					    </c:when>
-					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内未发现其存在，<b>可导入</b>';
-					    </c:when>
+								
+							</c:forEach>
+							if(tableTr.length > 0){
+								text = text + tableBefore + tableTr + tableAfter;
+							}
+						</c:when>
+						<c:when test="${v.result == 2}">
+							var text = '当前网站内未发现其存在，<b>可导入</b>';
+						</c:when>
 					</c:choose>
 					
 					var siteColumn_${v.backupsSiteColumn.codeName }_tipindex = 0;
@@ -273,24 +273,24 @@ function generateTableTrTag(name, currentValue, backupsValue){
 				<script>
 				$(function(){
 					<c:choose>
-					    <c:when test="${v.result == 0}">
-					        var text = '当前网站内未有改动，<b>无需导入</b>';
-					    </c:when>
-					    <c:when test="${v.result == 1}">
-					        var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
-					        var tableTr = '';
-					        <c:forEach items="${v.updateListInfo}" var="updateInfo">
-					        	if ('${updateInfo}' == 'text') {
-					        		tableTr = tableTr + generateTableTrTag('模型内容', '${fn:length(v.currentInputModel.text)}字', '${fn:length(v.backupsInputModel.text)}字');
+						<c:when test="${v.result == 0}">
+							var text = '当前网站内未有改动，<b>无需导入</b>';
+						</c:when>
+						<c:when test="${v.result == 1}">
+							var text = '<div class="tip_title">当前网站内有修改，<b>可还原</b></div>';
+							var tableTr = '';
+							<c:forEach items="${v.updateListInfo}" var="updateInfo">
+								if ('${updateInfo}' == 'text') {
+									tableTr = tableTr + generateTableTrTag('模型内容', '${fn:length(v.currentInputModel.text)}字', '${fn:length(v.backupsInputModel.text)}字');
 								}
-					        </c:forEach>
-					        if(tableTr.length > 0){
-					        	text = text + tableBefore + tableTr + tableAfter;
-					        }
-					    </c:when>
-					    <c:when test="${v.result == 2}">
-					        var text = '当前网站内未发现其存在，<b>可导入</b>';
-					    </c:when>
+							</c:forEach>
+							if(tableTr.length > 0){
+								text = text + tableBefore + tableTr + tableAfter;
+							}
+						</c:when>
+						<c:when test="${v.result == 2}">
+							var text = '当前网站内未发现其存在，<b>可导入</b>';
+						</c:when>
 					</c:choose>
 					
 					var inputModel_${v.backupsInputModel.codeName }_tipindex = 0;
@@ -335,50 +335,50 @@ function generateTableTrTag(name, currentValue, backupsValue){
 <script>
 
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form
-  ,layer = layui.layer
-  ,layedit = layui.layedit
-  ,laydate = layui.laydate;
-  
-  //自适应弹出层大小
+	var form = layui.form
+	,layer = layui.layer
+	,layedit = layui.layedit
+	,laydate = layui.laydate;
+
+	//自适应弹出层大小
 	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	parent.layer.iframeAuto(index);
-  
-  //创建一个编辑器
-  var editIndex = layedit.build('LAY_demo_editor');
-  /* 
-  //监听指定开关
-  form.on('switch(switchTest)', function(data){
-    layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-      offset: '6px'
-    });
-    layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-  }); */
-  
-  
-  //监听提交
-  form.on('submit(formSubmit)', function(data){
+
+	//创建一个编辑器
+	var editIndex = layedit.build('LAY_demo_editor');
+	/* 
+	//监听指定开关
+	form.on('switch(switchTest)', function(data){
+		layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+			offset: '6px'
+		});
+		layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+	}); */
+
+
+	//监听提交
+	form.on('submit(formSubmit)', function(data){
 		var d=$("form").serialize();
 		if(d.length == 0){
 			msg.failure('尚未选择');
 			return false;
 		}
 		msg.loading('还原中');
-        $.post("/template/restoreTemplateSubmit.do", d, function (result) { 
-        	msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
-        		parent.msg.success('操作成功');
-        		parent.layer.close(index);
-        	}else if(obj.result == '0'){
-        		parent.msg.failure(obj.info);
-        	}else{
-        		parent.msg.failure(result);
-        	}
-         }, "text");
+		$.post("/template/restoreTemplateSubmit.do", d, function (result) { 
+			msg.close();
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
+				parent.msg.success('操作成功');
+				parent.layer.close(index);
+			}else if(obj.result == '0'){
+				parent.msg.failure(obj.info);
+			}else{
+				parent.msg.failure(result);
+			}
+		}, "text");
 		
-    return false;
-  });
+	return false;
+	});
 });
 
 </script>

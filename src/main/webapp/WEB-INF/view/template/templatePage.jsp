@@ -51,56 +51,56 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
 
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form;
- 
-  //自定义验证规则
-  form.verify({
-    name: function(value){
-      if(value.length == 0){
-        return '请输入页面的名字';
-      }
-      if(value.length > 20){
-      	return '请输入20个字以内的变量名字';
-      }
-    },
-    type: function(value){
-      if(value.length == 0){
-        return '请选择当前模版页类型';
-      }
-    },
-    editMode: function(value){
-      if(value.length == 0){
-        return '请选择模版页面的编辑方式';
-      }
-    },
-    remark: function(value){
-      if(value.length > 30){
-      	return '请输入30个字以内的对当前模版页的备注';
-      }
-    },
-  });
-  
-  //监听提交
-  form.on('submit(demo1)', function(data){
+	var form = layui.form;
+
+	//自定义验证规则
+	form.verify({
+		name: function(value){
+			if(value.length == 0){
+				return '请输入页面的名字';
+			}
+			if(value.length > 20){
+				return '请输入20个字以内的变量名字';
+			}
+		},
+		type: function(value){
+			if(value.length == 0){
+				return '请选择当前模版页类型';
+			}
+		},
+		editMode: function(value){
+			if(value.length == 0){
+				return '请选择模版页面的编辑方式';
+			}
+		},
+		remark: function(value){
+			if(value.length > 30){
+				return '请输入30个字以内的对当前模版页的备注';
+			}
+		},
+	});
+
+	//监听提交
+	form.on('submit(demo1)', function(data){
 		parent.msg.loading('保存中');
 		var d=$("form").serialize();
-        $.post("/template/saveTemplatePage.do", d, function (result) { 
-        	parent.msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
-        		parent.parent.msg.success("保存成功");
-       			parent.location.reload();	//刷新父窗口
-       			parent.layer.close(index);
-        	}else if(obj.result == '0'){
-        		parent.parent.msg.failure(obj.info);
-        	}else{
-        		parent.parent.msg.failure(result);
-        	}
-         }, "text");
+		$.post("/template/saveTemplatePage.do", d, function (result) { 
+			parent.msg.close();
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
+				parent.parent.msg.success("保存成功");
+				parent.location.reload();	//刷新父窗口
+				parent.layer.close(index);
+			}else if(obj.result == '0'){
+				parent.parent.msg.failure(obj.info);
+			}else{
+				parent.parent.msg.failure(result);
+			}
+		}, "text");
 		
-    return false;
-  });
-  
+		return false;
+	});
+
 });
 
 

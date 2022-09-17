@@ -25,15 +25,15 @@
 	overflow-x: hidden;
 }
 .previewButton a{
-    background-color: #AAA752;
-    border-radius: 15px;
-    padding: 3px;
-    padding-left: 12px;
-    padding-right: 22px;
-    cursor: pointer;
-    color: #eeeeee;
-    font-size: 14px;
-    margin-right: -12px;
+	background-color: #AAA752;
+	border-radius: 15px;
+	padding: 3px;
+	padding-left: 12px;
+	padding-right: 22px;
+	cursor: pointer;
+	color: #eeeeee;
+	font-size: 14px;
+	margin-right: -12px;
 }
 
 /*模版名字，编号*/
@@ -61,15 +61,15 @@
 		</div>
 		<div class="list" id="cloudList">
 			<c:choose>
-			    <c:when test="${usedYunTemplate}">
-			        <div style="float:left; padding-right: 25px;">
-			        	<img src="" class="previewImg" style="height:150px; width:auto;" id="previewPic"/>
+				<c:when test="${usedYunTemplate}">
+					<div style="float:left; padding-right: 25px;">
+						<img src="" class="previewImg" style="height:150px; width:auto;" id="previewPic"/>
 						<div class="previewButton"><a href="#" id="previewUrl">预览模版</a></div>
 						<div class="templateName" style="text-align: left;padding-left: 10px;">编号:${template.name }</div>
 						<script>
 							//图片
-			        		var previewPic = '${template.previewPic}';
-			        		if(previewPic.indexOf("websiteTemplate") == 0){
+							var previewPic = '${template.previewPic}';
+							if(previewPic.indexOf("websiteTemplate") == 0){
 								//这种情况是使用Eclipse开发状态，且没有设置主域名的情况下
 								previewPic = "/"+previewPic;
 							}
@@ -83,7 +83,7 @@
 								document.getElementById('previewUrl').target = "_black";
 							}
 							document.getElementById('previewUrl').href = previewUrl;
-			        	</script>
+						</script>
 					</div>
 					<div style="padding-top:10px;">
 						<div>
@@ -94,11 +94,11 @@
 						</div>
 						
 					</div>
-			        
-			    </c:when>
-			    <c:otherwise>
-			        您当前使用的模板，非云端模板，无法使用云端恢复功能。
-			    </c:otherwise>
+					
+				</c:when>
+				<c:otherwise>
+					您当前使用的模板，非云端模板，无法使用云端恢复功能。
+				</c:otherwise>
 			</c:choose>
 		</div>
 	</div>
@@ -155,12 +155,12 @@ layui.upload.render({
 	}
 	,done: function(res){
 		parent.msg.close();
-	    //上传成功返回值，必须为json格式
-	    if(res.result == '1'){
-	    	templateComparePreview();
-	    }else{
-	    	layer.msg(res.info, {shade: 2});
-	    }
+		//上传成功返回值，必须为json格式
+		if(res.result == '1'){
+			templateComparePreview();
+		}else{
+			layer.msg(res.info, {shade: 2});
+		}
 	}
 });
  

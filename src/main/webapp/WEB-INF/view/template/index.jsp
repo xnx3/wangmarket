@@ -22,8 +22,8 @@ if(token != null && token.length > 10){
 <style>
 #editPanel{
 	position: absolute;
-    top: 0px;
-    width:150px;
+	top: 0px;
+	width:150px;
 }
 #editPanel span{
 	width:100%;
@@ -41,16 +41,16 @@ if(token != null && token.length > 10){
 
 /*顶部导航的按钮*/
 #topNav div button{
-    color: #5FB878;
-    cursor: pointer;
-    border-color: #009688;
-    border: 1px;
-    border-style: solid;
-    padding: 3px;
-    padding-left: 8px;
-    padding-right: 8px;
-    border-radius: 12px;
-    background-color: #2b2e37;
+	color: #5FB878;
+	cursor: pointer;
+	border-color: #009688;
+	border: 1px;
+	border-style: solid;
+	padding: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+	border-radius: 12px;
+	background-color: #2b2e37;
 }
 
 /*左侧的一级菜单的图标*/
@@ -70,19 +70,19 @@ if(token != null && token.length > 10){
 }
 
 .top_htmledit_buttom{
-    position: absolute;
-    background-color: #4b2e47;
-    padding: 4px;
-    border-radius: 10px;
-    margin-left: 2px;
-    cursor: pointer;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-top: 3px;
-    color: #2FE878;
-    opacity: 0.8;
-    display:none;
-}    
+	position: absolute;
+	background-color: #4b2e47;
+	padding: 4px;
+	border-radius: 10px;
+	margin-left: 2px;
+	cursor: pointer;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-top: 3px;
+	color: #2FE878;
+	opacity: 0.8;
+	display:none;
+}	
 /* 避免屏幕高度太小，造成左侧菜单拉太长，最下面的收缩侧边栏遮挡功能菜单 */
 .layui-nav-item{
 	background-color: #393D49;
@@ -93,9 +93,9 @@ if(token != null && token.length > 10){
 }
 body{
 	margin: 0;
-    padding: 0px;
-    height: 100%;
-    overflow: hidden;
+	padding: 0px;
+	height: 100%;
+	overflow: hidden;
 }
 </style>
 <div style="width:100%;height:100%;">
@@ -170,7 +170,7 @@ body{
 			</style>
 			<div id="editormd" style="width:100%; height:100%; margin-top: 38px;"></div>
 			<textarea id="html_textarea"></textarea>
-        </div>
+		</div>
 	</div>
 </div>
 
@@ -185,7 +185,7 @@ body{
 notUseTopTools();
 
 layui.use('element', function(){
-  var element = layui.element;
+	var element = layui.element;
 });
 
 
@@ -226,25 +226,25 @@ function codeEditMode(){
 		currentMode = 2;
 	}
 	
-	msg.loading("加载中");    //显示“操作中”的等待提示
+	msg.loading("加载中");	//显示“操作中”的等待提示
 	$.post("/template/getTemplatePageText.do?pageName="+document.getElementById("currentTemplatePageName").value, function(data){
-	    msg.close();    //关闭“操作中”的等待提示
-	    document.getElementById("html_textarea").value=data;
-	    
-	    testEditor = editormd("editormd", {
-            width            : "100%",
-            height           : "100%",
-            watch            : false,
-            toolbar          : false,
-            codeFold         : true,
-            searchReplace    : true,
-            placeholder      : "请输入html代码",
-            value            : data,
-            theme            : "default",
-            mode             : "text/html",
-            path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
-        });
-	    
+		msg.close();	//关闭“操作中”的等待提示
+		document.getElementById("html_textarea").value=data;
+		
+		testEditor = editormd("editormd", {
+			width			: "100%",
+			height			: "100%",
+			watch			: false,
+			toolbar			: false,
+			codeFold		: true,
+			searchReplace	: true,
+			placeholder		: "请输入html代码",
+			value			: data,
+			theme			: "default",
+			mode			: "text/html",
+			path			: '${STATIC_RESOURCE_PATH}module/editor/lib/'
+		});
+		
 	},'text');
 }
 
@@ -268,18 +268,18 @@ function htmledit_mode(){
 			//由智能模式切换代码模式
 			document.getElementById("html_textarea").value=getHtmlSource();
 			testEditor = editormd("editormd", {
-	            width            : "100%",
-	            height           : "100%",
-	            watch            : false,
-	            toolbar          : false,
-	            codeFold         : true,
-	            searchReplace    : true,
-	            placeholder      : "请输入html代码",
-	            value            : document.getElementById("html_textarea").value,
-	            theme            : "default",
-	            mode             : "text/html",
-	            path             : '${STATIC_RESOURCE_PATH}module/editor/lib/'
-	        });
+				width			: "100%",
+				height			: "100%",
+				watch			: false,
+				toolbar			: false,
+				codeFold		: true,
+				searchReplace	: true,
+				placeholder		: "请输入html代码",
+				value			: document.getElementById("html_textarea").value,
+				theme			: "default",
+				mode			: "text/html",
+				path			: '${STATIC_RESOURCE_PATH}module/editor/lib/'
+			});
 		}
 		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
@@ -295,12 +295,12 @@ function htmledit_mode(){
 		document.getElementById("html_textarea").value = testEditor.getValue();
 		
 		var o = document.getElementById("iframe");
-        ed = document.all ? o.contentWindow.document : o.contentDocument;
-        ed.open();
-        ed.write(testEditor.getValue());
-        ed.close();
-        
-    	document.getElementById("htmledit_mode").innerHTML = '代码模式';
+		ed = document.all ? o.contentWindow.document : o.contentDocument;
+		ed.open();
+		ed.write(testEditor.getValue());
+		ed.close();
+		
+		document.getElementById("htmledit_mode").innerHTML = '代码模式';
 		currentMode = 1;
 	}
 	msg.close();
@@ -716,11 +716,11 @@ function mobanshiyongshuoming(){
 		layer.msg('您当前没有使用云端模版，无云端使用说明');
 	}else{
 		layer.open({
-		  type: 2
-		  ,title : '当前使用的云模版，使用说明。可在左侧模版管理－使用说明中查看'
-		  ,area :['700px','450px']
-		  ,maxmin : true
-		  ,content: '${STATIC_RESOURCE_PATH}template/'+tn+'/useExplain.html'
+			type: 2
+			,title : '当前使用的云模版，使用说明。可在左侧模版管理－使用说明中查看'
+			,area :['700px','450px']
+			,maxmin : true
+			,content: '${STATIC_RESOURCE_PATH}template/'+tn+'/useExplain.html'
 		});
 	}
 }
@@ -768,9 +768,9 @@ function jumpParentAgency(){
 	
 	msg.popups({
 		text:content,
-	    padding:'1px',
-	    height:'255px',
-	    width:'300px',
+		padding:'1px',
+		height:'255px',
+		width:'300px',
 	});
 
 }
@@ -807,19 +807,19 @@ function templateDevHelp(){
 //右侧弹出提示
 function rightTip(){
 	layer.open({
-	  title: '演示站点提示文字',offset: 'rb', shadeClose:true, shade:0
-	  ,area: ['500px', 'auto']
-	  ,btn: ['我知道了'] //可以无限个按钮
-	  ,content:  '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
-	   			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
-	   			'<div style="text-align:center;"><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
-	   			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
-	   			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
-	   			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
-	   			'我的微信：xnx3com &nbsp;&nbsp;&nbsp;QQ：921153866 <br/>'+
-	   			'本程序已在GitHub开源：<a href="https://github.com/xnx3/wangmarket" target="_black" style="text-decoration: underline;color: blue;">github.com/xnx3/wangmarket</a><br/>'+
-	   			'<div style="padding-top:35px;color: lightcoral; padding-left: 35px;">以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。<br/>网·市场，让每个人都有自己的网站，让价格不再是阻碍的门槛！</div>'
-	  
+		title: '演示站点提示文字',offset: 'rb', shadeClose:true, shade:0
+		,area: ['500px', 'auto']
+		,btn: ['我知道了'] //可以无限个按钮
+		,content: '若我方对你有用，我们愿与各行业进行合作、资源交换！网站可由代理平台在线开通，或由用户自己自助开通完全无人干预！<a href="http://www.wang.market/index.html#join" target="_black" style="text-decoration: underline;color: blue;">合作方式</a><br/>'+
+			'若您只是想要个此类网站，你可关注我们微信公众号： wangmarket'+
+			'<div style="text-align:center;"><img src="${STATIC_RESOURCE_PATH}image/weixin_gzh.png" style="width:150px; height:150px;" /></div>'+
+			'回复“要网站”即可免费得到一个跟此一样的网站。无任何广告！'+
+			'另外您有什么问题、资源交换、各种合作意向，都可关注后跟我们在线沟通咨询<br/>'+
+			'我们官网：<a href="http://www.wang.market" target="_black" style="text-decoration: underline;color: blue;">www.wang.market</a><br/>'+
+			'我的微信：xnx3com &nbsp;&nbsp;&nbsp;QQ：921153866 <br/>'+
+			'本程序已在GitHub开源：<a href="https://github.com/xnx3/wangmarket" target="_black" style="text-decoration: underline;color: blue;">github.com/xnx3/wangmarket</a><br/>'+
+			'<div style="padding-top:35px;color: lightcoral; padding-left: 35px;">以高精尖技术压缩建站成本，以超低价甚至免费享受高端体验。<br/>网·市场，让每个人都有自己的网站，让价格不再是阻碍的门槛！</div>'
+	
 	});
 }
 
@@ -845,40 +845,40 @@ if('${user.username}'.indexOf('ceshi') > -1){
  */
 function yindaoStart(){
 	const driver = new Driver({
-		  doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
-		  closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
-		  nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
-		  prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
-		  onReset: function(Element) {
-				//打开全局变量
-				loadIframeByUrl('/siteVar/list.do');
-		  },        // 遮罩将要关闭时调用
+		doneBtnText: '结束指引', // 最终按钮上的文本 Text on the final button
+		closeBtnText: '关闭', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		onReset: function(Element) {
+			//打开全局变量
+			loadIframeByUrl('/siteVar/list.do');
+		},		// 遮罩将要关闭时调用
 	});
 	//Define the steps for introduction
 	driver.defineSteps([
 		{
-			 element: '#quanjubianliang',
-			 popover: {
-			   title: '模板管理下的全局变量',
-			   description: '像是一些基本的信息，如LOGO、Banner、地址...等信息，都可以在这里面进行修改',
-			   position: 'right'
-			 }
+			element: '#quanjubianliang',
+			popover: {
+				title: '模板管理下的全局变量',
+				description: '像是一些基本的信息，如LOGO、Banner、地址...等信息，都可以在这里面进行修改',
+				position: 'right'
+			}
 		},
 		{
-			 element: '#li_news',
-			 popover: {
-			   title: '内容管理',
-			   description: '像是新闻资讯等文章的发布、产品的添加、关于我们公司荣誉等页面内容的填充等，都是在内容管理中操作的',
-			   position: 'right'
-			 }
+			element: '#li_news',
+			popover: {
+				title: '内容管理',
+				description: '像是新闻资讯等文章的发布、产品的添加、关于我们公司荣誉等页面内容的填充等，都是在内容管理中操作的',
+				position: 'right'
+			}
 		},
 		{
-		 element: '#li_generatehtml',
-		 popover: {
-		   title: '点击[生成整站]来生成网站',
-		   description: '网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来',
-		   position: 'right'
-		 }
+			element: '#li_generatehtml',
+			popover: {
+				title: '点击[生成整站]来生成网站',
+				description: '网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来',
+				position: 'right'
+			}
 		}
 	]);
 

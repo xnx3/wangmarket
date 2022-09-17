@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="通用标签_动态标签_网市场模版标签"/>

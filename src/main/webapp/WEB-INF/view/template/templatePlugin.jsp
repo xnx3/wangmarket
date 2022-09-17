@@ -19,7 +19,7 @@
 	width:48%;
 	padding:0.5%;
 	min-width: 500px;
-    max-width: 900px;
+	max-width: 900px;
 }
 .list>div>div{
 	padding-bottom: 35px;
@@ -37,15 +37,15 @@
 	overflow-x: hidden;
 }
 .previewButton a{
-    background-color: #FF5722;
-    border-radius: 15px;
-    padding: 3px;
-    padding-left: 12px;
-    padding-right: 22px;
-    cursor: pointer;
-    color: #eeeeee;
-    font-size: 18px;
-    margin-right: -12px;
+	background-color: #FF5722;
+	border-radius: 15px;
+	padding: 3px;
+	padding-left: 12px;
+	padding-right: 22px;
+	cursor: pointer;
+	color: #eeeeee;
+	font-size: 18px;
+	margin-right: -12px;
 }
 
 /*模版名字，编号*/
@@ -71,8 +71,8 @@
 /* 使用说明 */
 .usedoc{
 	padding-left: 10px;
-    text-align: right;
-    padding-right: 10px;
+	text-align: right;
+	padding-right: 10px;
 }
 .usedoc a{
 	color: blue;
@@ -99,7 +99,7 @@ layui.use('element', function(){
 //使用某个云端模版，传入其模版名、编号 templateName
 function useTemplatePlugin(pluginName){
 	var dtp_confirm = layer.confirm('确定要导入模版插件：'+pluginName+'?', {
-	  btn: ['立即导入','取消'] //按钮
+		btn: ['立即导入','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
 		msg.loading("获取中");
@@ -160,11 +160,11 @@ function loadCloudTemplateList(){
 				}
 				
 				document.getElementById("cloudList").innerHTML = html;
-	     	}else if(obj.result == '0'){
-	     		msg.failure(obj.info);
-	     	}else{
-	     		msg.failure(obj);
-	     	}
+		 	}else if(obj.result == '0'){
+		 		msg.failure(obj.info);
+		 	}else{
+		 		msg.failure(obj);
+		 	}
 		});
 }
 loadCloudTemplateList();

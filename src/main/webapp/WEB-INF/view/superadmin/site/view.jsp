@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.j2ee.entity.User"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../../iw/common/head.jsp">
 	<jsp:param name="title" value="站点信息"/>
@@ -51,12 +51,12 @@
 		<tr>
 			<td>地址</td>
 			<td>${site.address }</td>
-		</tr>     
+		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">建立时间</td>
 			<td><x:time linuxTime="${site['addtime'] }"></x:time></td>
 		</tr>
-    </tbody>
+	</tbody>
 </table>
 
 
@@ -75,4 +75,4 @@ function cancelLegitimate(id){
 }
 </script>
 
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>  
+<jsp:include page="../../iw/common/foot.jsp"></jsp:include>

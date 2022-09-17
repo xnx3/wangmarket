@@ -1,6 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
@@ -39,22 +39,22 @@
 			<tr>
 				<th class="var_name_class_${isSubAccount}">变量名</th>
 				<th style="min-width:100px;">名称</th>
-	            <th class="des_name_class_${isSubAccount}">说明</th>
-	            <th>值</th>
-	            <th>操作</th>
+				<th class="des_name_class_${isSubAccount}">说明</th>
+				<th>值</th>
+				<th>操作</th>
 			</tr> 
 		</thead>
 		<tbody>
 			<c:forEach items="${list}" var="item">
-	            <tr>
-	                <td style="" class="var_name_class_${isSubAccount}">${item['name'] }</td>
-	                <td style="min-width:100px;">${item['title'] }</td>
-	                <td class="des_name_class_${isSubAccount}">${item['description'] }</td>
-	                <td>
-	                	<script>
-	                		try{ ${item.valueItems} }catch(e){console.log(e);}
-	                		var type = '${item['type']}';
-	                		if(type == 'text' || type == 'number'){
+				<tr>
+					<td style="" class="var_name_class_${isSubAccount}">${item['name'] }</td>
+					<td style="min-width:100px;">${item['title'] }</td>
+					<td class="des_name_class_${isSubAccount}">${item['description'] }</td>
+					<td>
+						<script>
+							try{ ${item.valueItems} }catch(e){console.log(e);}
+							var type = '${item['type']}';
+							if(type == 'text' || type == 'number'){
 								document.write('${item['value']}');
 							}else if(type == 'image'){
 								document.write('<a href="${item['value']}" target="_black"><img src="${item['value']}?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>');
@@ -63,15 +63,15 @@
 							}else if(type == 'select'){
 								document.write(site_var_${item['name']}['${item['value']}']);
 							}
-	                	</script>
-	                </td>
-	                <td style="text-align:center; width:140px;">
-	                	<button onclick="property('${item['name'] }');" class="layui-btn layui-btn-sm property_button_${isSubAccount}"><i class="layui-icon">&#xe614;</i></button>
-	                	<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
-	                	<botton class="layui-btn layui-btn-sm del_var_${isSubAccount}" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
-	                </td>
-	            </tr>
-	        </c:forEach>
+						</script>
+					</td>
+					<td style="text-align:center; width:140px;">
+						<button onclick="property('${item['name'] }');" class="layui-btn layui-btn-sm property_button_${isSubAccount}"><i class="layui-icon">&#xe614;</i></button>
+						<botton class="layui-btn layui-btn-sm" onclick="edit('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
+						<botton class="layui-btn layui-btn-sm del_var_${isSubAccount}" onclick="deleteVar('${item['name'] }');" style="margin-left: 3px;"><i class="layui-icon">&#xe640;</i></botton>
+					</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 
@@ -89,11 +89,11 @@
 
 <script>
 layui.use('element', function(){
-  var element = layui.element;
+	var element = layui.element;
 });
 var laydate;
 layui.use('laydate', function(){
-  laydate = layui.laydate;
+	laydate = layui.laydate;
 });
 
 
@@ -108,13 +108,13 @@ function deleteVar(name){
 			if(data.result == '1'){
 				parent.msg.success("删除成功");
 				location.reload();
-	     	}else if(data.result == '0'){
-	     		parent.msg.failure(data.info);
-	     	}else{
-	     		parent.msg.failure('操作失败');
-	     	}
+		 	}else if(data.result == '0'){
+		 		parent.msg.failure(data.info);
+		 	}else{
+		 		parent.msg.failure('操作失败');
+		 	}
 		});
-    }, function(){
+	}, function(){
 	});
 }
 

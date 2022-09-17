@@ -1,36 +1,36 @@
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="模版变量列表"/>
 </jsp:include>
 
 <table class="layui-table" id="xnx3_body" style="margin:0px;">
-  <thead>
-    <tr>
-      <th>变量名称</th>
-      <th>备注</th>
-      <th>最后修改时间</th>
-      <th>操作</th>
-    </tr> 
-  </thead>
-  <tbody class="tile__listedit" id="columnList">
-  	<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
-  	<c:forEach items="${list}" var="templateVar">
-        <tr>
-        	<!--display${column['used']}-->
-            <td style="width:150px;">${templateVar['varName'] }</td>
-            <td>${templateVar['remark'] }</td>
-            <td style="width:100px;"><x:time linuxTime="${templateVar['updatetime'] }" format="yy-MM-dd hh:mm"></x:time></td>
-            <td style="width:110px;">
-            	<a href="templateVar.do?templateVarName=${templateVar['varName'] }" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
-            	<button onclick="deleteTemplateVar('${templateVar['id'] }', '${templateVar['varName'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></a>
-			</td>
-        </tr>
-    </c:forEach>
-  </tbody>
+	<thead>
+		<tr>
+			<th>变量名称</th>
+			<th>备注</th>
+			<th>最后修改时间</th>
+			<th>操作</th>
+		</tr> 
+	</thead>
+	<tbody class="tile__listedit" id="columnList">
+		<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
+		<c:forEach items="${list}" var="templateVar">
+			<tr>
+				<!--display${column['used']}-->
+				<td style="width:150px;">${templateVar['varName'] }</td>
+				<td>${templateVar['remark'] }</td>
+				<td style="width:100px;"><x:time linuxTime="${templateVar['updatetime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+				<td style="width:110px;">
+					<a href="templateVar.do?templateVarName=${templateVar['varName'] }" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+					<button onclick="deleteTemplateVar('${templateVar['id'] }', '${templateVar['varName'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></a>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
 </table>
 
 <div style="padding:15px;">

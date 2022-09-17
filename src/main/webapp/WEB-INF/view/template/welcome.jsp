@@ -5,7 +5,7 @@
 <%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="欢迎使用"/>
@@ -32,7 +32,7 @@ function shipinjiaocheng(){
 		var currentTime = Date.parse( new Date() ).toString();
 		currentTime = currentTime.substr(0,10);
 		if(currentTime - ${user.regtime } < 86400){
-			var html = '<div style="padding: 10px; font-size: 20px;">由于是您第一天使用，特送出本系统的使用说明</div><iframe frameborder="0" style="width:100%; height:640px;" src="<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>" allowFullScreen="true"></iframe>';    
+			var html = '<div style="padding: 10px; font-size: 20px;">由于是您第一天使用，特送出本系统的使用说明</div><iframe frameborder="0" style="width:100%; height:640px;" src="<%=Global.get("SITEUSER_FIRST_USE_EXPLAIN_URL") %>" allowFullScreen="true"></iframe>';	
 			document.getElementById('shipinshuoming').innerHTML = html;
 		}
 	} catch(error) {}
@@ -41,27 +41,27 @@ shipinjiaocheng();
 </script>
 
 <div class="layui-tab" id="gonggao" style="display:none;">
-  <ul class="layui-tab-title">
-    <li class="layui-this">公告信息</li>
-    <li>联系</li>
-  </ul>
-  <div class="layui-tab-content" style="font-size:14px;">
-    <div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
-    <div class="layui-tab-item">
-    	名称：${parentAgency.name }<br/>
-    	电话：${parentAgency.phone }<br/>
-    	QQ：${parentAgency.qq }<br/>
-    	地址：${parentAgency.address }<br/>
-    	
-    </div>
-  </div>
+	<ul class="layui-tab-title">
+		<li class="layui-this">公告信息</li>
+		<li>联系</li>
+	</ul>
+	<div class="layui-tab-content" style="font-size:14px;">
+		<div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
+		<div class="layui-tab-item">
+			名称：${parentAgency.name }<br/>
+			电话：${parentAgency.phone }<br/>
+			QQ：${parentAgency.qq }<br/>
+			地址：${parentAgency.address }<br/>
+			
+		</div>
+	</div>
 </div>
 
 
 <script>
 //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
-  var element = layui.element;
+	var element = layui.element;
 });
 try{
 	document.getElementById('parentAgencyNotice').innerHTML = document.getElementById('parentAgencyNotice').innerHTML.replace(/\n/g,"<br/>");
@@ -99,7 +99,7 @@ try{
 			<td class="iw_table_td_view_name">自动分配域名</td>
 			<td>${domain}</td>
 		</tr>
-    </tbody>
+	</tbody>
 </table>
 
 
@@ -122,4 +122,4 @@ try{
 <% } %>
 
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>  
+<jsp:include page="../iw/common/foot.jsp"></jsp:include>

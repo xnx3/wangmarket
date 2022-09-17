@@ -35,15 +35,15 @@
 	overflow: hidden;
 }
 .previewButton a{
-    background-color: #FF5722;
-    border-radius: 15px;
-    padding: 3px;
-    padding-left: 12px;
-    padding-right: 22px;
-    cursor: pointer;
-    color: #eeeeee;
-    font-size: 18px;
-    margin-right: -12px;
+	background-color: #FF5722;
+	border-radius: 15px;
+	padding: 3px;
+	padding-left: 12px;
+	padding-right: 22px;
+	cursor: pointer;
+	color: #eeeeee;
+	font-size: 18px;
+	margin-right: -12px;
 }
 
 /*模版名字，编号*/
@@ -67,13 +67,13 @@
 }
 #template_type>a:before{
 	content: "|";
-    color: #946c6c;
-    padding-right: 12px;
-    font-weight: 400;
+	color: #946c6c;
+	padding-right: 12px;
+	font-weight: 400;
 }
 .terminal{
 	font-size: 13px;
-    color: gray;
+	color: gray;
 }
 .terminal span{
 	padding:3px;
@@ -183,11 +183,11 @@ function typeClick(type){
 				}
 				
 				document.getElementById("cloudList").innerHTML = html;
-	     	}else if(obj.result == '0'){
-	     		msg.failure(obj.info);
-	     	}else{
-	     		msg.failure('操作失败');
-	     	}
+		 	}else if(obj.result == '0'){
+		 		msg.failure(obj.info);
+		 	}else{
+		 		msg.failure('操作失败');
+		 	}
 		});
 	
 }
@@ -196,33 +196,33 @@ typeClick(-1);	//默认加载中所有模版
 
 layui.use('upload', function(){
 	layui.upload.render({
-	  url: '/template/uploadImportTemplate.do'
-	  ,method :'post'
-	  ,elem : '#loadLocalTemplateFile'
-	  ,exts: 'wscso|xnx3'
-	  ,field: 'templateFile'
-	  ,title :'加载本地模版'
-	  ,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
-      , before: function (obj) {
-          parent.msg.loading("上传中");
-      }
-	  ,done: function(res, index, upload){
-	  	parent.msg.close();
-	    //上传成功返回值，必须为json格式
-	    if(res.result == '1'){
-	    	parent.msg.success("导入成功");
-	    	window.location.href = 'welcome.do';	//跳转到欢迎页面
-	    }else{
-	    	parent.msg.failure(res.info);
-	    }
-	  }
+		url: '/template/uploadImportTemplate.do'
+		,method :'post'
+		,elem : '#loadLocalTemplateFile'
+		,exts: 'wscso|xnx3'
+		,field: 'templateFile'
+		,title :'加载本地模版'
+		,size: '${maxFileSizeKB}'	//50MB ，这里单位是KB
+		,before: function (obj) {
+			parent.msg.loading("上传中");
+		}
+		,done: function(res, index, upload){
+			parent.msg.close();
+			//上传成功返回值，必须为json格式
+			if(res.result == '1'){
+				parent.msg.success("导入成功");
+				window.location.href = 'welcome.do';	//跳转到欢迎页面
+			}else{
+				parent.msg.failure(res.info);
+			}
+		}
 	}); 
 });
 
 //使用某个云端模版，传入其模版名、编号 templateName
 function useCloudTemplate(templateName){
 	var dtp_confirm = layer.confirm('确定要使用编号为“'+templateName+'”的模版？', {
-	  btn: ['立即使用','取消'] //按钮
+		btn: ['立即使用','取消'] //按钮
 	}, function(){
 		layer.close(dtp_confirm);
 		
@@ -270,41 +270,41 @@ function yindao(){
 	useYindao = true;
 	
 	const driver = new Driver({
-		  doneBtnText: '导入模板', // 最终按钮上的文本 Text on the final button
-		  closeBtnText: '关闭指引', // 当前步骤关闭按钮上的文本 Text on the close button for this step
-		  nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
-		  prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
-		  onReset: function(Element) {
-			  
-			  
-			  useCloudTemplate(SELECT_TEMPLATE_YINDAO_USE);
-		  },        // 遮罩将要关闭时调用
+		doneBtnText: '导入模板', // 最终按钮上的文本 Text on the final button
+		closeBtnText: '关闭指引', // 当前步骤关闭按钮上的文本 Text on the close button for this step
+		nextBtnText: '下一步', //当前步骤下一步按钮上的文本 Next button text for this step
+		prevBtnText: '上一步', // 当前步骤上一步按钮上的文本 Previous button text for this step
+		onReset: function(Element) {
+
+
+			useCloudTemplate(SELECT_TEMPLATE_YINDAO_USE);
+		},		// 遮罩将要关闭时调用
 	});
 	//Define the steps for introduction
 	driver.defineSteps([
 		{
-			 element: '#fangan_three',
-			 popover: {
-			   title: '选择模板导入方式',
-			   description: '刚开始用，那就直接用我们云端模板，都是做好的，导入就能直接用。如果后面使用熟悉了，您可以自己尝试做模板',
-			   position: 'top'
-			 }
+			element: '#fangan_three',
+			popover: {
+				title: '选择模板导入方式',
+				description: '刚开始用，那就直接用我们云端模板，都是做好的，导入就能直接用。如果后面使用熟悉了，您可以自己尝试做模板',
+				position: 'top'
+			}
 		},
 		{
-		 element: '#type_2',
-		 popover: {
-		   title: '选择一个分类',
-		   description: '这里以五金制造这个分类来演示。',
-		   position: 'right'
-		 }
+			element: '#type_2',
+			popover: {
+				title: '选择一个分类',
+				description: '这里以五金制造这个分类来演示。',
+				position: 'right'
+			}
 		},
 		{
-		 element: '.temlate_item_lmyglm1',
-		 popover: {
-		   title: '选择一个模板',
-		   description: '这里以 [ lmyglm1 ] 这个模板为例进行演示。（此模板是我们跟阿里巴巴国际站合作专门给定做的一套，适用于绝大多数类型网站使用。您如果做网站时没有考虑好用哪个模板，建议用这个。）',
-		   position: 'top'
-		 }
+			element: '.temlate_item_lmyglm1',
+			popover: {
+				title: '选择一个模板',
+				description: '这里以 [ lmyglm1 ] 这个模板为例进行演示。（此模板是我们跟阿里巴巴国际站合作专门给定做的一套，适用于绝大多数类型网站使用。您如果做网站时没有考虑好用哪个模板，建议用这个。）',
+				position: 'top'
+			}
 		}
 	]);
 	driver.start();
