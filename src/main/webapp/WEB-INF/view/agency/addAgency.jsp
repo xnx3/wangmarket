@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="开通下级代理"/>
 </jsp:include>
@@ -104,18 +104,18 @@ layui.use(['form'], function(){
 		
 		parent.msg.loading('开通中');
 		var d=$("form").serialize();
-        $.post("addAgencySave.do", d, function (result) { 
-        	parent.msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
-        		parent.msg.success('开通成功');
-        		window.location.href="subAgencyList.do?orderBy=addtime_DESC";
-        	}else if(obj.result == '0'){
-        		parent.msg.failure(obj.info);
-        	}else{
-        		parent.msg.failure(result);
-        	}
-         }, "text");
+		$.post("addAgencySave.do", d, function (result) { 
+			parent.msg.close();
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
+				parent.msg.success('开通成功');
+				window.location.href="subAgencyList.do?orderBy=addtime_DESC";
+			}else if(obj.result == '0'){
+				parent.msg.failure(obj.info);
+			}else{
+				parent.msg.failure(result);
+			}
+		 }, "text");
 		
 		return false;
 	});

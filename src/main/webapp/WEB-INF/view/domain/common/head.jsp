@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html>
 <head>
-  	<meta charset="utf-8">
-    <META NAME="ROBOTS" CONTENT="NOINDEX,NOFOLLOW">
-    <title>预览网站</title>
+	<meta charset="utf-8">
+	<META NAME="ROBOTS" CONTENT="NOINDEX,NOFOLLOW">
+	<title>预览网站</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 

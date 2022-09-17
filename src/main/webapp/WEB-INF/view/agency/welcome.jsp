@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="代理欢迎页面"/>
@@ -25,24 +25,24 @@
 
 
 <div class="layui-tab" id="gonggao" style="display:none; margin-left: 30px; margin-right: 30px;">
-  <ul class="layui-tab-title">
-    <li class="layui-this">公告信息</li>
-    <li>联系</li>
-  </ul>
-  <div class="layui-tab-content" style="font-size:14px;">
-    <div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
-    <div class="layui-tab-item">
-    	名称：${parentAgency.name }<br/>
-    	电话：${parentAgency.phone }<br/>
-    	QQ：${parentAgency.qq }<br/>
-    	地址：${parentAgency.address }
-    </div>
-  </div>
+	<ul class="layui-tab-title">
+		<li class="layui-this">公告信息</li>
+		<li>联系</li>
+	</ul>
+	<div class="layui-tab-content" style="font-size:14px;">
+		<div class="layui-tab-item layui-show" id="parentAgencyNotice">${parentAgencyNotice }</div>
+		<div class="layui-tab-item">
+			名称：${parentAgency.name }<br/>
+			电话：${parentAgency.phone }<br/>
+			QQ：${parentAgency.qq }<br/>
+			地址：${parentAgency.address }
+		</div>
+	</div>
 </div>
 <script>
 //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
-  var element = layui.element;
+	var element = layui.element;
 });
 try{
 	document.getElementById('parentAgencyNotice').innerHTML = document.getElementById('parentAgencyNotice').innerHTML.replace(/\n/g,"<br/>");
@@ -87,27 +87,27 @@ try{
 			<td class="iw_table_td_view_name">账户余额</td>
 			<td>${agency.siteSize }<%=Global.get("CURRENCY_NAME") %>
 				<a href="javascript:jumpParentAgency();" id="chongzhianniu" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">充值</a>
-            	<div style="margin-top: -23px;margin-left: 145px;">
-            		1<%=Global.get("CURRENCY_NAME") %> = 开通一个网站/年<br/>
-            		1<%=Global.get("CURRENCY_NAME") %> = 续费一个网站/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 开通一个下级代理/年<br/>
-            		<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 续费一个下级代理/年<br/>
-            	</div>
-            </td>
+				<div style="margin-top: -23px;margin-left: 145px;">
+					1<%=Global.get("CURRENCY_NAME") %> = 开通一个网站/年<br/>
+					1<%=Global.get("CURRENCY_NAME") %> = 续费一个网站/年<br/>
+					<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 开通一个下级代理/年<br/>
+					<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 续费一个下级代理/年<br/>
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">网站限制</td>
 			<td>
-            	为保障网站不被非法利用，做如下限制：使用1站币开通或续费的网站：
-            	<br/>1.限制存储空间&nbsp;<b>1GB</b>（一般正常使用大约占用不足 百MB）
-            	<div style="padding-left:30px; padding-bottom:10px;">用满可续费，再原本的基础上增加，价格为&nbsp;1站币/1GB/年</div>
-            	2.限制月流量&nbsp;<b>10GB/月</b>（一般正常使用每月大约消耗 5MB~200MB）
-            	<div style="padding-left:30px; padding-bottom:10px;">不做非法用途，不用担心用超！</div>
-            	3.限制文章条数&nbsp;<b>1000条</b>（一般正常使用，企业网站也就用个几十条，做SEO优化一周四篇文章，也足够用五年！）
-            	<div style="padding-left:30px; padding-bottom:10px;">用满可续费，在原本的基础上增加，价格为&nbsp;1站币/500条/年</div>
-            </td>
+				为保障网站不被非法利用，做如下限制：使用1站币开通或续费的网站：
+				<br/>1.限制存储空间&nbsp;<b>1GB</b>（一般正常使用大约占用不足 百MB）
+				<div style="padding-left:30px; padding-bottom:10px;">用满可续费，再原本的基础上增加，价格为&nbsp;1站币/1GB/年</div>
+				2.限制月流量&nbsp;<b>10GB/月</b>（一般正常使用每月大约消耗 5MB~200MB）
+				<div style="padding-left:30px; padding-bottom:10px;">不做非法用途，不用担心用超！</div>
+				3.限制文章条数&nbsp;<b>1000条</b>（一般正常使用，企业网站也就用个几十条，做SEO优化一周四篇文章，也足够用五年！）
+				<div style="padding-left:30px; padding-bottom:10px;">用满可续费，在原本的基础上增加，价格为&nbsp;1站币/500条/年</div>
+			</td>
 		</tr>
-    </tbody>
+	</tbody>
 </table>
 
 
@@ -162,13 +162,13 @@ function jumpParentAgency(){
 			+getTr('地址', '${parentAgency.address}')
 			+'</tbody></table>';
 	
-	layer.open({
-    type: 1
-    ,title: '我的上级信息'
-    ,content: content
-    ,shade: false
-    ,resize: false
-  });
+		layer.open({
+		type: 1
+		,title: '我的上级信息'
+		,content: content
+		,shade: false
+		,resize: false
+	});
 }
 
 
@@ -179,14 +179,14 @@ try {
 	if(currentTime - ${user.regtime } < 1296000){
 		//多窗口模式，层叠置顶
 		layer.open({
-		  type: 2 //此处以iframe举例
-		  ,title: '90秒学会，快速开通网站视频教程'
-		  ,area: ['390px', '100%']
-		  ,shade: 0
-		  ,offset: 'rb'
-		  ,maxmin: true
-		  ,content: '${AGENCYUSER_FIRST_USE_EXPLAIN_URL}'
-		  ,zIndex: layer.zIndex //重点1
+			type: 2 //此处以iframe举例
+			,title: '90秒学会，快速开通网站视频教程'
+			,area: ['390px', '100%']
+			,shade: 0
+			,offset: 'rb'
+			,maxmin: true
+			,content: '${AGENCYUSER_FIRST_USE_EXPLAIN_URL}'
+			,zIndex: layer.zIndex //重点1
 		});
 	}
 } catch(error) {}
@@ -198,4 +198,4 @@ versionUpdateRemind('<%=Global.VERSION %>');
 </script>
 <!-- 版本提示结束 -->
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>  
+<jsp:include page="../iw/common/foot.jsp"></jsp:include>

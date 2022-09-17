@@ -1,7 +1,7 @@
 <%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
@@ -17,9 +17,9 @@
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">
-    	<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间'); </script>
-    </div>
-    <a href="/agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
+		<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间'); </script>
+	</div>
+	<a href="/agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
 </form>	
 
 
@@ -45,12 +45,12 @@
 				</td>
 				<td style="width:100px;">${obj['userusername'] }</td>
 				<c:choose>
-				    <c:when test="${!obj['bind_domain'].isEmpty() && fn:length(obj['bind_domain']) > 0}">
-				        <td onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
-				    </c:when>
-				    <c:otherwise>
-				        <td onclick="window.open('http://${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></td>
-				    </c:otherwise>
+					<c:when test="${!obj['bind_domain'].isEmpty() && fn:length(obj['bind_domain']) > 0}">
+						<td onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
+					</c:when>
+					<c:otherwise>
+						<td onclick="window.open('http://${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></td>
+					</c:otherwise>
 				</c:choose>
 				<td style="width:100px;"><x:time linuxTime="${obj['lasttime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td style="width:100px;"><x:time linuxTime="${obj['expiretime'] }" format="yy-MM-dd hh:mm"></x:time></td>
@@ -66,13 +66,13 @@
 						<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">解冻</botton>
 					</c:when>
 					</c:choose>
-	            	
-	            	<botton class="layui-btn layui-btn-sm" onclick="xufei('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">续费</botton>
-	            	<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${obj['userid'] }','${obj['userusername'] }');" style="margin-left: 3px;">改密</botton>
-	            </td>
+					
+					<botton class="layui-btn layui-btn-sm" onclick="xufei('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">续费</botton>
+					<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${obj['userid'] }','${obj['userusername'] }');" style="margin-left: 3px;">改密</botton>
+				</td>
 			</tr>
 		</c:forEach>
-  </tbody>
+	</tbody>
 </table>
 <!-- 通用分页跳转 -->
 <jsp:include page="../iw/common/page.jsp" ></jsp:include>
@@ -155,17 +155,17 @@ function updatePassword(userid, name){
 	}, function(value, index, elem){
 		parent.msg.loading('更改中');
 		$.post(
-		    "/agency/siteUpdatePassword.do", 
-		    { "newPassword": value, userid:userid }, 
-		    function(data){
-		        parent.msg.close();    //关闭“更改中”的等待提示
-		        if(data.result != '1'){
-		            parent.msg.failure(data.info);
-		        }else{
-		            parent.msg.success('更改成功');
+			"/agency/siteUpdatePassword.do", 
+			{ "newPassword": value, userid:userid }, 
+			function(data){
+				parent.msg.close();	//关闭“更改中”的等待提示
+				if(data.result != '1'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.success('更改成功');
 					location.reload();
-		        }
-		    }, 
+				}
+			}, 
 		"json");
 		
 	});
@@ -179,17 +179,17 @@ function updateRemark(siteid, name, remark){
 	}, function(value, index, elem){
 		parent.msg.loading('更改中');
 		$.post(
-		    "/agency/siteUpdateRemark.json", 
-		    { 'remark' : value.replace(/\n/g,"[br]"), siteid:siteid }, 
-		    function(data){
-		        parent.msg.close();    //关闭“更改中”的等待提示
-		        if(data.result != '1'){
-		            parent.msg.failure(data.info);
-		        }else{
-		            parent.msg.success('更改成功');
+			"/agency/siteUpdateRemark.json", 
+			{ 'remark' : value.replace(/\n/g,"[br]"), siteid:siteid }, 
+			function(data){
+				parent.msg.close();	//关闭“更改中”的等待提示
+				if(data.result != '1'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.success('更改成功');
 					location.reload();
-		        }
-		    }, 
+				}
+			}, 
 		"json");
 		
 	});

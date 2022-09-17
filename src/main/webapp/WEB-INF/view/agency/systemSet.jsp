@@ -17,47 +17,45 @@
 </style>
 <div style="margin:30px;">
 <table class="layui-table">
-  <tbody>
-    <tr id="td_name">
-      <td class="title">公司名称</td>
-      <td class="value" onclick="popAgency('name','公司名称', '${agency.name }');" style="cursor:pointer;">
-		${agency.name }
-		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
-      </td>
-    </tr>
-    <tr id="td_phone">
-      <td class="title">联系电话</td>
-      <td class="value" onclick="popAgency('phone','联系电话', '${agency.phone }');" style="cursor:pointer;">
-		${agency.phone }
-		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
-      </td>
-    </tr>
-    <tr id="td_phone">
-      <td class="title">联系QQ</td>
-      <td class="value" onclick="popAgency('qq','联系QQ', '${agency.qq }');" style="cursor:pointer;">
-		${agency.qq }
-		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
-      </td>
-    </tr>
-    <tr id="td_address">
-      <td class="title">办公地点</td>
-      <td class="value" onclick="popAgency('address','办公地点', '${agency.address }');" style="cursor:pointer;">
-		${agency.address }
-		<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
-      </td>
-    </tr>
-    <tr id="td_notice">
-    	<td class="title" >公告信息</td>
+<tbody>
+	<tr id="td_name">
+		<td class="title">公司名称</td>
+		<td class="value" onclick="popAgency('name','公司名称', '${agency.name }');" style="cursor:pointer;">
+			${agency.name }
+			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
+		</td>
+	</tr>
+	<tr id="td_phone">
+		<td class="title">联系电话</td>
+		<td class="value" onclick="popAgency('phone','联系电话', '${agency.phone }');" style="cursor:pointer;">
+			${agency.phone }
+			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
+		</td>
+	</tr>
+	<tr id="td_phone">
+		<td class="title">联系QQ</td>
+		<td class="value" onclick="popAgency('qq','联系QQ', '${agency.qq }');" style="cursor:pointer;">
+			${agency.qq }
+			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
+		</td>
+	</tr>
+	<tr id="td_address">
+		<td class="title">办公地点</td>
+		<td class="value" onclick="popAgency('address','办公地点', '${agency.address }');" style="cursor:pointer;">
+			${agency.address }
+			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
+		</td>
+	</tr>
+	<tr id="td_notice">
+		<td class="title" >公告信息</td>
 		<td class="value" onclick="popNotice();" style="cursor:pointer;" id="notice">${agencyData.notice }</td>
 		<script>
 			try{
 				document.getElementById('notice').innerHTML = document.getElementById('notice').innerHTML.replace(/\n/g,"<br/>");
 			}catch(e){}
 		</script>
-    </tr>
-    
-    
-  </tbody>
+	</tr>
+</tbody>
 </table>
 </div>
 
@@ -131,27 +129,27 @@ $(function(){
  */
 function popAgency(name, description, oldValue){
 	layer.prompt({
-	  formType: 2,
-	  value: oldValue,
-	  title: description,
-	  area: ['400px', '100px'] //自定义文本域宽高
+		formType: 2,
+		value: oldValue,
+		title: description,
+		area: ['400px', '100px'] //自定义文本域宽高
 	}, function(value, index, elem){
-	  layer.close(index);
-	  parent.msg.loading('修改中');
- 	 $.post(
-	    "saveAgency.do", 
-	    { "name": name, "value":value }, 
-	    function(data){
-	        parent.msg.close();    //关闭“更改中”的等待提示
-	        if(data.result != '1'){
-	            parent.msg.failure(data.info);
-	        }else{
-	            parent.msg.success("操作成功");
-	            location.reload();
-	        }
-	    }, 
+		layer.close(index);
+		parent.msg.loading('修改中');
+	$.post(
+		"saveAgency.do", 
+		{ "name": name, "value":value }, 
+		function(data){
+			parent.msg.close();	//关闭“更改中”的等待提示
+			if(data.result != '1'){
+				parent.msg.failure(data.info);
+			}else{
+				parent.msg.success("操作成功");
+				location.reload();
+			}
+		}, 
 	"json");
-	  
+	
 	});
 }
 
@@ -162,28 +160,28 @@ function popAgency(name, description, oldValue){
  */
 function popNotice(){
 	layer.prompt({
-	  formType: 2,
-	  value: document.getElementById('notice').innerHTML.replace(/<br\/>/g, "\n").replace(/<br>/g, "\n"),
-	  title: '公告信息',
-	  area: ['500px', '200px'] //自定义文本域宽高
+		formType: 2,
+		value: document.getElementById('notice').innerHTML.replace(/<br\/>/g, "\n").replace(/<br>/g, "\n"),
+		title: '公告信息',
+		area: ['500px', '200px'] //自定义文本域宽高
 	}, function(value, index, elem){
-	  layer.close(index);
-	  parent.msg.loading('修改中');
- 	 $.post(
-	    "saveNotice.do", 
-	    { "value":value }, 
-	    function(data){
+		layer.close(index);
+		parent.msg.loading('修改中');
+	$.post(
+		"saveNotice.do", 
+		{ "value":value }, 
+		function(data){
 			console.log(data);
-	        parent.msg.close();    //关闭“更改中”的等待提示
-	        if(data.result != '1'){
-	            parent.msg.failure(data.info);
-	        }else{
-	            parent.msg.success("操作成功");
-	            location.reload();
-	        }
-	    }, 
+			parent.msg.close();	//关闭“更改中”的等待提示
+			if(data.result != '1'){
+				parent.msg.failure(data.info);
+			}else{
+				parent.msg.success("操作成功");
+				location.reload();
+			}
+		}, 
 	"json");
-	  
+	
 	});
 }
 </script>

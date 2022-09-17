@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../iw/common/head.jsp">
-    <jsp:param name="title" value="编辑栏目"/>
+	<jsp:param name="title" value="编辑栏目"/>
 </jsp:include>
 
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
@@ -19,8 +19,8 @@
 <style>
 .explain{
 	font-size: 12px;
-    color: gray;
-    padding-top: 4px;
+	color: gray;
+	padding-top: 4px;
 }
 </style>
 
@@ -30,215 +30,215 @@
 	
 	
 <div class="layui-tab layui-tab-card" style="border-style: none; box-shadow: 0 0px 0px 0 rgba(0,0,0,.1); margin-top: 0px;">
-  <ul class="layui-tab-title">
-    <li class="layui-this">基本设置</li>
-    <li>信息录入</li>
-    <li>显示</li>
-    <li>SEO</li>
-    <li>高级设置</li>
-  </ul>
-  <div class="layui-tab-content" style="padding-right: 35px;">
-    <div class="layui-tab-item layui-show">
-    	<div class="layui-form-item">
-			<label class="layui-form-label" id="label_columnName">栏目名称</label>
-			<div class="layui-input-block">
-				<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限40个字符以内" class="layui-input" value="${siteColumn.name }">
+	<ul class="layui-tab-title">
+		<li class="layui-this">基本设置</li>
+		<li>信息录入</li>
+		<li>显示</li>
+		<li>SEO</li>
+		<li>高级设置</li>
+	</ul>
+	<div class="layui-tab-content" style="padding-right: 35px;">
+		<div class="layui-tab-item layui-show">
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="label_columnName">栏目名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限40个字符以内" class="layui-input" value="${siteColumn.name }">
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" id="parentColumnCode_label">所属栏目</label>
-			<div class="layui-input-block">
-				<select name="parentCodeName" id="parentCodeName">
-					${parentColumnOption}
-				</select>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="parentColumnCode_label">所属栏目</label>
+				<div class="layui-input-block">
+					<select name="parentCodeName" id="parentCodeName">
+						${parentColumnOption}
+					</select>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" id="columnType">栏目类型</label>
-			<div class="layui-input-block">
-				<select name="type" required="type" lay-verify="type" lay-filter="type" id="type">
-					<option value="">请选择</option>
-					<option value="7" <c:if test="${siteColumn.type=='7'}"> selected="selected"</c:if>>信息列表</option>
-					<option value="8" <c:if test="${siteColumn.type=='8'}"> selected="selected"</c:if>>独立页面</option>
-				</select>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="columnType">栏目类型</label>
+				<div class="layui-input-block">
+					<select name="type" required="type" lay-verify="type" lay-filter="type" id="type">
+						<option value="">请选择</option>
+						<option value="7" <c:if test="${siteColumn.type=='7'}"> selected="selected"</c:if>>信息列表</option>
+						<option value="8" <c:if test="${siteColumn.type=='8'}"> selected="selected"</c:if>>独立页面</option>
+					</select>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item" id="xnx3_listTemplate">
-			<label class="layui-form-label" id="listTemplate">列表模版</label>
-			<div class="layui-input-block">
-				<select name="templatePageListName" lay-verify="listTemplateVerify" id="templatePageListName">
-					${tpl_list_option}
-				</select>
+			<div class="layui-form-item" id="xnx3_listTemplate">
+				<label class="layui-form-label" id="listTemplate">列表模版</label>
+				<div class="layui-input-block">
+					<select name="templatePageListName" lay-verify="listTemplateVerify" id="templatePageListName">
+						${tpl_list_option}
+					</select>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item" id="xnx3_viewTemplate">
-			<label class="layui-form-label" id="viewTemplate">内容模版</label>
-			<div class="layui-input-block">
-				<select name="templatePageViewName" id="templatePageViewName">
-					${tpl_view_option}
-				</select>
+			<div class="layui-form-item" id="xnx3_viewTemplate">
+				<label class="layui-form-label" id="viewTemplate">内容模版</label>
+				<div class="layui-input-block">
+					<select name="templatePageViewName" id="templatePageViewName">
+						${tpl_view_option}
+					</select>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" id="columnCode">栏目代码</label>
-			<div class="layui-input-block">
-				<input type="text" name="codeName" lay-verify="required" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${siteColumn.codeName }">
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="columnCode">栏目代码</label>
+				<div class="layui-input-block">
+					<input type="text" name="codeName" lay-verify="required" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${siteColumn.codeName }">
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item" id="listnum">
-			<label class="layui-form-label" id="listnum_label">列表条数</label>
-			<div class="layui-input-block">
-				<input type="number" name="listNum" autocomplete="off" placeholder="列表页面每页显示的条数" class="layui-input" value="${siteColumn.listNum }">
+			<div class="layui-form-item" id="listnum">
+				<label class="layui-form-label" id="listnum_label">列表条数</label>
+				<div class="layui-input-block">
+					<input type="number" name="listNum" autocomplete="off" placeholder="列表页面每页显示的条数" class="layui-input" value="${siteColumn.listNum }">
+				</div>
 			</div>
+			
+			
+			
 		</div>
-		
-		
-		
-    </div>
-    <div class="layui-tab-item">
-    	<!-- 信息录入 -->
-    	
-    	<!-- 内容编辑方式，当独立页面时才会有效，才会显示。选择是使用内容富文本编辑框编辑，还是使用模板的方式编辑 -->
-		<div class="layui-form-item" id="xnx3_editMode">
-			<label class="layui-form-label" id="columnEditMode">编辑方式</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForeditMode_('${siteColumn.editMode }','', true);</script>
+		<div class="layui-tab-item">
+			<!-- 信息录入 -->
+			
+			<!-- 内容编辑方式，当独立页面时才会有效，才会显示。选择是使用内容富文本编辑框编辑，还是使用模板的方式编辑 -->
+			<div class="layui-form-item" id="xnx3_editMode">
+				<label class="layui-form-label" id="columnEditMode">编辑方式</label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionForeditMode_('${siteColumn.editMode }','', true);</script>
+				</div>
 			</div>
-		</div>
-    	
-    	<div class="layui-form-item neirongguanli_shuru" id="inputModel">
-			<label class="layui-form-label" id="inputModel_label">输入模型</label>
-			<div class="layui-input-block">
-				<select name="inputModelCodeName" id="inputModelCodeName">
-					${inputModelOptions }
-				</select>
+			
+			<div class="layui-form-item neirongguanli_shuru" id="inputModel">
+				<label class="layui-form-label" id="inputModel_label">输入模型</label>
+				<div class="layui-input-block">
+					<select name="inputModelCodeName" id="inputModelCodeName">
+						${inputModelOptions }
+					</select>
+				</div>
 			</div>
-		</div>
-		
-		
-		<div style="padding-left: 30px; font-size: 12px; color: gray;padding-bottom: 10px;" class="neirongguanli_shuru">
-			<hr>
-			以下是当你进入 “内容管理” 中进行编辑文章时，是否显示这几个录入项
+			
+			
+			<div style="padding-left: 30px; font-size: 12px; color: gray;padding-bottom: 10px;" class="neirongguanli_shuru">
+				<hr>
+				以下是当你进入 “内容管理” 中进行编辑文章时，是否显示这几个录入项
+				
+			</div>
+			
+			<style>
+				.layui-form-switch em {
+					font-size: 15px;
+				}
+			</style>
+					
+			<div class="layui-form-item neirongguanli_shuru">
+				<label class="layui-form-label" id="label_editUseTitlepic">标题图片</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="editUseTitlepic" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseTitlepic=='1'}"> checked</c:if>>
+				</div>
+			</div>
+			<div class="layui-form-item neirongguanli_shuru">
+				<label class="layui-form-label" id="label_editUseExtendPhotos">文章图集</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="editUseExtendPhotos" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseExtendPhotos=='1'}"> checked</c:if>>
+				</div>
+			</div>
+			<div class="layui-form-item neirongguanli_shuru">
+				<label class="layui-form-label" id="label_editUseIntro">内容简介</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="editUseIntro" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseIntro=='1'}"> checked</c:if>>
+				</div>
+			</div>
+			<div class="layui-form-item neirongguanli_shuru">
+				<label class="layui-form-label" id="label_editUseText">内容正文</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="editUseText" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseText=='1'}"> checked</c:if>>
+				</div>
+			</div>
 			
 		</div>
 		
-    	
-<style>
-.layui-form-switch em {
-	font-size: 15px;
-}
-</style>    	
-    	<div class="layui-form-item neirongguanli_shuru">
-			<label class="layui-form-label" id="label_editUseTitlepic">标题图片</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="editUseTitlepic" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseTitlepic=='1'}"> checked</c:if>>
+		<div class="layui-tab-item">
+			<!-- 显示 -->
+			
+			<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+				<legend><a name="compatibility" style="font-size: 14px;">该栏目是否可在模版中用动态栏目代码调取出来</a></legend>
+			</fieldset>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="templateCodeColumnUsed_label" >子栏目列表</label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionFortemplateCodeColumnUsed_('${siteColumn.templateCodeColumnUsed }','请选择', true);</script>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item neirongguanli_shuru">
-			<label class="layui-form-label" id="label_editUseExtendPhotos">文章图集</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="editUseExtendPhotos" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseExtendPhotos=='1'}"> checked</c:if>>
+			
+			
+			<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+				<legend><a name="compatibility" style="font-size: 14px;">是否在内容管理中显示这个栏目</a></legend>
+			</fieldset>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="adminNewsUsed_label" >内容管理中</label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionForadminNewsUsed_('${siteColumn.adminNewsUsed }','请选择', true);</script>
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item neirongguanli_shuru">
-			<label class="layui-form-label" id="label_editUseIntro">内容简介</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="editUseIntro" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseIntro=='1'}"> checked</c:if>>
-			</div>
-		</div>
-		<div class="layui-form-item neirongguanli_shuru">
-			<label class="layui-form-label" id="label_editUseText">内容正文</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="editUseText" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseText=='1'}"> checked</c:if>>
-			</div>
-		</div>
-		
-    </div>
-    
-    <div class="layui-tab-item">
-    	<!-- 显示 -->
-    	
-		<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
-	      <legend><a name="compatibility" style="font-size: 14px;">该栏目是否可在模版中用动态栏目代码调取出来</a></legend>
-	    </fieldset>
-    	<div class="layui-form-item">
-			<label class="layui-form-label" id="templateCodeColumnUsed_label" >子栏目列表</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionFortemplateCodeColumnUsed_('${siteColumn.templateCodeColumnUsed }','请选择', true);</script>
+			
+			
+			<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
+				<legend><a name="compatibility" style="font-size: 14px;">下面这个已废弃</a></legend>
+			</fieldset>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="xianshi_label"><s>是否显示</s></label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
+					<div class="explain">注意，这个已经废弃！您可使用上面几个来控制</div>
+				</div>
 			</div>
 		</div>
 		
-		
-		<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
-	      <legend><a name="compatibility" style="font-size: 14px;">是否在内容管理中显示这个栏目</a></legend>
-	    </fieldset>
-    	<div class="layui-form-item">
-			<label class="layui-form-label" id="adminNewsUsed_label" >内容管理中</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForadminNewsUsed_('${siteColumn.adminNewsUsed }','请选择', true);</script>
+		<!-- SEO -->
+		<div class="layui-tab-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="keywords_label">Keywords</label>
+				<div class="layui-input-block">
+					<textarea name="keywords" lay-verify="keywords" autocomplete="off" placeholder="限50个字符以内，多个用,分割" class="layui-textarea">${siteColumn.keywords }</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="description_label">Description</label>
+				<div class="layui-input-block">
+					<textarea name="description" lay-verify="description" autocomplete="off" placeholder="限200个字符以内" class="layui-textarea">${siteColumn.description }</textarea>
+				</div>
 			</div>
 		</div>
 		
-    	
-    	<fieldset class="layui-elem-field layui-field-title site-title" style="margin-bottom: 10px;">
-	      <legend><a name="compatibility" style="font-size: 14px;">下面这个已废弃</a></legend>
-	    </fieldset>
-	    <div class="layui-form-item">
-			<label class="layui-form-label" id="xianshi_label"><s>是否显示</s></label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForused_('${siteColumn.used }','请选择', true);</script>
-				<div class="explain">注意，这个已经废弃！您可使用上面几个来控制</div>
+		<div class="layui-tab-item">
+			<!-- 高级方式 -->
+			<div class="layui-form-item" id="listRank">
+				<label class="layui-form-label" id="listRank_label">信息排序</label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionForlistRank_('${siteColumn.listRank }','请选择', false);</script>
+				</div>
+			</div>
+			<div class="layui-form-item" id="useGenerateView_div">
+				<label class="layui-form-label" id="useGenerateView_label">生成内容页</label>
+				<div class="layui-input-block">
+					<script type="text/javascript">writeSelectAllOptionForuseGenerateView_('${siteColumn.useGenerateView }','请选择', true);</script>
+				</div>
+			</div>
+			
+			<!-- 标题图片、封面图片。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
+			<div class="layui-form-item" id="icon_div">
+				<label class="layui-form-label" id="label_columnName">栏目图片</label>
+				<div class="layui-input-block">
+					<input name="icon" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="${siteColumn.icon }" style="padding-right: 120px;">
+					<button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">
+						<i class="layui-icon layui-icon-upload"></i>
+					</button>
+					<a href="${icon }" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
+						<img id="titlePicImg" src="${icon }?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
+					</a><input class="layui-upload-file" type="file" name="fileName">
+				</div>
 			</div>
 		</div>
-    </div>
-    
-    <!-- SEO -->
-    <div class="layui-tab-item">
-    	<div class="layui-form-item">
-			<label class="layui-form-label" id="keywords_label">Keywords</label>
-			<div class="layui-input-block">
-				<textarea name="keywords" lay-verify="keywords" autocomplete="off" placeholder="限50个字符以内，多个用,分割" class="layui-textarea">${siteColumn.keywords }</textarea>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label" id="description_label">Description</label>
-			<div class="layui-input-block">
-				<textarea name="description" lay-verify="description" autocomplete="off" placeholder="限200个字符以内" class="layui-textarea">${siteColumn.description }</textarea>
-			</div>
-		</div>
-    </div>
-    
-    <div class="layui-tab-item">
-    	<!-- 高级方式 -->
-		<div class="layui-form-item" id="listRank">
-			<label class="layui-form-label" id="listRank_label">信息排序</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForlistRank_('${siteColumn.listRank }','请选择', false);</script>
-			</div>
-		</div>
-		<div class="layui-form-item" id="useGenerateView_div">
-			<label class="layui-form-label" id="useGenerateView_label">生成内容页</label>
-			<div class="layui-input-block">
-				<script type="text/javascript">writeSelectAllOptionForuseGenerateView_('${siteColumn.useGenerateView }','请选择', true);</script>
-			</div>
-		</div>
-    	
-		<!-- 标题图片、封面图片。若是使用，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
-		<div class="layui-form-item" id="icon_div">
-			<label class="layui-form-label" id="label_columnName">栏目图片</label>
-			<div class="layui-input-block">
-				<input name="icon" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="${siteColumn.icon }" style="padding-right: 120px;">
-				<button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">
-					<i class="layui-icon layui-icon-upload"></i>
-				</button>
-				<a href="${icon }" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">
-					<img id="titlePicImg" src="${icon }?x-oss-process=image/resize,h_38" onerror="this.style.display='none';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片">
-				</a><input class="layui-upload-file" type="file" name="fileName">
-			</div>
-		</div>
-    </div>
-    
-  </div>
+		
+	</div>
 </div>
 
 	
@@ -260,32 +260,32 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
 
 layui.use(['form', 'layedit', 'laydate', 'element'], function(){
-  var form = layui.form;
+	var form = layui.form;
 
-  //自定义验证规则
-  form.verify({
-    name: function(value){
-      if(value.length == 0 || value.length > 40){
-        return '请输入40个字以内的栏目名称';
-      }
-    },
-    type: function(value){
-      if(value=='' || value.length ==0){
-        return '请选择栏目类型';
-      }
-    },
-    keywords: function(value){
-      if(value.length > 50){
-        return 'SEO 下的 keywords限制不可超过50字符';
-      }
-    },
-    description: function(value){
-      if(value.length > 200){
-        return 'SEO 下的 description限制不可超过200字符';
-      }
-    },
-  });
-  
+	//自定义验证规则
+	form.verify({
+		name: function(value){
+			if(value.length == 0 || value.length > 40){
+				return '请输入40个字以内的栏目名称';
+			}
+		},
+		type: function(value){
+			if(value=='' || value.length ==0){
+				return '请选择栏目类型';
+			}
+		},
+		keywords: function(value){
+			if(value.length > 50){
+				return 'SEO 下的 keywords限制不可超过50字符';
+			}
+		},
+		description: function(value){
+			if(value.length > 200){
+				return 'SEO 下的 description限制不可超过200字符';
+			}
+		},
+	});
+	
 	//当类型发生变动改变
 	form.on('select(type)', function (data) {
 		selectTypeChange();
@@ -295,28 +295,28 @@ layui.use(['form', 'layedit', 'laydate', 'element'], function(){
 	form.on('select(editMode)', function (data) {
 		selectEditMode();
 	});
-  
-  //监听提交
-  form.on('submit(demo1)', function(data){
-  		parent.parent.msg.loading('保存中');
+	
+	//监听提交
+	form.on('submit(demo1)', function(data){
+		parent.parent.msg.loading('保存中');
 		var d=$("form").serialize();
-        $.post("/column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
-        	parent.parent.msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
-        		parent.parent.msg.success("操作成功");
-        		parent.location.reload();	//刷新父窗口
-        		parent.layer.close(index);
-        	}else if(obj.result == '0'){
-        		msg.failure(obj.info);
-        	}else{
-        		msg.failure(result);
-        	}
-         }, "text");
+		$.post("/column/savePopupColumnGaoJiUpdate.do", d, function (result) { 
+			parent.parent.msg.close();
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
+				parent.parent.msg.success("操作成功");
+				parent.location.reload();	//刷新父窗口
+				parent.layer.close(index);
+			}else if(obj.result == '0'){
+				msg.failure(obj.info);
+			}else{
+				msg.failure(result);
+			}
+		 }, "text");
 		
-    return false;
-  });
-  
+		return false;
+	});
+	
 });
 
 

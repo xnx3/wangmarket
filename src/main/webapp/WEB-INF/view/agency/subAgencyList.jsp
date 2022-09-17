@@ -1,6 +1,6 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.xnx3.com/java_xnx3/xnx3_tld" prefix="x" %>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="我的下级代理列表"/>
@@ -19,11 +19,11 @@
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">
-    	<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
-    </div>
-    <a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
+		<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
+	</div>
+	<a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
 </form>	
-             
+			 
 <table class="layui-table iw_table">
 	<thead>
 		<tr>
@@ -39,15 +39,15 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${list}" var="agency">
-		   	<tr>
-		        <td style="width:50px;">${agency['id'] }</td>
-		        <td>${agency['username'] }</td>
-		        <td><x:substring maxLength="6" text="${agency['name'] }" more=".."></x:substring></td>
-		        <td style="width:90px;">${agency['phone'] }</td>
-		        <td style="width:60px;">${agency['site_size'] }</td>
-		        <td style="width:100px;"><x:time linuxTime="${agency['addtime'] }" format="yy-MM-dd HH:mm"></x:time></td>
-		        <td style="width:100px;"><x:time linuxTime="${agency['expiretime'] }" format="yy-MM-dd HH:mm"></x:time></td>
-		        <td style="width:200px;">
+			<tr>
+				<td style="width:50px;">${agency['id'] }</td>
+				<td>${agency['username'] }</td>
+				<td><x:substring maxLength="6" text="${agency['name'] }" more=".."></x:substring></td>
+				<td style="width:90px;">${agency['phone'] }</td>
+				<td style="width:60px;">${agency['site_size'] }</td>
+				<td style="width:100px;"><x:time linuxTime="${agency['addtime'] }" format="yy-MM-dd HH:mm"></x:time></td>
+				<td style="width:100px;"><x:time linuxTime="${agency['expiretime'] }" format="yy-MM-dd HH:mm"></x:time></td>
+				<td style="width:200px;">
 					<c:choose>
 						<c:when test="${agency['state'] == 1 }">
 							<botton class="layui-btn layui-btn-sm" onclick="freeze('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">冻结</botton>
@@ -59,14 +59,14 @@
 					<botton class="layui-btn layui-btn-sm" onclick="yanqi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">延期</botton>
 					<botton class="layui-btn layui-btn-sm" onclick="chongzhi('${agency['id'] }','${agency['username'] }');" style="margin-left: 3px;">充值</botton>
 					<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${agency['userid'] }','${agency['username'] }');" style="margin-left: 3px;">改密</botton>
-		        </td>
-		    </tr>
+				</td>
+			</tr>
 		</c:forEach>
-  </tbody>
+	</tbody>
 </table>
 <!-- 通用分页跳转 -->
-<jsp:include page="../iw/common/page.jsp" ></jsp:include>             
-                        
+<jsp:include page="../iw/common/page.jsp" ></jsp:include>			 
+						
 <div style="padding: 20px;color: gray;">
 	<div>操作按钮提示:</div>
 	<div>冻结：将网站冻结。冻结的网站无法登陆，无法访问。注意，冻结网站不会退返站币，会按照正常的1年/站币方式计费</div>
@@ -75,8 +75,8 @@
 	<div>充值：给下级代理充值站币。相当于将当前自己的站币转给下级代理</div>
 	<div>改密：更改密码。当用户忘记密码时，对其进行更改密码</div>
 </div>
-                            
-                 
+							
+				 
 <script type="text/javascript">
 //给agency.id的下级代理充值站币。agencyName只是展示作用
 function chongzhi(agencyId, agencyName){
@@ -130,19 +130,19 @@ function updatePassword(userid, name){
 		value: '',
 		title: '给'+name+'改密码，请输入新密码',
 	}, function(value, index, elem){
-		parent.msg.loading("更改中");    //显示“更改中”的等待提示
+		parent.msg.loading("更改中");	//显示“更改中”的等待提示
 		$.post(
-		    "/agency/siteUpdatePassword.do", 
-		    { "newPassword": value, userid:userid }, 
-		    function(data){
-		        parent.msg.close();    //关闭“更改中”的等待提示
-		        if(data.result != '1'){
-		            parent.msg.failure(data.info);
-		        }else{
-		            parent.msg.success('修改成功');
+			"/agency/siteUpdatePassword.do", 
+			{ "newPassword": value, userid:userid }, 
+			function(data){
+				parent.msg.close();	//关闭“更改中”的等待提示
+				if(data.result != '1'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.success('修改成功');
 					location.reload();
-		        }
-		    }, 
+				}
+			}, 
 		"json");
 	});
 }

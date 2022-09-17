@@ -2,7 +2,7 @@
 <%@page import="com.xnx3.wangmarket.admin.G"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@page import="com.xnx3.j2ee.shiro.ShiroFunc"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="/<%=Global.CACHE_FILE %>Site_client.js"></script>
 <style>
 .xnx3_input{
@@ -19,13 +19,13 @@
 			<input type="checkbox" name="like[read]" title="新闻咨询" checked disabled>
 			<input type="checkbox" name="like[dai]" title="产品展示" checked disabled>
 			<input type="checkbox" name="like[dai]" title="联系我们" checked disabled>
-    	</div>
+		</div>
 	</div>
 	<div class="layui-form-item"  id="wap_autoCreateColumn" style="display:nonee;">
 		<label class="layui-form-label">自动创建</label>
 		<div class="layui-input-block">
 			<input type="checkbox" name="like[write]" title="关于我们" checked disabled>
-    	</div>
+		</div>
 	</div>
 	
 	
@@ -112,18 +112,18 @@ layui.use(['form'], function(){
 	form.on('submit(formDemo)', function(data){
 		parent.msg.loading('开通中');
 		var d=$("form").serialize();
-        $.post("addSubmit.do", d, function (result) { 
-        	parent.msg.close();
-        	var obj = JSON.parse(result);
-        	if(obj.result == '1'){
-        		parent.msg.success('开通成功');
+		$.post("addSubmit.do", d, function (result) { 
+			parent.msg.close();
+			var obj = JSON.parse(result);
+			if(obj.result == '1'){
+				parent.msg.success('开通成功');
 				window.location.href="userList.do?orderBy=id_DESC"; 
-        	}else if(obj.result == '0'){
-        		parent.msg.failure(obj.info);
-        	}else{
-        		parent.msg.failure(result);
-        	}
-         }, "text");
+			}else if(obj.result == '0'){
+				parent.msg.failure(obj.info);
+			}else{
+				parent.msg.failure(result);
+			}
+		 }, "text");
 		
 		return false;
 	});
