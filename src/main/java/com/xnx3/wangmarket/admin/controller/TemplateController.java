@@ -62,6 +62,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
@@ -179,7 +180,7 @@ public class TemplateController extends BaseController {
 			model.addAttribute("domain", "<span style=\"cursor:pointer;\" onclick=\"msg.alert('您在安装时，跳过了设置域名那一步，所以这里不会自动分配域名。如果您想每个网站能自动给其分配一个二级域名，那可以重新安装，或者联系您的服务商帮您操作。');\">安装时未设置</span>");
 		}else {
 			//其他的那就是正常的了，直接加上domain进行展示出来
-			String domain = site.getDomain()+"."+assignDomain;
+			String domain = site.getDomain()+"."+DomainUtil.getAssignMainDomain();
 			model.addAttribute("domain", "<a href=\"http://"+domain+"\" target=\"_black\">"+domain+"</a>");
 		}
 		
