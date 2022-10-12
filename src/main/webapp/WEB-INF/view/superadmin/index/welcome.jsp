@@ -78,12 +78,12 @@ function upgradePlugin(){
 	wm.post("/plugin/upgrade/superadmin/getNextVersion.json",{},function(result){
 		if(result.result == '1'){
 			//有返回值，那么说明自动升级插件存在，可以进行自动升级操作
-			var html = '发现可升级版本：<b>'+nextVersion+'</b>'+
+			var html = '发现可升级版本：<b>'+result.info+'</b>'+
 			   '<br/>是否需要进行在线升级？';
 			msg.confirm({
 			    text:html,
 			    buttons:{
-			        升级:function(){
+			        进入升级页面:function(){
 			        	parent.loadUrl('/plugin/upgrade/superadmin/index.do');
 			        },
 			        取消:function(){
