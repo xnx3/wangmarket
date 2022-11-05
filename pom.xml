@@ -19,31 +19,44 @@
 	<parent>
 		<groupId>com.xnx3.wangmarket.wm</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.11.2</version>
+		<version>2.25</version>
 	</parent>
 
-	<repositories>
+  <repositories>
 		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>central</id>
-			<name>bintray</name>
-			<url>http://jcenter.bintray.com</url>
+            <id>maven-ali</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+        <repository>
+		    <snapshots>
+		        <enabled>false</enabled>
+		    </snapshots>
+		    <id>central</id>
+		    <name>bintray</name>
+		    <url>http://jcenter.bintray.com</url>
 		</repository>
 		<repository>
-			<id>maven-ali</id>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-		</repository>
+            <id>maven-guanfang</id>
+            <url>https://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
 	</repositories>
+  
 
 	<build>
 
@@ -181,16 +194,11 @@
 		<dependency>
 			<groupId>com.xnx3.wangmarket.wm</groupId>
 			<artifactId>wm</artifactId>
-			<version>2.23</version>
+			<version>2.25</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.23.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.25.jar</systemPath>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.xnx3.util</groupId>
-			<artifactId>xnx3-util</artifactId>
-			<version>1.10</version>
-		</dependency>
 	</dependencies>
     
 	<distributionManagement>
