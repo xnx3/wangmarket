@@ -779,6 +779,13 @@ public class SiteController extends BaseController {
 		}
 		model.addAttribute("bindDomainDemo", bindDomainDemo);
 		
+		//在v5.7增加的这个设置，跟随 oem 插件 v1.3 增加的
+		String bindDomainRegUrl = SystemUtil.get("BIND_DOMAIN_REG_URL");
+		if(bindDomainRegUrl == null || bindDomainRegUrl.length() < 12 || bindDomainRegUrl.equalsIgnoreCase("null")) {
+			bindDomainRegUrl = "http://huawei.leimingyun.com/wangmarket_binddomain.html";
+		}
+		model.addAttribute("bindDomainRegUrl", bindDomainRegUrl);
+		
 		//cname解析到的地址
 		String assignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");	
 		if(assignDomain == null || assignDomain.trim().equals("")) {
