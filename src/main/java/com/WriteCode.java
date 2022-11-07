@@ -4,6 +4,7 @@ import com.xnx3.writecode.template.wm.Code;
 
 /**
  * 自动写代码，根据数据表写出实体类、controller、vo、jsp页面等
+ * 详细使用可参考 https://gitee.com/mail_osc/writecode/tree/master/template-wm
  * 【注意，只支持Mysql数据库，暂不支持Sqlite】
  * @author 管雷鸣
  */
