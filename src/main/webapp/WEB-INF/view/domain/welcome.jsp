@@ -78,26 +78,19 @@
 			
 		</div>
 		
-		<div class="info">
-			<h3>服务器选配</h3>
-			最低配置要求：1核2G <a href="http://help.wscso.com/16329.html" target="_black">详细配置点此查看，最低一元成本！</a>
-		</div>
 		
-		<div class="info">
-			<h3>数据库</h3>
-			系统默认内置 Sqlite 数据库，如果你只是建几个网站，那用这个就足够，无需任何其他配置<br/>
-			如果你是建站公司，建议配置 Mysql 数据库。<a href="http://help.wscso.com/10240.html" target="_black">点此查看Mysql配置说明</a>
-		</div>
-		
-		<div class="info" onclick="huodong();" style="cursor: pointer;">
-			<h3>建站公司或数量多的网站</h3>
+		<div class="info" onclick="huodong();" style="display:none; cursor: pointer; padding-top:20px;">
 			如果你是用做网站来拉客户或者盈利，做网站的数量比较多，比如50个以上，考虑到系统的可维护性、升级方便、以及网站数量持续增长之后的可扩展性、稳定性，我们建议你参与我们的活动，我们帮你安装、调试好、有入门文档教你怎么更好的使用，让这套建站系统真正给你创造利益。[点此查看更多]
 		</div>
 		
-		
-		<div style="width: 100%;text-align: center; padding-top: 50px;">
-			<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">潍坊雷鸣云网络科技有限公司</a>
-		</div>
+	</div>
+	
+	<div class="info" style="    position: absolute; bottom: 25px;padding: 20px; color: gray;">
+		SAAS 云建站系统，可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。让每个互联网公司都可私有化部署自己的 SAAS 云建站平台，一台 1 核 2G 服务器可建立几万个独立网站！
+		<a href="http://cms.zvo.cn" target="_black" style="color: gray;">详细说明参见：cms.zvo.cn</a>
+	</div>
+	<div style="width: 100%;text-align: center;     position: absolute;bottom: 10px;">
+		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">潍坊雷鸣云网络科技有限公司</a>
 	</div>
 	
 	<div style="display:none;" id="huodong">
