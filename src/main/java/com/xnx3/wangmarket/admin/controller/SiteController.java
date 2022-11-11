@@ -787,7 +787,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("bindDomainRegUrl", bindDomainRegUrl);
 		
 		//cname解析到的地址
-		String assignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");	
+		String assignDomain = Func.getAssignMainDomain();
 		if(assignDomain == null || assignDomain.trim().equals("")) {
 			//什么设置也没有，那就是用js获取当前域名来吧
 			model.addAttribute("cnameDomain", "<script>document.write(window.location.hostname);</script>");
