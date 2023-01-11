@@ -72,12 +72,19 @@ wangmarket                          项目
 * **扒网站工具**，是一款桌面运行软件，看好哪个网站，输入要扒的 URL，自动扒下来做成 html 模版。并且所下载的 css、js、图片、html 文件会自动分好类保存到指定目录文件夹。所见网站，皆可为我所用。（目前已在开源爬虫领域全国第五）[官网&下载](http://www.templatespider.zvo.cn) | [使用说明](http://tag.wscso.com/8144.html)
 * **网市场云商城系统**，是一款SAAS商城产品，提供商城购物及在线支付能力。跟网市场云建站可完美结合，用云建站的模板体系配合商城的API开放接口，来制作在线商城。 [云商城官网](http://www.shop.zvo.cn) | [源码开源](https://gitee.com/leimingyun/wangmarket_shop) | [私有化部署](https://gitee.com/leimingyun/dashboard/wikis/leimingyun/bed2ecca-8e2e-4b20-8099-10f09101b097/preview?doc_id=1532896&sort_id=4255147)
 * **雷鸣云客服系统**，是一款SAAS客服产品，可赋予网市场云建站在线客服对话的能力。比如网站中有人通过客服发起咨询，客服坐席人员就能实时收到消息，跟用户进行互动会话。如果坐席人员不在线，还能通过微信实时提醒坐席人员。 [客服官网&功能体验](http://www.kefu.zvo.cn) | [前端对话的js框架开源](https://gitee.com/mail_osc/kefu.js) | [客服后端Java服务开源](https://gitee.com/leimingyun/yunkefu) | [私有化部署](https://gitee.com/leimingyun/dashboard/wikis/leimingyun/install/preview?sort_id=3940906&doc_id=1381432)
-* **多语言翻译js库**，是一款基于谷歌翻译基础上进行扩展的翻译组件，引入几行js代码就能使你的网站具备几十种语言的切换能力。 [开源仓库&使用方式](https://gitee.com/mail_osc/translate)
+* **多语言翻译js库**，是一款全自动翻译组件，引入几行js代码就能使你的网站具备几十种语言的切换能力，而你本身网站的代码不需要做任何改动。 [开源仓库&使用方式](https://gitee.com/mail_osc/translate)
 
 ## 参与贡献
 
 欢迎您将自己做的模板或插件分享贡献，您可以将做好的在gitee中进行分享出来，格式可参考：
 [贡献模板](https://gitee.com/mail_osc/wangmarket_template_lmyglm1) | [贡献插件](https://gitee.com/leimingyun/wangmarket_plugin_learn_example)
+
+# 优秀开源项目及社区推荐
+[LinkWeChat](https://gitee.com/LinkWeChat/link-wechat) LinkWeChat 是基于企业微信的开源 SCRM 系统，是企业私域流量管理与营销的综合解决方案。  
+[IoTSharp](https://gitee.com/IoTSharp) IoTSharp 是一个 基于.Net Core 开源的物联网基础平台， 支持 HTTP、MQTT 、CoAp 协议  
+[流之云](https://gitee.com/ntdgg) 信息化、数字化服务提供商  
+[translate.js](https://gitee.com/mail_osc/translate) 网页自动翻译，页面无需另行改造，加入两行js即可让你的网页快速具备多国语言切换能力！  
+
 
 ## 历史事件
 
