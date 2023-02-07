@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +9,11 @@ import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.util.ApplicationPropertiesUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -48,7 +49,7 @@ public class CloudTemplateUpdateThread {
 		new Thread(new Runnable() {
 			public void run() {
 				ConsoleUtil.info("Start the cloud template thread synchronization");
-				HttpUtil http = new HttpUtil(HttpUtil.UTF8);
+				Http http = new Http(Http.UTF8);
 				http.setTimeout(5);//超时时间5秒
 				
 				boolean waitLoadDBFinish = true;	//等待数据库加载
@@ -71,14 +72,25 @@ public class CloudTemplateUpdateThread {
 				
 				while(true){
 					boolean result = false;	//同步结果，为true则表示同步成功。如果不成功则继续同步
-					HttpResponse hr = http.get("http://cloud.wscso.com/templatelist?v="+G.VERSION+"&domain="+SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
-					if(hr.getCode() - 200 == 0){
+					Response response = null;
+					try {
+						response = http.get("http://cloud.wscso.com/templatelist?v="+G.VERSION+"&domain="+SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
+					} catch (IOException e1) {
+						try {
+							//延迟2秒
+							Thread.sleep(2000);
+						} catch (InterruptedException e2) {
+							e2.printStackTrace();
+						}
+						continue;
+					}
+					if(response.getCode() - 200 == 0){
 						//取到新数据了
-						if(hr.getContent() != null){
+						if(response.getContent() != null){
 							JSONObject json = null;
 							try {
 								//使用try，避免cdn出现问题，终止此模版更新线程
-								json = JSONObject.fromObject(hr.getContent());
+								json = JSONObject.fromObject(response.getContent());
 							} catch (Exception e) {
 								ConsoleUtil.error(e.getMessage());
 								e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,6 @@ import com.xnx3.j2ee.dao.SqlDAO;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.cache.Template;
 import com.xnx3.wangmarket.admin.entity.InputModel;
 import com.xnx3.wangmarket.admin.entity.News;
@@ -27,6 +26,9 @@ import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
+
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 
 @Service("InputModelService")
 public class InputModelServiceImpl implements InputModelService {
@@ -235,14 +237,20 @@ public class InputModelServiceImpl implements InputModelService {
 		return null;
 	}
 
-	public String getDefaultInputModelText() {
+	public String getDefaultInputModelText(){
 		if(defaultInputModelText == null){	
 			defaultInputModelText = FileUtil.read(SystemUtil.getProjectPath()+"static/inputModel/default.html");
 			if(defaultInputModelText == null || defaultInputModelText.length() < 1) {
 				ConsoleUtil.info("检测到系统默认的输入模型不存在！（src/main/resources/static/inputModel/default.html）");
 				ConsoleUtil.info("正在从云端 http://down.zvo.cn/wangmarket/resources/inputModel_default.html 加载默认的输入模型");
-				HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-				HttpResponse hr = http.get("http://down.zvo.cn/wangmarket/resources/inputModel_default.html");
+				Http http = new Http(Http.UTF8);
+				Response hr;
+				try {
+					hr = http.get("http://down.zvo.cn/wangmarket/resources/inputModel_default.html");
+				} catch (IOException e) {
+					e.printStackTrace();
+					return "出错！因本地未发现输入模型，获取云端输入模型时失败！请稍后重新尝试";
+				}
 				if(hr.getCode() != 200) {
 					ConsoleUtil.error("http://down.zvo.cn/wangmarket/resources/inputModel_default.html 获取失败，request code："+hr.getCode());
 				}

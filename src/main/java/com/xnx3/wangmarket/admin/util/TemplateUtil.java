@@ -3,6 +3,7 @@ package com.xnx3.wangmarket.admin.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +11,11 @@ import com.xnx3.Lang;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.interfaces.TemplateUtilFileMove;
+
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 
 /**
  * 模版相关
@@ -167,7 +169,7 @@ public class TemplateUtil {
 		if(template.getWscsoDownUrl() != null && template.getWscsoDownUrl().length() > 3){
 			//有 wscso 下载地址，优先通过这个进行下载
 			
-			HttpUtil http = new HttpUtil(HttpUtil.UTF8);
+			Http http = new Http(Http.UTF8);
 			
 			String wscsoUrl = template.getWscsoDownUrl();
 			//判断是否加协议了，如果没有加，需要补齐协议
@@ -175,7 +177,14 @@ public class TemplateUtil {
 				//需要补齐协议
 				wscsoUrl = "http:"+wscsoUrl;
 			}
-			HttpResponse hr = http.get(wscsoUrl);
+			Response hr;
+			try {
+				hr = http.get(wscsoUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+				vo.setBaseVO(BaseVO.FAILURE, "从云端拉取模板时网络异常，请稍后重新尝试");
+				return vo;
+			}
 			if(hr.getCode() - 404 == 0){
 				vo.setBaseVO(BaseVO.FAILURE, "模版不存在");
 				return vo;

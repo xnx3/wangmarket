@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.superadmin.cache;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.StringUtil;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.superadmin.bean.Application;
+
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -75,9 +77,15 @@ public class YunPluginMessageCache {
 		Map<String, Application> shortTimeMap = new HashMap<String, Application>();
 		List<Application> shortTimeList = new LinkedList<Application>();
 		String shortTimePage = "";
-		HttpUtil httpUtil = new HttpUtil("UTF-8");
+		Http httpUtil = new Http(Http.UTF8);
 		// 查询云端插件库获取插件信息
-		HttpResponse response = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API+"?action=list");
+		Response response;
+		try {
+			response = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API+"?action=list");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 		// 请求失败返回false
 		if(response.getCode() - 200 != 0) {
 			return false;
