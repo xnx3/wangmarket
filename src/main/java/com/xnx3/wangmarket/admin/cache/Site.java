@@ -1,15 +1,17 @@
 package com.xnx3.wangmarket.admin.cache;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Carousel;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 
 /**
  * 站点相关信息进行js缓存
@@ -95,14 +97,15 @@ public class Site extends BaseCache{
 	 * 创建导航栏目的排序,新建一个SiteColumn后，忘排序规则里面追加
 	 * @param siteid
 	 * @param rank
+	 * @throws IOException 
 	 */
-	public void siteColumnRankAppend(com.xnx3.wangmarket.admin.entity.Site site,int siteColumnId){
+	public void siteColumnRankAppend(com.xnx3.wangmarket.admin.entity.Site site,int siteColumnId) throws IOException{
 		String rankUrl = AttachmentUtil.netUrl()+"site/"+site.getId()+"/data/siteColumnRank.js";
-		HttpResponse res = new HttpUtil().get(rankUrl);
+		Response res = new Http().get(rankUrl);
 		if(res.getCode() == 404){	//若没有，创建一个新的
 			siteColumnRank(site, siteColumnId+"");
 		}else{	//若有了，将新增加的放到最后一个
-			String rankSource = new HttpUtil().get(rankUrl).getContent();
+			String rankSource = new Http().get(rankUrl).getContent();
 			rankSource = rankSource.replace("];", ","+siteColumnId+"];");
 			try {
 				AttachmentUtil.put("site/"+site.getId()+"/data/siteColumnRank.js", new ByteArrayInputStream(rankSource.getBytes("UTF-8")));

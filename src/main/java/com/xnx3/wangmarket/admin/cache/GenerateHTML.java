@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.xnx3.DateUtil;
 import com.xnx3.FileUtil;
-import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
@@ -15,6 +13,8 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.SiteData;
+
+import cn.zvo.page.bean.TagA;
 
 /**
  * 生成 HTML 缓存页面

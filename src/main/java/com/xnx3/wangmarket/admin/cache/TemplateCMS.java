@@ -12,10 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
-import com.xnx3.bean.TagA;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
@@ -33,6 +31,7 @@ import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
 
+import cn.zvo.page.bean.TagA;
 import net.sf.json.JSONObject;
 
 /**

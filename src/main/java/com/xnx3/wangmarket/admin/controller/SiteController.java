@@ -29,7 +29,6 @@ import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
 import com.xnx3.media.ImageUtil;
-import com.xnx3.net.MailUtil;
 import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
@@ -267,9 +266,9 @@ public class SiteController extends BaseController {
 	@ResponseBody
 	public BaseVO getOSSSize(HttpServletRequest request){
 		//判断一下，如果是使用的阿里云OSS存储，但是没有配置，会拦截提示
-		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
-			return error("未开通阿里云OSS服务");
-		}
+//		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+//			return error("未开通阿里云OSS服务");
+//		}
 		
 		BaseVO vo = new BaseVO();
 		//获取其下有多少网站
@@ -686,7 +685,7 @@ public class SiteController extends BaseController {
 			ActionLogUtil.insertUpdateDatabase(request, "提交问题反馈", jianjie);
 			
 			//发送邮件
-			MailUtil.sendMail(SystemUtil.get("SERVICE_MAIL"), "有新的问题反馈", fb.toString());
+//			MailUtil.sendMail(SystemUtil.get("SERVICE_MAIL"), "有新的问题反馈", fb.toString());
 			
 			return success();
 		}else{

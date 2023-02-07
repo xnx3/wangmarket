@@ -1,4 +1,3 @@
-<%@page import="com.xnx3.net.MailUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.xnx3.wangmarket.domain.G"%>
 <%@page import="com.xnx3.wangmarket.admin.entity.Site"%>
@@ -74,15 +73,15 @@
 	</a>
 	
 	<% //判断是否已开启邮件发送功能
-		if(MailUtil.username != null && MailUtil.username.length() > 0 || MailUtil.password != null && MailUtil.password.length() > 0){
+		//if(MailUtil.username != null && MailUtil.username.length() > 0 || MailUtil.password != null && MailUtil.password.length() > 0){
 	%>
-		<a class="weui_cell" href="javascript:;" style="display:none;">
+		<!-- <a class="weui_cell" href="javascript:;" style="display:none;">
 			<div class="weui_cell_bd weui_cell_primary">
 				<p>我的邮箱</p>
 			</div>
 			<div class="weui_cell_ft">${user.email }</div>
-		</a>
-	<% } %>
+		</a>  -->
+	<% //} %>
 	
 	
 

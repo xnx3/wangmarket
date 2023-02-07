@@ -1,5 +1,6 @@
 package com.xnx3.wangmarket.admin.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -512,11 +513,12 @@ public class ColumnController extends BaseController {
 
 	/**
 	 * 创建/修改栏目导航保存，用于 popupColumnGaoJiUpdate、CMS模式编辑栏目的保存
+	 * @throws IOException 
 	 * @throws CloneNotSupportedException 
 	 */
 	@RequestMapping(value="savePopupColumnGaoJiUpdate${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO savePopupColumnGaoJiUpdate(SiteColumn siteColumn,HttpServletRequest request,Model model){
+	public BaseVO savePopupColumnGaoJiUpdate(SiteColumn siteColumn,HttpServletRequest request,Model model) throws IOException{
 		BaseVO vo = new BaseVO();
 		Site site = getSite();
 		if(site == null){
@@ -792,10 +794,11 @@ public class ColumnController extends BaseController {
 	
 	/**
 	 * 创建/修改栏目保存(wap/pc)
+	 * @throws IOException 
 	 */
 	@RequestMapping(value="saveColumn${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseVO saveColumn(SiteColumn siteColumn,HttpServletRequest request,Model model){
+	public BaseVO saveColumn(SiteColumn siteColumn,HttpServletRequest request,Model model) throws IOException{
 		Site site = getSite();
 		
 		//标题，名字
