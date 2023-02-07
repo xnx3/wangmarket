@@ -3,9 +3,10 @@ package com.xnx3.wangmarket.admin.util;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 import org.springframework.stereotype.Component;
-import com.rabbitmq.client.Consumer;
+//import com.rabbitmq.client.Consumer;
 import com.xnx3.Lang;
-import com.xnx3.j2ee.func.ApplicationProperties;
+//import com.xnx3.j2ee.func.ApplicationProperties;
+//import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 
 /**
@@ -17,21 +18,20 @@ import com.xnx3.j2ee.util.ConsoleUtil;
 public class RabbitUtil{
 	public static String EXCHANGE_NAME = "amq.direct";
 	public static boolean isUse = false;	//是否启用rabbitmq，若是ture，则是启用
-	public static com.xnx3.rabbitmq.RabbitUtil rabbitUtil = null;
+//	public static com.xnx3.rabbitmq.RabbitUtil rabbitUtil = null;
 	
 	public RabbitUtil() {
-		String host = ApplicationProperties.getProperty("spring.rabbitmq.host");
-		if(host == null){
-			isUse = false;
-			return;
-		}
-		int port = Lang.stringToInt(ApplicationProperties.getProperty("spring.rabbitmq.port"), 5672);
-		String username = ApplicationProperties.getProperty("spring.rabbitmq.username");
-		String password = ApplicationProperties.getProperty("spring.rabbitmq.password");
-		
-//		setParam(host, username, password, port);
-		rabbitUtil = new com.xnx3.rabbitmq.RabbitUtil(host, username, password, port);
-		isUse = true;
+//		String host = ApplicationProperties.getProperty("spring.rabbitmq.host");
+//		if(host == null){
+//			isUse = false;
+//			return;
+//		}
+//		int port = Lang.stringToInt(ApplicationProperties.getProperty("spring.rabbitmq.port"), 5672);
+//		String username = ApplicationProperties.getProperty("spring.rabbitmq.username");
+//		String password = ApplicationProperties.getProperty("spring.rabbitmq.password");
+//		
+//		rabbitUtil = new com.xnx3.rabbitmq.RabbitUtil(host, username, password, port);
+//		isUse = true;
 	}
 	
 	/**
@@ -42,21 +42,21 @@ public class RabbitUtil{
 	 * @throws TimeoutException
 	 */
 	public static void sendTopicMessage(String routingKey, String content){
-		try {
-			rabbitUtil.getChannel().basicPublish(EXCHANGE_NAME, routingKey, null, content.getBytes());
-		} catch (IOException | TimeoutException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			rabbitUtil.getChannel().basicPublish(EXCHANGE_NAME, routingKey, null, content.getBytes());
+//		} catch (IOException | TimeoutException e) {
+//			e.printStackTrace();
+//		}
+		ConsoleUtil.error("mq已从默认支持中移除");
 	}
 
-	public static void receive(String routingKey, Consumer consumer) throws IOException, TimeoutException{
-		// 当声明队列，不加任何参数，产生的将是一个临时队列，getQueue返回的是队列名称
-//		String queue = rabbitUtil.getChannel().queueDeclare().getQueue();
-		String queue = "queue_"+Lang.uuid();
-		rabbitUtil.getChannel().queueDeclare(queue, true, false, false, null);
-		ConsoleUtil.info("创建队列， routingKey："+routingKey+" , queue: "+queue);
-		rabbitUtil.getChannel().queueBind(queue, EXCHANGE_NAME, routingKey);
-		rabbitUtil.getChannel().basicConsume(queue, true, consumer);
-	}
+//	public static void receive(String routingKey, Consumer consumer) throws IOException, TimeoutException{
+//		// 当声明队列，不加任何参数，产生的将是一个临时队列，getQueue返回的是队列名称
+//		String queue = "queue_"+Lang.uuid();
+//		rabbitUtil.getChannel().queueDeclare(queue, true, false, false, null);
+//		ConsoleUtil.info("创建队列， routingKey："+routingKey+" , queue: "+queue);
+//		rabbitUtil.getChannel().queueBind(queue, EXCHANGE_NAME, routingKey);
+//		rabbitUtil.getChannel().basicConsume(queue, true, consumer);
+//	}
 	
 }

@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
+//import com.rabbitmq.client.AMQP;
+//import com.rabbitmq.client.DefaultConsumer;
+//import com.rabbitmq.client.Envelope;
 import com.xnx3.wangmarket.admin.util.RabbitUtil;
 import com.xnx3.wangmarket.domain.bean.PluginMQ;
 import com.xnx3.wangmarket.domain.util.PluginCache;
@@ -35,7 +35,7 @@ public class DomainMQ {
 		System.out.println(content);
 		if(RabbitUtil.isUse){
 			//使用 rabbitMQ
-			RabbitUtil.sendTopicMessage("com.xnx3.wangmarket.plugin."+pluginId, content);
+//			RabbitUtil.sendTopicMessage("com.xnx3.wangmarket.plugin."+pluginId, content);
 		}else{
 			//不使用 RabbitMQ
 			JavaMQUtil.sendMessage(pluginId, content);
@@ -52,22 +52,22 @@ public class DomainMQ {
 	public static void receive(String pluginId, ReceiveDomainMQ receiveDomainMQ){
 		if(RabbitUtil.isUse){
 			//使用 rabbitMQ
-			try {
-				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
-					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-						String content = new String(body, "UTF-8");
-						try {
-							receiveDomainMQ.receive(content);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
+//					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+//						String content = new String(body, "UTF-8");
+//						try {
+//							receiveDomainMQ.receive(content);
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				});
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (TimeoutException e) {
+//				e.printStackTrace();
+//			}
 		}else{
 			//不使用 RabbitMQ
 			JavaMQUtil.addReceiveListener(pluginId, new JavaMQReceive() {
@@ -88,18 +88,18 @@ public class DomainMQ {
 	public static void receive(String pluginId){
 		if(RabbitUtil.isUse){
 			//使用 rabbitMQ
-			try {
-				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
-					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-						String content = new String(body, "UTF-8");
-						receiveContentDispose(pluginId, content);
-					}
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				RabbitUtil.receive("com.xnx3.wangmarket.plugin."+pluginId, new DefaultConsumer(rabbitUtil.rabbitUtil.getChannel()){
+//					public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+//						String content = new String(body, "UTF-8");
+//						receiveContentDispose(pluginId, content);
+//					}
+//				});
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (TimeoutException e) {
+//				e.printStackTrace();
+//			}
 		}else{
 			//不使用 RabbitMQ
 			JavaMQUtil.addReceiveListener(pluginId, new JavaMQReceive() {
