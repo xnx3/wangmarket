@@ -124,9 +124,9 @@ public class PublicController extends BaseController {
 		String html = GainSource.get(simpleSite, htmlFile).getText();
 		if(html == null){
 			//判断一下是否是使用的OSS，并且配置了，如果没有配置，那么控制台给出提示
-			if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
-				System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
-			}
+//			if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+//				System.out.println("您未开启OSS对象存储服务！网站访问是必须通过读OSS数据才能展现出来的。开启可参考：http://www.guanleiming.com/2327.html");
+//			}
 			if(htmlFile.equals("index.html")){
 				//如果是首页，但是没有获取到这个页面的数据
 				

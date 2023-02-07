@@ -1,8 +1,9 @@
 package com.xnx3.wangmarket.admin.util;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import com.aliyun.openservices.log.common.LogItem;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -14,9 +15,9 @@ import com.xnx3.wangmarket.admin.entity.Site;
 public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	
 	/**
-	 * 生成带有站点信息的logItem
+	 * 生成带有站点信息的log map
 	 */
-	private static LogItem generateLogItem(){
+	public static Map<String, Object> generateLogMap(){
 		Site site = SessionUtil.getSite();
 		
 		String siteName = "";
@@ -28,11 +29,12 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 			siteid = site.getId();
 		}
 		
-		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
-		logItem.PushBack("siteName", siteName);
-		logItem.PushBack("siteDomain", siteDomain);
-		logItem.PushBack("siteid", siteid+"");
-		return logItem;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", (new Date().getTime() / 1000)+"");
+		map.put("siteName", siteName);
+		map.put("siteDomain", siteDomain);
+		map.put("siteid", siteid+"");
+		return map;
 	}
 	
 	/**
@@ -44,7 +46,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @deprecated 请使用有 HttpServletRequest 传入的，还能记录请求信息
 	 */
 	public static synchronized void insert(Integer goalid, String action, String remark){
-		logExtend(generateLogItem(), null, goalid, action, remark, TYPE_NORMAL);
+		logExtend(generateLogMap(), null, goalid, action, remark, TYPE_NORMAL);
 	}
 	/**
 	 * 插入一条日志。
@@ -55,7 +57,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param remark 备注，说明
 	 */
 	public static synchronized void insert(HttpServletRequest request, Integer goalid, String action, String remark){
-		logExtend(generateLogItem(), request, goalid, action, remark, TYPE_NORMAL);
+		logExtend(generateLogMap(), request, goalid, action, remark, TYPE_NORMAL);
 	}
 	
 
@@ -67,7 +69,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @deprecated 请使用有 HttpServletRequest 传入的，还能记录请求信息
 	 */
 	public static synchronized void insert(Integer goalid, String action){
-		logExtend(generateLogItem(), null, goalid, action, "", TYPE_NORMAL);
+		logExtend(generateLogMap(), null, goalid, action, "", TYPE_NORMAL);
 	}
 	/**
 	 * 插入一条日志。
@@ -77,7 +79,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param action 动作
 	 */
 	public static synchronized void insert(HttpServletRequest request, Integer goalid, String action){
-		logExtend(generateLogItem(), request, goalid, action, "", TYPE_NORMAL);
+		logExtend(generateLogMap(), request, goalid, action, "", TYPE_NORMAL);
 	}
 	
 	/**
@@ -88,7 +90,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @deprecated 请使用有 HttpServletRequest 传入的，还能记录请求信息
 	 */
 	public static synchronized void insert(String action, String remark){
-		logExtend(generateLogItem(), null, 0, action, remark, TYPE_NORMAL);
+		logExtend(generateLogMap(), null, 0, action, remark, TYPE_NORMAL);
 	}
 	/**
 	 * 插入一条日志。
@@ -98,7 +100,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param remark 备注，说明
 	 */
 	public static synchronized void insert(HttpServletRequest request, String action, String remark){
-		logExtend(generateLogItem(), request, 0, action, remark, TYPE_NORMAL);
+		logExtend(generateLogMap(), request, 0, action, remark, TYPE_NORMAL);
 	}
 	
 
@@ -111,9 +113,9 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
-	public static synchronized void insertUpdateDatabase(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark){
-		logExtend(generateLogItem(), request, goalid, action, remark, TYPE_UPDATE_DATABASE);
-	}
+//	public static synchronized void insertUpdateDatabase(LogItem logItem, HttpServletRequest request, Integer goalid, String action, String remark){
+//		logExtend(generateLogMap(), request, goalid, action, remark, TYPE_UPDATE_DATABASE);
+//	}
 
 	/**
 	 * 插入一条数据库变动日志。凡是数据库有插入、修改、删除记录的，让数据库数据有变动的，都使用此方法记录日志。
@@ -123,7 +125,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
 	public static synchronized void insertUpdateDatabase(HttpServletRequest request, Integer goalid, String action, String remark){
-		logExtend(generateLogItem(), request, goalid, action, remark, TYPE_UPDATE_DATABASE);
+		logExtend(generateLogMap(), request, goalid, action, remark, TYPE_UPDATE_DATABASE);
 	}
 	
 
@@ -134,7 +136,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param remark 动作的描述，如用户将名字张三改为李四
 	 */
 	public static void insertUpdateDatabase(HttpServletRequest request, String action, String remark){
-		logExtend(generateLogItem(), request, 0, action, remark, TYPE_UPDATE_DATABASE);
+		logExtend(generateLogMap(), request, 0, action, remark, TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
@@ -144,7 +146,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
 	public static void insertUpdateDatabase(HttpServletRequest request, Integer goalid, String action){
-		logExtend(generateLogItem(), request, goalid, action, "", TYPE_UPDATE_DATABASE);
+		logExtend(generateLogMap(), request, goalid, action, "", TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
@@ -153,7 +155,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param action 动作的名字，如：用户登录、更改密码
 	 */
 	public static void insertUpdateDatabase(HttpServletRequest request, String action){
-		logExtend(generateLogItem(), request, 0, action, "", TYPE_UPDATE_DATABASE);
+		logExtend(generateLogMap(), request, 0, action, "", TYPE_UPDATE_DATABASE);
 	}
 	
 	/**
@@ -164,7 +166,7 @@ public class ActionLogUtil extends com.xnx3.j2ee.util.ActionLogUtil {
 	 * @param remark 详细描述，如： 有一个订单，订单号是xxx,根据订单中的用户编号userid:xxxx取用户表(User)的记录时，用户表中没有这个人，
 	 */
 	public static void insertError(HttpServletRequest request, String remark){
-		logExtend(generateLogItem(), request, 0, "ERROR LOG", remark, TYPE_ERROR);
+		logExtend(generateLogMap(), request, 0, "ERROR LOG", remark, TYPE_ERROR);
 	}
 	
 

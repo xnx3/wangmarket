@@ -1,7 +1,9 @@
 package com.xnx3.wangmarket.admin.util;
 
 import java.util.Date;
-import com.aliyun.openservices.log.common.LogItem;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -20,26 +22,7 @@ public class AliyunLog extends ActionLogUtil {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(int goalid, String action, String remark){
-		if(aliyunLogUtil == null){
-			//不使用日志服务，终止即可
-			return;
-		}
-		Site site = SessionUtil.getSite();
-		
-		String siteName = "";
-		String siteDomain = "";
-		int siteid = 0;
-		if(site != null){
-			siteName = site.getName();
-			siteDomain = Func.getDomain(site);
-			siteid = site.getId();
-		}
-		
-		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
-		logItem.PushBack("siteName", siteName);
-		logItem.PushBack("siteDomain", siteDomain);
-		logItem.PushBack("siteid", siteid+"");
-		insert(logItem, null, goalid, action, remark);
+		insert(generateLogMap(), null, goalid, action, remark);
 	}
 	
 
@@ -50,26 +33,7 @@ public class AliyunLog extends ActionLogUtil {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(int goalid, String action){
-		if(aliyunLogUtil == null){
-			//不使用日志服务，终止即可
-			return;
-		}
-		Site site = SessionUtil.getSite();
-		
-		String siteName = "";
-		String siteDomain = "";
-		int siteid = 0;
-		if(site != null){
-			siteName = site.getName();
-			siteDomain = Func.getDomain(site);
-			siteid = site.getId();
-		}
-		
-		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
-		logItem.PushBack("siteName", siteName);
-		logItem.PushBack("siteDomain", siteDomain);
-		logItem.PushBack("siteid", siteid+"");
-		insert(logItem, null, goalid, action, "");
+		insert(generateLogMap(), null, goalid, action, "");
 	}
 	
 	/**
@@ -78,28 +42,8 @@ public class AliyunLog extends ActionLogUtil {
 	 * @param remark 备注，说明
 	 */
 	public static void addActionLog(String action, String remark){
-		if(aliyunLogUtil == null){
-			//不使用日志服务，终止即可
-			return;
-		}
-		Site site = SessionUtil.getSite();
-		
-		String siteName = "";
-		String siteDomain = "";
-		int siteid = 0;
-		if(site != null){
-			siteName = site.getName();
-			siteDomain = Func.getDomain(site);
-			siteid = site.getId();
-		}
-		
-		LogItem logItem = new LogItem((int) (new Date().getTime() / 1000));
-		logItem.PushBack("siteName", siteName);
-		logItem.PushBack("siteDomain", siteDomain);
-		logItem.PushBack("siteid", siteid+"");
-		insert(logItem, null, 0, action, remark);
+		insert(generateLogMap(), null, 0, action, remark);
 	}
-	
 	
 	
 }

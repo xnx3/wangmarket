@@ -3,10 +3,8 @@ package com.xnx3.wangmarket.agencyadmin.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.aliyun.openservices.log.exception.LogException;
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
 import com.xnx3.MD5Util;
@@ -50,6 +46,8 @@ import com.xnx3.wangmarket.agencyadmin.util.SiteSizeChangeLog;
 import com.xnx3.wangmarket.domain.bean.MQBean;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
+import cn.zvo.log.framework.springboot.LogUtil;
+import cn.zvo.log.vo.LogListVO;
 import net.sf.json.JSONArray;
 
 /**
@@ -259,7 +257,7 @@ public class AgencyUserController extends BaseController {
 				sqlService.save(ssc);
 				
 				//将变动记录入日志服务的站币变动中
-				SiteSizeChangeLog.xiaofei(agency.getName(), "代理开通网站："+site.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
+				//SiteSizeChangeLog.xiaofei(agency.getName(), "代理开通网站："+site.getName(), ssc.getSiteSizeChange(), ssc.getChangeBefore(), ssc.getChangeAfter(), ssc.getGoalid(), IpUtil.getIpAddress(request));
 				
 				//记录动作日志
 				ActionLogUtil.insertUpdateDatabase(request, site.getId(), "代理后台创建网站", site.getName());
@@ -548,22 +546,20 @@ public class AgencyUserController extends BaseController {
 	 */
 	@RequiresPermissions("agencyActionLogList")
 	@RequestMapping("actionLogList${url.suffix}")
-	public String actionLogList(HttpServletRequest request, Model model) throws LogException{
-		if(ActionLogUtil.aliyunLogUtil == null){
-			return error(model, "未开启日志服务");
-		}
-		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogUtil.aliyunLogUtil);
+	public String actionLogList(HttpServletRequest request, Model model){
+//		if(ActionLogUtil.aliyunLogUtil == null){
+//			return error(model, "未开启日志服务");
+//		}
+//		AliyunLogPageUtil log = new AliyunLogPageUtil(ActionLogUtil.aliyunLogUtil);
 		
+		//当前第几页
+		int currentPage = Lang.stringToInt(request.getParameter("currentPage"), 1);
 		//得到当前页面的列表数据
-		JSONArray jsonArray = log.list("userid="+getUserId(), "", false, 15, request);
-		
-		//得到当前页面的分页相关数据（必须在执行了list方法获取列表数据之后，才能调用此处获取到分页）
-		Page page = log.getPage();
+		LogListVO vo = LogUtil.list("userid="+getUserId(), 15, currentPage);
 		
 		ActionLogUtil.insert(request, "获取代理操作记录");
-		
-		model.addAttribute("list", jsonArray);
-		model.addAttribute("page", page);
+		model.addAttribute("list", vo.getJsonArray());
+		model.addAttribute("page", vo.getPage());
 		return "agency/actionLogList";
 	}
 	
@@ -573,25 +569,24 @@ public class AgencyUserController extends BaseController {
 	 */
 	@RequiresPermissions("agencySiteSizeLogList")
 	@RequestMapping("siteSizeLogList${url.suffix}")
-	public String siteSizeLogList(HttpServletRequest request, Model model) throws LogException{
-		if(SiteSizeChangeLog.aliyunLogUtil == null){
-			return error(model, "未开启日志服务");
-		}
+	public String siteSizeLogList(HttpServletRequest request, Model model){
 		//当前10位时间戳
 		String query = "userid="+getUserId();
-		AliyunLogPageUtil log = new AliyunLogPageUtil(SiteSizeChangeLog.aliyunLogUtil);
 		
+		//当前第几页
+		int currentPage = Lang.stringToInt(request.getParameter("currentPage"), 1);
 		//得到当前页面的列表数据
-		JSONArray jsonArray = log.list(query, "", true, 15, request);
+		LogListVO vo = LogUtil.list(query, 15, currentPage);
+		if(vo.getResult() - LogListVO.FAILURE == 0) {
+			return error(model, vo.getInfo());
+		}
 		
-		//得到当前页面的分页相关数据（必须在执行了list方法获取列表数据之后，才能调用此处获取到分页）
-		Page page = log.getPage();
 		//设置分页，出现得上几页、下几页跳转按钮的个数
-		page.setListNumber(2);
+		vo.getPage().setListNumber(2);
 		
 		ActionLogUtil.insert(request, "查看资金变动日志");
-		model.addAttribute("list", jsonArray);
-		model.addAttribute("page", page);
+		model.addAttribute("list", vo.getJsonArray());
+		model.addAttribute("page", vo.getPage());
 		return "agency/siteSizeLogList";
 	}
 	

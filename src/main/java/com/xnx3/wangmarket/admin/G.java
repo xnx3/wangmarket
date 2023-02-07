@@ -91,29 +91,31 @@ public class G {
 		
 		ConsoleUtil.info("The current version : "+VERSION);
 		
-		
 		//加载日志服务
 		String smsLog = c.getValue("AliyunSMSUtil.use");
 		if(smsLog != null && smsLog.equals("true")){
-			String sms_accessKeyId = c.getValue("AliyunSMSUtil.accessKeyId");
-			String sms_accessKeySecret = c.getValue("AliyunSMSUtil.accessKeySecret");
-			if(sms_accessKeyId == null || sms_accessKeyId.length() == 0){
-				//取数据库的
-				sms_accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
-			}
-			if(sms_accessKeySecret == null || sms_accessKeySecret.length() == 0){
-				//取数据库的
-				sms_accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
-			}
-			if(sms_accessKeyId != null && sms_accessKeyId.length() > 10){
-				aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
-				AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
-				AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
-				AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
+			ConsoleUtil.error("======= wm v3.0 将这个废弃了！ =======");
+//			String sms_accessKeyId = c.getValue("AliyunSMSUtil.accessKeyId");
+//			String sms_accessKeySecret = c.getValue("AliyunSMSUtil.accessKeySecret");
+//			if(sms_accessKeyId == null || sms_accessKeyId.length() == 0){
+//				//取数据库的
+//				sms_accessKeyId = SystemUtil.get("ALIYUN_ACCESSKEYID");
+//			}
+//			if(sms_accessKeySecret == null || sms_accessKeySecret.length() == 0){
+//				//取数据库的
+//				sms_accessKeySecret = SystemUtil.get("ALIYUN_ACCESSKEYSECRET");
+//			}
+//			if(sms_accessKeyId != null && sms_accessKeyId.length() > 10){
+//				aliyunSMSUtil = new AliyunSMSUtil(c.getValue("AliyunSMSUtil.regionId"), sms_accessKeyId, sms_accessKeySecret);
+//				AliyunSMS_SignName = c.getValue("AliyunSMSUtil.signName");
+//				AliyunSMS_Login_TemplateCode = c.getValue("AliyunSMSUtil.login_templateCode");
+//				AliyunSMS_agencySiteSizeRecharge_TemplateCode = c.getValue("AliyunSMSUtil.agency_siteSizeRecharge_templateCode");
 //				AliyunSMS_siteYanQi_templateCode = c.getValue("AliyunSMSUtil.siteYanQi_templateCode");
-			}else{
-				ConsoleUtil.info("已开启Aliyun短信发送服务");
-			}
+//				ConsoleUtil.error("======= wm v3.0 将这个废弃了！ =======");
+//			}else{
+//				ConsoleUtil.info("已开启Aliyun短信发送服务");
+//				ConsoleUtil.error("======= wm v3.0 将这个废弃了！ =======");
+//			}
 		}
 		
 	}
