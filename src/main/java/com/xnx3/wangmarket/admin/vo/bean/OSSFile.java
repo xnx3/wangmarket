@@ -1,12 +1,13 @@
 package com.xnx3.wangmarket.admin.vo.bean;
 
-import com.aliyun.oss.model.OSSObjectSummary;
 import com.xnx3.wangmarket.admin.vo.SiteFileListVO;
 
 /**
  * OSS文件相关，服务于 {@link SiteFileListVO}
  * {@link OSSObjectSummary}的简化
+ * <br>已废弃，文件操作相关已迁移至 https://github.com/xnx3/FileUpload
  * @author 管雷鸣
+ * @deprecated
  */
 public class OSSFile {
 	private String key;

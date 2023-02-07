@@ -18,12 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import javax.annotation.Resource;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.MappingException;
 import org.hibernate.metamodel.internal.MetamodelImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +47,6 @@ import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.VersionUtil;
 import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
 import com.xnx3.wangmarket.Authorization;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.superadmin.bean.Application;
@@ -62,6 +58,10 @@ import com.xnx3.wangmarket.superadmin.util.pluginManage.TomcatUtil;
 import com.xnx3.wangmarket.superadmin.util.pluginManage.ZipUtils;
 import com.xnx3.wangmarket.superadmin.vo.InstallApplicationVO;
 
+import cn.zvo.fileupload.framework.springboot.FileUploadUtil;
+import cn.zvo.fileupload.storage.local.LocalStorage;
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 import net.sf.json.JSONObject;
 
 /**
@@ -531,9 +531,9 @@ public class PluginManageController extends BasePluginController {
 		// 下载文件名称
 		String fileName = pluginId + ".zip";
 		// 获取插件压缩包的下载url
-		HttpUtil httpUtil = new HttpUtil();
+		Http httpUtil = new Http();
 		// 验证授权身份获取下载地址
-		HttpResponse httpResponse = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API + "?action=down&plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
+		Response httpResponse = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API + "?action=down&plugin_id=" + pluginId + "&auth_id=" + Authorization.auth_id + "&domain=" + SystemUtil.get("AUTO_ASSIGN_DOMAIN"));
 		// 请求异常
 		if(httpResponse.getCode() - 200 != 0) {
 			return error("云端插件库异常，轻稍后重试");
@@ -1250,7 +1250,7 @@ public class PluginManageController extends BasePluginController {
 		}
 		String exportAbsolutePath = SystemUtil.getCurrentDir() +File.separator+ exportRelativePath;	//组合绝对路径
 		//初始化创建文件夹
-		LocalServerMode.directoryInit(exportRelativePath+DateUtil.timeForUnix10()+File.separator);
+		LocalServerMode.directoryInitCreate(exportRelativePath+DateUtil.timeForUnix10()+File.separator);
 		
 		String newClassPath = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com" + File.separator + "xnx3" + File.separator + "wangmarket" + File.separator + "plugin" + File.separator + pluginId;
 		String newStaticPath = exportAbsolutePath + "ROOT" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "static" + File.separator + "plugin" + File.separator + pluginId;

@@ -258,9 +258,9 @@ public class TemplateDevelopController extends BasePluginController {
 		//导出的目录，相对路径
 		String exportPath = getExportPath()+site.getTemplateName()+"/";
 		//初始化创建模版所在文件夹，避免模版不存在导致出错。正常流程中，这个文件夹是已经存在的
-		LocalServerMode.directoryInit(exportPath);
+		LocalServerMode.directoryInitCreate(exportPath);
 		//创建下载链接的存放文件
-		LocalServerMode.directoryInit("plugin_data/templateDevelop/");
+		LocalServerMode.directoryInitCreate("plugin_data/templateDevelop/");
 		
 		//判断一下是否已经有这个 zip 模版文件了，如果已经有了，那么删除掉
 		if(FileUtil.exists(SystemUtil.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip")){

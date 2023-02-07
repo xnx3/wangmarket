@@ -41,9 +41,6 @@ import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.j2ee.vo.UploadFileVO;
-import com.xnx3.net.HttpResponse;
-import com.xnx3.net.HttpUtil;
-import com.xnx3.net.OSSUtil;
 import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.cache.Template;
@@ -83,6 +80,8 @@ import com.xnx3.wangmarket.agencyadmin.entity.AgencyData;
 import com.xnx3.wangmarket.domain.CleanIOCacheMQListener;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 
+import cn.zvo.http.Http;
+import cn.zvo.http.Response;
 import net.sf.json.JSONObject;
 
 /**
@@ -840,9 +839,9 @@ public class TemplateController extends BaseController {
 		ActionLogUtil.insert(request, "CMS模式下，刷新生成整站");
 		
 		//提前判断一下，是否使用的是阿里云OSS存储，并且没有配置OSS
-		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
-			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
-		}
+//		if(AttachmentUtil.isMode(AttachmentUtil.MODE_ALIYUN_OSS) && OSSUtil.getOSSClient() == null){
+//			return error("请先访问 /install/index.do 进行安装，此依赖OSS使用");
+//		}
 		
 		try {
 			BaseVO vo = GenerateSitePluginManage.generateSiteBefore(request, getSite());
@@ -1591,14 +1590,20 @@ public class TemplateController extends BaseController {
 			return error("请选择使用那个模版插件");
 		}
 		
-		HttpUtil http = new HttpUtil(HttpUtil.UTF8);
-		HttpResponse hr = http.get(G.RES_CDN_DOMAIN+"template_plugin/"+pluginName+"/template.wscso");
-		if(hr.getCode() - 404 == 0){
+		Http http = new Http(Http.UTF8);
+		Response response;
+		try {
+			response = http.get(G.RES_CDN_DOMAIN+"template_plugin/"+pluginName+"/template.wscso");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return error("云端拉取异常，请稍后重试");
+		}
+		if(response.getCode() - 404 == 0){
 			return error("云端模版插件不存在");
 		}
 		
 		TemplateVO templateVO = new TemplateVO();
-		templateVO.importText(hr.getContent());
+		templateVO.importText(response.getContent());
 		tcv = restoreTemplateCompare(request, templateVO);
 		if(tcv.getResult() - TemplateCompareVO.FAILURE == 0){
 			return error(tcv.getInfo());

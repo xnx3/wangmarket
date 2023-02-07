@@ -41,7 +41,7 @@ public class NewsServiceImpl implements NewsService {
 	
 	public void generateListHtml(Site site, SiteColumn siteColumn,List<News> newsList, HttpServletRequest request){
 		int count = newsList.size();	//总条数
-		Page page = new Page(count, G.PAGE_WAP_NUM);
+		Page page = new Page(count, G.PAGE_WAP_NUM, request);
 		page.setUrlByStringUrl("");
 		
 		//如果是之前的通用模版，装载通用模版的配套方案
@@ -65,7 +65,7 @@ public class NewsServiceImpl implements NewsService {
 	public void generateListHtml(Site site, SiteColumn siteColumn) {
 		List<News> list = sqlDAO.findBySqlQuery("SELECT * FROM news WHERE cid = "+siteColumn.getId() + " AND status = "+News.STATUS_NORMAL, News.class);
 		int count = list.size();	//总条数
-		Page page = new Page(count, G.PAGE_WAP_NUM);
+		Page page = new Page(count, G.PAGE_WAP_NUM, null);
 		page.setUrlByStringUrl("");
 		
 		String listHtml = FileUtil.read(SystemUtil.getProjectPath()+"/static/template/"+site.getTemplateId()+"/"+(siteColumn.getType()==SiteColumn.TYPE_NEWS? "news":"newsimage")+"_list.html");
