@@ -178,6 +178,13 @@
   
   
   <dependencies>  
+  		<!-- http/https请求工具 https://github.com/xnx3/http.java -->
+		<dependency> 
+			<groupId>cn.zvo.http</groupId>
+			<artifactId>http</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 		<!-- 本地的基础功能如文件上传、数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
 		<dependency>
 			<groupId>com.xnx3.wangmarket.wm</groupId>

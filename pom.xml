@@ -179,7 +179,13 @@
 	</build>
 
 	<dependencies>
-		
+		<!-- http/https请求工具 https://github.com/xnx3/http.java -->
+		<dependency> 
+			<groupId>cn.zvo.http</groupId>
+			<artifactId>http</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- ueditor编辑器 https://github.com/xnx3/ueditor-fileupload -->
 		<dependency> 
 		    <groupId>cn.zvo.fileupload</groupId>
