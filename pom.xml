@@ -4,7 +4,7 @@
 	<artifactId>wangmarket</artifactId>
 	<packaging>war</packaging>
 	<name>wangmarket</name>
-	<version>5.7</version>
+	<version>5.7.5</version>
 	<description>网市场云建站系统</description>
 
 	<properties>
@@ -15,12 +15,12 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<!-- 定义公共资源版本 -->
-	<parent>
-		<groupId>com.xnx3.wangmarket.wm</groupId>
-		<artifactId>parent</artifactId>
-		<version>2.25</version>
-	</parent>
+	  <!-- 定义公共资源版本 -->
+	  <parent>
+	    <groupId>com.xnx3.wangmarket.wm</groupId>
+	    <artifactId>parent</artifactId>
+	    <version>2.26</version>
+	  </parent>
 
   <repositories>
 		<repository>
@@ -121,7 +121,7 @@
                 </executions>
             </plugin>
             <!-- Javadoc -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
@@ -137,7 +137,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>  -->
             <!-- GPG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -175,42 +175,23 @@
 				<filtering>false</filtering>
 			</resource>
 			
-			<!-- 打包时将本地jar拷贝到打成jar运行包的BOOT-INF/lib/目录下-->
-			<resource>
-				<!-- 指定resources插件处理哪个目录下的资源文件 -->
-				<directory>src/main/webapp/WEB-INF/lib</directory>
-				<!--注意此次必须要放在此目录下才能被访问到-->
-				<targetPath>BOOT-INF/lib</targetPath>
-				<includes>
-					<include>**/*.jar</include>
-				</includes> 
-			</resource>
 		</resources>
-
 	</build>
 
 	<dependencies>
+		
+		<!-- ueditor编辑器 https://github.com/xnx3/ueditor-fileupload -->
+		<dependency> 
+		    <groupId>cn.zvo.fileupload</groupId>
+		    <artifactId>fileupload-framework-ueditor</artifactId>
+		    <version>1.0</version>
+		</dependency>
+	
 		<!-- 本地的基础功能如文件上传、数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
 		<dependency>
 			<groupId>com.xnx3.wangmarket.wm</groupId>
 			<artifactId>wm</artifactId>
-			<version>2.25</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.25.jar</systemPath>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.xnx3</groupId>
-			<artifactId>xnx3</artifactId>
-			<version>2.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xnx3-2.7.jar</systemPath>
+			<version>2.26.5</version>
 		</dependency>
 		
 	</dependencies>
