@@ -75,20 +75,18 @@ body{margin: 0;padding: 0px;height: 100%;overflow: hidden;}
 			</a>
 		</li>
 		
-		<% if(com.xnx3.wangmarket.domain.Log.aliyunLogUtil != null){ %>
-			<li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/actionLogList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
-					<span class="firstMenuFont">操作日志</span>
-				</a>
-			</li>
-			<!-- <li class="layui-nav-item">
-				<a href="javascript:loadUrl('/agency/siteSizeLogList.do');">
-					<i class="layui-icon firstMenuIcon">&#xe62a;</i>
-					<span class="firstMenuFont">资金日志</span>
-				</a>
-			</li> -->
-		<% } %>
+		<li class="layui-nav-item">
+			<a href="javascript:loadUrl('/agency/actionLogList.do');">
+				<i class="layui-icon firstMenuIcon">&#xe62a;</i>
+				<span class="firstMenuFont">操作日志</span>
+			</a>
+		</li>
+		<li class="layui-nav-item">
+			<a href="javascript:loadUrl('/agency/siteSizeLogList.do');">
+				<i class="layui-icon firstMenuIcon">&#xe62a;</i>
+				<span class="firstMenuFont">资金日志</span>
+			</a>
+		</li>
 		<!-- agency end -->
 		
 		<li class="layui-nav-item">
