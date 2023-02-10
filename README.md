@@ -80,12 +80,10 @@ wangmarket                          项目
 [贡献模板](https://gitee.com/mail_osc/wangmarket_template_lmyglm1) | [贡献插件](https://gitee.com/leimingyun/wangmarket_plugin_learn_example)
 
 # 优秀开源项目及社区推荐
+[https://github.com/featbit/featbit](https://github.com/featbit/featbit) 100% 开源的 Feature Management 平台。将软件交付风险在面向最终用户前降至最低，随便瞎写也不会有bug，加速软件创新的历史进度。FeatBit 赋能全团队交付、管理软件的超能力。
 [LinkWeChat](https://gitee.com/LinkWeChat/link-wechat) LinkWeChat 是基于企业微信的开源 SCRM 系统，是企业私域流量管理与营销的综合解决方案。  
 [IoTSharp](https://gitee.com/IoTSharp) IoTSharp 是一个 基于.Net Core 开源的物联网基础平台， 支持 HTTP、MQTT 、CoAp 协议  
 [流之云](https://gitee.com/ntdgg) 信息化、数字化服务提供商  
-[translate.js](https://gitee.com/mail_osc/translate) 网页自动翻译，页面无需另行改造，加入两行js即可让你的网页快速具备多国语言切换能力！  
-[https://github.com/featbit/featbit](https://github.com/featbit/featbit
-) 100% 开源的 Feature Management 平台。将软件交付风险在面向最终用户前降至最低，加速软件创新的历史进度。FeatBit 赋能全团队交付、管理软件的超能力。
 
 ## 历史事件
 
