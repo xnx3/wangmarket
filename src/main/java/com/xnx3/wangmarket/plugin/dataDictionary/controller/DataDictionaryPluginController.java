@@ -75,6 +75,7 @@ public class DataDictionaryPluginController extends BasePluginController {
 			return error(model, "无权使用！");
 		}
 		
+		tableName = com.xnx3.j2ee.util.SafetyUtil.sqlFilter(tableName);
 		String sql = "SELECT COLUMN_NAME, COLUMN_TYPE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE, COLUMN_DEFAULT, COLUMN_COMMENT "
 				+ "FROM INFORMATION_SCHEMA.COLUMNS "
 				+ "WHERE table_schema ='"+databaseName+"' "

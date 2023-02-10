@@ -42,6 +42,14 @@
 	</div>
 	<div class="weui_cell">
 		<div class="weui_cell_bd weui_cell_primary">
+			<p>登陆账户</p>
+		</div>
+		<div class="weui_cell_ft">
+			${user.username }
+		</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
 			<p>到期时间</p>
 		</div>
 		<a href="javascript:parent.jumpParentAgency();;" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
@@ -55,7 +63,7 @@
 		</div>
 		<div class="weui_cell_ft" id="ossSize">计算中...</div>
 	</div>
-	<div class="weui_cell">
+	<div class="weui_cell" style="display:none;">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>空间总量</p>
 		</div>
@@ -64,7 +72,7 @@
 			<!-- <a href="../productPrice.do" class="weui_btn weui_btn_mini weui_btn_primary" style="margin-left:10px;">升级</a> -->
 		</div>
 	</div>
-	<div class="weui_cell">
+	<div class="weui_cell" style="display:none;">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>剩余空间</p>
 		</div>
