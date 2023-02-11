@@ -21,4 +21,4 @@
 	</div>
 <!-- 隐藏语种切换按钮 -->
 <style> #translate{display:none;} </style>
-<jsp:include page="/wm/common/translate.jsp"></jsp:include> 
+<jsp:include page="../common/translate.jsp"></jsp:include> 

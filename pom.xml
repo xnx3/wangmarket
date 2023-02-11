@@ -193,12 +193,14 @@
 		    <version>1.0</version>
 		</dependency>
 	
-		<!-- 本地的基础功能如文件上传、数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
-		<dependency>
-			<groupId>com.xnx3.wangmarket.wm</groupId>
-			<artifactId>wm</artifactId>
-			<version>2.26.5</version>
-		</dependency>
+		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
+  		<dependency> 
+	        <groupId>com.xnx3.wangmarket.wm</groupId>  
+	        <artifactId>wm</artifactId>  
+	        <version>2.27</version>  
+	         <scope>system</scope>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.27.jar</systemPath>  
+	    </dependency>
 		
 	</dependencies>
     

@@ -75,4 +75,4 @@
 		
 	</div>
 	
-<jsp:include page="/wm/common/translate.jsp"></jsp:include> 
+<jsp:include page="../common/translate.jsp"></jsp:include> 
