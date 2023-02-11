@@ -11,8 +11,16 @@
 <div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
 		
 	<div class="layui-nav layui-nav-tree layui-nav-side menu">
-		<div style="height: 65px;text-align: left;line-height: 65px;font-size: 16px;font-weight: 700;color: black;padding-left: 18px;">内容管理</div>
-		<ul class="" id="columnTreeNav">
+		<div style="
+		    text-align: left;
+		    line-height: 1.2rem;
+		    font-size: 16px;
+		    padding-top: 30px;
+		    padding-bottom: 20px;
+		    font-weight: 700;
+		    color: black;
+		    padding-left: 18px;">内容管理</div>
+		<ul class="ignore" id="columnTreeNav">
 			${columnTreeNav }
 		</ul>
 	</div>
@@ -262,6 +270,6 @@ function yindaoSelectColumn(){
 }
 </script>
 
-
-</body>
-</html>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

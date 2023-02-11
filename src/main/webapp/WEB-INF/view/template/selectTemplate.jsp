@@ -321,5 +321,4 @@ if(SELECT_TEMPLATE_YINDAO_USE != '0'){
 
 </script>
 
-</body>
-</html>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

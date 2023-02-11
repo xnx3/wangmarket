@@ -23,9 +23,9 @@
 		<c:forEach items="${list}" var="templatePage">
 			<tr>
 				<!--display${column['used']}-->
-				<td >${templatePage['name'] }</td>
+				<td class="ignore">${templatePage['name'] }</td>
 				<td style="width:90px;"><script type="text/javascript">document.write(type[${templatePage['type'] }]);</script></td>
-				<td>${templatePage['remark'] }</td>
+				<td class="ignore">${templatePage['remark'] }</td>
 				<td style="width:160px;">
 					 <button onclick="editTemplatePageAttribute('${templatePage['name'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe614;</i></button>
 					 <button onclick="editText('${templatePage['name'] }', ${templatePage['type'] }, '${templatePage['editMode'] }');" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></button>
@@ -161,5 +161,6 @@ function deleteTemplatePage(id, name){
 <!-- 自动跳转到指定页面进行编辑 -->
 ${autoEditText }
 
-</body>
-</html>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

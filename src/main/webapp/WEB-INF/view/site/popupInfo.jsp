@@ -19,13 +19,13 @@
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>网站标题</p>
 		</div>
-		<div class="weui_cell_ft" id="nameDiv">${site.name }</div>
+		<div class="weui_cell_ft ignore" id="nameDiv">${site.name }</div>
 	</a>
 	<a class="weui_cell" href="javascript:updateDomain_info();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>分配域名</p>
 		</div>
-		<div class="weui_cell_ft" id="domainInput">
+		<div class="weui_cell_ft ignore" id="domainInput">
 			<span style="float: left;">
 				<div id="domainInput_wangmarket">http://${site.domain }.${autoAssignDomain }</div>
 			</span>
@@ -35,7 +35,7 @@
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>绑定域名</p>
 		</div>
-		<div class="weui_cell_ft" id="domainInput">
+		<div class="weui_cell_ft ignore" id="domainInput">
 			<span style="float: left;">
 				<div id="domainInput_bind">${site.bindDomain }</div>
 			</span>
@@ -45,31 +45,31 @@
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系人姓名</p>
 		</div>
-		<div class="weui_cell_ft">${site.username }</div>
+		<div class="weui_cell_ft ignore">${site.username }</div>
 	</a>
 	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系电话</p>
 		</div>
-		<div class="weui_cell_ft">${site.phone }</div>
+		<div class="weui_cell_ft ignore">${site.phone }</div>
 	</a>
 	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>联系QQ</p>
 		</div>
-		<div class="weui_cell_ft">${site.qq }</div>
+		<div class="weui_cell_ft ignore">${site.qq }</div>
 	</a>
 	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>公司(团体)名</p>
 		</div>
-		<div class="weui_cell_ft">${site.companyName }</div>
+		<div class="weui_cell_ft ignore">${site.companyName }</div>
 	</a>
 	<a class="weui_cell" href="javascript:updateDiBuLianXi();parent.msg.close();">
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>办公地址</p>
 		</div>
-		<div class="weui_cell_ft">${site.address }</div>
+		<div class="weui_cell_ft ignore">${site.address }</div>
 	</a>
 	
 	<% //判断是否已开启邮件发送功能
@@ -119,5 +119,6 @@ function updateDiBuLianXi(){
 }
 </script>
 
-</body>
-</html>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

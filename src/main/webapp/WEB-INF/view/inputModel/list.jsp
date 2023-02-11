@@ -28,8 +28,8 @@
 		<!-- display 显示或者隐藏，是否在导航中显示。若为0，则不加入排序 -->
 		<c:forEach items="${list}" var="model">
 			<tr>
-				<td>${model.codeName }</td>
-				<td>${model.remark }</td>
+				<td class="ignore">${model.codeName }</td>
+				<td class="ignore">${model.remark }</td>
 				<td style="width:110px;">
 					<botton class="layui-btn layui-btn-sm" onclick="window.location.href='edit.do?id=${model.id}';"><i class="layui-icon">&#xe642;</i></botton>
 					<botton class="layui-btn layui-btn-sm" onclick="deleteInputModel('${model.id }', '${model.remark }');"><i class="layui-icon">&#xe640;</i></botton>
@@ -75,4 +75,6 @@ function deleteInputModel(id, remark){
 
 </script>
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

@@ -1,1 +1,0 @@
-这个 /wm/login/siteLogin.jsp是v5.6已经废弃掉，保留着只是为了不影响之前插件开发模式的登录而已。最新登录页面是在 /login/siteLogin.jsp

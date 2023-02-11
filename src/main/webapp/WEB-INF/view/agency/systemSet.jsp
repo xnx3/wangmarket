@@ -21,28 +21,28 @@
 	<tr id="td_name">
 		<td class="title">公司名称</td>
 		<td class="value" onclick="popAgency('name','公司名称', '${agency.name }');" style="cursor:pointer;">
-			${agency.name }
+			<span class="ignore">${agency.name }</span>
 			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
 		</td>
 	</tr>
 	<tr id="td_phone">
 		<td class="title">联系电话</td>
 		<td class="value" onclick="popAgency('phone','联系电话', '${agency.phone }');" style="cursor:pointer;">
-			${agency.phone }
+			<span class="ignore">${agency.phone }</span>
 			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
 		</td>
 	</tr>
 	<tr id="td_phone">
 		<td class="title">联系QQ</td>
 		<td class="value" onclick="popAgency('qq','联系QQ', '${agency.qq }');" style="cursor:pointer;">
-			${agency.qq }
+			<span class="ignore">${agency.qq }</span>
 			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
 		</td>
 	</tr>
 	<tr id="td_address">
 		<td class="title">办公地点</td>
 		<td class="value" onclick="popAgency('address','办公地点', '${agency.address }');" style="cursor:pointer;">
-			${agency.address }
+			<span class="ignore">${agency.address }</span>
 			<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;"><i class="layui-icon layui-icon-edit"></i></button>
 		</td>
 	</tr>
@@ -186,4 +186,5 @@ function popNotice(){
 }
 </script>
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

@@ -48,4 +48,4 @@
 	</footer>
 </div>
 
-</body></html>
+<jsp:include page="/wm/common/translate.jsp"></jsp:include> 

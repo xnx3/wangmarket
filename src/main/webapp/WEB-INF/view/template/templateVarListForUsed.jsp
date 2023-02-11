@@ -22,8 +22,8 @@
 		<c:forEach items="${list}" var="templateVar">
 			<tr>
 				<!--display${column['used']}-->
-				<td>{include=${templateVar['varName'] }}</td>
-				<td>${templateVar['remark'] }</td>
+				<td class="ignore">{include=${templateVar['varName'] }}</td>
+				<td class="ignore">${templateVar['remark'] }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -34,5 +34,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 parent.layer.iframeAuto(index);
 
 </script>
-</body>
-</html>
+
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

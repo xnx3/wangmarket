@@ -90,6 +90,9 @@ public class SiteSizeChangeLogUtil{
     public static Log getLog() {
     	if(log == null) {
     		new SiteSizeChangeLogUtil().init();
+    		if(log == null) {
+    			log = new Log();
+    		}
     	}
     	return log;
     }

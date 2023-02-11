@@ -13,5 +13,5 @@
 			<h1>您所访问的网站已暂停</h1>
 			<div>${url }</div>
 		</div>
-	</body>
-</html>
+
+<jsp:include page="/wm/common/translate.jsp"></jsp:include> 

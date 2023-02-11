@@ -21,8 +21,8 @@
 		<c:forEach items="${list}" var="templateVar">
 			<tr>
 				<!--display${column['used']}-->
-				<td style="width:150px;">${templateVar['varName'] }</td>
-				<td>${templateVar['remark'] }</td>
+				<td class="ignore" style="width:150px;">${templateVar['varName'] }</td>
+				<td class="ignore">${templateVar['remark'] }</td>
 				<td style="width:100px;"><x:time linuxTime="${templateVar['updatetime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td style="width:110px;">
 					<a href="templateVar.do?templateVarName=${templateVar['varName'] }" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
@@ -83,5 +83,7 @@ function deleteTemplateVar(id, name){
 	
 }
 </script>
-</body>
-</html>
+
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

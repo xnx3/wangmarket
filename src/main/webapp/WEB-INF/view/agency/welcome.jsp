@@ -20,7 +20,7 @@
 </style>
 
 <div style="text-align:center; font-size:29px; padding-top:35px; padding-bottom: 10px;">
-	欢迎登录 <%=Global.get("SITE_NAME") %>云建站系统
+	欢迎使用 <%=Global.get("SITE_NAME") %>云建站系统
 </div>
 
 
@@ -58,12 +58,12 @@ try{
 	<tbody>
 		<tr>
 			<td class="iw_table_td_view_name">公司名称</td>
-			<td>${agency.name }</td>
+			<td class="ignore">${agency.name }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">到期时间</td>
 			<td>
-				<x:time linuxTime="${agency.expiretime }"></x:time>
+				<span class="ignore"><x:time linuxTime="${agency.expiretime }"></x:time></span>
 				<a href="javascript:jumpParentAgency();" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
 			</td>
 		</tr>
@@ -73,11 +73,11 @@ try{
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">最后登陆</td>
-			<td><x:time linuxTime="${user.lasttime }"></x:time></td>
+			<td class="ignore"><x:time linuxTime="${user.lasttime }"></x:time></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">最后登陆ip</td>
-			<td>${user.lastip }</td>
+			<td class="ignore">${user.lastip }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">我的上级</td>
@@ -85,9 +85,9 @@ try{
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">账户余额</td>
-			<td>${agency.siteSize }<%=Global.get("CURRENCY_NAME") %>
+			<td><span class="ignore">${agency.siteSize }</span><%=Global.get("CURRENCY_NAME") %>
 				<a href="javascript:jumpParentAgency();" id="chongzhianniu" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">充值</a>
-				<div style="margin-top: -23px;margin-left: 145px;">
+				<div style="margin-top: 10px;margin-left: 93px;">
 					1<%=Global.get("CURRENCY_NAME") %> = 开通一个网站/年<br/>
 					1<%=Global.get("CURRENCY_NAME") %> = 续费一个网站/年<br/>
 					<%=G.agencyAddSubAgency_siteSize %><%=Global.get("CURRENCY_NAME") %> = 开通一个下级代理/年<br/>
@@ -198,4 +198,4 @@ versionUpdateRemind('<%=Global.VERSION %>');
 </script>
 <!-- 版本提示结束 -->
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

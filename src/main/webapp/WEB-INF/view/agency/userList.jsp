@@ -39,23 +39,24 @@
 	<tbody>
 		<c:forEach items="${list}" var="obj">
 			<tr>
-				<td style="width:55px;"><a href="">${obj['id'] }</a></td>
-				<td onclick="window.open('http://${obj['domain']}.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>');" style="cursor: pointer; width:55px;">
+				<td style="width:55px;" class="ignore"><a href="">${obj['id'] }</a></td>
+				<td onclick="window.open('http://${obj['domain']}.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>');" style="cursor: pointer; width:55px;" class="ignore">
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
-				<td style="width:100px;">${obj['userusername'] }</td>
+				<td class="ignore" style="width:100px;">${obj['userusername'] }</td>
 				<c:choose>
 					<c:when test="${!obj['bind_domain'].isEmpty() && fn:length(obj['bind_domain']) > 0}">
-						<td onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
+						<td class="ignore" onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
 					</c:when>
 					<c:otherwise>
-						<td onclick="window.open('http://${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></td>
+						<td class="ignore" onclick="window.open('http://${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>'); " style="cursor: pointer; width: 160px;">${obj['domain'] }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></td>
 					</c:otherwise>
 				</c:choose>
-				<td style="width:100px;"><x:time linuxTime="${obj['lasttime'] }" format="yy-MM-dd hh:mm"></x:time></td>
-				<td style="width:100px;"><x:time linuxTime="${obj['expiretime'] }" format="yy-MM-dd hh:mm"></x:time></td>
-				<td style="width:100px;" id="remark"><x:substring maxLength="10" text="${obj['remark'] }"></x:substring>
-				<botton class="layui-btn layui-btn-sm" onclick="updateRemark('${obj['id'] }','${obj['userusername'] }','${obj['remark'] }');" style="margin-left: 3px;">修改</botton>
+				<td style="width:100px;" class="ignore"><x:time linuxTime="${obj['lasttime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+				<td style="width:100px;" class="ignore"><x:time linuxTime="${obj['expiretime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+				<td style="width:100px;" id="remark">
+					<span class="ignore"><x:substring maxLength="10" text="${obj['remark'] }"></x:substring></span>
+					<botton class="layui-btn layui-btn-sm" onclick="updateRemark('${obj['id'] }','${obj['userusername'] }','${obj['remark'] }');" style="margin-left: 3px;">修改</botton>
 				</td>
 				<td style="width:150px;">
 					<c:choose>
@@ -195,4 +196,7 @@ function updateRemark(siteid, name, remark){
 	});
 }
 </script>
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

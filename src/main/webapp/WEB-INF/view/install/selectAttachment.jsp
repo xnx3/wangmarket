@@ -110,8 +110,6 @@ if(selectStorage != null && selectStorage.toString().trim().equalsIgnoreCase("fa
 	</div>
 
 
-</body>
-
 
 <style>
 .select{
@@ -220,4 +218,4 @@ function selectObs(){
 }
 </script>
 
-</html>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

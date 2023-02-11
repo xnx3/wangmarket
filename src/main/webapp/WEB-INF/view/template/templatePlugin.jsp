@@ -170,5 +170,4 @@ function loadCloudTemplateList(){
 loadCloudTemplateList();
 </script>
 
-</body>
-</html>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

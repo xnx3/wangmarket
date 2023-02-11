@@ -78,26 +78,26 @@ try{
 	<tbody>
 		<tr>
 			<td class="iw_table_td_view_name">用户名</td>
-			<td>${user.username }</td>
+			<td class="ignore">${user.username }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">到期时间</td>
 			<td>
-				<x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time>
+				<span class="ignore"><x:time linuxTime="${site.expiretime }" format="yyyy-MM-dd"></x:time></span>
 				<a href="javascript:parent.jumpParentAgency();" id="yanchangriqi" class="layui-btn layui-btn-primary" style="height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;margin-right: 10px;">延长</a>
 			</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">上次登陆时间</td>
-			<td><x:time linuxTime="${user.lasttime }" format="yyyy-MM-dd"></x:time></td>
+			<td class="ignore"><x:time linuxTime="${user.lasttime }" format="yyyy-MM-dd"></x:time></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">上次登陆ip</td>
-			<td>${user.lastip }</td>
+			<td class="ignore">${user.lastip }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">自动分配域名</td>
-			<td>${domain}</td>
+			<td class="ignore">${domain}</td>
 		</tr>
 	</tbody>
 </table>
@@ -122,4 +122,4 @@ try{
 <% } %>
 
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

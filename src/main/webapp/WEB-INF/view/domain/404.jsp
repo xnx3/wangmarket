@@ -177,5 +177,4 @@ body{margin: 0; background-color: #67ace4; font-family: "\5FAE\8F6F\96C5\9ED1"; 
 <div class="animate below"></div>
 <div class="animate above"></div>
 
-</body>
-</html>
+<jsp:include page="/wm/common/translate.jsp"></jsp:include> 

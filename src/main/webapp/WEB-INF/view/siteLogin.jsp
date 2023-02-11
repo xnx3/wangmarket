@@ -184,5 +184,4 @@ if(navigator.userAgent.indexOf('Chrome') == -1){
 </script>
 
 
-</body>
-</html>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

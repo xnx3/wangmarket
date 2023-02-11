@@ -106,5 +106,6 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 });
 </script>
 
-</body>
-</html>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

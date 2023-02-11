@@ -194,4 +194,4 @@ function templateComparePreview(){
 }
 </script>
 
-<jsp:include page="../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

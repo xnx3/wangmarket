@@ -140,4 +140,6 @@
 			<div style="width:100%; text-align:center;"><br>	<img src="http://cdn.weiunity.com/site/491/news/d0895e2db507432bae3b1336b81a02d5.jpg" style="width:50%;"><br></div>
 		</div>
 	</div>
-</body>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/translate.jsp"></jsp:include> 

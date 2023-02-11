@@ -45,17 +45,18 @@
 			</tr> 
 		</thead>
 		<tbody>
+			<!-- 列表中，设置的值是特意不让翻译的，因这是用户自己设置的 -->
 			<c:forEach items="${list}" var="item">
 				<tr>
-					<td style="" class="var_name_class_${isSubAccount}">${item['name'] }</td>
+					<td style="" class="ignore var_name_class_${isSubAccount}">${item['name'] }</td>
 					<td style="min-width:100px;">${item['title'] }</td>
-					<td class="des_name_class_${isSubAccount}">${item['description'] }</td>
+					<td class="ignore des_name_class_${isSubAccount}">${item['description'] }</td>
 					<td>
 						<script>
 							try{ ${item.valueItems} }catch(e){console.log(e);}
 							var type = '${item['type']}';
 							if(type == 'text' || type == 'number'){
-								document.write('${item['value']}');
+								document.write('<span class="ignore">${item['value']}</span>');
 							}else if(type == 'image'){
 								document.write('<a href="${item['value']}" target="_black"><img src="${item['value']}?x-oss-process=image/resize,h_29" style="height:29px; max-width:100px;" /></a>');
 							}else if(type == 'imagegroup'){
@@ -151,5 +152,6 @@ function property(name){
 </script>
 
 
-</body>
-</html>
+<!-- 隐藏语种切换按钮 -->
+<style> #translate{display:none;} </style>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 
