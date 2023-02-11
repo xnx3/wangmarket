@@ -43,7 +43,7 @@
 				<c:forEach items="${siteColumnTreeVO.list}" var="subSCT">
 					<tr id="${subSCT.siteColumn.id }">
 						<td width="220" onclick="javascript:window.open('/${subSCT.siteColumn.codeName }.html?domain=${site.domain }.<%=G.getFirstAutoAssignDomain() %>');" style="cursor: pointer;" class="ignore"><span style="padding-left:20px;">${subSCT.siteColumn.name }</span></td>
-						<td><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
+						<td class="ignore"><span style="padding-left:20px;">${subSCT.siteColumn.codeName }</span></td>
 						<td width="130"><script type="text/javascript">document.write(type['${subSCT.siteColumn.type}']);</script></td>
 						<td width="80"><script type="text/javascript">document.write(used['${subSCT.siteColumn.templateCodeColumnUsed}']);</script></td>
 						<td width="50" onclick="updateRank('${subSCT.siteColumn.id }', '${subSCT.siteColumn.rank }', '${subSCT.siteColumn.name }');" style="cursor:pointer;">&nbsp;&nbsp;&nbsp;&nbsp;${subSCT.siteColumn.rank }</td>
