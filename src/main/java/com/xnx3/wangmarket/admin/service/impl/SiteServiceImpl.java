@@ -775,7 +775,8 @@ public class SiteServiceImpl implements SiteService {
 				keywords = keywords + "," + site.getUsername();
 			}
 		}
-		site.setKeywords(SafetyUtil.filter(keywords));		
+		//v6.0增加，英文站会有问题，会导致吧img标签中的url破坏的情况
+		//site.setKeywords(SafetyUtil.filter(keywords));		
 		
 		//填充默认数据
 		if(site.getLogo() == null){
