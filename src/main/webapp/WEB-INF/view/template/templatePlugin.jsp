@@ -171,3 +171,4 @@ loadCloudTemplateList();
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

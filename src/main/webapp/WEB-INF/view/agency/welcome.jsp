@@ -199,3 +199,4 @@ versionUpdateRemind('<%=Global.VERSION %>');
 <!-- 版本提示结束 -->
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

@@ -74,9 +74,9 @@
 		
 		<div class="info">
 			<h2>后台登陆网址</h2>
-			<script>
-				document.write('<a href="'+window.location.origin+'/login.do" target="_black">'+window.location.origin+'/login.do</a>');
-			</script>
+			<span class="ignore">
+				<script>document.write('<a href="'+window.location.origin+'/login.do" target="_black">'+window.location.origin+'/login.do</a>');</script>
+			</span>
 			<br/>
 			三种后台，网站管理后台、代理后台、总管理后台，登陆的地址都是这一个。只是不同账号拥有不同权限，登陆成功后根据账号所拥有的权限，自动跳转到相应的后台。
 		</div>
@@ -114,3 +114,4 @@
 	</div>
 	
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

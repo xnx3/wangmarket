@@ -42,12 +42,12 @@
 	<tbody>
 		<c:forEach items="${list}" var="news">
 			<tr>
-				<td style="width:55px;">${news['id'] }</td>
-				<td onclick="userView(${news['userid'] });" style="cursor: pointer; width:55px;">${news['userid'] }</td>
+				<td class="ignore" style="width:55px;">${news['id'] }</td>
+				<td class="ignore" onclick="userView(${news['userid'] });" style="cursor: pointer; width:55px;">${news['userid'] }</td>
 				<td onclick="newsView(${news['id']});" style="cursor: pointer; text-align:left;"><x:substring maxLength="30" text="${news['title'] }"></x:substring></td>
 				<td style="width:60px;"><script type="text/javascript">document.write(type[${news['type']}]);</script></td>
 				<td style="width:60px; cursor: pointer;" onclick="newsView(${news['id']});"><script type="text/javascript">document.write(legitimate[${news['legitimate']}]);</script></td>
-				<td style="width:100px;"><x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
+				<td class="ignore" style="width:100px;"><x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
 				<td style="width:100px;">
 					<botton class="layui-btn layui-btn-sm" onclick="newsView(${news['id']});" style="margin-left: 3px;"><i class="layui-icon">&#xe60b;</i></botton>
 					<a class="layui-btn layui-btn-sm" style="margin-left: 3px;" href="perview.do?id=${news['id']}" target="_black"><i class="layui-icon">&#xe615;</i></botton>
@@ -83,4 +83,5 @@ function userView(id){
 	});
 }
 </script>
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

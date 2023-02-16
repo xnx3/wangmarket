@@ -69,9 +69,9 @@
 		</div>
 		
 		<div class="info">
-			本系统需要独占一个域名！<span style="color:gray;font-size: 11px;">（除了www之外的域名。您的www域名可以正常解析使用）</span><br/> 
-			比如你准备的域名为 leimingyun.com <br/> 
-			那么你需要进入你的域名管理后台，做个泛解析 *.leimingyun.com 指向到你这个服务器 ip
+			本系统需要独占一个域名！<span style="color:gray;font-size: 11px;">（除了<span class="ignore">www</span>之外的域名。您的<span class="ignore">www</span>域名可以正常解析使用）</span><br/> 
+			比如你准备的域名为 <span class="ignore">leimingyun.com</span> <br/> 
+			那么你需要进入你的域名管理后台，做个泛解析 <span class="ignore">*.leimingyun.com</span> 指向到你这个服务器<span class="ignore"> ip</span>
 		</div>
 		
 		<div class="info">
@@ -83,17 +83,17 @@
 					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="" style="width: 200px;">
 				</div>
 				<div style="color:#d2d2d2; font-size: 13px;">
-					&nbsp;&nbsp;填入格式如  leimingiyun.com  
-					<br/>&nbsp;&nbsp;注意，域名不带www，这个是要做泛解析的
+					&nbsp;&nbsp;填入格式如  <span class="ignore"> leimingiyun.com</span>
+					<br/>&nbsp;&nbsp;注意，域名不带<span class="ignore"> www</span> , 这个是要做泛解析的
 				</div>
 			</div>
 		</div>
 		
 		<div class="info">
 			<h2>第二步：进行域名泛解析</h2>
-			登陆你的域名管理后台，添加一条泛解析 <span style="color: rebeccapurple; font-size: 16px; padding-left: 10px; padding-right: 10px;">*.<span id="jiexidomain"></span></span> 指向到本服务器的ip
+			登陆你的域名管理后台，添加一条泛解析 <span style="color: rebeccapurple; font-size: 16px; padding-left: 10px; padding-right: 10px;" class="ignore">*.<span id="jiexidomain"></span></span> 指向到本服务器的<span class="ignore"> ip</span>
 			<br/>
-			<span style="color:gray; font-size:8px;">泛解析不会的，可以自行百度搜索。或者<a href="https://www.leimingyun.com/pay.html" target="_black">请求我们有偿帮助</a></span>
+			<span style="color:gray; font-size:8px;">泛解析不会的，可以自行百度搜索。或者加QQ群<span class="ignore"> 740332119 </span>寻求帮助</span>
 		</div>
 		
 		
@@ -160,3 +160,4 @@
 	</script>
 	
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

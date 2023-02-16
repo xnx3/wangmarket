@@ -138,3 +138,4 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 <jsp:include page="common.jsp"></jsp:include>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

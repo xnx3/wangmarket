@@ -97,7 +97,7 @@ try{
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">自动分配域名</td>
-			<td class="ignore">${domain}</td>
+			<td>${domain}</td>
 		</tr>
 	</tbody>
 </table>
@@ -123,3 +123,4 @@ try{
 
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

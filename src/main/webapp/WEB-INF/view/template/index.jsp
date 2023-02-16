@@ -892,8 +892,4 @@ function yindaoStart(){
 
 ${pluginAppendHtml}
 
-<!-- 首页就只有左侧一个菜单，所以这里先不要显示切换语言按钮 -->
-<style>
-#translate{display:none;}
-</style>
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 

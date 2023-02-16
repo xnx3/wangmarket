@@ -32,25 +32,29 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 		<tr>
 			<td class="iw_table_td_view_name">当前版本</td>
 			<td>
-				<span style="font-size:18px; padding-right:15px;">v${version }</span>
+				<span style="font-size:18px; padding-right:15px;" class="ignore">v${version }</span>
 				<span id="versionTishi" style="font-size:14px;">(最新版本检测中...)</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">作者</td>
-			<td>管雷鸣</td>
+			<td class="ignore">管雷鸣</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">作者微信号</td>
-			<td>xnx3com</td>
+			<td class="ignore">xnx3com</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">交流QQ群</td>
-			<td>472328584</td>
+			<td class="ignore">472328584</td>
+		</tr>
+		<tr>
+			<td class="iw_table_td_view_name">文档</td>
+			<td class="ignore"><a href="http://cms.zvo.cn" target="_black">cms.zvo.cn</a></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">官网</td>
-			<td><a href="http://www.wang.market" target="_black">www.wang.market</a></td>
+			<td class="ignore"><a href="http://www.wang.market" target="_black">www.wang.market</a></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">微信公众号</td>
@@ -104,3 +108,4 @@ try{
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

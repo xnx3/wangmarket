@@ -8,6 +8,6 @@
 
 <jsp:include page="./addSite.jsp"></jsp:include>
 
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
+
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

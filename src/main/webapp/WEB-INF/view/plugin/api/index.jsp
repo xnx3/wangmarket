@@ -27,4 +27,5 @@ key:
 <textarea style="width:100%; height:50px; padding:10px;">${key }</textarea>
 </div>
 
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

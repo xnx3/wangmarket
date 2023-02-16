@@ -29,10 +29,10 @@
 	<tbody>
 		<c:forEach items="${list}" var="item">
 			<tr onclick="view('${item['TABLE_NAME'] }');" style="cursor:pointer; ">
-				<td style="width: 190px;">${item['TABLE_NAME'] }</td>
+				<td class="ignore" style="width: 190px;">${item['TABLE_NAME'] }</td>
 				<td style="">${item['TABLE_COMMENT'] }</td>
-				<td style="width:90px;">${item['TABLE_ROWS'] }</td>
-				<td style="width:60px;">${item['DATA_LENGTH'] }</td>
+				<td class="ignore" style="width:90px;">${item['TABLE_ROWS'] }</td>
+				<td class="ignore" style="width:60px;">${item['DATA_LENGTH'] }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -53,4 +53,4 @@ function view(tableName){
 }
 </script>
 
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

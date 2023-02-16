@@ -15,7 +15,7 @@
 	<tbody>
 		<tr>
 			<td class="iw_table_td_view_name">ID编号</td>
-			<td>${news.id }</td>
+			<td class="ignore">${news.id }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">标题</td>
@@ -71,7 +71,7 @@
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">创建时间</td>
-			<td><x:time linuxTime="${news['addtime'] }"></x:time></td>
+			<td class="ignore"><x:time linuxTime="${news['addtime'] }"></x:time></td>
 		</tr>
 		
 	</tbody>
@@ -91,4 +91,5 @@ function cancelLegitimate(id){
 	window.location.href="cancelLegitimate.do?id="+id;
 }
 </script>
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

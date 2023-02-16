@@ -7,10 +7,12 @@
 </jsp:include>
 
 	<style>
+		html,body, .content{
 		
+		}
 		.content{
 			width: 600px;
-			min-height:80%;
+			min-height:700px;
 			margin: 0 auto;
 			box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 10px 2px;
 			padding: 30px;
@@ -83,15 +85,19 @@
 			如果你是用做网站来拉客户或者盈利，做网站的数量比较多，比如50个以上，考虑到系统的可维护性、升级方便、以及网站数量持续增长之后的可扩展性、稳定性，我们建议你参与我们的活动，我们帮你安装、调试好、有入门文档教你怎么更好的使用，让这套建站系统真正给你创造利益。[点此查看更多]
 		</div>
 		
+		
+		<div class="info" style="    position: initial; bottom: 25px;padding: 20px; color: gray; padding-top: 170px;">
+			私有化部署自己的 SAAS 云建站系统，可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。延续了织梦、帝国 CMS 的模版方式，性能高度优化，一台 1 核 1G 服务器可建立几万个独立网站。
+			<a href="http://cms.zvo.cn" target="_black" style="color: gray;">详细说明参见：cms.zvo.cn</a>
+		</div>
+		
+	 	<div style="width: 100%;text-align: center; padding-top: 30px;">
+			<a href="http://cms.zvo.cn" target="_black" style="color: gray;font-size: 8px;">潍坊雷鸣云网络科技有限公司</a>
+		</div>
 	</div>
 	
-	<div class="info" style="    position: absolute; bottom: 25px;padding: 20px; color: gray;">
-		SAAS 云建站系统，可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。让每个互联网公司都可私有化部署自己的 SAAS 云建站平台，一台 1 核 2G 服务器可建立几万个独立网站！
-		<a href="http://cms.zvo.cn" target="_black" style="color: gray;">详细说明参见：cms.zvo.cn</a>
-	</div>
-	<div style="width: 100%;text-align: center;     position: absolute;bottom: 10px;">
-		<a href="http://www.leimingyun.com" target="_black" style="color: gray;font-size: 8px;">潍坊雷鸣云网络科技有限公司</a>
-	</div>
+	
+
 	
 	<div style="display:none;" id="huodong">
 		<div style="display: inline; line-height: 1.5rem;">
@@ -126,3 +132,4 @@
 	</script>
 	
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

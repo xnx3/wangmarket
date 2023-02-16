@@ -180,7 +180,7 @@ public class TemplateController extends BaseController {
 		}else {
 			//其他的那就是正常的了，直接加上domain进行展示出来
 			String domain = site.getDomain()+"."+DomainUtil.getAssignMainDomain();
-			model.addAttribute("domain", "<a href=\"http://"+domain+"\" target=\"_black\">"+domain+"</a>");
+			model.addAttribute("domain", "<a href=\"http://"+domain+"\" target=\"_black\" class=\"ignore\">"+domain+"</a>");
 		}
 		
 		User user = getUser();

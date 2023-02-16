@@ -161,6 +161,4 @@ function deleteTemplatePage(id, name){
 <!-- 自动跳转到指定页面进行编辑 -->
 ${autoEditText }
 
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 

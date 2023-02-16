@@ -84,6 +84,4 @@ function deleteTemplateVar(id, name){
 }
 </script>
 
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
