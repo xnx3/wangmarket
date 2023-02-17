@@ -47,75 +47,73 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{page.allRecordNumber}</td>
+						<td class="ignore">{page.allRecordNumber}</td>
 						<td>列表总共有多少条信息</td>
 						<td>整数</td>
-						<td>100</td>
+						<td class="ignore">100</td>
 					</tr>
 					<tr>
-						<td>{page.currentPageNumber}</td>
+						<td class="ignore">{page.currentPageNumber}</td>
 						<td>当前第几页，当前的页数</td>
 						<td>整数</td>
-						<td>3</td>
+						<td class="ignore">3</td>
 					</tr>
 					<tr>
-						<td>{page.lastPageNumber}</td>
+						<td class="ignore">{page.lastPageNumber}</td>
 						<td>最后一页的页码、共有多少页</td>
 						<td>整数</td>
-						<td>10</td>
+						<td class="ignore">10</td>
 					</tr>
 					<tr>
-						<td>{page.firstPage}</td>
+						<td class="ignore">{page.firstPage}</td>
 						<td>首页,第一页的链接地址</td>
-						<td>URL</td>
-						<td>project.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">project.html</td>
 					</tr>
 					<tr>
-						<td>{page.upPage}</td>
+						<td class="ignore">{page.upPage}</td>
 						<td>上一页的超链接</td>
-						<td>URL</td>
-						<td>project_2.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">project_2.html</td>
 					</tr>
 					<tr>
-						<td>{page.nextPage}</td>
+						<td class="ignore">{page.nextPage}</td>
 						<td>下一页的链接地址</td>
-						<td>URL</td>
-						<td>project_4.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">project_4.html</td>
 					</tr>
 					<tr>
-						<td>{page.lastPage}</td>
+						<td class="ignore">{page.lastPage}</td>
 						<td>尾页，最后一页的链接地址</td>
-						<td>URL</td>
-						<td>project_10.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">project_10.html</td>
 					</tr>
 					<tr>
-						<td>{page.haveUpPage}</td>
+						<td class="ignore">{page.haveUpPage}</td>
 						<td>是否有上一页</td>
-						<td>Boolean</td>
-						<td>true</td>
+						<td class="ignore">Boolean</td>
+						<td class="ignore">true</td>
 					</tr>
 					<tr>
-						<td>{page.haveNextPage}</td>
+						<td class="ignore">{page.haveNextPage}</td>
 						<td>是否有下一页</td>
-						<td>Boolean</td>
-						<td>false</td>
+						<td class="ignore">Boolean</td>
+						<td class="ignore">false</td>
 					</tr>
 					<tr>
-						<td>{page.upList}</td>
+						<td class="ignore">{page.upList}</td>
 						<td>上几页的页码点击跳转</td>
-						<td>HTML</td>
-						<td>包含在li中输出，输出多个li标签</td>
+						<td class="ignore">HTML</td>
+						<td>包含在<span class="ignore"> li </span>中输出，输出多个<span class="ignore"> li </span>标签</td>
 					</tr>
 					<tr>
-						<td>{page.nextList}</td>
+						<td class="ignore">{page.nextList}</td>
 						<td>下几页的页码点击跳转</td>
-						<td>HTML</td>
-						<td>包含在li中输出，输出多个li标签</td>
+						<td class="ignore">HTML</td>
+						<td>包含在<span class="ignore"> li </span>中输出，输出多个<span class="ignore"> li </span>标签</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="../common/translate.jsp"></jsp:include> 

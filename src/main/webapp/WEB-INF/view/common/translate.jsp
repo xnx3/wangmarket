@@ -16,6 +16,7 @@
     border: 1px solid #C9C9C9;
     background-color: #fff;
     color: #555;
+    display:none;
 }
 </style>
 <script>

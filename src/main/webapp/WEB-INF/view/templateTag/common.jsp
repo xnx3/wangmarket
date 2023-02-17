@@ -53,49 +53,49 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{site.name}</td>
+						<td class="ignore">{site.name}</td>
 						<td>网站名称</td>
 						<td>字符串</td>
 						<td>${site.name}</td>
 					</tr>
 					<tr>
-						<td>{site.id}</td>
+						<td class="ignore">{site.id}</td>
 						<td>网站编号</td>
 						<td>整数</td>
 						<td>${site.id}</td>
 					</tr>
 					<tr>
-						<td>{site.domain}</td>
+						<td class="ignore">{site.domain}</td>
 						<td>网站分配的免费二级域名前缀</td>
 						<td>字符串</td>
 						<td>${site.domain}</td>
 					</tr>
 					<tr>
-						<td>{site.username}</td>
+						<td class="ignore">{site.username}</td>
 						<td>网站的联系人姓名</td>
 						<td>字符串</td>
 						<td>${site.username}</td>
 					</tr>
 					<tr>
-						<td>{site.phone}</td>
+						<td class="ignore">{site.phone}</td>
 						<td>网站的联系人手机</td>
 						<td>数字</td>
 						<td>${site.phone}</td>
 					</tr>
 					<tr>
-						<td>{site.qq}</td>
+						<td class="ignore">{site.qq}</td>
 						<td>网站的联系人QQ</td>
 						<td>数字</td>
 						<td>${site.qq}</td>
 					</tr>
 					<tr>
-						<td>{site.address}</td>
+						<td class="ignore">{site.address}</td>
 						<td>当前网站的联系人办公地址</td>
 						<td>字符串</td>
 						<td>${site.address}</td>
 					</tr>
 					<tr>
-						<td>{site.companyName}</td>
+						<td class="ignore">{site.companyName}</td>
 						<td>当前网站的公司名</td>
 						<td>字符串</td>
 						<c:if test="${site.companyName == ''}">
@@ -106,34 +106,32 @@
 						</c:if>
 					</tr>
 					<tr>
-						<td>{linuxTime}</td>
+						<td class="ignore">{linuxTime}</td>
 						<td>当前10位Unix时间戳</td>
 						<td>整数</td>
-						<td>${linuxTime}</td>
+						<td class="ignore">${linuxTime}</td>
 					</tr>
 					<tr>
-						<td>index.html</td>
+						<td class="ignore">index.html</td>
 						<td>网站首页</td>
-						<td>URL</td>
-						<td>index.html (固定，只要是本系统做的网站，首页一定是这个 )</td>
+						<td class="ignore">URL</td>
+						<td><span class="ignore">index.html </span> (固定，只要是本系统做的网站，首页一定是这个 )</td>
 					</tr>
 					<tr>
-						<td>{masterSiteUrl}</td>
+						<td class="ignore">{masterSiteUrl}</td>
 						<td>调取你主站(管理后台)的域名</td>
-						<td>URL</td>
-						<td><a href="${masterSiteUrl}">${masterSiteUrl}</a></td>
+						<td class="ignore">URL</td>
+						<td class="ignore"><a href="${masterSiteUrl}">${masterSiteUrl}</a></td>
 					</tr>
 					<tr>
-						<td>{templatePath}</td>
+						<td class="ignore">{templatePath}</td>
 						<td>调取模版资源文件的url前缀，开发模版使用。<a href="/templateTag/resource.do">详细点此查看</a></td>
-						<td>URL</td>
-						<td><a href="${templatePath }">${templatePath }</a></td>
+						<td class="ignore">URL</td>
+						<td class="ignore"><a href="${templatePath }">${templatePath }</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="../common/translate.jsp"></jsp:include> 

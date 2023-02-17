@@ -17,7 +17,7 @@
 			<input type="text" name="varName" lay-verify="varName" placeholder="请输入变量名字" autocomplete="off" class="layui-input" value="${templateVar.varName }">
 		</div>
 		<div class="layui-form-mid" style=" margin-top: -8px;">
-			可再模版中使用&nbsp;{include=变量名}&nbsp;调用<br/>
+			可再模版中使用<span class="ignore"> {include=变量名} </span>调用<br/>
 			建议设置后就不要对其进行改动了，模版页面调用、备份还原都是依据此处。
 		</div>
 	</div>
@@ -43,8 +43,8 @@
 	</div>
 	<div style="font-size:14px; margin-top:-5px;">
 		可用标签：
-		<a href="javascript:popupTemplateTagHelp('通用标签','http://tag.wscso.com/2936.html#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '415', '590');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">通用标签</a>
-		<a href="javascript:popupTemplateTagHelp('动态栏目调用','http://tag.wscso.com/2940.html#http://tag.wscso.com/2940.html','770', '560');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">动态栏目调用标签</a>
+		<a href="javascript:popupTemplateTagHelp('通用标签','/templateTag/common.do#%E6%A0%87%E7%AD%BE%E5%88%97%E8%A1%A8', '415', '590');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">通用标签</a>
+		<a href="javascript:popupTemplateTagHelp('动态栏目调用','/templateTag/dynamic.do','770', '560');" style="border: 1px solid #e6e6e6; padding: 5px; padding-left: 8px; padding-right: 8px;">动态栏目调用标签</a>
 	</div>
 	<div class="layui-form-item" style="text-align:center;">
 		<button class="layui-btn" lay-submit="" lay-filter="demo1">保存</button>
@@ -98,11 +98,11 @@ layui.use(['form', 'layedit', 'laydate'], function(){
  */ 
 function popupTemplateTagHelp(title,htmlNameTag, width, height){
 	var url = '';
-	if(htmlNameTag.indexOf('http://') > -1){
+	//if(htmlNameTag.indexOf('http://') > -1){
 		url = htmlNameTag;
-	}else{
-		url = '//res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
-	}
+	//}else{
+	//	url = '//res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
+	//}
 	layer.open({
 		type: 2 //iframe
 		,title:title

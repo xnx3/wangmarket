@@ -78,37 +78,37 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><span>{</span>upPage}</td>
+						<td class="ignore"><span>{</span>upPage}</td>
 						<td>上一篇文章。如果没有上一篇文章时，则是返回列表页面</td>
-						<td>HTML</td>
+						<td class="ignore">HTML</td>
 						<td><code>&lt;a href="#"&gt;这是文章的标题&lt;/a&gt;</code></td>
 					</tr>
 					<tr>
-						<td><span>{</span>nextPage}</td>
+						<td class="ignore"><span>{</span>nextPage}</td>
 						<td>下一篇文章。适用范围同上</td>
-						<td>HTML</td>
+						<td class="ignore">HTML</td>
 						<td><code>&lt;a href="#"&gt;这是文章的标题&lt;/a&gt;</code></td>
 					</tr>
 					<tr>
 						<td><span>{</span>upPageUrl}</td>
 						<td>上一篇文章的链接地址。适用范围同上</td>
-						<td>URL</td>
-						<td>1234.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">1234.html</td>
 					</tr>
 					<tr>
 						<td><span>{</span>nextPageUrl}</td>
 						<td>下一篇文章的链接地址。适用范围同上</td>
-						<td>URL</td>
-						<td>1236.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">1236.html</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="ignore">
 							<del>
 								<span>{</span>text}
 							</del>
 						</td>
-						<td>文章内容。v4.3版本以后，推荐使用<span>{</span>news.text}</td>
-						<td>HTML</td>
+						<td>文章内容。v4.3版本以后，推荐使用<span class="ignore"> <span>{</span>news.text} </span></td>
+						<td class="ignore">HTML</td>
 						<td><code>&lt;p&gt;我是内容&lt;/p&gt;</code></td>
 					</tr>
 				</tbody>

@@ -66,6 +66,4 @@
 			</table>
 		</div>
 	</div>
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="../common/translate.jsp"></jsp:include> 

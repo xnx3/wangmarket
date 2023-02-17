@@ -178,3 +178,4 @@ body{margin: 0; background-color: #67ace4; font-family: "\5FAE\8F6F\96C5\9ED1"; 
 <div class="animate above"></div>
 
 <jsp:include page="../common/translate.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

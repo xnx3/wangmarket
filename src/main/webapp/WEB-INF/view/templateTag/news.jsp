@@ -48,92 +48,92 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{news.id}</td>
+						<td class="ignore">{news.id}</td>
 						<td>文章编号</td>
 						<td>整数</td>
-						<td>${news.id}</td>
+						<td class="ignore">${news.id}</td>
 					</tr>
 					<tr>
-						<td>{news.title}</td>
+						<td class="ignore">{news.title}</td>
 						<td>文章的标题</td>
 						<td>字符串</td>
 						<td>${news.title}</td>
 					</tr>
 					<tr>
-						<td>{news.titlepic}</td>
+						<td class="ignore">{news.titlepic}</td>
 						<td>文章的列表图</td>
-						<td>URL</td>
-						<td>例：<a href="http://cdn.weiunity.com/res/glyph-icons/world.png">http://cdn.weiunity.com/res/glyph-icons/world.png</a></td>
+						<td class="ignore">URL</td>
+						<td>例：<a href="http://cdn.weiunity.com/res/glyph-icons/world.png" class="ignore">http://cdn.weiunity.com/res/glyph-icons/world.png</a></td>
 					</tr>
 					<tr>
-						<td>{news.intro}</td>
+						<td class="ignore">{news.intro}</td>
 						<td>文章的简介</td>
 						<td>字符串</td>
-						<td>${news.intro}</td>
+						<td class="ignore">${news.intro}</td>
 					</tr>
 					<tr>
-						<td>{news.url}</td>
+						<td class="ignore">{news.url}</td>
 						<td>该文章页面的链接地址</td>
-						<td>URL</td>
-						<td>1234.html</td>
+						<td class="ignore">URL</td>
+						<td class="ignore">1234.html</td>
 					</tr>
 					<tr>
-						<td>{news.cid}</td>
+						<td class="ignore">{news.cid}</td>
 						<td>该文章所属栏目的编号</td>
 						<td>整数</td>
-						<td>${news.cid}</td>
+						<td class="ignore">${news.cid}</td>
 					</tr>
 					<tr>
-						<td>{news.text}</td>
+						<td class="ignore">{news.text}</td>
 						<td>文章内容</td>
-						<td>HTML</td>
+						<td class="ignore">HTML</td>
 						<td>（文章的内容详情）</td>
 					</tr>
 					<tr>
-						<td>{news.extend.photos}</td>
+						<td class="ignore">{news.extend.photos}</td>
 						<td>文章图集</td>
 						<td>字符串</td>
 						<td>（json格式的字符串，需要你自己用js在前端将其分解）</td>
 					</tr>
 					<tr>
-						<td>{news.extend.???}</td>
+						<td class="ignore">{news.extend.???}</td>
 						<td>自定义扩展标签。<a href="/templateTag/extend.do"
 							target="_black">点此查看更多</a></td>
 						<td>不限</td>
 						<td>根据自己需求随意扩展</td>
 					</tr>
 					<tr>
-						<td>{news.addtime}</td>
+						<td class="ignore">{news.addtime}</td>
 						<td>发布时间</td>
 						<td>字符串</td>
-						<td><x:time linuxTime="${news.addtime}" format="yyyy-MM-dd"></x:time></td>
+						<td class="ignore"><x:time linuxTime="${news.addtime}" format="yyyy-MM-dd"></x:time></td>
 					</tr>
 					<tr>
-						<td>{news.addtime.year}</td>
+						<td class="ignore">{news.addtime.year}</td>
 						<td>发布时间-年</td>
 						<td>整数</td>
 						<td>例：2019</td>
 					</tr>
 					<tr>
-						<td>{news.addtime.month}</td>
+						<td class="ignore">{news.addtime.month}</td>
 						<td>发布时间-月</td>
 						<td>整数</td>
 						<td>例：09</td>
 					</tr>
 					<tr>
-						<td>{news.addtime.day}</td>
+						<td class="ignore">{news.addtime.day}</td>
 						<td>发布时间-日</td>
 						<td>整数</td>
 						<td>例：03</td>
 					</tr>
 					<tr>
-						<td>{news.addtime.hour}</td>
+						<td class="ignore">{news.addtime.hour}</td>
 						<td>发布时间-时</td>
 						<td>整数</td>
 						<td>例：10</td>
 					</tr>
 					<tr>
-						<td>{news.addtime.minute}</td>
+						<td class="ignore">{news.addtime.minute}</td>
 						<td>发布时间-分</td>
 						<td>整数</td>
 						<td>例：23</td>
@@ -142,6 +142,5 @@
 			</table>
 		</div>
 	</div>
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
+	
 <jsp:include page="../common/translate.jsp"></jsp:include> 

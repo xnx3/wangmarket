@@ -49,64 +49,64 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{siteColumn.id}</td>
+						<td class="ignore">{siteColumn.id}</td>
 						<td>栏目的id</td>
 						<td>整数</td>
-						<td>${siteColumn.id}</td>
+						<td class="ignore">${siteColumn.id}</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.name}</td>
+						<td class="ignore">{siteColumn.name}</td>
 						<td>栏目的名字</td>
 						<td>字符串</td>
-						<td>${siteColumn.name}</td>
+						<td class="ignore">${siteColumn.name}</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.url}</td>
+						<td class="ignore">{siteColumn.url}</td>
 						<td>栏目的链接地址</td>
-						<td>URL</td>
-						<td>${siteColumn.url}(绝对路径)</td>
+						<td class="ignore">URL</td>
+						<td><span class="ignore">${siteColumn.url}</span>(绝对路径)</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.type}</td>
+						<td class="ignore">{siteColumn.type}</td>
 						<td>栏目的类型</td>
 						<td>整数</td>
-						<td>${siteColumn.type}</td>
+						<td >${siteColumn.type}</td>
 					</tr>
 					<tr>
 						<td>{siteColumn.used}</td>
 						<td>栏目是否启用/显示</td>
 						<td>整数</td>
-						<td>${siteColumn.used}</td>
+						<td class="ignore">${siteColumn.used}</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.codeName}</td>
+						<td class="ignore">{siteColumn.codeName}</td>
 						<td>栏目代码</td>
 						<td>字母</td>
-						<td>${siteColumn.codeName}</td>
+						<td class="ignore">${siteColumn.codeName}</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.parentCodeName}</td>
+						<td class="ignore">{siteColumn.parentCodeName}</td>
 						<td>当前栏目的父栏目代码</td>
 						<td>字母</td>
-						<td>${siteColumn.parentCodeName}如果当前栏目已经是顶级栏目，没有父栏目了，则这里返回的是上面的栏目代码</td>
+						<td><span class="ignore">${siteColumn.parentCodeName} </span>如果当前栏目已经是顶级栏目，没有父栏目了，则这里返回的是上面的栏目代码</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.icon}</td>
+						<td class="ignore">{siteColumn.icon}</td>
 						<td>栏目图片</td>
-						<td>URL</td>
-						<td><a href="${siteColumn.icon}">${siteColumn.icon}</a></td>
+						<td class="ignore">URL</td>
+						<td class="ignore"><a href="${siteColumn.icon}">${siteColumn.icon}</a></td>
 					</tr>
 					<tr>
-						<td>{siteColumn.keywords}</td>
+						<td class="ignore">{siteColumn.keywords}</td>
 						<td>SEO关键字</td>
 						<td>字符串</td>
-						<td>${siteColumn.keywords}</td>
+						<td class="ignore">${siteColumn.keywords}</td>
 					</tr>
 					<tr>
-						<td>{siteColumn.description}</td>
+						<td class="ignore">{siteColumn.description}</td>
 						<td>SEO描述</td>
 						<td>字符串</td>
-						<td>${siteColumn.description}</td>
+						<td class="ignore">${siteColumn.description}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -114,6 +114,4 @@
 	</div>
 </body>
 
-<!-- 隐藏语种切换按钮 -->
-<style> #translate{display:none;} </style>
 <jsp:include page="../common/translate.jsp"></jsp:include> 

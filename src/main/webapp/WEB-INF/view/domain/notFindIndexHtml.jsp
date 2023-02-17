@@ -66,3 +66,4 @@
 	</div>
 	
 <jsp:include page="../common/translate.jsp"></jsp:include> 
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>
