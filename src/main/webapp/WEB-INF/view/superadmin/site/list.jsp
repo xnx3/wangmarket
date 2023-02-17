@@ -161,4 +161,5 @@ function updateRemark(siteid, name, remark){
 	});
 }
 </script>
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

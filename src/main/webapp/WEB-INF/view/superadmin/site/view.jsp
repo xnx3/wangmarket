@@ -13,11 +13,11 @@
 	<tbody>
 		<tr>
 			<td class="iw_table_td_view_name">站点编号</td>
-			<td>${site.id }</td>
+			<td class="ignore">${site.id }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">站点名称</td>
-			<td>${site.name }</td>
+			<td class="ignore">${site.name }</td>
 		</tr>
 		<tr>
 			<td>网站类型</td>
@@ -26,35 +26,35 @@
 		
 		<tr>
 			<td class="iw_table_td_view_name">联系人</td>
-			<td>${site.username }</td>
+			<td class="ignore">${site.username }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">联系电话</td>
-			<td>${site.phone }</td>
+			<td class="ignore">${site.phone }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">站点QQ</td>
-			<td>${site.qq }</td>
+			<td class="ignore">${site.qq }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">二级域名</td>
-			<td><a href="http://${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>" target="_black">${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></a></td>
+			<td class="ignore"><a href="http://${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %>" target="_black">${site.domain }.<%=com.xnx3.wangmarket.admin.G.getFirstAutoAssignDomain() %></a></td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">绑定域名</td>
-			<td><a href="http://${site.bindDomain }" target="_black">${site.bindDomain }</a></td>
+			<td class="ignore"><a href="http://${site.bindDomain }" target="_black">${site.bindDomain }</a></td>
 		</tr>
 		<tr>
 			<td>公司名</td>
-			<td>${site.companyName }</td>
+			<td class="ignore">${site.companyName }</td>
 		</tr>
 		<tr>
 			<td>地址</td>
-			<td>${site.address }</td>
+			<td class="ignore">${site.address }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">建立时间</td>
-			<td><x:time linuxTime="${site['addtime'] }"></x:time></td>
+			<td class="ignore"><x:time linuxTime="${site['addtime'] }"></x:time></td>
 		</tr>
 	</tbody>
 </table>
@@ -75,4 +75,4 @@ function cancelLegitimate(id){
 }
 </script>
 
-<jsp:include page="../../iw/common/foot.jsp"></jsp:include>
+<jsp:include page="/wm/common/foot.jsp"></jsp:include> 

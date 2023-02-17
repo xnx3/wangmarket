@@ -19,11 +19,11 @@
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">标题</td>
-			<td>${news.title }</td>
+			<td class="ignore">${news.title }</td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">简介</td>
-			<td>${news.intro }</td>
+			<td class="ignore">${news.intro }</td>
 		</tr>
 	<!-- 	
 		<tr>

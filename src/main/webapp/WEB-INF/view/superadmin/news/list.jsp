@@ -44,7 +44,7 @@
 			<tr>
 				<td class="ignore" style="width:55px;">${news['id'] }</td>
 				<td class="ignore" onclick="userView(${news['userid'] });" style="cursor: pointer; width:55px;">${news['userid'] }</td>
-				<td onclick="newsView(${news['id']});" style="cursor: pointer; text-align:left;"><x:substring maxLength="30" text="${news['title'] }"></x:substring></td>
+				<td class="ignore" onclick="newsView(${news['id']});" style="cursor: pointer; text-align:left;"><x:substring maxLength="30" text="${news['title'] }"></x:substring></td>
 				<td style="width:60px;"><script type="text/javascript">document.write(type[${news['type']}]);</script></td>
 				<td style="width:60px; cursor: pointer;" onclick="newsView(${news['id']});"><script type="text/javascript">document.write(legitimate[${news['legitimate']}]);</script></td>
 				<td class="ignore" style="width:100px;"><x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time></td>
