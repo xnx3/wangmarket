@@ -606,7 +606,7 @@ public class AgencyUserController extends BaseController {
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
-		sql.setSelectFromAndPage("SELECT site.*, user.lasttime, user.username AS userusername  FROM site,user", page);
+		sql.setSelectFromAndPage("SELECT site.id, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, user.lasttime, user.username AS userusername  FROM site,user", page);
 		sql.appendWhere("user.id = site.userid");
 		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		sql.setDefaultOrderBy("site.expiretime ASC");
