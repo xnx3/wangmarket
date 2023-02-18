@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>5.7.6</version>
+  <version>5.7.7</version>
   <description>网市场云建站系统生成 wangmarket.jar 专用。生成方式为 mvn clean package -f jar.xml</description>
   
    <properties>
@@ -122,7 +122,7 @@
                 </executions>
             </plugin>
             <!-- GPG -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
@@ -134,7 +134,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>  -->
 	    </plugins>
 	    <resources>  
 	    	<!-- 将 resource/META-INF 下的配置文件拷贝到jar包 META-INF 目录下 -->  
@@ -185,13 +185,21 @@
 			<version>1.0</version>
 		</dependency>
 		
+		
+		<!-- ueditor编辑器 https://github.com/xnx3/ueditor-fileupload -->
+		<dependency> 
+		    <groupId>cn.zvo.fileupload</groupId>
+		    <artifactId>fileupload-framework-ueditor</artifactId>
+		    <version>1.0</version>
+		</dependency>
+	
 		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>2.28</version>  
+	        <version>2.29</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.28.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.29.jar</systemPath>  
 	    </dependency>
    </dependencies>  
    
