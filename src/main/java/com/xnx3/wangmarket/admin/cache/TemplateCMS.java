@@ -144,6 +144,14 @@ public class TemplateCMS {
 	}
 	
 	/**
+	 * 获取当前的 Site， v6.0 增加
+	 * @return
+	 */
+	public Site getSite() {
+		return this.site;
+	}
+	
+	/**
 	 * 赋予生成html文件存储到哪里的实现。
 	 * 不设置此接口，默认则是使用 AttachmentUtil 进行存储。设置此接口，可以自定义存储到指定ftp、obs、oss等
 	 * @param interfaceImpl 
