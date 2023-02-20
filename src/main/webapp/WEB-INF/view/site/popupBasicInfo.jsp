@@ -42,6 +42,14 @@
 	</div>
 	<div class="weui_cell">
 		<div class="weui_cell_bd weui_cell_primary">
+			<p>siteid</p>
+		</div>
+		<div class="weui_cell_ft ignore">
+			${site.id }
+		</div>
+	</div>
+	<div class="weui_cell">
+		<div class="weui_cell_bd weui_cell_primary">
 			<p>登陆账户</p>
 		</div>
 		<div class="weui_cell_ft ignore">
