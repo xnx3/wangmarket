@@ -12,7 +12,7 @@
 <!-- author:管雷鸣 -->
 <style>
 .list{
-	padding-left: 50px;
+	/*padding-left: 50px;*/
 }
 .list>div{
 	float:left;
@@ -20,7 +20,12 @@
 	padding:0.5%;
 }
 .list>div>div{
-	margin-bottom: 35px;
+	padding: 10px;
+	margin-bottom: 10px;
+	box-shadow: 0px 3px 6px #eee;
+}
+.list>div:last-child{
+
 }
 
 /*预览图*/
