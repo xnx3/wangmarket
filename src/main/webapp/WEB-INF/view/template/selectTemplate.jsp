@@ -20,7 +20,7 @@
 	padding:0.5%;
 }
 .list>div>div{
-	padding-bottom: 35px;
+	margin-bottom: 35px;
 }
 
 /*预览图*/
@@ -61,16 +61,32 @@
 }
 
 #template_type>a{
+	position: relative;
+	display: block;
+	width: 10%;
 	border:0px;
-	margin-left:10px;
 	font-size:16px;
+	margin-bottom: 10px;
+	font-weight: 300;
+	text-align: center;
+}
+#template_type{
+	display: flex;
+	flex-wrap: wrap;
 }
 #template_type>a:before{
+	position: absolute;
 	content: "|";
 	color: #946c6c;
-	padding-right: 12px;
+	left: -5%;
+	/*padding-right: 12px;*/
 	font-weight: 400;
 }
+
+#template_type>a:nth-child(10n+1):before{
+	content: "" !important;
+}
+
 .terminal{
 	font-size: 13px;
 	color: gray;
@@ -138,7 +154,7 @@ function typeClick(type){
 	$(".templateType").css("color","black");
 	
 	//将选中的这个设置颜色
-	document.getElementById('type_'+type).style.fontSize='19px';
+	document.getElementById('type_'+type).style.fontSize='16px';
 	document.getElementById('type_'+type).style.color='red';
 
 	document.getElementById("cloudList").innerHTML = '<div style="font-size: 30px;padding-top: 10%;color: lightgrey; text-align:center;width: 100%;box-sizing: border-box;">加载中...</div>';
@@ -312,8 +328,19 @@ function yindao(){
 
 //模板选择的引导
 if(SELECT_TEMPLATE_YINDAO_USE != '0'){
-	var msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
-	//layer.confirm(msgHtml, {icon: 0, title:'您是否是第一次使用本系统'}, yindao);
+
+	let msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
+	// let aa=layer.confirm(msgHtml, {icon: 0,btn: ['确认', '取消'], title:'您是否是第一次使用本系统'}, function (){
+	// 	layer.close(aa);
+	// 	console.log("使用");
+	// 	yindao();
+	// },function(){
+	//
+	// });
+	// msg.confirm(msgHtml,function(){
+	// 	alert('你点了确定');
+	// 	yindao();
+	// });
 	if(confirm(msgHtml)){
 		yindao();
 	}
