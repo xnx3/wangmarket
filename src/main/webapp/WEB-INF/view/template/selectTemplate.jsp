@@ -369,14 +369,12 @@ function yindao(){
 if(SELECT_TEMPLATE_YINDAO_USE != '0'){
 
 	let msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
-	let lay=layer.confirm(msgHtml, {icon: 0,btn: ['确认', '取消'], title:'您是否是第一次使用本系统'}, function (){
-		layer.close(lay);
+	msg.confirm(msgHtml,function(){
 		setTimeout(()=>{
 			yindao();
 		},50)
-	},function(){
-
 	});
+	
 }
 
 </script>
