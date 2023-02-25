@@ -11,9 +11,7 @@
 
 <!-- author:管雷鸣 -->
 <style>
-.list{
-	/*padding-left: 50px;*/
-}
+
 .list>div{
 	float:left;
 	width:24%;
@@ -21,17 +19,46 @@
 }
 .list>div>div{
 	padding: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 13px;
 	box-shadow: 0px 3px 6px #eee;
 }
-.list>div:last-child{
-
+.list>div>div>div{
+	margin-bottom: 5px;
+}
+.list>div>div>div:last-child{
+	margin-bottom: 0;
+}
+.list>div:last-child::after{
+	clear: both;
 }
 
+.img_view{
+	width: 100%;
+	height: 400px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+/*动画效果*/
+@keyframes scroll {
+	0%{
+		transform: translateY(0%);
+	}
+	50%{
+		transform: translateY(-50%);
+	}
+	100%{
+		transform: translateY(0%);
+	}
+}
+.img_view:hover .previewImg{
+	animation-name: scroll;
+	animation-duration: 5s;
+}
 /*预览图*/
 .previewImg{
 	width:100%;
-	cursor: pointer;
+	height: auto;
 }
 /*预览按钮*/
 .previewButton{
@@ -54,7 +81,7 @@
 /*模版名字，编号*/
 .templateName{
 	width:100%;
-	text-align:center;
+	font-size: 15px;
 	color:#2F4056;
 	padding-top: 8px;
 	cursor: pointer;
@@ -97,7 +124,14 @@
 	color: gray;
 }
 .terminal span{
-	padding:3px;
+	border: 1px solid #e7e7e7;
+	color: #696969;
+	white-space: nowrap;
+	font-size: 12px;
+	height: 22px;
+	padding: 3px 6px;
+	margin-right: 4px;
+	background: #f6f6f6;
 }
 </style>
 <body>
@@ -179,7 +213,7 @@ function typeClick(type){
 							previewPic = "/"+previewPic;
 						}
 						var temp = '<div class="temlate_item_'+to.name+'">'+
-									'<img src="'+ previewPic +'?x-oss-process=image/resize,w_300" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" />'+
+									'<div class="img_view"><img src="'+ previewPic +'?x-oss-process=image/resize,w_300" class="previewImg" onclick="useCloudTemplate(\''+to.name+'\');" /></div>'+
 									((to.previewUrl != null && to.previewUrl.length > 8)? '<div class="previewButton"><a href="javascript:window.open(\''+to.previewUrl+'\');" target="_black">点此预览</a></div>':'')+
 									'<div class="templateName" onclick="useCloudTemplate(\''+to.name+'\');">模版编码：'+to.name+'</div>'+
 									'<div class="terminal">访问支持：'+
@@ -335,20 +369,14 @@ function yindao(){
 if(SELECT_TEMPLATE_YINDAO_USE != '0'){
 
 	let msgHtml = '如果第一次使用，强烈建议开启操作引导，帮您2分钟快速熟悉如何使用！';
-	// let aa=layer.confirm(msgHtml, {icon: 0,btn: ['确认', '取消'], title:'您是否是第一次使用本系统'}, function (){
-	// 	layer.close(aa);
-	// 	console.log("使用");
-	// 	yindao();
-	// },function(){
-	//
-	// });
-	// msg.confirm(msgHtml,function(){
-	// 	alert('你点了确定');
-	// 	yindao();
-	// });
-	if(confirm(msgHtml)){
-		yindao();
-	}
+	let lay=layer.confirm(msgHtml, {icon: 0,btn: ['确认', '取消'], title:'您是否是第一次使用本系统'}, function (){
+		layer.close(lay);
+		setTimeout(()=>{
+			yindao();
+		},50)
+	},function(){
+
+	});
 }
 
 </script>
