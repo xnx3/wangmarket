@@ -66,8 +66,8 @@
 
 * **wangmarket CMS核心支持**，本CMS功能的核心支持，比如栏目管理、内容管理、模板管理、域名绑定等功能。[https://gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)
 * **wm开发框架**，CMS的底层技术框架支持，像是数据库操作、缓存、权限等。[开源仓库：http://gitee.com/leimingyun/wm](http://gitee.com/leimingyun/wm)  |  [使用文档](http://wm.zvo.cn)
-* **开源的功能插件**，所支持的一系列功能插件，如万能表单、文件管理、客服、网站分离、等等。[查看仓库](https://search.gitee.com/?q=wangmarket_plugin_&type=repository)
-  **文件上传组件**，两行代码实现文件上传。2 分钟对接使用，从此无论本地存储、分布式存储、对象存储……都是完全一样的代码调用！ 它赋予你各种存储随便切换随便用的能力，而无需动项目代码。 [开源仓库&使用方式](https://gitee.com/mail_osc/FileUpload)
+* **开源的功能插件**，所支持的一系列功能插件，如万能表单、文件管理、客服、网站分离、等等。[查看仓库](https://search.gitee.com/?q=wangmarket_plugin_&type=repository)  
+* **文件上传组件**，两行代码实现文件上传。2 分钟对接使用，从此无论本地存储、分布式存储、对象存储……都是完全一样的代码调用！ 它赋予你各种存储随便切换随便用的能力，而无需动项目代码。 [开源仓库&使用方式](https://gitee.com/mail_osc/FileUpload)
 * **日志组件**，日志存储及读取，快速实现写日志、读取日志，大量日志数据的持久化存储。 [开源仓库&使用方式](https://gitee.com/mail_osc/log)
 * **网络请求组件**，java8+，几 KB，无三方依赖的 http、https 请求工具。[开源仓库&使用方式](https://gitee.com/mail_osc/http.java)
 * **消息提醒msg.js**，轻量级 js 消息提醒组件，加载中、成功提示、失败提示等，引入 msg.js，一句调用，不依赖任何三方 js。[https://gitee.com/mail_osc/msg](https://gitee.com/mail_osc/msg)
