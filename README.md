@@ -1,4 +1,4 @@
-私有化部署自己的 SAAS 云建站系统，可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。延续了织梦、帝国 CMS 的模版方式，性能高度优化，一台 1 核 1G 服务器可建立上万个独立网站。
+私有化部署自己的 SAAS 云建站系统，跟可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。延续了织梦、帝国 CMS 的模版方式，性能高度优化，一台 1 核 1G 服务器可建立上万个独立网站。
 网站使用方面，有模版页面、模版变量、栏目绑定模版、内容管理等，用过帝国、织梦的，可快速使用！
 
 ## 核心理念
@@ -34,11 +34,12 @@
 | [多个域名绑定](http://www.wang.market/19572.html) | [子账号管理网站](http://www.wang.market/13811.html) | [本地私有模版库](http://www.wang.market/10121.html) | [网站开放API](http://www.wang.market/10106.html) |
 | [网站一键转移](http://www.wang.market/10104.html) | [网站侧边客服](http://www.wang.market/10103.html) | [万能表单反馈](http://www.wang.market/10068.html) | …… |
 
+[点此查看功能清单](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=7696708)
+
 ## 安装部署
 
-根据上云不同，以及购买服务器方式不同、用途不同，我们提供了几种不同的安装方式，来应对不同的场景。
-其中最省事的当数[华为云官网提供的一键安装部署](https://www.huaweicloud.com/solution/implementations/build-a-cms-based-on-open-source-wangmarket.html)的方式。（我们系统因优异表现被华为云官方收纳作为建站服务商的官方解决方案），您无需任何服务器等知识，只需进行填空，下一步、完成，即可自行完成整个安装。
-另外我们还针对其他云、自建机房、以及Windows用户提供了相应的一键部署方式，您可选择适合自身的方式进行安装部署。
+推荐采用华为云部署方式，采用华为云1MB带宽服务器+OBS+CDN，新用户活动方式购买，一年只需几十块钱，性能及速度飞快，可搭建上万网站。我们帮安装及授权用户的安装方式也都是这种方式，结合华为云最新技术，让你花最少的钱，获得最好的使用服务。
+
 [点此查看各种部署方式及步骤说明](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=6000929)
 
 ## 入门使用
@@ -66,8 +67,8 @@
 
 * **wangmarket CMS核心支持**，本CMS功能的核心支持，比如栏目管理、内容管理、模板管理、域名绑定等功能。[https://gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)
 * **wm开发框架**，CMS的底层技术框架支持，像是数据库操作、缓存、权限等。[开源仓库：http://gitee.com/leimingyun/wm](http://gitee.com/leimingyun/wm)  |  [使用文档](http://wm.zvo.cn)
-* **开源的功能插件**，所支持的一系列功能插件，如万能表单、文件管理、客服、网站分离、等等。[查看仓库](https://search.gitee.com/?q=wangmarket_plugin_&type=repository)  
-* **文件上传组件**，两行代码实现文件上传。2 分钟对接使用，从此无论本地存储、分布式存储、对象存储……都是完全一样的代码调用！ 它赋予你各种存储随便切换随便用的能力，而无需动项目代码。 [开源仓库&使用方式](https://gitee.com/mail_osc/FileUpload)
+* **开源的功能插件**，所支持的一系列功能插件，如万能表单、文件管理、客服、网站分离、等等。[查看仓库](https://search.gitee.com/?q=wangmarket_plugin_&type=repository)
+  **文件上传组件**，两行代码实现文件上传。2 分钟对接使用，从此无论本地存储、分布式存储、对象存储……都是完全一样的代码调用！ 它赋予你各种存储随便切换随便用的能力，而无需动项目代码。 [开源仓库&使用方式](https://gitee.com/mail_osc/FileUpload)
 * **日志组件**，日志存储及读取，快速实现写日志、读取日志，大量日志数据的持久化存储。 [开源仓库&使用方式](https://gitee.com/mail_osc/log)
 * **网络请求组件**，java8+，几 KB，无三方依赖的 http、https 请求工具。[开源仓库&使用方式](https://gitee.com/mail_osc/http.java)
 * **消息提醒msg.js**，轻量级 js 消息提醒组件，加载中、成功提示、失败提示等，引入 msg.js，一句调用，不依赖任何三方 js。[https://gitee.com/mail_osc/msg](https://gitee.com/mail_osc/msg)
@@ -98,7 +99,7 @@
 * **2016年**，发布第一个成熟稳定的完全重构后的商业版本 wangmarket v1.0
 * **2018年**，将源码开源，在当年 [开源中国2018年度数据报告中，最热门开源项目中排第八，前10中仅有我们一个是CMS建站方面](https://gitee.com/2018annual)
 * **2019年**，在开源中国的CMS建站系统开源项目中，排全国第二。
-* **2022年**，[华为云纳入官网解决方案](https://www.huaweicloud.com/solution/implementations/build-a-cms-based-on-open-source-wangmarket.html)
+* **2022年**，跟华为云各服务组件深度结合，极大降低系统性能消耗，使上云综合成本缩减数倍。同时也被 [华为云纳入官网解决方案](https://www.huaweicloud.com/solution/implementations/build-a-cms-based-on-open-source-wangmarket.html)
 
 ## 版权方面
 
@@ -106,10 +107,13 @@
 我们允许你完全可以将它来进行商用盈利，但请在 [网站管理后台保留我们的版权标识](https://e.gitee.com/leimingyun/doc/share/78815f06cd4554b7/?sub_id=6000930) 不要删掉。
 2022年是相对艰难的一年，我们建议大中型企业购买企业授权，提供更好的服务支持，小微、初创企业及工作室，用开源版本的就足够，创业不易，更应相互扶持，同时为国家贡献自己的一份力量，为本地就业做贡献！
 
-## 联系我们
+## 交流反馈
+
+如果您使用中遇到问题，可 [点此提交疑问寻求解答](https://gitee.com/mail_osc/wangmarket/issues/new?issue%5Bassignee_id%5D=0&issue%5Bmilestone_id%5D=0)  我们会每天有几个时间阶段进行查看并统一进行回复
+
+## 关于我们
 
 作者：管雷鸣
 微信：xnx3com
 QQ群：740332119
 微信公众号：wangmarket
-开源仓库：[https://gitee.com/mail_osc/wangmarket](https://gitee.com/mail_osc/wangmarket)
