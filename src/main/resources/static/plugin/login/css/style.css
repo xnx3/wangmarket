@@ -1,0 +1,337 @@
+/*
+Author: W3layouts
+Author URL: http://w3layouts.com
+ */
+ html {
+    scroll-behavior: smooth;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.d-grid {
+    display: grid;
+}
+
+.d-flex {
+    display: flex;
+    display: -webkit-flex;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+button,
+input,
+select {
+    -webkit-appearance: none;
+    outline: none;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+button,
+.btn,
+select {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul {
+    margin: 0;
+    padding: 0
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    padding: 0
+}
+
+p {
+    color: #fff;
+    font-size: 16px;
+    line-height: 25px;
+    opacity: .9;
+    text-align: center;
+}
+
+.p-relative {
+    position: relative;
+}
+
+.p-absolute {
+    position: absolute;
+}
+
+.p-fixed {
+    position: fixed;
+}
+
+.p-sticky {
+    position: sticky;
+}
+
+.btn,
+button,
+.actionbg,
+input {
+    border-radius: 36px;
+    -webkit-border-radius: 36px;
+    -moz-border-radius: 36px;
+    -o-border-radius: 36px;
+    -ms-border-radius: 36px;
+}
+
+.btn:hover,
+button:hover {
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+}
+
+/*-- wrapper start --*/
+.wrapper {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .wrapper {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .wrapper {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .wrapper {
+        max-width: 1140px;
+    }
+}
+
+.wrapper-full {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/*-- //wrapper start --*/
+
+/*-- form styling --*/
+.w3lvide-content{
+    width:100%;
+   height:100vh;
+    position: relative;
+    z-index:0;
+  }
+  .w3lvide-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    min-height: 100%;
+    background-color: rgb(0 0 0 / 60%);
+  }
+  video,
+div video {
+    z-index:1!important;
+  }
+
+.workinghny-form-grid {
+    position: absolute;
+    z-index: 9;
+    left: 0;
+    right: 0;
+    top: 20%;
+    margin: 0 auto;
+  
+}
+.workinghny-form-grid .main-hotair{
+    max-width: 400px;
+    margin: 0 auto;
+}
+.w3l-workinghny-form .logo {
+    text-align: center;
+}
+.content-wthree h1 {
+    font-size: 23px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.content-wthree input{
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #999;
+    text-align: left;
+    padding: 14px 20px;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: #f7fafc;
+    border: 1px solid #e5e5e5;
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -ms-transition: .3s ease;
+    -o-transition: .3s ease;
+}
+.content-wthree input:focus {
+    background:transparent;
+    border: 1px solid #fff;
+}
+.content-wthree button {
+    font-size: 18px;
+    color: #fff;
+    width: 100%;
+    background: #ff6d00;
+    border: none;
+    padding: 16px 15px;
+    font-weight: 700;
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -ms-transition: .3s ease;
+    -o-transition: .3s ease;
+    display: inline-block;
+}
+
+.content-wthree button:hover {
+    opacity:0.8;
+}
+p.continue {
+    margin: 30px 0 20px 0;
+}
+.social-login {
+    text-align: center;
+}
+.social-login a span.fa {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    margin-right: 18px;
+}
+
+.social-login a span.fa:hover {
+    color: #ff6d00;
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+}
+.copyright {
+    margin-top: 20px;
+    padding: 2em 0;
+}
+.copyright p {
+    text-align: center;
+    font-size: 17px;
+    line-height: 26px;
+    color: #fff;
+    opacity: 1;
+}
+
+p.copy-footer-29 a {
+    color: #fff;
+}
+
+p.copy-footer-29 a:hover {
+    color:#fdc500;
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -ms-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+}
+
+
+/* -- placeholder --*/
+
+
+/*-- responsive design --*/
+
+@media (max-width:800px) {
+    .workinghny-form-grid {
+        top: 14%;
+        margin: 0 auto;
+    }
+    .copyright p {
+        padding:0 10px;
+    }
+}
+
+@media (max-width:568px) {
+    .workinghny-form-grid {
+        top: 10%;
+        margin: 0 auto;
+    }
+    .workinghny-form-grid .main-hotair {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 415px) {
+
+}
+
+@media (max-width:384px) {
+  
+
+}
+
+/*-- //responsive design --*/
+/*-- //form styling --*/
