@@ -160,6 +160,85 @@ body{
 					<button id="liebiaoduyou" onclick="popupTemplateTagHelp('列表页独有','/templateTag/list.do#%E8%AF%A6%E6%83%85%E9%A1%B5%E7%8B%AC%E6%9C%89%E6%A0%87%E7%AD%BE','670', '425');">列表页独有</button>
 			</div>
 		</div>
+		<style>
+			.headerBar{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 100%;
+				height: 60px;
+				background-color: #FAFAFA;
+				padding: 0 10px 0 20px;
+				box-sizing: border-box;
+				border-bottom: 1px solid whitesmoke;
+			}
+			.headerBar .layui-nav{
+				background-color: #FAFAFA !important;
+			}
+			.headerBar .layui-nav-item{
+				background-color: #FAFAFA;
+				color: #0C1206;
+				/*line-height: 55px;*/
+			}
+			.headerBar .layui-nav .layui-nav-item a {
+				color: #0C1206;
+			}
+			.header_right>ul>#translate {
+				display: inline;
+			}
+			.headerBar .layui-nav .layui-nav-bar{
+				top: 0 !important;
+				height: 0 !important;
+			}
+			.headerBar .layui-nav .layui-this:after{
+				width: 0 !important;
+			}
+			.headerBar .layui-nav .layui-nav-more{
+				border-top-color: rgba(0,0,0,.7) !important;
+			}
+			.headerBar .layui-nav .layui-nav-mored{
+				transform: rotate(180deg);
+			}
+			.headerBar .layui-nav .layui-nav-child dd.layui-this a,.headerBar .layui-nav-child dd.layui-this {
+				 background-color: #fff;
+				 color: #0C1206;
+			}
+			.headerBar #exit-fullscreen{
+				display: none;
+			}
+		</style>
+		<div class="headerBar">
+			<div class="header_left">
+				<a id="showHiddenLeftMenu" href="javascript:zoomLeftMenu();">
+					<i class="layui-icon" id="showHiddenLeftMenu_icon2">&#xe668;</i>
+					<span class=""></span>
+				</a>
+			</div>
+			<div class="header_right">
+				<ul class="layui-nav">
+					<li class="layui-nav-item" id="translate">
+					</li>
+					<li class="layui-nav-item layui-hide-xs" >
+						<a class="layui-icon layui-icon-screen-full" id="full-screen"></a>
+						<a class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
+					</li>
+					<li class="layui-nav-item layui-hide-xs">
+						<a href="javascript:window.open('/sites/sitePreview.do');" class="layui-icon layui-icon-website"></a>
+					</li>
+					<li class="layui-nav-item">
+						<a class="layui-icon layui-icon-username" href="javascript:;">
+							${user.username }
+								<i class="layui-icon layui-icon-down layui-nav-more"></i>
+						</a>
+						<dl class="layui-nav-child">
+							<dd><a href="javascript:updatePassword();">修改密码</a></dd>
+							<dd><a href="../user/logout.do" class="">退出登录</a></dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+
 		<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 38px;box-sizing: border-box;"></iframe>
 		<div id="htmlMode" style="width:100%;height:100%; display:none; padding-bottom: 38px;box-sizing: border-box;">
 			<style>
@@ -637,7 +716,7 @@ function zoomLeftMenu(){
 		
 		//左下角的缩放按钮
 		document.getElementById("showHiddenLeftMenu_icon").innerHTML = '&#xe603;';
-		
+		document.getElementById("showHiddenLeftMenu_icon2").innerHTML = '&#xe668;';
 		currentZoomOut = false;
 	}else{
 		//缩小菜单时，会将菜单内容隐去，菜单图标扩大
@@ -704,7 +783,7 @@ function zoomLeftMenu(){
 		
 		//左下角的缩放按钮
 		document.getElementById("showHiddenLeftMenu_icon").innerHTML = '&#xe602;';
-		
+		document.getElementById("showHiddenLeftMenu_icon2").innerHTML = '&#xe66b;';
 		currentZoomOut = true;
 	}
 }
@@ -892,4 +971,74 @@ function yindaoStart(){
 
 ${pluginAppendHtml}
 
-<jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<jsp:include page="/wm/common/foot.jsp"></jsp:include>
+
+<%--全屏切换--%>
+<script>
+	(function () {
+		var viewFullScreen = document.getElementById("full-screen");
+		if (viewFullScreen) {
+			viewFullScreen.addEventListener("click", function () {
+				viewFullScreen.style.display="none"
+				cancelFullScreen.style.display="block"
+				var docElm = document.documentElement;
+				if (docElm.requestFullscreen) {
+					docElm.requestFullscreen();
+				}
+				else if (docElm.msRequestFullscreen) {
+					docElm.msRequestFullscreen();
+				}
+				else if (docElm.mozRequestFullScreen) {
+					docElm.mozRequestFullScreen();
+				}
+				else if (docElm.webkitRequestFullScreen) {
+					docElm.webkitRequestFullScreen();
+				}
+			}, false);
+		}
+
+		var cancelFullScreen = document.getElementById("exit-fullscreen");
+		if (cancelFullScreen) {
+			cancelFullScreen.addEventListener("click", function () {
+				viewFullScreen.style.display="block"
+				cancelFullScreen.style.display="none"
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				}
+				else if (document.msExitFullscreen) {
+					document.msExitFullscreen();
+				}
+				else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				}
+				else if (document.webkitCancelFullScreen) {
+					document.webkitCancelFullScreen();
+				}
+			}, false);
+		}
+
+
+		var fullscreenState = document.getElementById("fullscreen-state");
+		if (fullscreenState) {
+			document.addEventListener("fullscreenchange", function () {
+				fullscreenState.innerHTML = (document.fullscreenElement) ? "" : "not ";
+			}, false);
+
+			document.addEventListener("msfullscreenchange", function () {
+				fullscreenState.innerHTML = (document.msFullscreenElement) ? "" : "not ";
+			}, false);
+
+			document.addEventListener("mozfullscreenchange", function () {
+				fullscreenState.innerHTML = (document.mozFullScreen) ? "" : "not ";
+			}, false);
+
+			document.addEventListener("webkitfullscreenchange", function () {
+				fullscreenState.innerHTML = (document.webkitIsFullScreen) ? "" : "not ";
+			}, false);
+		}
+
+	})();
+</script>
+
+
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.2rem!important;border-radius: 30px;transform: translateY(-6px);font-size: 14px} </style>
