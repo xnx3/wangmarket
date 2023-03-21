@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/plugin/login/css/font-awesome.min.css" type="text/css" media="all">
 
 
-    <div id="block" class="w3lvide-content" data-vide-bg="images/freelan" data-vide-options="position: 0% 50%">
+    <div id="block" class="w3lvide-content" data-vide-bg="/plugin/login/images/freelan" data-vide-options="position: 0% 50%">
             <!-- /form -->
             <div class="workinghny-form-grid">
                 <div class="main-hotair">
@@ -37,9 +37,11 @@
                         <form action="#" method="post">
                             <input type="text" class="text" name="username" value="<%=username %>" placeholder="请输入 用户名/邮箱" required  lay-verify="required" autocomplete="off">
                             <input type="password" class="password" name="password" value="<%=password %>" placeholder="请输入密码"  required  lay-verify="required" autocomplete="off">
-                            <input type="text" class="text" name="code" placeholder="请输入下方验证码"  required  lay-verify="required" autocomplete="off">
-                            <div class="layui-form-mid layui-word-aux" style="padding-top: 3px;padding-bottom: 0px;"><img id="code" src="captcha.do" onclick="reloadCode();" style="height: 29px;width: 110px; margin:auto; cursor: pointer;" /></div>
-                            
+                            <div style="position: relative">
+                                <input type="text" class="text" name="code" placeholder="请输入右边验证码"  required  lay-verify="required" autocomplete="off" style="display: block">
+                                <div class="layui-word-aux codeBox" style="padding-top: 3px;padding-bottom: 0px;"><img id="code" src="captcha.do" onclick="reloadCode();" style="margin-top: 18px; cursor: pointer;" /></div>
+                            </div>
+
                             <div class="layui-form-item" style="display:none">
                                 <label class="layui-form-label">记住密码</label>
                                     <div class="layui-input-block">
@@ -48,7 +50,7 @@
                             </div>
                             
                             <button class="btn" type="submit" lay-submit lay-filter="formDemo">立即登陆</button>
-                            <button type="reset" class="btn" style="margin-top:10px">重置</button>
+<%--                            <button type="reset" class="btn" style="margin-top:10px">重置</button>--%>
                         </form>
 
                     </div>
@@ -65,9 +67,9 @@
     </div>
     <!-- //form section start -->
       <!-- js -->
-  <script src="js/jquery.min.js"></script>
+  <script src="/plugin/login/js/jquery.min.js"></script>
   <!-- //js -->
-  <script src="js/jquery.vide.js"></script>
+  <script src="/plugin/login/js/jquery.vide.js"></script>
 <script>
 //Demo
 layui.use('form', function(){

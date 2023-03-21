@@ -335,3 +335,19 @@ p.copy-footer-29 a:hover {
 
 /*-- //responsive design --*/
 /*-- //form styling --*/
+
+
+.codeBox{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 30%;
+    background-color: #f7fafc;
+    border-radius: 0 36px 36px 0;
+    -webkit-border-radius: 0 36px 36px 0;
+    -moz-border-radius: 0 36px 36px 0;
+    -o-border-radius: 0 36px 36px 0;
+    -ms-border-radius: 0 36px 36px 0;
+    overflow: hidden;
+}
