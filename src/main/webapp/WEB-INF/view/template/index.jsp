@@ -219,8 +219,8 @@ body{
 					<li class="layui-nav-item" id="translate">
 					</li>
 					<li class="layui-nav-item layui-hide-xs" >
-						<i class="layui-icon layui-icon-screen-full" id="full-screen"></i>
-						<i class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></i>
+						<a class="layui-icon layui-icon-screen-full" id="full-screen"></a>
+						<a class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
 					</li>
 					<li class="layui-nav-item layui-hide-xs">
 						<a href="javascript:window.open('/sites/sitePreview.do');" class="layui-icon layui-icon-website"></a>
