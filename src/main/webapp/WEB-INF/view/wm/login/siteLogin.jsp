@@ -59,8 +59,8 @@
            
      
         <!-- copyright-->
-        <div class="copyright text-center" style="padding-top:3rem;">
-            <p class="copy-footer-29">power by <a href="http://cms.zvo.cn" target="_black">wangmarket CMS </a></p>
+        <div class="copyright text-center" style="padding-top:1rem;">
+            <p class="copy-footer-29" style="font-size: 12px; color: gray;">power by <a href="http://cms.zvo.cn" target="_black" style="color: gray;">wangmarket CMS </a></p>
         </div>
        </div>
         <!-- //copyright-->
