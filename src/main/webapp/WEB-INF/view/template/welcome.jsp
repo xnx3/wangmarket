@@ -118,9 +118,8 @@ try{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
 		String nowYear = df.format(d);
 %>
-<div style="position: fixed;bottom: 5px;color: gray;font-size: 12px;text-align: center;width: 100%;">Copyright © 2016-<%=nowYear %> <a href="http://www.wang.market" style="color: gray;" target="_black">网市场云建站系统</a></div>
+<div style="position: fixed;bottom: 5px;color: gray;font-size: 12px;text-align: center;width: 100%;"><a href="http://cms.zvo.cn" style="color: gray;" target="_black">Copyright © 2016-<%=nowYear %> ,  power by wangmarket CMS</a></div>
 <% } %>
 
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>

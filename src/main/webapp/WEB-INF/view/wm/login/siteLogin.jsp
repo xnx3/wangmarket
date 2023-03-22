@@ -1,3 +1,6 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="com.xnx3.wangmarket.Authorization"%>
 <%@page import="com.xnx3.j2ee.util.SafetyUtil"%>
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -58,10 +61,21 @@
                 </div>
            
      
-        <!-- copyright-->
-        <div class="copyright text-center" style="padding-top:1rem;">
-            <p class="copy-footer-29" style="font-size: 12px; color: gray;">power by <a href="http://cms.zvo.cn" target="_black" style="color: gray;">wangmarket CMS </a></p>
-        </div>
+        <!-- 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！否则将追究法律责任。授权参见：http://www.wang.market/price.html -->
+		<% if(Authorization.copyright){ 
+				Date d = new Date();
+				SimpleDateFormat df = new SimpleDateFormat("yyyy");
+				String nowYear = df.format(d);
+		%>
+			 <!-- copyright-->
+	        <div class="copyright text-center" style="padding-top:1rem;">
+	            <p class="copy-footer-29" style="font-size: 12px; color: gray;"><a href="http://cms.zvo.cn" target="_black" style="color: gray;">Copyright © 2016-<%=nowYear %>,  power by wangmarket CMS </a></p>
+	        </div>
+		<% } %>
+		
+		        
+        
+        
        </div>
         <!-- //copyright-->
     </div>
