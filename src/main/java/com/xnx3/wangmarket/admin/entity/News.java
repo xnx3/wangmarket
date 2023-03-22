@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * News entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "news", indexes={@Index(name="suoyin_index",columnList="userid,addtime,type,status,cid,siteid")})
+@Table(name = "news", indexes={@Index(name="suoyin_index",columnList="userid,addtime,type,status,cid,siteid,html_name")})
 public class News implements java.io.Serializable {
 	
 	/**
@@ -61,6 +61,7 @@ public class News implements java.io.Serializable {
 	private Integer cid;			//所属栏目id，对应site_column.id
 	private Integer siteid;		//所属站点，对应site.id
 	private Short legitimate;	//是否是合法的，1是，0不是，涉嫌
+	private String htmlName;			//要生成的html文件的名字。比如这里的值为 abc ，那么生成整站时，该页面的url访问路径便是 abc.html  
 	
 	//以下两个为预留字段，可以通过输入模型进行扩展
 	private String reserve1;
@@ -236,6 +237,15 @@ public class News implements java.io.Serializable {
 			reserve2 = reserve2.substring(0, 10);
 		}
 		this.reserve2 = reserve2;
+	}
+	
+	@Column(name = "html_name", columnDefinition="char(50) COMMENT '要生成的html文件的名字。比如这里的值为 abc ，那么生成整站时，该页面的url访问路径便是 abc.html  '")
+	public String getHtmlName() {
+		return htmlName;
+	}
+
+	public void setHtmlName(String htmlName) {
+		this.htmlName = htmlName;
 	}
 
 	@Override
