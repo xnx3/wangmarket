@@ -240,7 +240,7 @@ public class SiteController extends BaseController {
 		model.addAttribute("site", getSite());
 		
 		ActionLogUtil.insert(request, "查看我的站点属性信息");
-		siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
+		//siteService.getTemplateCommonHtml(getSite(), "站点属性", model);
 		return "site/popupBasicInfo";
 	}
 
