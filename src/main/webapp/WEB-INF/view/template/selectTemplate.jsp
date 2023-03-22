@@ -380,4 +380,3 @@ if(SELECT_TEMPLATE_YINDAO_USE != '0'){
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>
