@@ -36,7 +36,13 @@
             <div class="workinghny-form-grid">
                 <div class="main-hotair">
                     <div class="content-wthree">
-                        <h1><%=Global.get("SITE_NAME") %> 平台登陆</h1>
+                        <h1><span style="
+    font-family: 'Pacifico', cursive;
+    font-size: 50px;
+    color: #fff;
+    letter-spacing: 5px;
+    text-align: center;
+"><%=Global.get("SITE_NAME") %></span></h1>
                         <form action="#" method="post">
                             <input type="text" class="text" name="username" value="<%=username %>" placeholder="请输入 用户名/邮箱" required  lay-verify="required" autocomplete="off">
                             <input type="password" class="password" name="password" value="<%=password %>" placeholder="请输入密码"  required  lay-verify="required" autocomplete="off">
@@ -155,4 +161,4 @@ if(navigator.userAgent.indexOf('Chrome') == -1){
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; } </style>
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block;background-color: transparent;color: #FAFAFA } </style>
