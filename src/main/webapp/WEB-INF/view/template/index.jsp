@@ -167,16 +167,18 @@ body{
 				justify-content: space-between;
 				width: 100%;
 				height: 60px;
-				background-color: #FAFAFA;
+				background-color: #FFFFFF;
 				padding: 0 10px 0 20px;
 				box-sizing: border-box;
 				border-bottom: 1px solid whitesmoke;
+				-webkit-box-shadow: 0 1px 4px rgba(0,21,41,.08);
+				box-shadow: 0 1px 4px rgba(0,21,41,.08);
 			}
 			.headerBar .layui-nav{
-				background-color: #FAFAFA !important;
+				background-color: #FFFFFF !important;
 			}
 			.headerBar .layui-nav-item{
-				background-color: #FAFAFA;
+				background-color: #FFFFFF;
 				color: #0C1206;
 				/*line-height: 55px;*/
 			}
@@ -206,6 +208,30 @@ body{
 			.headerBar #exit-fullscreen{
 				display: none;
 			}
+
+			.iframe_wrap{
+				width: 100%;
+				height: calc(100% - 60px);
+				padding: 10px;
+				background-color: #f2f2f2;
+				box-sizing: border-box;
+			}
+			iframe{
+				background-color: #FFFFFF;
+				border-radius: 4px;
+			}
+			select {
+				/* 鼠标移上，变小手 */
+				cursor: pointer;
+				padding: 0 10px;
+				/* 清除默认的箭头样式 */
+				appearance: none;
+				-moz-appearance: none;
+				-webkit-appearance: none;
+				/* 右侧添加箭头的背景图  自行调整位置 */
+				background: url('/plugin/login/images/xiala.png') 70px center no-repeat ;
+				background-size: 16px;
+			}
 		</style>
 		<div class="headerBar">
 			<div class="header_left">
@@ -219,11 +245,11 @@ body{
 					<li class="layui-nav-item" id="translate">
 					</li>
 					<li class="layui-nav-item layui-hide-xs" >
-						<a class="layui-icon layui-icon-screen-full" id="full-screen"></a>
-						<a class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
+						<a href="javascript:;" onmouseover="show('进入全屏','full-screen')" onmouseleave="close_tips()" class="layui-icon layui-icon-screen-full" id="full-screen"></a>
+						<a href="javascript:;" onmouseover="show('退出全屏','exit-fullscreen')" onmouseleave="close_tips()" class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
 					</li>
 					<li class="layui-nav-item layui-hide-xs">
-						<a href="javascript:window.open('/sites/sitePreview.do');" class="layui-icon layui-icon-website"></a>
+						<a href="javascript:window.open('/sites/sitePreview.do');" onmouseover="show('预览网站','website')" onmouseleave="close_tips()" id="website" class="layui-icon layui-icon-website"></a>
 					</li>
 					<li class="layui-nav-item">
 						<a class="layui-icon layui-icon-username" href="javascript:;">
@@ -239,7 +265,10 @@ body{
 			</div>
 		</div>
 
-		<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 38px;box-sizing: border-box;"></iframe>
+
+		<div class="iframe_wrap">
+			<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 38px;box-sizing: border-box;"></iframe>
+		</div>
 		<div id="htmlMode" style="width:100%;height:100%; display:none; padding-bottom: 38px;box-sizing: border-box;">
 			<style>
 				.CodeMirror-linenumber{
@@ -1039,6 +1068,14 @@ ${pluginAppendHtml}
 
 	})();
 </script>
+<%--顶部nav提示tip--%>
+<script>
+	function show(msg, id){
+		layer.tips(''+ msg, '#'+id, {tips: [1,'#10a6a8']});
+	}
+	function close_tips(){
+		layer.closeAll('tips');
+	}
+</script>
 
-
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.2rem!important;border-radius: 30px;transform: translateY(-6px);font-size: 14px} </style>
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.6rem!important;border-radius: 30px;transform: translateY(-4px);font-size: 12px} </style>
