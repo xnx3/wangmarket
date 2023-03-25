@@ -26,12 +26,12 @@
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link href="/plugin/login/css/Noto-Sans_JP.css" rel="stylesheet">
-    <link rel="stylesheet" href="/plugin/login/css/style.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="/plugin/login/css/font-awesome.min.css" type="text/css" media="all">
+    <!-- <link href="${STATIC_RESOURCE_PATH}plugin/login/css/Noto-Sans_JP.css" rel="stylesheet">  -->
+    <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}plugin/login/css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}plugin/login/css/font-awesome.min.css" type="text/css" media="all">
 
 
-    <div id="block" class="w3lvide-content" data-vide-bg="/plugin/login/images/freelan" data-vide-options="position: 0% 50%">
+    <div id="block" class="w3lvide-content" data-vide-bg="${STATIC_RESOURCE_PATH}plugin/login/images/freelan" data-vide-options="position: 0% 50%">
             <!-- /form -->
             <div class="workinghny-form-grid">
                 <div class="main-hotair">
@@ -89,6 +89,10 @@
       <!-- js -->
   <script src="/plugin/login/js/jquery.min.js"></script>
   <!-- //js -->
+  <script>
+  	var STATIC_RESOURCE_PATH = '${STATIC_RESOURCE_PATH}';
+  	//STATIC_RESOURCE_PATH = '/';
+  </script>
   <script src="/plugin/login/js/jquery.vide.js"></script>
 <script>
 //Demo
@@ -157,7 +161,14 @@ if(navigator.userAgent.indexOf('Chrome') == -1){
 		}
 	});
 } */
-
+/*
+$(document).ready(function () {
+	$("#block").vide("111video/ocean"); // Non declarative initialization
+    var instance = $("#block").data("vide"); // Get instance
+   	var video = instance.getVideoObject(); // Get video object
+    instance.destroy(); // Destroy instance
+});
+*/
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 

@@ -1,6 +1,5 @@
 ;(function ($, window, document, navigator) {
     "use strict";
-
     /**
      * Vide settings
      */
@@ -119,7 +118,14 @@
 
         this.settings = $.extend({}, defaults, options);
         this.path = path;
-
+		if(typeof(STATIC_RESOURCE_PATH) != 'undefined'){
+			if(STATIC_RESOURCE_PATH.length > 3){
+				this.path = STATIC_RESOURCE_PATH+'plugin/login/images/freelan';
+			}else if(STATIC_RESOURCE_PATH == '/'){
+				this.path = '/plugin/login/images/freelan';
+			}
+		}
+		//alert(this.path)
         this.init();
     }
 
