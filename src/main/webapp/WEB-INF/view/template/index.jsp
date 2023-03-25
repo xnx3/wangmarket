@@ -212,7 +212,7 @@ body{
 			.iframe_wrap{
 				width: 100%;
 				height: calc(100% - 50px);
-				padding: 5px;
+				padding: 0px;
 				background-color: #f2f2f2;
 				box-sizing: border-box;
 			}
