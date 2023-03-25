@@ -143,7 +143,7 @@ body{
 
 	<div id="content" style="width: 100%;height:100%;position: fixed;left: 150px;word-wrap: break-word;border-right: 150px;box-sizing: border-box; border-right-style: dotted;">
 		<div id="htmledit_openButton" onclick="showHiddenTopNav();" class="top_htmledit_buttom"><i class="layui-icon">&#xe603;</i>隐藏</div>
-		<div id="topNav" style="background-color: #2b2e37; color:#009688; height: 38px;line-height: 38px;padding-left: 12px; margin-left:-1px;position: absolute; z-index: 99999999999;width: 100%;">
+		<div id="topNav" style="background-color: #2b2e37; color:#009688; height: 50px;line-height: 50px;padding-left: 12px; margin-left:-1px;position: absolute; z-index: 99999999999;width: 100%;">
 			<div style="padding-left: 50px;">
 				当前修改<span id="currentTemplateType">首页模版</span>：<input type="text" id="currentTemplatePageName" value="" readOnly="true" style="border: 0px; background-color: #2b2e37; overflow: hidden; color: #009688; width: 100px;"/>
 				<button id="htmledit_mode" onclick="htmledit_mode();">代码模式</button>
@@ -166,7 +166,7 @@ body{
 				align-items: center;
 				justify-content: space-between;
 				width: 100%;
-				height: 60px;
+				height: 50px;
 				background-color: #FFFFFF;
 				padding: 0 10px 0 20px;
 				box-sizing: border-box;
@@ -180,7 +180,7 @@ body{
 			.headerBar .layui-nav-item{
 				background-color: #FFFFFF;
 				color: #0C1206;
-				/*line-height: 55px;*/
+				line-height: 50px;
 			}
 			.headerBar .layui-nav .layui-nav-item a {
 				color: #0C1206;
@@ -211,14 +211,19 @@ body{
 
 			.iframe_wrap{
 				width: 100%;
-				height: calc(100% - 60px);
-				padding: 10px;
+				height: calc(100% - 50px);
+				padding: 5px;
 				background-color: #f2f2f2;
 				box-sizing: border-box;
+			}
+			#htmlMode{
+				padding-bottom: 0!important;
 			}
 			iframe{
 				background-color: #FFFFFF;
 				border-radius: 4px;
+				margin-top: 0!important;
+				padding-bottom: 0!important;
 			}
 			select {
 				/* 鼠标移上，变小手 */
@@ -267,17 +272,18 @@ body{
 
 
 		<div class="iframe_wrap">
-			<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 38px;box-sizing: border-box;"></iframe>
-		</div>
-		<div id="htmlMode" style="width:100%;height:100%; display:none; padding-bottom: 38px;box-sizing: border-box;">
-			<style>
-				.CodeMirror-linenumber{
-					padding:0px;
-					padding-left:1px;
-				}
-			</style>
-			<div id="editormd" style="width:100%; height:100%; margin-top: 38px;"></div>
-			<textarea id="html_textarea"></textarea>
+			<iframe name="iframe" id="iframe" frameborder="0" style="width:100%;height:100%;padding-bottom: 0px;box-sizing: border-box;"></iframe>
+
+			<div id="htmlMode" style="width:100%;height:100%; display:none; padding-bottom: 0px;box-sizing: border-box;">
+				<style>
+					.CodeMirror-linenumber{
+						padding:0px;
+						padding-left:1px;
+					}
+				</style>
+				<div id="editormd" style="width:100%; height:100%; margin-top: 0px;"></div>
+				<textarea id="html_textarea"></textarea>
+			</div>
 		</div>
 	</div>
 </div>
@@ -396,7 +402,7 @@ function htmledit_mode(){
 		//由代码模式切换智能模式
 		
 		document.getElementById("iframe").style.display='';
-		document.getElementById("iframe").style.marginTop='38px';
+		document.getElementById("iframe").style.marginTop='0px';
 		document.getElementById("htmlMode").style.display='none';
 		
 		//将editormd的值转到textarea中
