@@ -93,6 +93,8 @@ public class Site implements java.io.Serializable {
 	
 	private String generateHtmlStorageType;	//生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储
 	
+	private Integer newsSize;				//当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）
+	
 	/**
 	 * @deprecated
 	 */
@@ -113,6 +115,7 @@ public class Site implements java.io.Serializable {
 		this.attachmentSizeHave = G.REG_GENERAL_OSS_HAVE;
 		this.remark = "";
 		this.generateHtmlStorageType = GENERATE_HTML_STORAGE_TYPE_DEFAULT;
+		this.newsSize = 1000;
 	}
 
 	@Id
@@ -365,6 +368,18 @@ public class Site implements java.io.Serializable {
 
 	public void setGenerateHtmlStorageType(String generateHtmlStorageType) {
 		this.generateHtmlStorageType = generateHtmlStorageType;
+	}
+	
+	@Column(name = "news_size", columnDefinition="int(11) COMMENT '当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）'")
+	public Integer getNewsSize() {
+		if(this.newsSize == null) {
+			this.newsSize = 1000;
+		}
+		return newsSize;
+	}
+
+	public void setNewsSize(Integer newsSize) {
+		this.newsSize = newsSize;
 	}
 
 	@Override

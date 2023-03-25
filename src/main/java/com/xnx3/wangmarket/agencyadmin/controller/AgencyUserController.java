@@ -945,4 +945,38 @@ public class AgencyUserController extends BaseController {
 		ActionLogUtil.insertUpdateDatabase(request, siteid, "代理商给其下的某个站点更改备注", remark);
 		return success();
 	}
+	
+
+	/**
+	 * 代理商给其下的某个站点更改他的空间大小上限
+	 * @param siteid 要更改备注的site.id
+	 * @param attachmentSizeHave 当前用户网站所拥有的空间大小，单位是MB。当前允许的最大不能超过10GB	
+	 * @author 管雷鸣
+	 */
+	@RequiresPermissions("agencyUserList")
+	@RequestMapping("siteUpdateSize.json")
+	@ResponseBody
+	public BaseVO siteUpdateSize(HttpServletRequest request,
+			@RequestParam(value = "siteid", required = true) int siteid,
+			@RequestParam(value = "attachmentSizeHave", required = true, defaultValue = "1000") int attachmentSizeHave){
+		//通过siteid查询网站的信息
+		Site site = sqlService.findById(Site.class, siteid);
+		if(site == null){
+			return error("网站不存在");
+		}
+		//查询网站对应user表的信息
+		User user = sqlService.findById(User.class, site.getUserid());
+		//判断是否是其直属下级
+		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
+			return error("要更改的网站不是您的直属下级，操作失败");
+		}
+		if(attachmentSizeHave > 5000) {
+			return error("当前允许的最大不能超过10GB");
+		}
+		 
+		site.setAttachmentSizeHave(attachmentSizeHave);
+		sqlService.save(site);
+		ActionLogUtil.insertUpdateDatabase(request, siteid, "代理商给其下的某个站点更改其空间存储上限", attachmentSizeHave+"MB");
+		return success();
+	}
 }
