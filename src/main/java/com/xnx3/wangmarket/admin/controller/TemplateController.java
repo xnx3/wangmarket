@@ -120,14 +120,15 @@ public class TemplateController extends BaseController {
 		ActionLogUtil.insert(request, "进入CMS模式网站后台首页-iframe main");
 		
 		//获取网站后台管理系统有哪些功能插件，也一块列出来,以直接在网站后台中显示出来
-		String pluginMenu = "";
-		if(PluginManage.cmsSiteClassManage.size() > 0){
-			for (Map.Entry<String, PluginRegister> entry : PluginManage.cmsSiteClassManage.entrySet()) {
-				PluginRegister plugin = entry.getValue();
-				pluginMenu += "<dd class=\"twoMenu\"><a id=\""+entry.getKey()+"\" class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
-			}
-		}
-		model.addAttribute("pluginMenu", pluginMenu);
+		//v6.1 注释掉，因为这个已经包含在了 menuHTML 中
+//		String pluginMenu = "";
+//		if(PluginManage.cmsSiteClassManage.size() > 0){
+//			for (Map.Entry<String, PluginRegister> entry : PluginManage.cmsSiteClassManage.entrySet()) {
+//				PluginRegister plugin = entry.getValue();
+//				pluginMenu += "<dd class=\"twoMenu\"><a id=\"plugin_"+entry.getKey()+"\"  class=\"subMenuItem\" href=\"javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();\">"+plugin.menuTitle()+"</a></dd>";
+//			}
+//		}
+//		model.addAttribute("pluginMenu", pluginMenu);
 		
 		//左侧菜单
 		model.addAttribute("menuHTML", TemplateAdminMenuUtil.getLeftMenuHtml());

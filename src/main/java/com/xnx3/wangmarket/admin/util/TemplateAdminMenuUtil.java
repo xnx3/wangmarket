@@ -154,7 +154,7 @@ public class TemplateAdminMenuUtil {
 			if(PluginManage.cmsSiteClassManage.size() > 0){
 				for (Map.Entry<String, PluginRegister> entry : PluginManage.cmsSiteClassManage.entrySet()) {
 					PluginRegister plugin = entry.getValue();
-					Menu.addTwoMenu("dd_"+entry.getKey(), entry.getKey(), "javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();", plugin.menuTitle());
+					Menu.addTwoMenu("dd_"+entry.getKey(), "a_"+entry.getKey(), "javascript:loadIframeByUrl('"+plugin.menuHref()+"'), notUseTopTools();", plugin.menuTitle());
 				}
 			}
 			
