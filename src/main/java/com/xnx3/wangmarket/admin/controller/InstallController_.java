@@ -19,6 +19,9 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.service.SystemService;
 import com.xnx3.j2ee.vo.BaseVO;
 
+import cn.zvo.fileupload.framework.springboot.FileUpload;
+import cn.zvo.fileupload.framework.springboot.FileUploadUtil;
+
 /**
  * IW 快速开发底层架构的安装，比如，阿里云各种产品如OSS、日志服务等的创建等
  * 
@@ -194,21 +197,28 @@ public class InstallController_ extends BaseController {
 		}
 		
 		//将其存入system数据表
-		sqlService.executeSql("update system set value = 'http://admin."+autoAssignDomain+"/' WHERE name = 'MASTER_SITE_URL'");
+		String adminDomain = "http://admin."+autoAssignDomain+"/";
+		String cdnDomain = "//cdn."+autoAssignDomain+"/";
+		
+		sqlService.executeSql("update system set value = '"+adminDomain+"' WHERE name = 'MASTER_SITE_URL'");
 		sqlService.executeSql("update system set value = '"+autoAssignDomain+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
 		
 		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//本地存储，才会配置默认的附件域名
-			sqlService.executeSql("update system set value = 'http://cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+			sqlService.executeSql("update system set value = '//cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
 			
 			//更新附件域名的内存缓存
-			AttachmentUtil.netUrl = "http://cdn."+autoAssignDomain+"/";
+			AttachmentUtil.netUrl = cdnDomain;
+			FileUploadUtil.fileupload.setDomain(cdnDomain);
 		}
 		
 		//到这一步就结束了，在此禁用install安装
 		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
 		//手动刷新缓存
 		Global.system.put("IW_AUTO_INSTALL_USE", "false");
+		Global.system.put("AUTO_ASSIGN_DOMAIN", autoAssignDomain);
+		Global.system.put("MASTER_SITE_URL", adminDomain);
+		Global.system.put("ATTACHMENT_FILE_URL", cdnDomain);
 		
 		//更新缓存
 		systemService.refreshSystemCache();
