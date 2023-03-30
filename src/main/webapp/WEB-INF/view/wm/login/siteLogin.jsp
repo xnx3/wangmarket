@@ -30,10 +30,21 @@
     <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}plugin/login/css/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="${STATIC_RESOURCE_PATH}plugin/login/css/font-awesome.min.css" type="text/css" media="all">
 
+    <style type="text/css">
+        .content-wthree input{
+            background: #FFFFFF;
+        }
+        .codeBox{
+            background-color: #FFFFFF;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+    </style>
 
     <div id="block" class="w3lvide-content" data-vide-bg="${STATIC_RESOURCE_PATH}plugin/login/images/freelan" data-vide-options="position: 0% 50%">
             <!-- /form -->
-            <div class="workinghny-form-grid">
+            <div class="workinghny-form-grid" style="width: 100%">
                 <div class="main-hotair">
                     <div class="content-wthree">
                         <h1><span style="
@@ -43,12 +54,12 @@
     letter-spacing: 5px;
     text-align: center;
 "><%=Global.get("SITE_NAME") %></span></h1>
-                        <form action="#" method="post">
+                        <form>
                             <input type="text" class="text" name="username" value="<%=username %>" placeholder="请输入 用户名/邮箱" required  lay-verify="required" autocomplete="off">
-                            <input type="password" class="password" name="password" value="<%=password %>" placeholder="请输入密码"  required  lay-verify="required" autocomplete="off">
+                            <input type="password" id="password" class="password" name="password" value="<%=password %>" placeholder="请输入密码"  required  lay-verify="required" autocomplete="off">
                             <div style="position: relative">
                                 <input type="text" class="text" name="code" placeholder="请输入右边验证码"  required  lay-verify="required" autocomplete="off" style="display: block">
-                                <div class="layui-word-aux codeBox" style="padding-top: 3px;padding-bottom: 0px;"><img id="code" src="captcha.do" onclick="reloadCode();" style="margin-top: 18px; cursor: pointer;" /></div>
+                                <div class="layui-word-aux codeBox"><img id="code" src="captcha.do" onclick="reloadCode();" style="cursor: pointer;" /></div>
                             </div>
 
                             <div class="layui-form-item" style="display:none">
@@ -58,7 +69,7 @@
                                     </div>
                             </div>
                             
-                            <button class="btn" type="submit" lay-submit lay-filter="formDemo">立即登陆</button>
+                            <button class="btn" lay-submit lay-filter="formDemo">立即登陆</button>
 <%--                            <button type="reset" class="btn" style="margin-top:10px">重置</button>--%>
                         </form>
 
@@ -170,6 +181,5 @@ $(document).ready(function () {
 });
 */
 </script>
-
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block;background-color: transparent;color: #FAFAFA } </style>
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block;background-color: rgba(255,255,255,.1);color: #ff9800 } </style>
