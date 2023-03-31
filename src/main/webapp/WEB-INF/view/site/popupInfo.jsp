@@ -21,7 +21,7 @@
 		</div>
 		<div class="weui_cell_ft ignore" id="nameDiv">${site.name }</div>
 	</a>
-	<a class="weui_cell" href="javascript:updateDomain_info();">
+	<a class="weui_cell" href="javascript:;" style="cursor: text;"> <!-- v6.1 去掉了更改自动分配二级域名的入口 updateDomain_info() -->
 		<div class="weui_cell_bd weui_cell_primary">
 			<p>分配域名</p>
 		</div>
