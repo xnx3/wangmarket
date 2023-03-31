@@ -93,7 +93,9 @@ public class Site implements java.io.Serializable {
 	
 	private String generateHtmlStorageType;	//生成html页面的方式，存储方式， obs:obs buckname存储，  ftp:ftp方式存储，  空或者default或者其他则是默认的AttachmentUtil 方式存储
 	
-	private Integer newsSize;				//当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）
+	//v6.1 增加
+	private Integer newsSize;			//当前网站的文章条数
+	private Integer newsSizeHave;				//当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）
 	
 	/**
 	 * @deprecated
@@ -115,7 +117,8 @@ public class Site implements java.io.Serializable {
 		this.attachmentSizeHave = G.REG_GENERAL_OSS_HAVE;
 		this.remark = "";
 		this.generateHtmlStorageType = GENERATE_HTML_STORAGE_TYPE_DEFAULT;
-		this.newsSize = 1000;
+		this.newsSizeHave = 1000;
+		this.newsSize = 0;
 	}
 
 	@Id
@@ -370,10 +373,22 @@ public class Site implements java.io.Serializable {
 		this.generateHtmlStorageType = generateHtmlStorageType;
 	}
 	
-	@Column(name = "news_size", columnDefinition="int(11) COMMENT '当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）'")
+	@Column(name = "news_size_have", columnDefinition="int(11) COMMENT '当前网站的文章允许上传多少条。默认是1000（独立栏目也是一个文章）'")
+	public Integer getNewsSizeHave() {
+		if(this.newsSizeHave == null) {
+			this.newsSizeHave = 1000;
+		}
+		return newsSizeHave;
+	}
+
+	public void setNewsSizeHave(Integer newsSizeHave) {
+		this.newsSizeHave = newsSizeHave;
+	}
+	
+	@Column(name = "news_size", columnDefinition="int(11) COMMENT '当前网站的文章条数'")
 	public Integer getNewsSize() {
-		if(this.newsSize == null) {
-			this.newsSize = 1000;
+		if(newsSize == null) {
+			newsSize = 0;
 		}
 		return newsSize;
 	}

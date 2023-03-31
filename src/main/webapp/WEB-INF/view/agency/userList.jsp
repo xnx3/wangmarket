@@ -29,6 +29,8 @@
 			<th>编号ID</th>
 			<th>网站名</th>
 			<th>用户名</th>
+			<th>空间占用</th>
+			<th>文章条数</th>
 			<th>域名</th>
 			<th>最后上线时间</th>
 			<th>到期时间</th>
@@ -44,6 +46,8 @@
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
 				<td class="ignore" style="width:100px;">${obj['userusername'] }</td>
+				<td class="ignore" style="width:130px;"><x:fileSizeToInfo size="${obj['attachment_size'] }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB</td>
+				<td class="ignore" style="width:100px;">${obj['news_size'] }/${obj['news_size_have'] }条</td>
 				<c:choose>
 					<c:when test="${!obj['bind_domain'].isEmpty() && fn:length(obj['bind_domain']) > 0}">
 						<td class="ignore" onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
