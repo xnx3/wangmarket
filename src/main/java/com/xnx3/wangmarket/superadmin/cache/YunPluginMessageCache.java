@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.wangmarket.superadmin.bean.Application;
 
 import cn.zvo.http.Http;
@@ -77,13 +78,15 @@ public class YunPluginMessageCache {
 		Map<String, Application> shortTimeMap = new HashMap<String, Application>();
 		List<Application> shortTimeList = new LinkedList<Application>();
 		String shortTimePage = "";
-		Http httpUtil = new Http(Http.UTF8);
+//		Http httpUtil = new Http(Http.UTF8);
+		Http http = new Http();
 		// 查询云端插件库获取插件信息
 		Response response;
 		try {
-			response = httpUtil.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API+"?action=list");
+			response = http.get(com.xnx3.wangmarket.superadmin.Global.APPLICATION_API+"?action=list");
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			ConsoleUtil.error("response failure : "+e.getMessage());
 			return false;
 		}
 		// 请求失败返回false
