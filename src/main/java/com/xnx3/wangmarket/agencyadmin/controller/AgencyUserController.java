@@ -970,13 +970,47 @@ public class AgencyUserController extends BaseController {
 		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
 			return error("要更改的网站不是您的直属下级，操作失败");
 		}
-		if(attachmentSizeHave > 5000) {
+		if(attachmentSizeHave > 10000) {
 			return error("当前允许的最大不能超过10GB");
 		}
 		 
 		site.setAttachmentSizeHave(attachmentSizeHave);
 		sqlService.save(site);
 		ActionLogUtil.insertUpdateDatabase(request, siteid, "代理商给其下的某个站点更改其空间存储上限", attachmentSizeHave+"MB");
+		return success();
+	}
+	
+
+	/**
+	 * 代理商给其下的某个站点更改他的文章条数上限
+	 * @param siteid 要更改备注的site.id
+	 * @param newsSizeHave 当前用户网站所拥有的文章条数，单位是篇（独立栏目也算一篇）。当前允许的最大不能超过一万篇
+	 * @author 管雷鸣
+	 */
+	@RequiresPermissions("agencyUserList")
+	@RequestMapping("siteUpdateNewsSize.json")
+	@ResponseBody
+	public BaseVO siteUpdateNewsSize(HttpServletRequest request,
+			@RequestParam(value = "siteid", required = true) int siteid,
+			@RequestParam(value = "newsSizeHave", required = true, defaultValue = "1000") int newsSizeHave){
+		//通过siteid查询网站的信息
+		Site site = sqlService.findById(Site.class, siteid);
+		if(site == null){
+			return error("网站不存在");
+		}
+		//查询网站对应user表的信息
+		User user = sqlService.findById(User.class, site.getUserid());
+		//判断是否是其直属下级
+		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
+			return error("要更改的网站不是您的直属下级，操作失败");
+		}
+		if(newsSizeHave > 10000) {
+			return error("当前允许的最大不能超过10000篇");
+		}
+		 
+		site.setNewsSizeHave(newsSizeHave);
+		sqlService.save(site);
+		ActionLogUtil.insertUpdateDatabase(request, siteid, "代理商给其下的某个站点更改其文章条数上限", newsSizeHave+"篇");
 		return success();
 	}
 }

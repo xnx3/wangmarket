@@ -46,8 +46,14 @@
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
 				<td class="ignore" style="width:100px;">${obj['userusername'] }</td>
-				<td class="ignore" style="width:130px;"><x:fileSizeToInfo size="${obj['attachment_size'] }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB</td>
-				<td class="ignore" style="width:100px;">${obj['news_size'] }/${obj['news_size_have'] }条</td>
+				<td class="ignore" style="width:150px;">
+					<x:fileSizeToInfo size="${obj['attachment_size'] }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB 
+					<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;" onclick="updateSize('${obj['id'] }','${obj['userusername'] }','${obj['attachment_size_have'] }')"><i class="layui-icon layui-icon-edit"></i></button>
+				</td>
+				<td class="ignore" style="width:100px;">
+					${obj['news_size']}/${obj['news_size_have'] }条
+					<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;" onclick="updateNewsSize('${obj['id'] }','${obj['userusername'] }','${obj['news_size_have'] }')"><i class="layui-icon layui-icon-edit"></i></button>	
+				</td>
 				<c:choose>
 					<c:when test="${!obj['bind_domain'].isEmpty() && fn:length(obj['bind_domain']) > 0}">
 						<td class="ignore" onclick="window.open('http://${obj['bind_domain'] }'); " style="cursor: pointer; width: 160px;">${obj['bind_domain'] }</td>
@@ -186,6 +192,59 @@ function updateRemark(siteid, name, remark){
 		$.post(
 			"/agency/siteUpdateRemark.json", 
 			{ 'remark' : value.replace(/\n/g,"[br]"), siteid:siteid }, 
+			function(data){
+				parent.msg.close();	//关闭“更改中”的等待提示
+				if(data.result != '1'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.success('更改成功');
+					location.reload();
+				}
+			}, 
+		"json");
+		
+	});
+}
+
+//给我创建的站点修改站点空间大小
+//nowSize 当前站点的空间大小，int ，单位MB
+function updateSize(siteid, name, nowSize){
+	layer.prompt({
+		formType: 0,
+		value: nowSize,
+		title: '给'+name+'更改存储空间大小',
+	}, function(value, index, elem){
+		parent.msg.loading('更改中');
+		$.post(
+			"/agency/siteUpdateSize.json", 
+			{ "attachmentSizeHave": value, siteid:siteid }, 
+			function(data){
+				parent.msg.close();	//关闭“更改中”的等待提示
+				if(data.result != '1'){
+					parent.msg.failure(data.info);
+				}else{
+					parent.msg.success('更改成功');
+					location.reload();
+				}
+			}, 
+		"json");
+		
+	});
+}
+
+
+//给我创建的站点修改文章条数上限
+//nowNewsSize 当前站点的文章条数上限
+function updateNewsSize(siteid, name, nowNewsSize){
+	layer.prompt({
+		formType: 0,
+		value: nowNewsSize,
+		title: '给'+name+'更改文章条数上限',
+	}, function(value, index, elem){
+		parent.msg.loading('更改中');
+		$.post(
+			"/agency/siteUpdateNewsSize.json", 
+			{ "newsSizeHave": value, siteid:siteid }, 
 			function(data){
 				parent.msg.close();	//关闭“更改中”的等待提示
 				if(data.result != '1'){
