@@ -21,6 +21,7 @@ import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
+import com.xnx3.wangmarket.admin.service.NewsService;
 
 /**
  * News 文章管理
@@ -31,6 +32,9 @@ import com.xnx3.wangmarket.admin.entity.Site;
 public class AdminNewsController extends BaseController {
 	@Resource
 	private SqlService sqlService;
+	@Resource
+	private NewsService newsService;
+	
 	
 	/**
 	 * 信息列表
@@ -95,6 +99,10 @@ public class AdminNewsController extends BaseController {
 		}
 		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "总管理后台，News 文章管理，删除文章", news.getTitle());
 		sqlService.delete(news);
+		
+		//v6.1增加，更新当前网站的文章数
+		newsService.updateSiteNewsSize(news.getSiteid());
+		
 		return success(model, "删除成功");
 	}
 	

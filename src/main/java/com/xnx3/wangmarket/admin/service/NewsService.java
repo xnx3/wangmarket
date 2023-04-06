@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.Site;
@@ -81,4 +82,11 @@ public interface NewsService {
 	 * @param 如果删除成功，会返回删除的News对象
 	 */
 	public NewsVO deleteNews(int id ,boolean authCheck);
+	
+	/**
+	 * 更新站点的文章数。  
+	 * 查询统计当前网站的文章数，赋予site.news_size
+	 * @param siteid 要更新的站点的id，对应 site.id
+	 */
+	public BaseVO updateSiteNewsSize(int siteid);
 }

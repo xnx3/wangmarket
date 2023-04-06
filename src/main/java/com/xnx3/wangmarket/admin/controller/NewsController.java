@@ -112,6 +112,11 @@ public class NewsController extends BaseController {
 		}else{
 			//新增
 			
+			//v6.1增加，判断文章条数上限是否超过
+			if(site.getNewsSize() >= site.getNewsSizeHave()) {
+				return error("您网站的文章条数已达上限："+site.getNewsSizeHave()+"篇<br/>请联系您的上级为您增加文章条数上限");
+			}
+			
 			if(s.getCid() == null || s.getCid() < 1) {
 				return error("您要发布的文章是要发布到哪个栏目下呢？请传入文章所属栏目的编号 cid");
 			}
@@ -195,6 +200,10 @@ public class NewsController extends BaseController {
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
+			//成功
+			
+			//v6.1增加，更新当前网站的文章数
+			newsService.updateSiteNewsSize(news.getSiteid());
 			
 			//插件触发
 			try {
@@ -318,6 +327,9 @@ public class NewsController extends BaseController {
 			
 			//刷新sitemap
 			siteService.refreshSiteMap(site);
+			
+			//v6.1增加，更新当前网站的文章数
+			newsService.updateSiteNewsSize(news.getSiteid());
 			
 			return success(model, "删除信息成功","news/list.do?cid="+siteColumn.getId()+"&editMode=edit&client=pc");
 		}else{
@@ -526,6 +538,9 @@ public class NewsController extends BaseController {
 		NewsVO vo = newsService.deleteNews(id, true);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
 			News news = vo.getNews();
+			
+			//v6.1增加，更新当前网站的文章数
+			newsService.updateSiteNewsSize(news.getSiteid());
 			
 			//日志
 			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());

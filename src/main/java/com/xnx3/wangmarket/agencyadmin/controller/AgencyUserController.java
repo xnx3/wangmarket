@@ -970,8 +970,8 @@ public class AgencyUserController extends BaseController {
 		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
 			return error("要更改的网站不是您的直属下级，操作失败");
 		}
-		if(attachmentSizeHave > 10000) {
-			return error("当前允许的最大不能超过10GB");
+		if(attachmentSizeHave > 50000) {
+			return error("当前允许的最大不能超过50GB");
 		}
 		 
 		site.setAttachmentSizeHave(attachmentSizeHave);
@@ -1004,8 +1004,8 @@ public class AgencyUserController extends BaseController {
 		if(user.getReferrerid() - getMyAgency().getUserid() != 0){
 			return error("要更改的网站不是您的直属下级，操作失败");
 		}
-		if(newsSizeHave > 10000) {
-			return error("当前允许的最大不能超过10000篇");
+		if(newsSizeHave > 100000) {
+			return error("当前允许的最大不能超过100000篇");
 		}
 		 
 		site.setNewsSizeHave(newsSizeHave);
