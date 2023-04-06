@@ -282,6 +282,11 @@ public class TransactionalServiceImpl implements TransactionalService {
 	public UserVO regUser(User user, HttpServletRequest request,
 			boolean isAgency) {
 		UserVO baseVO = new UserVO();
+		if(!com.xnx3.wangmarket.admin.util.StringUtil.isEnglishAndNumber(user.getUsername())) {
+			baseVO.setBaseVO(BaseVO.FAILURE, "用户名只允许输入英文跟数字");
+			return baseVO;
+		}
+		
 		user.setUsername(StringUtil.filterXss(user.getUsername()));
 		user.setEmail(SafetyUtil.filter(user.getEmail()));
 		user.setPhone(SafetyUtil.filter(user.getPhone()));
