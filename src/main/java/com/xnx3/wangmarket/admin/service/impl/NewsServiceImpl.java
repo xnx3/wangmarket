@@ -360,7 +360,7 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public com.xnx3.j2ee.vo.BaseVO updateSiteNewsSize(int siteid) {
 		int newsSize = sqlDAO.count("news", "WHERE siteid = "+siteid);
-		sqlDAO.executeSql("UPDATE site SET news_size = "+newsSize+" WHERE siteid = "+siteid);
+		sqlDAO.executeSql("UPDATE site SET news_size = "+newsSize+" WHERE id = "+siteid);
 		return com.xnx3.j2ee.vo.BaseVO.success();
 	}
 
