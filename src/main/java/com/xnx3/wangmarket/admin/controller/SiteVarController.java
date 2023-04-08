@@ -239,6 +239,50 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 		return success();
 	}
 	
+
+	/**
+	 * 保存某个模板变量的值。这里仅仅只是根据模版变量的名字更改其值。
+	 * 如果不存在，则返回失败提示。
+	 * 只能修改已存在的
+	 * v6.1 增加
+	 * @param name 变量的名字
+	 * @param value 修改后的变量的值
+	 */
+	@RequestMapping(value="saveValue.json", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO saveValue(
+			@RequestParam(value = "name", required = false , defaultValue="") String name,
+			@RequestParam(value = "value", required = false , defaultValue="") String value,
+			HttpServletRequest request){
+		Site site = getSite();
+		SiteVar siteVar = sqlService.findById(SiteVar.class, site.getId());
+		if(siteVar == null){
+			siteVar = new SiteVar();
+			siteVar.setId(site.getId());
+		}
+		JSONObject json = JSONObject.fromObject(siteVar.getText());
+		
+		JSONObject varJson = json.getJSONObject(name);
+		if(varJson == null) {
+			return error("要修改的变量 "+name+" 不存在");
+		}
+		
+		
+		varJson.put("value", value);
+		json.put(name, varJson);
+		
+		//保存到数据库
+		siteVar.setText(json.toString());
+		sqlService.save(siteVar);
+		
+		//更新缓存
+		siteVarService.setVar(site.getId(), siteVar);
+		
+		ActionLogUtil.insertUpdateDatabase(request, "修改全局变量", StringUtil.filterXss(name+", "+value));
+		return success();
+	}
+	
+	
 	/**
 	 * 删除变量
 	 * @param name 要删除的全局变量的name
