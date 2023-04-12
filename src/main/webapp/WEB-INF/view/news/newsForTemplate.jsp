@@ -52,19 +52,29 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 </style>
 
 
-<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
+<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:100px;">
 	<input type="hidden" name="id" value="${news.id }" />
 	<input type="hidden" name="cid" value="${news.cid }" />
 	<input type="hidden" name="type" value="${news.type }" />
 	
 	${inputModelText }
+	<div style="    background: yellow;
+    float: right;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 70px;
+    bottom: 0px;">
+	展开更多设置,v6.1版本将增加，当前正在调试中，此处可用插件进行更多自定义扩展，如文章自定义生成的html文件名、文章设置标签等
 	
+	</div>
 	<div class="layui-form-item" style="padding-top:15px; text-align:center;">
 		<div class="layui-input-block">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:150px; font-size: 16px; height: 45px;line-height: 45px;">保存</button>
 		</div>
 	</div>
 </form>
+
 
 <script>
 try{
