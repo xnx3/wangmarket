@@ -14,6 +14,7 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.func.ApplicationProperties;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.IpUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
@@ -299,12 +300,14 @@ public class PublicController extends BaseController {
 		if(serverName == null || serverName.length() == 0){
 			//get没传入，那么取当前访问的url的域名
 			serverName = request.getServerName();	//访问域名，如 pc.wang.market
+			//ConsoleUtil.log("serverName:"+serverName);
 		}
 		
 		SImpleSiteVO vo = null;
 		
-		//如果是 zvo.cn 或 admin.zvo.cn 这种格式的，那么就是预览网站时用的，是要用到缓存的
-		if(serverName.equalsIgnoreCase(G.getAutoAssignDomain()[0]) || serverName.equalsIgnoreCase("admin."+G.getAutoAssignDomain()[0])) {
+		//如果是admin.zvo.cn 这种格式的，那么就是在总管理后台，预览网站时用的，是要用到缓存的
+		if(serverName.equalsIgnoreCase("admin."+G.getAutoAssignDomain()[0])) {
+			//ConsoleUtil.log("yulanwangzhan --- "+serverName);
 			//是再预览网站
 			if(request.getParameter("domain") != null && request.getParameter("domain").length() > 1) {
 				//通过 http://admin.xxx.com/index.html?domain=www.zvo.cn 这样点击预览网站直接预览的。
