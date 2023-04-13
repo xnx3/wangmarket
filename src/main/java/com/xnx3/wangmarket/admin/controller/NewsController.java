@@ -35,7 +35,9 @@ import com.xnx3.wangmarket.admin.entity.News;
 import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsEditPluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsPluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -192,6 +194,18 @@ public class NewsController extends BaseController {
 		//插件拦截处理
 		try {
 			NewsPluginManage.newsSaveBefore(request, news);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		//插件拦截处理
+		try {
+			NewsVO newsEditVO = NewsEditPluginManage.newsEditSaveBefore(request, news);
+			if(newsEditVO.getResult() - BaseVO.FAILURE == 0) {
+				return error(newsEditVO.getInfo());
+			}
 		} catch (InstantiationException | IllegalAccessException
 				| NoSuchMethodException | SecurityException
 				| IllegalArgumentException | InvocationTargetException e) {
@@ -516,6 +530,16 @@ public class NewsController extends BaseController {
 			model.addAttribute("inputModelText", inputModelText);
 			
 			ActionLogUtil.insert(request, "打开创建、修改文章页面");
+			
+			/**** 编辑页面加载完后，追加html源码插件 ****/
+			try {
+				String pluginAppendHtml = NewsEditPluginManage.newsEditAppendHtml(ni.getNews(), ni.getSiteColumn(), ni.getSite());
+				model.addAttribute("pluginAppendHtml", pluginAppendHtml);
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 			
 			//可上传的后缀列表
 			model.addAttribute("ossFileUploadImageSuffixList", Global.ossFileUploadImageSuffixList);

@@ -58,15 +58,25 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 	<input type="hidden" name="type" value="${news.type }" />
 	
 	${inputModelText }
-	<div style="    background: yellow;
+	
+	<!-- 右侧插件扩展面板 -->
+	<div id="rightPluginPanel" style=" background: yellow;
     float: right;
     position: absolute;
     top: 0px;
     right: 0px;
     width: 70px;
-    bottom: 0px;">
+    bottom: 0px;
+    z-index: 99999;">
 	展开更多设置,v6.1版本将增加，当前正在调试中，此处可用插件进行更多自定义扩展，如文章自定义生成的html文件名、文章设置标签等
-	
+	<div style="    background: white;
+    height: 120px;
+    width: 30px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: fixed;
+    top: 40%;
+    " onclick="document.getElementById('rightPluginPanel').style.width = '300px';">扩大</div>
 	</div>
 	<div class="layui-form-item" style="padding-top:15px; text-align:center;">
 		<div class="layui-input-block">
@@ -253,5 +263,7 @@ function loadSuCai(){
 	dynamicLoading.js(resBasePath+"ueditor/template/load.js");
 }
 </script>
+
+${pluginAppendHtml}
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
