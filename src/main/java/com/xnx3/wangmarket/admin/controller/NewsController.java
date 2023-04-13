@@ -183,7 +183,7 @@ public class NewsController extends BaseController {
 		news.setTitle(title);
 		news.setReserve1(s.getReserve1() == null? "":s.getReserve1());
 		news.setReserve2(s.getReserve2() == null? "":s.getReserve2());
-		if(s.getHtmlName() != null && s.getHtmlName().length() > 0) {
+		if(s.getHtmlName() != null) {
 			news.setHtmlName(s.getHtmlName());
 		}
 		
