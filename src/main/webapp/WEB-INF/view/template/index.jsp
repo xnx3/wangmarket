@@ -944,7 +944,8 @@ function menuAppend(appendHtml){
 
 //只有用户名带有ceshi的才会弹出合作联系的提示
 if('${user.username}'.indexOf('ceshi') > -1){
-	setTimeout("rightTip()",8000);
+	//v6.1更新，去掉这个了
+	//setTimeout("rightTip()",8000);
 }
 
 
