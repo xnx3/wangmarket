@@ -34,7 +34,7 @@ public class AdminIndexPluginManage {
 				
 				//当 SpringUtil 被Spring 加载后才会执行
 				List<Class<?>> allClassList = ScanClassUtil.getClasses("com.xnx3.wangmarket");
-				classList = ScanClassUtil.searchByInterfaceName(allClassList, "com.xnx3.wangmarket.pluginManage.interfaces.AdminIndexInterface");
+				classList = ScanClassUtil.searchByInterfaceName(allClassList, "com.xnx3.wangmarket.admin.pluginManage.interfaces.AdminIndexInterface");
 				for (int i = 0; i < classList.size(); i++) {
 					ConsoleUtil.info("装载 AdminIndex 插件："+classList.get(i).getName());
 				}
