@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.xnx3.DateUtil;
 import com.xnx3.StringUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.json.JSONUtil;
@@ -113,6 +114,11 @@ public class TemplateVO extends BaseVO {
 	 * @return true：导入成功
 	 */
 	public boolean importText(String text) {
+		if(text == null) {
+			ConsoleUtil.debug("导入的模板内容为空");
+			return false;
+		}
+		
 		//当前登录用户的站点信息
 		currentSite = SessionUtil.getSite();	
 		if(currentSite == null){

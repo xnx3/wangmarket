@@ -197,6 +197,10 @@ public class TemplateUtil {
 			vo.setInfo(text);
 		}
 		
+		if(vo.getInfo() == null || vo.getInfo().length() == 0) {
+			vo.setResult(BaseVO.FAILURE);
+			vo.setInfo("异常，模板内容不存在");
+		}
 		return vo;
 	}
 	
