@@ -73,7 +73,7 @@ public class NewsController extends BaseController {
 	
 	/**
 	 * 创建、修改页面提交保存
-	 * @return
+	 * @return 如果成功 info返回的是news.id
 	 */
 	@RequestMapping(value="saveNews${url.suffix}", method = RequestMethod.POST)
 	@ResponseBody
@@ -303,7 +303,7 @@ public class NewsController extends BaseController {
 			}else{
 //				return success(model, "保存成功！","news/listForTemplate.do?cid="+news.getCid());
 			}
-			return success();
+			return success(news.getId()+"");
 		}else{
 			return error("保存失败！");
 		}
