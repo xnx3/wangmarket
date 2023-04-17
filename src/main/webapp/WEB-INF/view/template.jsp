@@ -104,8 +104,9 @@ a:hover{transition: all .3s ease-in-out;-webkit-transition: all .3s ease-in-out;
 	.zong{margin-top: 70px;padding-top: 10px;}
 	.nav{/*display: none;*/}
 	.template{float: none;margin-top: 80px;}
-	.head ul li{width: 70px;font-size: 15px;}
-	.logo{width: 100px;background-size: 100%;margin-left: 10px;}
+	.head ul li{width: 90px;font-size: 15px;}
+	.logo{width: auto;background-size: 100%;margin-left: 10px;}
+	.logo a {font-size: 28px;line-height: 70px}
 	.fenlei{float: right;}
 	.dangq{float: left;}
 	.biaot{background-color: #fff;height: 40px;line-height: 40px;padding: 0 40px;}
