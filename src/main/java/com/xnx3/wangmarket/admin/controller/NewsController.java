@@ -44,6 +44,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
@@ -90,7 +91,7 @@ public class NewsController extends BaseController {
 			return error("请输入您页面的名字");
 		}
 		
-		Site site = getSite();
+		Site site = SessionUtil.getSite();
 		SiteColumn siteColumn = null;
 		
 		News news;
@@ -130,7 +131,7 @@ public class NewsController extends BaseController {
 			news.setReadnum(0);
 			news.setStatus(News.STATUS_NORMAL);
 			news.setType(SiteColumn.TYPE_LIST);
-			news.setUserid(getUserId());
+			news.setUserid(site.getUserid());
 			news.setAddtime(DateUtil.timeForUnix10());
 			news.setSiteid(site.getId());
 			

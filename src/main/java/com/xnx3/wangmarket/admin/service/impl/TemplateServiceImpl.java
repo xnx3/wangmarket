@@ -40,7 +40,10 @@ import com.xnx3.wangmarket.admin.entity.SiteVar;
 import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.pluginManage.bean.GenerateSiteColumnNewsDatasourceBean;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateHtmlStorateInterfaceManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSiteColumnNewsDatasourceInterfaceManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.NewsPluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
@@ -82,10 +85,11 @@ public class TemplateServiceImpl implements TemplateService {
 	@Resource
 	private SiteVarService siteVarService;
 	
-
-	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request) {
-		Site site = SessionUtil.getSite();
-		TemplatePageListVO vo = (TemplatePageListVO) request.getSession().getAttribute(sessionTemplatePageListVO);
+	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request, Site site) {
+		TemplatePageListVO vo = null;
+		if(request != null) {
+			vo = (TemplatePageListVO) request.getSession().getAttribute(sessionTemplatePageListVO);
+		}
 		if(vo == null){
 			//登陆后第一次取，缓存中还尚未存储，那么读数据表，取出后存入缓存
 			
@@ -108,10 +112,17 @@ public class TemplateServiceImpl implements TemplateService {
 			//加入缓存中存储。只加入了templatePage，data未加入，使用时用哪个再加入哪个
 			vo = new TemplatePageListVO();
 			vo.setList(templatePageVOList);
-			request.getSession().setAttribute(sessionTemplatePageListVO, vo);
+			if(request != null) {
+				request.getSession().setAttribute(sessionTemplatePageListVO, vo);
+			}
 		}
 		
 		return vo;
+	}
+	
+	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request) {
+		Site site = SessionUtil.getSite();
+		return getTemplatePageListByCache(request, site);
 	}
 	
 	public TemplatePageListVO getTemplatePageListByDatabase(Site site) {
@@ -1367,7 +1378,7 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		
 		//v2.24，将模版变量的比对，改为模版页面
-		TemplatePageListVO tplVO = getTemplatePageListByCache(request);
+		TemplatePageListVO tplVO = getTemplatePageListByCache(request, site);
 		if(tplVO == null || tplVO.getList().size() == 0){
 			vo.setBaseVO(BaseVO.FAILURE, "当前网站尚未选择/导入/增加模版，生成失败！网站有模版后才能根据模版生成整站！");
 			return vo;
@@ -1471,6 +1482,20 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 			//取得当前栏目下的News列表
 			List<News> columnNewsList = columnNewsMap.get(siteColumn.getCodeName());
+			
+			//插件拦截处理
+			try {
+				GenerateSiteColumnNewsDatasourceBean bean = GenerateSiteColumnNewsDatasourceInterfaceManage.generateSiteColumnNewsDatasource(request, site, siteColumn, columnNewsList, newsDataMap);
+				if(bean != null) {
+					columnNewsList = bean.getColumnNewsList();
+					siteColumn = bean.getSiteColumn();
+					newsDataMap = bean.getNewsDataMap();
+				}
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 			
 			//获取当前栏目的内容页模版
 			String viewTemplateHtml = templateCacheMap.get(siteColumn.getTemplatePageViewName());
