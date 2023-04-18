@@ -52,7 +52,7 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 </style>
 
 
-<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:100px;">
+<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
 	<input type="hidden" name="id" value="${news.id }" />
 	<input type="hidden" name="cid" value="${news.cid }" />
 	<input type="hidden" name="type" value="${news.type }" />
@@ -60,7 +60,8 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 	${inputModelText }
 	
 	<!-- 右侧插件扩展面板 -->
-	<div id="rightPluginPanel" style=" background: yellow;
+	<!-- 展开更多设置,v6.1版本将增加，当前正在调试中，此处可用插件进行更多自定义扩展，如文章自定义生成的html文件名、文章设置标签等 -->
+	<div id="rightPluginPanel" style="display:none; background: yellow;
     float: right;
     position: absolute;
     top: 0px;
@@ -68,16 +69,10 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
     width: 70px;
     bottom: 0px;
     z-index: 99999;">
-	展开更多设置,v6.1版本将增加，当前正在调试中，此处可用插件进行更多自定义扩展，如文章自定义生成的html文件名、文章设置标签等
-	<div style="    background: white;
-    height: 120px;
-    width: 30px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    position: fixed;
-    top: 40%;
-    " onclick="document.getElementById('rightPluginPanel').style.width = '300px';">扩大</div>
+	<div style="    background: white; height: 120px;width: 30px;font-size: 1.5rem;cursor: pointer;position: fixed; top: 40%;" onclick="document.getElementById('rightPluginPanel').style.width = '300px';">扩大</div>
 	</div>
+	
+	
 	<div class="layui-form-item" style="padding-top:15px; text-align:center;">
 		<div class="layui-input-block">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1" style="width:150px; font-size: 16px; height: 45px;line-height: 45px;">保存</button>
@@ -262,8 +257,27 @@ function loadSuCai(){
 	//加载素材的支持库
 	dynamicLoading.js(resBasePath+"ueditor/template/load.js");
 }
+
+//v6.1临时加
+//if(window.location.host.indexOf('192.168') > -1 || window.location.host.indexOf('localhost') > -1){
+//	document.getElementById('rightPluginPanel').style.display = ''; //显示右侧输入栏
+//}
+
+
+
 </script>
 
 ${pluginAppendHtml}
+<script>
+try{
+	if(document.getElementById('rightPluginPanel').children.length > 1){
+		//因为会有打开、关闭，所以一定是最少有一个元素的，大于1则是有插件使用了，可以显示出可编辑项目出来
+		document.getElementById('rightPluginPanel').style.display = ''; //显示右侧输入栏
+		document.getElementById('form').style.paddingRight = '100px'; //主题区域缩小点，流出右侧一点位置来
+	}
+}catch(e){
+	console.log(e);
+}
+</script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
