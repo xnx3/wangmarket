@@ -198,9 +198,9 @@
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>2.38</version>  
+	        <version>3.1</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-2.38.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.1.jar</systemPath>  
 	    </dependency>
 		
 	</dependencies>
