@@ -20,7 +20,7 @@
 	    <groupId>com.xnx3.wangmarket.wm</groupId>
 	    <artifactId>parent</artifactId>
 	    <!-- 要改为3.0，但maven还没发上去 -->
-	    <version>2.26</version>
+	    <version>3.0</version>
 	  </parent>
 
   <repositories>
@@ -191,7 +191,7 @@
 		<dependency> 
 		    <groupId>cn.zvo.fileupload</groupId>
 		    <artifactId>fileupload-framework-ueditor</artifactId>
-		    <version>1.0</version>
+		    <version>1.1</version>
 		</dependency>
 	
 		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
