@@ -212,6 +212,29 @@ public class SiteController extends BaseController {
 			}
 		}
 		
+		/** v6.2版本增加，用于校验系统本身使用的一些域名 **/
+		// 1. 主域名本身 xxx.com
+		if(SystemUtil.get("MASTER_SITE_URL").indexOf("//"+bindDomain) > 0){
+			// 访问的是 直接跳转到登陆页面
+			return error("系统使用域名，您无法操作");
+		}
+		// 1. admin.xxx.com
+		if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//admin.").indexOf("//"+bindDomain) > 0){
+			// 访问的是 直接跳转到登陆页面
+			return error("系统使用域名，您无法操作");
+		}
+		// 2. cdn.xxx.com
+		if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//cdn.").indexOf("//"+bindDomain) > 0){
+			// 访问的是 直接跳转到登陆页面
+			return error("系统使用域名，您无法操作");
+		}
+		// 3. obs.xxx.com （这个不是，也一起加上吧）
+		if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//obs.").indexOf("//"+bindDomain) > 0){
+			// 访问的是 直接跳转到登陆页面
+			return error("系统使用域名，您无法操作");
+		}
+		
+		
 		//v2.1更新，直接从Session中拿site.id
 		Site site = sqlService.findById(Site.class, getSiteId());
 		String oldBindDomain = site.getBindDomain();
