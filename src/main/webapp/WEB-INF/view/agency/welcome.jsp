@@ -171,6 +171,8 @@ function jumpParentAgency(){
 	});
 }
 
+/*
+	v6.2 移除，代理后台本身很简单，就不画蛇添足了
 
 //代理开通15日内，登录会弹出网站快速开通的视频说明
 try {
@@ -190,6 +192,7 @@ try {
 		});
 	}
 } catch(error) {}
+*/
 </script>
 
 <script type="text/javascript">
