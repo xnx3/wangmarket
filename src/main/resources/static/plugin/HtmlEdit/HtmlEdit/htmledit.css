@@ -1,0 +1,99 @@
+<style type="text/css">
+/*这个head没啥作用*/
+.xnx3_head{
+}
+
+/*弹出修改代码的面板*/
+.xnx3_panel{
+	margin: 0 auto;
+    padding: 0px;
+	text-align: left;
+	width:100%;
+	height:100%;
+	box-sizing: content-box;
+}
+.xnx3_panel>.xnx3_textarea{
+	width: 100%;
+    height: 100%;
+    margin-bottom: -58px;
+    font-size: 17px;
+    font-family: monospace;
+    line-height: 20px;
+    color: #DDDDDD;
+    border: 0px solid;
+    background-color: black;
+    padding: 10px;
+    padding-top: 5px;
+}
+
+
+/*行*/
+.xnx3_row{
+	width: 100%;
+	min-height: 38px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+/*行里面的左侧说明文字*/
+.xnx3_row .xnx3_inputLeftLabel{
+	float: left;
+    display: block;
+    padding: 3px 15px;
+	min-width: 80px;
+    max-width: 110px;
+    font-weight: 400;
+    text-align: right;
+    font-size: 16px;
+	height: 38px;
+    line-height: 38px;
+}
+/*行里面的右侧输入*/
+.xnx3_row .xnx3_inputText{
+	display: -webkit-box;
+    width: 65%;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 38px;
+    margin-top: 2px;
+    font-size: 18px;
+    border-style: groove;
+    border: 1px solid rgba(0, 0, 0, 0.26);
+}
+/*行里面的按钮的样式*/
+.xnx3_row .xnx3_botton{
+	width:auto;
+	display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0px 18px;
+    background-color: rgb(0, 150, 136);
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 2px;
+    cursor: pointer;
+    opacity: 0.9;
+    border: 0px;
+    cursor: pointer;
+}
+.xnx3_row .xnx3_textarea{
+	min-width: 30%;
+    width: 65%;
+    height: 200px;
+    border-style: groove;
+	line-height: 18px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+/* 帮助的问好的样式。配合layui的i标签图标一块用 */
+.xnx3_help_ico{
+	border: 1px solid #e2e2e2;
+	padding:3px;
+	border-radius: 30px; 
+	color: #626262;
+	font-size: 12px; 
+	cursor: pointer; 
+	margin-left: 10px;
+}
+</style>
