@@ -150,7 +150,7 @@ public interface TemplateService {
 	
 	/**
 	 * 模版导入、模版恢复
-	 * @param templateText 导入的模版文件的内容，字符串
+	 * @param templateText 导入的模版文件的内容，字符串。 这里是 .wscso 文件中的字符串，也就是utf8转码后的字符串，避免出现中文乱码。导入后会将utf8编码的转化为正常编码
 	 * @param copySiteColumn 是否再改变为新模版的同时，将其模版所拥有的栏目也一并复制过来。只对之前没有使用过的模版会复制栏目，若以前使用过此模版了，那么不会再复制栏目
 	 * 				<ul>
 	 * 					<li>true：复制</li>

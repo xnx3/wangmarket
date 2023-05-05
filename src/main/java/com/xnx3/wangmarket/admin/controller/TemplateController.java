@@ -52,7 +52,9 @@ import com.xnx3.wangmarket.admin.entity.TemplatePage;
 import com.xnx3.wangmarket.admin.entity.TemplatePageData;
 import com.xnx3.wangmarket.admin.entity.TemplateVar;
 import com.xnx3.wangmarket.admin.entity.TemplateVarData;
+import com.xnx3.wangmarket.admin.pluginManage.bean.HtmlVisualBean;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.GenerateSitePluginManage;
+import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.HtmlVisualPluginManage;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.SiteAdminIndexPluginManage;
 import com.xnx3.wangmarket.admin.service.InputModelService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
@@ -142,6 +144,18 @@ public class TemplateController extends BaseController {
 				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		
+		
+		/**** 针对html可视化编辑插件 ****/
+		try {
+			List<HtmlVisualBean> list = HtmlVisualPluginManage.htmlVisualEditBefore(request, getSite());
+			model.addAttribute("HtmlVisualPluginList", list);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
 		
 		User user = getUser();
 		
@@ -554,8 +568,8 @@ public class TemplateController extends BaseController {
 			html = html.replaceAll(TemplateCMS.regex("templatePath"), templateCMS.getTemplatePath());
 			
 			//自动在</head>之前，加入htmledit.js
-			String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-			html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+SystemUtil.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
+			//String yuming = "//"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+			//html = html.replace("</head>", "<!--XNX3HTMLEDIT--><script>var masterSiteUrl='"+SystemUtil.get("MASTER_SITE_URL")+"'; var htmledit_upload_url='"+yuming+"template/uploadImage.do?t="+DateUtil.timeForUnix13()+"'; </script><script src=\""+StaticResource.getPath()+"module/htmledit/htmledit.js\"></script></head>");
 			
 			ActionLogUtil.insert(request, vo.getTemplatePageData().getId(), "可视化编辑获取指定模版页内容", pageName);
 		}
@@ -1648,5 +1662,26 @@ public class TemplateController extends BaseController {
 		return vo;
 	}
 	
-	
+	/**
+	 * 通过传入 .wscso 的模版内容，实现导入模版
+	 * <br/>模版文件包含模版页面，模版变量、栏目等。也就是通过模版管理-导出模版所导出的wscso文件的内容
+	 * @param templateText 导入的模版文件的内容，字符串。 这里是 .wscso 文件中的字符串，也就是utf8转码后的字符串，避免出现中文乱码。导入后会将utf8编码的转化为正常编码
+	 */
+	@RequestMapping(value="importTemplateByText.json", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO importTemplateByText(HttpServletRequest request, 
+			@RequestParam(value = "templateText", required = false , defaultValue="") String templateText){
+		if(templateText == null || templateText.length() < 10) {
+			return error("请传入模版文件");
+		}
+		//							KB		MB	  5MB
+		if(templateText.length() > 1024/2 * 1024 * 5) {
+			return error("传入的模版文件过大");
+		}
+		BaseVO vo = templateService.importTemplate(templateText, true, request);
+		if(vo.getResult() - BaseVO.SUCCESS == 0){
+			ActionLogUtil.insertUpdateDatabase(request, "模版导入成功");
+		}
+		return vo;
+	}
 }
