@@ -2,6 +2,7 @@
 <%@page import="com.xnx3.j2ee.Global"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="com.xnx3.wangmarket.admin.G"%><!DOCTYPE html>
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="网站管理后台"/>
@@ -315,20 +316,21 @@ if('${needSelectTemplate}' == 1){
 
 
 //模式切换
-var testEditor;
+//var testEditor;
 
 //以代码模式编辑模版页面
 function codeEditMode(){
 	useTopTools();
 	document.getElementById("htmledit_mode").style.display='none';	//将 代码模式、智能模式切换的按钮隐藏。代码模式下，不需要再有智能模式
 	
+	/*
 	if(typeof(textEditor) != 'undefined'){
 		try{
 			//清空上次的
 			testEditor.setValue('');
 		}catch(e){}
 	}
-
+	*/
 	//判断一下，如果上次是智能模式，那么切换回代码模式
 	if(currentMode == 1){
 		//由智能模式切换代码模式
@@ -345,6 +347,7 @@ function codeEditMode(){
 		msg.close();	//关闭“操作中”的等待提示
 		document.getElementById("html_textarea").value=data;
 		
+		/*
 		testEditor = editormd("editormd", {
 			width			: "100%",
 			height			: "100%",
@@ -358,6 +361,9 @@ function codeEditMode(){
 			mode			: "text/html",
 			path			: '${STATIC_RESOURCE_PATH}module/editor/lib/'
 		});
+		*/
+		//edit.extend[edit.currentMode].edit(data);
+		edit.extend.editormd.edit(data);
 		
 	},'text');
 }
@@ -375,12 +381,18 @@ function htmledit_mode(){
 		//判断一下，如果模版页面不是正常的HTML模版，那么在切换到代码模式时，不进行赋值textarea的操作
 		var html = '';
 		try {
-			html = getHtmlSource();
-		} catch(error) {}
+			//html = getHtmlSource();
+			html = edit.extend[edit.currentExtend].html();
+			console.log(html);
+		} catch(error) { console.log(error); }
 		
 		if(html != ''){
 			//由智能模式切换代码模式
-			document.getElementById("html_textarea").value=getHtmlSource();
+			//var htmlsource = getHtmlSource();
+			var htmlsource = edit.extend[edit.currentExtend].html();
+			
+			document.getElementById("html_textarea").value=htmlsource;
+			/*
 			testEditor = editormd("editormd", {
 				width			: "100%",
 				height			: "100%",
@@ -394,6 +406,8 @@ function htmledit_mode(){
 				mode			: "text/html",
 				path			: '${STATIC_RESOURCE_PATH}module/editor/lib/'
 			});
+			*/
+			edit.extend.editormd.edit(htmlsource);
 		}
 		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
@@ -406,13 +420,17 @@ function htmledit_mode(){
 		document.getElementById("htmlMode").style.display='none';
 		
 		//将editormd的值转到textarea中
-		document.getElementById("html_textarea").value = testEditor.getValue();
-		
+		//document.getElementById("html_textarea").value = testEditor.getValue();
+		var htmlsource = edit.extend.editormd.html(); //取editormd 编辑器中的html
+		document.getElementById("html_textarea").value = htmlsource;
+		/*
 		var o = document.getElementById("iframe");
 		ed = document.all ? o.contentWindow.document : o.contentDocument;
 		ed.open();
 		ed.write(testEditor.getValue());
 		ed.close();
+		*/
+		edit.extend[edit.currentExtend].edit(htmlsource);
 		
 		document.getElementById("htmledit_mode").innerHTML = '代码模式';
 		currentMode = 1;
@@ -420,9 +438,11 @@ function htmledit_mode(){
 	msg.close();
 }
 
+/*
 function getHtmlSource(){
 	return $(window.parent.document).contents().find("#iframe")[0].contentWindow.xnx3_getHtmlSource();
 }
+*/
 
 //保存HTML源代码
 function saveHtmlSource(){
@@ -430,13 +450,15 @@ function saveHtmlSource(){
 	var html;
 	if(currentMode == 1){
 		//傻瓜模式，再iframe中
-		html = getHtmlSource();
+		//html = getHtmlSource();
+		html = edit.extend[edit.currentExtend].html();
 	}else{
 		//开发者模式，在 editormd 中获取，（已不在textarea中，textarea只是切换智能模式与代码模式的中转站）
 		
 		//将editormd的值转到textarea中
-		document.getElementById("html_textarea").value = testEditor.getValue();
-		html = document.getElementById("html_textarea").value
+		var html = edit.extend.editormd.html(); //取editormd 编辑器中的html
+		//document.getElementById("html_textarea").value = testEditor.getValue();
+		document.getElementById("html_textarea").value = html;
 	}
 	
 	msg.loading('保存中');
@@ -1084,5 +1106,20 @@ ${pluginAppendHtml}
 		layer.closeAll('tips');
 	}
 </script>
+
+${HtmlVisualPluginList}
+<!-- HtmlVisual 插件 -->
+<c:forEach var="htmlVisual" items="${HtmlVisualPluginList}">
+<script>
+if('${htmlVisual.name}'.length > 0){
+	console.log('加载 HtmlVisual 插件 ：${htmlVisual.name}');
+	wm.load.synchronizesLoadJs('${htmlVisual.url}');
+	//加载完毕后执行初始化方法
+	edit.extend['${htmlVisual.id}'].init();
+	//设置当前可视化变为方式为这个插件
+	edit.currentExtend = '${htmlVisual.id}';
+}
+</script>
+</c:forEach>
 
 <style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.6rem!important;border-radius: 30px;transform: translateY(-4px);font-size: 12px} </style>

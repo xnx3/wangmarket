@@ -165,7 +165,23 @@ function openBindDomain(){
 //document.getElementById("currentTemplatePageName").value = '${templatePage.name}';	//当前模版页面的名字，修改时必须跟iframe.src一块改动
 function loadIframe(){
 	useTopTools();
-	document.getElementById("iframe").src='getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value;
+	//console.log('getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value);
+	//document.getElementById("iframe").src='getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value;
+	var url ='/template/getTemplatePageText.do?pageName='+document.getElementById("currentTemplatePageName").value;
+	msg.loading('加载中');
+	/*
+	wm.post(url, {}, function(data){
+		msg.close();
+		//console.log(edit.currentExtend)
+		edit.extend[edit.currentExtend].edit(data);
+	});
+	*/
+	
+	$.post(url, function(data){
+		msg.close();	//关闭“操作中”的等待提示
+		edit.extend[edit.currentExtend].edit(data);
+	},'text');
+	
 }
 
 
@@ -177,4 +193,84 @@ function loadIframeByUrl(url){
 	}
 	msg.closeAllSimpleMsg();	//修复模板页面保存后立即点别的如栏目管理，提示信息不自动取消的问题
 	document.getElementById("iframe").src=url;
+}
+
+
+
+/************ 可视化编辑 */
+var edit = {
+	//当前编辑的模式，有两种， code 代码模式  visual 可视化模式
+	// HtmlVisualEditor htmledit
+	currentExtend:'HtmlVisualEditor',
+	extend:{
+		
+		
+		
+	},
+	
+	/*
+	* 进入使用可视化编辑模式
+	* html 要可视化编辑时，其中默认的html
+	*/ 
+	/*
+	visualEdit:function(html){
+		
+		document.getElementById("iframe").style.display='';
+		document.getElementById("iframe").style.marginTop='0px';
+		document.getElementById("htmlMode").style.display='none';
+		
+		 // //将editormd的值转到textarea中
+		document.getElementById("html_textarea").value = html;
+		
+		var o = document.getElementById("iframe");
+		ed = document.all ? o.contentWindow.document : o.contentDocument;
+		ed.open();
+		ed.write(html);
+		ed.close();
+		
+		document.getElementById("htmledit_mode").innerHTML = '代码模式';
+		this.currentMode = 'visual';
+	}
+	*/
+};
+
+//editormd 的代码编辑
+edit.extend.editormd = {
+	editormdObj : null,
+	
+	/*
+	 * 进入使用这种编辑模式进行编辑
+	 * html 要编辑时，其中默认的html
+	 */ 
+	edit:function(html){
+		if(typeof(this.editormdObj) != 'undefined'){
+			try{
+				//清空上次的
+				this.editormdObj.setValue('');
+			}catch(e){}
+		}
+		
+		this.editormdObj = editormd("editormd", {
+			width			: "100%",
+			height			: "100%",
+			watch			: false,
+			toolbar			: false,
+			codeFold		: true,
+			searchReplace	: true,
+			placeholder		: "请输入html代码",
+			value			: html,
+			theme			: "default",
+			mode			: "text/html",
+			//path			: '${STATIC_RESOURCE_PATH}module/editor/lib/'
+			path			: '/module/editor/lib/'
+		});
+		
+	},
+	//获取当前编辑的html的内容
+	html:function(){
+		if(typeof(this.editormdObj) != 'undefined'){
+			return this.editormdObj.getValue();
+		}
+		return '异常，编辑对象未发现';
+	}
 }
