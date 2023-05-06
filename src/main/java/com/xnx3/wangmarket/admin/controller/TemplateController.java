@@ -1678,9 +1678,12 @@ public class TemplateController extends BaseController {
 		if(templateText.length() > 1024/2 * 1024 * 5) {
 			return error("传入的模版文件过大");
 		}
+		ActionLogUtil.insert(request, "模版导入中...");
 		BaseVO vo = templateService.importTemplate(templateText, true, request);
 		if(vo.getResult() - BaseVO.SUCCESS == 0){
 			ActionLogUtil.insertUpdateDatabase(request, "模版导入成功");
+		}else {
+			ActionLogUtil.insert(request, "模版导入失败", vo.getInfo());
 		}
 		return vo;
 	}
