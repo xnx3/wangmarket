@@ -4,6 +4,7 @@ edit.extend.HtmlVisualEditor = {
 	init(){
 		//加载HtmlVisualEditor 相关支持包
 		wm.load.synchronizesLoadJs('/plugin/HtmlVisualEditor/HtmlVisualEditor/HtmlVisualEditor.js');
+		wm.load.css('/plugin/HtmlVisualEditor/HtmlVisualEditor/HtmlVisualEditor.css');
 		HtmlVisualEditor.document.iframeId = 'iframe';
 		HtmlVisualEditor.config.uploadImageApi = 'https://api.kefu.leimingyun.com/kefu/chat/file/uploadImage.json';
 		//HtmlVisualEditor.config.resBasePath = './';

@@ -1,10 +1,9 @@
 /* 鼠标点中后出现的属性编辑面板相关 */
 #HtmlVisualEditor_EditPanel{
-		width: 350px;
-		position: absolute;
-		left: 700px; 
-		top: 20px; 
-		border-style: groove;
+	position: absolute;
+    right: 20px;
+    top: 20px;
+    border-style: groove;
 }
 
 /* 编辑面板的标题，也就是当前正在修改的是哪个，H2 */

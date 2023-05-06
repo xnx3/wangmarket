@@ -1,11 +1,19 @@
 /**
- * 可视化编辑html
+ * 因网市场云建站系统而做，可视化编辑html
  * author: 管雷鸣
+ * url: http://www.wang.market
  * QQ: 921153866
  * email: mail@xnx3.com
  * 微信: xnx3com
- * 开源仓库 https://github.com/xnx3/HtmlVisualEditor
+ * 最后修改 2019.4.1  同网市场v4.9版本而修改
+ * 参数定义：
+ * resBasePath 资源文件的路径，如 / ，又如 //res.weiunity.com/
+ * htmledit_upload_url 图片上传接口的URL请求地址。post上传 ，input名字为 image
+ * 
+ * masterSiteUrl 已经废弃，只是为适应网市场老版本而预留
+ * 
  */
+//网市场服务器域名，需在其父页面定义变量masterSiteUrl，如 var masterSiteUrl = '//wang.market/' ， 然后此可可视化编辑的页面，是页面iframe引入的，可使用 parent.masterSiteUrl 调用;
 HtmlVisualEditor = {
 	//版本
 	version : '3.0',
@@ -92,7 +100,7 @@ HtmlVisualEditor = {
 			// 给 div 元素添加一个 click 事件处理函数
 			HtmlVisualEditor.document.get().body.addEventListener("click", function (e) {
 			  //console.log (e);
-				
+
 			});
 
 			$(HtmlVisualEditor.document.get()).mouseover(function(e){
@@ -131,13 +139,26 @@ HtmlVisualEditor = {
 		},
 		//设置可视化编辑的html源码
 		setHtml:function(html){
+			html = '<meta http-equiv="content-security-policy" content="script-src \'none\'">' + html;
+
 			var o = document.getElementById(HtmlVisualEditor.document.iframeId);
 			ed = document.all ? o.contentWindow.document : o.contentDocument;
 			ed.open();
 			ed.write(html);
 			ed.close();
 			
-			setTimeout('HtmlVisualEditor.life.loadFinish()', 1000);
+			//隔开点时间，避免找不到报错
+			setTimeout('HtmlVisualEditor.life.loadFinish()', 500);
+
+			//判断是否已经加载了编辑面板
+			var editPanel = document.getElementById('HtmlVisualEditor_EditPanel');
+			if(editPanel == null || typeof(editPanel) == 'undefined'){
+				//还没有编辑面板，需要加入
+				var form = document.createElement('form');
+				form.setAttribute('id', 'HtmlVisualEditor_EditPanel');
+				form.innerHTML = '<!-- 这是 HtmlVisualEditor 的属性编辑面板 -->';
+				document.body.appendChild(form);
+			}
 		},
 
 		//获取可视化编辑的html源码
