@@ -203,6 +203,14 @@
     	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.1.jar</systemPath>  
 	    </dependency>
 		
+		<!-- wangmarket v6.2 之前版本使用的可视化方式，开源仓库： https://gitee.com/leimingyun/wangmarket_plugin_HtmlEdit  -->
+  		<dependency> 
+	        <groupId>com.xnx3.wangmarket.plugin.HtmlEdit</groupId>
+  			<artifactId>wangmarket.plugin.HtmlEdit</artifactId>
+	        <version>2.2</version>
+	        <scope>system</scope>  
+    	  	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wangmarket.plugin.HtmlEdit-2.2.jar</systemPath>  
+	    </dependency>
 	</dependencies>
     
 	<distributionManagement>

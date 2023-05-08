@@ -5,7 +5,7 @@
 <jsp:include page="../iw/common/head.jsp">
 	<jsp:param name="title" value="电脑模式网站管理后台"/>
 </jsp:include>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="https://res.zvo.cn/js/fun.js"></script>
 <script>
 var masterSiteUrl = '//<%=request.getServerName() %>/';
 var autoAssignDomain = '${autoAssignDomain }';

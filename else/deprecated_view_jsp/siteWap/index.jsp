@@ -8,8 +8,8 @@
 </jsp:include>
 
 <script src="<%=Global.get("ATTACHMENT_FILE_URL") %>site/${site.id}/data/site.js?t=<%=DateUtil.timeForUnix13() %>"></script>
-<script src="http://res.weiunity.com/js/jquery-2.1.4.js"></script>
-<script src="http://res.weiunity.com/js/fun.js"></script>
+<script src="https://res.zvo.cn/js/jquery-2.1.4.js"></script>
+<script src="https://res.zvo.cn/js/fun.js"></script>
 
 <script>
 var masterSiteUrl = '//<%=request.getServerName() %>/';
