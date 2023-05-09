@@ -49,6 +49,7 @@ import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteVarService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.SiteUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
@@ -1216,12 +1217,19 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		//对栏目进行重新调整，以栏目codeName为key，将栏目加入进Map中。用codeName来取栏目
 		Map<String, SiteColumn> columnMap = new HashMap<String, SiteColumn>();
-		//对文章-栏目进行分类，以栏目codeName为key，将文章List加入进自己对应的栏目。同时，若传入父栏目代码，其栏目下有多个新闻子栏目，会调出所有子栏目的内容（20条以内）
+		//对文章-栏目进行分类，以栏目codeName为key，将文章List加入进自己对应的栏目。同时，若传入父栏目代码，其栏目下有多个新闻子栏目，会调出所有子栏目的内容(比如 新闻资讯 下有公司新闻、行业资讯，那么信息是两个子栏目的信息，而栏目本身 新闻资讯如果有信息的化，是不调出来的)
 		Map<String, List<News>> columnNewsMap = new HashMap<String, List<News>>();
 		for (int i = 0; i < siteColumnList.size(); i++) {	//遍历栏目，将对应的文章加入其所属栏目
 			SiteColumn siteColumn = siteColumnList.get(i);
-			
+			columnMap.put(siteColumn.getCodeName(), siteColumn);
 			List<News> nList = new ArrayList<News>(); 
+			
+			//v6.2 增加，如果栏目是父栏目，那么这个栏目中如果有文章，在生成整站时会直接移除，避免网站中产生父栏目的脏数据
+			if(SiteUtil.isParentColumn(siteColumnList, siteColumn)) {
+				columnNewsMap.put(siteColumn.getCodeName(), nList);
+				continue;
+			}
+			
 			for (int j = 0; j < newsList.size(); j++) {
 				News news = newsList.get(j);
 				if(news.getCid() - siteColumn.getId() == 0){
@@ -1243,9 +1251,10 @@ public class TemplateServiceImpl implements TemplateService {
 				});
 			}
 			
-			columnMap.put(siteColumn.getCodeName(), siteColumn);
+			
 			columnNewsMap.put(siteColumn.getCodeName(), nList);
 		}
+		
 		
 		//对栏目进行缓存，以栏目id为key，将栏目加入进Map中。用id来取栏目。 同 columnMap. v4.7.1增加
 		Map<Integer, SiteColumn> columnMapForId = new HashMap<Integer, SiteColumn>();

@@ -257,6 +257,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	
 	@Column(name = "code_name", columnDefinition = "char(20) COLLATE utf8mb4_unicode_ci COMMENT '栏目diamante' default ''")
 	public String getCodeName() {
+		if(this.codeName == null) {
+			this.codeName = "";
+		}
 		return codeName;
 	}
 
