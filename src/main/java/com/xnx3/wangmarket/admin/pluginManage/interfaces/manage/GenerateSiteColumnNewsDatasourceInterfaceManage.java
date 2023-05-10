@@ -71,10 +71,7 @@ public class GenerateSiteColumnNewsDatasourceInterfaceManage {
 //	 * 如果没有插件实现，那么此接口会返回null
 //	 */
 //	public static GenerateHtmlInterface getGenerateHtmlInterfaceImpl(HttpServletRequest request, Site site) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
-		GenerateSiteColumnNewsDatasourceBean bean = new GenerateSiteColumnNewsDatasourceBean();
-		bean.setSiteColumn(siteColumn);
-		bean.setNewsDataMap(newsDataMap);
-		bean.setColumnNewsList(columnNewsList);
+		GenerateSiteColumnNewsDatasourceBean bean = null;
 		
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
@@ -92,7 +89,7 @@ public class GenerateSiteColumnNewsDatasourceInterfaceManage {
 				throw new NoSuchMethodException();
 			}
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			Object o = m.invoke(invokeReply, new Object[]{request, site, bean.getSiteColumn(), bean.getColumnNewsList(), bean.getNewsDataMap()});
+			Object o = m.invoke(invokeReply, new Object[]{request, site, siteColumn, columnNewsList, newsDataMap});
 			if(o != null){
 				bean = (GenerateSiteColumnNewsDatasourceBean) o;
 			}
