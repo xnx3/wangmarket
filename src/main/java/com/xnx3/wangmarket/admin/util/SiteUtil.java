@@ -2,6 +2,7 @@ package com.xnx3.wangmarket.admin.util;
 
 import java.util.List;
 
+import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 
 /**
@@ -31,5 +32,17 @@ public class SiteUtil {
 		return false;
 	}
 	
-	
+	/**
+	 * 判断这个网站是否允许上传
+	 * @param site 要判断的网站
+	 * @return true 允许上传
+	 */
+	public static boolean isUploadFile(Site site) {
+		//判断空间是否超出，是否能上传。 换算为 kb 进行计算
+		if(site.getAttachmentSizeHave() * 1024 <= site.getAttachmentSize()) {
+			return false;
+		}
+		
+		return true;
+	}
 }
