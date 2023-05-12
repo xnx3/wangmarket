@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>6.1.2</version>
+  <version>6.1.3</version>
   <description>网市场云建站系统生成 wangmarket.jar 专用。生成方式为 mvn clean package -f jar.xml</description>
   
    <properties>

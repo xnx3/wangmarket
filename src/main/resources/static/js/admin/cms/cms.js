@@ -192,6 +192,9 @@ function loadIframeByUrl(url){
 		htmledit_mode();
 	}
 	msg.closeAllSimpleMsg();	//修复模板页面保存后立即点别的如栏目管理，提示信息不自动取消的问题
+	
+	edit.destroy(); //销毁可视化，如果是可视化编辑情况下的话
+	
 	document.getElementById("iframe").src=url;
 }
 
@@ -207,6 +210,18 @@ var edit = {
 		
 		
 	},
+	//销毁可视化
+	destroy:function(){
+		try{
+			if(typeof(edit) != 'undefined' && edit != null && typeof(edit.currentExtend) != 'undefined' && edit.currentExtend.length > 0){
+				if(typeof(edit.extend[edit.currentExtend]) != 'undefined' && typeof(edit.extend[edit.currentExtend].destroy) != 'undefined'){
+					edit.extend[edit.currentExtend].destroy(); //执行可视化的销毁
+				}
+			}
+		}catch(e){
+			console.log(e);
+		}
+	}
 	
 	/*
 	* 进入使用可视化编辑模式

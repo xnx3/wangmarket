@@ -412,6 +412,8 @@ function htmledit_mode(){
 		
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
 		currentMode = 2;
+		
+		edit.destroy(); //销毁可视化
 	}else{
 		//由代码模式切换智能模式
 		
