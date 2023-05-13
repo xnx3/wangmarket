@@ -56,6 +56,10 @@
 				box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0px 0px;
 			}
 			
+			/*** 翻译的手机端适配 **/
+			#translateSelectLanguage{
+				top: 1rem;
+			}
 		}
 		
 		a{
