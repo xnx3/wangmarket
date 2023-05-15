@@ -29,6 +29,7 @@
 			<th>编号ID</th>
 			<th>网站名</th>
 			<th>用户名</th>
+			<th>手机号</th>
 			<th>空间占用</th>
 			<th>文章条数</th>
 			<th>域名</th>
@@ -46,6 +47,7 @@
 					<x:substring maxLength="10" text="${obj['name'] }"></x:substring>
 				</td>
 				<td class="ignore" style="width:100px;">${obj['userusername'] }</td>
+				<td style="min-width:100px;">${obj['userphone'] }</td>
 				<td class="ignore" style="width:150px;">
 					<x:fileSizeToInfo size="${obj['attachment_size'] }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB 
 					<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;" onclick="updateSize('${obj['id'] }','${obj['userusername'] }','${obj['attachment_size_have'] }')"><i class="layui-icon layui-icon-edit"></i></button>
