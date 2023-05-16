@@ -9,7 +9,8 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
- * News entity. @author MyEclipse Persistence Tools
+ * 网站的文章
+ * @author 管雷鸣
  */
 @Entity
 @Table(name = "news", indexes={@Index(name="suoyin_index",columnList="userid,addtime,type,status,cid,siteid,html_name")})
@@ -45,6 +46,14 @@ public class News implements java.io.Serializable {
 	 * 是否是合法的，不合法或者涉嫌
 	 */
 	public final static short LEGITIMATE_NO = 0;
+	/**
+	 * 文章置顶：是 ， 为1
+	 */
+	public final static short TOP_YES = 1;
+	/**
+	 * 文章置顶：否 ， 为0
+	 */
+	public final static short TOP_NO = 1;
 	
 	// Fields
 	private Integer id;
@@ -66,6 +75,9 @@ public class News implements java.io.Serializable {
 	//以下两个为预留字段，可以通过输入模型进行扩展
 	private String reserve1;
 	private String reserve2;
+	
+	//v6.2增加
+	private Short top;	//文章置顶，0不置顶，1置顶。默认为0
 	
 	public News() {
 		this.legitimate = LEGITIMATE_OK;
@@ -246,6 +258,18 @@ public class News implements java.io.Serializable {
 
 	public void setHtmlName(String htmlName) {
 		this.htmlName = htmlName;
+	}
+	
+	@Column(name = "top", columnDefinition="tinyint(2) COMMENT '文章置顶，0不置顶，1置顶。默认为0' default '0'")
+	public Short getTop() {
+		if(this.top == null) {
+			this.top = News.TOP_NO;
+		}
+		return top;
+	}
+
+	public void setTop(Short top) {
+		this.top = top;
 	}
 
 	@Override
