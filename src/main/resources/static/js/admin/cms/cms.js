@@ -188,8 +188,12 @@ function loadIframe(){
 //在主题内容区域iframe中加载制定的页面
 function loadIframeByUrl(url){
 	if(currentMode == 2){
-		//如果当前是编辑模版页的代码模式下，将其切换回智能模式。不然内容管理等这些就显示不出来了
-		htmledit_mode();
+		//如果当前是编辑模版页的代码模式下，将其切换回智能模式的显示形态，只是显示形态，将iframe显示。不然内容管理等这些就显示不出来了
+		document.getElementById("iframe").style.display='';
+		document.getElementById("iframe").style.marginTop='0px';
+		document.getElementById("htmlMode").style.display='none';
+		document.getElementById("htmledit_mode").innerHTML = '代码模式';
+		currentMode = 1;
 	}
 	msg.closeAllSimpleMsg();	//修复模板页面保存后立即点别的如栏目管理，提示信息不自动取消的问题
 	

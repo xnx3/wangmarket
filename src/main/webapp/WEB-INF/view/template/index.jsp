@@ -374,6 +374,8 @@ function htmledit_mode(){
 	document.getElementById("htmledit_mode").style.display='';	//将 代码模式、智能模式切换的按钮显示。智能模式下，一直优惠智能模式、代码模式的切换按钮
 	if(currentMode == 1){
 		//由智能模式切换代码模式
+		edit.destroy(); //销毁可视化
+		
 		document.getElementById("iframe").style.display='none';
 		document.getElementById("iframe").style.marginTop='0px';
 		document.getElementById("htmlMode").style.display='';
@@ -383,7 +385,7 @@ function htmledit_mode(){
 		try {
 			//html = getHtmlSource();
 			html = edit.extend[edit.currentExtend].html();
-			console.log(html);
+			//console.log(html);
 		} catch(error) { console.log(error); }
 		
 		if(html != ''){
@@ -413,7 +415,7 @@ function htmledit_mode(){
 		document.getElementById("htmledit_mode").innerHTML = '智能模式';
 		currentMode = 2;
 		
-		edit.destroy(); //销毁可视化
+		
 	}else{
 		//由代码模式切换智能模式
 		
