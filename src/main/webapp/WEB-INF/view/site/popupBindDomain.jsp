@@ -111,3 +111,8 @@ function bindDomain(oldDomain,newDomain){
 </script>
 
 <jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<style>
+html{
+	overflow: hidden;
+}
+</style>

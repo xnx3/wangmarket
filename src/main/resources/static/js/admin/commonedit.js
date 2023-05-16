@@ -449,8 +449,9 @@ function updateBindDomain(){
 	msg.popups({
 	    url:'/sites/popupBindDomain.do',
 	    padding:'1px',
-	    height:'258px',
+	    height:'270px',
 		width:'400px',
+		opacity:98
 	});
 }
 
