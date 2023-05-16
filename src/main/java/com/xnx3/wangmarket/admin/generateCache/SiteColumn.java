@@ -58,6 +58,8 @@ public class SiteColumn extends BaseGenerate {
 		createCacheObject("listRank");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_ASC, "发布时间正序");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ADDTIME_DESC, "发布时间倒序");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ID_ASC, "ID编号正序");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.SiteColumn.LIST_RANK_ID_DESC, "ID编号倒序");
 		generateCacheFile();
 	}
 	

@@ -498,7 +498,7 @@ $(function(){
 	//listRank ，信息排序
 	var listRank_index = 0;
 	$("#listRank_label").hover(function(){
-		listRank_index = layer.tips('当前栏目内，内容信息排序方式。有以下两种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前。<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前', '#listRank_label', {
+		listRank_index = layer.tips('当前栏目内，内容信息排序方式。有以下几种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前<br>3.&nbsp;<b>ID编号倒序</b>：文章id编号数值越大，排序越靠前<br/>4.&nbsp;<b>ID编号正序</b>：文章id编号数值越小，排序越靠前', '#listRank_label', {
 			tips: [2, '#0FA6A8'], //还可配置颜色
 			time:0,
 			tipsMore: true,

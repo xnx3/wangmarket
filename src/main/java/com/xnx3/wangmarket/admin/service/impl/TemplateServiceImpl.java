@@ -1242,11 +1242,32 @@ public class TemplateServiceImpl implements TemplateService {
 			
 			//默认是按照时间倒序，但是v4.4以后，用户可以自定义，可以根据时间正序排序，如果不是默认的倒序的话，就需要重新排序
 			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
-			if(siteColumn.getListRank() != null && siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
+			if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
 				Collections.sort(nList, new Comparator<News>() {
 					public int compare(News n1, News n2) {
 						//按照发布时间正序排序，发布时间越早，排列越靠前
 						return n1.getAddtime() - n2.getAddtime();
+					}
+				});
+			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_DESC == 0){
+				Collections.sort(nList, new Comparator<News>() {
+					public int compare(News n1, News n2) {
+						//按照发布时间倒序排序，发布时间越晚，排列越靠前
+						return n2.getAddtime() - n1.getAddtime();
+					}
+				});
+			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_ASC == 0){
+				Collections.sort(nList, new Comparator<News>() {
+					public int compare(News n1, News n2) {
+						//按照news.id正序排序，news.id越小，排列越靠前
+						return n1.getId() - n2.getId();
+					}
+				});
+			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_DESC == 0){
+				Collections.sort(nList, new Comparator<News>() {
+					public int compare(News n1, News n2) {
+						//按照news.id倒序排序，news.id越大，排列越靠前
+						return n2.getId() - n1.getId();
 					}
 				});
 			}
@@ -1345,12 +1366,18 @@ public class TemplateServiceImpl implements TemplateService {
 //				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
 				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
 					public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
-						if(sct.getSiteColumn().getListRank() != null && sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
-							//按照发布时间正序排序，发布时间越早，排列越靠前
-							return n2.getNews().getAddtime() - n1.getNews().getAddtime();
-						}else{
+						if(sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_DESC == 0){
 							//按照发布时间倒序排序，发布时间越晚，排列越靠前
 							return n1.getNews().getAddtime() - n2.getNews().getAddtime();
+						}else if(sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ID_ASC == 0){
+							//按照news.id正序排序，news.id越小，排列越靠前
+							return n2.getNews().getId() - n1.getNews().getId();
+						}else if(sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ID_DESC == 0){
+							//按照news.id倒序排序，news.id越大，排列越靠前
+							return n1.getNews().getId() - n2.getNews().getId();
+						}else {
+							//如果上面几种都没有，那么默认按照发布时间正序排序，发布时间越早，排列越靠前
+							return n2.getNews().getAddtime() - n1.getNews().getAddtime();
 						}
 					}
 				});

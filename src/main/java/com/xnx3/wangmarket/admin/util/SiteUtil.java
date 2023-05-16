@@ -45,4 +45,27 @@ public class SiteUtil {
 		
 		return true;
 	}
+	
+	/**
+	 * 传入 siteColumn.listRank 返回 sql 的order语句，返回如 addtime DESC
+	 * @param listRank siteColumn.listRank
+	 * @return 返回 sql 的order语句，返回如 addtime DESC
+	 */
+	public static String columnListRankToSql(Short listRank) {
+		if(listRank == null) {
+			return "addtime DESC";
+		}
+		
+		if(listRank - SiteColumn.LIST_RANK_ADDTIME_DESC == 0) {
+			return "addtime DESC";
+		}else if(listRank - SiteColumn.LIST_RANK_ADDTIME_ASC == 0) {
+			return "addtime ASC";
+		}else if(listRank - SiteColumn.LIST_RANK_ID_DESC == 0) {
+			return "id DESC";
+		}else if(listRank - SiteColumn.LIST_RANK_ID_ASC == 0) {
+			return "id ASC";
+		}
+		
+		return "addtime DESC";
+	}
 }

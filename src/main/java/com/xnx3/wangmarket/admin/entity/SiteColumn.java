@@ -91,6 +91,15 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	 */
 	public static final Short LIST_RANK_ADDTIME_ASC = 2;
 	
+	/**
+	 * 栏目内信息的列表排序规则，按照id编号倒序，id越大，排序越靠前
+	 */
+	public static final Short LIST_RANK_ID_DESC = 3;
+	/**
+	 * 栏目内信息的列表排序规则，按照id编号倒序，id越大，排序越靠前
+	 */
+	public static final Short LIST_RANK_ID_ASC = 4;
+	
 	private Integer id;						//id
 	private String name;					//栏目名字
 	private String url;						//已废弃
@@ -313,6 +322,9 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 
 	@Column(name = "list_rank", columnDefinition = "tinyint(2) COMMENT '列表排序，当前栏目若是信息列表，信息列表的排序规则' default '0'")
 	public Short getListRank() {
+		if(this.listRank == null) {
+			this.listRank = SiteColumn.LIST_RANK_ADDTIME_ASC;
+		}
 		return listRank;
 	}
 

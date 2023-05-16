@@ -45,6 +45,7 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.SiteUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
@@ -416,11 +417,12 @@ public class NewsController extends BaseController {
 		
 		//排序方式，通过栏目设置的内容排序，进行判断
 		if(siteColumn != null && siteColumn.getListRank() != null){
-			if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
-				sql.setDefaultOrderBy("addtime ASC");
-			}else{
-				sql.setDefaultOrderBy("addtime DESC");
-			}
+//			if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0){
+//				sql.setDefaultOrderBy("addtime ASC");
+//			}else{
+//				sql.setDefaultOrderBy("addtime DESC");
+//			}
+			sql.setDefaultOrderBy(SiteUtil.columnListRankToSql(siteColumn.getListRank()));
 		}else{
 			//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
 			sql.setDefaultOrderBy("addtime DESC");

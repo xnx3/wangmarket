@@ -339,7 +339,7 @@ public class TemplateVO extends BaseVO {
 					nsc.setListRank((short) j.getInt("listRank"));
 				}else{
 					//默认是按时间倒序，发布时间用越晚，越靠前
-					nsc.setListRank(SiteColumn.LIST_RANK_ADDTIME_ASC);
+					nsc.setListRank(SiteColumn.LIST_RANK_ADDTIME_DESC);
 				}
 				
 				//v4.6更新，兼容旧版本的模版，将栏目类型进行替换，替换为最新4.6版本的栏目类型
