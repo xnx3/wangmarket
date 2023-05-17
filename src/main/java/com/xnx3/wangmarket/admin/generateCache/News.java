@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import com.xnx3.j2ee.generateCache.BaseGenerate;
 
 /**
- * 站点栏目导航
+ * news文章相关
  * @author 管雷鸣
  */
 @Component
@@ -13,6 +13,7 @@ public class News extends BaseGenerate {
 		status();
 		type();
 		legitimate();
+		top();
 	}
 	
 	public void status(){
@@ -43,6 +44,17 @@ public class News extends BaseGenerate {
 		createCacheObject("legitimate");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.News.LEGITIMATE_OK, "合法");
 		cacheAdd(com.xnx3.wangmarket.admin.entity.News.LEGITIMATE_NO, "涉嫌");
+		generateCacheFile();
+	}
+	
+
+	/**
+	 * 是否置顶
+	 */
+	public void top(){
+		createCacheObject("newsTop");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.News.TOP_YES, "是");
+		cacheAdd(com.xnx3.wangmarket.admin.entity.News.TOP_NO, "否");
 		generateCacheFile();
 	}
 }

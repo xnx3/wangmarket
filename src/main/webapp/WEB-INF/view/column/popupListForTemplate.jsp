@@ -9,7 +9,7 @@
 	<jsp:param name="title" value="栏目导航"/>
 </jsp:include>
 <script src="/<%=Global.CACHE_FILE %>SiteColumn_used.js"></script>
-<script src="/<%=Global.CACHE_FILE %>SiteColumn_type.js"></script>
+<script src="/<%=Global.CACHE_FILE %>News_type.js"></script>
 
 <table class="layui-table" style="margin:0px;">
 	<thead>

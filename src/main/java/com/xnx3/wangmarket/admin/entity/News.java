@@ -53,7 +53,7 @@ public class News implements java.io.Serializable {
 	/**
 	 * 文章置顶：否 ， 为0
 	 */
-	public final static short TOP_NO = 1;
+	public final static short TOP_NO = 0;
 	
 	// Fields
 	private Integer id;

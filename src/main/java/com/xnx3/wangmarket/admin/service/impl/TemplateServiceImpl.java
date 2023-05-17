@@ -1242,35 +1242,41 @@ public class TemplateServiceImpl implements TemplateService {
 			
 			//默认是按照时间倒序，但是v4.4以后，用户可以自定义，可以根据时间正序排序，如果不是默认的倒序的话，就需要重新排序
 			//这里是某个具体子栏目的排序，父栏目排序调整的在下面
-			if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_ASC == 0 ){
-				Collections.sort(nList, new Comparator<News>() {
-					public int compare(News n1, News n2) {
-						//按照发布时间正序排序，发布时间越早，排列越靠前
-						return n1.getAddtime() - n2.getAddtime();
+			Collections.sort(nList, new Comparator<News>() {
+				public int compare(News n1, News n2) {
+					
+					//置顶相关开始 。 这里n1、n2 跟下面父栏目判断的那里正好是反着的
+					if(n2.getTop() - News.TOP_YES == 0) {
+						if(n1.getTop() - News.TOP_NO == 0) {
+							//第一个置顶，第二个不置顶
+							return 1;
+						}else {
+							//俩都是置顶，那交给下面判断
+						}
+					}else {
+						if(n1.getTop() - News.TOP_YES == 0) {
+							//第一个不置顶，第二个置顶
+							return -1;
+						}
 					}
-				});
-			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_DESC == 0){
-				Collections.sort(nList, new Comparator<News>() {
-					public int compare(News n1, News n2) {
+					//置顶相关结束
+					
+					if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ADDTIME_DESC == 0){
 						//按照发布时间倒序排序，发布时间越晚，排列越靠前
 						return n2.getAddtime() - n1.getAddtime();
-					}
-				});
-			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_ASC == 0){
-				Collections.sort(nList, new Comparator<News>() {
-					public int compare(News n1, News n2) {
+					}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_ASC == 0){
 						//按照news.id正序排序，news.id越小，排列越靠前
 						return n1.getId() - n2.getId();
-					}
-				});
-			}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_DESC == 0){
-				Collections.sort(nList, new Comparator<News>() {
-					public int compare(News n1, News n2) {
+					}else if(siteColumn.getListRank() - SiteColumn.LIST_RANK_ID_DESC == 0){
 						//按照news.id倒序排序，news.id越大，排列越靠前
 						return n2.getId() - n1.getId();
+					}else {
+						//如果上面几种都没有，那么默认按照发布时间正序排序，发布时间越早，排列越靠前
+						return n1.getAddtime() - n2.getAddtime();
 					}
-				});
-			}
+					
+				}
+			});
 			
 			
 			columnNewsMap.put(siteColumn.getCodeName(), nList);
@@ -1366,6 +1372,23 @@ public class TemplateServiceImpl implements TemplateService {
 //				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()));
 				Collections.sort(columnTreeNewsMap.get(sct.getSiteColumn().getCodeName()), new Comparator<com.xnx3.wangmarket.admin.bean.News>() {
 					public int compare(com.xnx3.wangmarket.admin.bean.News n1, com.xnx3.wangmarket.admin.bean.News n2) {
+						
+						//置顶相关开始
+						if(n1.getNews().getTop() - News.TOP_YES == 0) {
+							if(n2.getNews().getTop() - News.TOP_NO == 0) {
+								//第一个置顶，第二个不置顶
+								return 1;
+							}else {
+								//俩都是置顶，那交给下面判断
+							}
+						}else {
+							if(n2.getNews().getTop() - News.TOP_YES == 0) {
+								//第一个不置顶，第二个置顶
+								return -1;
+							}
+						}
+						//置顶相关结束
+						
 						if(sct.getSiteColumn().getListRank() - SiteColumn.LIST_RANK_ADDTIME_DESC == 0){
 							//按照发布时间倒序排序，发布时间越晚，排列越靠前
 							return n1.getNews().getAddtime() - n2.getNews().getAddtime();

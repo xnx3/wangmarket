@@ -7,6 +7,7 @@
 	<jsp:param name="title" value="文章列表"/>
 </jsp:include>
 <link href="/css/site_two_subMenu.css" rel="stylesheet">
+<script src="/<%=Global.CACHE_FILE %>News_newsTop.js"></script>
 
 <div style="width:100%;height:100%; background-color: #fff; overflow-x: hidden;">
 		
@@ -57,6 +58,7 @@
 					<th>文章标题</th>
 					<th>标题图片</th>
 					<th>发布时间</th>
+					<th>置顶</th>
 					<th>操作</th>
 				</tr> 
 			</thead>
@@ -80,6 +82,9 @@
 						<td style="width:140px; cursor: pointer;" id="addtime_${news['id'] }" onclick="updateAddtime('${news['id'] }', '<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>');">
 							<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time>
 							<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
+						</td>
+						<td style="width:40px; cursor: pointer;" onclick="updateTop('${news['id'] }', '${news['title'] }', '${news['top'] }');">
+							<script type="text/javascript">document.write(newsTop['${news['top'] }']);</script>
 						</td>
 						<td style="text-align: center; width:140px;">
 							<c:choose>
@@ -116,6 +121,8 @@
 			<div><i class="layui-icon">&#xe609;</i> &nbsp;：对某篇文章进行转移操作，可转移到其他栏目下</div>
 			<div><i class="layui-icon">&#xe640;</i> &nbsp;：删除某篇文章，栏目类型为新闻信息、图文信息的栏目才会有此按钮</div>
 			<div>添加信息 &nbsp;：顶部的“添加信息”按钮，可以添加多条文章信息，栏目类型为新闻信息、图文信息的栏目才会有此按钮</div>
+			<div>点击文章的 发布时间 位置，可以修改文章的发布时间</div>
+			<div>点击文章的 置顶 位置，可以修改文章是否置顶。置顶后的文章将会在后台以及网站中进行置顶显示。（动态栏目代码调用时也会按照此规则来）</div>
 		</div>
 	</div>
 </div>
@@ -212,6 +219,24 @@ function deleteNews(newsid){
  */
 function editText(name){
 	parent.openTemplatePageList(name);
+}
+
+//更改文章是否置顶
+function updateTop(id, title, top){
+	msg.confirm('确定要将文章《'+title+'》进行 '+(top==0? '置顶':'取消置顶')+' 操作吗？',function(){
+		parent.msg.loading("修改中");
+		wm.post('/news/updateTop.json', {id:id, top:top==1? 0:1}, function(data){
+			parent.msg.close();
+			if(data.result == '1'){
+				parent.msg.success("操作成功");
+				location.reload();
+		 	}else if(data.result == '0'){
+		 		parent.msg.failure(data.info);
+		 	}else{
+		 		parent.msg.failure('操作失败');
+		 	}
+	    });
+	});
 }
 
 /**

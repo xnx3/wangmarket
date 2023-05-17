@@ -422,7 +422,7 @@ public class NewsController extends BaseController {
 //			}else{
 //				sql.setDefaultOrderBy("addtime DESC");
 //			}
-			sql.setDefaultOrderBy(SiteUtil.columnListRankToSql(siteColumn.getListRank()));
+			sql.setDefaultOrderBy("top DESC, "+SiteUtil.columnListRankToSql(siteColumn.getListRank()));
 		}else{
 			//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
 			sql.setDefaultOrderBy("addtime DESC");
@@ -887,6 +887,55 @@ public class NewsController extends BaseController {
 		String htmlFile = hfs[0];
 		
 		return redirect("sites/html.do?htmlFile="+htmlFile);
+	}
+	
+
+	/**
+	 * 更改文章是否置顶
+	 * @param id news.id
+	 * @param top 要修改后的news.top的值
+	 */
+	@RequestMapping(value="updateTop.json", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseVO updateTop(HttpServletRequest request,HttpServletResponse response, 
+			@RequestParam(value = "id", required = false , defaultValue="0") int id,
+			@RequestParam(value = "top", required = false , defaultValue="0") short top){
+		if(id < 1){
+			return error("请传入要操作的文章编号");
+		}
+		News news = sqlService.findById(News.class, id);
+		if(news == null){
+			return error("要操作的文章不存在");
+		}
+		if(news.getSiteid() - getSiteId() != 0){
+			return error("文章不属于您，无法操作");
+		}
+		
+		//插件拦截处理
+		try {
+			NewsPluginManage.newsSaveBefore(request, news);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		news.setTop(top);
+		sqlService.save(news);
+		
+		//插件拦截处理
+		try {
+			NewsPluginManage.newsSaveFinish(request, news);
+		} catch (InstantiationException | IllegalAccessException
+				| NoSuchMethodException | SecurityException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		//记录日志
+		ActionLogUtil.insertUpdateDatabase(request, news.getId(), "更改文章是否置顶", "top:"+top);
+		
+		return success();
 	}
 	
 }
