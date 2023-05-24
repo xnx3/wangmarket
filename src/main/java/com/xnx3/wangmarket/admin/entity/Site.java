@@ -333,6 +333,9 @@ public class Site implements java.io.Serializable {
 
 	@Column(name = "attachment_size", columnDefinition="int(11) COMMENT '当前附件占用的空间大小，服务器空间，或云存储空间。计算的是 site/siteid/ 下的空间占用大小，单位是KB' default '0'")
 	public Integer getAttachmentSize() {
+		if(this.attachmentSize == null) {
+			this.attachmentSize = 0;
+		}
 		return attachmentSize;
 	}
 
