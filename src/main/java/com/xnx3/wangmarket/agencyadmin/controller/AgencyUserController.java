@@ -607,7 +607,7 @@ public class AgencyUserController extends BaseController {
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
-		sql.setSelectFromAndPage("SELECT site.id, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
+		sql.setSelectFromAndPage("SELECT site.id,site.name, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
 		sql.appendWhere("user.id = site.userid");
 		if(bind_domain.length() > 0 && !bind_domain.equalsIgnoreCase("null")) {
 			sql.appendWhere("site.bind_domain LIKE '%"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(bind_domain)+"%'");
