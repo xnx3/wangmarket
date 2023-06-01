@@ -14,6 +14,10 @@
 		<jsp:param name="iw_label" value="用户名"/>
 		<jsp:param name="iw_name" value="username"/>
 	</jsp:include>
+	<jsp:include page="/wm/common/list/formSearch_input.jsp">
+		<jsp:param name="iw_label" value="绑定域名"/>
+		<jsp:param name="iw_name" value="bind_domain"/>
+	</jsp:include>
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">

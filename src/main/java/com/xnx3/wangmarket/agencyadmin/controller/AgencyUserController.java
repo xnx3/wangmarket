@@ -599,7 +599,8 @@ public class AgencyUserController extends BaseController {
 	 */
 	@RequiresPermissions("agencyUserList")
 	@RequestMapping("userList${url.suffix}")
-	public String userList(HttpServletRequest request, Model model){
+	public String userList(HttpServletRequest request, Model model,
+			@RequestParam(value = "bind_domain", required = false, defaultValue = "") String bind_domain){
 		Sql sql = new Sql(request);
 		sql.setSearchTable("user");
 		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+SystemUtil.getInt("USER_REG_ROLE"));
@@ -608,6 +609,9 @@ public class AgencyUserController extends BaseController {
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
 		sql.setSelectFromAndPage("SELECT site.id, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
 		sql.appendWhere("user.id = site.userid");
+		if(bind_domain.length() > 0 && !bind_domain.equalsIgnoreCase("null")) {
+			sql.appendWhere("site.bind_domain LIKE '%"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(bind_domain)+"%'");
+		}
 		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
 		sql.setDefaultOrderBy("site.expiretime ASC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
