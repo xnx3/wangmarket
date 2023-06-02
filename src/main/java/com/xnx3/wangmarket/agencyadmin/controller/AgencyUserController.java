@@ -168,8 +168,8 @@ public class AgencyUserController extends BaseController {
 		if(client == 0){
 			return error("请选择站点类型，是电脑网站呢，还是手机网站呢？");
 		}
-		if(siteName.length() == 0 || siteName.length() > 20){
-			return error("请输入1～30个字符的要建立的站点名字");
+		if(siteName.length() == 0 || siteName.length() > 60){
+			return error("请输入1～60个字符的要建立的站点名字");
 		}
 		
 
@@ -216,8 +216,8 @@ public class AgencyUserController extends BaseController {
 		if(agency.getSiteSize() == 0){
 			return error("您的账户余额还剩 "+agency.getSiteSize()+" 站，不足以再开通网站！请联系相关人员充值");
 		}
-		if(site.getName().length() == 0 || site.getName().length() > 30){
-			return error("请输入1～30个字符的要建立的站点名字");
+		if(site.getName().length() == 0 || site.getName().length() > 60){
+			return error("请输入1～60个字符的要建立的站点名字");
 		}
 		//开通的都是CMS类型，v5.1
 		site.setClient(Site.CLIENT_CMS);
@@ -607,7 +607,7 @@ public class AgencyUserController extends BaseController {
 		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
-		sql.setSelectFromAndPage("SELECT site.id,site.name, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
+		sql.setSelectFromAndPage("SELECT site.id,site.name,site.userid, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
 		sql.appendWhere("user.id = site.userid");
 		if(bind_domain.length() > 0 && !bind_domain.equalsIgnoreCase("null")) {
 			sql.appendWhere("site.bind_domain LIKE '%"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(bind_domain)+"%'");
