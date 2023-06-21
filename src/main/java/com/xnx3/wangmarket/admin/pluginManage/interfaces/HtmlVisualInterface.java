@@ -1,8 +1,6 @@
 package com.xnx3.wangmarket.admin.pluginManage.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
-import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.pluginManage.bean.HtmlVisualBean;
 
 /**
@@ -12,9 +10,9 @@ import com.xnx3.wangmarket.admin.pluginManage.bean.HtmlVisualBean;
 public interface HtmlVisualInterface {
 	
 	/**
-	 * @param site 当前操作的网站
+	 * 在进入编辑之前
 	 * @param basevo.info 返回js插件的url。这里可以时绝对路径，也可以是相对路径，如 /plugin/HtmlVisualEditor/plugin.js
 	 */
-	public HtmlVisualBean htmlVisualEditBefore(HttpServletRequest request, Site site);
+	public HtmlVisualBean htmlVisualEditBefore(HttpServletRequest request);
 	
 }

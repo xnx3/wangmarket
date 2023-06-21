@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>6.2</version>
+  <version>6.2.1</version>
   <description>网市场云建站系统生成 wangmarket.jar 专用。生成方式为 mvn clean package -f jar.xml</description>
   
    <properties>
@@ -169,8 +169,19 @@
                 <targetPath>META-INF/resources/WEB-INF/</targetPath>  
                 <includes>  
                     <include>view/**</include>  
+                    <include>plugin/**</include>  
                 </includes>  
             </resource>  
+            <!-- 打包时将jsp文件拷贝到META-INF目录下 -->
+			<resource>
+				<!-- 指定resources插件处理哪个目录下的资源文件 -->
+				<directory>src/main/webapp</directory>
+				<!-- 注意此次必须要放在此目录下才能被访问到 -->
+				<targetPath>META-INF/resources/</targetPath>
+				<includes>
+					<include>plugin/**</include>
+				</includes>
+			</resource>
         </resources>  
 	</build>   
 	  
@@ -197,9 +208,9 @@
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>3.1</version>  
+	        <version>3.6</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.1.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.6.jar</systemPath>  
 	    </dependency>
    </dependencies>  
    

@@ -197,19 +197,21 @@
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>3.1</version>  
+	        <version>3.6</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.1.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.6.jar</systemPath>  
 	    </dependency>
 		
 		<!-- 使用的HTML可视化，开源仓库： https://github.com/xnx3/HtmlVisualEditor  -->
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.plugin.HtmlVisualEditor</groupId>
   			<artifactId>wangmarket.plugin.HtmlVisualEditor</artifactId>
-	        <version>3.0.1</version>
+	        <version>3.0.2</version>
 	        <scope>system</scope>  
-    	  	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wangmarket.plugin.HtmlVisualEditor-3.0.1.jar</systemPath>  
+    	  	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wangmarket.plugin.HtmlVisualEditor-3.0.2.jar</systemPath>
 	    </dependency>
+	    
+	    
 	</dependencies>
     
 	<distributionManagement>

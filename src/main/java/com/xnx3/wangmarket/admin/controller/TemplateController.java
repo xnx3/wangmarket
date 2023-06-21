@@ -148,7 +148,7 @@ public class TemplateController extends BaseController {
 		
 		/**** 针对html可视化编辑插件 ****/
 		try {
-			List<HtmlVisualBean> list = HtmlVisualPluginManage.htmlVisualEditBefore(request, getSite());
+			List<HtmlVisualBean> list = HtmlVisualPluginManage.htmlVisualEditBefore(request);
 			model.addAttribute("HtmlVisualPluginList", list);
 		} catch (InstantiationException | IllegalAccessException
 				| NoSuchMethodException | SecurityException

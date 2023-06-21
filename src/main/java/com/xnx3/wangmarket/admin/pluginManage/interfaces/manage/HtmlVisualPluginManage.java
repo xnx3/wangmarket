@@ -5,14 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SpringUtil;
-import com.xnx3.j2ee.vo.BaseVO;
-import com.xnx3.wangmarket.admin.entity.News;
-import com.xnx3.wangmarket.admin.entity.NewsData;
-import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.pluginManage.bean.HtmlVisualBean;
 
 /**
@@ -50,26 +47,42 @@ public class HtmlVisualPluginManage {
 	}
 	
 	/**
-	 * @param site 当前操作的网站
+	 * 在进入编辑之前
 	 * @param basevo.info 返回js插件的url。这里可以时绝对路径，也可以是相对路径，如 /plugin/HtmlVisualEditor/plugin.js
 	 * 		如果vo返回null，则是没有使用插件
 	 */
-	public static List<HtmlVisualBean> htmlVisualEditBefore(HttpServletRequest request, Site site) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
+	public static List<HtmlVisualBean> htmlVisualEditBefore(HttpServletRequest request) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		List<HtmlVisualBean> list = new ArrayList<HtmlVisualBean>();
 		for (int i = 0; i < classList.size(); i++) {
 			Class<?> c = classList.get(i);
 			Object invokeReply = null;
 			invokeReply = c.newInstance();
+			Method[] ms=c.getMethods();
+//			Method m = null;
+//			for(int s = 0; s<ms.length;s++) {
+//				//System.out.println(ms[s].getName());
+//				if(ms[s].getName().equalsIgnoreCase("htmlVisualEditBefore")) {
+////					m = ms[s];
+////					System.out.println(m.getParameters());
+//				}
+//			}
+		
 			//运用newInstance()来生成这个新获取方法的实例
-			Method m = c.getMethod("htmlVisualEditBefore",new Class[]{HttpServletRequest.class, Site.class});	//获取要调用的init方法
+			Method m = c.getMethod("htmlVisualEditBefore",new Class[]{HttpServletRequest.class});	//获取要调用的init方法
 			//动态构造的Method对象invoke委托动态构造的InvokeTest对象，执行对应形参的add方法
-			Object obj = m.invoke(invokeReply, new Object[]{request, site});
+			Object obj = m.invoke(invokeReply, new Object[]{request});
 			if(obj != null){
-				HtmlVisualBean bean = (HtmlVisualBean) obj;
+				HtmlVisualBean bean = null;
+				if (obj instanceof HtmlVisualBean) {
+					bean = (HtmlVisualBean) obj;
+				} else {
+					//适配开发环境下的热部署
+					bean = new HtmlVisualBean();
+					BeanUtils.copyProperties(obj, bean);
+				}
 				if(bean != null && bean.getUrl() != null) {
 					list.add(bean);
 				}
-				
 			}
 		}
 		
