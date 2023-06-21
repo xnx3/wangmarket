@@ -1126,4 +1126,4 @@ if('${htmlVisual.name}'.length > 0){
 </script>
 </c:forEach>
 
-<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.6rem!important;border-radius: 30px;transform: translateY(-4px);font-size: 12px} </style>
+<style> /* 显示多语种切换 */ .translateSelectLanguage{ display:block; top: 0;padding: 0.3rem 0.6rem!important;border-radius: 30px;transform: translateY(-4px);font-size: 12px; width:94px;} </style>
