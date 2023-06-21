@@ -98,8 +98,8 @@
 		
 		
 		<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
-			<button onclick="saveDomain();" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">保存设置，完成安装</button>
-			<button onclick="quickTest();" class="layui-btn " style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">跳过设置，只是体验</button>
+			<button onclick="saveDomain();" class="layui-btn " style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">保存设置，完成安装</button>
+			<button onclick="quickTest();" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">跳过设置，只是体验</button>
 		</div>
 		
 		<!-- <div style="width: 100%;text-align: center;">
