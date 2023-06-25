@@ -44,6 +44,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
+import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.SiteDataVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
@@ -833,7 +834,21 @@ public class SiteController extends BaseController {
 	@RequestMapping("sitePreview${url.suffix}")
 	public String sitePreview(Model model,HttpServletRequest request){
 		ActionLogUtil.insert(request, "系统管理-预览网站", getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
-		return redirect("index.html?domain="+getSite().getDomain()+"."+G.getFirstAutoAssignDomain());
+		Site site = getSite();
+		
+		//点击预览网站跳转到的url地址
+		String previewUrl = "";
+		//cname解析到的地址
+		String assignDomain = SystemUtil.get("AUTO_ASSIGN_DOMAIN");	
+		if(assignDomain == null || assignDomain.trim().equals("") || IpUtil.isIp(assignDomain)) {
+			//什么设置也没有，未设置或设置了一个ip（比如快速体验），直接以传入 domain参数的方式来虚拟网站访问
+			previewUrl = "/index.html?domain="+getSite().getDomain()+"."+G.getFirstAutoAssignDomain();
+		}else {
+			//有设置泛解析域名，使用泛解析自动分配域名进行访问
+			previewUrl = "http://"+site.getDomain()+"."+DomainUtil.getAssignMainDomain();
+		}
+		
+		return redirect(previewUrl);
 	}
 	
 }

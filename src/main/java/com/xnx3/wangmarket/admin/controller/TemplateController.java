@@ -158,10 +158,11 @@ public class TemplateController extends BaseController {
 		
 		
 		User user = getUser();
+		Site site = getSite();
 		
 		model.addAttribute("password", MD5Util.MD5(user.getPassword()));
 		model.addAttribute("siteRemainHintJavaScript", siteService.getSiteRemainHintForJavaScript(SessionUtil.getSite(), com.xnx3.wangmarket.agencyadmin.util.SessionUtil.getParentAgency()));
-		model.addAttribute("siteUrl", Func.getDomain(getSite()));
+		model.addAttribute("siteUrl", Func.getDomain(site)); // 已废弃 - v6.3
 		model.addAttribute("site", getSite());
 		model.addAttribute("parentAgency", getParentAgency());	//上级代理
 		model.addAttribute("user", user);
