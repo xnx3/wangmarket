@@ -176,7 +176,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		this.url = url;
 	}
 
-	@Column(name = "icon", columnDefinition = "char(100) COMMENT '本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示' default ''")
+	@Column(name = "icon", columnDefinition = "char(250) COMMENT '本栏目的图片、图标，可在模版中使用{siteColumn.icon}进行调用此图以显示' default ''")
 	public String getIcon() {
 		if(this.icon == null){
 			return "http://cdn.weiunity.com/res/glyph-icons/world.png";
