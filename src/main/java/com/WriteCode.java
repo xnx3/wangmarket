@@ -11,8 +11,8 @@ import com.xnx3.writecode.template.wm.Code;
 public class WriteCode {
 	public static void main(String[] args) {
 		Code code = new Code();
-		code.setPackageName("com.xnx3.demo");	//设置生成的entity、controller、vo等java类放到哪个包下
-		code.setProjectUrlPath("/demo/"); //设置url请求的路径
+		code.setPackageName("com.xnx3.wangmarket.plugin.seo");	//设置生成的entity、controller、vo等java类放到哪个包下
+		code.setProjectUrlPath("/plugin/seo/"); //设置url请求的路径
 		code.write();	//执行
 	}
 }

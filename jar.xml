@@ -4,7 +4,7 @@
   <artifactId>wangmarket</artifactId>
   <packaging>jar</packaging>
   <name>wangmarket</name>
-  <version>6.2.1</version>
+  <version>6.3</version>
   <description>网市场云建站系统生成 wangmarket.jar 专用。生成方式为 mvn clean package -f jar.xml</description>
   
    <properties>
@@ -201,7 +201,7 @@
 		<dependency> 
 		    <groupId>cn.zvo.fileupload</groupId>
 		    <artifactId>fileupload-framework-ueditor</artifactId>
-		    <version>1.1</version>
+		    <version>1.2</version>
 		</dependency>
 	
 		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
