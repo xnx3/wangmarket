@@ -1476,6 +1476,40 @@ public class TemplateServiceImpl implements TemplateService {
 			SessionUtil.setTemplateVarCompileDataMap(templateVarCompileDataMap);
 		}
 		
+		
+		/******* 插件拦截，针对栏目内的数据进行调整 -v6.3 -start *******/
+		//遍历出所有列表栏目
+		for (SiteColumn siteColumn : columnMap.values()) {
+			if(siteColumn.getCodeName() == null || siteColumn.getCodeName().length() == 0){
+				vo.setBaseVO(BaseVO.FAILURE, "栏目["+siteColumn.getName()+"]的“栏目代码”不存在，请先为其设置栏目代码");
+				return vo;
+			}
+			//取得当前栏目下的News列表
+			List<News> columnNewsList = columnNewsMap.get(siteColumn.getCodeName());
+			
+			//插件拦截处理
+			try {
+				GenerateSiteColumnNewsDatasourceBean bean = GenerateSiteColumnNewsDatasourceInterfaceManage.generateSiteColumnNewsDatasource(request, site, siteColumn, columnNewsList, newsDataMap);
+				if(bean != null) {
+					//进行数据赋予
+					
+					columnNewsList = bean.getColumnNewsList();
+					columnNewsMap.put(siteColumn.getCodeName(), columnNewsList);
+					
+					siteColumn = bean.getSiteColumn();
+					columnMap.put(siteColumn.getCodeName(), siteColumn);
+					
+					newsDataMap = bean.getNewsDataMap();
+				}
+			} catch (InstantiationException | IllegalAccessException
+					| NoSuchMethodException | SecurityException
+					| IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		/******* 插件拦截，针对栏目内的数据进行调整 -end *******/
+			
+		
 		/*
 		 * 进行第二步，对列表页模版、详情页模版进行通用标签等的替换，将其处理好。等生成的时候，直接取出来替换news、column即可
 		 */
@@ -1521,6 +1555,7 @@ public class TemplateServiceImpl implements TemplateService {
 			indexHtml = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>模板中没有首页模板</title></head><body>	您好，看到此页面，说明您的模板中没有首页模板！你可以登录你网站管理后台，找到左侧模板管理-模板页面，看看里面的类型一栏，是不是没有首页模板</body></html>";
 		}else{
 			//有首页，生成首页
+			
 			indexHtml = templateCacheMap.get(templatePageIndexVO.getTemplatePage().getName());
 			//替换首页中存在的栏目的动态调用标签
 			indexHtml = template.replaceSiteColumnBlock(indexHtml, columnNewsMap, columnMap, columnTreeMap, true, null, newsDataMap);
@@ -1542,19 +1577,21 @@ public class TemplateServiceImpl implements TemplateService {
 			//取得当前栏目下的News列表
 			List<News> columnNewsList = columnNewsMap.get(siteColumn.getCodeName());
 			
-			//插件拦截处理
-			try {
-				GenerateSiteColumnNewsDatasourceBean bean = GenerateSiteColumnNewsDatasourceInterfaceManage.generateSiteColumnNewsDatasource(request, site, siteColumn, columnNewsList, newsDataMap);
-				if(bean != null) {
-					columnNewsList = bean.getColumnNewsList();
-					siteColumn = bean.getSiteColumn();
-					newsDataMap = bean.getNewsDataMap();
-				}
-			} catch (InstantiationException | IllegalAccessException
-					| NoSuchMethodException | SecurityException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
+//			//------------
+//			//插件拦截处理 - v6.2增加
+//			try {
+//				GenerateSiteColumnNewsDatasourceBean bean = GenerateSiteColumnNewsDatasourceInterfaceManage.generateSiteColumnNewsDatasource(request, site, siteColumn, columnNewsList, newsDataMap);
+//				if(bean != null) {
+//					columnNewsList = bean.getColumnNewsList();
+//					siteColumn = bean.getSiteColumn();
+//					newsDataMap = bean.getNewsDataMap();
+//				}
+//			} catch (InstantiationException | IllegalAccessException
+//					| NoSuchMethodException | SecurityException
+//					| IllegalArgumentException | InvocationTargetException e) {
+//				e.printStackTrace();
+//			}
+//			
 			
 			//获取当前栏目的内容页模版
 			String viewTemplateHtml = templateCacheMap.get(siteColumn.getTemplatePageViewName());
