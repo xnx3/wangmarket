@@ -74,7 +74,7 @@
 			<a href="/install/selectAttachment.do" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 30px;font-size: 20px;">点击此处开始安装本系统</a>
 			<br/>
 			<div style="font-size:12px; padding-top:8px; ">
-				<span style="color: gray;">交流QQ群22群：740332119</span> &nbsp;&nbsp; <span style="color: gray;">作者微信：xnx3com</span>
+				<span style="color: gray;">交流QQ群22群：740332119</span> &nbsp;&nbsp; <span style="color: gray;">作者微信：<span class="ignore">xnx3com</span></span>
 				<!-- <a href="javascript:updateSystemConfig();" style="color: gray;">安装好后再次修改配置方式</a> -->
 			</div>
 			
@@ -88,7 +88,7 @@
 		
 		<div class="info" style="    position: initial; bottom: 25px;padding: 20px; color: gray; padding-top: 170px;">
 			私有化部署自己的 SAAS 云建站系统，可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。延续了织梦、帝国 CMS 的模版方式，性能高度优化，一台 1 核 1G 服务器可建立几万个独立网站。
-			<a href="http://cms.zvo.cn" target="_black" style="color: gray;">详细说明参见：cms.zvo.cn</a>
+			详细说明参见：<a href="http://cms.zvo.cn" target="_black" style="color: gray;" class="ignore">http://cms.zvo.cn</a>
 		</div>
 		
 	 	<div style="width: 100%;text-align: center; padding-top: 30px;">

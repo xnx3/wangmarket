@@ -82,8 +82,8 @@
 				<div class="layui-input-block" style="width: 200px; float: left;margin-left: 10px;">
 					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="" style="width: 200px;">
 				</div>
-				<div style="color:#d2d2d2; font-size: 13px;">
-					&nbsp;&nbsp;填入格式如  <span class="ignore"> leimingiyun.com</span>
+				<div style="color:#d2d2d2; font-size: 13px; display: flow-root;">
+					&nbsp;&nbsp;填入格式如  <span class="ignore" style="color: #9a7c7c;">leimingiyun.com</span>
 					<br/>&nbsp;&nbsp;注意，域名不带<span class="ignore"> www</span> , 这个是要做泛解析的
 				</div>
 			</div>

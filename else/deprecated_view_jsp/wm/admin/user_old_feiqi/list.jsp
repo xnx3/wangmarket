@@ -68,7 +68,7 @@
 	提示：<br/>
 	这里（总管理后台）只是提供查看，若您想开通网站、或者开通代理账户，请登陆 代理后台（也就是账号 agency ）进行操作。默认的代理后台账号密码都是 agency , 您可退出登陆后，直接使用账号 agency 登陆即可进入代理后台。
 	<br/>
-	代理后台相关介绍，点击此处查看 <a href="http://help.wscso.com/5717.html" target="_black">http://help.wscso.com/5717.html</a>
+	代理后台相关介绍，点击此处查看 <a href="http://cms.zvo.cn/40832.html" target="_black">http://cms.zvo.cn/40832.html</a>
 </div>
 
 <script type="text/javascript">

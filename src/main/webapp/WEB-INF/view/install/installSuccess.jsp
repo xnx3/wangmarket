@@ -92,20 +92,20 @@
 			<br/>这里有一个用于体验的网站，默认的登陆账号跟密码都是 <b>wangzhan</b>
 			<br/>你也可以通过下面的代理后台，开通多个网站
 			<br/>
-			<a href="http://help.wscso.com/5732.html" target="_black">查看详细说明</a>
+			<a href="http://cms.zvo.cn/40832.html" target="_black">查看详细说明</a>
 		</div>
 		
 		<div class="info">
 			<h2>代理后台</h2>
 			可开通网站、开通下级代理、为某个网站延长使用时间、冻结、解冻某个网站。
-			<br/>默认的登陆账号跟密码都是 <b>agency</b> &nbsp;&nbsp; 真正使用时，记得自己更改密码
-			<br/><a href="http://help.wscso.com/5717.html" target="_black">查看详细说明</a>
+			<br/>默认的登陆账号跟密码都是 <b class="ignore">agency</b> &nbsp;&nbsp; 真正使用时，记得自己更改密码
+			<br/><a href="http://cms.zvo.cn/40832.html" target="_black">查看详细说明</a>
 		</div>
 		<div class="info">
 			<h2>总管理后台</h2>
 			总管理后台，主要只是提供查看的作用。如查看所有网站、用户等。实际使用的过程中，忽略掉这个后台即可。主要是给开发、维护人员使用的。
-			<br/>默认的登陆账号跟密码都是 <b>admin</b> &nbsp;&nbsp; 真正使用时，记得自己更改密码
-			<br/><a href="http://help.wscso.com/5716.html"  target="_black">查看详细说明</a>
+			<br/>默认的登陆账号跟密码都是 <b class="ignore">admin</b> &nbsp;&nbsp; 真正使用时，记得自己更改密码
+			<br/><a href="http://cms.zvo.cn/40832.html"  target="_black">查看详细说明</a>
 		</div>
 		
 		<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
