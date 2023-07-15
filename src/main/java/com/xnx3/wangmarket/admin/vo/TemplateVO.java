@@ -173,17 +173,17 @@ public class TemplateVO extends BaseVO {
 			//进一步判断是否有 template 这个对象
 			if(tempJson.get("type") != null){
 				template = new Template();
-				template.setAddtime(tempJson.getInt("addtime"));
+				template.setAddtime(JSONUtil.getInt(tempJson, "addtime"));
 				template.setCompanyname(getJsonStringAndFilterXSS(tempJson, "companyname"));
 				template.setName(getJsonStringAndFilterXSS(tempJson, "name"));
 				template.setPreviewUrl(getJsonStringAndFilterXSS(tempJson, "previewUrl"));
 				template.setRemark(getJsonStringAndFilterXSS(tempJson, "remark"));
 				template.setSiteurl(getJsonStringAndFilterXSS(tempJson, "siteurl"));
-				template.setTerminalDisplay((short) tempJson.getInt("terminalDisplay"));
-				template.setTerminalIpad((short) tempJson.getInt("terminalIpad"));
-				template.setTerminalMobile((short) tempJson.getInt("terminalMobile"));
-				template.setTerminalPc((short) tempJson.getInt("terminalPc"));
-				template.setType(tempJson.getInt("type"));
+				template.setTerminalDisplay((short) JSONUtil.getInt(tempJson, "terminalDisplay"));
+				template.setTerminalIpad((short) JSONUtil.getInt(tempJson, "terminalIpad"));
+				template.setTerminalMobile((short) JSONUtil.getInt(tempJson, "terminalMobile"));
+				template.setTerminalPc((short) JSONUtil.getInt(tempJson, "terminalPc"));
+				template.setType(JSONUtil.getInt(tempJson, "type"));
 				template.setUsername(getJsonStringAndFilterXSS(tempJson, "username"));
 				template.setPreviewPic(getJsonStringAndFilterXSS(tempJson, "previewPic"));
 				template.setZipDownUrl(getJsonStringAndFilterXSS(tempJson, "zipDownUrl"));
