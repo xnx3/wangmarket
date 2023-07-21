@@ -53,7 +53,7 @@
 				<td class="ignore" style="width:100px;">${obj['userusername'] }</td>
 				<td style="min-width:100px;">${obj['userphone'] }</td>
 				<td class="ignore" style="width:150px;">
-					<x:fileSizeToInfo size="${obj['attachment_size'] }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB 
+					<x:fileSizeToInfo size="${obj['attachment_size']*1000 }"></x:fileSizeToInfo>/${obj['attachment_size_have'] }MB 
 					<button class="layui-btn layui-btn-primary layui-btn-xs" style="margin-left:15px;" onclick="updateSize('${obj['id'] }','${obj['userusername'] }','${obj['attachment_size_have'] }')"><i class="layui-icon layui-icon-edit"></i></button>
 				</td>
 				<td class="ignore" style="width:100px;">
