@@ -101,6 +101,8 @@
 	margin-bottom: 10px;
 	font-weight: 300;
 	text-align: center;
+	padding: 0 1%;
+	box-sizing: border-box;
 }
 #template_type{
 	display: flex;
@@ -108,15 +110,19 @@
 }
 #template_type>a:before{
 	position: absolute;
-	content: "|";
-	color: #946c6c;
-	left: -5%;
+	content: "";
+	width: 1px;
+	height: 20px;
+	background-color: #946c6c;
+	top:0;
+	left: 0;
 	/*padding-right: 12px;*/
 	font-weight: 400;
 }
 
 #template_type>a:nth-child(10n+1):before{
-	content: "" !important;
+	/*content: "" !important;*/
+	width: 0;
 }
 
 .terminal{
