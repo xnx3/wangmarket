@@ -7,6 +7,12 @@
 <script src="/<%=Global.CACHE_FILE %>TemplatePage_type.js"></script>
 <script src="/<%=Global.CACHE_FILE %>TemplatePage_editMode.js"></script>
 
+<style>
+	.layui-form-label{
+		width: auto;
+	}
+</style>
+
 <form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 0px; padding-bottom:0px;">
 	<input type="hidden" name="id" value="${templatePage.id}" />
 	<div class="layui-form-item">
@@ -16,7 +22,7 @@
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label" id="label_name">模版页名称</label>
+		<label class="layui-form-label" id="label_name">名称</label>
 		<div class="layui-input-block">
 			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${templatePage.name }">
 		</div>
@@ -28,7 +34,7 @@
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label" id="label_remark">模版页备注</label>
+		<label class="layui-form-label" id="label_remark">备注</label>
 		<div class="layui-input-block">
 			<input type="text" name="remark" lay-verify="remark" autocomplete="off" placeholder="限30个字符以内" class="layui-input" value="${templatePage.remark }">
 		</div>

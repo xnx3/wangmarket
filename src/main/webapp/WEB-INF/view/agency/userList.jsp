@@ -26,9 +26,22 @@
 	<a href="/agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
 </form>	
 
-
-<table class="layui-table iw_table">
-	<thead>
+<style>
+	.layui-form-label{
+		width: auto;
+	}
+	.wrap{
+		width: 100%;
+		overflow: auto;
+	}
+	table{
+		width: auto;
+		white-space:nowrap
+	}
+</style>
+<div class="wrap">
+	<table class="layui-table iw_table">
+		<thead>
 		<tr>
 			<th>编号ID</th>
 			<th>网站名</th>
@@ -74,7 +87,7 @@
 					<span class="ignore"><x:substring maxLength="10" text="${obj['remark'] }"></x:substring></span>
 					<botton class="layui-btn layui-btn-sm" onclick="updateRemark('${obj['id'] }','${obj['userusername'] }','${obj['remark'] }');" style="margin-left: 3px;">修改</botton>
 				</td>
-				<td style="width:150px;">
+				<td style="width:auto;">
 					<c:choose>
 					<c:when test="${obj['state'] == 1 }">
 						<botton class="layui-btn layui-btn-sm" onclick="freeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">冻结</botton>
@@ -89,8 +102,9 @@
 				</td>
 			</tr>
 		</c:forEach>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>
 <!-- 通用分页跳转 -->
 <jsp:include page="../iw/common/page.jsp" ></jsp:include>
 

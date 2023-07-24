@@ -77,14 +77,14 @@
 		<div class="info">
 			<h2>第一步：设置域名</h2>
 			
-			<div class="layui-form-item" style="padding-top: 20px;">
-				<label class="layui-form-label">你的域名：</label>
-				<div class="layui-input-block" style="width: 200px; float: left;margin-left: 10px;">
-					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="" style="width: 200px;">
+			<div class="layui-form-item" style="padding-top: 20px;display:flex;justify-content: center;align-items: center;">
+				<label class="layui-form-label" style="width: auto;padding: 0">你的域名:</label>
+				<div class="layui-input-block" style="width: 200px; flex: 1;margin-left: 10px;">
+					<input type="text" id="autoAssignDomain" onkeypress="domainChange();" onchange="domainChange();" name="autoAssignDomain" placeholder="请输入您要配置的域名" class="layui-input" value="" style="width: 100%;padding: 10px">
 				</div>
-				<div style="color:#d2d2d2; font-size: 13px; display: flow-root;">
-					&nbsp;&nbsp;填入格式如  <span class="ignore" style="color: #9a7c7c;">leimingiyun.com</span>
-					<br/>&nbsp;&nbsp;注意，域名不带<span class="ignore"> www</span> , 这个是要做泛解析的
+				<div style="width:242px;color:#d2d2d2; font-size: 13px;padding: 0 10px">
+					填入格式如<span class="ignore" style="color: #9a7c7c;">leimingiyun.com</span>
+					<br/>注意，域名不带<span class="ignore">www</span>,这个是要做泛解析的
 				</div>
 			</div>
 		</div>
@@ -98,8 +98,8 @@
 		
 		
 		<div style="padding-top:100px;; padding-bottom:200px; text-align:center;">
-			<button onclick="saveDomain();" class="layui-btn " style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">保存设置，完成安装</button>
-			<button onclick="quickTest();" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;">跳过设置，只是体验</button>
+			<button onclick="saveDomain();" class="layui-btn " style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;margin-bottom: 15px">保存设置，完成安装</button>
+			<button onclick="quickTest();" class="layui-btn layui-btn-primary" style="line-height: 0px;padding: 24px;font-size: 17px; border-radius: 5px;margin-bottom: 15px">跳过设置，只是体验</button>
 		</div>
 		
 		<!-- <div style="width: 100%;text-align: center;">
