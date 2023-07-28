@@ -22,7 +22,13 @@
 		<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
 	</div>
 	<a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
-</form>	
+</form>
+
+<style>
+	.layui-form-label{
+		width: auto;
+	}
+</style>
 			 
 <table class="layui-table iw_table">
 	<thead>
