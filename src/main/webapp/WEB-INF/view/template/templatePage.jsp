@@ -16,12 +16,6 @@
 <form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 0px; padding-bottom:0px;">
 	<input type="hidden" name="id" value="${templatePage.id}" />
 	<div class="layui-form-item">
-		<label class="layui-form-label" id="label_type">所属类型</label>
-		<div class="layui-input-block">
-			<script type="text/javascript">writeSelectAllOptionFortype_('${templatePage.type}', '请选择', true);</script>
-		</div>
-	</div>
-	<div class="layui-form-item">
 		<label class="layui-form-label" id="label_name">名称</label>
 		<div class="layui-input-block">
 			<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="限20个字符以内" class="layui-input" value="${templatePage.name }">
@@ -31,6 +25,12 @@
 		<label class="layui-form-label" id="label_editMode">编辑方式</label>
 		<div class="layui-input-block">
 			<script type="text/javascript">writeSelectAllOptionForeditMode_('${templatePage.editMode}', '请选择', true);</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label" id="label_type">所属类型</label>
+		<div class="layui-input-block">
+			<script type="text/javascript">writeSelectAllOptionFortype_('${templatePage.type}', '请选择', true);</script>
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -113,57 +113,13 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 //鼠标跟随提示
 $(function(){
 	//类型
-	var label_type_index = 0;
-	$("#label_type").hover(function(){
-		label_type_index = layer.tips('首页模版只能存在一个！<br/>多个就不起作用了！', '#label_type', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['230px' , 'auto']
-		});
-	},function(){
-		layer.close(label_type_index);
-	})
-	
+	msg.tip({id:"label_type",width:"auto",text:"首页模版只能存在一个！<br/>多个就不起作用了！"})
 	//名字
-	var label_name_index = 0;
-	$("#label_name").hover(function(){
-		label_name_index = layer.tips('<ol style="list-style-type:demical"><li style="list-style-position:outside;">模版页面的名字，请用用英文、数字、"_" 来命名！</li><li style="list-style-position:outside;"><b>添加后最好不要对其进行修改了！</b>栏目绑定的模版、备份还原模版页时，都是依据此处进行操作。</li></ol>', '#label_name', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['230px' , 'auto']
-		});
-	},function(){
-		layer.close(label_name_index);
-	})
-	
+	msg.tip({id:"label_name",width:"300px",text:'<ol style="list-style-type:demical"><li style="list-style-position:outside;">模版页面的名字，请用用英文、数字、"_" 来命名！</li><li style="list-style-position:outside;"><b>添加后最好不要对其进行修改了！</b>栏目绑定的模版、备份还原模版页时，都是依据此处进行操作。</li></ol>'})
 	//备注
-	var label_remark_index = 0;
-	$("#label_remark").hover(function(){
-		label_remark_index = layer.tips('给网站后台操作人员备注提示说明，便于区分模版页面，仅此而已，无实际作用', '#label_remark', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['230px' , 'auto']
-		});
-	},function(){
-		layer.close(label_remark_index);
-	})
-	
+	msg.tip({id:"label_remark",width:"300px",text:"给网站后台操作人员备注提示说明，便于区分模版页面，仅此而已，无实际作用"})
 	//编辑方式
-	var label_editMode_index = 0;
-	$("#label_editMode").hover(function(){
-		label_editMode_index = layer.tips('模版页面的内容编辑方式：<br/><b>可视化编辑</b>：也就是智能模式，想改图片，右键修改-上传；想改文字，鼠标点击直接输入。<br/><b>纯代码编辑</b>：纯代码编辑，同传统的帝国CMS、织梦CMS的textarea文本框编辑。如果您之前使用过帝国、织梦，您可先用此种方式。另外，如果网站js效果很多，建议使用代码模式。', '#label_editMode', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['230px' , 'auto']
-		});
-	},function(){
-		layer.close(label_editMode_index);
-	})
-	
+	msg.tip({id:"label_editMode",width:"300px",text:'模版页面的内容编辑方式：<br/><b>可视化编辑</b>：也就是智能模式，想改图片，右键修改-上传；想改文字，鼠标点击直接输入。<br/><b>纯代码编辑</b>：纯代码编辑，同传统的帝国CMS、织梦CMS的textarea文本框编辑。如果您之前使用过帝国、织梦，您可先用此种方式。另外，如果网站js效果很多，建议使用代码模式。'})
 });	
 
 

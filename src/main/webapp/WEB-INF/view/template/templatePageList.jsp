@@ -112,7 +112,7 @@ function addTemplatePage(){
 	layer.open({
 		type: 2, 
 		title:'添加模版页', 
-		area: ['400px', '350px'],
+		area: ['500px', '350px'],
 		shadeClose: true, //开启遮罩关闭
 		content: '/template/templatePage.do'
 	});
@@ -126,7 +126,7 @@ function editTemplatePageAttribute(pageName){
 	layer.open({
 		type: 2, 
 		title:'编辑模版页属性', 
-		area: ['400px', '350px'],
+		area: ['500px', '350px'],
 		shadeClose: true, //开启遮罩关闭
 		content: '/template/templatePage.do?pageName='+pageName
 	});
