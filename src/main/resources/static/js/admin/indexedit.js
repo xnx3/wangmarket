@@ -21,16 +21,7 @@ try{
 
 $(function(){
 	//网站设置
-	var wangzhanshuxing_tipindex = 0;
-	$("#wangzhanshuxing").hover(function(){
-		wangzhanshuxing_tipindex = layer.tips('网站的基本设置，比如访问域名、绑定域名等等', '#wangzhanshuxing', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(wangzhanshuxing_tipindex);
-	})
+	msg.tip({id:'wangzhanshuxing',text:'网站的基本设置，比如访问域名、绑定域名等等'})
 	//当点击时才会出现
 	$("#wangzhanshuxing").click(function(){  
 		msg.popups({
@@ -42,70 +33,24 @@ $(function(){
 	})
 	
 	//基本信息
-	var jibenxinxi_tipindex = 0;
-	$("#jibenxinxi").hover(function(){
-		jibenxinxi_tipindex = layer.tips('基本的信息，比如网站空间的占用情况、最后的登陆情况等', '#jibenxinxi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(jibenxinxi_tipindex);
-	})
+	msg.tip({id:'jibenxinxi',text:'基本的信息，比如网站空间的占用情况、最后的登陆情况等'})
 	//当点击时才会出现
 	$("#jibenxinxi").click(function(){  
 		openJiBenXinXi();
 	})
 	
 	//访问统计
-	var fangwentongji_tipindex = 0;
-	$("#fangwentongji").hover(function(){
-		fangwentongji_tipindex = layer.tips('当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等', '#fangwentongji', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(fangwentongji_tipindex);
-	})
+	msg.tip({id:'fangwentongji',width:"auto",text:'当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等'})
 	
 	//xin访问统计
-	var rzfw_fangwentongji_tipindex = 0;
-	$("#rzfw_fangwentongji").hover(function(){
-		rzfw_fangwentongji_tipindex = layer.tips('统计昨天、今天每个时间段的网站访问情况', '#rzfw_fangwentongji', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(rzfw_fangwentongji_tipindex);
-	})
-	
+	msg.tip({id:'rzfw_fangwentongji',width:"auto",text:'统计昨天、今天每个时间段的网站访问情况'})
+
 	//爬虫统计
-	var rzfw_pachongtongji_tipindex = 0;
-	$("#rzfw_pachongtongji").hover(function(){
-		rzfw_pachongtongji_tipindex = layer.tips('列出你的一周内，各大搜索引擎的爬虫抓取情况', '#rzfw_pachongtongji', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(rzfw_pachongtongji_tipindex);
-	})
-	
+	msg.tip({id:'rzfw_pachongtongji',width:"auto",text:'列出你的一周内，各大搜索引擎的爬虫抓取情况'})
+
 	//操作日志
-	var rzfw_caozuorizhi_tipindex = 0;
-	$("#rzfw_caozuorizhi").hover(function(){
-		rzfw_caozuorizhi_tipindex = layer.tips('将网站最近一个月的后台操作日志列出', '#rzfw_caozuorizhi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(rzfw_caozuorizhi_tipindex);
-	})
-	
-	
+	msg.tip({id:'rzfw_caozuorizhi',width:"auto",text:'将网站最近一个月的后台操作日志列出'})
+
 	//积分兑换
 	var jifenduihuan_tipindex = 0;
 	$("#jifenduihuan").hover(function(){
@@ -117,6 +62,8 @@ $(function(){
 	},function(){
 		layer.close(jifenduihuan_tipindex);
 	})
+	msg.tip({id:'jifenduihuan',text:'邀请注册获得积分、使用积分兑换域名、空间、苹果手机等，更多兑换品正在筹备上架'})
+
 	//当点击时才会出现
 	$("#jifenduihuan").click(function(){  
 		openMoneyIndex();
@@ -124,16 +71,8 @@ $(function(){
 	
 	
 	//更换模版
-	var changetemplate_tipindex = 0;
-	$("#changetemplate").hover(function(){
-		changetemplate_tipindex = layer.tips('更换一个新的模版，让您的网站大变样。更换完成后若不理想，则建议您刷新一下页面再看', '#changetemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(changetemplate_tipindex);
-	})
+	msg.tip({id:'changetemplate',text:'更换一个新的模版，让您的网站大变样。更换完成后若不理想，则建议您刷新一下页面再看'})
+
 	//当点击时才会出现
 	$("#changetemplate").click(function(){  
 		layer.open({
@@ -148,16 +87,8 @@ $(function(){
 	})
 	
 	//联系信息，底部信息
-	var dibuxinxi_tipindex = 0;
-	$("#dibuxinxi").hover(function(){
-		dibuxinxi_tipindex = layer.tips('底部相关联系信息的修改', '#dibuxinxi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(dibuxinxi_tipindex);
-	})
+	msg.tip({id:'dibuxinxi',width:"auto",text:'底部相关联系信息的修改'})
+
 	//当点击时才会出现
 	$("#dibuxinxi").click(function(){  
 		updateFooterSiteInfo();
@@ -165,16 +96,8 @@ $(function(){
 	
 	
 	//SEO优化
-	var seoyouhua_tipindex = 0;
-	$("#seoyouhua").hover(function(){
-		seoyouhua_tipindex = layer.tips('SEO优化排名相关设置', '#seoyouhua', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(seoyouhua_tipindex);
-	})
+	msg.tip({id:'seoyouhua',width:"auto",text:'SEO优化排名相关设置'})
+
 	//当点击时才会出现
 	$("#seoyouhua").click(function(){  
 		layer.open({
@@ -189,40 +112,15 @@ $(function(){
 	})
 	
 	//查看网站，预览网站
-	var chakanwangzhan_tipindex = 0;
-	$("#chakanwangzhan").hover(function(){
-		chakanwangzhan_tipindex = layer.tips('实时预览查看网站', '#chakanwangzhan', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(chakanwangzhan_tipindex);
-	})
-	
+	msg.tip({id:'chakanwangzhan',width:"auto",text:'实时预览查看网站'})
+
 	//问题反馈
-	var wentifankui_tipindex = 0;
-	$("#wentifankui").hover(function(){
-		wentifankui_tipindex = layer.tips('使用时，遇到什么问题了？或者有什么意见建议了，都可以反馈给我们。', '#wentifankui', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(wentifankui_tipindex);
-	})
-	
+	msg.tip({id:'wentifankui',text:'使用时，遇到什么问题了？或者有什么意见建议了，都可以反馈给我们。'})
+
 	//网站高级设置
 	var gaojishezhi_tipindex = 0;
-	$("#gaojishezhi").hover(function(){
-		gaojishezhi_tipindex = layer.tips('网站高级设置，建议懂点技术相关的人士使用，有利于网站的扩展。若对网站、html等技术不太了解，可以不用管此处', '#gaojishezhi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(gaojishezhi_tipindex);
-	})
+	msg.tip({id:'gaojishezhi',text:'网站高级设置，建议懂点技术相关的人士使用，有利于网站的扩展。若对网站、html等技术不太了解，可以不用管此处'})
+
 	//当点击时才会出现
 	$("#gaojishezhi").click(function(){  
 		layer.open({
@@ -237,54 +135,17 @@ $(function(){
 	})
 	
 	//退出登陆
-	var tuichudenglu_tipindex = 0;
-	$("#tuichudenglu").hover(function(){
-		tuichudenglu_tipindex = layer.tips('退出，注销当前登陆的用户', '#tuichudenglu', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(tuichudenglu_tipindex);
-	})
-	
+	msg.tip({id:'tuichudenglu',width:"auto",text:'退出，注销当前登陆的用户'})
+
 	// IM 聊天，客服设置
-	var im_tipindex = 0;
-	$("#im_menu").hover(function(){
-		im_tipindex = layer.tips('<b>网站在线客服</b><br/>您可以选择启用在线客服功能。启用后，您还可以实时看到当前网站中有谁在访问，并且可以有您主动发起跟访客的聊天，比如，主动询问一下某个访客，有什么可以帮助您的。<br/>只要停留在此页面，便可以接收到网站上访客发起的咨询。您可以自己打开网站，找到网站底部的在线客服，说说话，试试效果', '#im_menu', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(im_tipindex);
-	})
-	
+	msg.tip({id:'im_menu',text:'<b>网站在线客服</b><br/>您可以选择启用在线客服功能。启用后，您还可以实时看到当前网站中有谁在访问，并且可以有您主动发起跟访客的聊天，比如，主动询问一下某个访客，有什么可以帮助您的。<br/>只要停留在此页面，便可以接收到网站上访客发起的咨询。您可以自己打开网站，找到网站底部的在线客服，说说话，试试效果'})
+
 
 	//客服管理-历史咨询
-	var im_hostory_tipindex = 0;
-	$("#im_hostory").hover(function(){
-		im_hostory_tipindex = layer.tips('历史咨询对话查看<br/>比如，您有好几天未上线，那么可以通过这里看看，这几天是否有人咨询过什么问题；<br/>又或者查看之前跟访客的某条聊天记录等', '#im_hostory', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(im_hostory_tipindex);
-	})
-	
+	msg.tip({id:'im_hostory',text:'历史咨询对话查看<br/>比如，您有好几天未上线，那么可以通过这里看看，这几天是否有人咨询过什么问题；<br/>又或者查看之前跟访客的某条聊天记录等'})
+
 	//修改密码
-	var xiugaimima_tipindex = 0;
-	$("#xiugaimima").hover(function(){
-		xiugaimima_tipindex = layer.tips('修改您当前账户登录所的密码。', '#xiugaimima', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(xiugaimima_tipindex);
-	})
+	msg.tip({id:'xiugaimima',width:"auto",text:'修改您当前账户登录所的密码。'})
 	
 })
 
@@ -303,77 +164,22 @@ if(siteClient == 1){
 		//底部
 		//联系人，电话等信息
 		var footerSiteInfoString = '<div style="font-size:14px;">点击此处可修改联系人、电话、地址等信息</div>';
-		var footerSiteInfo_tipindex = 0;
-		$("#footerSiteInfo").hover(function(){
-			footerSiteInfo_tipindex = layer.tips(footerSiteInfoString, '#footerSiteInfo', {
-				tips: [2, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(footerSiteInfo_tipindex);
-		})
+		msg.tip({id:'footerSiteInfo',text:footerSiteInfoString})
+
 		//底部的电话，使用的跟上面的一样即可
-		var footerPhoneAndShare_phone_tipindex = 0;
-		$("#footerPhoneAndShare_phone").hover(function(){
-			footerPhoneAndShare_phone_tipindex = layer.tips(footerSiteInfoString, '#footerPhoneAndShare_phone', {
-				tips: [2, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(footerPhoneAndShare_phone_tipindex);
-		})
-		
+		msg.tip({id:'footerPhoneAndShare_phone',text:footerSiteInfoString})
+
 		//关于我们的图片
-		var aboutUsImg_tipindex = 0;
-		$(".aboutUsImg").hover(function(){
-			aboutUsImg_tipindex = layer.tips('<div style="font-size:14px;">点击修改此图</div>', '.aboutUsImg', {
-				tips: [1, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(aboutUsImg_tipindex);
-		})
-		
+		msg.tip({id:'aboutUsImg',direction:'top',text:'<div style="font-size:14px;">点击修改此图</div>'})
+
 		//修改二维码图片
-		var qrImage_tipindex = 0;
-		$("#qrImage").hover(function(){
-			qrImage_tipindex = layer.tips('<div style="font-size:14px;">点击修改微信二维码。<br/>建议上传正方形的二维码图片</div>', '#qrImage', {
-				tips: [1, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(qrImage_tipindex);
-		})
-		
+		msg.tip({id:'qrImage',direction:'top',text:'<div style="font-size:14px;">点击修改微信二维码。<br/>建议上传正方形的二维码图片</div>'})
+
 		//修改标题
-		var logogramName_tipindex = 0;
-		$("#logogramName").hover(function(){
-			logogramName_tipindex = layer.tips('<div style="font-size:14px;">点击修改网站名字</div>', '#logogramName', {
-				tips: [1, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(logogramName_tipindex);
-		})
-		
+		msg.tip({id:'logogramName',direction:'top',text:'<div style="font-size:14px;">点击修改网站名字</div>'})
+
 		//banner图
-		var banner_tipindex = 0;
-		$("#banner").hover(function(){
-			banner_tipindex = layer.tips('<div style="font-size:14px;">点击修改Banner图片</div>', '#banner', {
-				tips: [1, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(banner_tipindex);
-		})
-		
-		
+		msg.tip({id:'banner',direction:'top',text:'<div style="font-size:14px;">点击修改Banner图片</div>'})
 		/** 绑定点击事件 **/
 		//当点击二维码时
 		//当点击底部的联系我们修改信息时

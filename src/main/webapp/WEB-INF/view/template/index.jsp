@@ -482,226 +482,63 @@ function saveHtmlSource(){
 
 $(function(){
 	//编辑模式
-	var htmledit_mode_tipindex = 0;
-	$("#htmledit_mode").hover(function(){
-		htmledit_mode_tipindex = layer.tips('可以快速您网站当前的编辑模式<br/><b>智能模式</b>：想改哪里点哪里，点了直接改！修改时右键还会有更多的选择！<br/><b>代码模式</b>：以最原始代码的形式提供编辑。建议有一定编程基础或者稍微懂点的专业人士使用', '#htmledit_mode', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(htmledit_mode_tipindex);
-	})
-	
-	
+	msg.tip({id:'htmledit_mode',text:'可以快速您网站当前的编辑模式<br/><b>智能模式</b>：想改哪里点哪里，点了直接改！修改时右键还会有更多的选择！<br/><b>代码模式</b>：以最原始代码的形式提供编辑。建议有一定编程基础或者稍微懂点的专业人士使用'})
+
 	//保存按钮
-	var save_tipindex = 0;
-	$("#save").hover(function(){
-		save_tipindex = layer.tips('将您当前所操作的页面保存。保存后可预览查看，刷新一下看看其是否已改变', '#save', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(save_tipindex);
-	})
-	
+	msg.tip({id:'save',text:'将您当前所操作的页面保存。保存后可预览查看，刷新一下看看其是否已改变'})
+
 	//全局变量
-	var quanjubianliang_tipindex = 0;
-	$("#quanjubianliang").hover(function(){
-		quanjubianliang_tipindex = layer.tips('当前网站模板中可以调用的变量，可再模版页面、模板变量中，使用<div style="padding:5px; font-size:16px">{var.xxx}</div>将再此设定的全局变量的值调出。', '#quanjubianliang', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(quanjubianliang_tipindex);
-	})
-	
+	msg.tip({id:'quanjubianliang',text:'当前网站模板中可以调用的变量，可再模版页面、模板变量中，使用<div style="padding:5px; font-size:16px">{var.xxx}</div>将再此设定的全局变量的值调出。'})
+
 	//模版变量
-	var mobanbianliang_tipindex = 0;
-	$("#mobanbianliang").hover(function(){
-		mobanbianliang_tipindex = layer.tips('当前网站模版页面所使用的动态变量内容，可在模版页面中使用<div style="padding:5px; font-size:16px">{include=变量名}</div>随处调出使用、显示', '#mobanbianliang', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(mobanbianliang_tipindex);
-	})
-	
+	msg.tip({id:'mobanbianliang',text:'当前网站模版页面所使用的动态变量内容，可在模版页面中使用<div style="padding:5px; font-size:16px">{include=变量名}</div>随处调出使用、显示'})
+
 	//模版页面
-	var mobanyemian_tipindex = 0;
-	$("#mobanyemian").hover(function(){
-		mobanyemian_tipindex = layer.tips('当前网站所使用的模版，如首页、列表、内容详情等。', '#mobanyemian', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(mobanyemian_tipindex);
-	})
-	
+	msg.tip({id:'mobanyemian',text:'当前网站所使用的模版，如首页、列表、内容详情等。'})
+
 	//输入模型
-	var shurumoxing_tipindex = 0;
-	$("#shurumoxing").hover(function(){
-		shurumoxing_tipindex = layer.tips('自定义用户内容管理时，文章编辑的添加数据的模版，比如，有的栏目有标题图片，有的栏目没有，都可以在这里配置 <br/><b>供开发模版的专业人员使用，建议使用网站的用户不懂的情况下不要修改此处</b>', '#shurumoxing', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(shurumoxing_tipindex);
-	})
-	
+	msg.tip({id:'shurumoxing',text:'自定义用户内容管理时，文章编辑的添加数据的模版，比如，有的栏目有标题图片，有的栏目没有，都可以在这里配置 <br/><b>供开发模版的专业人员使用，建议使用网站的用户不懂的情况下不要修改此处</b>'})
+
 	//导入模版
-	var daorutemplate_tipindex = 0;
-	$("#daorutemplate").hover(function(){
-		daorutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建全局变量、模版页面、模版变量、输入模型、栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子', '#daorutemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(daorutemplate_tipindex);
-	})
-	
-	
+	msg.tip({id:'daorutemplate',text:'1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建全局变量、模版页面、模版变量、输入模型、栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子'})
+
 	//导出模版
-	var daochutemplate_tipindex = 0;
-	$("#daochutemplate").hover(function(){
-		daochutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;将当前网站的模版导出，可以在新网站中将导出的模版文件导入，实现快速复制网站。<br/>2.&nbsp;&nbsp;也会起到备份模版的作用，网站如果操作失误删除东西了，可以通过此处进行还原回来', '#daochutemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(daochutemplate_tipindex);
-	})
-	
-	var mobanshiyongshuoming_tipindex = 0;
-	$("#mobanshiyongshuoming").hover(function(){
-		mobanshiyongshuoming_tipindex = layer.tips('若您使用的是官方制作的云端模版，这里可显示当前模版的使用说明，快速上手知晓如何使用', '#mobanshiyongshuoming', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(mobanshiyongshuoming_tipindex);
-	})
-	
-	var fangwentongji_tipindex = 0;
-	$("#fangwentongji").hover(function(){
-		fangwentongji_tipindex = layer.tips('当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等', '#fangwentongji', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(fangwentongji_tipindex);
-	})
-	
+	msg.tip({id:'daochutemplate',text:'1.&nbsp;&nbsp;将当前网站的模版导出，可以在新网站中将导出的模版文件导入，实现快速复制网站。<br/>2.&nbsp;&nbsp;也会起到备份模版的作用，网站如果操作失误删除东西了，可以通过此处进行还原回来'})
+
+	msg.tip({id:"mobanshiyongshuoming",text:'若您使用的是官方制作的云端模版，这里可显示当前模版的使用说明，快速上手知晓如何使用'})
+
+	msg.tip({id:"fangwentongji",text:'当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等'})
 	
 	//模版的开发文档
-	var mobankaifa_tipindex = 0;
-	$("#mobankaifa").hover(function(){
-		mobankaifa_tipindex = layer.tips('模版开发入门、模版制作帮助文档，帮您十分钟入门，2天成大神。<br/>文档正在完善中', '#mobankaifa', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(mobankaifa_tipindex);
-	})
-	
+	msg.tip({id:"mobankaifa",text:'模版开发入门、模版制作帮助文档，帮您十分钟入门，2天成大神。<br/>文档正在完善中'})
+
 	//栏目管理
-	var column_tipindex = 0;
-	$("#column").hover(function(){
-		column_tipindex = layer.tips('网站的栏目信息', '#column', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(column_tipindex);
-	})
-	
+	msg.tip({id:"column",width:"auto",text:"网站的栏目信息"})
+
 	//内容管理
-	var news_tipindex = 0;
-	$("#news").hover(function(){
-		news_tipindex = layer.tips('网站内容，如关于我们、新闻、产品的内容，都是在这里', '#news', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(news_tipindex);
-	})
+	msg.tip({id:"news",text:"网站内容，如关于我们、新闻、产品的内容，都是在这里"})
 	
 	//生成整站
-	var generatehtml_tipindex = 0;
-	$("#generatehtml").hover(function(){
-		generatehtml_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来', '#generatehtml', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(generatehtml_tipindex);
-	})
+	msg.tip({id:"generatehtml",text:'网站添加新闻了、产品了、修改过模版了，凡是网站有过修改，都要生成整站后，网站中才会变过来'})
 	
 	
 	//帮助说明－基本功能 说明
-	var shiyongrumen_tipindex = 0;
-	$("#shiyongrumen").hover(function(){
-		shiyongrumen_tipindex = layer.tips('网站基本功能使用说明，基本功能介绍，网站使用引导。看完15分钟视频，便可熟练操作网站', '#shiyongrumen', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(shiyongrumen_tipindex);
-	})
-	
+	msg.tip({id:"shiyongrumen",text:'网站基本功能使用说明，基本功能介绍，网站使用引导。看完15分钟视频，便可熟练操作网站'})
+
+
 	//模版管理－模版插件
-	var template_templateplugin_tipindex = 0;
-	$("#templateplugin").hover(function(){
-		template_templateplugin_tipindex = layer.tips('在您现有的模版基础上，扩展更多功能！让您的网站，拥有无限可能！<br/>更多插件持续增加中，敬请期待', '#templateplugin', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(template_templateplugin_tipindex);
-	})
-	
+	msg.tip({id:"templateplugin",text:'在您现有的模版基础上，扩展更多功能！让您的网站，拥有无限可能！<br/>更多插件持续增加中，敬请期待'})
+
 	
 	//技术支持，显示自己的上级代理商
-	var support_tipindex = 0;
-	$("#support").hover(function(){
-		support_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#support', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(support_tipindex);
-	})
-	
+	msg.tip({id:"support",text:'操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！'})
+
+
 	// 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html 
 	<% if(Authorization.copyright){ %>
 	//显示、隐藏侧边栏
-	var showHiddenLeftMenu_tipindex = 0;
-	$("#showHiddenLeftMenu").hover(function(){
-		showHiddenLeftMenu_tipindex = layer.tips('power by 网市场', '#showHiddenLeftMenu', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(showHiddenLeftMenu_tipindex);
-	})
+	msg.tip({id:"showHiddenLeftMenu",width:"auto",text:'power by 网市场'})
+
 	<% } %>
 	
 })
