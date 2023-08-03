@@ -52,16 +52,6 @@ $(function(){
 	msg.tip({id:'rzfw_caozuorizhi',width:"auto",text:'将网站最近一个月的后台操作日志列出'})
 
 	//积分兑换
-	var jifenduihuan_tipindex = 0;
-	$("#jifenduihuan").hover(function(){
-		jifenduihuan_tipindex = layer.tips('邀请注册获得积分、使用积分兑换域名、空间、苹果手机等，更多兑换品正在筹备上架', '#jifenduihuan', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(jifenduihuan_tipindex);
-	})
 	msg.tip({id:'jifenduihuan',text:'邀请注册获得积分、使用积分兑换域名、空间、苹果手机等，更多兑换品正在筹备上架'})
 
 	//当点击时才会出现

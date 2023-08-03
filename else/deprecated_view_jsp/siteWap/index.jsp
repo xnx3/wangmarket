@@ -214,90 +214,30 @@ layui.use('element', function(){
 //Jquery layer 提示
 $(function(){
 	//编辑模式
-	var indexEdit_tipindex = 0;
-	$("#indexEdit").hover(function(){
-		indexEdit_tipindex = layer.tips('打开首页进行编辑。想改哪里点哪里！', '#indexEdit', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(indexEdit_tipindex);
-	})
-	
+	msg.tip({id:"indexEdit",width:"310px",text:'打开首页进行编辑。想改哪里点哪里！'})
+
 	//更换模版
-	
-	var wapgenghuanmoban_tipindex = 0;
-	$("#wapgenghuanmoban").hover(function(){
-		wapgenghuanmoban_tipindex = layer.tips('更换其他样式模版，让您网站与众不同。选择一个你喜欢的网站模版吧！', '#wapgenghuanmoban', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(wapgenghuanmoban_tipindex);
-	})
-	
-	var fangwentongji_tipindex = 0;
-	$("#fangwentongji").hover(function(){
-		fangwentongji_tipindex = layer.tips('当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等', '#fangwentongji', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(fangwentongji_tipindex);
-	})
-	
-	
+	msg.tip({id:"wapgenghuanmoban",width:"310px",text:'更换其他样式模版，让您网站与众不同。选择一个你喜欢的网站模版吧！'})
+
+	msg.tip({id:"fangwentongji",width:"310px",text:'当前网站的访问情况、访问记录，以及各搜索引擎抓取情况等'})
+
+
+
 	//栏目管理
-	var lanmuguanli_tipindex = 0;
-	$("#lanmuguanli").hover(function(){
-		lanmuguanli_tipindex = layer.tips('网站的栏目信息', '#lanmuguanli', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(lanmuguanli_tipindex);
-	})
-	
+	msg.tip({id:"lanmuguanli",width:"auto",text:'网站的栏目信息'})
+
+
 	//内容管理
-	var neirongguanli_tipindex = 0;
-	$("#neirongguanli").hover(function(){
-		neirongguanli_tipindex = layer.tips('网站内容，如关于我们、新闻、产品的内容，都是在这里', '#neirongguanli', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(neirongguanli_tipindex);
-	})
-	
+	msg.tip({id:"neirongguanli",width:"310px",text:'网站内容，如关于我们、新闻、产品的内容，都是在这里'})
+
+
 	//生成整站
-	var shengchengzhengzhan_tipindex = 0;
-	$("#shengchengzhengzhan").hover(function(){
-		shengchengzhengzhan_tipindex = layer.tips('网站添加新闻了、产品了、修改过模版什么的了，最后这里，生成整站后，别人访问你的网址才能看到效果', '#shengchengzhengzhan', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(shengchengzhengzhan_tipindex);
-	})
-	
+	msg.tip({id:"shengchengzhengzhan",width:"310px",text:'网站添加新闻了、产品了、修改过模版什么的了，最后这里，生成整站后，别人访问你的网址才能看到效果'})
+
+
 	//技术支持，显示自己的上级代理商
-	var parentagency_tipindex = 0;
-	$("#parentagency").hover(function(){
-		parentagency_tipindex = layer.tips('操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！', '#parentagency', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(parentagency_tipindex);
-	})
+	msg.tip({id:"parentagency",width:"310px",text:'操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！'})
+
 })
 
 //在主题内容区域iframe中加载制定的页面

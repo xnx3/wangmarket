@@ -251,11 +251,11 @@ body{
 					<li class="layui-nav-item" id="translate">
 					</li>
 					<li class="layui-nav-item layui-hide-xs" >
-						<a href="javascript:;" onmouseover="show('进入全屏','full-screen')" onmouseleave="close_tips()" class="layui-icon layui-icon-screen-full" id="full-screen"></a>
-						<a href="javascript:;" onmouseover="show('退出全屏','exit-fullscreen')" onmouseleave="close_tips()" class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
+						<a href="javascript:;" class="layui-icon layui-icon-screen-full" id="full-screen"></a>
+						<a href="javascript:;" class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
 					</li>
 					<li class="layui-nav-item layui-hide-xs">
-						<a href="javascript:window.open('/sites/sitePreview.do');" onmouseover="show('预览网站','website')" onmouseleave="close_tips()" id="website" class="layui-icon layui-icon-website"></a>
+						<a href="javascript:window.open('/sites/sitePreview.do');" id="website" class="layui-icon layui-icon-website"></a>
 					</li>
 					<li class="layui-nav-item">
 						<a class="layui-icon layui-icon-username" href="javascript:;">
@@ -940,12 +940,15 @@ ${pluginAppendHtml}
 </script>
 <%--顶部nav提示tip--%>
 <script>
-	function show(msg, id){
-		layer.tips(''+ msg, '#'+id, {tips: [1,'#10a6a8']});
-	}
-	function close_tips(){
-		layer.closeAll('tips');
-	}
+	// function show(msg, id){
+	// 	layer.tips(''+ msg, '#'+id, {tips: [1,'#10a6a8']});
+	// }
+	// function close_tips(){
+	// 	layer.closeAll('tips');
+	// }
+	msg.tip({id:"full-screen",direction:"bottom",width:"auto",text:"进入全屏"})
+	msg.tip({id:"exit-fullscreen",direction:"bottom",width:"auto",text:'退出全屏'})
+	msg.tip({id:"website",direction:"bottom",width:"auto",text:'预览网站'})
 </script>
 
 ${HtmlVisualPluginList}

@@ -128,59 +128,21 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 //鼠标跟随提示
 $(function(){
 	//栏目名称
-	var label_columnName_index = 0;
-	$("#label_columnName").hover(function(){
-		label_columnName_index = layer.tips('给当前栏目起个名字吧。这里的名字可以直接在网站里调出显示，也可以在内容管理中显示栏目的名字。', '#label_columnName', {
-			tips: [4, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['278px' , 'auto']
-		});
-	},function(){
-		layer.close(label_columnName_index);
-	})
+  msg.tip({id:"label_columnName",width:"278px",direction:"left",text:'给当前栏目起个名字吧。这里的名字可以直接在网站里调出显示，也可以在内容管理中显示栏目的名字。'})
 
-	
-	//栏目类型
-	var columnType_index = 0;
-	$("#columnType").hover(function(){
-		columnType_index = layer.tips('这里通常使用的有这么几种：<br/><b>新闻信息</b>：像是新闻列表、动态资讯，这种纯文字性质的列表，并点击某项后可进入查看详情<br/><b>图文信息</b>：像是产品展示、案例展示等，图片＋文字形式的列表，并点击项后进入查看详情<br/><b>独立页面</b>：像是公司简介、联系我们、招商加盟这种单独的页面<br/><b>超链接</b>：点击后会跳转到其他网站，比如点击此栏目后会跳转到您的淘宝店铺上', '#columnType', {
-			tips: [4, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['278px' , 'auto']
-		});
-	},function(){
-		layer.close(columnType_index);
-	})
-	
+
+
+  //栏目类型
+  msg.tip({id:"columnType",width:"278px",direction:"left",text:'这里通常使用的有这么几种：<br/><b>新闻信息</b>：像是新闻列表、动态资讯，这种纯文字性质的列表，并点击某项后可进入查看详情<br/><b>图文信息</b>：像是产品展示、案例展示等，图片＋文字形式的列表，并点击项后进入查看详情<br/><b>独立页面</b>：像是公司简介、联系我们、招商加盟这种单独的页面<br/><b>超链接</b>：点击后会跳转到其他网站，比如点击此栏目后会跳转到您的淘宝店铺上'})
+
 	//显示
-	var xianshi_index = 0;
-	$("#xianshi_label").hover(function(){
-		xianshi_index = layer.tips('此处选择显示即可！若选择隐藏，则不会在网站上显示。相当于没有此栏目', '#xianshi_label', {
-			tips: [4, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['278px' , 'auto']
-		});
-	},function(){
-		layer.close(xianshi_index);
-	})
-	
-	//图标
-	var columnIconFile_index = 0;
-	$("#columnIconFile").hover(function(){
-		columnIconFile_index = layer.tips('此栏目在首页上显示时，栏目名字上面的图片，便是在这里进行上传。建议上传正方形的图片', '#columnIconFile', {
-			tips: [4, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['278px' , 'auto']
-		});
-	},function(){
-		layer.close(columnIconFile_index);
-	})
-	
-	
+  msg.tip({id:"xianshi_label",width:"278px",direction:"left",text:'此处选择显示即可！若选择隐藏，则不会在网站上显示。相当于没有此栏目'})
+
+
+  //图标
+  msg.tip({id:"columnIconFile",width:"278px",direction:"left",text:'此栏目在首页上显示时，栏目名字上面的图片，便是在这里进行上传。建议上传正方形的图片'})
+
+
 });	
 
 </script>

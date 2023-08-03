@@ -217,40 +217,18 @@ function addMouseListener(){
 	
 	//Banner增加鼠标跟随提示
 	$(function(){
-		var banner_tipindex = 0;
-		$("#banner").hover(function(){
-			banner_tipindex = layer.tips('点击图片可进行修改', '#banner', {
-				tips: [3, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(banner_tipindex);
-		})
-		
-		var title_tipindex = 0;
-		$("#title").hover(function(){
-			title_tipindex = layer.tips('点击可进行修改标题及相关信息', '#title', {
-				tips: [3, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(title_tipindex);
-		})
-		
-		var foot_index_tipindex = 0;
-		$("#foot_index").hover(function(){
-			foot_index_tipindex = layer.tips('点击回到首页的可视化编辑状态', '#foot_index', {
-				tips: [3, '#0FA6A8'], //还可配置颜色
-				time:0,
-				tipsMore: true
-			});
-		},function(){
-			layer.close(foot_index_tipindex);
-		})
-		
-		
+		msg.tip({id:"banner",width:"auto",direction:"bottom",text:'点击图片可进行修改'})
+
+
+
+		msg.tip({id:"title",width:"auto",direction:"bottom",text:'点击可进行修改标题及相关信息'})
+
+
+
+		msg.tip({id:"foot_index",width:"auto",direction:"bottom",text:'点击回到首页的可视化编辑状态'})
+
+
+
 	})
 }
 
