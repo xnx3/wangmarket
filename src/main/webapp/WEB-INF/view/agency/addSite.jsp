@@ -7,6 +7,13 @@
 <style>
 .xnx3_input{
 }
+.layui-form-label{
+	width: 120px;
+	padding: 7px;
+}
+.layui-input-block{
+	margin-left: 140px;
+}
 </style>
 <form class="layui-form" action="" style="padding-top:3%; padding-left:15%; padding-right:15%; padding-bottom: 3%;">
 	<input type="hidden" value="<%=ShiroFunc.getUser().getId() %>" name="inviteid" />

@@ -68,56 +68,17 @@
 //鼠标跟随提示
 $(function(){
 	//name
-	var td_name_index = 0;
-	$("#td_name").hover(function(){
-		td_name_index = layer.tips('您的公司名。若没有，可输入您的姓名、或者您工作室的名字', '#td_name', {
-			tips: [3, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['380px' , 'auto']
-		});
-	},function(){
-		layer.close(td_name_index);
-	})
+	// msg.tip({id:'',width:'',text:''})
+	msg.tip({id:'td_name',width:'auto',direction:'bottom',text:'您的公司名。若没有，可输入您的姓名、或者您工作室的名字'})
 	
 	//phone
-	var td_phone_index = 0;
-	$("#td_phone").hover(function(){
-		td_phone_index = layer.tips('您的联系电话，会显示在您的客户的网站管理后台。', '#td_phone', {
-			tips: [3, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['350px' , 'auto']
-		});
-	},function(){
-		layer.close(td_phone_index);
-	})
+	msg.tip({id:'td_phone',width:'auto',direction:'bottom',text:'您的联系电话，会显示在您的客户的网站管理后台。'})
 	
 	//address
-	var td_address_index = 0;
-	$("#td_address").hover(function(){
-		td_address_index = layer.tips('您的办公地点，会显示在客户网站管理后台', '#td_address', {
-			tips: [3, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['350px' , 'auto']
-		});
-	},function(){
-		layer.close(td_address_index);
-	})
+	msg.tip({id:'td_address',width:'auto',direction:'bottom',text:'您的办公地点，会显示在客户网站管理后台'})
 	
 	//notice
-	var td_notice_index = 0;
-	$("#td_notice").hover(function(){
-		td_notice_index = layer.tips('客户网站管理后台登陆成功后，欢迎页面显示的公告。若是公告内容少于两个字符，则不会在客户的后台显示公告。', '#td_notice', {
-			tips: [3, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['350px' , 'auto']
-		});
-	},function(){
-		layer.close(td_notice_index);
-	})
+	msg.tip({id:'td_notice',width:'350px',direction:'bottom',text:'客户网站管理后台登陆成功后，欢迎页面显示的公告。若是公告内容少于两个字符，则不会在客户的后台显示公告。'})
 	
 });	
 

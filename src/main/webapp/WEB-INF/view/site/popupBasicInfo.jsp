@@ -108,17 +108,7 @@ parent.layer.iframeAuto(index);
 
 $(function(){
 	//延长期限按钮
-	var yanchangriqi_tipindex = 0;
-	$("#yanchangriqi").hover(function(){
-		yanchangriqi_tipindex = layer.tips('点击按钮联系我们，为您延长使用期限', '#yanchangriqi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['200px' , 'auto']
-		});
-	},function(){
-		layer.close(yanchangriqi_tipindex);
-	})
+	msg.tip({id:"yanchangriqi",width:"150px",direction:"left",text:"点击按钮联系我们，为您延长使用期限"})
 });
 
 $.post("/sites/getOSSSize.do", function(data){

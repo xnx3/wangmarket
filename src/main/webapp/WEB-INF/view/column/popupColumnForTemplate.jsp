@@ -364,267 +364,62 @@ layui.use('upload', function(){
 //鼠标跟随提示
 $(function(){
 	//栏目名称
-	var label_columnName_index = 0;
-	$("#label_columnName").hover(function(){
-		label_columnName_index = layer.tips('给当前栏目起个名字吧。这里的名字可以直接在网站里调出显示，也可以在内容管理中显示栏目的名字。', '#label_columnName', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(label_columnName_index);
-	})
+	msg.tip({id:"label_columnName",width:"310px",text:'给当前栏目起个名字吧。这里的名字可以直接在网站里调出显示，也可以在内容管理中显示栏目的名字。'})
 
 	//列表页模版
-	var listTemplate_index = 0;
-	$("#listTemplate").hover(function(){
-		listTemplate_index = layer.tips('当前栏目信息展示给用户看时，的列表页面模版<br/>比如，新闻列表、产品列表、成功案例列表等此类信息列表。<br/>若这里为空，那肯定就是还没有创建过列表页模版了，先去<b>模版页面</b>去创建一个列表页模版吧', '#listTemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(listTemplate_index);
-	})
+	msg.tip({id:"listTemplate",width:"310px",text:'当前栏目信息展示给用户看时，的列表页面模版<br/>比如，新闻列表、产品列表、成功案例列表等此类信息列表。<br/>若这里为空，那肯定就是还没有创建过列表页模版了，先去<b>模版页面</b>去创建一个列表页模版吧'})
 	
 	//编辑方式
-	var columnEditMode_index = 0;
-	$("#columnEditMode").hover(function(){
-		columnEditMode_index = layer.tips('编辑方式，设定其填充/编辑内容信息的编辑方式。<br/>1.&nbsp;<b>在内容管理中编辑</b>，系统默认的内容编辑，比如添加新闻、图文时，都可以使用这个。若对此详不是太了解，一律选择此项即可。<br/>2.&nbsp;<b>在模版页面中编辑</b>，直接编辑模版页面的方式进行编辑，同样，编辑的工具是模版页，也就是直接对模版页面进行编辑。<br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>', '#columnEditMode', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(columnEditMode_index);
-	})
-	
+	msg.tip({id:"columnEditMode",width:"310px",text:'编辑方式，设定其填充/编辑内容信息的编辑方式。<br/>1.&nbsp;<b>在内容管理中编辑</b>，系统默认的内容编辑，比如添加新闻、图文时，都可以使用这个。若对此详不是太了解，一律选择此项即可。<br/>2.&nbsp;<b>在模版页面中编辑</b>，直接编辑模版页面的方式进行编辑，同样，编辑的工具是模版页，也就是直接对模版页面进行编辑。<br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>'})
+
 	//内容页模版
-	var viewTemplate_index = 0;
-	$("#viewTemplate").hover(function(){
-		viewTemplate_index = layer.tips('当前栏目信息展示给用户看时，的内容页面模版<br/>比如，新闻详情、产品详情、公司介绍、联系我们等页面，都是单独的一个内容介绍页面<br/>若这里为空，那肯定就是还没有创建过内容页模版了，先去<b>模版页面</b>去创建一个内容页模版吧', '#viewTemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(viewTemplate_index);
-	})
-	
+	msg.tip({id:"viewTemplate",width:"310px",text:'当前栏目信息展示给用户看时，的内容页面模版<br/>比如，新闻详情、产品详情、公司介绍、联系我们等页面，都是单独的一个内容介绍页面<br/>若这里为空，那肯定就是还没有创建过内容页模版了，先去<b>模版页面</b>去创建一个内容页模版吧'})
+
 	//栏目类型
-	var columnType_index = 0;
-	$("#columnType").hover(function(){
-		//这里通常使用的有这么三种：<br/><b>新闻信息</b>：像是新闻列表、动态资讯，这种纯文字性质的列表，并点击某项后可进入查看详情<br/><b>图文信息</b>：像是产品展示、案例展示等，图片＋文字形式的列表，并点击项后进入查看详情<br/><b>独立页面</b>：像是公司简介、联系我们、招商加盟这种单独的页面
-		columnType_index = layer.tips('<b>信息列表</b>：像是新闻列表、动态资讯、产品展示等，这种信息的列表。这个栏目内的文章条数不固定，用户可以随意添加多条信息。<br/><b>独立页面</b>：像是公司简介、联系我们这种的，一个栏目就只有一个页面的', '#columnType', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(columnType_index);
-	})
-	
+	msg.tip({id:"columnType",width:"310px",text:'<b>信息列表</b>：像是新闻列表、动态资讯、产品展示等，这种信息的列表。这个栏目内的文章条数不固定，用户可以随意添加多条信息。<br/><b>独立页面</b>：像是公司简介、联系我们这种的，一个栏目就只有一个页面的'})
+
 	//栏目代码
-	var columnCode_index = 0;
-	$("#columnCode").hover(function(){
-		columnCode_index = layer.tips('1.&nbsp;网站中，每个栏目都有一个唯一的栏目代码，在模版中动态调用某个栏目、或某个栏目下的动态数据时，就是根据这个栏目的栏目代码来进行调取的。<br/>2.&nbsp;此处强烈建议使用英文或拼音，禁止特殊字符<br/>3.&nbsp;<b>提示：生成的页面就是以这里命名的。填的栏目代码.html</b>。例如，你的栏目代码设置为aboutus，那么你这个页面的地址便是你的域名/aboutus.html<br/>4.&nbsp;栏目代码设置好后最好不要再改动！模版页面、模版栏目中动态调用栏目就是使用的这个；还有栏目的备份还原也是使用的栏目代码！', '#columnCode', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(columnCode_index);
-	})
-	
-	
+	msg.tip({id:"columnCode",width:"310px",text:'1.&nbsp;网站中，每个栏目都有一个唯一的栏目代码，在模版中动态调用某个栏目、或某个栏目下的动态数据时，就是根据这个栏目的栏目代码来进行调取的。<br/>2.&nbsp;此处强烈建议使用英文或拼音，禁止特殊字符<br/>3.&nbsp;<b>提示：生成的页面就是以这里命名的。填的栏目代码.html</b>。例如，你的栏目代码设置为aboutus，那么你这个页面的地址便是你的域名/aboutus.html<br/>4.&nbsp;栏目代码设置好后最好不要再改动！模版页面、模版栏目中动态调用栏目就是使用的这个；还有栏目的备份还原也是使用的栏目代码！'})
+
 	//上级栏目
-	var parentColumnCode_index = 0;
-	$("#parentColumnCode_label").hover(function(){
-		parentColumnCode_index = layer.tips('您当前操作的栏目，是属于哪个栏目下的。<br/>若选顶级栏目，则此栏目不属于任何栏目，是顶级栏目<br/><b>注意，模版中动态调取数据只支持一级子栏目</b>', '#parentColumnCode_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(parentColumnCode_index);
-	})
-	
+	msg.tip({id:"parentColumnCode_label",width:"310px",text:'您当前操作的栏目，是属于哪个栏目下的。<br/>若选顶级栏目，则此栏目不属于任何栏目，是顶级栏目<br/><b>注意，模版中动态调取数据只支持一级子栏目</b>'})
+
 	//输入模型
-	var inputModel_index = 0;
-	$("#inputModel_label").hover(function(){
-		inputModel_index = layer.tips('本栏目建立好后，在<b>内容管理</b>中操作本栏目的具体数据时，数据录入的样式。<br/>可在<b>模板管理</b>-<b>输入模型</b>中进行修改<b><br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>', '#inputModel_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(inputModel_index);
-	})
-	
+	msg.tip({id:"inputModel_label",width:"310px",text:'本栏目建立好后，在<b>内容管理</b>中操作本栏目的具体数据时，数据录入的样式。<br/>可在<b>模板管理</b>-<b>输入模型</b>中进行修改<b><br/><b style="font-size:16px; padding:6px;">注意，若是不理解，请勿改动本项。</b>'})
+
 	//列表条数，列表页面的显示条数
-	var listnum_index = 0;
-	$("#listnum_label").hover(function(){
-		listnum_index = layer.tips('当前列表页面，每个列表页显示多少条数据。<br/>如新闻列表，再生成后，用户查看新闻列表时，每页显示多少条新闻', '#listnum_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(listnum_index);
-	})
-	
+	msg.tip({id:"listnum_label",width:"310px",text:'当前列表页面，每个列表页显示多少条数据。<br/>如新闻列表，再生成后，用户查看新闻列表时，每页显示多少条新闻'})
+
 	//显示
-	var xianshi_index = 0;
-	$("#xianshi_label").hover(function(){
-		xianshi_index = layer.tips('绝大多数时候，都是显示即可，显示即正常使用。<br/>若是隐藏，在 内容管理 中不会显示此栏目、另外在模版页面中使用动态栏目代码调取子栏目列表时，也不会调取到', '#xianshi_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(xianshi_index);
-	})
-	
+	msg.tip({id:"xianshi_label",width:"310px",text:'绝大多数时候，都是显示即可，显示即正常使用。<br/>若是隐藏，在 内容管理 中不会显示此栏目、另外在模版页面中使用动态栏目代码调取子栏目列表时，也不会调取到'})
+
 	//listRank ，信息排序
-	var listRank_index = 0;
-	$("#listRank_label").hover(function(){
-		listRank_index = layer.tips('当前栏目内，内容信息排序方式。有以下几种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前<br>3.&nbsp;<b>ID编号倒序</b>：文章id编号数值越大，排序越靠前<br/>4.&nbsp;<b>ID编号正序</b>：文章id编号数值越小，排序越靠前', '#listRank_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(listRank_index);
-	})
-	
-	
+	msg.tip({id:"listRank_label",width:"310px",text:'当前栏目内，内容信息排序方式。有以下几种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前<br>3.&nbsp;<b>ID编号倒序</b>：文章id编号数值越大，排序越靠前<br/>4.&nbsp;<b>ID编号正序</b>：文章id编号数值越小，排序越靠前'})
+
 	//内容管理中，是否使用标题图片
-	var label_editUseTitlepic_index = 0;
-	$("#label_editUseTitlepic").hover(function(){
-		label_editUseTitlepic_index = layer.tips('标题图片，也就是文章的封面图，让每篇文章都有自己的一个封面图。比如，这个封面图可以是网站中，产品列表页面的每个产品的图片。', '#label_editUseTitlepic', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(label_editUseTitlepic_index);
-	})
-	
-	
+	msg.tip({id:"label_editUseTitlepic",width:"310px",text:'标题图片，也就是文章的封面图，让每篇文章都有自己的一个封面图。比如，这个封面图可以是网站中，产品列表页面的每个产品的图片。'})
+
 	//内容管理中，是否使用图集
-	var label_editUseExtendPhotos_index = 0;
-	$("#label_editUseExtendPhotos").hover(function(){
-		label_editUseExtendPhotos_index = layer.tips('文章图集，也就是让每篇文章都有自己的图集，一篇文章里面，可以上传不固定数量的多张图片，可以在网站中，做出轮播图等效果', '#label_editUseExtendPhotos', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(label_editUseExtendPhotos_index);
-	})
-	
+	msg.tip({id:"label_editUseExtendPhotos",width:"310px",text:'文章图集，也就是让每篇文章都有自己的图集，一篇文章里面，可以上传不固定数量的多张图片，可以在网站中，做出轮播图等效果'})
+
 	//内容管理中，是否使用内容简介
-	var label_editUseIntro_index = 0;
-	$("#label_editUseIntro").hover(function(){
-		label_editUseIntro_index = layer.tips('内容简介，也就是让本栏目中的每篇文章都可以编辑自己的内容简介。这些简介文字，可以在网站中，进行调取出来，比如在新闻列表中，作为新闻的简介说明。<br/>如果设置为不显示，内容简介也会有信息，会自动从内容正文中截取前120个字符作为内容简介的信息。', '#label_editUseIntro', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(label_editUseIntro_index);
-	})
-	
+	msg.tip({id:"label_editUseIntro",width:"310px",text:'内容简介，也就是让本栏目中的每篇文章都可以编辑自己的内容简介。这些简介文字，可以在网站中，进行调取出来，比如在新闻列表中，作为新闻的简介说明。<br/>如果设置为不显示，内容简介也会有信息，会自动从内容正文中截取前120个字符作为内容简介的信息。'})
+
 	//内容管理中，是否使用内容正文
-	var label_editUseText_index = 0;
-	$("#label_editUseText").hover(function(){
-		label_editUseText_index = layer.tips('内容正文，也就是文章的正文、详情。也就是富文本编辑器UEditor编辑的区域，可以通过这里进行随意布局、上传图片、附件、表情、以及插入地图等！', '#label_editUseText', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(label_editUseText_index);
-	})
-	
+	msg.tip({id:"label_editUseText",width:"310px",text:'内容正文，也就是文章的正文、详情。也就是富文本编辑器UEditor编辑的区域，可以通过这里进行随意布局、上传图片、附件、表情、以及插入地图等！'})
+
 	//是否生成内容详情页面
-	var useGenerateView_label_index = 0;
-	$("#useGenerateView_label").hover(function(){
-		useGenerateView_label_index = layer.tips('是否生成内容详情页面？<br/>如果您这个栏目只是要做一个列表，不做点击进入的详情页面的话，即无内容详情页，也就是此处可以设置为不生成内容页面，可以提高生成整站的速度。<br/><b>注意，若是不懂，请勿改动此处！</b>', '#useGenerateView_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(useGenerateView_label_index);
-	})
-	
+	msg.tip({id:"useGenerateView_label",width:"310px",text:'是否生成内容详情页面？<br/>如果您这个栏目只是要做一个列表，不做点击进入的详情页面的话，即无内容详情页，也就是此处可以设置为不生成内容页面，可以提高生成整站的速度。<br/><b>注意，若是不懂，请勿改动此处！</b>'})
+
 	//是否在模版栏目列表中显示栏目
-	var templateCodeColumnUsed_label_index = 0;
-	$("#templateCodeColumnUsed_label").hover(function(){
-		templateCodeColumnUsed_label_index = layer.tips('是否在模版调用中显示（调取子栏目列表）。在模板中，使用动态栏目调用代码调取栏目列表时，是否会调取到此栏目。<br/>例如顶级栏目名为 "手机" ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有子栏目列表时，就只有小米、中兴<br/><b>注意，若是不懂，请勿改动此处！</b>', '#templateCodeColumnUsed_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(templateCodeColumnUsed_label_index);
-	})
-	
-	var adminNewsUsed_label_index = 0;
-	$("#adminNewsUsed_label").hover(function(){
-		adminNewsUsed_label_index = layer.tips('是否在内容管理中显示此栏目。<br/><b>注意，若是不懂，请勿改动此处！</b>', '#adminNewsUsed_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(adminNewsUsed_label_index);
-	})
-	
-	var keywords_label_index = 0;
-	$("#keywords_label").hover(function(){
-		keywords_label_index = layer.tips('SEO 的 keywords ，多个中间用,分割<br/>在模板中可以用栏目标签 {siteColumn.keywords} 调取。<br/><b>注意，最大限制50个字符</b>', '#keywords_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(keywords_label_index);
-	})
-	
-	var description_label_index = 0;
-	$("#description_label").hover(function(){
-		description_label_index = layer.tips('SEO 的 description <br/>在模板中可以用栏目标签 {siteColumn.description} 调取。<br/><b>注意，最大限制200个字符</b>', '#description_label', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['310px' , 'auto']
-		});
-	},function(){
-		layer.close(description_label_index);
-	})
-	
-	
+	msg.tip({id:"templateCodeColumnUsed_label",width:"310px",text:'是否在模版调用中显示（调取子栏目列表）。在模板中，使用动态栏目调用代码调取栏目列表时，是否会调取到此栏目。<br/>例如顶级栏目名为 "手机" ，其下有三个子栏目，分别为小米、魅族、中兴，如果这个栏目是“魅族”，那么设置此处为隐藏后，调取“手机”这个栏目下的所有子栏目列表时，就只有小米、中兴<br/><b>注意，若是不懂，请勿改动此处！</b>'})
+
+	msg.tip({id:"adminNewsUsed_label",width:"310px",text:'是否在内容管理中显示此栏目。<br/><b>注意，若是不懂，请勿改动此处！</b>'})
+
+	msg.tip({id:"keywords_label",width:"310px",text:'SEO 的 keywords ，多个中间用,分割<br/>在模板中可以用栏目标签 {siteColumn.keywords} 调取。<br/><b>注意，最大限制50个字符</b>'})
+
+	msg.tip({id:"description_label",width:"310px",text:'SEO 的 description <br/>在模板中可以用栏目标签 {siteColumn.description} 调取。<br/><b>注意，最大限制200个字符</b>'})
+
 	//是否在模版的文章列表中显示此栏目的文章
 	//var templateCodeNewsUsed_label_index = 0;
 	//$("#templateCodeNewsUsed_label").hover(function(){

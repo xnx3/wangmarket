@@ -241,28 +241,12 @@ function exportTemplate(){
 $(function(){
 	
 	//导入模版
-	var daorutemplate_tipindex = 0;
-	$("#daorutemplate").hover(function(){
-		daorutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建模版页面、模版变量、以及栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子', '#daorutemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(daorutemplate_tipindex);
-	})
-	
-	
+	msg.tip({id:"daorutemplate",text:'1.&nbsp;&nbsp;当网站刚创建，但尚未有模版时，此处可从云端模版库、或者本地自有模版中导入现有的模版，快速创建模版页面、模版变量、以及栏目，实现极速建站<br/>2.&nbsp;&nbsp;当模版已经存在，使用了模版后，可以通过此处进行还原操作。还原回模版某一时刻的样子'})
+
+
+
 	//导出模版
-	var daochutemplate_tipindex = 0;
-	$("#daochutemplate").hover(function(){
-		daochutemplate_tipindex = layer.tips('1.&nbsp;&nbsp;将当前网站的模版导出，可以在新网站中将导出的模版文件导入，实现快速复制网站。<br/>2.&nbsp;&nbsp;也会起到备份模版的作用，网站如果操作失误删除东西了，可以通过此处进行还原回来', '#daochutemplate', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(daochutemplate_tipindex);
-	})
+	msg.tip({id:"daochutemplate",text:'1.&nbsp;&nbsp;将当前网站的模版导出，可以在新网站中将导出的模版文件导入，实现快速复制网站。<br/>2.&nbsp;&nbsp;也会起到备份模版的作用，网站如果操作失误删除东西了，可以通过此处进行还原回来'})
+
 });
 	

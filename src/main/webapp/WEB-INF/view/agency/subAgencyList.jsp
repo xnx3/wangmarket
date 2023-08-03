@@ -22,10 +22,25 @@
 		<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
 	</div>
 	<a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
-</form>	
+</form>
+
+<style>
+	.layui-form-label{
+		width: auto;
+	}
+	.wrap{
+		width: 100%;
+		overflow: auto;
+	}
+	table{
+		width: auto;
+		white-space:nowrap
+	}
+</style>
 			 
-<table class="layui-table iw_table">
-	<thead>
+<div class="wrap">
+	<table class="layui-table iw_table">
+		<thead>
 		<tr>
 			<th>编号ID</th>
 			<th>用户名</th>
@@ -35,9 +50,9 @@
 			<th>开通时间</th>
 			<th>到期时间</th>
 			<th>操作</th>
-		</tr> 
-	</thead>
-	<tbody>
+		</tr>
+		</thead>
+		<tbody>
 		<c:forEach items="${list}" var="agency">
 			<tr>
 				<td style="width:50px;">${agency['id'] }</td>
@@ -62,8 +77,9 @@
 				</td>
 			</tr>
 		</c:forEach>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>
 <!-- 通用分页跳转 -->
 <jsp:include page="../iw/common/page.jsp" ></jsp:include>			 
 						

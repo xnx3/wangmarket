@@ -118,29 +118,9 @@ try{
 $(function(){
 	//延长期限按钮
 	//延长期限按钮
-	var yanchangriqi_tipindex = 0;
-	$("#yanchangriqi").hover(function(){
-		yanchangriqi_tipindex = layer.tips('点击按钮联系我们，为您延长使用期限', '#yanchangriqi', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true,
-			area : ['200px' , 'auto']
-		});
-	},function(){
-		layer.close(yanchangriqi_tipindex);
-	})
-	
+	msg.tip({id:"yanchangriqi",width:"150px",text:"点击按钮联系我们，为您延长使用期限"})
 	//站币的充值按钮
-	var chongzhianniu_tipindex = 0;
-	$("#chongzhianniu").hover(function(){
-		chongzhianniu_tipindex = layer.tips('联系您的上级，向其购买站币', '#chongzhianniu', {
-			tips: [2, '#0FA6A8'], //还可配置颜色
-			time:0,
-			tipsMore: true
-		});
-	},function(){
-		layer.close(chongzhianniu_tipindex);
-	})
+	msg.tip({id:"chongzhianniu",width:"auto",text:"联系您的上级，向其购买站币"})
 })
 
 
