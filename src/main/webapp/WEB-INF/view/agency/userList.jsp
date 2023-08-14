@@ -8,6 +8,7 @@
 	<jsp:param name="title" value="我开通的网站列表"/>
 </jsp:include>
 <script src="/<%=Global.CACHE_FILE %>Site_state.js"></script>
+<script src="/<%=Global.CACHE_FILE %>User_isfreeze.js"></script>
 
 <jsp:include page="../iw/common/list/formSearch_formStart.jsp" ></jsp:include>
 	<jsp:include page="/wm/common/list/formSearch_input.jsp">
@@ -18,10 +19,15 @@
 		<jsp:param name="iw_label" value="绑定域名"/>
 		<jsp:param name="iw_name" value="bind_domain"/>
 	</jsp:include>
+	<jsp:include page="/wm/common/list/formSearch_input.jsp">
+		<jsp:param name="iw_label" value="状态"/>
+		<jsp:param name="iw_name" value="isfreeze"/>
+		<jsp:param name="iw_type" value="select"/>
+	</jsp:include>
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">
-		<script type="text/javascript"> orderBy('id_DESC=编号,lasttime_DESC=最后登陆时间'); </script>
+		<script type="text/javascript"> orderBy('site.id_DESC=编号,site.expiretime=过期时间,site.lasttime_DESC=最后登陆时间'); </script>
 	</div>
 	<a href="/agency/add.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通网站</a>
 </form>	
@@ -53,6 +59,7 @@
 			<th>最后上线时间</th>
 			<th>到期时间</th>
 			<th>备注</th>
+			<th>状态</th>
 			<th>操作</th>
 		</tr> 
 	</thead>
@@ -87,16 +94,19 @@
 					<span class="ignore"><x:substring maxLength="10" text="${obj['remark'] }"></x:substring></span>
 					<botton class="layui-btn layui-btn-sm" onclick="updateRemark('${obj['id'] }','${obj['userusername'] }','${obj['remark'] }');" style="margin-left: 3px;">修改</botton>
 				</td>
-				<td style="width:auto;">
+				<td>
 					<c:choose>
-					<c:when test="${obj['state'] == 1 }">
-						<botton class="layui-btn layui-btn-sm" onclick="freeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">冻结</botton>
-					</c:when>
-					<c:when test="${obj['state'] == 2 }">
-						<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">解冻</botton>
-					</c:when>
+						<c:when test="${obj['userisfreeze'] == 0 }">
+							正常
+							<botton class="layui-btn layui-btn-sm" onclick="freeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">冻结</botton>
+						</c:when>
+						<c:when test="${obj['userisfreeze'] == 1 }">
+							已冻结
+							<botton class="layui-btn layui-btn-sm" onclick="unFreeze('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">解冻</botton>
+						</c:when>
 					</c:choose>
-					
+				</td>
+				<td style="width:auto;">
 					<botton class="layui-btn layui-btn-sm" onclick="xufei('${obj['id'] }','${obj['userusername'] }');" style="margin-left: 3px;">续费</botton>
 					<botton class="layui-btn layui-btn-sm" onclick="updatePassword('${obj['userid'] }','${obj['userusername'] }');" style="margin-left: 3px;">改密</botton>
 				</td>

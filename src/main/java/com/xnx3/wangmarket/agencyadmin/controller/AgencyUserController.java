@@ -604,15 +604,15 @@ public class AgencyUserController extends BaseController {
 		Sql sql = new Sql(request);
 		sql.setSearchTable("user");
 		sql.appendWhere("user.referrerid = "+getUserId()+" AND user.authority = "+SystemUtil.getInt("USER_REG_ROLE"));
-		sql.setSearchColumn(new String[]{"username","email","phone","userid="});
+		sql.setSearchColumn(new String[]{"username","email","phone","userid=","isfreeze="});
 		int count = sqlService.count("user", sql.getWhere());
 		Page page = new Page(count, G.PAGE_WAP_NUM, request);
-		sql.setSelectFromAndPage("SELECT site.id,site.name,site.userid, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone  FROM site,user", page);
+		sql.setSelectFromAndPage("SELECT site.id,site.name,site.userid, site.company_name, site.phone, site.domain,site.bind_domain,site.expiretime,site.remark, site.attachment_size_have,site.attachment_size, site.news_size_have,site.news_size, user.lasttime, user.username AS userusername, user.phone AS userphone, user.isfreeze AS userisfreeze  FROM site,user", page);
 		sql.appendWhere("user.id = site.userid");
 		if(bind_domain.length() > 0 && !bind_domain.equalsIgnoreCase("null")) {
 			sql.appendWhere("site.bind_domain LIKE '%"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(bind_domain)+"%'");
 		}
-		sql.setOrderByField(new String[]{"id","expiretime","addtime"});
+		sql.setOrderByField(new String[]{"site.id","site.expiretime","site.addtime"});
 		sql.setDefaultOrderBy("site.expiretime ASC");
 		List<Map<String, Object>> list = sqlService.findMapBySql(sql);
 		ActionLogUtil.insert(request, "代理商后台，查看属于我的站点列表");
