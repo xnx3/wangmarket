@@ -486,7 +486,7 @@ public class NewsController extends BaseController {
 	 * @param superid 当前栏目的上级栏目id
 	 * @return
 	 */
-	private String getLeftNavColumnA(int cid, SiteColumn sc, int superid){
+	public String getLeftNavColumnA(int cid, SiteColumn sc, int superid){
 		String href = "";
 		
 		if(sc.getType() - SiteColumn.TYPE_LIST == 0 || sc.getType() - SiteColumn.TYPE_NEWS == 0 || sc.getType() - SiteColumn.TYPE_IMAGENEWS == 0){
