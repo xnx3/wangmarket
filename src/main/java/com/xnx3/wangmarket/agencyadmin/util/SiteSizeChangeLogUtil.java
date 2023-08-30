@@ -1,101 +1,33 @@
 package com.xnx3.wangmarket.agencyadmin.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import javax.annotation.Resource;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import com.xnx3.Lang;
-import com.xnx3.ScanClassUtil;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.shiro.ShiroFunc;
-import com.xnx3.j2ee.util.ConsoleUtil;
-import cn.zvo.log.DatasourceInterface;
-import cn.zvo.log.Log;
-import cn.zvo.log.datasource.console.ConsoleDataSource;
-import cn.zvo.log.framework.springboot.ApplicationConfig;
+import cn.zvo.log.framework.springboot.LogUtil;
 
 /**
  * 日志
  * @author 管雷鸣
  */
-@EnableConfigurationProperties(ApplicationConfig.class)
-@Configuration
+//@EnableConfigurationProperties(ApplicationConfig.class)
+//@Configuration
 public class SiteSizeChangeLogUtil{
-	public static Log log;
-    @Resource
-    private ApplicationConfig config;
+//	public static cn.zvo.log.framework.springboot.Log log;
 
-	static{
-		new SiteSizeChangeLogUtil().init();
-	}
-	
-	/**
-	 * 初始化
-	 */
-	public void init() {
-		loadConfig(this.config);
-	}
-
-    /**
-     * 加载配置 {@link ApplicationConfig} 文件，通过其属性来决定使用何种配置。
-     * <br>这个其实就相当于用java代码来动态决定配置
-     * @param config
-     */
-    public static void loadConfig(ApplicationConfig config) {
-    	if(config == null) {
-    		return;
-    	}
-    	
-    	log = new Log();
-    	
-    	if(config.getCacheMaxNumber() != null && config.getCacheMaxNumber().trim().length() > 0) {
-			log.setCacheMaxNumber(Lang.stringToInt(config.getCacheMaxNumber(), 100));
-		}
-		if(config.getCacheMaxTime() != null && config.getCacheMaxTime().trim().length() > 0) {
-			log.setCacheMaxTime(Lang.stringToInt(config.getCacheMaxTime(), 60));
-		}
-
-		if(config.getDataSource() != null) {
-			for (Map.Entry<String, Map<String, String>> entry : config.getDataSource().entrySet()) {
-				//拼接，取该插件在哪个包
-				String datasourcePackage = "cn.zvo.log.datasource."+entry.getKey();
-				
-				List<Class<?>> classList = ScanClassUtil.getClasses(datasourcePackage);
-				//搜索继承StorageInterface接口的
-				List<Class<?>> logClassList = ScanClassUtil.searchByInterfaceName(classList, "cn.zvo.log.DatasourceInterface");
-				for (int i = 0; i < logClassList.size(); i++) {
-					Class logClass = logClassList.get(i);
-					ConsoleUtil.debug("log datasource : "+logClass.getName());
-					try {
-						Object newInstance = logClass.getDeclaredConstructor(Map.class).newInstance(entry.getValue());
-//						LogInterface logInterface = (LogInterface) newInstance;
-						DatasourceInterface datasource = (DatasourceInterface)newInstance;
-						log.setDatasource(datasource);
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException| InvocationTargetException  | NoSuchMethodException | SecurityException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
-		log.setCacheMaxNumber(1); //不缓存，直接保存，不能丢掉金钱相关记录
-    }
-    
     /**
      * 获取log对象
      */
-    public static Log getLog() {
-    	if(log == null) {
-    		new SiteSizeChangeLogUtil().init();
-    		if(log == null) {
-    			log = new Log();
-    		}
-    	}
-    	return log;
+    public static cn.zvo.log.framework.springboot.Log getLog() {
+//    	if(log == null) {
+//    		log = cn.zvo.log.framework.springboot.LogUtil.getLog().clone();
+//    		log.setTable("site_size_change");
+//    		ConsoleUtil.debug("网站余额变动日志记录到log table : site_size_change , log interface : "+log.getLogInterface().getClass().getName());
+//    	}
+//    	return log;
+    	return LogUtil.getLog();
     }
+	
     
 	
 	/**
