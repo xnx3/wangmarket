@@ -44,7 +44,7 @@
 			
 			<c:choose>
 				<c:when test="${siteColumn.type == 1 || siteColumn.type == 2 || siteColumn.type == 7}">
-					<a href="news.do?cid=${siteColumn['id'] }" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加信息</a>
+					<a href="/news/news.do?cid=${siteColumn['id'] }" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">添加信息</a>
 				</c:when>
 				<c:otherwise>
 				</c:otherwise>
@@ -66,7 +66,7 @@
 				<c:forEach items="${list}" var="news">
 					<tr>
 						<td style="width:55px;">${news['id'] }</td>
-						<td><a href="redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black">${news['title'] }</a></td>
+						<td><a href="/news/redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black">${news['title'] }</a></td>
 						<td style="width:60px;">
 							<c:if test="${not empty news.titlepic }">
 								<c:choose>
@@ -92,7 +92,7 @@
 									<botton class="layui-btn layui-btn-sm" onclick="editText('${siteColumn.templatePageViewName}');" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></botton>
 								</c:when>
 								<c:otherwise>
-									<a class="layui-btn layui-btn-sm" href="news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
+									<a class="layui-btn layui-btn-sm" href="/news/news.do?id=${news['id'] }" style="margin-left: 3px;"><i class="layui-icon">&#xe642;</i></a>
 								</c:otherwise>
 							</c:choose>
 							
