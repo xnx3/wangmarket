@@ -80,7 +80,7 @@
 							</c:if>
 						</td>
 						<td style="width:140px; cursor: pointer;" id="addtime_${news['id'] }" onclick="updateAddtime('${news['id'] }', '<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>');">
-							<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd hh:mm"></x:time>
+							<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd HH:mm"></x:time>
 							<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
 						</td>
 						<td style="width:40px; cursor: pointer;" onclick="updateTop('${news['id'] }', '${news['title'] }', '${news['top'] }');">
