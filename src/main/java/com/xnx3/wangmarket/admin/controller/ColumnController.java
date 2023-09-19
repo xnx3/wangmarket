@@ -19,7 +19,9 @@ import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.Sql;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.vo.BaseVO;
@@ -658,6 +660,29 @@ public class ColumnController extends BaseController {
 							}
 						}
 					}
+					
+					//判断当前网站是否是父栏目，如果是父栏目，那么子栏目跟父栏目关联是通过的codeName，这样父栏目codename改变，子栏目的 parentCodename 也要改变
+					if(oldCodeName != null && !oldCodeName.equals(sc.getCodeName())) {
+						//不是新增，且有过改动
+						
+						boolean subColumnFind = false; //false 没有子栏目
+						for (int i = 0; i < sclistCache.size(); i++) {
+							SiteColumn s = sclistCache.get(i);
+							if(s.getParentCodeName().equals(oldCodeName)) {
+								//有，那么要进行改变
+								s.setParentCodeName(sc.getCodeName());
+								subColumnFind = true;
+							}
+						}
+						if(subColumnFind) {
+							//当前栏目是父栏目，有子栏目存在，那么要改变
+							String updateParentCodeName = "UPDATE site_column SET parent_code_name = '"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(sc.getCodeName())+"' WHERE siteid = "+site.getId()+" AND parent_code_name = '"+SafetyUtil.sqlFilter(oldCodeName)+"'";
+							int updateParentCodeNameNum = sqlService.executeSql(updateParentCodeName);
+							//ConsoleUtil.log(updateParentCodeName + "\t, update num:"+updateParentCodeNameNum);
+						}
+					}
+					
+					
 					
 				}
 			}
