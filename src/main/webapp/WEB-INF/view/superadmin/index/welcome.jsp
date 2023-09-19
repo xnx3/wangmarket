@@ -33,7 +33,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 			<td class="iw_table_td_view_name">当前版本</td>
 			<td>
 				<span style="font-size:18px; padding-right:15px;" class="ignore">v${version }</span>
-				<span id="versionTishi" style="font-size:14px;">(最新版本检测中...)</span>
+				<!--  <span id="versionTishi" style="font-size:14px;">(最新版本检测中...)</span>  -->
 			</td>
 		</tr>
 		<tr>
@@ -66,6 +66,7 @@ var masterSiteUrl = '<%=Global.get("MASTER_SITE_URL") %>';
 
 <script>
 //检测最新版本
+/* v6.5 去掉
 function checkVersion(){
 	$.getJSON("../../getNewVersion.do",function(result){
 		if(result.findNewVersion){
@@ -76,7 +77,7 @@ function checkVersion(){
 	});
 }
 checkVersion();
-
+*/
 //借助于upgrade插件实现在线升级的提示
 function upgradePlugin(){
 	wm.post("/plugin/upgrade/superadmin/getNextVersion.json",{},function(result){
