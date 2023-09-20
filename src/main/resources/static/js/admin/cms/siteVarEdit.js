@@ -82,6 +82,11 @@ function showVarValue(ctype){
 	}
 	
 	if(ctype == 'image'){
+		var text = '<input name="value" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="'+currentValue+'" style="padding-right: 120px;"><button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">	<i class="layui-icon layui-icon-upload"></i></button><a href="'+currentValue+'" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">	<img id="titlePicImg" src="'+currentValue+'?x-oss-process=image/resize,h_38" class="previewImg" onerror="this.style.display=\'none\';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片"></a><input class="layui-upload-file" type="file" name="fileName">';
+		document.getElementById('var_value_div').innerHTML = text;
+
+		document.getElementById('var_value_layuiItem').style.display = '';	//显示变量值这一行
+		document.getElementById('sitecolumn_editUseExtendPhotos').style.display = 'none';	//隐藏图集录入
 		//单图片上传
 		layui.use('upload', function(){
 			var upload = layui.upload;
@@ -121,12 +126,7 @@ function showVarValue(ctype){
 			//上传图片,图集，v4.6扩展
 			//upload.render(uploadExtendPhotos);
 		});
-		
-		var text = '<input name="value" id="titlePicInput" type="text" autocomplete="off" placeholder="点击右侧添加" class="layui-input" value="'+currentValue+'" style="padding-right: 120px;"><button type="button" class="layui-btn" id="uploadImagesButton" style="float: right;margin-top: -38px;">	<i class="layui-icon layui-icon-upload"></i></button><a href="'+currentValue+'" id="titlePicA" style="float: right;margin-top: -38px;margin-right: 60px;" title="预览原始图片" target="_black">	<img id="titlePicImg" src="'+currentValue+'?x-oss-process=image/resize,h_38" class="previewImg" onerror="this.style.display=\'none\';" style="height: 36px;max-width: 57px; padding-top: 1px;" alt="预览原始图片"></a><input class="layui-upload-file" type="file" name="fileName">';	
-		document.getElementById('var_value_div').innerHTML = text;
 
-		document.getElementById('var_value_layuiItem').style.display = '';	//显示变量值这一行
-		document.getElementById('sitecolumn_editUseExtendPhotos').style.display = 'none';	//隐藏图集录入
 	}else if(ctype == 'select'){
 		//下拉选择
 		
