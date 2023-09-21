@@ -19,7 +19,7 @@
 	<input class="layui-btn iw_list_search_submit" type="submit" value="搜索" />
 	
 	<div style="float: right;">
-		<script type="text/javascript"> orderBy('id_DESC=代理编号,expiretime_ASC=到期时间,addtime_DESC=开通时间'); </script>
+		<script type="text/javascript"> orderBy('id_DESC=代理编号倒序,expiretime_ASC=到期时间正序,addtime_DESC=开通时间倒序'); </script>
 	</div>
 	<a href="/agency/addAgency.do" class="layui-btn layui-btn-normal" style="float: right; margin-right:10px;">开通下级代理</a>
 </form>
