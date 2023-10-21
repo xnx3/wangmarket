@@ -159,6 +159,10 @@
 QQ群：740332119  
 微信公众号：wangmarket  
 
+## 友情链接
+[https://github.com/dromara/hertzbeat](https://github.com/dromara/hertzbeat) 拥有强大自定义监控能力，高性能集群，无需 Agent 的开源实时监控告警系统。它可以监控您网站是否能正常访问，异常通知告警等。  
+[http://translate.zvo.cn/42395.html](http://translate.zvo.cn/42395.html) translate.js翻译能力，它可以让您做好的中文或英文网站，自动生成其他几百种语种的网站，并可自由绑定域名、被翻译后语种的SEO收录！
+
 ## 开源项目
 
 致力于开源基础化信息建设，如有需要，可直接拿去使用。这里列出了我部分开源项目：
