@@ -217,8 +217,12 @@ public class TemplateServiceImpl implements TemplateService {
 	public TemplatePageVO saveTemplatePageText(String fileName, String html, HttpServletRequest request) {
 		TemplatePageVO vo = new TemplatePageVO();
 		
-		fileName = SafetyUtil.filter(fileName);
-		if(fileName == null || fileName.length() == 0){
+		String name = SafetyUtil.filter(fileName);
+		if(!name.equals(fileName)) {
+			vo.setBaseVO(BaseVO.FAILURE, "模版页名称包含不被允许的特殊字符。您可编辑模版属性，将名称中的特殊字符删掉");
+			return vo;
+		}
+		if(name == null || name.length() == 0){
 			vo.setBaseVO(BaseVO.FAILURE, "出错，你要修改的是哪个模版呢？");
 			return vo;
 		}
@@ -226,7 +230,7 @@ public class TemplateServiceImpl implements TemplateService {
 		Site site = SessionUtil.getSite();
 		
 		
-		TemplatePage templatePage = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId()+" AND name = '"+fileName+"'", TemplatePage.class);
+		TemplatePage templatePage = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId()+" AND name = '"+name+"'", TemplatePage.class);
 		if(templatePage == null){
 			vo.setBaseVO(BaseVO.FAILURE, "要保存的模版页不存在！请手动复制保存好您当前所编辑的模版页内容！");
 			return vo;

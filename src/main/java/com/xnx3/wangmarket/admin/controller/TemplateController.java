@@ -590,10 +590,9 @@ public class TemplateController extends BaseController {
 	public BaseVO saveTemplatePageText(HttpServletRequest request,
 			@RequestParam(value = "pageName", required = false, defaultValue="") String pageName,
 			@RequestParam(value = "html", required = true) String html){
-		pageName = filter(pageName);
 		TemplatePageVO vo = templateService.saveTemplatePageText(pageName, html, request);
 		
-		ActionLogUtil.insertUpdateDatabase(request, "保存模版页面的模版内容"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+pageName);
+		ActionLogUtil.insertUpdateDatabase(request, "保存模版页面的模版内容"+(vo.getResult() - BaseVO.SUCCESS == 0 ? "成功":"失败")+"，模版页："+StringUtil.filterXss(pageName));
 		
 		BaseVO baseVO = new BaseVO();
 		baseVO.setBaseVO(vo.getResult(), vo.getInfo());
