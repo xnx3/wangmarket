@@ -115,7 +115,7 @@ $(function(){
 	//类型
 	msg.tip({id:"label_type",width:"auto",text:"首页模版只能存在一个！<br/>多个就不起作用了！"})
 	//名字
-	msg.tip({id:"label_name",width:"300px",text:'<ol style="list-style-type:demical"><li style="list-style-position:outside;">模版页面的名字，请用用英文、数字、"_" 来命名！</li><li style="list-style-position:outside;"><b>添加后最好不要对其进行修改了！</b>栏目绑定的模版、备份还原模版页时，都是依据此处进行操作。</li></ol>'})
+	msg.tip({id:"label_name",width:"300px",text:'<ol style="list-style-type:demical"><li style="list-style-position:outside;">模版页面的名字，请用用英文、汉字、数字、"_" 来命名！</li><li style="list-style-position:outside;"><b>添加后最好不要对其进行修改了！</b>栏目绑定的模版、备份还原模版页时，都是依据此处进行操作。</li></ol>'})
 	//备注
 	msg.tip({id:"label_remark",width:"300px",text:"给网站后台操作人员备注提示说明，便于区分模版页面，仅此而已，无实际作用"})
 	//编辑方式
