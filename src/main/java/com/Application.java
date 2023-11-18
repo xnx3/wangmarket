@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.xnx3.doc.Log;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 
@@ -33,6 +34,10 @@ public class Application {
 		ConsoleUtil.debug = true;
 		ConsoleUtil.info = true;
 		ConsoleUtil.error = true;
+		Log.debug = true;
+		Log.error = true;
+		Log.info = true;
+		com.xnx3.j2ee.Global.isJarRun = true;	//开发模式
 		startFinish();
 		
 		context = SpringApplication.run(Application.class, args);

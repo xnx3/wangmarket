@@ -16,6 +16,7 @@ import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.IpUtil;
+import com.xnx3.j2ee.util.SafetyUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.j2ee.util.TerminalDetection;
 import com.xnx3.net.OSSUtil;
@@ -248,26 +249,32 @@ public class PublicController extends BaseController {
 	}
 	
 	/**
-	 * robots.txt展示
-	 * @param request {@link HttpServletRequest}
-	 * @param model {@link Model}
+	 * *.txt展示
 	 */
-	@RequestMapping("robots.txt")
-	public String robots(HttpServletRequest request, HttpServletResponse response, Model model){
+	@RequestMapping("*.txt")
+	public String txt(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam(value = "htmlFile", required = false , defaultValue="") String htmlFile){
+		if(htmlFile.length() == 0){
+			htmlFile = request.getServletPath();
+			htmlFile = htmlFile.replace("/", "");	//将开头的 /去掉
+		}else{
+			htmlFile = htmlFile + ".txt";
+		}
+		
 		SImpleSiteVO simpleSiteVO = getCurrentSimpleSite(request);
 		
 		if(simpleSiteVO.getResult() - SImpleSiteVO.FAILURE == 0){
 			return error404();
 		}else{
 			//访问日志记录
-			alonePageRequestLog(request, "robots.txt", simpleSiteVO);
-			TextBean textBean = GainSource.get(simpleSiteVO.getSimpleSite(), "robots.txt");
+			alonePageRequestLog(request, SafetyUtil.xssFilter(htmlFile), simpleSiteVO);
+			TextBean textBean = GainSource.get(simpleSiteVO.getSimpleSite(), htmlFile);
 			String content = textBean.getText();
 			if(content == null || content.length() == 0){
 				return error404();
 			}else{
 				model.addAttribute("html", content);
-				return "domain/robots";
+				return "domain/txt";
 			}
 		}
 	}
