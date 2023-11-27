@@ -19,7 +19,7 @@
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">标题</td>
-			<td class="ignore">${news.title }</td>
+			<td class="ignore"><x:xss text="${news.title }"></x:xss> </td>
 		</tr>
 		<tr>
 			<td class="iw_table_td_view_name">简介</td>

@@ -66,7 +66,7 @@
 				<c:forEach items="${list}" var="news">
 					<tr>
 						<td style="width:55px;">${news['id'] }</td>
-						<td><a href="/news/redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black">${news['title'] }</a></td>
+						<td><a href="/news/redirectByNews.do?newsId=${news['id'] }&cid=${news['cid'] }&type=${news['type'] }" target="_black"><x:xss text="${news['title'] }"></x:xss> </a></td>
 						<td style="width:60px;">
 							<c:if test="${not empty news.titlepic }">
 								<c:choose>
@@ -83,7 +83,8 @@
 							<x:time linuxTime="${news['addtime'] }" format="yy-MM-dd HH:mm"></x:time>
 							<input style="width:0px; height:0px; overflow: hidden; float: left;" type="text" id="addtime_${news['id'] }_input" value="<x:time linuxTime="${news['addtime'] }" format="yyyy-MM-dd hh:mm:ss"></x:time>" />	
 						</td>
-						<td style="width:40px; cursor: pointer;" onclick="updateTop('${news['id'] }', '${news['title'] }', '${news['top'] }');">
+						
+						<td style="width:40px; cursor: pointer;" onclick="updateTop('${news['id'] }', '<x:xss text="${news['title'] }"></x:xss>', '${news['top'] }');">
 							<script type="text/javascript">document.write(newsTop['${news['top'] }']);</script>
 						</td>
 						<td style="text-align: center; width:140px;">
