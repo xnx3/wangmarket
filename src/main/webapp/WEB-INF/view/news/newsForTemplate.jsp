@@ -52,7 +52,7 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 </style>
 
 
-<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:35px;">
+<form id="form" method="post" class="layui-form" enctype="multipart/form-data" style="padding-top:35px; margin-bottom: 10px; padding-right:128px;">
 	<input type="hidden" name="id" value="${news.id }" />
 	<input type="hidden" name="cid" value="${news.cid }" />
 	<input type="hidden" name="type" value="${news.type }" />
@@ -63,13 +63,14 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 	<!-- 展开更多设置,v6.1版本将增加，当前正在调试中，此处可用插件进行更多自定义扩展，如文章自定义生成的html文件名、文章设置标签等 -->
 	<div id="rightPluginPanel" style="display:none; background: yellow;
     float: right;
-    position: absolute;
+    position: fixed;
     top: 0px;
     right: 0px;
     width: 70px;
+    padding-top: 2rem;
     bottom: 0px;
     z-index: 99999;">
-	<div style="    background: white; height: 120px;width: 30px;font-size: 1.5rem;cursor: pointer;position: fixed; top: 40%;" onclick="document.getElementById('rightPluginPanel').style.width = '300px';">扩大</div>
+	<div style="    background: white; height: 120px;width: 109px;font-size: 1.5rem;cursor: pointer;position: fixed; top: 40%;" onclick="rightPluginPanelBigSmall();">扩大</div>
 	</div>
 	
 	
@@ -263,8 +264,19 @@ function loadSuCai(){
 //	document.getElementById('rightPluginPanel').style.display = ''; //显示右侧输入栏
 //}
 
-
-
+//右侧插件扩展面板的放大、缩小
+var rightPluginPanelIsBig = false;	//当前是否时放大状态，默认为否
+function rightPluginPanelBigSmall(){
+	if(rightPluginPanelIsBig){
+		//缩小
+		document.getElementById('rightPluginPanel').style.width = '109px';
+		rightPluginPanelIsBig = false;
+	}else{
+		//放大
+		document.getElementById('rightPluginPanel').style.width = '400px';
+		rightPluginPanelIsBig = true;
+	}
+}
 </script>
 
 ${pluginAppendHtml}
@@ -273,7 +285,7 @@ try{
 	if(document.getElementById('rightPluginPanel').children.length > 1){
 		//因为会有打开、关闭，所以一定是最少有一个元素的，大于1则是有插件使用了，可以显示出可编辑项目出来
 		document.getElementById('rightPluginPanel').style.display = ''; //显示右侧输入栏
-		document.getElementById('form').style.paddingRight = '100px'; //主题区域缩小点，流出右侧一点位置来
+		document.getElementById('form').style.paddingRight = '136px'; //主题区域缩小点，流出右侧一点位置来
 	}
 }catch(e){
 	console.log(e);
