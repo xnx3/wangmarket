@@ -86,11 +86,12 @@ public class NewsController extends BaseController {
 		if(s.getTitle() != null && s.getTitle().length()>0){
 			//v6.5 修改，保存不在进行xss处理，只是显示时后台会处理
 //			title = StringUtil.filterXss(s.getTitle());
+			title = s.getTitle();
 		}else{
-			return error("请输入您页面的名字");
+			return error("请输入标题");
 		}
 		if(title.length() == 0){
-			return error("请输入您页面的名字");
+			return error("请输入标题");
 		}
 		
 		Site site = SessionUtil.getSite();
