@@ -19,7 +19,7 @@ public class G {
 	/**
 	 * 当前的版本号。1.x为通用模版时代； 2.x为cms时代, 3.x 整体架构及云模块使用升级， 4.x整体架构升级，由深度依赖阿里云抽离， 5.x 插件时代，将更多的功能以插件的形式来做
 	 */
-	public static String VERSION = "6.5";	
+	public static String VERSION = "6.5.1";	
 	
 	//云端域名。如，云端模版列表，则为 cloudDomain+"cloudTemplateList.do"
 	public static String cloudDomain = "http://wang.market/";
