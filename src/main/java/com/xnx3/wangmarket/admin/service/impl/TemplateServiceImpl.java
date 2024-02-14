@@ -381,7 +381,7 @@ public class TemplateServiceImpl implements TemplateService {
 	 * @param templatePageListVO {@link TemplatePageListVO}
 	 * @return {@link TemplatePageVO} 如果没有，那么 vo.result == FAILURE
 	 */
-	private TemplatePageVO getTemplatePageIndexByTemplatePageListVO(TemplatePageListVO templatePageListVO) {
+	public TemplatePageVO getTemplatePageIndexByTemplatePageListVO(TemplatePageListVO templatePageListVO) {
 		for (int i = 0; i < templatePageListVO.getList().size(); i++) {
 			TemplatePageVO templatePageVO = templatePageListVO.getList().get(i);
 			if(templatePageVO.getTemplatePage().getType() - TemplatePage.TYPE_INDEX == 0){
