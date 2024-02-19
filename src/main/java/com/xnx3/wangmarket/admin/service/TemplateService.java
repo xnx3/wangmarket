@@ -30,6 +30,15 @@ public interface TemplateService {
 	 */
 	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request);
 	
+
+	/**
+	 * 获取某网站所使用的模版页列表，这个列表仅是 {@link TemplatePage}的列表，不包含 {@link TemplatePageData}
+	 * @param site 目标网站
+	 * @return {@link TemplatePageListVO}
+	 */
+	public TemplatePageListVO getTemplatePageListByCache(HttpServletRequest request, Site site);
+	
+	
 	/**
 	 * 从数据库中，获取当前登陆用户当前网站所使用的模版页列表，这个列表仅是 {@link TemplatePage}的列表，不包含 {@link TemplatePageData}。每次执行此方法，都会查询一次数据库
 	 * @param site {@link Site} 要获取的是那个网站的模版页面
@@ -218,4 +227,10 @@ public interface TemplateService {
 	 */
 	public GenerateSiteVO generateSiteHTML(HttpServletRequest request, Site site);
 	
+	/**
+	 * 从 {@link TemplatePageListVO} 中，找出首页模版
+	 * @param templatePageListVO {@link TemplatePageListVO}
+	 * @return {@link TemplatePageVO} 如果没有，那么 vo.result == FAILURE
+	 */
+	public TemplatePageVO getTemplatePageIndexByTemplatePageListVO(TemplatePageListVO templatePageListVO);
 }
