@@ -53,7 +53,7 @@ import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
 import net.sf.json.JSONObject;
 
 /**
- * 图文、新闻
+ * 文章管理
  * @author 管雷鸣
  */
 @Controller
