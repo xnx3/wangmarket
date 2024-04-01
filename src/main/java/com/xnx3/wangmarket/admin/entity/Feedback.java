@@ -8,21 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 问题反馈
+ * 问题反馈 - 目前未用到，先保留
  * @author 管雷鸣
  */
 @Entity
 @Table(name = "feedback")
 public class Feedback implements java.io.Serializable {
 
-	private Integer id;
-	private Integer userid;
-	private Integer addtime;
-	private String text;
+	private Integer id;		//自动编号
+	private Integer userid;	//反馈用户，对应 user.id
+	private Integer addtime; //反馈的时间
+	private String text;		//反馈的内容
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", columnDefinition="int(11) COMMENT '自动编号'", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}

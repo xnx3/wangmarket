@@ -17,7 +17,7 @@ public class SiteData implements java.io.Serializable {
 	private String indexDescription;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", columnDefinition="int(11) COMMENT '站点编号，对应 site.id'", unique = true, nullable = false)
 	public Integer getId() {
 		if(this.id == null){
 			return 0;

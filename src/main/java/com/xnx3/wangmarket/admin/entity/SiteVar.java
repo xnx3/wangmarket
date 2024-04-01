@@ -24,7 +24,7 @@ public class SiteVar {
 	private String text;										//站点全局变量的具体变量具体数据，json对象格式,如 {"姓名":"管雷鸣","个人网站":"www.xnx3.com"}
 	
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '站点编号，对应 site.id'", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}

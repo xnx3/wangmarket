@@ -64,7 +64,7 @@ public class TemplatePage implements java.io.Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '自动编号'",  unique = true, nullable = false)
 	public Integer getId() {
 		return id;
 	}

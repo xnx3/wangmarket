@@ -6,7 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * NewsData entity. @author MyEclipse Persistence Tools
+ * NewsData entity. 
+ * @author 管雷鸣
  */
 @Entity
 @Table(name = "news_data")
@@ -35,7 +36,7 @@ public class NewsData implements java.io.Serializable {
 
 	// Property accessors
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '站点id，对应 site.id'", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}

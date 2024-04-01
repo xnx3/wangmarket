@@ -23,7 +23,7 @@ public class SiteUser implements Serializable{
 	private Integer siteid;
 	
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '用户id，对应 User.id'", unique = true, nullable = false)
 	public Integer getId() {
 		return id;
 	}

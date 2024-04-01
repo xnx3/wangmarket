@@ -77,23 +77,6 @@ CREATE TABLE `carousel` (
 ) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='网站轮播图，手机、电脑模式网站用到。现主要做CMS类型网站，CMS模式网站这个是用不到的。';
 
 -- ----------------------------
---  Table structure for `exchange`
--- ----------------------------
-DROP TABLE IF EXISTS `exchange`;
-CREATE TABLE `exchange` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `addtime` int(11) DEFAULT NULL,
-  `goodsid` int(11) DEFAULT NULL,
-  `kefu_remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `siteid` int(11) DEFAULT NULL,
-  `status` smallint(6) DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `userid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ----------------------------
 --  Table structure for `feedback`
 -- ----------------------------
 DROP TABLE IF EXISTS `feedback`;
@@ -103,7 +86,7 @@ CREATE TABLE `feedback` (
   `text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='问题反馈 - 目前未用到，先保留';
 
 -- ----------------------------
 --  Table structure for `input_model`
@@ -355,7 +338,7 @@ CREATE TABLE `site_user` (
   `id` int(11) NOT NULL,
   `siteid` int(11) DEFAULT NULL COMMENT 'v4.9增加,v5.0版本从user表中转移到site_user,此用户拥有哪个站点的管理权。网站开通子账号会用到这个。如果这个有值，那么就是子账号了。对应 site.id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='站点独有的用户相关信息，原本 {@link User} 的扩展。相当于在User表中又增加了几个字段，只是不破坏原本User表而已，所以又增加了一个数据表';
 
 -- ----------------------------
 --  Table structure for `site_var`
@@ -365,7 +348,7 @@ CREATE TABLE `site_var` (
   `id` int(11) NOT NULL,
   `text` mediumtext COLLATE utf8mb4_unicode_ci COMMENT '当前模版页面的模版内容',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='网站全局变量。每个网站都会有自己的全局变量设置。真正使用时，会先有Java读入缓存，使用缓存中数据';
 
 -- ----------------------------
 --  Table structure for `sms_log`

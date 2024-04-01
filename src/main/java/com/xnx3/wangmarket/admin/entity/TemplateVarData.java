@@ -16,7 +16,7 @@ public class TemplateVarData implements java.io.Serializable {
 	private String text;	//模版变量的内容
 	
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '模板变量的编号，对应 template_var.id'",  unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}

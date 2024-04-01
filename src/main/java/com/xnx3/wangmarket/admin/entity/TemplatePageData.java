@@ -16,7 +16,7 @@ public class TemplatePageData implements java.io.Serializable {
 	private String text;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id",columnDefinition="int(11) COMMENT '模板页面的编号，对应 template_page.id'",  unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
