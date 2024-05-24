@@ -4,6 +4,7 @@ import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.TemplateCMS;
 import com.xnx3.wangmarket.admin.entity.News;
+import com.xnx3.wangmarket.admin.entity.NewsData;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 
 /**
@@ -31,13 +32,13 @@ public interface TemplateInterface {
 	public BaseVO siteColumnTag(String text, SiteColumn siteColumn, TemplateCMS template);
 	
 	/**
-	 * 
-	 * @param newsText
-	 * @param news
-	 * @param siteColumn
-	 * @param newsDataBean
+	 * 文章标签的附加，相当于是对这些的扩展 http://tag.wscso.com/2939.html
+	 * @param text 要替换的源内容
+	 * @param news 文章
+	 * @param siteColumn 文章所属的栏目
+	 * @param newsDataBean 文章的 {@link NewsData} ,文章正文、文章的自定义扩展字段都在这里
 	 * @param template
-	 * @return
+	 * @return 如果result成功，则info为text替换完成的内容
 	 */
 	public BaseVO newsTag(String text,News news, SiteColumn siteColumn, NewsDataBean newsDataBean, TemplateCMS template);
 	
