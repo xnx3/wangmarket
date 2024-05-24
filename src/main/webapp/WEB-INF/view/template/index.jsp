@@ -534,11 +534,11 @@ $(function(){
 	msg.tip({id:"support",text:'操作网站的过程中，有什么不懂的地方，尽可以联系我们，帮助您拥有自己的网站！'})
 
 
-	// 未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html 
+	
 	<% if(Authorization.copyright){ %>
+	//未授权用户，请尊重作者劳动成果，保留我方版权标示及链接！授权参见：http://www.wang.market/price.html 
 	//显示、隐藏侧边栏
 	msg.tip({id:"showHiddenLeftMenu",width:"auto",text:'power by 网市场'})
-
 	<% } %>
 	
 })
