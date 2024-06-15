@@ -237,7 +237,7 @@ public class Site implements java.io.Serializable {
 		this.client = client;
 	}
 
-	@Column(name = "keywords", columnDefinition="char(38) COMMENT '站点的关键字，可以在模版中，通过 {site.keywords} 调用' default ''")
+	@Column(name = "keywords", columnDefinition="char(200) COMMENT '站点的关键字，可以在模版中，通过 {site.keywords} 调用' default ''")
 	public String getKeywords() {
 		return keywords;
 	}
