@@ -39,11 +39,11 @@ import net.sf.json.JSONObject;
  * @author 管雷鸣
  */
 public class TemplateCMS {
-	private int linuxTime;										//当前时间戳
-	private Site site;											//当前站点信息
-	private com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
-	private JSONObject siteVarJson;								//站点的全局变量，使用 setSiteVar 来赋予
-	private String templatePathDomain = null;					//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
+	public int linuxTime;										//当前时间戳
+	public Site site;											//当前站点信息
+	public com.xnx3.wangmarket.admin.entity.Template template;	//当前站点所使用的模版。注意，有的站点是没有的，比如自定义模版的用户，那么 {templatePath} 默认就用本地的。 这个对象永远不会为null，即使为null，也会默认创建一个出来，设定 resourceImport
+	public JSONObject siteVarJson;								//站点的全局变量，使用 setSiteVar 来赋予
+	public String templatePathDomain = null;					//当前模版所使用的资源文件路径，如本地的则是 ....../websiteTemplate/.....，  云端则是 //cdn.weiunity.com/websiteTemplate/...  根据template 来判断，判断是从数据库中取的还是从云端同步模版取的。如果是从数据库取的，肯定是用本地资源，如果是云端取的，当然就是云端资源了
 	public GenerateHtmlInterface generateHtmlInterface;			//生成当前网站的html文件
 	
 	
