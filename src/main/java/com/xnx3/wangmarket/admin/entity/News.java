@@ -76,6 +76,9 @@ public class News implements java.io.Serializable {
 	private String reserve1;
 	private String reserve2;
 	
+	//v6.7增加
+	private String columnCode;	//当前文章所属的栏目的栏目代码，这个当前并没有实际作用，只是作为一个预留字段，为seo版本提供扩展
+	
 	//v6.2增加
 	private Short top;	//文章置顶，0不置顶，1置顶。默认为0
 	
@@ -270,6 +273,15 @@ public class News implements java.io.Serializable {
 
 	public void setTop(Short top) {
 		this.top = top;
+	}
+
+	@Column(name = "column_code", columnDefinition="char(50) COMMENT '当前文章所属的栏目的栏目代码，预留字段'")
+	public String getColumnCode() {
+		return columnCode;
+	}
+
+	public void setColumnCode(String columnCode) {
+		this.columnCode = columnCode;
 	}
 
 	@Override
