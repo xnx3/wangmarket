@@ -8,6 +8,16 @@
 
 将成本（服务器、技术人员、网站制作、后续运维）降到最低，使（建站公司）利润最大化！
 
+
+## AI-SEO 版本发布 - 2024.6.24
+
+<div style=" text-align: center;  width: 90%; margin-left: 5%;">
+    <video style=" width: 100%;" controls poster="https://video.leimingyun.com/aiseo/info.jpg">
+        <source src="https://video.leimingyun.com/aiseo/info.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
 ## 我们优势
 
 1. **上云成本方面**，一台 1 核 1G 服务器可建立上万个独立网站。[甚至你如果只是做几个网站，用单机版无需买服务器！](https://e.gitee.com/leimingyun/doc/share/d88704307ba06edd/?sub_id=5624017)
