@@ -1,4 +1,3 @@
-[TOC]
 
 私有化部署自己的 SAAS 云建站系统，更可通过后台任意开通多个网站，每个网站使用自己的账号进行独立管理。延续了织梦、帝国 CMS 的模版方式，性能高度优化，一台 1 核 1G 服务器可建立上万个独立网站。
 网站使用方面，有模版页面、模版变量、栏目绑定模版、内容管理等，用过帝国、织梦的，可快速使用！  
@@ -11,12 +10,8 @@
 
 ## AI-SEO 版本发布 - 2024.6.24
 
-<div style=" text-align: center;  width: 90%; margin-left: 5%;">
-    <video style=" width: 100%;" controls poster="https://video.leimingyun.com/aiseo/info.jpg">
-        <source src="https://video.leimingyun.com/aiseo/info.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-</div>
+
+https://video.leimingyun.com/aiseo/info.mp4
 
 ## 我们优势
 
