@@ -10,8 +10,7 @@
 
 ## AI-SEO 版本发布 - 2024.6.24
 
-
-https://video.leimingyun.com/aiseo/info.mp4
+![输入图片说明](https://video.leimingyun.com/aiseo/info.mp4)
 
 ## 我们优势
 
