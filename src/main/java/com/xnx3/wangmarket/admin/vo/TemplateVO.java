@@ -387,7 +387,7 @@ public class TemplateVO extends BaseVO {
 				}else{
 					nsc.setAdminNewsUsed((short) 1);
 				}
-				if(j.get("templateCodeColumnUsed") == null){
+				if(j.get("templateCodeColumnUsed") != null){
 					nsc.setTemplateCodeColumnUsed((short) JSONUtil.getInt(j, "templateCodeColumnUsed"));
 				}else{
 					nsc.setTemplateCodeColumnUsed((short) 1);
