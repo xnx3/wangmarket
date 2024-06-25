@@ -146,12 +146,18 @@ public class TemplateDevelopController extends BasePluginController {
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
 			//return error("当前已有模版编码，不可再次设置！");
 			//当前已有模版编码，判断是否是这个人的，也就是判断一下是否有原本模版编码的模版资源文件
-			System.out.println(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
-			if(!FileUtil.exists(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName())){
-				return error("没有发现模版资源文件！模版是你做的吗？");
-			}
+//			System.out.println(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
+//			if(!FileUtil.exists(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName())){
+//				return error("没有发现模版资源文件！模版是你做的吗？");
+//			}
 			System.out.println("old----- "+SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
-			File file = new File(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
+			File file = new File(SystemUtil.getProjectPath()+getExportPath()+templateName);
+			if(!file.exists()) {
+				boolean createFolder = file.mkdir();
+				if(!createFolder) {
+					return error("自动创建文件夹失败："+SystemUtil.getProjectPath()+getExportPath()+templateName+" ，你还是手动来创建这个目录吧");
+				}
+			}
 			file.renameTo(new File(SystemUtil.getProjectPath()+getExportPath()+templateName));
 			System.out.println("new------ "+SystemUtil.getProjectPath()+getExportPath()+templateName);
 			
