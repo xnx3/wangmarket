@@ -760,22 +760,6 @@ public class SiteController extends BaseController {
 	
 
 	/**
-	 * 上传图片接口
-	 */
-	@RequestMapping(value="uploadImage${url.suffix}", method = RequestMethod.POST)
-	@ResponseBody
-	public UploadFileVO uploadImage(Model model,HttpServletRequest request){
-		UploadFileVO uploadFileVO = AttachmentUtil.uploadImage("site/"+getSiteId()+"/news/", request, "image", 0);
-		
-		if(uploadFileVO.getResult() == UploadFileVO.SUCCESS){
-			//上传成功，写日志
-			ActionLogUtil.insert(request, "网站上传图片", uploadFileVO.getPath());
-		}
-		
-		return uploadFileVO;
-	}
-	
-	/**
 	 * 弹出框，修改邮箱
 	 * 网站设置－修改联系信息，如地址、QQ等
 	 */
