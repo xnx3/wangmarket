@@ -250,14 +250,14 @@ body{
 				<ul class="layui-nav">
 					<li class="layui-nav-item" id="translate">
 					</li>
-					<li class="layui-nav-item layui-hide-xs" >
+					<li class="layui-nav-item layui-hide-xs righttop_screenFull">
 						<a href="javascript:;" class="layui-icon layui-icon-screen-full" id="full-screen"></a>
 						<a href="javascript:;" class="layui-icon layui-icon-screen-restore" id="exit-fullscreen"></a>
 					</li>
-					<li class="layui-nav-item layui-hide-xs">
+					<li class="layui-nav-item layui-hide-xs righttop_preview">
 						<a href="javascript:window.open('/sites/sitePreview.do');" id="website" class="layui-icon layui-icon-website"></a>
 					</li>
-					<li class="layui-nav-item">
+					<li class="layui-nav-item righttop_user">
 						<a class="layui-icon layui-icon-username" href="javascript:;">
 							${user.username }
 								<i class="layui-icon layui-icon-down layui-nav-more"></i>
