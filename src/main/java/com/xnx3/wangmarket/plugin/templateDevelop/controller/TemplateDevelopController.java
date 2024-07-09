@@ -129,7 +129,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return error( "模版开发仅限本地运行使用！");
 		}
 		
-		templateName = StringUtil.filterXss(templateName);
+//		templateName = StringUtil.filterXss(templateName);
 		if(templateName.length() == 0){
 			return error("您还没填写模版编码呢");
 		}
