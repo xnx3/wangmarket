@@ -310,7 +310,7 @@ public class Site implements java.io.Serializable {
 	}
 
 	public void setTemplateName(String templateName) {
-		this.templateName = Sql.filter(templateName);
+		this.templateName = templateName;
 	}
 
 	@Column(name = "expiretime", columnDefinition="int(11) COMMENT '网站过期时间，linux时间戳'")
