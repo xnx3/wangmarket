@@ -3,6 +3,7 @@ package com.xnx3.wangmarket.admin.cache;
 import com.xnx3.FileUtil;
 import com.xnx3.Lang;
 import com.xnx3.j2ee.util.AttachmentUtil;
+import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.SystemUtil;
 
 /**
@@ -198,10 +199,21 @@ public class Template {
 			return sourceText;
 		}
 
-		//将$符号替换为 \$
-		replacement = replacement.replaceAll("\\$", "\\\\\\$");
+		String result;
+		try {
+			//将$符号替换为 \$
+			replacement = replacement.replaceAll("\\$", "\\\\\\$");
+			result = sourceText.replaceAll(regex, replacement);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ConsoleUtil.error("regex:"+regex+",  replacement:"+replacement);
+			result = sourceText;
+		}
 		
-		return sourceText.replaceAll(regex, replacement);
+		return result;
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(replaceAll("123456789", "4//5\\6", "---"));
+	}
 }
