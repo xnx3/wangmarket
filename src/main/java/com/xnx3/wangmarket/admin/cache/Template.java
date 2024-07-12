@@ -168,6 +168,7 @@ public class Template {
 	 */
 	public static String regex(String regexString){
 		return "\\{"+regexString+"\\}";
+//		return "{"+regexString+"}";
 	}
 	
 	/**
@@ -198,8 +199,14 @@ public class Template {
 		if(regex == null || replacement == null){
 			return sourceText;
 		}
-
+		
 		String result;
+//		String result = new String(sourceText);
+//		int i = 0;
+//		while(result.indexOf(regex) > -1 && i++ < 10000) {
+//			result = result.replace(regex, replacement);
+//		}
+//		
 		try {
 			//将$符号替换为 \$
 			replacement = replacement.replaceAll("\\$", "\\\\\\$");
@@ -214,6 +221,6 @@ public class Template {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(replaceAll("123456789", "4//5\\6", "---"));
+		System.out.println(replaceAll("1234567489", "4", "---"));
 	}
 }
