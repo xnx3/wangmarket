@@ -778,7 +778,7 @@ public class TemplateController extends BaseController {
 	@ResponseBody
 	public BaseVO remoteImportTemplate(HttpServletRequest request, Model model,
 			@RequestParam(value = "templateName", required = false , defaultValue="") String templateName){
-		templateName = filter(templateName);
+//		templateName = filter(templateName);
 		if(templateName.length() == 0){
 			return error("请选择模版");
 		}
