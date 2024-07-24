@@ -4,7 +4,7 @@
 	<artifactId>wangmarket</artifactId>
 	<packaging>war</packaging>
 	<name>wangmarket</name>
-	<version>6.6.2</version>
+	<version>7.0.0</version>
 	<description>网市场云建站系统</description>
 
 	<properties>
@@ -190,7 +190,7 @@
 		<dependency> 
 		    <groupId>cn.zvo.fileupload</groupId>
 		    <artifactId>fileupload-framework-ueditor</artifactId>
-		    <version>1.3</version>
+		    <version>1.4</version>
 		</dependency>
 		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
   		<dependency> 
