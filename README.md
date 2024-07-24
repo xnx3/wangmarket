@@ -10,7 +10,8 @@
 
 ## AI-SEO 版本发布 - 2024.6.24
 
-![输入图片说明](https://video.leimingyun.com/aiseo/info.mp4)
+![输入图片说明](https://video.zvo.cn/aiseo/info.mp4)  
+[AI-SEO版本更多说明可查阅 http://cms.zvo.cn/43731.html](http://cms.zvo.cn/43731.html)
 
 ## 我们优势
 
