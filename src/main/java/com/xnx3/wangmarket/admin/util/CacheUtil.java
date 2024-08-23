@@ -34,4 +34,11 @@ public class CacheUtil extends com.xnx3.j2ee.util.CacheUtil{
 		setWeekCache(SITE_VAR.replace("{siteid}", siteVar.getId()+""), siteVar.getText());
 	}
 	
+	/**
+	 * 清空某个网站的全局变量
+	 * @param siteid
+	 */
+	public static void clearSiteVar(int siteid) {
+		delete(SITE_VAR.replace("{siteid}", siteid+""));
+	}
 }
