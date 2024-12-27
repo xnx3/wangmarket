@@ -135,7 +135,7 @@ public class Site implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", columnDefinition="char(40) COMMENT '站点名字' default ''")
+	@Column(name = "name", columnDefinition="char(200) COMMENT '站点名字' default ''")
 	public String getName() {
 		return name;
 	}

@@ -225,7 +225,7 @@ COMMIT;
 DROP TABLE IF EXISTS `site`;
 CREATE TABLE `site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(40) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '站点名字',
+  `name` char(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '站点名字',
   `userid` int(11) DEFAULT '0' COMMENT '用户id，0为游客',
   `addtime` int(11) DEFAULT NULL COMMENT '创建时间',
   `m_show_banner` tinyint(1) DEFAULT '1' COMMENT '是否在首页显示Banner  1显示 0不显示',
