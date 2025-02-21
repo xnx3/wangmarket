@@ -284,7 +284,13 @@ public class TemplateDevelopController extends BasePluginController {
 		FileUtil.write(SystemUtil.getProjectPath()+exportPath+"template.wscso", vo.getInfo(), FileUtil.UTF8);
 		
 		//将这些文件打包，变为 zip文件
-		String downUrl = SystemUtil.get("MASTER_SITE_URL")+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip";
+		// 获取请求协议，如 http 或 https
+        String scheme = request.getScheme();
+        // 获取服务器名称，如域名或 IP 地址
+        String serverName = request.getServerName();
+        // 获取服务器端口号
+        int serverPort = request.getServerPort();
+		String downUrl = scheme+"://"+serverName+":"+serverPort+"/plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip";
 		try {
 			ZipUtil.zip(SystemUtil.getProjectPath()+exportPath, SystemUtil.getProjectPath()+"plugin_data/templateDevelop/", "template_"+site.getTemplateName()+".zip");
 		} catch (Exception e) {
@@ -293,10 +299,10 @@ public class TemplateDevelopController extends BasePluginController {
 		}
 		
 		//开发模式下， 在eclipse中，SystemUtil.get("MASTER_SITE_URL")未设置，那么生成的下载路径是相对路径，这样需要前面加 / ，免得找不到路径
-		if(downUrl.indexOf("plugin_data") == 0){
-			//加上根路径标示
-			downUrl = "/"+downUrl;
-		}
+//		if(downUrl.indexOf("plugin_data") == 0){
+//			//加上根路径标示
+//			downUrl = "/"+downUrl;
+//		}
 		
 		return success(downUrl);
 	}
