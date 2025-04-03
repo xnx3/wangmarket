@@ -1,5 +1,9 @@
 package com.xnx3.wangmarket.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.configuration.ConfigurationException;
@@ -93,7 +97,9 @@ public class InstallController_ extends BaseController {
 			//使用阿里云OSS
 			m = AttachmentUtil.MODE_ALIYUN_OSS;
 		}
-		sqlService.executeSql("update system set value = '"+m+"' WHERE name = 'ATTACHMENT_FILE_MODE'");
+		
+		int updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", m, "name", "ATTACHMENT_FILE_MODE");
+//		sqlService.executeSql("update system set value = '"+m+"' WHERE name = 'ATTACHMENT_FILE_MODE'");
 		
 		//更新缓存
 		systemService.refreshSystemCache();
@@ -200,12 +206,16 @@ public class InstallController_ extends BaseController {
 		String adminDomain = "http://admin."+autoAssignDomain+"/";
 		String cdnDomain = "//cdn."+autoAssignDomain+"/";
 		
-		sqlService.executeSql("update system set value = '"+adminDomain+"' WHERE name = 'MASTER_SITE_URL'");
-		sqlService.executeSql("update system set value = '"+autoAssignDomain+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		int updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", adminDomain, "name", "MASTER_SITE_URL");
+//		sqlService.executeSql("update system set value = '"+adminDomain+"' WHERE name = 'MASTER_SITE_URL'");
+		
+		updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", autoAssignDomain, "name", "AUTO_ASSIGN_DOMAIN");
+		//sqlService.executeSql("update system set value = '"+autoAssignDomain+"' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
 		
 		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//本地存储，才会配置默认的附件域名
-			sqlService.executeSql("update system set value = '//cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+			updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "//cdn."+autoAssignDomain+"/", "name", "ATTACHMENT_FILE_URL");
+//			sqlService.executeSql("update system set value = '//cdn."+autoAssignDomain+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
 			
 			//更新附件域名的内存缓存
 			AttachmentUtil.netUrl = cdnDomain;
@@ -213,7 +223,8 @@ public class InstallController_ extends BaseController {
 		}
 		
 		//到这一步就结束了，在此禁用install安装
-		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "false", "name", "IW_AUTO_INSTALL_USE");
+		//sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
 		//手动刷新缓存
 		Global.system.put("IW_AUTO_INSTALL_USE", "false");
 		Global.system.put("AUTO_ASSIGN_DOMAIN", autoAssignDomain);
@@ -244,22 +255,28 @@ public class InstallController_ extends BaseController {
 		ConsoleUtil.info("快速测试体验，域名自动获取："+host);
 		
 		//将其存入system数据表
-		sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'MASTER_SITE_URL'");
+		int updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "http://"+host+"/", "name", "MASTER_SITE_URL");
+//		sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'MASTER_SITE_URL'");
 //		sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
-		sqlService.executeSql("update system set value = '' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
+		
+		updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "", "name", "AUTO_ASSIGN_DOMAIN");
+		//sqlService.executeSql("update system set value = '' WHERE name = 'AUTO_ASSIGN_DOMAIN'");
 		
 		if(SystemUtil.get("ATTACHMENT_FILE_MODE").equalsIgnoreCase(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//本地存储，才会配置默认的附件域名
-			sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
+			updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "http://"+host+"/", "name", "ATTACHMENT_FILE_URL");
+			//sqlService.executeSql("update system set value = 'http://"+host+"/' WHERE name = 'ATTACHMENT_FILE_URL'");
 			
 			//更新附件域名的内存缓存
 			AttachmentUtil.setNetUrl("http://"+host+"/");
 		}
 		
 		//到这一步就结束了，在此禁用install安装
-		sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
+		updateRow = sqlService.updateByHql(com.xnx3.j2ee.entity.System.class, "value", "false", "name", "IW_AUTO_INSTALL_USE");
+		//sqlService.executeSql("update system set value = 'false' WHERE name = 'IW_AUTO_INSTALL_USE'");
 		//手动刷新缓存
 		Global.system.put("IW_AUTO_INSTALL_USE", "false");
+		List<com.xnx3.j2ee.entity.System> list =  sqlService.findAll(com.xnx3.j2ee.entity.System.class);
 		
 		//更新缓存
 		systemService.refreshSystemCache();
