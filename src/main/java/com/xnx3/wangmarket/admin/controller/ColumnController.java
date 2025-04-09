@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xnx3.Log;
 import com.xnx3.StringUtil;
 import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.service.SqlService;
@@ -619,11 +620,16 @@ public class ColumnController extends BaseController {
 					sc.setParentid(0);
 				}else{
 					//查询parentCodeName是否存在
-					SiteColumn s = (SiteColumn) sqlService.findAloneBySqlQuery("SELECT * FROM site_column WHERE siteid="+site.getId()+" AND code_name ='"+Sql.filter(siteColumn.getParentCodeName())+"'", SiteColumn.class);
-					if(s == null){
+					
+					String hql = "FROM SiteColumn u WHERE u.siteid = "+site.getId()+" AND u.codeName = :codename";
+			 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+					parameterMap.put("codename", siteColumn.getParentCodeName());
+					List<SiteColumn> parentCodeSiteColumnList = sqlService.findByHql(hql, parameterMap);
+					if(parentCodeSiteColumnList.size() == 0){
 						vo.setBaseVO(BaseVO.FAILURE, "您填写的父栏目代码没有找到指定的栏目，请检查您是否有栏目代码为"+siteColumn.getParentCodeName()+"的栏目");
 						return vo;
 					}else{
+						SiteColumn s = parentCodeSiteColumnList.get(0);
 						/*
 							要给当前栏目设定父栏目，首先，现在的系统只支持二级栏目，
 							若是新增，那没事。若是修改，得判断当前修改的栏目是否有下级栏目了。
@@ -676,13 +682,15 @@ public class ColumnController extends BaseController {
 						}
 						if(subColumnFind) {
 							//当前栏目是父栏目，有子栏目存在，那么要改变
-							String updateParentCodeName = "UPDATE site_column SET parent_code_name = '"+com.xnx3.j2ee.util.SafetyUtil.sqlFilter(sc.getCodeName())+"' WHERE siteid = "+site.getId()+" AND parent_code_name = '"+SafetyUtil.sqlFilter(oldCodeName)+"'";
-							int updateParentCodeNameNum = sqlService.executeSql(updateParentCodeName);
-							//ConsoleUtil.log(updateParentCodeName + "\t, update num:"+updateParentCodeNameNum);
+							
+							String hql = "update SiteColumn u set u.parentCodeName = :newParentCodeName WHERE u.siteid = "+site.getId()+" AND parentCodeName = :oldParentCodeName";
+					 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+							parameterMap.put("newParentCodeName", com.xnx3.j2ee.util.SafetyUtil.sqlFilter(sc.getCodeName()));
+							parameterMap.put("oldParentCodeName", SafetyUtil.sqlFilter(oldCodeName));
+							int updateParentCodeNameNum = sqlService.executeByHql(hql, parameterMap);
+							//Log.info("updateParentCodeNameNum:"+updateParentCodeNameNum);
 						}
 					}
-					
-					
 					
 				}
 			}
@@ -721,7 +729,12 @@ public class ColumnController extends BaseController {
 				//高级自定义模版
 				//如果栏目代码有改动了，那么此栏目下的子栏目的parentCodeName也要改动
 				if(oldCodeName != null && !sc.getCodeName().equals(oldCodeName)){
-					sqlService.executeSql("UPDATE site_column SET parent_code_name = '"+Sql.filter(sc.getCodeName())+"' WHERE parentid = "+sc.getId());
+					//sqlService.executeSql("UPDATE site_column SET parent_code_name = '"+Sql.filter(sc.getCodeName())+"' WHERE parentid = "+sc.getId());
+					String hql = "update SiteColumn u set u.parentCodeName = :newParentCodeName WHERE u.siteid = "+site.getId()+" AND parentid = "+sc.getId();
+			 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+					parameterMap.put("newParentCodeName", com.xnx3.j2ee.util.SafetyUtil.sqlFilter(sc.getCodeName()));
+					int updateParentCodeNameNum = sqlService.executeByHql(hql, parameterMap);
+					//Log.info("updateParentCodeNameNum:"+updateParentCodeNameNum);
 				}
 				
 				// //这个栏目改动完毕后，要重新将此栏目加入Session缓存中去

@@ -406,7 +406,7 @@ public class TemplateController extends BaseController {
 		//要保存的模版页实例
 		TemplatePage templatePage;
 		
-		//如果时编辑，修改
+		//如果是编辑，修改
 		if(templatePageInput.getId() != null && templatePageInput.getId() > 0){
 			templatePage = sqlService.findById(TemplatePage.class, templatePageInput.getId());
 			if(templatePage == null){
@@ -424,16 +424,22 @@ public class TemplateController extends BaseController {
 		}
 		
 		//判断当前模版页的名字是否存在了，因为同一个模版下，是不能有重名的模版页的
-		String templateNameWhere = "";
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		String templateNameHql = "FROM TemplatePage u WHERE u.siteid = "+site.getId()+" AND name = :name";
+		parameterMap.put("name", templatePageInput.getName());
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			templateNameWhere = " AND template_name = '"+site.getTemplateName()+"'";
+			templateNameHql = templateNameHql+" AND template_name = :templatename";
+			parameterMap.put("templatename", site.getTemplateName());
 		}
+		if(templatePageInput.getId() != null && templatePageInput.getId() > 0) {
+			templateNameHql = templateNameHql+" AND id <> " + templatePageInput.getId();
+		}
+		List<TemplatePage> list = sqlService.findByHql(templateNameHql, parameterMap);
 		//当前模版页是保存还是新键。若是保存的话，要排除当前页面的名字重名问题
-		String idWhere = (templatePageInput.getId() != null && templatePageInput.getId() > 0) ? " AND id <> " + templatePageInput.getId() : "";
-		int count = sqlService.count("template_page", "WHERE siteid = " + site.getId() + " AND name = '" + Sql.filter(templatePageInput.getName()) + "'" + templateNameWhere + idWhere);
-		if(count > 0){
-			return error("页面名字" + templatePageInput.getName() + "已存在！请换个页面名吧");
+		if(list.size() > 0){
+			return error("页面名字 " + templatePageInput.getName() + " 已存在！请换个页面名吧");
 		}
+		
 		
 		//判断模版是否是首页模版，进而判断，首页模版只能有一个
 		if(templatePageInput.getType() - TemplatePage.TYPE_INDEX == 0){
