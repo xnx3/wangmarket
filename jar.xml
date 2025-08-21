@@ -19,7 +19,7 @@
 	  <parent>
 	    <groupId>com.xnx3.wangmarket.wm</groupId>
 	    <artifactId>parent</artifactId>
-	    <version>3.20</version>
+	    <version>3.26</version>
 	  </parent>
 	  
   <repositories>
@@ -208,9 +208,9 @@
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>3.19</version>  
+	        <version>3.27</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.19.jar</systemPath>  
+    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.27.jar</systemPath>  
 	    </dependency>
    </dependencies>  
    
