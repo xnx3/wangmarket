@@ -294,19 +294,16 @@ public class SiteController extends BaseController {
 //		}
 		
 		BaseVO vo = new BaseVO();
-		//获取其下有多少网站
 		Site site = sqlService.findById(Site.class, SessionUtil.getSite().getId());
 		//网站共占用了多少存储空间
-		long sizeB = AttachmentUtil.getDirectorySize("site/"+site.getId()+"/");
+//		long sizeB = AttachmentUtil.getDirectorySize("site/"+site.getId()+"/"); 登录时就已经计算了
+//		String currentDate = DateUtil.currentDate("yyyyMMdd");
+//		sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+site.getId());
+		vo.setBaseVO(BaseVO.SUCCESS, site.getAttachmentSize()+"");
 		
-		int kb = Math.round(sizeB/1024);
-		String currentDate = DateUtil.currentDate("yyyyMMdd");
-		sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+site.getId());
-		vo.setBaseVO(BaseVO.SUCCESS, kb+"");
+		ActionLogUtil.insertUpdateDatabase(request, "获取我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(site.getAttachmentSize()*1024));
 		
-		ActionLogUtil.insertUpdateDatabase(request, "计算我当前网站使用了多少存储空间", "已使用："+Lang.fileSizeToInfo(sizeB));
-		
-		SessionUtil.setAllowUploadForUEditor(kb < SessionUtil.getSite().getAttachmentSizeHave()*1000);
+		SessionUtil.setAllowUploadForUEditor(site.getAttachmentSize() < SessionUtil.getSite().getAttachmentSizeHave()*1000);
 		return vo;
 	}
 

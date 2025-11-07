@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xnx3.DateUtil;
 import com.xnx3.Lang;
+import com.xnx3.Log;
 import com.xnx3.StringUtil;
 import com.xnx3.exception.NotReturnValueException;
 import com.xnx3.j2ee.Func;
+import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.entity.User;
 import com.xnx3.j2ee.service.ApiService;
 import com.xnx3.j2ee.service.SmsService;
@@ -77,7 +79,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		ActionLogUtil.insert(request, "进入注册页面reg.do，进行redirect至手机号开通网站插件的注册", "inviteid="+request.getParameter("inviteid"));
 		return redirect("plugin/phoneCreateSite/reg.do?inviteid="+request.getParameter("inviteid"));
 	}
-	
+	 
 	
 	/**
 	 * 通过手机验证注册开通网站
@@ -143,7 +145,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 		}
 		
 		//计算其网站所使用的资源，比如OSS已占用了多少资源。下个版本修改
-//		loginSuccessComputeUsedResource();
+		loginSuccessComputeUsedResource(site);
 		
 		ActionLogUtil.insert(request, "api模式登录成功","进入网站管理后台");
 		
@@ -308,7 +310,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 						}
 						
 						//计算其网站所使用的资源，比如OSS已占用了多少资源
-						loginSuccessComputeUsedResource();
+						loginSuccessComputeUsedResource(site);
 						
 						ActionLogUtil.insertUpdateDatabase(request, "用户名密码模式登录成功","进入网站管理后台");
 					}else{
@@ -367,23 +369,26 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	 * 用户登陆成功后，计算其所使用的资源，如OSS占用
 	 * <br/>1.计算用户空间大小
 	 * <br/>2.设定用户是否可进行上传附件、图片
+	 * @param site 当前要计算的站点
 	 */
-	public void loginSuccessComputeUsedResource(){
+	public void loginSuccessComputeUsedResource(Site site){
 		//如果这个用户是单纯的网站用户，并且今天并没有过空间计算，那么就要计算其所有的空间了
 		final String currentDate = DateUtil.currentDate("yyyyMMdd");
 		
-		SiteUser siteUser = com.xnx3.wangmarket.admin.util.SessionUtil.getSiteUser();
-		Site site = com.xnx3.wangmarket.admin.util.SessionUtil.getSite();
-		if((site.getAttachmentUpdateDate() == null) || (getUser().getAuthority().equals(SystemUtil.get("USER_REG_ROLE")) && !site.getAttachmentUpdateDate().equals(currentDate))){
+		//SiteUser siteUser = com.xnx3.wangmarket.admin.util.SessionUtil.getSiteUser();
+//		Site site = com.xnx3.wangmarket.admin.util.SessionUtil.getSite();
+		if(getUser().getAuthority().equals(Global.roleId_user+"") && (site.getAttachmentUpdateDate() == null || !site.getAttachmentUpdateDate().equals(currentDate))){
 			//计算当前用户下面有多少站点，每个站点的OSS的news文件夹下用了多少存储空间了
+			Log.info("开始计算网站 "+site.getId()+" 的空间占用情况 - "+DateUtil.timeForUnix13());
 			new Thread(new Runnable() {
 				public void run() {
 					
 					//属于该用户的这些网站共占用了多少存储空间去
 					long sizeB = AttachmentUtil.getDirectorySize("site/"+site.getId()+"/");
-					
 					int kb = Math.round(sizeB/1024);
-					sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+getUserId());
+					Log.info("计算网站 "+site.getId()+" 的空间占用情况完成，共占用 "+kb+"kb - "+DateUtil.timeForUnix13());
+					
+					sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+site.getId());
 					site.setAttachmentUpdateDate(Integer.parseInt(currentDate));
 					site.setAttachmentSize(kb);
 					com.xnx3.wangmarket.admin.util.SessionUtil.setSite(site);
