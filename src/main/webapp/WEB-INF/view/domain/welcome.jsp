@@ -65,6 +65,20 @@
 	</style>
 
 	<div class="content">
+	
+		<style>
+			.translateSelectLanguage{
+				float: right;
+			    font-size: 12px;
+			    padding: 2px;
+			    position: inherit;
+			}
+		</style>
+		<div style="margin-top: -10px; clear: none;">
+			<div id="translate" style="clear: none;"></div>
+			<div> </div>
+		</div>
+		
 		<div class="title">
 			欢迎使用 网市场云建站系统 v<%=G.VERSION %>
 		</div>

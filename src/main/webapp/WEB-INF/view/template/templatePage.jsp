@@ -7,11 +7,6 @@
 <script src="/<%=Global.CACHE_FILE %>TemplatePage_type.js"></script>
 <script src="/<%=Global.CACHE_FILE %>TemplatePage_editMode.js"></script>
 
-<style>
-	.layui-form-label{
-		width: auto;
-	}
-</style>
 
 <form id="form" method="post" class="layui-form" style="padding:20px; padding-top:35px; margin-bottom: 0px; padding-bottom:0px;">
 	<input type="hidden" name="id" value="${templatePage.id}" />

@@ -14,6 +14,7 @@
 		username = "";
 	}
 	
+	
 	//登陆密码
 	String password = SafetyUtil.filter(request.getParameter("password"));
 	if(password == null || (password != null && password.equals("null"))){

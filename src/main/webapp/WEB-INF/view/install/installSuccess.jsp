@@ -68,6 +68,20 @@
 	</style>
 
 	<div class="content">
+	
+		<style>
+			.translateSelectLanguage{
+				float: right;
+			    font-size: 12px;
+			    padding: 2px;
+			    position: inherit;
+			}
+		</style>
+		<div style="margin-top: -10px; clear: none;">
+			<div id="translate" style="clear: none;"></div>
+			<div> </div>
+		</div>
+	
 		<div class="title">
 			恭喜您，系统安装成功！
 		</div>

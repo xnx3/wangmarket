@@ -32,6 +32,7 @@ if(selectStorage != null && selectStorage.toString().trim().equalsIgnoreCase("fa
 			font-size: 28px;
 			margin-bottom: 20px;
 			text-align:center;
+			clear: both;
 		}
 		.content ul{
 			padding-left: 20px;
@@ -67,16 +68,32 @@ if(selectStorage != null && selectStorage.toString().trim().equalsIgnoreCase("fa
 		a{
 			color: blue;
 		}
+		
+		
 	</style>
 
 
 
 	<div class="content">
-	
+		
+		<style>
+			.translateSelectLanguage{
+				float: right;
+			    font-size: 12px;
+			    padding: 2px;
+			    position: inherit;
+			}
+		</style>
+		<div style="margin-top: -10px; clear: none;">
+			<div id="translate" style="clear: none;"></div>
+			<div> </div>
+		</div>
+		
+		
 		<div class="title">
 			网站中所上传的图片等附件资源，如何存储？
 		</div>
-	
+   
 		<div class="select">
 			<!-- 这里的 onmouseenter 是为了避免下面的收费鼠标移开后，不变回来，所以这里又加了一个，如果下面的收费的霉变过来，鼠标移动过来后，收费的恢复回来 -->
 			<!-- setAttachmentMode.do?mode=${AttachmentFile_MODE_LOCAL_FILE} -->
