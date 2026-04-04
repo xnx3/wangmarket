@@ -373,7 +373,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 	 */
 	public void loginSuccessComputeUsedResource(Site site){
 		//如果这个用户是单纯的网站用户，并且今天并没有过空间计算，那么就要计算其所有的空间了
-		final String currentDate = DateUtil.currentDate("yyyyMMdd");
+		final Integer currentDate = Integer.parseInt(DateUtil.currentDate("yyyyMMdd"));
 		
 		//SiteUser siteUser = com.xnx3.wangmarket.admin.util.SessionUtil.getSiteUser();
 //		Site site = com.xnx3.wangmarket.admin.util.SessionUtil.getSite();
@@ -389,7 +389,7 @@ public class LoginController extends com.xnx3.wangmarket.admin.controller.BaseCo
 					Log.info("计算网站 "+site.getId()+" 的空间占用情况完成，共占用 "+kb+"kb - "+DateUtil.timeForUnix13());
 					
 					sqlService.executeSql("UPDATE site SET attachment_update_date = '"+currentDate+"' , attachment_size = "+kb+" WHERE id = "+site.getId());
-					site.setAttachmentUpdateDate(Integer.parseInt(currentDate));
+					site.setAttachmentUpdateDate(currentDate);
 					site.setAttachmentSize(kb);
 					com.xnx3.wangmarket.admin.util.SessionUtil.setSite(site);
 					
