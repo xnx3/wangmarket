@@ -153,7 +153,11 @@ public class InstallController_ extends BaseController {
 	 */
 	@RequestMapping("/delete${url.suffix}")
 	public String delete(HttpServletRequest request, Model model){
-		String thisClassPath = this.getClass().getResource("/com/xnx3/j2ee/controller/InstallController_.class").getPath();
+		java.net.URL classResource = this.getClass().getResource("InstallController_.class");
+		if(classResource == null) {
+			return error(model, "未找到安装控制器文件，无法执行删除");
+		}
+		String thisClassPath = classResource.getPath();
 		boolean d = FileUtil.deleteFile(thisClassPath);
 		if(d){
 			ActionLogUtil.insert(request, "进入install安装-自删除,将此installController.class删除掉");
