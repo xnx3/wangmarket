@@ -142,24 +142,36 @@ public class TemplateDevelopController extends BasePluginController {
 			return error("模版已存在！请重新起个名吧");
 		}
 		
-		//资源文件设置,创建或者转移
-		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+			//资源文件设置,创建或者转移
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
 			//return error("当前已有模版编码，不可再次设置！");
 			//当前已有模版编码，判断是否是这个人的，也就是判断一下是否有原本模版编码的模版资源文件
 //			System.out.println(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
 //			if(!FileUtil.exists(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName())){
 //				return error("没有发现模版资源文件！模版是你做的吗？");
 //			}
-			System.out.println("old----- "+SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName());
-			File file = new File(SystemUtil.getProjectPath()+getExportPath()+templateName);
-			if(!file.exists()) {
-				boolean createFolder = file.mkdir();
-				if(!createFolder) {
-					return error("自动创建文件夹失败："+SystemUtil.getProjectPath()+getExportPath()+templateName+" ，你还是手动来创建这个目录吧");
+				String oldTemplatePath = SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName();
+				String newTemplatePath = SystemUtil.getProjectPath()+getExportPath()+templateName;
+				System.out.println("old----- "+oldTemplatePath);
+				File oldFile = new File(oldTemplatePath);
+				File newFile = new File(newTemplatePath);
+				if(oldFile.exists()) {
+					if(newFile.exists()) {
+						return error("模版目录已存在："+newTemplatePath+" ，请重新起个名吧");
+					}
+					boolean renameSuccess = oldFile.renameTo(newFile);
+					if(!renameSuccess) {
+						return error("自动转移模版资源文件失败："+oldTemplatePath+" -> "+newTemplatePath);
+					}
+				}else {
+					if(!newFile.exists() && !newFile.mkdirs()) {
+						return error("自动创建文件夹失败："+newTemplatePath+" ，你还是手动来创建这个目录吧");
+					}
+					new File(newTemplatePath+"/css").mkdir();
+					new File(newTemplatePath+"/js").mkdir();
+					new File(newTemplatePath+"/images").mkdir();
 				}
-			}
-			file.renameTo(new File(SystemUtil.getProjectPath()+getExportPath()+templateName));
-			System.out.println("new------ "+SystemUtil.getProjectPath()+getExportPath()+templateName);
+				System.out.println("new------ "+newTemplatePath);
 			
 		}else{
 			//当前还没有模版编码
