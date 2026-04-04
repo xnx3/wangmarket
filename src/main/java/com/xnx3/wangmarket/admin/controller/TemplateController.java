@@ -767,6 +767,9 @@ public class TemplateController extends BaseController {
 				responseJson(response, BaseVO.FAILURE, "所获取到所导入的模版未发现模版内容");
 				return;
 			}
+		}else{
+			responseJson(response, BaseVO.FAILURE, "请选择 .wscso 格式的模版文件");
+			return;
 		}
 		
 		//将 wscso 模版文件导入
