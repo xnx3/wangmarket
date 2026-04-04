@@ -834,7 +834,10 @@ public class PluginManageController extends BasePluginController {
 		// 判断用户身份
 		if(haveSuperAdminAuth() == false) {
 			return error("您没有该功能操作权限");
-		}		
+		}
+		if(file == null) {
+			return error("文件上传异常");
+		}
 		// 得到当前的项目真实路径
 		String realPath = request.getServletContext().getRealPath("/");
 		File shortTimeFile = new File(realPath + "shortTimeFile.zip");
