@@ -897,7 +897,7 @@ public class TemplateServiceImpl implements TemplateService {
 						news.setSiteid(tvo.getCurrentSite().getId());
 						news.setStatus(News.STATUS_NORMAL);
 						news.setTitle(siteColumn.getName());
-						news.setType(SiteColumn.TYPE_ALONEPAGE);
+						news.setType(News.TYPE_PAGE);
 						news.setUserid(tvo.getCurrentSite().getUserid());
 						sqlDAO.save(news);
 						if(news.getId() != null && news.getId() > 0){

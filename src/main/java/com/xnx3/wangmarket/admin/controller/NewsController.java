@@ -133,7 +133,7 @@ public class NewsController extends BaseController {
 			news.setOpposenum(0);
 			news.setReadnum(0);
 			news.setStatus(News.STATUS_NORMAL);
-			news.setType(SiteColumn.TYPE_LIST);
+			news.setType(News.TYPE_NEWS);
 			news.setUserid(site.getUserid());
 			news.setAddtime(DateUtil.timeForUnix10());
 			news.setSiteid(site.getId());
@@ -147,6 +147,13 @@ public class NewsController extends BaseController {
 		}
 		if(siteColumn.getSiteid() - site.getId() != 0){
 			return error("栏目不属于您，无法操作");
+		}
+		if(siteColumn.getType() - SiteColumn.TYPE_PAGE == 0 || siteColumn.getType() - SiteColumn.TYPE_ALONEPAGE == 0) {
+			news.setType(News.TYPE_PAGE);
+		}else if(siteColumn.getType() - SiteColumn.TYPE_IMAGENEWS == 0) {
+			news.setType(News.TYPE_IMAGENEWS);
+		}else {
+			news.setType(News.TYPE_NEWS);
 		}
 		
 		
