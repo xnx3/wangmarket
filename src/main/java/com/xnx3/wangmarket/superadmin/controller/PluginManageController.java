@@ -858,8 +858,9 @@ public class PluginManageController extends BasePluginController {
 		 */
 		byte[] buff = new byte[1024];
 		StringBuffer sBuffer = new StringBuffer("");
-		while (inputStream.read(buff) != -1) {
-			sBuffer.append(new String(buff, 0, buff.length));
+		int len;
+		while ((len = inputStream.read(buff)) != -1) {
+			sBuffer.append(new String(buff, 0, len));
 		}
 		inputStream.close();
 		zipFile.close();
