@@ -835,7 +835,7 @@ public class PluginManageController extends BasePluginController {
 		if(haveSuperAdminAuth() == false) {
 			return error("您没有该功能操作权限");
 		}
-		if(file == null) {
+		if(file == null || file.isEmpty()) {
 			return error("文件上传异常");
 		}
 		// 得到当前的项目真实路径
