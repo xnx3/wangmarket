@@ -4,10 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.xnx3.j2ee.Global;
 import com.xnx3.j2ee.util.ActionLogUtil;
 import com.xnx3.version.VersionUtil;
 import com.xnx3.version.VersionVO;
+import com.xnx3.wangmarket.admin.G;
 
 /**
  * 版本相关
@@ -21,7 +21,7 @@ public class VersionController_ extends BaseController {
 	 * @return
 	 */
 	private String getCurrentVersion(){
-		return Global.VERSION;
+		return G.VERSION;
 	}
 	
 	/**
