@@ -337,6 +337,10 @@ public class TemplateDevelopController extends BasePluginController {
 		}
 		
 		Site site = SessionUtil.getSite();
+		if(site.getTemplateName() == null || site.getTemplateName().length() == 0 || site.getTemplateName().equals("null")){
+			uploadFileVO.setBaseVO(UploadFileVO.FAILURE, "请先设置第一步，设置模版名字");
+			return uploadFileVO;
+		}
 		
 		//判断一下对方使用的是OSS还是本地存储，如果没用本地存储，提醒用户要使用本地存储的
 		if(!AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)){
