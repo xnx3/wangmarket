@@ -1385,6 +1385,13 @@ public class PluginManageController extends BasePluginController {
 		if (!srcFile.exists()) {
 			throw new RuntimeException(srcFile.getPath() + ",所指文件不存在");
 		}
+		File destDir = new File(destDirPath);
+		String destDirCanonicalPath;
+		try {
+			destDirCanonicalPath = destDir.getCanonicalPath() + File.separator;
+		} catch (IOException e1) {
+			throw new RuntimeException("unzip error from ZipUtils", e1);
+		}
 		// 开始解压
 		ZipFile zipFile = null;
 		try {
@@ -1393,14 +1400,16 @@ public class PluginManageController extends BasePluginController {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = (ZipEntry) entries.nextElement();
+				File targetFile = new File(destDir, entry.getName());
+				String targetCanonicalPath = targetFile.getCanonicalPath();
+				if(!targetCanonicalPath.startsWith(destDirCanonicalPath)) {
+					throw new RuntimeException("unzip error from ZipUtils, illegal entry path: " + entry.getName());
+				}
 				// 如果是文件夹，就创建个文件夹
 				if (entry.isDirectory()) {
-					String dirPath = destDirPath + File.separator + entry.getName();
-					File dir = new File(dirPath);
-					dir.mkdirs();
+					targetFile.mkdirs();
 				}else {
 					// 如果是文件，就先创建一个文件，然后用io流把内容copy过去
-					File targetFile = new File(destDirPath + File.separator + entry.getName());
 					// 保证这个文件的父文件夹必须要存在
 					if(!targetFile.getParentFile().exists()){
 						targetFile.getParentFile().mkdirs();
