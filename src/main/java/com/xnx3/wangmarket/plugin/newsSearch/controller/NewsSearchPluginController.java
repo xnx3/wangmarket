@@ -63,7 +63,7 @@ public class NewsSearchPluginController extends BasePluginController {
 		int count = sqlService.count("news", sql.getWhere());
 		Page page = new Page(count, everyPageNumber, request);
 		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
-		sql.setSelectFromAndPage("SELECT id,addtime,title,titlepic,intro,cid FROM news", page);
+		sql.setSelectFromAndPage("SELECT id,addtime,title,titlepic,intro,cid,html_name FROM news", page);
 		//v4.4版本以前，没有自定义内容排序功能，只有按时间倒序排列
 		sql.setDefaultOrderBy("addtime DESC");
 		//因联合查询，结果集是没有实体类与其对应，故而用List<Map>接收
