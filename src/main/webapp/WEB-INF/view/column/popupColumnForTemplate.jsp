@@ -127,7 +127,13 @@
 					font-size: 15px;
 				}
 			</style>
-					
+
+			<div class="layui-form-item neirongguanli_shuru">
+				<label class="layui-form-label" id="label_editUseHtmlName">生成HTML命名</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="editUseHtmlName" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseHtmlName=='1'}"> checked</c:if>>
+				</div>
+			</div>
 			<div class="layui-form-item neirongguanli_shuru">
 				<label class="layui-form-label" id="label_editUseTitlepic">标题图片</label>
 				<div class="layui-input-block">
@@ -396,6 +402,9 @@ $(function(){
 	//listRank ，信息排序
 	msg.tip({id:"listRank_label",width:"310px",text:'当前栏目内，内容信息排序方式。有以下几种：<br>1.&nbsp;<b>发布时间倒序</b>：发布时间越晚，排序越靠前<br/>2.&nbsp;<b>发布时间正序</b>：发布时间越早，排序越靠前<br>3.&nbsp;<b>ID编号倒序</b>：文章id编号数值越大，排序越靠前<br/>4.&nbsp;<b>ID编号正序</b>：文章id编号数值越小，排序越靠前'})
 
+	//内容管理中，是否允许自定义生成的 HTML 页面名称
+	msg.tip({id:"label_editUseHtmlName",width:"310px",text:'内容管理中，会出现设置当前内容生成的 HTML 页面名称。<br/>默认不设置时，会以文章 ID 的数字形式命名，例如 <b>123.html</b>。<br/>开启后，编辑某篇文章时可以自定义页面名称，例如填写 <b>world</b>，实际访问地址便会变为 <b>world.html</b>。'})
+
 	//内容管理中，是否使用标题图片
 	msg.tip({id:"label_editUseTitlepic",width:"310px",text:'标题图片，也就是文章的封面图，让每篇文章都有自己的一个封面图。比如，这个封面图可以是网站中，产品列表页面的每个产品的图片。'})
 
@@ -475,4 +484,4 @@ selectEditMode();
 
 </script>
 
-<jsp:include page="/wm/common/foot.jsp"></jsp:include> 
+<jsp:include page="/wm/common/foot.jsp"></jsp:include>
