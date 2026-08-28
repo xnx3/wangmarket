@@ -363,7 +363,7 @@ public class NewsController extends BaseController {
 			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章成功", news.getTitle());
 			
 			//删除OSS的html、头图文件
-			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getHtmlPageName()+".html");
 			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
 				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			}
@@ -602,7 +602,7 @@ public class NewsController extends BaseController {
 			//删除OSS的html、头图文件
 			//v5.6.3增加，避免serverless版本中，配置好了桶，又将桶通过控制台删掉，这里导致异常卡住的问题
 			try {
-				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getId()+".html");
+				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getHtmlPageName()+".html");
 				if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
 					AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 				}
