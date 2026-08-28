@@ -191,6 +191,85 @@ public class NewsServiceImpl implements NewsService {
 		template.generateNewsHtml(news, siteColumn, null, null, pageHtml, newsDataBean);
 	}
 
+	/**
+	 * 校验文章自定义 HTML 页面名称。
+	 * <p>文章详情页和栏目页共用同一个站点目录，因此自定义名称不仅不能与其他文章的
+	 * 自定义名称重复，也不能覆盖其他文章按 ID 生成的页面或栏目代码页面。</p>
+	 *
+	 * @param site 当前网站
+	 * @param news 正在新增或修改的文章
+	 * @return 校验成功返回成功状态；失败时返回面向用户的具体冲突说明
+	 */
+	@Override
+	public BaseVO validateHtmlName(Site site, News news) {
+		BaseVO vo = new BaseVO();
+		if(site == null || site.getId() == null || news == null) {
+			vo.setBaseVO(BaseVO.FAILURE, "校验文章 HTML 页面名称时缺少必要信息");
+			return vo;
+		}
+
+		String htmlName = news.getHtmlName();
+		if(htmlName == null || htmlName.trim().length() == 0) {
+			// 留空时沿用文章 ID 命名，不需要占用自定义名称，也不参与自定义名称冲突校验。
+			return vo;
+		}
+		htmlName = htmlName.trim();
+		news.setHtmlName(htmlName);
+
+		if(htmlName.length() > 50) {
+			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称不能超过 50 个字符，请缩短后重新保存");
+			return vo;
+		}
+		if(!htmlName.matches("^[a-zA-Z0-9]+$")) {
+			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称只允许填写英文字母和数字，请修改后重新保存");
+			return vo;
+		}
+		if("index".equalsIgnoreCase(htmlName)) {
+			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 index 是网站首页保留名称，不能使用");
+			return vo;
+		}
+
+		// 栏目代码在部分 URL 规则下会直接生成栏目 HTML 页面，必须与文章页面名称隔离。
+		List<SiteColumn> siteColumnList = sqlDAO.findBySqlQuery(
+				"SELECT * FROM site_column WHERE siteid = " + site.getId(), SiteColumn.class);
+		for(SiteColumn siteColumn : siteColumnList) {
+			String codeName = siteColumn.getCodeName();
+			if(codeName != null && codeName.trim().length() > 0
+					&& htmlName.equalsIgnoreCase(codeName.trim())) {
+				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 与栏目“"
+						+ siteColumn.getName() + "”的栏目代码“" + codeName.trim() + "”重名，请更换其他名称");
+				return vo;
+			}
+		}
+
+		// 统一比较当前网站全部文章的实际页面名称，排除正在修改的文章自身。
+		List<News> newsList = sqlDAO.findBySqlQuery(
+				"SELECT * FROM news WHERE siteid = " + site.getId(), News.class);
+		for(News otherNews : newsList) {
+			if(news.getId() != null && news.getId().equals(otherNews.getId())) {
+				continue;
+			}
+
+			String otherHtmlName = otherNews.getHtmlName();
+			if(otherHtmlName != null && otherHtmlName.trim().length() > 0
+					&& htmlName.equalsIgnoreCase(otherHtmlName.trim())) {
+				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 已被文章“"
+						+ otherNews.getTitle() + "”（ID：" + otherNews.getId() + "）使用，请更换其他名称");
+				return vo;
+			}
+
+			// 未自定义名称的普通文章会使用自己的 ID 命名，也必须避免被新名称覆盖。
+			if((otherNews.getHtmlName() == null || otherNews.getHtmlName().trim().length() == 0)
+					&& (otherNews.getType() == null || otherNews.getType() - News.TYPE_PAGE != 0)
+					&& otherNews.getId() != null && htmlName.equalsIgnoreCase(otherNews.getId().toString())) {
+				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 将与文章“"
+						+ otherNews.getTitle() + "”（ID：" + otherNews.getId() + "）默认生成的页面重名，请更换其他名称");
+				return vo;
+			}
+		}
+		return vo;
+	}
+
 	public NewsInit news(HttpServletRequest request, int id, int cid, Model model) {
 		NewsInit n = new NewsInit();
 		Site site = SessionUtil.getSite();
