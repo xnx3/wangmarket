@@ -120,6 +120,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 	private Short editMode;					//若是独立页面，内容的编辑方式，是使用富文本编辑框呢，还是直接编辑模板
 	private Short listRank;					//列表排序，当前栏目若是信息列表，信息列表的排序规则
 	
+	private Short editUseHtmlName;			//内容管理中，添加内容时，自定义生成 HTML 页面名称的输入。0隐藏，1显示
 	private Short editUseTitlepic;			//内容管理中，添加内容时，封面图片的输入。 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
 	private Short editUseIntro;				//内容管理中，添加内容时，文章简介的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
 	private Short editUseText;				//内容管理中，添加内容时，文章详情的输入 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断
@@ -332,6 +333,15 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 		this.listRank = listRank;
 	}
 
+	@Column(name = "edit_use_html_name", columnDefinition = "tinyint(2) COMMENT '内容管理中，添加内容时，自定义生成 HTML 页面名称的输入。0隐藏，1显示' default '0'")
+	public Short getEditUseHtmlName() {
+		return editUseHtmlName;
+	}
+
+	public void setEditUseHtmlName(Short editUseHtmlName) {
+		this.editUseHtmlName = editUseHtmlName;
+	}
+
 	@Column(name = "edit_use_titlepic", columnDefinition = "tinyint(2) COMMENT '内容管理中，添加内容时，封面图片的输入。 0隐藏，1显示，若是null，则是兼容v4.6以前的版本，需要根据栏目类型type进行判断' default '0'")
 	public Short getEditUseTitlepic() {
 		return editUseTitlepic;
@@ -435,7 +445,7 @@ public class SiteColumn implements java.io.Serializable, Cloneable {
 				+ type + ", templatePageListName=" + templatePageListName + ", templatePageViewName="
 				+ templatePageViewName + ", codeName=" + codeName + ", parentCodeName=" + parentCodeName + ", listNum="
 				+ listNum + ", inputModelCodeName=" + inputModelCodeName + ", editMode=" + editMode + ", listRank="
-				+ listRank + ", editUseTitlepic=" + editUseTitlepic + ", editUseIntro=" + editUseIntro
+				+ listRank + ", editUseHtmlName=" + editUseHtmlName + ", editUseTitlepic=" + editUseTitlepic + ", editUseIntro=" + editUseIntro
 				+ ", editUseText=" + editUseText + ", editUseExtendPhotos=" + editUseExtendPhotos + ", useGenerateView="
 				+ useGenerateView + ", templateCodeColumnUsed=" + templateCodeColumnUsed + ", adminNewsUsed="
 				+ adminNewsUsed + ", keywords=" + keywords + ", description=" + description + "]";
