@@ -692,8 +692,14 @@ public class NewsController extends BaseController {
 				url = url + "c" + cid + ".html";
 			}
 		}else{
-			fileName = newsId+"";
-			url = url + newsId + ".html";
+			//普通文章的详情页优先使用自定义 HTML 名称；查询不到当前网站文章时回退到原有 ID 地址。
+			News news = sqlService.findById(News.class, newsId);
+			if(news != null && news.getSiteid() != null && news.getSiteid().equals(site.getId())) {
+				fileName = news.getHtmlPageName();
+			}else{
+				fileName = newsId+"";
+			}
+			url = url + fileName + ".html";
 		}
 		
 		ActionLogUtil.insert(request, newsId, "网站管理后台查看文章页面", url);
