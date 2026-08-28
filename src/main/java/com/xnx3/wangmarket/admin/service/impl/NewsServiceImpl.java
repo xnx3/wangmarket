@@ -201,10 +201,10 @@ public class NewsServiceImpl implements NewsService {
 	 * @return 校验成功返回成功状态；失败时返回面向用户的具体冲突说明
 	 */
 	@Override
-	public BaseVO validateHtmlName(Site site, News news) {
-		BaseVO vo = new BaseVO();
+	public com.xnx3.j2ee.vo.BaseVO validateHtmlName(Site site, News news) {
+		com.xnx3.j2ee.vo.BaseVO vo = new com.xnx3.j2ee.vo.BaseVO();
 		if(site == null || site.getId() == null || news == null) {
-			vo.setBaseVO(BaseVO.FAILURE, "校验文章 HTML 页面名称时缺少必要信息");
+			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "校验文章 HTML 页面名称时缺少必要信息");
 			return vo;
 		}
 
@@ -217,15 +217,15 @@ public class NewsServiceImpl implements NewsService {
 		news.setHtmlName(htmlName);
 
 		if(htmlName.length() > 50) {
-			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称不能超过 50 个字符，请缩短后重新保存");
+			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称不能超过 50 个字符，请缩短后重新保存");
 			return vo;
 		}
 		if(!htmlName.matches("^[a-zA-Z0-9]+$")) {
-			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称只允许填写英文字母和数字，请修改后重新保存");
+			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称只允许填写英文字母和数字，请修改后重新保存");
 			return vo;
 		}
 		if("index".equalsIgnoreCase(htmlName)) {
-			vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 index 是网站首页保留名称，不能使用");
+			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称 index 是网站首页保留名称，不能使用");
 			return vo;
 		}
 
@@ -236,7 +236,7 @@ public class NewsServiceImpl implements NewsService {
 			String codeName = siteColumn.getCodeName();
 			if(codeName != null && codeName.trim().length() > 0
 					&& htmlName.equalsIgnoreCase(codeName.trim())) {
-				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 与栏目“"
+				vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 与栏目“"
 						+ siteColumn.getName() + "”的栏目代码“" + codeName.trim() + "”重名，请更换其他名称");
 				return vo;
 			}
@@ -253,7 +253,7 @@ public class NewsServiceImpl implements NewsService {
 			String otherHtmlName = otherNews.getHtmlName();
 			if(otherHtmlName != null && otherHtmlName.trim().length() > 0
 					&& htmlName.equalsIgnoreCase(otherHtmlName.trim())) {
-				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 已被文章“"
+				vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 已被文章“"
 						+ otherNews.getTitle() + "”（ID：" + otherNews.getId() + "）使用，请更换其他名称");
 				return vo;
 			}
@@ -262,7 +262,7 @@ public class NewsServiceImpl implements NewsService {
 			if((otherNews.getHtmlName() == null || otherNews.getHtmlName().trim().length() == 0)
 					&& (otherNews.getType() == null || otherNews.getType() - News.TYPE_PAGE != 0)
 					&& otherNews.getId() != null && htmlName.equalsIgnoreCase(otherNews.getId().toString())) {
-				vo.setBaseVO(BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 将与文章“"
+				vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称 " + htmlName + " 将与文章“"
 						+ otherNews.getTitle() + "”（ID：" + otherNews.getId() + "）默认生成的页面重名，请更换其他名称");
 				return vo;
 			}
