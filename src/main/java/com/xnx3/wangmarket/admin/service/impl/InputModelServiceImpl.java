@@ -178,6 +178,7 @@ public class InputModelServiceImpl implements InputModelService {
 			
 			if(news == null || news.getId() == null){
 				text = text.replaceAll(Template.regex("news.title"), "");
+				text = text.replaceAll(Template.regex("news.htmlName"), "");
 				text = text.replaceAll(Template.regex("titlepicImage"), "");
 				text = text.replaceAll(Template.regex("news.titlepic"), "");
 				text = text.replaceAll(Template.regex("text"), "");
@@ -194,6 +195,7 @@ public class InputModelServiceImpl implements InputModelService {
 				
 			}else{
 				text = Template.replaceAll(text, Template.regex("news.title"), news.getTitle());
+				text = Template.replaceAll(text, Template.regex("news.htmlName"), news.getHtmlName() == null ? "" : news.getHtmlName());
 				text = Template.replaceAll(text, Template.regex("titlepicImage"), newsInit.getTitlepicImage());
 				text = Template.replaceAll(text, Template.regex("news.titlepic"), news.getTitlepic());
 				text = Template.replaceAll(text, Template.regex("news.intro"), news.getIntro());
