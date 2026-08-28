@@ -261,7 +261,8 @@ public class News implements java.io.Serializable {
 	}
 
 	public void setHtmlName(String htmlName) {
-		this.htmlName = htmlName;
+		// 页面名称不允许依赖首尾空格区分；在实体入口统一清理，避免控制器、插件、导入等写入路径各自处理。
+		this.htmlName = htmlName == null ? null : htmlName.trim();
 	}
 
 	/**
