@@ -222,6 +222,12 @@ public class NewsController extends BaseController {
 				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+
+		// 所有插件预处理完成后，在文章落库前统一校验 HTML 页面名称，避免任何输入入口绕过冲突检查。
+		BaseVO htmlNameVO = newsService.validateHtmlName(site, news);
+		if(htmlNameVO.getResult() - BaseVO.FAILURE == 0) {
+			return error(htmlNameVO.getInfo());
+		}
 		
 		sqlService.save(news);
 		if(news.getId() > 0){
