@@ -99,6 +99,7 @@ public class NewsController extends BaseController {
 		
 		News news;
 		NewsData newsData;
+		String oldHtmlPageName = null;
 		if(s.getId() != null && s.getId() > 0){
 			//编辑修改
 			news = sqlService.findById(News.class, s.getId());
@@ -108,6 +109,8 @@ public class NewsController extends BaseController {
 			if(news.getSiteid() - site.getId() != 0){
 				return error("页面不属于您，无法操作！");
 			}
+			//保存前记录旧页面名称，若本次修改了名称，保存成功后需要清理旧静态文件。
+			oldHtmlPageName = news.getHtmlPageName();
 			newsData = sqlService.findById(NewsData.class, s.getId());
 			
 			//v4.9增加，提高容错。当news表有，单news_data没有时，自动创建
@@ -232,6 +235,15 @@ public class NewsController extends BaseController {
 		sqlService.save(news);
 		if(news.getId() > 0){
 			//成功
+			if(oldHtmlPageName != null && !oldHtmlPageName.equals(news.getHtmlPageName())) {
+				//文章改名或从自定义名称恢复为 ID 名称时，删除旧文件，避免旧地址继续保留并造成重复页面。
+				try {
+					AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+oldHtmlPageName+".html");
+				} catch (Exception e) {
+					// 清理旧文件失败不影响文章已经保存成功，记录日志供存储配置排查。
+					ConsoleUtil.error("清理文章旧 HTML 页面时异常，但文章已保存成功。异常信息："+e.getMessage());
+				}
+			}
 			
 			//v6.1增加，更新当前网站的文章数
 			newsService.updateSiteNewsSize(news.getSiteid());
