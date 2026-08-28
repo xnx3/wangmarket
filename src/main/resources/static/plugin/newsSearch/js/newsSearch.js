@@ -94,6 +94,14 @@ function drawList(list){
 	for(var i=0,l=list.length;i<l;i++){
 		var newsJson = list[i];
 		var newsContent = newsListItemTemplate;
+		// 搜索结果使用文章实际页面名称，未设置自定义名称时回退到文章 ID。
+		var newsHtmlName = newsJson.html_name;
+		if(newsHtmlName == null || newsHtmlName == 'null' || String(newsHtmlName).trim().length == 0){
+			newsHtmlName = newsJson.id;
+		}else{
+			newsHtmlName = String(newsHtmlName).trim();
+		}
+		newsContent = newsContent.replace(/news.url/g, newsHtmlName + '.html');
 		newsContent = newsContent.replace(/news.id/g, newsJson.id);
 		newsContent = newsContent.replace(/news.titlepic/g, newsJson.titlepic);
 		newsContent = newsContent.replace(/news.title/g, newsJson.title);
