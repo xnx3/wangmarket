@@ -144,6 +144,7 @@ public class AdminNewsController extends BaseController {
 			return error(model, "信息所属网站不存在");
 		}
 		ActionLogUtil.insert(request, news.getId(), "查看此条文章的网站前端，对外的网站文章页面", news.getTitle());
-		return redirect("http://"+Func.getDomain(site)+"/"+id+".html");
+		//后台预览使用文章实际页面名称；未设置自定义名称时由实体回退到文章 ID。
+		return redirect("http://"+Func.getDomain(site)+"/"+news.getHtmlPageName()+".html");
 	}
 }
