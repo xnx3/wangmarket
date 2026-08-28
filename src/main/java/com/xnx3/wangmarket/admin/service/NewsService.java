@@ -57,6 +57,17 @@ public interface NewsService {
 	 * @param newsDataBean news_data 的整理及数据初始化
 	 */
 	public void generateViewHtmlForTemplate(Site site, News news, SiteColumn siteColumn, NewsDataBean newsDataBean, HttpServletRequest request);
+
+	/**
+	 * 校验文章自定义 HTML 页面名称是否可以在当前网站使用。
+	 * <p>校验范围包括名称格式、系统保留名称、栏目代码，以及当前网站其他文章
+	 * 已使用的自定义名称和默认 ID 页面名称。</p>
+	 *
+	 * @param site 当前网站
+	 * @param news 正在新增或修改的文章，{@code id} 可为空
+	 * @return 校验成功返回成功状态；失败时在 {@link BaseVO#getInfo()} 中返回准确原因
+	 */
+	public BaseVO validateHtmlName(Site site, News news);
 	
 	/**
 	 * 新闻、独立页面、图文详情页面的内容text,在用户编辑完成后保存时，将附件、图片等OSS存储的资源路径替换，将 "http://......com/site/14/" 替换为 {prefixUrl}
