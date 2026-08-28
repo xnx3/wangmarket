@@ -84,6 +84,11 @@ if(('${siteColumn.type}' == '3' || '${siteColumn.type}' == '8') && '${siteColumn
 
 <script>
 try{
+	if('${siteColumn.editUseHtmlName}' == '1'){
+		document.getElementById('sitecolumn_editUseHtmlName').style.display='';
+	}
+}catch(e){ }
+try{
 	if('${siteColumn.editUseTitlepic}' == '1'){
 		document.getElementById('sitecolumn_editUseTitlepic').style.display='';
 	}
