@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 网站的文章
@@ -261,6 +262,23 @@ public class News implements java.io.Serializable {
 
 	public void setHtmlName(String htmlName) {
 		this.htmlName = htmlName;
+	}
+
+	/**
+	 * 获取文章实际使用的 HTML 页面名称，不包含 {@code .html} 后缀和目录。
+	 * <p>文章设置了 {@link #htmlName} 时使用自定义名称；没有设置时回退到文章 ID，
+	 * 从而保持既有的 {@code 123.html} 命名规则。</p>
+	 * <p>该方法是所有静态页面生成和文章链接计算的统一入口，避免调用方分别判断
+	 * {@code htmlName} 后产生文件名与链接不一致的问题。</p>
+	 *
+	 * @return 实际页面名称；尚未保存且没有自定义名称时返回空字符串
+	 */
+	@Transient
+	public String getHtmlPageName() {
+		if(htmlName != null && htmlName.trim().length() > 0) {
+			return htmlName.trim();
+		}
+		return id == null ? "" : id.toString();
 	}
 	
 	@Column(name = "top", columnDefinition="tinyint(2) COMMENT '文章置顶，0不置顶，1置顶。默认为0' default '0'")
