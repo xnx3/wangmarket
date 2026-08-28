@@ -370,6 +370,12 @@ public class TemplateVO extends BaseVO {
 				if(j.get("editUseExtendPhotos") != null){
 					nsc.setEditUseExtendPhotos((short) j.getInt("editUseExtendPhotos"));
 				}
+				//恢复内容管理中“生成HTML命名”输入项的显示开关；旧模板未保存该字段时保持关闭，避免导入后改变原有栏目界面
+				if(j.get("editUseHtmlName") != null){
+					nsc.setEditUseHtmlName((short) j.getInt("editUseHtmlName"));
+				}else{
+					nsc.setEditUseHtmlName(SiteColumn.USED_UNABLE);
+				}
 				//v4.7，增加是否生成内容页面
 				if(j.get("useGenerateView") != null){
 					nsc.setUseGenerateView((short) j.getInt("useGenerateView"));
