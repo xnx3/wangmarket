@@ -22,6 +22,16 @@
 </div>
  -->
 
+<!-- 生成文章详情页的 HTML 名称。若是想在内容管理中显示此项，可以在栏目管理中编辑栏目，在信息录入中开启生成HTML命名。若是自己添加输入模型，请保留 id="sitecolumn_editUseHtmlName"、name="htmlName" 和 {news.htmlName}，以便栏目开关、文章回显和保存功能正常工作。 -->
+<div class="layui-form-item" id="sitecolumn_editUseHtmlName" style="display:none;">
+	<label class="layui-form-label" id="label_htmlName">生成HTML命名</label>
+	<div class="layui-input-block">
+		<input type="text" name="htmlName" autocomplete="off" placeholder="请输入HTML文件名，不含.html" class="layui-input" value="{news.htmlName}" style="width:130px; display:inline-block;">
+		<span style="font-size:16px; margin-left:5px;">.html</span>
+		<div class="explain">填写英文和数字，例如填写 world 后页面地址为 world.html；留空则按照文章 ID 命名，例如 123.html。</div>
+	</div>
+</div>
+
 <!-- 标题图片、封面图片。若是想在内容管理中，编辑文章时显示此项，可以在 栏目管理 中，编辑栏目时，有个 信息录入的选项卡，找到 标题图片，点击 使用 即可。若是自己添加的输入模型，请保留 id="sitecolumn_editUseTitlepic" ,不然栏目设置中的是否使用图集功能将会失效！ -->
 <div class="layui-form-item" id="sitecolumn_editUseTitlepic" style="display:none;">
 	<label class="layui-form-label" id="label_columnName">标题图片</label>
