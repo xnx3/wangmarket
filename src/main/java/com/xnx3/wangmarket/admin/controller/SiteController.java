@@ -454,12 +454,15 @@ public class SiteController extends BaseController {
 		String redirectUrl = "";	//跳转的url
 
 		//自定义文章名称可能以 c 开头或全部是数字，必须先按当前网站的 html_name 查询，避免被旧的 ID/栏目代码规则误判。
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("htmlName", htmlFile);
-		List<News> customNewsList = sqlService.findByHql(
-				"FROM News n WHERE n.siteid = " + site.getId() + " AND n.htmlName = :htmlName", parameterMap);
-		if(customNewsList != null && customNewsList.size() > 0){
-			redirectUrl = "news/news.do?id=" + customNewsList.get(0).getId();
+		//index 是网站首页保留名称，即使历史数据中存在同名脏数据，也必须优先保持首页路由。
+		if(!"index".equalsIgnoreCase(htmlFile)){
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("htmlName", htmlFile);
+			List<News> customNewsList = sqlService.findByHql(
+					"FROM News n WHERE n.siteid = " + site.getId() + " AND n.htmlName = :htmlName", parameterMap);
+			if(customNewsList != null && customNewsList.size() > 0){
+				redirectUrl = "news/news.do?id=" + customNewsList.get(0).getId();
+			}
 		}
 		
 		if(redirectUrl.length() > 0){
