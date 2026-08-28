@@ -303,7 +303,7 @@ public class GenerateHTML {
 				titlePic = "news/"+titlePic;
 			}
 			text = text.replaceAll(GenerateHTML.regex("news.titlepic"), titlePic);
-			text = text.replaceAll(GenerateHTML.regex("news.url"), news.getId()+".html");
+			text = text.replaceAll(GenerateHTML.regex("news.url"), news.getHtmlPageName()+".html");
 		}
 		
 		return text;
@@ -398,7 +398,7 @@ public class GenerateHTML {
 		if(news.getType() - News.TYPE_PAGE == 0){
 			generateUrl = "site/"+site.getId()+"/c"+news.getCid()+".html";
 		}else{
-			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
+			generateUrl = "site/"+site.getId()+"/"+news.getHtmlPageName()+".html";
 		}
 		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
