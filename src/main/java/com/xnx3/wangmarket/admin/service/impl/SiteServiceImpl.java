@@ -1126,7 +1126,7 @@ public class SiteServiceImpl implements SiteService {
 				xml = xml + getSitemapUrl(indexUrl+"/c"+news.getCid()+".html", "0.8");
 			}else{
 				//普通列表的内容页面，0.5
-				xml = xml + getSitemapUrl(indexUrl+"/"+news.getId()+".html", "0.5");
+				xml = xml + getSitemapUrl(indexUrl+"/"+news.getHtmlPageName()+".html", "0.5");
 			}
 		}
 		
