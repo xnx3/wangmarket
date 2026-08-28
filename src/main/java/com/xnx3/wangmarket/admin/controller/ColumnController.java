@@ -569,6 +569,7 @@ public class ColumnController extends BaseController {
 		sc.setListNum(siteColumn.getListNum() == null ? 10:siteColumn.getListNum());
 		sc.setEditMode(siteColumn.getEditMode() == null ? SiteColumn.EDIT_MODE_INPUT_MODEL : siteColumn.getEditMode());
 		sc.setListRank(siteColumn.getListRank() == null? SiteColumn.LIST_RANK_ADDTIME_DESC:siteColumn.getListRank());
+		sc.setEditUseHtmlName(siteColumn.getEditUseHtmlName() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseHtmlName());
 		sc.setEditUseExtendPhotos(siteColumn.getEditUseExtendPhotos() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseExtendPhotos());
 		sc.setEditUseIntro(siteColumn.getEditUseIntro() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseIntro());
 		sc.setEditUseText(siteColumn.getEditUseText() == null? SiteColumn.USED_UNABLE:siteColumn.getEditUseText());
