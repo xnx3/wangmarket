@@ -458,8 +458,8 @@ public class TemplateCMS {
 				//独立页面，直接使用code.html
 				text = Template.replaceAll(text, regex("news.url"), siteColumn.getCodeName()+".html");
 			}else{
-				//列表的某条内容页，则使用通用的id.html
-				text = Template.replaceAll(text, regex("news.url"), news.getId()+".html");
+				//列表的某条内容页，优先使用文章自定义名称，未设置时回退到id.html
+				text = Template.replaceAll(text, regex("news.url"), news.getHtmlPageName()+".html");
 			}
 		}else{
 			//id.html模式
@@ -468,8 +468,8 @@ public class TemplateCMS {
 				//独立页面，直接使用c+sitecolumn.id.html
 				text = Template.replaceAll(text, regex("news.url"), "c"+siteColumn.getId()+".html");
 			}else{
-				//列表的某条内容页，则使用通用的id.html
-				text = Template.replaceAll(text, regex("news.url"), news.getId()+".html");
+				//列表的某条内容页，优先使用文章自定义名称，未设置时回退到id.html
+				text = Template.replaceAll(text, regex("news.url"), news.getHtmlPageName()+".html");
 			}
 		}
 		
@@ -713,8 +713,8 @@ public class TemplateCMS {
 				//独立页面，直接使用栏目代码 code.html
 				return siteColumn.getCodeName();
 			}else{
-				//列表页面，还是使用通用模式的那种编号id.html
-				return news.getId()+"";
+				//列表页面，优先使用文章自定义名称，未设置时使用id.html
+				return news.getHtmlPageName();
 			}
 		}else{
 			//使用栏目id编号作为栏目名字(CMS模式要废弃,兼容原本的)
@@ -722,8 +722,8 @@ public class TemplateCMS {
 				//独立页面，直接使用栏目代码 code.html
 				return "c"+news.getCid();
 			}else{
-				//列表页面，还是使用通用模式的那种编号id.html
-				return news.getId()+"";
+				//列表页面，优先使用文章自定义名称，未设置时使用id.html
+				return news.getHtmlPageName();
 			}
 		}
 	}
@@ -794,8 +794,8 @@ public class TemplateCMS {
 					upPageUrl = siteColumn.getId()+"_1.html";
 				}
 			}else{
-				upPage = "<a href=\""+upNews.getId()+".html\" target=\"_black\">"+upNews.getTitle()+"</a>";
-				upPageUrl = upNews.getId()+".html";
+				upPage = "<a href=\""+upNews.getHtmlPageName()+".html\" target=\"_black\">"+upNews.getTitle()+"</a>";
+				upPageUrl = upNews.getHtmlPageName()+".html";
 			}
 			if(nextNews == null){
 				if(this.generateUrlRule.equals("code")){
@@ -808,8 +808,8 @@ public class TemplateCMS {
 					nextPageUrl = siteColumn.getId()+"_1.html";
 				}	
 			}else{
-				nextPage = "<a href=\""+nextNews.getId()+".html\" target=\"_black\">"+nextNews.getTitle()+"</a>";
-				nextPageUrl = nextNews.getId()+".html";
+				nextPage = "<a href=\""+nextNews.getHtmlPageName()+".html\" target=\"_black\">"+nextNews.getTitle()+"</a>";
+				nextPageUrl = nextNews.getHtmlPageName()+".html";
 			}
 			
 			pageHtml = Template.replaceAll(pageHtml, Template.regex("upPage"), upPage);
