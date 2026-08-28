@@ -3,7 +3,9 @@ package com.xnx3.wangmarket.admin.controller;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -450,8 +452,19 @@ public class SiteController extends BaseController {
 			return error(model, "登陆状态丢失，重新登陆");
 		}
 		String redirectUrl = "";	//跳转的url
+
+		//自定义文章名称可能以 c 开头或全部是数字，必须先按当前网站的 html_name 查询，避免被旧的 ID/栏目代码规则误判。
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("htmlName", htmlFile);
+		List<News> customNewsList = sqlService.findByHql(
+				"FROM News n WHERE n.siteid = " + site.getId() + " AND n.htmlName = :htmlName", parameterMap);
+		if(customNewsList != null && customNewsList.size() > 0){
+			redirectUrl = "news/news.do?id=" + customNewsList.get(0).getId();
+		}
 		
-		if(htmlFile.equals("index")){
+		if(redirectUrl.length() > 0){
+			//已通过自定义名称找到文章，直接进入文章编辑页。
+		}else if(htmlFile.equals("index")){
 			//是首页
 			redirectUrl = "sitePc/index.do";
 		}else if (htmlFile.indexOf("lc") > -1 && htmlFile.indexOf("_") > -1) {
