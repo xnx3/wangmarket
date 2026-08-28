@@ -128,7 +128,7 @@
 				}
 			</style>
 
-			<div class="layui-form-item neirongguanli_shuru">
+			<div class="layui-form-item neirongguanli_shuru" id="editUseHtmlName_div">
 				<label class="layui-form-label" id="label_editUseHtmlName">生成HTML命名</label>
 				<div class="layui-input-block">
 					<input type="checkbox" name="editUseHtmlName" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseHtmlName=='1'}"> checked</c:if>>
@@ -461,12 +461,14 @@ function selectTypeChange(){
 		document.getElementById("xnx3_editMode").style.display="none";
 		document.getElementById("listRank").style.display="";
 		document.getElementById("useGenerateView_div").style.display="";
+		document.getElementById("editUseHtmlName_div").style.display="";
 	}else if(document.getElementById("type").options[2].selected){
 		//独立页面
 		document.getElementById("xnx3_viewTemplate").style.display="";
 		document.getElementById("xnx3_editMode").style.display="";
 		document.getElementById("listRank").style.display="none";
 		document.getElementById("useGenerateView_div").style.display="none";
+		document.getElementById("editUseHtmlName_div").style.display="none";
 	}
 }
 selectTypeChange();
@@ -478,6 +480,10 @@ function selectEditMode(){
 		$(".neirongguanli_shuru").hide();
 	}else{
 		$(".neirongguanli_shuru").show();
+		if(document.getElementById("type").options[2].selected){
+			//独立页面使用栏目代码命名，不提供文章 HTML 页面名称设置。
+			document.getElementById("editUseHtmlName_div").style.display="none";
+		}
 	}
 }
 selectEditMode();
