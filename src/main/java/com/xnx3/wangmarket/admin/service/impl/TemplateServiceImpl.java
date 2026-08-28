@@ -426,7 +426,7 @@ public class TemplateServiceImpl implements TemplateService {
 		if(news.getType() - News.TYPE_PAGE == 0){
 			generateUrl = "site/"+site.getId()+"/c"+news.getCid()+".html";
 		}else{
-			generateUrl = "site/"+site.getId()+"/"+news.getId()+".html";
+			generateUrl = "site/"+site.getId()+"/"+news.getHtmlPageName()+".html";
 		}
 		AttachmentUtil.putStringFile(generateUrl, pageHtml);
 	}
