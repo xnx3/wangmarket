@@ -101,6 +101,8 @@ function drawList(list){
 		}else{
 			newsHtmlName = String(newsHtmlName).trim();
 		}
+		// 同时兼容旧模板中的 news.id.html 写法，避免已有搜索页面继续链接到旧 ID 地址。
+		newsContent = newsContent.replace(/news.id.html/g, newsHtmlName + '.html');
 		newsContent = newsContent.replace(/news.url/g, newsHtmlName + '.html');
 		newsContent = newsContent.replace(/news.id/g, newsJson.id);
 		newsContent = newsContent.replace(/news.titlepic/g, newsJson.titlepic);
