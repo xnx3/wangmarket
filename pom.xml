@@ -196,9 +196,9 @@
   		<dependency> 
 	        <groupId>com.xnx3.wangmarket.wm</groupId>  
 	        <artifactId>wm</artifactId>  
-	        <version>3.28</version>  
+	        <version>3.29</version>  
 	         <scope>system</scope>  
-    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.28.jar</systemPath>  
+	    	  <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wm-3.29.jar</systemPath>  
 	    </dependency>
 		
 		<!-- 使用的HTML可视化，开源仓库： https://github.com/xnx3/HtmlVisualEditor  -->
