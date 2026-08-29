@@ -117,14 +117,21 @@ public class InputModelServiceImpl implements InputModelService {
 	public BaseVO saveInputModel(InputModel inputModel) {
 		BaseVO vo = new BaseVO();
 		
-		sqlDAO.save(inputModel);
+		// 新建模型没有主键，继续使用 persist；已有模型来自查询或 Session 缓存，
+		// 可能已经脱离原事务，必须使用 merge 重新关联到当前事务后再更新。
+		InputModel savedInputModel = inputModel;
 		if(inputModel.getId() != null && inputModel.getId() > 0){
+			savedInputModel = sqlDAO.merge(inputModel);
+		}else{
+			sqlDAO.save(inputModel);
+		}
+		if(savedInputModel.getId() != null && savedInputModel.getId() > 0){
 			//数据库的保存成功，那么更新Session缓存的
 			Map<Integer, InputModel> map = getInputModelBySession();
-			map.put(inputModel.getId(), inputModel);
+			map.put(savedInputModel.getId(), savedInputModel);
 			SessionUtil.setInputModel(map);
 			
-			vo.setInfo(inputModel.getId()+"");
+			vo.setInfo(savedInputModel.getId()+"");
 			return vo;
 		}else{
 			vo.setBaseVO(BaseVO.FAILURE, "保存失败");
