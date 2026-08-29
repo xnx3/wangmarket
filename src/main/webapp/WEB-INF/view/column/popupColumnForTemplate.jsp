@@ -129,7 +129,7 @@
 			</style>
 
 			<div class="layui-form-item neirongguanli_shuru" id="editUseHtmlName_div">
-				<label class="layui-form-label" id="label_editUseHtmlName">生成HTML命名</label>
+				<label class="layui-form-label" id="label_editUseHtmlName">HTML命名</label>
 				<div class="layui-input-block">
 					<input type="checkbox" name="editUseHtmlName" lay-skin="switch" lay-text="显示|隐藏" value="1" <c:if test="${siteColumn.editUseHtmlName=='1'}"> checked</c:if>>
 				</div>
