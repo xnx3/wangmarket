@@ -34,6 +34,24 @@ import cn.zvo.http.Response;
 public class InputModelServiceImpl implements InputModelService {
 	//默认的系统输入模型，只加载一次。位于应用根目录 static/inputModel/default.html
 	private static String defaultInputModelText = null;	
+	//自定义输入模型中用于判断是否已经支持 HTML 页面名称的唯一模板变量。
+	private static final String HTML_NAME_TEMPLATE_TOKEN = "{news.htmlName}";
+	//旧输入模型自动升级时插入的 HTML 页面名称控件，保持与系统默认输入模型一致。
+	private static final String HTML_NAME_INPUT_MODEL_BLOCK =
+			"<!-- 生成文章详情页的 HTML 名称。由栏目管理中的\"生成HTML命名\"开关控制显示。 -->\n"
+			+ "<div class=\"layui-form-item\" id=\"sitecolumn_editUseHtmlName\" style=\"display:none;\">\n"
+			+ "\t<label class=\"layui-form-label\" id=\"label_htmlName\">生成HTML命名</label>\n"
+			+ "\t<div class=\"layui-input-block\">\n"
+			+ "\t\t<input type=\"text\" name=\"htmlName\" autocomplete=\"off\" placeholder=\"请输入HTML文件名，不含.html\" class=\"layui-input\" value=\"{news.htmlName}\" style=\"width:130px; display:inline-block;\">\n"
+			+ "\t\t<span style=\"font-size:16px; margin-left:5px;\">.html</span>\n"
+			+ "\t\t<div class=\"explain\">填写英文和数字，例如填写 world 后页面地址为 world.html；留空则按照文章 ID 命名，例如 123.html。</div>\n"
+			+ "\t</div>\n"
+			+ "</div>\n";
+	//使用正则识别真实 HTML 标签；匹配前会屏蔽注释，避免把说明文字中的标签误认为控件。
+	private static final Pattern TITLE_INPUT_PATTERN = Pattern.compile(
+			"(?is)<input\\b[^>]*\\sname\\s*=\\s*([\"'])title\\1[^>]*>");
+	private static final Pattern TITLEPIC_CONTAINER_PATTERN = Pattern.compile(
+			"(?is)<[^>]*\\sid\\s*=\\s*([\"'])sitecolumn_editUseTitlepic\\1[^>]*>");
 
 	@Resource
 	private SqlDAO sqlDAO;
@@ -112,6 +130,77 @@ public class InputModelServiceImpl implements InputModelService {
 			vo.setBaseVO(BaseVO.FAILURE, "保存失败");
 			return vo;
 		}
+	}
+
+	/**
+	 * 检查并按兼容规则升级旧版自定义输入模型。
+	 * <p>自动修改前只依赖用户确认的三个条件：模型中没有
+	 * {@code {news.htmlName}}、能唯一找到文章标题输入、能唯一找到标题图片模块，
+	 * 且标题输入位于标题图片模块之前。任一结构条件不满足都不猜测修改。</p>
+	 */
+	public BaseVO ensureHtmlNameField(InputModel inputModel) {
+		BaseVO vo = new BaseVO();
+		if(inputModel == null) {
+			vo.setBaseVO(BaseVO.FAILURE, "当前栏目使用的自定义输入模型不存在，无法自动增加 HTML 命名字段");
+			return vo;
+		}
+
+		String text = inputModel.getText();
+		if(text == null) {
+			vo.setBaseVO(BaseVO.FAILURE, "当前自定义输入模型内容为空，无法自动增加 HTML 命名字段");
+			return vo;
+		}
+		//只要模型已经使用该变量，就视为用户已经完成自定义适配，不再重复改动。
+		if(text.indexOf(HTML_NAME_TEMPLATE_TOKEN) > -1) {
+			return vo;
+		}
+
+		//屏蔽 HTML 注释内容但保留字符串长度，保证正则得到的下标仍可用于原文插入。
+		String searchableText = maskHtmlComments(text);
+		Matcher titleMatcher = TITLE_INPUT_PATTERN.matcher(searchableText);
+		boolean titleFound = titleMatcher.find();
+		int titleEnd = titleFound ? titleMatcher.end() : -1;
+		boolean titleDuplicate = titleFound && titleMatcher.find();
+		Matcher titlepicMatcher = TITLEPIC_CONTAINER_PATTERN.matcher(searchableText);
+		boolean titlepicFound = titlepicMatcher.find();
+		int titlepicStart = titlepicFound ? titlepicMatcher.start() : -1;
+		boolean titlepicDuplicate = titlepicFound && titlepicMatcher.find();
+		if(!titleFound || titleDuplicate || !titlepicFound || titlepicDuplicate) {
+			vo.setBaseVO(BaseVO.FAILURE, "当前自定义输入模型无法定位唯一的文章标题和标题图片输入，请手动增加 HTML 命名字段后再开启此栏目设置");
+			return vo;
+		}
+
+		if(titleEnd > titlepicStart) {
+			vo.setBaseVO(BaseVO.FAILURE, "当前自定义输入模型中文章标题与标题图片输入顺序不符合自动升级条件，请手动增加 HTML 命名字段后再开启此栏目设置");
+			return vo;
+		}
+
+		String upgradedText = text.substring(0, titlepicStart) + HTML_NAME_INPUT_MODEL_BLOCK + text.substring(titlepicStart);
+		inputModel.setText(upgradedText);
+		BaseVO saveVO = saveInputModel(inputModel);
+		if(saveVO.getResult() - BaseVO.FAILURE != 0) {
+			return saveVO;
+		}
+		//落库失败时恢复调用方持有的对象，避免 Session 缓存出现未保存的模型内容。
+		inputModel.setText(text);
+		return saveVO;
+	}
+
+	/**
+	 * 将 HTML 注释区域替换为空格，避免注释中的示例标签参与结构定位，同时保留原字符串长度。
+	 */
+	private String maskHtmlComments(String text) {
+		StringBuilder masked = new StringBuilder(text);
+		int commentStart = text.indexOf("<!--");
+		while(commentStart > -1) {
+			int commentEnd = text.indexOf("-->", commentStart + 4);
+			int end = commentEnd > -1 ? commentEnd + 3 : text.length();
+			for(int i = commentStart; i < end; i++) {
+				masked.setCharAt(i, ' ');
+			}
+			commentStart = commentEnd > -1 ? text.indexOf("<!--", end) : -1;
+		}
+		return masked.toString();
 	}
 
 	public BaseVO removeInputModel(int inputModelId) {

@@ -56,6 +56,16 @@ public interface InputModelService {
 	 * @return {@link BaseVO}
 	 */
 	public BaseVO saveInputModel(InputModel inputModel);
+
+	/**
+	 * 确保自定义输入模型包含文章 HTML 页面名称字段。
+	 * <p>当模型已经包含 {@code {news.htmlName}} 时直接返回成功；否则仅在能够
+	 * 唯一定位文章标题输入和标题图片模块时自动插入字段。无法确认模型结构时
+	 * 返回失败，避免误改用户自定义的 HTML。</p>
+	 * @param inputModel 要检查的自定义输入模型
+	 * @return 检查或自动升级结果
+	 */
+	public BaseVO ensureHtmlNameField(InputModel inputModel);
 	
 	/**
 	 * 根据输入模型的id，删除该输入模型。1删除数据库、2更新缓存中的输入模型将其删除
