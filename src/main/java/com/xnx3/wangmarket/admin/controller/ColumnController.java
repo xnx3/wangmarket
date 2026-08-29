@@ -586,6 +586,7 @@ public class ColumnController extends BaseController {
 		
 		//判断一下选择的输入模型是否符合
 		String inputModelCodeName = StringUtil.filterXss(siteColumn.getInputModelCodeName());
+		InputModel selectedInputModel = null;
 		if(inputModelCodeName == null || inputModelCodeName.length() == 0 || inputModelCodeName.equals("0")){
 			//使用系统默认输入模型(为0代表是系统模型，因为layui中，如果value没有值的话，系统模型是无法出现选择的)
 			sc.setInputModelCodeName(null);
@@ -597,6 +598,7 @@ public class ColumnController extends BaseController {
 			for (int i = 0; i < inputModelList.size(); i++) {
 				InputModel im = inputModelList.get(i);
 				if(im.getCodeName().equals(inputModelCodeName)){
+					selectedInputModel = im;
 					isExist = true;
 					break;
 				}
@@ -711,6 +713,15 @@ public class ColumnController extends BaseController {
 			
 			//设置上最新的
 			sc.setIcon(siteColumn.getIcon());
+		}
+
+		//栏目开启 HTML 命名且使用自定义输入模型时，保存栏目之前先兼容升级旧输入模型。
+		//升级失败会阻止栏目保存，避免出现开关已开启但内容管理没有对应输入项的半成功状态。
+		if(sc.getEditUseHtmlName() - SiteColumn.USED_ENABLE == 0 && selectedInputModel != null){
+			BaseVO htmlNameInputModelVO = inputModelService.ensureHtmlNameField(selectedInputModel);
+			if(htmlNameInputModelVO.getResult() - BaseVO.FAILURE == 0){
+				return htmlNameInputModelVO;
+			}
 		}
 
 		sqlService.save(sc);
