@@ -418,7 +418,12 @@ public class NewsServiceImpl implements NewsService {
 		sqlDAO.delete(newsData);
 		
 		//删除titlepic文件
-		if(news.getTitlepic() != null && news.getTitlepic().indexOf("http://") == -1){
+		//外链判断：以 http:// 、 https:// 或 // 开头的为站外图片，不删除存储中的文件
+		//(原写法 indexOf("http://") == -1 漏判 https:// 外链，导致外链图被误当站内文件删除)
+		if(news.getTitlepic() != null
+				&& news.getTitlepic().indexOf("http://") != 0
+				&& news.getTitlepic().indexOf("https://") != 0
+				&& news.getTitlepic().indexOf("//") != 0){
 			try {
 				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
 			} catch (Exception e) {
