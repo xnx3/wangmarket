@@ -31,7 +31,7 @@ public class SiteColumnServiceImpl implements SiteColumnService {
 	private SqlDAO sqlDAO;
 
 	public List<SiteColumn> findBySiteid(int siteid) {
-		return sqlDAO.findBySqlQuery("SELECT * FROM site_column WHRER siteid = "+siteid +" ORDER BY rank ASC", SiteColumn.class);
+		return sqlDAO.findBySqlQuery("SELECT * FROM site_column WHERE siteid = "+siteid +" ORDER BY rank ASC", SiteColumn.class);
 	}
 
 	public void resetColumnRankAndJs(Site site) {
