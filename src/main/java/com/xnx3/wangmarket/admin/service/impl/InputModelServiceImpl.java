@@ -36,7 +36,9 @@ public class InputModelServiceImpl implements InputModelService {
 	private static String defaultInputModelText = null;	
 	//自定义输入模型中用于判断是否已经支持 HTML 页面名称的唯一模板变量。
 	private static final String HTML_NAME_TEMPLATE_TOKEN = "{news.htmlName}";
-	//旧输入模型自动升级时插入的 HTML 页面名称控件，保持与系统默认输入模型一致。
+	//旧输入模型自动升级时插入的 HTML 页面名称控件，保持与系统默认输入模型（static/inputModel/default.html）一致。
+	//注意：此处的控件HTML结构、字段名(name)、模板变量({news.htmlName})和提示文案必须与默认输入模型文件保持同步，
+	//修改字符允许范围或提示文字时需同时更新两处，避免老用户自动升级后看到的说明与实际校验规则不一致。
 	private static final String HTML_NAME_INPUT_MODEL_BLOCK =
 			"<!-- 生成文章详情页的 HTML 名称。由栏目管理中的\"生成HTML命名\"开关控制显示。 -->\n"
 			+ "<div class=\"layui-form-item\" id=\"sitecolumn_editUseHtmlName\" style=\"display:none;\">\n"
@@ -44,7 +46,7 @@ public class InputModelServiceImpl implements InputModelService {
 			+ "\t<div class=\"layui-input-block\">\n"
 			+ "\t\t<input type=\"text\" name=\"htmlName\" autocomplete=\"off\" placeholder=\"请输入HTML文件名，不含.html\" class=\"layui-input\" value=\"{news.htmlName}\" style=\"width:130px; display:inline-block;\">\n"
 			+ "\t\t<span style=\"font-size:16px; margin-left:5px;\">.html</span>\n"
-			+ "\t\t<div class=\"explain\">填写英文和数字，例如填写 world 后页面地址为 world.html；留空则按照文章 ID 命名，例如 123.html。</div>\n"
+			+ "\t\t<div class=\"explain\">填写英文、数字和连字符（-），例如填写 my-world 后页面地址为 my-world.html；留空则按照文章 ID 命名，例如 123.html。</div>\n"
 			+ "\t</div>\n"
 			+ "</div>\n";
 	//使用正则识别真实 HTML 标签；匹配前会屏蔽注释，避免把说明文字中的标签误认为控件。
