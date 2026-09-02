@@ -22,13 +22,14 @@
 </div>
  -->
 
-<!-- 生成文章详情页的 HTML 名称。若是想在内容管理中显示此项，可以在栏目管理中编辑栏目，在信息录入中开启生成HTML命名。若是自己添加输入模型，请保留 id="sitecolumn_editUseHtmlName"、name="htmlName" 和 {news.htmlName}，以便栏目开关、文章回显和保存功能正常工作。 -->
+<!-- 生成文章详情页的 HTML 名称。若是想在内容管理中显示此项，可以在栏目管理中编辑栏目，在信息录入中开启生成HTML命名。若是自己添加输入模型，请保留 id="sitecolumn_editUseHtmlName"、name="htmlName" 和 {news.htmlName}，以便栏目开关、文章回显和保存功能正常工作。
+注意：此处的控件结构、字段名和提示文案必须与 InputModelServiceImpl.java 中的 HTML_NAME_INPUT_MODEL_BLOCK 常量保持同步，修改字符允许范围或提示文字时需同时更新两处。 -->
 <div class="layui-form-item" id="sitecolumn_editUseHtmlName" style="display:none;">
 	<label class="layui-form-label" id="label_htmlName">生成HTML命名</label>
 	<div class="layui-input-block">
 		<input type="text" name="htmlName" autocomplete="off" placeholder="请输入HTML文件名，不含.html" class="layui-input" value="{news.htmlName}" style="width:130px; display:inline-block;">
 		<span style="font-size:16px; margin-left:5px;">.html</span>
-		<div class="explain">填写英文和数字，例如填写 world 后页面地址为 world.html；留空则按照文章 ID 命名，例如 123.html。</div>
+		<div class="explain">填写英文、数字和连字符（-），例如填写 my-world 后页面地址为 my-world.html；留空则按照文章 ID 命名，例如 123.html。</div>
 	</div>
 </div>
 
