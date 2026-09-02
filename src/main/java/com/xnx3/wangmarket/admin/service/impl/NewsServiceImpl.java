@@ -220,8 +220,13 @@ public class NewsServiceImpl implements NewsService {
 			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称不能超过 50 个字符，请缩短后重新保存");
 			return vo;
 		}
-		if(!htmlName.matches("^[a-zA-Z0-9]+$")) {
-			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称只允许填写英文字母和数字，请修改后重新保存");
+		// 字符白名单校验：仅允许英文字母、数字和连字符（-）。
+		// 连字符是 URL 路径和文件名中的标准安全字符，不会与路由规则、文件系统或 HTML 后缀产生歧义，
+		// 因此可以安全地作为页面名称的一部分使用（例如 my-article.html）。
+		// 此处是所有文章保存入口的统一校验根源，插件、导入等其他写入路径最终都会经过此方法，
+		// 修改白名单时只需改动此处即可全局生效。
+		if(!htmlName.matches("^[a-zA-Z0-9-]+$")) {
+			vo.setBaseVO(com.xnx3.j2ee.vo.BaseVO.FAILURE, "HTML 页面名称只允许填写英文字母、数字和连字符（-），请修改后重新保存");
 			return vo;
 		}
 		if("index".equalsIgnoreCase(htmlName)) {
