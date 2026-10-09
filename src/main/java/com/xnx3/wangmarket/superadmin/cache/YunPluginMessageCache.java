@@ -41,9 +41,15 @@ public class YunPluginMessageCache {
 
 	/**
 	 * 设置固定的间隔想云插件库服务器更新数据
+	 * <p>
+	 * <b>注意：云端插件库接口（cloud.wscso.com/application）已不再返回 JSON（返回纯文本 "auth"），
+	 * 此定时刷新已失效，故不再启动。</b>
+	 * 若云端接口日后恢复，将下方线程启动代码取消注释即可。
 	 * @author 李鑫
 	 */
 	public YunPluginMessageCache() {
+		// 云端插件库接口已失效（2026-10 验证：HTTP 200 + 纯文本 "auth"），取消启动定时刷新线程，避免每小时刷异常日志
+		/*
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -65,13 +71,18 @@ public class YunPluginMessageCache {
 				}
 			}
 		}).start();;
+		*/
 	}
 	
 	
 	/**
 	 * 更新云端插件库的插件信息
+	 * <p>
+	 * <b>已过时：</b>云端插件库接口（cloud.wscso.com/application）已不再返回 JSON，
+	 * 返回的是纯文本 "auth"（2026-10 验证），本方法必定解析失败，且无任何地方再调用它。
 	 * @author 李鑫
 	 */
+	@Deprecated
 	@SuppressWarnings("rawtypes")
 	public boolean refreshYunPluginLibrary() {
 		// 创建临时保存信息的对象
