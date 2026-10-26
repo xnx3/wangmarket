@@ -475,11 +475,16 @@ public class SiteController extends BaseController {
 	 * @return
 	 * @deprecated
 	 */
-	@RequestMapping("refreshSitemap${url.suffix}")
+	@RequestMapping(value="refreshSitemap${url.suffix}", method = RequestMethod.POST)
 	public String refreshSitemap(@RequestParam(value = "siteid", required = true) int siteid,
 			Model model, HttpServletRequest request){
-		
-		Site site = sqlService.findAloneBySqlQuery("SELECT * FROM site WHERE id = "+siteid, Site.class);
+		if(siteid != getSiteId()){
+			return error(model, "无权操作");
+		}
+		Site site = sqlService.findById(Site.class, siteid);
+		if(site == null){
+			return error(model, "站点不存在");
+		}
 		siteService.refreshSiteMap(site);
 		
 		ActionLogUtil.insert(request, "刷新，重新生成sitemap.xml文件");
