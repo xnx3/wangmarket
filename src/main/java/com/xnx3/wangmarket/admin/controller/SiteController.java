@@ -3,6 +3,10 @@ package com.xnx3.wangmarket.admin.controller;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -673,13 +677,81 @@ public class SiteController extends BaseController {
 	@RequestMapping(value="deleteOssData${url.suffix}", method = RequestMethod.POST)
 	public void deleteOssData(Model model,HttpServletResponse response,HttpServletRequest request,
 			@RequestParam(value = "fileName", required = true) String fileName){
-		fileName = filter(fileName);
-		AttachmentUtil.deleteObject("site/"+getSiteId()+"/"+fileName);
+		int siteId = getSiteId();
+		if(siteId <= 0 || !isSafeStorageKey(fileName)){
+			writeDeleteFileResult(response, false, HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+
+		if(AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)){
+			if(!deleteLocalSiteFile(siteId, fileName)){
+				writeDeleteFileResult(response, false, HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
+		}else{
+			AttachmentUtil.deleteObject("site/"+siteId+"/"+fileName);
+		}
 		
 		ActionLogUtil.insert(request, "删除当前网站内存储的文件："+fileName);
-		
+		writeDeleteFileResult(response, true, HttpServletResponse.SC_OK);
+	}
+
+	private boolean isSafeStorageKey(String fileName){
+		if(fileName == null || fileName.length() == 0 || fileName.startsWith("/")
+				|| fileName.indexOf('\\') >= 0 || fileName.indexOf(':') >= 0){
+			return false;
+		}
+		String[] parts = fileName.split("/", -1);
+		for(String part : parts){
+			if(part.length() == 0 || part.equals(".") || part.equals("..")){
+				return false;
+			}
+			for(int i = 0; i < part.length(); i++){
+				if(Character.isISOControl(part.charAt(i))){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean deleteLocalSiteFile(int siteId, String fileName){
+		try{
+			Path siteRoot = Paths.get(AttachmentUtil.localFilePath, "site", String.valueOf(siteId))
+					.toAbsolutePath().normalize();
+			Path target = siteRoot.resolve(fileName.replace('/', java.io.File.separatorChar)).normalize();
+			if(!target.startsWith(siteRoot) || target.equals(siteRoot)){
+				return false;
+			}
+
+			Path realSiteRoot = siteRoot.toRealPath();
+			Path current = realSiteRoot;
+			Path relative = siteRoot.relativize(target);
+			for(int i = 0; i < relative.getNameCount() - 1; i++){
+				current = current.resolve(relative.getName(i));
+				if(Files.isSymbolicLink(current)){
+					return false;
+				}
+			}
+			Path realParent = target.getParent().toRealPath();
+			if(!realParent.startsWith(realSiteRoot) || Files.isSymbolicLink(target)
+					|| !Files.isRegularFile(target, LinkOption.NOFOLLOW_LINKS)){
+				return false;
+			}
+			Files.delete(target);
+			return true;
+		}catch(IOException | RuntimeException e){
+			return false;
+		}
+	}
+
+	private void writeDeleteFileResult(HttpServletResponse response, boolean success, int status){
 		JSONObject json = new JSONObject();
-		json.put("result", "1");
+		json.put("result", success ? "1" : "0");
+		if(!success){
+			json.put("info", "文件不可用");
+		}
+		response.setStatus(status);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=utf-8");
 		PrintWriter out = null;
