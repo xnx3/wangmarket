@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.net.URI;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.SiteColumnService;
 import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
+import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.vo.IndexVO;
 import com.xnx3.wangmarket.admin.vo.SiteRemainHintVO;
@@ -57,6 +59,55 @@ public class SiteServiceImpl implements SiteService {
 	private SiteColumnService siteColumnService;
 	@Resource
 	private TemplateService templateService;
+
+	public BaseVO validateBindDomain(String bindDomain, int currentSiteId){
+		BaseVO vo = new BaseVO();
+		if(bindDomain == null || bindDomain.length() == 0){
+			return vo;
+		}
+		String normalizedDomain = DomainUtil.normalizeBindDomain(bindDomain);
+		if(normalizedDomain == null){
+			vo.setBaseVO(BaseVO.FAILURE, "域名格式不正确");
+			return vo;
+		}
+		if(isReservedBindDomain(normalizedDomain)){
+			vo.setBaseVO(BaseVO.FAILURE, "系统使用的域名无法绑定");
+			return vo;
+		}
+
+		String where = "WHERE LOWER(TRIM(bind_domain)) = '"+normalizedDomain+"'";
+		if(currentSiteId > 0){
+			where += " AND id <> "+currentSiteId;
+		}
+		if(sqlDAO.count("site", where) > 0){
+			vo.setBaseVO(BaseVO.FAILURE, "此域名已经被绑定过了！");
+		}
+		return vo;
+	}
+
+	private boolean isReservedBindDomain(String bindDomain){
+		String masterSiteUrl = SystemUtil.get("MASTER_SITE_URL");
+		if(masterSiteUrl == null || masterSiteUrl.trim().length() == 0){
+			return false;
+		}
+		try{
+			String url = masterSiteUrl.trim();
+			if(url.indexOf("://") < 0){
+				url = "http://"+url;
+			}
+			String masterDomain = new URI(url).getHost();
+			if(masterDomain == null || masterDomain.length() == 0){
+				return false;
+			}
+			masterDomain = DomainUtil.normalizeBindDomain(masterDomain);
+			return masterDomain != null && (bindDomain.equals(masterDomain)
+					|| bindDomain.equals("admin."+masterDomain)
+					|| bindDomain.equals("cdn."+masterDomain)
+					|| bindDomain.equals("obs."+masterDomain));
+		}catch(Exception e){
+			return false;
+		}
+	}
 
 	public void generateSiteIndex(Site site) {
 		GenerateHTML gh = new GenerateHTML(site);
@@ -702,6 +753,7 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		Site site;
+		String oldBindDomain;
 		if(s.getId() != null && s.getId() > 0){
 			//编辑
 			//取出当前登陆的站点的信息
@@ -716,11 +768,13 @@ public class SiteServiceImpl implements SiteService {
 				baseVO.setBaseVO(BaseVO.FAILURE, "站点不属于您，无法操作！");
 				return baseVO;
 			}
+			oldBindDomain = site.getBindDomain() == null ? "" : site.getBindDomain();
 		}else{
 			site = new Site();
 			site.setAddtime(DateUtil.timeForUnix10());
 			site.setUserid(siteUserId);
 			site.setDomain(siteUserId+DateUtil.currentDate("mmss"));
+			oldBindDomain = "";
 		}
 		
 		site.setAddress(s.getAddress());
@@ -730,7 +784,17 @@ public class SiteServiceImpl implements SiteService {
 		site.setmShowBanner(s.getmShowBanner());
 		site.setPhone(s.getPhone());
 		site.setQq(StringUtil.filterXss(s.getQq()));
-		site.setBindDomain(s.getBindDomain()==null? "":StringUtil.filterXss(s.getBindDomain()));
+		String bindDomain = DomainUtil.normalizeBindDomain(s.getBindDomain());
+		if(bindDomain == null){
+			baseVO.setBaseVO(BaseVO.FAILURE, "域名格式不正确");
+			return baseVO;
+		}
+		BaseVO bindDomainVO = validateBindDomain(bindDomain, site.getId() == null ? 0 : site.getId());
+		if(bindDomainVO.getResult() != BaseVO.SUCCESS){
+			baseVO.setBaseVO(BaseVO.FAILURE, bindDomainVO.getInfo());
+			return baseVO;
+		}
+		site.setBindDomain(bindDomain);
 		site.setExpiretime(s.getExpiretime());
 		
 		if(s.getClient() - Site.CLIENT_PC == 0){
@@ -790,6 +854,13 @@ public class SiteServiceImpl implements SiteService {
 		}
 		
 		sqlDAO.save(site);
+		if(s.getId() != null && s.getId() > 0 && !oldBindDomain.equals(bindDomain)){
+			MQBean mqBean = new MQBean();
+			mqBean.setType(MQBean.TYPE_BIND_DOMAIN);
+			mqBean.setOldValue(oldBindDomain);
+			mqBean.setSimpleSite(new SimpleSite(site));
+			updateDomainServers(mqBean);
+		}
 		if(site.getId() > 0){
 			List<SiteColumn> columnList = new ArrayList<SiteColumn>();
 			

@@ -26,6 +26,9 @@ public interface SiteService {
 	 * @return {@link SiteVO}
 	 */
 	public SiteVO saveSite(Site s, int siteCreateUserId, HttpServletRequest request);
+
+	/** 校验绑定域名是否可用。 */
+	public BaseVO validateBindDomain(String bindDomain, int currentSiteId);
 	
 	
 	/**

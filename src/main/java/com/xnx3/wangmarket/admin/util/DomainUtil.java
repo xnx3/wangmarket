@@ -1,5 +1,8 @@
 package com.xnx3.wangmarket.admin.util;
 
+import java.net.IDN;
+import java.util.Locale;
+
 import com.xnx3.j2ee.util.SystemUtil;
 import com.xnx3.wangmarket.admin.entity.Site;
 
@@ -9,6 +12,39 @@ import com.xnx3.wangmarket.admin.entity.Site;
  *
  */
 public class DomainUtil {
+	/**
+	 * 规范化用户绑定的主机名。返回 null 表示格式无效，空字符串表示解除绑定。
+	 */
+	public static String normalizeBindDomain(String bindDomain){
+		if(bindDomain == null){
+			return "";
+		}
+		String domain = bindDomain.trim();
+		if(domain.length() == 0){
+			return "";
+		}
+		try{
+			domain = IDN.toASCII(domain, IDN.USE_STD3_ASCII_RULES).toLowerCase(Locale.ROOT);
+		}catch(IllegalArgumentException e){
+			return null;
+		}
+		if(domain.length() > 30 || domain.startsWith(".") || domain.endsWith(".")){
+			return null;
+		}
+		String[] labels = domain.split("\\.", -1);
+		for(String label : labels){
+			if(label.length() == 0 || label.length() > 63 || label.startsWith("-") || label.endsWith("-")){
+				return null;
+			}
+			for(int i = 0; i < label.length(); i++){
+				char c = label.charAt(i);
+				if(!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-')){
+					return null;
+				}
+			}
+		}
+		return domain;
+	}
 	
 	/**
 	 * 获取泛解析的主域名，泛解析的域名可能有多个，但是第一个是主域名，使用的，这里拿的就是 AUTO_ASSIGN_DOMAIN 里面的第一个

@@ -193,59 +193,23 @@ public class SiteController extends BaseController {
 	@ResponseBody
 	public BaseVO updateBindDomain(Model model,HttpServletRequest request,
 			@RequestParam(value = "bindDomain", required = false , defaultValue="") String bindDomain){
-		BaseVO vo = new BaseVO();
-		
-		//判断域名格式
-		//在v5.5增加的这个设置，跟随 oem 插件增加的
-		String bindDomainDemo = SystemUtil.get("BIND_DOMAIN_DEMO");
-		if(bindDomainDemo == null || bindDomainDemo.length() == 0 || bindDomainDemo.equalsIgnoreCase("null")) {
-			bindDomainDemo = "www.guanleiming.com";
+		bindDomain = DomainUtil.normalizeBindDomain(bindDomain);
+		if(bindDomain == null){
+			return error("域名格式不正确");
 		}
-		if(bindDomain.indexOf(':') > -1 || bindDomain.indexOf('/') > -1){
-			return error("域名格式校验异常<br/>填写格式如："+bindDomainDemo);
+		BaseVO validation = siteService.validateBindDomain(bindDomain, getSiteId());
+		if(validation.getResult() != BaseVO.SUCCESS){
+			return validation;
 		}
 		
-		bindDomain = StringUtil.filterXss(bindDomain);
-		
-		//v3.0版本更新，若不填写，则是绑定空的字符串，也就是解除之前的域名绑定！
-		if(bindDomain.length() == 0){
-			//为空，则是取消域名绑定
-		}else{
-			//查询此域名是否被绑定过了
-			int scount = sqlService.count("site", "WHERE bind_domain = '"+bindDomain+"'");
-			if(scount > 0){
-				vo.setBaseVO(BaseVO.FAILURE, "此域名已经被绑定过了！");
-				return vo;
-			}
-			
-			/** v6.2版本增加，用于校验系统本身使用的一些域名 **/
-			// 1. 主域名本身 xxx.com
-			if(SystemUtil.get("MASTER_SITE_URL").indexOf("//"+bindDomain) > 0){
-				// 访问的是 直接跳转到登陆页面
-				return error("系统使用的泛解析域名，您无法操作");
-			}
-			// 1. admin.xxx.com
-			if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//admin.").indexOf("//"+bindDomain) > 0){
-				// 访问的是 直接跳转到登陆页面
-				return error("admin为系统管理后台使用域名，您无法操作");
-			}
-			// 2. cdn.xxx.com
-			if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//cdn.").indexOf("//"+bindDomain) > 0){
-				// 访问的是 直接跳转到登陆页面
-				return error("cdn为系统附件资源使用域名，您无法操作");
-			}
-			// 3. obs.xxx.com （这个不是，也一起加上吧）
-			if(SystemUtil.get("MASTER_SITE_URL").replace("//", "//obs.").indexOf("//"+bindDomain) > 0){
-				// 访问的是 直接跳转到登陆页面
-				return error("系统使用域名，您无法操作");
-			}
-		}
+		//不填写时解除之前的域名绑定。
 		
 		//v2.1更新，直接从Session中拿site.id
 		Site site = sqlService.findById(Site.class, getSiteId());
 		String oldBindDomain = site.getBindDomain();
 		site.setBindDomain(bindDomain);
 		sqlService.save(site);
+		BaseVO vo = new BaseVO();
 		
 		//更新域名服务器
 		MQBean mqBean = new MQBean();
