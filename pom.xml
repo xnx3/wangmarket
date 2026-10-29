@@ -179,6 +179,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.14</version>
+		</dependency>
 		<!-- http/https请求工具 https://github.com/xnx3/http.java -->
 		<dependency> 
 			<groupId>cn.zvo.http</groupId>
