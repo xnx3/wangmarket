@@ -115,12 +115,12 @@ public class CarouselController extends BaseController {
 	/**
 	 * 提交保存
 	 */
-	@RequestMapping("carouselSubmit${url.suffix}")
+	@RequestMapping(value="carouselSubmit${url.suffix}", method = RequestMethod.POST)
 	public String carouselSubmit(Carousel carousel , 
 			@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
 			HttpServletRequest request,Model model){
 		//轮播图所属站点，是否是属于这个人
-		if(!(carousel.getSiteid() != null || carousel.getSiteid() > 0)){
+		if(carousel.getSiteid() == null || carousel.getSiteid() <= 0){
 			return error(model, "此图属于哪个站点呢？");
 		}
 		Site site = sqlService.findById(Site.class, carousel.getSiteid());
@@ -138,16 +138,20 @@ public class CarouselController extends BaseController {
 			if(c == null){
 				return error(model, "要修改的轮播图不存在");
 			}
+			if(!site.getId().equals(c.getSiteid())){
+				return error(model, "此图不属于该站点，无法操作！");
+			}
 		}else{
 			add = true;
 			c.setAddtime(DateUtil.timeForUnix10());
 			c.setUserid(getUserId());
 			c.setType(carousel.getType());
+			c.setSiteid(site.getId());
 		}
 		
 		//轮播图上传/更新
 		String oldImage = null;
-		if(!imageFile.isEmpty()){
+		if(imageFile != null && !imageFile.isEmpty()){
 			//判断，如果是PC端的话，不用进行压缩
 			UploadFileVO uploadFile;
 			if(site.getClient() - Site.CLIENT_PC == 0){
@@ -164,7 +168,6 @@ public class CarouselController extends BaseController {
 		}
 		c.setIsshow(carousel.getIsshow());
 		c.setRank(carousel.getRank());
-		c.setSiteid(carousel.getSiteid());
 		c.setUrl(filter(carousel.getUrl()));
 		sqlService.save(c);
 		if(c.getId() > 0){
