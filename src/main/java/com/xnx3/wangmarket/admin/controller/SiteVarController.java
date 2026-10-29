@@ -192,6 +192,14 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 			siteVar.setId(site.getId());
 		}
 		JSONObject json = JSONObject.fromObject(siteVar.getText());
+
+		SiteUser siteUser = SessionUtil.getSiteUser();
+		if(siteUser != null && siteUser.getSiteid() != null){
+			if(updateName.length() == 0 || !updateName.equals(name) || !json.containsKey(name)){
+				return error("只能修改已有全局变量的内容");
+			}
+			return saveValue(name, value, request);
+		}
 		
 		JSONObject varJson = null;
 		//判断是修改还是新增
@@ -291,6 +299,10 @@ public class SiteVarController extends com.xnx3.wangmarket.admin.controller.Base
 	@ResponseBody
 	public BaseVO deleteVar(HttpServletRequest request,
 			@RequestParam(value = "name", required = true) String name){
+		SiteUser siteUser = SessionUtil.getSiteUser();
+		if(siteUser != null && siteUser.getSiteid() != null){
+			return error("请使用主账号操作");
+		}
 		Site site = getSite();
 		SiteVar siteVar = sqlService.findById(SiteVar.class, site.getId());
 		if(siteVar == null){
