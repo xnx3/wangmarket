@@ -756,8 +756,11 @@ public class AgencyUserController extends BaseController {
 			return error("要更改密码的网站不是您的直属下级，操作失败");
 		}
 		
-		ActionLogUtil.insertUpdateDatabase(request, userid, "代理商给其下的某个站点更改密码", newPassword);
-		return userService.updatePassword(userid, newPassword);
+		BaseVO result = userService.updatePassword(userid, newPassword);
+		if(result.getResult() == BaseVO.SUCCESS){
+			ActionLogUtil.insertUpdateDatabase(request, userid, "代理商给其下的某个站点更改密码");
+		}
+		return result;
 	}
 	
 

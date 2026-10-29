@@ -808,8 +808,11 @@ public class SiteController extends BaseController {
 		if(user.getUsername().indexOf("ceshi") == 0){
 			return error("测试体验的网站无法修改密码！");
 		}
-		ActionLogUtil.insertUpdateDatabase(request, "网站更改密码", newPassword);
-		return userService.updatePassword(getUserId(), newPassword);
+		BaseVO result = userService.updatePassword(getUserId(), newPassword);
+		if(result.getResult() == BaseVO.SUCCESS){
+			ActionLogUtil.insertUpdateDatabase(request, getUserId(), "网站更改密码");
+		}
+		return result;
 	}
 	
 
