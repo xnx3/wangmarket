@@ -2,11 +2,21 @@ package com.xnx3.wangmarket.domain.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import com.xnx3.ClassUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.Lang;
+import com.xnx3.StringUtil;
 import com.xnx3.j2ee.util.ApplicationPropertiesUtil;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.CacheUtil;
@@ -17,6 +27,8 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.util.WangmarketDataUtil;
 import com.xnx3.wangmarket.domain.bean.SimpleSite;
 import com.xnx3.wangmarket.domain.bean.TextBean;
+import cn.zvo.fileupload.framework.springboot.FileUploadUtil;
+import cn.zvo.fileupload.storage.local.LocalStorage;
 
 /**
  * 获取html源代码的工具类
@@ -60,10 +72,20 @@ public class GainSource {
 		if(simpleSite == null) {
 			return null;
 		}
+		if(simpleSite.getSiteid() <= 0 || !isSafePagePath(fileName)) {
+			return new TextBean();
+		}
 		if(AttachmentUtil.isMode(AttachmentUtil.MODE_LOCAL_FILE)) {
 			//使用的本地存储，没有使用云存储，那么不需要走缓存
 			TextBean tb = new TextBean();
-			tb.setText(AttachmentUtil.getTextByPath("site/"+simpleSite.getSiteid()+"/"+fileName));
+			try {
+				LocalStorage storage = (LocalStorage) FileUploadUtil.fileupload.getStorage();
+				Path file = resolveSiteFile(Paths.get(storage.getLocalFilePath()),
+						Paths.get("site", String.valueOf(simpleSite.getSiteid())), fileName, false);
+				tb.setText(readLocalFile(file));
+			} catch (IOException | RuntimeException e) {
+				//不可用的文件按不存在处理
+			}
 			return tb;
 		}
 		
@@ -91,10 +113,14 @@ public class GainSource {
 					return bean;
 				}else {
 					//再文件缓存中，读出来
-					//检测缓存文件夹是否存在，如果不存在，则创建
-					directoryInit(simpleSite.getSiteid());	
 					//从缓存文件夹中取缓存的这个文件
-					String text = FileUtil.read(WangmarketDataUtil.getWangmarketDataRootPath()+"domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName, FileUtil.UTF8);
+					String text = null;
+					try {
+						Path file = resolveCacheFile(simpleSite.getSiteid(), fileName, false);
+						text = readLocalFile(file);
+					} catch (IOException | RuntimeException e) {
+						//缓存不可用时重新从存储读取
+					}
 					if(text != null && text.length() == 0){
 						text = null;
 					}
@@ -127,13 +153,18 @@ public class GainSource {
 			System.out.println(fileName+" size: "+text.length());
 			//超过10KB，那么存到磁盘中
 			
-			//检测缓存文件夹是否存在，如果不存在，则创建
-			directoryInit(simpleSite.getSiteid());	
 			//写入txt缓存文件
 			try {
-				FileUtil.write(WangmarketDataUtil.getWangmarketDataRootPath()+"domain_io_cache/site/"+simpleSite.getSiteid()+"/"+fileName, text, FileUtil.UTF8);
-			} catch (IOException e) {
-				e.printStackTrace();
+				Path file = resolveCacheFile(simpleSite.getSiteid(), fileName, true);
+				try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8,
+						StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING,
+						StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)) {
+					writer.write(text);
+				}
+			} catch (IOException | RuntimeException e) {
+				//缓存不可用时返回原文，不保留未写入的缓存记录
+				bean.setText(text);
+				return bean;
 			}
 			
 			bean.setExistMenory(false);
@@ -159,6 +190,75 @@ public class GainSource {
 		}
 	}
 	
+	private static boolean isSafePagePath(String fileName) {
+		if(fileName == null || fileName.length() == 0 || fileName.startsWith("/")
+				|| fileName.indexOf('\\') >= 0 || fileName.indexOf(':') >= 0
+				|| fileName.indexOf('%') >= 0) {
+			return false;
+		}
+		for(String part : fileName.split("/", -1)) {
+			if(part.length() == 0 || part.equals(".") || part.equals("..")) {
+				return false;
+			}
+			for(int i = 0; i < part.length(); i++) {
+				if(Character.isISOControl(part.charAt(i))) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private static Path resolveCacheFile(int siteid, String fileName, boolean createParents) throws IOException {
+		return resolveSiteFile(Paths.get(WangmarketDataUtil.getWangmarketDataRootPath()),
+				Paths.get("domain_io_cache", "site", String.valueOf(siteid)), fileName, createParents);
+	}
+
+	private static Path resolveSiteFile(Path storageRoot, Path siteDirectory, String fileName,
+			boolean createParents) throws IOException {
+		Path root = storageRoot.toRealPath();
+		Path siteRoot = root.resolve(siteDirectory);
+		Path target = siteRoot.resolve(fileName).normalize();
+		if(!target.startsWith(siteRoot) || target.equals(siteRoot)) {
+			throw new IOException("Invalid site file");
+		}
+
+		Path current = root;
+		for(Path part : root.relativize(target)) {
+			current = current.resolve(part);
+			if(Files.isSymbolicLink(current)) {
+				throw new IOException("Invalid site file");
+			}
+			if(!current.equals(target)) {
+				if(createParents && !Files.exists(current, LinkOption.NOFOLLOW_LINKS)) {
+					try {
+						Files.createDirectory(current);
+					} catch (FileAlreadyExistsException e) {
+						//并发创建时继续检查已有目录
+					}
+				}
+				if(!Files.isDirectory(current, LinkOption.NOFOLLOW_LINKS)
+						|| !current.toRealPath().equals(current)) {
+					throw new IOException("Invalid site directory");
+				}
+			} else if(Files.exists(current, LinkOption.NOFOLLOW_LINKS)
+					&& (!Files.isRegularFile(current, LinkOption.NOFOLLOW_LINKS)
+							|| !current.toRealPath().startsWith(siteRoot))) {
+				throw new IOException("Invalid site file");
+			}
+		}
+		return target;
+	}
+
+	private static String readLocalFile(Path file) throws IOException {
+		if(!Files.isRegularFile(file, LinkOption.NOFOLLOW_LINKS)) {
+			return null;
+		}
+		try (InputStream input = Files.newInputStream(file, LinkOption.NOFOLLOW_LINKS)) {
+			return StringUtil.inputStreamToString(input, FileUtil.UTF8);
+		}
+	}
+
 	
 	/**
 	 * 自动判断这个缓存文件夹是否存在，如果不存在，那么创建一个
