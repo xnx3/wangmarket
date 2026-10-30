@@ -27,6 +27,7 @@ import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.service.NewsService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.NewsFileUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
 import net.sf.json.JSONObject;
@@ -422,20 +423,20 @@ public class NewsServiceImpl implements NewsService {
 		}
 		sqlDAO.delete(newsData);
 		
-		//删除titlepic文件
-		//外链判断：以 http:// 、 https:// 或 // 开头的为站外图片，不删除存储中的文件
-		//(原写法 indexOf("http://") == -1 漏判 https:// 外链，导致外链图被误当站内文件删除)
-		if(news.getTitlepic() != null
-				&& news.getTitlepic().indexOf("http://") != 0
-				&& news.getTitlepic().indexOf("https://") != 0
-				&& news.getTitlepic().indexOf("//") != 0){
-			try {
-				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
-			} catch (Exception e) {
-				ConsoleUtil.error("删除titlepic时异常，但不影响正常使用。异常:"+e.getMessage());
-			}
+		// 文件清理集中在服务层执行；清理失败仅记录日志，不影响文章删除结果。
+		com.xnx3.j2ee.vo.BaseVO pictureCleanup = NewsFileUtil.deleteTitlePicture(news);
+		com.xnx3.j2ee.vo.BaseVO pageCleanup = NewsFileUtil.deleteHtmlPage(news.getSiteid(), news.getHtmlPageName());
+		StringBuilder warnings = new StringBuilder();
+		if(pictureCleanup.getResult() != BaseVO.SUCCESS){
+			warnings.append("；头图未清理：").append(pictureCleanup.getInfo());
 		}
-		
+		if(pageCleanup.getResult() != BaseVO.SUCCESS){
+			warnings.append("；HTML 页面未清理：").append(pageCleanup.getInfo());
+		}
+		if(warnings.length() > 0){
+			ConsoleUtil.error("删除文章 " + id + " 后的文件清理提示：" + warnings);
+		}
+
 		baseVO.setNews(news);
 		return baseVO;
 	}

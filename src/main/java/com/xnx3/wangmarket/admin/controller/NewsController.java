@@ -46,6 +46,7 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.SiteUtil;
+import com.xnx3.wangmarket.admin.util.NewsFileUtil;
 import com.xnx3.wangmarket.admin.vo.NewsVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.bean.NewsInit;
@@ -238,7 +239,10 @@ public class NewsController extends BaseController {
 			if(oldHtmlPageName != null && !oldHtmlPageName.equals(news.getHtmlPageName())) {
 				//文章改名或从自定义名称恢复为 ID 名称时，删除旧文件，避免旧地址继续保留并造成重复页面。
 				try {
-					AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+oldHtmlPageName+".html");
+					BaseVO cleanup = NewsFileUtil.deleteHtmlPage(news.getSiteid(), oldHtmlPageName);
+					if(cleanup.getResult() != BaseVO.SUCCESS){
+						ConsoleUtil.error("文章已保存，旧 HTML 页面未清理：" + cleanup.getInfo());
+					}
 				} catch (Exception e) {
 					// 清理旧文件失败不影响文章已经保存成功，记录日志供存储配置排查。
 					ConsoleUtil.error("清理文章旧 HTML 页面时异常，但文章已保存成功。异常信息："+e.getMessage());
@@ -361,12 +365,6 @@ public class NewsController extends BaseController {
 			
 			//日志
 			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章成功", news.getTitle());
-			
-			//删除OSS的html、头图文件
-			AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getHtmlPageName()+".html");
-			if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
-			}
 			
 			//刷新sitemap
 			siteService.refreshSiteMap(site);
@@ -598,17 +596,6 @@ public class NewsController extends BaseController {
 			
 			//日志
 			ActionLogUtil.insertUpdateDatabase(request, news.getId(), "删除文章", news.getTitle());
-			
-			//删除OSS的html、头图文件
-			//v5.6.3增加，避免serverless版本中，配置好了桶，又将桶通过控制台删掉，这里导致异常卡住的问题
-			try {
-				AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/"+news.getHtmlPageName()+".html");
-				if(news.getTitlepic() != null && news.getTitlepic().length() > 0 && news.getTitlepic().indexOf("http:") == -1){
-					AttachmentUtil.deleteObject("site/"+news.getSiteid()+"/news/"+news.getTitlepic());
-				}
-			} catch (Exception e) {
-				ConsoleUtil.error("删除存储中的html时异常，不过不影响您正常使用.异常信息 ："+e.getMessage());
-			}
 			
 			//插件拦截
 			try {
