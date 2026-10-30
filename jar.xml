@@ -189,6 +189,11 @@
   
   
   <dependencies>  
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.14</version>
+		</dependency>
   		<!-- http/https请求工具 https://github.com/xnx3/http.java -->
 		<dependency> 
 			<groupId>cn.zvo.http</groupId>
@@ -201,7 +206,7 @@
 		<dependency> 
 		    <groupId>cn.zvo.fileupload</groupId>
 		    <artifactId>fileupload-framework-ueditor</artifactId>
-		    <version>1.2</version>
+		    <version>1.4</version>
 		</dependency>
 	
 		<!-- 本地的基础功能如数据库操作等。这个wm文档及源码在  http://wm.zvo.cn  -->
