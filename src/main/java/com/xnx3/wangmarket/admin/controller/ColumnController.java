@@ -47,6 +47,7 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.SitePageUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
@@ -536,6 +537,17 @@ public class ColumnController extends BaseController {
 			return vo;
 		}
 		
+		if(Func.isCMS(site)){
+			String codeError = SitePageUtil.columnCodeError("栏目代码", siteColumn.getCodeName());
+			if(codeError != null){
+				return error(codeError);
+			}
+			String parentCodeError = SitePageUtil.columnCodeError("父栏目代码", siteColumn.getParentCodeName());
+			if(parentCodeError != null){
+				return error(parentCodeError);
+			}
+		}
+
 		//记录是否是新增导航栏目
 		boolean addColumn = true;
 		boolean updateName = false;		//是否有过修改名字，若修改了名字了，还要吧内容页面的也一块修改

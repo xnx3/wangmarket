@@ -16,6 +16,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.SitePageUtil;
 import com.xnx3.wangmarket.admin.util.TemplateCodeUtil;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplatePage;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateVar;
@@ -334,8 +335,20 @@ public class TemplateVO extends BaseVO {
 				nsc.setType(type);
 				nsc.setTemplatePageListName(getJsonStringAndFilterXSS(j, "templatePageListName"));
 				nsc.setTemplatePageViewName(getJsonStringAndFilterXSS(j, "templatePageViewName"));
-				nsc.setCodeName(getJsonStringAndFilterXSS(j, "codeName"));
-				nsc.setParentCodeName(getJsonStringAndFilterXSS(j, "parentCodeName"));
+				String codeName = getJsonString(j.get("codeName") == null ? null : j.getString("codeName"));
+				String parentCodeName = getJsonString(j.get("parentCodeName") == null ? null : j.getString("parentCodeName"));
+				String codeError = SitePageUtil.columnCodeError("模板第 " + (i + 1) + " 个栏目的栏目代码", codeName);
+				if(codeError != null){
+					setBaseVO(FAILURE, codeError);
+					return false;
+				}
+				String parentCodeError = SitePageUtil.columnCodeError("模板第 " + (i + 1) + " 个栏目的父栏目代码", parentCodeName);
+				if(parentCodeError != null){
+					setBaseVO(FAILURE, parentCodeError);
+					return false;
+				}
+				nsc.setCodeName(codeName);
+				nsc.setParentCodeName(parentCodeName);
 				nsc.setListNum(j.getInt("listNum"));
 				nsc.setEditMode((short) (j.get("editMode") == null ? 0:j.getInt("editMode")));
 				if(j.get("inputModelCodeName") != null){

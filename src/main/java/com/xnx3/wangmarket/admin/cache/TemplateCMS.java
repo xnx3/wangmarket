@@ -18,6 +18,7 @@ import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
 import com.xnx3.j2ee.util.Page;
 import com.xnx3.j2ee.util.SystemUtil;
+import com.xnx3.j2ee.vo.BaseVO;
 import com.xnx3.wangmarket.admin.bean.NewsDataBean;
 import com.xnx3.wangmarket.admin.cache.generateSite.DefaultGenerateHtmlInterfaceImpl;
 import com.xnx3.wangmarket.admin.cache.generateSite.GenerateHtmlInterface;
@@ -27,6 +28,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.pluginManage.interfaces.manage.TemplateInterfaceManage;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.SitePageUtil;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVO;
 import com.xnx3.wangmarket.admin.vo.TemplateVarVO;
@@ -831,6 +833,10 @@ public class TemplateCMS {
 	 * @param fileName	生成的页面文件的名字，传入如 index.html  、 sitemap.xml 等
 	 */
 	public void putStringFile(String text, String fileName) {
+		String pathError = SitePageUtil.relativePathError(fileName);
+		if(pathError != null){
+			throw new IllegalArgumentException(pathError);
+		}
 		
 		/**** 插件扩展，v5.7增加 ****/
 		try {
@@ -841,7 +847,17 @@ public class TemplateCMS {
 			e.printStackTrace();
 		}
 		
-		generateHtmlInterface.putStringFile(text, fileName);
+		BaseVO result = generateHtmlInterface.putStringFile(text, fileName);
+		if(result == null){
+			throw new IllegalStateException("页面“" + fileName + "”写出失败：生成接口未返回执行结果（null）");
+		}
+		if(result.getResult() != BaseVO.SUCCESS){
+			String reason = result.getInfo();
+			if(reason == null || reason.trim().length() == 0){
+				reason = "生成接口返回状态 " + result.getResult() + "，但未提供失败原因";
+			}
+			throw new IllegalStateException("页面“" + fileName + "”写出失败：" + reason);
+		}
 	}
 	
 	/**

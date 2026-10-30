@@ -883,7 +883,12 @@ public class TemplateController extends BaseController {
 			e.printStackTrace();
 		}
 		
-		GenerateSiteVO vo = templateService.generateSiteHTML(request, getSite());
+		GenerateSiteVO vo;
+		try {
+			vo = templateService.generateSiteHTML(request, getSite());
+		} catch (IllegalArgumentException | IllegalStateException e) {
+			return error(e.getMessage());
+		}
 		if(vo.getResult() - GenerateSiteVO.FAILURE == 0){
 			return vo;
 		}
