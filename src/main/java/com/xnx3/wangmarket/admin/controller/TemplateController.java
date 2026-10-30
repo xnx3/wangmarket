@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,6 +67,7 @@ import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateAdminMenuUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.TemplateQueryUtil;
 import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.RestoreTemplateSubmitCheckDataVO;
 import com.xnx3.wangmarket.admin.vo.TemplateCompareVO;
@@ -95,6 +98,8 @@ import net.sf.json.JSONObject;
 public class TemplateController extends BaseController {
 	@Resource
 	private SqlService sqlService;
+	@PersistenceContext
+	private EntityManager entityManager;
 	@Resource
 	private SiteService siteService;
 	@Resource
@@ -616,9 +621,9 @@ public class TemplateController extends BaseController {
 		//增加添加搜索字段。这里的搜索字段跟log表的字段名对应
 		sql.setSearchColumn(new String[]{"name"});
 		//如果templateName有值，才会加上templateName 进行查询
-		sql.appendWhere("siteid = "+site.getId() + (site.getTemplateName() == null || site.getTemplateName().equals("") ? "":" AND template_name = '"+ site.getTemplateName() +"'"));
-		//查询log数据表的记录总条数
-		int count = sqlService.count("template_var", sql.getWhere());
+		sql.appendWhere("siteid = :siteid" + (site.getTemplateName() == null || site.getTemplateName().equals("") ? "":" AND template_name = :templateName"));
+		//查询当前站点的记录总条数
+		int count = ((Number)TemplateQueryUtil.query(entityManager, "SELECT COUNT(*) FROM template_var " + sql.getWhere(), null, site).getSingleResult()).intValue();
 		//每页显示100条
 		Page page = new Page(count, 100, request);
 		//创建查询语句，只有SELECT、FROM，原生sql查询。其他的where、limit等会自动拼接
@@ -626,7 +631,8 @@ public class TemplateController extends BaseController {
 		
 		//当用户没有选择排序方式时，系统默认排序。
 		sql.setDefaultOrderBy("id DESC");
-		List<TemplateVar> list = sqlService.findBySql(sql, TemplateVar.class);
+		@SuppressWarnings("unchecked")
+		List<TemplateVar> list = TemplateQueryUtil.query(entityManager, sql.getSql(), TemplateVar.class, site).getResultList();
 		
 		ActionLogUtil.insert(request, "获取当前网站的模版变量列表，供编辑模版页使用");
 		
@@ -1008,7 +1014,9 @@ public class TemplateController extends BaseController {
 		}
 		
 		TemplateVO templateVO = new TemplateVO();
-		templateVO.importText(tvo.getInfo());
+		if(!templateVO.importText(tvo.getInfo())){
+			return error("模板编码格式不正确或模板内容不完整");
+		}
 		tcv = restoreTemplateCompare(request, templateVO);
 		if(tcv.getResult() - TemplateCompareVO.FAILURE == 0){
 			return error(tcv.getInfo());
@@ -1300,10 +1308,10 @@ public class TemplateController extends BaseController {
 			//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版页面
 			String templateNameWhere = "";
 			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+				templateNameWhere = " AND template_page.template_name = :templateName";
 			}
-			List<TemplatePage> templatePageList = sqlService.findBySqlQuery("SELECT * FROM template_page WHERE siteid = " + site.getId() + templateNameWhere, TemplatePage.class);
-			List<TemplatePageData> templatePageDataList = sqlService.findBySqlQuery("SELECT template_page_data.* FROM template_page_data,template_page WHERE template_page.id = template_page_data.id AND siteid = " + site.getId() + templateNameWhere, TemplatePageData.class);
+			List<TemplatePage> templatePageList = TemplateQueryUtil.list(entityManager, "SELECT * FROM template_page WHERE siteid = :siteid" + templateNameWhere, TemplatePage.class, site);
+			List<TemplatePageData> templatePageDataList = TemplateQueryUtil.list(entityManager, "SELECT template_page_data.* FROM template_page_data,template_page WHERE template_page.id = template_page_data.id AND siteid = :siteid" + templateNameWhere, TemplatePageData.class, site);
 			
 			//将用户当前网站的模板页面，list转化为map，方便取
 			for (int i = 0; i < templatePageList.size(); i++) {
@@ -1365,10 +1373,10 @@ public class TemplateController extends BaseController {
 			//模版变量的变量名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 			String templateNameWhere = "";
 			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-				templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+				templateNameWhere = " AND template_var.template_name = :templateName";
 			}
-			List<TemplateVar> templateVarList = sqlService.findBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere, TemplateVar.class);
-			List<TemplateVarData> templateVarDataList = sqlService.findBySqlQuery("SELECT template_var_data.* FROM template_var_data,template_var WHERE template_var.id = template_var_data.id AND siteid = " + site.getId() + templateNameWhere, TemplateVarData.class);
+			List<TemplateVar> templateVarList = TemplateQueryUtil.list(entityManager, "SELECT * FROM template_var WHERE siteid = :siteid" + templateNameWhere, TemplateVar.class, site);
+			List<TemplateVarData> templateVarDataList = TemplateQueryUtil.list(entityManager, "SELECT template_var_data.* FROM template_var_data,template_var WHERE template_var.id = template_var_data.id AND siteid = :siteid" + templateNameWhere, TemplateVarData.class, site);
 			
 			//将用户当前网站的模板变量，list转化为map，方便取
 			for (int i = 0; i < templateVarList.size(); i++) {
@@ -1627,7 +1635,9 @@ public class TemplateController extends BaseController {
 		}
 		
 		TemplateVO templateVO = new TemplateVO();
-		templateVO.importText(response.getContent());
+		if(!templateVO.importText(response.getContent())){
+			return error("模板编码格式不正确或模板内容不完整");
+		}
 		tcv = restoreTemplateCompare(request, templateVO);
 		if(tcv.getResult() - TemplateCompareVO.FAILURE == 0){
 			return error(tcv.getInfo());

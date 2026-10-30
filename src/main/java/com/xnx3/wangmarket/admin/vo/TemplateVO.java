@@ -16,6 +16,7 @@ import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.entity.SiteColumn;
 import com.xnx3.wangmarket.admin.entity.Template;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.TemplateCodeUtil;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplatePage;
 import com.xnx3.wangmarket.admin.vo.bean.template.TemplateVar;
 
@@ -146,7 +147,7 @@ public class TemplateVO extends BaseVO {
 		}
 		
 		if(jo.get("templateName") != null){
-			templateName = getJsonStringAndFilterXSS(jo, "templateName");
+			templateName = getJsonString(jo.getString("templateName"));
 		}else{
 			templateName = "";
 		}
@@ -175,7 +176,7 @@ public class TemplateVO extends BaseVO {
 				template = new Template();
 				template.setAddtime(JSONUtil.getInt(tempJson, "addtime"));
 				template.setCompanyname(getJsonStringAndFilterXSS(tempJson, "companyname"));
-				template.setName(getJsonStringAndFilterXSS(tempJson, "name"));
+				template.setName(getJsonString(tempJson.optString("name", "")));
 				template.setPreviewUrl(getJsonStringAndFilterXSS(tempJson, "previewUrl"));
 				template.setRemark(getJsonStringAndFilterXSS(tempJson, "remark"));
 				template.setSiteurl(getJsonStringAndFilterXSS(tempJson, "siteurl"));
@@ -214,6 +215,12 @@ public class TemplateVO extends BaseVO {
 		
 		
 		
+		if(!TemplateCodeUtil.isValidOrEmpty(this.templateName)
+				|| (template != null && !TemplateCodeUtil.isValid(template.getName()))){
+			setBaseVO(FAILURE, "模板编码格式不正确");
+			return false;
+		}
+
 		//TemplatePage模版页
 		templatePageList = new ArrayList<TemplatePage>();
 		if(jo.get("templatePageList") != null){

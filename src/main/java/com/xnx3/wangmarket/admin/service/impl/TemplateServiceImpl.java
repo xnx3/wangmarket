@@ -51,6 +51,7 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.SiteUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.TemplateQueryUtil;
 import com.xnx3.wangmarket.admin.vo.GenerateSiteVO;
 import com.xnx3.wangmarket.admin.vo.SiteColumnTreeVO;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
@@ -97,11 +98,11 @@ public class TemplateServiceImpl implements TemplateService {
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 			String templateNameWhere = "";
 			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+				templateNameWhere = " AND template_page.template_name = :templateName";
 			}
 			
 			//从数据库中取
-			List<TemplatePage> templateList = sqlDAO.findBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId() + templateNameWhere, TemplatePage.class);
+			List<TemplatePage> templateList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT * FROM template_page WHERE siteid = :siteid" + templateNameWhere, TemplatePage.class, site);
 			
 			List<TemplatePageVO> templatePageVOList = new ArrayList<TemplatePageVO>();
 			for (int i = 0; i < templateList.size(); i++) {
@@ -132,11 +133,11 @@ public class TemplateServiceImpl implements TemplateService {
 		//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 		String templateNameWhere = "";
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+			templateNameWhere = " AND template_page.template_name = :templateName";
 		}
 		
 		//从数据库中取
-		List<TemplatePage> templateList = sqlDAO.findBySqlQuery("SELECT * FROM template_page WHERE siteid = "+site.getId() + templateNameWhere, TemplatePage.class);
+		List<TemplatePage> templateList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT * FROM template_page WHERE siteid = :siteid" + templateNameWhere, TemplatePage.class, site);
 		
 		List<TemplatePageVO> templatePageVOList = new ArrayList<TemplatePageVO>();
 		for (int i = 0; i < templateList.size(); i++) {
@@ -309,9 +310,9 @@ public class TemplateServiceImpl implements TemplateService {
 						//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 						String templateNameWhere = "";
 						if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-							templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+							templateNameWhere = " AND template_var.template_name = :templateName";
 						}
-						com.xnx3.wangmarket.admin.entity.TemplateVar tv = sqlDAO.findAloneBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere + " AND var_name = '"+templateVarName+"'", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
+						com.xnx3.wangmarket.admin.entity.TemplateVar tv = TemplateQueryUtil.first(sqlDAO.getEntityManager(), "SELECT * FROM template_var WHERE siteid = :siteid" + templateNameWhere + " AND var_name = :varName", com.xnx3.wangmarket.admin.entity.TemplateVar.class, site, "varName", templateVarName);
 						if(tv != null){
 							tv.setUpdatetime(DateUtil.timeForUnix10());
 							sqlDAO.save(tv);
@@ -828,7 +829,10 @@ public class TemplateServiceImpl implements TemplateService {
 		
 		TemplateVO tvo = new TemplateVO();
 		//导入JSON，生成对象
-		tvo.importText(templateText);
+		if(!tvo.importText(templateText)){
+			vo.setBaseVO(BaseVO.FAILURE, "模板编码格式不正确或模板内容不完整");
+			return vo;
+		}
 		
 		//创建TemplatePage模版页
 		for (int i = 0; i < tvo.getTemplatePageList().size(); i++) {
@@ -966,10 +970,10 @@ public class TemplateServiceImpl implements TemplateService {
 		//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 		String templateNameWhere = "";
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+			templateNameWhere = " AND template_var.template_name = :templateName";
 		}
 		
-		return sqlDAO.findBySqlQuery("SELECT * FROM template_var WHERE siteid = "+site.getId() + templateNameWhere + " ORDER BY id DESC", com.xnx3.wangmarket.admin.entity.TemplateVar.class);
+		return TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT * FROM template_var WHERE siteid = :siteid" + templateNameWhere + " ORDER BY id DESC", com.xnx3.wangmarket.admin.entity.TemplateVar.class, site);
 	}
 
 	public BaseVO deleteTemplatePageForCache(int templatePageId, HttpServletRequest request) {
@@ -1051,11 +1055,11 @@ public class TemplateServiceImpl implements TemplateService {
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 			String templateNameWhere = "";
 			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-				templateNameWhere = " AND template_page.template_name = '"+ site.getTemplateName() +"'";
+				templateNameWhere = " AND template_page.template_name = :templateName";
 			}
 			
 			//从数据库中拉取 pageData的列表
-			List<TemplatePageData> tpdList = sqlDAO.findBySqlQuery("SELECT template_page_data.* FROM template_page, template_page_data WHERE template_page.id = template_page_data.id AND siteid = "+site.getId() + templateNameWhere, TemplatePageData.class);
+			List<TemplatePageData> tpdList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT template_page_data.* FROM template_page, template_page_data WHERE template_page.id = template_page_data.id AND siteid = :siteid" + templateNameWhere, TemplatePageData.class, site);
 		
 			//将拉取的pageData列表，由List转换为Map，方便随时取。map key: template_page.id
 			Map<Integer, TemplatePageData> tpdMap = new HashMap<Integer, TemplatePageData>();
@@ -1095,11 +1099,11 @@ public class TemplateServiceImpl implements TemplateService {
 			//根据登录网站当前所使用的模板名字，来进行筛选要取出的模板页面
 			String templateNameWhere = "";
 			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-				templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+				templateNameWhere = " AND template_var.template_name = :templateName";
 			}
 			
 			//从数据库中拉取 varData的列表
-			List<TemplateVarData> tvdList = sqlDAO.findBySqlQuery("SELECT template_var_data.* FROM template_var, template_var_data WHERE template_var.id = template_var_data.id AND siteid = "+site.getId() + templateNameWhere, TemplateVarData.class);
+			List<TemplateVarData> tvdList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT template_var_data.* FROM template_var, template_var_data WHERE template_var.id = template_var_data.id AND siteid = :siteid" + templateNameWhere, TemplateVarData.class, site);
 		
 			//将拉取的varData列表，由List转换为Map，方便随时取。map key: template_var.id
 			Map<Integer, TemplateVarData> tvdMap = new HashMap<Integer, TemplateVarData>();
@@ -1694,12 +1698,12 @@ public class TemplateServiceImpl implements TemplateService {
 		//模版名字检索，是否是使用的导入的模版，若是使用的导入的模版，则只列出导入的模版变量
 		String templateNameWhere = "";
 		if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
-			templateNameWhere = " AND template_var.template_name = '"+ site.getTemplateName() +"'";
+			templateNameWhere = " AND template_var.template_name = :templateName";
 		}
 
 		//从数据库中取模板变量主表、内容表
-		List<com.xnx3.wangmarket.admin.entity.TemplateVar> templateVarList = sqlDAO.findBySqlQuery("SELECT * FROM template_var WHERE siteid = " + site.getId() + templateNameWhere, com.xnx3.wangmarket.admin.entity.TemplateVar.class);
-		List<TemplateVarData> templateVarDataList = sqlDAO.findBySqlQuery("SELECT template_var_data.* FROM template_var,template_var_data WHERE template_var.siteid = " + site.getId() + " AND template_var.id = template_var_data.id" + templateNameWhere, TemplateVarData.class);
+		List<com.xnx3.wangmarket.admin.entity.TemplateVar> templateVarList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT * FROM template_var WHERE siteid = :siteid" + templateNameWhere, com.xnx3.wangmarket.admin.entity.TemplateVar.class, site);
+		List<TemplateVarData> templateVarDataList = TemplateQueryUtil.list(sqlDAO.getEntityManager(), "SELECT template_var_data.* FROM template_var,template_var_data WHERE template_var.siteid = :siteid" + " AND template_var.id = template_var_data.id" + templateNameWhere, TemplateVarData.class, site);
 		//将取到的模板变量内容表进行Map组合， key：templateVar.id
 		Map<Integer, TemplateVarData> tvdMap = new HashMap<Integer, TemplateVarData>();
 		for (int i = 0; i < templateVarDataList.size(); i++) {

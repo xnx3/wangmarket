@@ -37,6 +37,7 @@ import com.xnx3.wangmarket.admin.Func;
 import com.xnx3.wangmarket.admin.G;
 import com.xnx3.wangmarket.admin.entity.Site;
 import com.xnx3.wangmarket.admin.service.SiteService;
+import com.xnx3.wangmarket.admin.util.TemplateCodeUtil;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
 import com.xnx3.wangmarket.admin.vo.UserVO;
 import com.xnx3.wangmarket.agencyadmin.entity.Agency;
@@ -172,6 +173,9 @@ public class AgencyUserController extends BaseController {
 			return error("请输入1～60个字符的要建立的站点名字");
 		}
 		
+		if(client == Site.CLIENT_CMS && !TemplateCodeUtil.isValidOrEmpty(templateName)){
+			return error("模板编码限1～20位英文、数字、下划线或短横线");
+		}
 
 		//要创建得网站得user
 		user.setReferrerid(agency.getUserid());

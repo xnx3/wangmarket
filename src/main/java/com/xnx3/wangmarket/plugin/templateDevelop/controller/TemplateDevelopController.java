@@ -2,6 +2,7 @@ package com.xnx3.wangmarket.plugin.templateDevelop.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.xnx3.DateUtil;
-import com.xnx3.StringUtil;
 import com.xnx3.ZipUtil;
 import com.xnx3.FileUtil;
 import com.xnx3.j2ee.pluginManage.controller.BasePluginController;
-import com.xnx3.j2ee.util.AttachmentMode.LocalServerMode;
 import com.xnx3.j2ee.service.SqlService;
 import com.xnx3.j2ee.util.AttachmentUtil;
 import com.xnx3.j2ee.util.ConsoleUtil;
@@ -35,6 +34,7 @@ import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.ActionLogUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
 import com.xnx3.wangmarket.admin.util.TemplateUtil;
+import com.xnx3.wangmarket.admin.util.TemplateCodeUtil;
 import com.xnx3.wangmarket.admin.vo.TemplatePageListVO;
 
 /**
@@ -129,13 +129,23 @@ public class TemplateDevelopController extends BasePluginController {
 			return error( "模版开发仅限本地运行使用！");
 		}
 		
-//		templateName = StringUtil.filterXss(templateName);
-		if(templateName.length() == 0){
-			return error("您还没填写模版编码呢");
+		if(!TemplateCodeUtil.isValid(templateName)){
+			return error("模板编码限1～20位英文、数字、下划线或短横线");
 		}
 		
 		Site site = SessionUtil.getSite();
 		
+		File checkedDirectory;
+		File oldDirectory = null;
+		try {
+			checkedDirectory = TemplateCodeUtil.directory(SystemUtil.getProjectPath(), templateName);
+			if(site.getTemplateName() != null && site.getTemplateName().length() > 0){
+				oldDirectory = TemplateCodeUtil.directory(SystemUtil.getProjectPath(), site.getTemplateName());
+			}
+		} catch (IOException e) {
+			return error("模板编码或资源目录不正确，请检查后重试");
+		}
+
 		//在 template 数据表中判断是否存在这个模版，若不存在，则创建
 		Template template = sqlService.findAloneByProperty(Template.class, "name", templateName);
 		if(template != null){
@@ -150,8 +160,8 @@ public class TemplateDevelopController extends BasePluginController {
 //			if(!FileUtil.exists(SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName())){
 //				return error("没有发现模版资源文件！模版是你做的吗？");
 //			}
-				String oldTemplatePath = SystemUtil.getProjectPath()+getExportPath()+site.getTemplateName();
-				String newTemplatePath = SystemUtil.getProjectPath()+getExportPath()+templateName;
+				String oldTemplatePath = oldDirectory.getPath();
+				String newTemplatePath = checkedDirectory.getPath();
 				System.out.println("old----- "+oldTemplatePath);
 				File oldFile = new File(oldTemplatePath);
 				File newFile = new File(newTemplatePath);
@@ -176,14 +186,14 @@ public class TemplateDevelopController extends BasePluginController {
 		}else{
 			//当前还没有模版编码
 			//创建模版编码的文件夹
-			File file = new File(SystemUtil.getProjectPath()+getExportPath()+templateName);
+			File file = checkedDirectory;
 			ConsoleUtil.log("自动创建文件夹路径："+SystemUtil.getProjectPath()+getExportPath()+templateName);
 			
 			//创建这个文件夹
 			file.mkdirs();
 				
 			//判断这个文件夹是否存在，被成功创建了
-			if(!new File(SystemUtil.getProjectPath()+getExportPath()+templateName).isDirectory()) {
+			if(!file.isDirectory()) {
 				//创建文件夹失败
 				//不是一个目录，那就是还没创建
 //				return error("自动创建文件夹失败");
@@ -196,11 +206,11 @@ public class TemplateDevelopController extends BasePluginController {
 			}
 			
 			//创建 css 文件夹
-			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/css").mkdir();
+			new File(file, "css").mkdir();
 			//创建 js 文件夹
-			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/js").mkdir();
+			new File(file, "js").mkdir();
 			//创建 images 文件夹
-			new File(SystemUtil.getProjectPath()+getExportPath()+templateName+"/images").mkdir();
+			new File(file, "images").mkdir();
 			
 		}
 		
@@ -254,6 +264,16 @@ public class TemplateDevelopController extends BasePluginController {
 			return error("请先设置第一步，设置模版名字");
 		}
 		
+		File resourceDirectory;
+		File archive;
+		try {
+			resourceDirectory = TemplateCodeUtil.directory(SystemUtil.getProjectPath(), site.getTemplateName());
+			TemplateCodeUtil.checkFiles(resourceDirectory);
+			archive = TemplateCodeUtil.archive(SystemUtil.getProjectPath(), site.getTemplateName());
+		} catch (IOException e) {
+			return error("模板编码或资源目录不正确，请检查后重试");
+		}
+
 		//模版信息赋予
 		Template template = sqlService.findAloneByProperty(Template.class, "name", site.getTemplateName());
 		if(template == null){
@@ -273,19 +293,11 @@ public class TemplateDevelopController extends BasePluginController {
 		sqlService.save(template);
 		
 		
-		//导出的目录，相对路径
-		String exportPath = getExportPath()+site.getTemplateName()+"/";
-		//初始化创建模版所在文件夹，避免模版不存在导致出错。正常流程中，这个文件夹是已经存在的
-		LocalServerMode.directoryInitCreate(exportPath);
-		//创建下载链接的存放文件
-		LocalServerMode.directoryInitCreate("plugin_data/templateDevelop/");
-		
-		//判断一下是否已经有这个 zip 模版文件了，如果已经有了，那么删除掉
-		if(FileUtil.exists(SystemUtil.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip")){
-			//如果文件存在，那么删除掉
-			FileUtil.deleteFile(SystemUtil.getProjectPath()+"plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip");
-		}
-		
+		//使用已经校验的资源及导出目录。
+		Files.createDirectories(resourceDirectory.toPath());
+		Files.createDirectories(archive.getParentFile().toPath());
+		Files.deleteIfExists(archive.toPath());
+
 		//导出 template.wscso ，放入 模版资源文件中，以便统一打包
 		BaseVO vo = templateService.exportTemplate(request);
 		if(vo.getResult() - BaseVO.FAILURE == 0){
@@ -293,7 +305,7 @@ public class TemplateDevelopController extends BasePluginController {
 			return vo;
 		}
 		//写出 template.wscso
-		FileUtil.write(SystemUtil.getProjectPath()+exportPath+"template.wscso", vo.getInfo(), FileUtil.UTF8);
+		FileUtil.write(new File(resourceDirectory, "template.wscso").getPath(), vo.getInfo(), FileUtil.UTF8);
 		
 		//将这些文件打包，变为 zip文件
 		// 获取请求协议，如 http 或 https
@@ -304,7 +316,7 @@ public class TemplateDevelopController extends BasePluginController {
         int serverPort = request.getServerPort();
 		String downUrl = scheme+"://"+serverName+":"+serverPort+"/plugin_data/templateDevelop/template_"+site.getTemplateName()+".zip";
 		try {
-			ZipUtil.zip(SystemUtil.getProjectPath()+exportPath, SystemUtil.getProjectPath()+"plugin_data/templateDevelop/", "template_"+site.getTemplateName()+".zip");
+			ZipUtil.zip(resourceDirectory.getPath()+File.separator, archive.getParent()+File.separator, archive.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return error(e.getMessage());
@@ -349,6 +361,17 @@ public class TemplateDevelopController extends BasePluginController {
 		}
 		
 		
+		try {
+			if (!(AttachmentUtil.getStorageMode() instanceof cn.zvo.fileupload.storage.local.LocalStorage)) {
+				throw new IOException("模板开发需要本地存储");
+			}
+			String storagePath = ((cn.zvo.fileupload.storage.local.LocalStorage) AttachmentUtil.getStorageMode()).getLocalFilePath();
+			TemplateCodeUtil.checkFiles(TemplateCodeUtil.directory(storagePath, site.getTemplateName()));
+		} catch (IOException e) {
+			uploadFileVO.setBaseVO(UploadFileVO.FAILURE, "模板编码或资源目录不正确，请检查后重试");
+			return uploadFileVO;
+		}
+
 		if (request instanceof MultipartHttpServletRequest) {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			List<MultipartFile> imageList = multipartRequest.getFiles("image");
@@ -384,11 +407,6 @@ public class TemplateDevelopController extends BasePluginController {
 	 * @return true 是本地进行访问的
 	 */
 	private boolean clientCheck(HttpServletRequest request){
-		String domain = request.getServerName().toLowerCase();
-		if(domain.equals("localhost") || domain.equals("127.0.0.1")){
-			return true;
-		}else{
-			return false;
-		}
+		return TemplateCodeUtil.isLocalDevelopment(request, SystemUtil.get("MASTER_SITE_URL"));
 	}
 }

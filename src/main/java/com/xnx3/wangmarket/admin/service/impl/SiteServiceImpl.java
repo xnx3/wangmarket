@@ -38,6 +38,7 @@ import com.xnx3.wangmarket.admin.service.SiteService;
 import com.xnx3.wangmarket.admin.service.TemplateService;
 import com.xnx3.wangmarket.admin.util.DomainUtil;
 import com.xnx3.wangmarket.admin.util.SessionUtil;
+import com.xnx3.wangmarket.admin.util.TemplateCodeUtil;
 import com.xnx3.wangmarket.admin.vo.IndexVO;
 import com.xnx3.wangmarket.admin.vo.SiteRemainHintVO;
 import com.xnx3.wangmarket.admin.vo.SiteVO;
@@ -752,6 +753,12 @@ public class SiteServiceImpl implements SiteService {
 			return baseVO;
 		}
 		
+		if(s.getClient() != null && s.getClient() == Site.CLIENT_CMS
+				&& !TemplateCodeUtil.isValidOrEmpty(s.getTemplateName())){
+			baseVO.setBaseVO(BaseVO.FAILURE, "模板编码限1～20位英文、数字、下划线或短横线");
+			return baseVO;
+		}
+
 		Site site;
 		String oldBindDomain;
 		if(s.getId() != null && s.getId() > 0){
@@ -802,7 +809,7 @@ public class SiteServiceImpl implements SiteService {
 			site.setClient(s.getClient());
 		}else if(s.getClient() - Site.CLIENT_CMS == 0){
 			//高级自定义模版CMS
-			site.setTemplateName(StringUtil.filterXss(s.getTemplateName()));
+			site.setTemplateName(s.getTemplateName() == null ? "" : s.getTemplateName());
 			site.setClient(s.getClient());
 		}else{
 			//剩下的都是通用模版，手机站
